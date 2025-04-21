@@ -34381,13 +34381,7 @@ elliptic curve alt_bn128 are introduced.</p>
 <span class="normal">1032</span>
 <span class="normal">1033</span>
 <span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Cancun</span><span class="p">(</span><span class="n">Shanghai</span><span class="p">):</span>
+<span class="normal">1035</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Cancun</span><span class="p">(</span><span class="n">Shanghai</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cancun fork.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -34494,19 +34488,13 @@ elliptic curve alt_bn128 are introduced.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parent_fork</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">parent_fork</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Parent fork must be defined&quot;</span>
-        <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">parent_fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">blob_schedule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">last_blob_schedule</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">BlobSchedule</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">last_blob_schedule</span> <span class="o">=</span> <span class="n">blob_schedule</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+        <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">parent_fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="ow">or</span> <span class="n">BlobSchedule</span><span class="p">()</span>
         <span class="n">current_blob_schedule</span> <span class="o">=</span> <span class="n">ForkBlobSchedule</span><span class="p">(</span>
             <span class="n">target_blobs_per_block</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
             <span class="n">max_blobs_per_block</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
             <span class="n">base_fee_update_fraction</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">blob_base_fee_update_fraction</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">last_blob_schedule</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">last_blob_schedule</span> <span class="o">!=</span> <span class="n">current_blob_schedule</span><span class="p">:</span>
-            <span class="n">blob_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="n">current_blob_schedule</span><span class="p">)</span>
+        <span class="n">blob_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">schedule</span><span class="o">=</span><span class="n">current_blob_schedule</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">blob_schedule</span>
 
     <span class="nd">@classmethod</span>
@@ -35133,13 +35121,7 @@ schedule.</p>
 <span class="normal">971</span>
 <span class="normal">972</span>
 <span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span>
-<span class="normal">977</span>
-<span class="normal">978</span>
-<span class="normal">979</span>
-<span class="normal">980</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">974</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">blob_schedule</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlobSchedule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    At Cancun, the fork object runs this routine to get the updated blob</span>
@@ -35147,19 +35129,13 @@ schedule.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parent_fork</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
     <span class="k">assert</span> <span class="n">parent_fork</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Parent fork must be defined&quot;</span>
-    <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">parent_fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">blob_schedule</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">last_blob_schedule</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">BlobSchedule</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">last_blob_schedule</span> <span class="o">=</span> <span class="n">blob_schedule</span><span class="o">.</span><span class="n">last</span><span class="p">()</span>
+    <span class="n">blob_schedule</span> <span class="o">=</span> <span class="n">parent_fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="ow">or</span> <span class="n">BlobSchedule</span><span class="p">()</span>
     <span class="n">current_blob_schedule</span> <span class="o">=</span> <span class="n">ForkBlobSchedule</span><span class="p">(</span>
         <span class="n">target_blobs_per_block</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
         <span class="n">max_blobs_per_block</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
         <span class="n">base_fee_update_fraction</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">blob_base_fee_update_fraction</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">),</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">last_blob_schedule</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">last_blob_schedule</span> <span class="o">!=</span> <span class="n">current_blob_schedule</span><span class="p">:</span>
-        <span class="n">blob_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">schedule</span><span class="o">=</span><span class="n">current_blob_schedule</span><span class="p">)</span>
+    <span class="n">blob_schedule</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">schedule</span><span class="o">=</span><span class="n">current_blob_schedule</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">blob_schedule</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -35191,10 +35167,10 @@ schedule.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">982</span>
-<span class="normal">983</span>
-<span class="normal">984</span>
-<span class="normal">985</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">976</span>
+<span class="normal">977</span>
+<span class="normal">978</span>
+<span class="normal">979</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">tx_types</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;At Cancun, blob type transactions are introduced.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="nb">super</span><span class="p">(</span><span class="n">Cancun</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">tx_types</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
@@ -35228,10 +35204,10 @@ schedule.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">987</span>
-<span class="normal">988</span>
-<span class="normal">989</span>
-<span class="normal">990</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">981</span>
+<span class="normal">982</span>
+<span class="normal">983</span>
+<span class="normal">984</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">precompiles</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;At Cancun, pre-compile for kzg point evaluation is introduced.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0xA</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">super</span><span class="p">(</span><span class="n">Cancun</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">precompiles</span><span class="p">(</span><span class="n">block_number</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
@@ -35265,10 +35241,10 @@ schedule.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">992</span>
-<span class="normal">993</span>
-<span class="normal">994</span>
-<span class="normal">995</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">986</span>
+<span class="normal">987</span>
+<span class="normal">988</span>
+<span class="normal">989</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">system_contracts</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cancun introduces the system contract for EIP-4788.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">Address</span><span class="p">(</span><span class="mh">0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02</span><span class="p">)]</span>
@@ -35303,7 +35279,13 @@ type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 997</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
 <span class="normal"> 998</span>
 <span class="normal"> 999</span>
 <span class="normal">1000</span>
@@ -35311,13 +35293,7 @@ type tests.</p>
 <span class="normal">1002</span>
 <span class="normal">1003</span>
 <span class="normal">1004</span>
-<span class="normal">1005</span>
-<span class="normal">1006</span>
-<span class="normal">1007</span>
-<span class="normal">1008</span>
-<span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1005</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pre_allocation_blockchain</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cancun requires pre-allocation of the beacon root contract for EIP-4788 on blockchain</span>
@@ -35362,12 +35338,12 @@ type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
-<span class="normal">1017</span>
-<span class="normal">1018</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_new_payload_version</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -35403,10 +35379,10 @@ type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1020</span>
-<span class="normal">1021</span>
-<span class="normal">1022</span>
-<span class="normal">1023</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_new_payload_blob_hashes</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;From Cancun, payloads must have blob hashes.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">True</span>
@@ -35440,10 +35416,10 @@ type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1025</span>
-<span class="normal">1026</span>
-<span class="normal">1027</span>
-<span class="normal">1028</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_new_payload_beacon_root</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;From Cancun, payloads must have a parent beacon block root.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">True</span>
@@ -35477,18 +35453,18 @@ type tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1030</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span>
+<span class="normal">1028</span>
+<span class="normal">1029</span>
+<span class="normal">1030</span>
 <span class="normal">1031</span>
 <span class="normal">1032</span>
 <span class="normal">1033</span>
 <span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1035</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">valid_opcodes</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Opcodes</span><span class="p">]:</span>
@@ -40116,40 +40092,40 @@ EIP-2028.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1344</span>
-<span class="normal">1345</span>
-<span class="normal">1346</span>
-<span class="normal">1347</span>
-<span class="normal">1348</span>
-<span class="normal">1349</span>
-<span class="normal">1350</span>
-<span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
-<span class="normal">1358</span>
-<span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span>
-<span class="normal">1365</span>
-<span class="normal">1366</span>
-<span class="normal">1367</span>
-<span class="normal">1368</span>
-<span class="normal">1369</span>
-<span class="normal">1370</span>
-<span class="normal">1371</span>
-<span class="normal">1372</span>
-<span class="normal">1373</span>
-<span class="normal">1374</span>
-<span class="normal">1375</span>
-<span class="normal">1376</span>
-<span class="normal">1377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Osaka</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="n">solc_name</span><span class="o">=</span><span class="s2">&quot;cancun&quot;</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1284</span>
+<span class="normal">1285</span>
+<span class="normal">1286</span>
+<span class="normal">1287</span>
+<span class="normal">1288</span>
+<span class="normal">1289</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span>
+<span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span>
+<span class="normal">1303</span>
+<span class="normal">1304</span>
+<span class="normal">1305</span>
+<span class="normal">1306</span>
+<span class="normal">1307</span>
+<span class="normal">1308</span>
+<span class="normal">1309</span>
+<span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span>
+<span class="normal">1313</span>
+<span class="normal">1314</span>
+<span class="normal">1315</span>
+<span class="normal">1316</span>
+<span class="normal">1317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Osaka</span><span class="p">(</span><span class="n">Prague</span><span class="p">,</span> <span class="n">solc_name</span><span class="o">=</span><span class="s2">&quot;cancun&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Osaka fork.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -40215,13 +40191,13 @@ EIP-2028.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1347</span>
-<span class="normal">1348</span>
-<span class="normal">1349</span>
-<span class="normal">1350</span>
-<span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1287</span>
+<span class="normal">1288</span>
+<span class="normal">1289</span>
+<span class="normal">1290</span>
+<span class="normal">1291</span>
+<span class="normal">1292</span>
+<span class="normal">1293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">evm_code_types</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EVMCodeType</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF V1 is supported starting from Osaka.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Osaka</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="n">evm_code_types</span><span class="p">(</span>
@@ -40258,16 +40234,16 @@ EIP-2028.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
-<span class="normal">1358</span>
-<span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span>
+<span class="normal">1300</span>
+<span class="normal">1301</span>
+<span class="normal">1302</span>
+<span class="normal">1303</span>
+<span class="normal">1304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">call_opcodes</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Opcodes</span><span class="p">,</span> <span class="n">EVMCodeType</span><span class="p">]]:</span>
@@ -40308,13 +40284,13 @@ development.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1366</span>
-<span class="normal">1367</span>
-<span class="normal">1368</span>
-<span class="normal">1369</span>
-<span class="normal">1370</span>
-<span class="normal">1371</span>
-<span class="normal">1372</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1306</span>
+<span class="normal">1307</span>
+<span class="normal">1308</span>
+<span class="normal">1309</span>
+<span class="normal">1310</span>
+<span class="normal">1311</span>
+<span class="normal">1312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">is_deployed</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Flag that the fork has not been deployed to mainnet; it is under active</span>
@@ -40351,10 +40327,10 @@ development.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1374</span>
-<span class="normal">1375</span>
-<span class="normal">1376</span>
-<span class="normal">1377</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1314</span>
+<span class="normal">1315</span>
+<span class="normal">1316</span>
+<span class="normal">1317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">solc_min_version</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return minimum version of solc that supports this fork.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>  <span class="c1"># set a high version; currently unknown</span>
@@ -40647,7 +40623,13 @@ development.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1044</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span>
+<span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
 <span class="normal">1045</span>
 <span class="normal">1046</span>
 <span class="normal">1047</span>
@@ -40884,13 +40866,7 @@ development.</p>
 <span class="normal">1278</span>
 <span class="normal">1279</span>
 <span class="normal">1280</span>
-<span class="normal">1281</span>
-<span class="normal">1282</span>
-<span class="normal">1283</span>
-<span class="normal">1284</span>
-<span class="normal">1285</span>
-<span class="normal">1286</span>
-<span class="normal">1287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Prague</span><span class="p">(</span><span class="n">Cancun</span><span class="p">):</span>
+<span class="normal">1281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Prague</span><span class="p">(</span><span class="n">Cancun</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prague fork.&quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
@@ -41167,13 +41143,13 @@ development.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1047</span>
-<span class="normal">1048</span>
-<span class="normal">1049</span>
-<span class="normal">1050</span>
-<span class="normal">1051</span>
-<span class="normal">1052</span>
-<span class="normal">1053</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1041</span>
+<span class="normal">1042</span>
+<span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span>
+<span class="normal">1047</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">is_deployed</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Flag that the fork has not been deployed to mainnet; it is under active</span>
@@ -41210,10 +41186,10 @@ development.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1055</span>
-<span class="normal">1056</span>
-<span class="normal">1057</span>
-<span class="normal">1058</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">solc_min_version</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Version</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return minimum version of solc that supports this fork.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">)</span>  <span class="c1"># set a high version; currently unknown</span>
@@ -41254,7 +41230,13 @@ MAP_FP2_TO_G2 = 0x11</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1060</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
 <span class="normal">1061</span>
 <span class="normal">1062</span>
 <span class="normal">1063</span>
@@ -41263,13 +41245,7 @@ MAP_FP2_TO_G2 = 0x11</p>
 <span class="normal">1066</span>
 <span class="normal">1067</span>
 <span class="normal">1068</span>
-<span class="normal">1069</span>
-<span class="normal">1070</span>
-<span class="normal">1071</span>
-<span class="normal">1072</span>
-<span class="normal">1073</span>
-<span class="normal">1074</span>
-<span class="normal">1075</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1069</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">precompiles</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    At Prague, pre-compile for BLS operations are added.</span>
@@ -41316,19 +41292,19 @@ EIP-7623.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1077</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
+<span class="normal">1074</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
 <span class="normal">1078</span>
 <span class="normal">1079</span>
 <span class="normal">1080</span>
 <span class="normal">1081</span>
 <span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span>
-<span class="normal">1087</span>
-<span class="normal">1088</span>
-<span class="normal">1089</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1083</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">gas_costs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GasCosts</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    On Prague, the standard token cost and the floor token costs are introduced due to</span>
@@ -41371,15 +41347,15 @@ EIP-7623.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1091</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span>
+<span class="normal">1088</span>
+<span class="normal">1089</span>
+<span class="normal">1090</span>
+<span class="normal">1091</span>
 <span class="normal">1092</span>
-<span class="normal">1093</span>
-<span class="normal">1094</span>
-<span class="normal">1095</span>
-<span class="normal">1096</span>
-<span class="normal">1097</span>
-<span class="normal">1098</span>
-<span class="normal">1099</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1093</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">system_contracts</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span>
@@ -41418,10 +41394,10 @@ EIP-7623.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1101</span>
-<span class="normal">1102</span>
-<span class="normal">1103</span>
-<span class="normal">1104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1095</span>
+<span class="normal">1096</span>
+<span class="normal">1097</span>
+<span class="normal">1098</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">max_request_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;At Prague, three request types are introduced, hence the max request type is 2.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">2</span>
@@ -41456,7 +41432,13 @@ depending on its contents.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1106</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1100</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span>
+<span class="normal">1103</span>
+<span class="normal">1104</span>
+<span class="normal">1105</span>
+<span class="normal">1106</span>
 <span class="normal">1107</span>
 <span class="normal">1108</span>
 <span class="normal">1109</span>
@@ -41471,13 +41453,7 @@ depending on its contents.</p>
 <span class="normal">1118</span>
 <span class="normal">1119</span>
 <span class="normal">1120</span>
-<span class="normal">1121</span>
-<span class="normal">1122</span>
-<span class="normal">1123</span>
-<span class="normal">1124</span>
-<span class="normal">1125</span>
-<span class="normal">1126</span>
-<span class="normal">1127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">calldata_gas_calculator</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CalldataGasCalculator</span><span class="p">:</span>
@@ -41529,18 +41505,18 @@ depending on its contents.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1129</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1123</span>
+<span class="normal">1124</span>
+<span class="normal">1125</span>
+<span class="normal">1126</span>
+<span class="normal">1127</span>
+<span class="normal">1128</span>
+<span class="normal">1129</span>
 <span class="normal">1130</span>
 <span class="normal">1131</span>
 <span class="normal">1132</span>
 <span class="normal">1133</span>
-<span class="normal">1134</span>
-<span class="normal">1135</span>
-<span class="normal">1136</span>
-<span class="normal">1137</span>
-<span class="normal">1138</span>
-<span class="normal">1139</span>
-<span class="normal">1140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">transaction_data_floor_cost_calculator</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransactionDataFloorCostCalculator</span><span class="p">:</span>
@@ -41583,7 +41559,13 @@ authorizations into account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1142</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1136</span>
+<span class="normal">1137</span>
+<span class="normal">1138</span>
+<span class="normal">1139</span>
+<span class="normal">1140</span>
+<span class="normal">1141</span>
+<span class="normal">1142</span>
 <span class="normal">1143</span>
 <span class="normal">1144</span>
 <span class="normal">1145</span>
@@ -41618,13 +41600,7 @@ authorizations into account.</p>
 <span class="normal">1174</span>
 <span class="normal">1175</span>
 <span class="normal">1176</span>
-<span class="normal">1177</span>
-<span class="normal">1178</span>
-<span class="normal">1179</span>
-<span class="normal">1180</span>
-<span class="normal">1181</span>
-<span class="normal">1182</span>
-<span class="normal">1183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">transaction_intrinsic_cost_calculator</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransactionIntrinsicCostCalculator</span><span class="p">:</span>
@@ -41696,10 +41672,10 @@ authorizations into account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1185</span>
-<span class="normal">1186</span>
-<span class="normal">1187</span>
-<span class="normal">1188</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1179</span>
+<span class="normal">1180</span>
+<span class="normal">1181</span>
+<span class="normal">1182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">blob_base_fee_update_fraction</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the blob base fee update fraction for Prague.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">5007716</span>
@@ -41733,10 +41709,10 @@ authorizations into account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1190</span>
-<span class="normal">1191</span>
-<span class="normal">1192</span>
-<span class="normal">1193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1184</span>
+<span class="normal">1185</span>
+<span class="normal">1186</span>
+<span class="normal">1187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">target_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Target blob count of 6 for Prague.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">6</span>
@@ -41770,10 +41746,10 @@ authorizations into account.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1195</span>
-<span class="normal">1196</span>
-<span class="normal">1197</span>
-<span class="normal">1198</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1189</span>
+<span class="normal">1190</span>
+<span class="normal">1191</span>
+<span class="normal">1192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">max_blobs_per_block</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Max blob count of 9 for Prague.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">9</span>
@@ -41808,7 +41784,13 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1200</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1194</span>
+<span class="normal">1195</span>
+<span class="normal">1196</span>
+<span class="normal">1197</span>
+<span class="normal">1198</span>
+<span class="normal">1199</span>
+<span class="normal">1200</span>
 <span class="normal">1201</span>
 <span class="normal">1202</span>
 <span class="normal">1203</span>
@@ -41862,13 +41844,7 @@ the exits contract for EIP-7002, and the history storage contract for EIP-2935.<
 <span class="normal">1251</span>
 <span class="normal">1252</span>
 <span class="normal">1253</span>
-<span class="normal">1254</span>
-<span class="normal">1255</span>
-<span class="normal">1256</span>
-<span class="normal">1257</span>
-<span class="normal">1258</span>
-<span class="normal">1259</span>
-<span class="normal">1260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">1254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pre_allocation_blockchain</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Mapping</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,</span>
@@ -41960,13 +41936,13 @@ chain requests hash.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1262</span>
-<span class="normal">1263</span>
-<span class="normal">1264</span>
-<span class="normal">1265</span>
-<span class="normal">1266</span>
-<span class="normal">1267</span>
-<span class="normal">1268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1256</span>
+<span class="normal">1257</span>
+<span class="normal">1258</span>
+<span class="normal">1259</span>
+<span class="normal">1260</span>
+<span class="normal">1261</span>
+<span class="normal">1262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">header_requests_required</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Prague requires that the execution layer header contains the beacon</span>
@@ -42003,10 +41979,10 @@ chain requests hash.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1270</span>
-<span class="normal">1271</span>
-<span class="normal">1272</span>
-<span class="normal">1273</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1264</span>
+<span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_new_payload_requests</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;From Prague, new payloads include the requests hash as a parameter.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">True</span>
@@ -42040,12 +42016,12 @@ chain requests hash.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1275</span>
-<span class="normal">1276</span>
-<span class="normal">1277</span>
-<span class="normal">1278</span>
-<span class="normal">1279</span>
-<span class="normal">1280</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1269</span>
+<span class="normal">1270</span>
+<span class="normal">1271</span>
+<span class="normal">1272</span>
+<span class="normal">1273</span>
+<span class="normal">1274</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_new_payload_version</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -42081,12 +42057,12 @@ chain requests hash.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_forks/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1282</span>
-<span class="normal">1283</span>
-<span class="normal">1284</span>
-<span class="normal">1285</span>
-<span class="normal">1286</span>
-<span class="normal">1287</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1276</span>
+<span class="normal">1277</span>
+<span class="normal">1278</span>
+<span class="normal">1279</span>
+<span class="normal">1280</span>
+<span class="normal">1281</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">engine_forkchoice_updated_version</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span> <span class="n">block_number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
