@@ -1,8 +1,14 @@
+"""
+abstract: Tests for zkEVMs
+    Tests for zkEVMs.
+
+Tests for zkEVMs worst-cases scenarios.
+"""
+
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (Alloc, Block, BlockchainTestFiller,
-                                 Environment, Transaction)
+from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -27,11 +33,9 @@ def test_worst_bytecode(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    num_called_contracts : int,
+    num_called_contracts: int,
 ):
-    """
-    Test a block execution calling contracts with the maximum size of bytecode.
-    """
+    """Test a block execution calling contracts with the maximum size of bytecode."""
     env = Environment(gas_limit=GAS_LIMIT)
 
     contract_addrs = []

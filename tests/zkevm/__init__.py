@@ -1,3 +1,1 @@
-"""
-abstract: Tests for zkVMs
-"""
+"""abstract: Tests for zkVMs"""
