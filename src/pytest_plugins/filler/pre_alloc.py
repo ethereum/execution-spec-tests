@@ -268,12 +268,6 @@ class Alloc(BaseAlloc):
         """
         eoa = next(self._eoa_iterator)
 
-        empty_account_state = Account(
-            nonce=0,
-            balance=0,
-        )
-
-        super().__setitem__(eoa.address, empty_account_state)
         return eoa.address
 
 @pytest.fixture(scope="session")
