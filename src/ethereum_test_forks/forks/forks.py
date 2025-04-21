@@ -964,19 +964,13 @@ class Cancun(Shanghai):
         """
         parent_fork = cls.parent()
         assert parent_fork is not None, "Parent fork must be defined"
-        blob_schedule = parent_fork.blob_schedule(block_number, timestamp)
-        if blob_schedule is None:
-            last_blob_schedule = None
-            blob_schedule = BlobSchedule()
-        else:
-            last_blob_schedule = blob_schedule.last()
+        blob_schedule = parent_fork.blob_schedule(block_number, timestamp) or BlobSchedule()
         current_blob_schedule = ForkBlobSchedule(
             target_blobs_per_block=cls.target_blobs_per_block(block_number, timestamp),
             max_blobs_per_block=cls.max_blobs_per_block(block_number, timestamp),
             base_fee_update_fraction=cls.blob_base_fee_update_fraction(block_number, timestamp),
         )
-        if parent_fork.name() != cls.name() or last_blob_schedule != current_blob_schedule:
-            blob_schedule.append(fork=cls.__name__, schedule=current_blob_schedule)
+        blob_schedule.append(fork=cls.name(), schedule=current_blob_schedule)
         return blob_schedule
 
     @classmethod
