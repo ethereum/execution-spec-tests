@@ -24,6 +24,7 @@ from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
+from ethereum_test_base_types.base_types import HexNumber
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import SPEC_TYPES, BaseTest
@@ -53,7 +54,7 @@ def default_html_report_file_path() -> str:
 
 def default_max_gas() -> int:
     """
-    Maximum gas (default) to use for transactions. Defined as a function to
+    Maximum gas limit (default) to use for transactions. Defined as a function to
     allow for easier testing.
     """
     return 30_000_000
@@ -404,9 +405,9 @@ def pytest_html_report_title(report):
 
 
 @pytest.fixture(autouse=True, scope="session")
-def max_gas(request: pytest.FixtureRequest) -> Path:
-    """Return directory containing the tests to execute."""
-    return request.config.getoption("max_gas")
+def max_gas(request: pytest.FixtureRequest) -> HexNumber:
+    """Return maximum gas_limit value to use for Transactions."""
+    return HexNumber(request.config.getoption("max_gas"))
 
 
 @pytest.fixture(autouse=True, scope="session")

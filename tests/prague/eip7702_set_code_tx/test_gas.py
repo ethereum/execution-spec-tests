@@ -10,6 +10,7 @@ from typing import Dict, Generator, Iterator, List
 
 import pytest
 
+from ethereum_test_base_types.base_types import HexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     EOA,
@@ -725,6 +726,7 @@ def gas_test_parameter_args(
 def test_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
+    max_gas: HexNumber,
     fork: Fork,
     authorization_list_with_properties: List[AuthorizationWithProperties],
     authorization_list: List[AuthorizationTuple],
@@ -810,7 +812,7 @@ def test_gas_cost(
     )
 
     state_test(
-        env=Environment(gas_limit=max(tx_gas_limit, 30_000_000)),
+        env=Environment(gas_limit=max(tx_gas_limit, max_gas)),
         pre=pre,
         tx=tx,
         post={

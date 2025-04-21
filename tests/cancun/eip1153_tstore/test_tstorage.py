@@ -9,6 +9,7 @@ from enum import unique
 
 import pytest
 
+from ethereum_test_base_types.base_types import HexNumber
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -266,6 +267,7 @@ class LoopRunUntilOutOfGasCases(PytestParameterEnum):
 def test_run_until_out_of_gas(
     state_test: StateTestFiller,
     pre: Alloc,
+    max_gas: HexNumber,
     repeat_bytecode: Bytecode,
     bytecode_repeat_times: int,
 ):
@@ -275,7 +277,7 @@ def test_run_until_out_of_gas(
     tx = Transaction(
         sender=pre.fund_eoa(),
         to=code_address,
-        gas_limit=30_000_000,
+        gas_limit=max_gas,
     )
     post = {
         code_address: Account(code=bytecode, storage={}),
