@@ -8,6 +8,10 @@ The following can be copy-pasted into the `CHANGELOG.md` file for a new release.
 
 ### 🛠️ Framework
 
+#### `fill`
+
+#### `consume`
+
 ### 📋 Misc
 
 ### 🧪 Test Cases

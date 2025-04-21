@@ -8,6 +8,20 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+### 🛠️ Framework
+
+#### `fill`
+
+#### `consume`
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
+
+### 💥 Breaking Change
+
 #### Consume engine strict exception checking
 
 `consume engine` now checks exceptions returned by the execution clients in their Engine API responses, specifically in the `validationError`field of the `engine_newPayloadVX` method.
