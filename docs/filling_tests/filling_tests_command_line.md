@@ -119,21 +119,21 @@ usage: fill [-h] [--strict-alloc] [--ca-start CA_START] [--ca-incr CA_INCR]
             [--solc-version SOLC_VERSION] [--evm-bin EVM_BIN] [--traces]
             [--verify-fixtures] [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
-            [--single-fixture-per-file] [--no-html] [--strict-alloc]
-            [--ca-start CA_START] [--ca-incr CA_INCR] [--build-name BUILD_NAME]
-            [--evm-dump-dir EVM_DUMP_DIR] [--forks] [--fork FORK] [--from FROM]
-            [--until UNTIL]
+            [--single-fixture-per-file] [--no-html] [--build-name BUILD_NAME]
+            [--skip-index SKIP_INDEX] [--max-gas MAX_GAS]
+            [--evm-dump-dir EVM_DUMP_DIR] [--skip-evm-dump] [--forks]
+            [--fork FORK] [--from FROM] [--until UNTIL]
 
 options:
   -h, --help            show this help message and exit
 
-Arguments defining pre-allocation behavior.:
+Arguments defining pre-allocation behavior during test filling.:
   --strict-alloc        [DEBUG ONLY] Disallows deploying a contract in a
                         predefined address.
-  --ca-start CA_START, --contract-address-start CA_START
+  --ca-start, --contract-address-start CA_START
                         The starting address from which tests will deploy
                         contracts.
-  --ca-incr CA_INCR, --contract-address-increment CA_INCR
+  --ca-incr, --contract-address-increment CA_INCR
                         The address increment value to each deployed contract by
                         a test.
   --evm-code-type EVM_CODE_TYPE
@@ -146,8 +146,9 @@ Arguments defining the solc executable:
                         Version of the solc compiler to use. Default: 0.8.24.
 
 Arguments defining evm executable behavior:
-  --evm-bin EVM_BIN     Path to an evm executable that provides `t8n`. Default:
-                        First 'evm' entry in PATH.
+  --evm-bin EVM_BIN     Path to an evm executable (or name of an executable in
+                        the PATH) that provides `t8n`. Default: `ethereum-spec-
+                        evm-resolver`.
   --traces              Collect traces of the execution information from the
                         transition tool.
   --verify-fixtures     Verify generated fixture JSON files using geth's evm
@@ -180,11 +181,18 @@ Arguments defining filler location and output:
   --build-name BUILD_NAME
                         Specify a build name for the fixtures.ini file, e.g.,
                         'stable'.
-  --index               Generate an index file for all produced fixtures.
+  --skip-index SKIP_INDEX
+                        Skip generating an index file for all produced fixtures.
 
 Arguments defining debug behavior:
-  --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
-                        Path to dump the transition tool debug output.  (Default: <repo>/logs/evm)
+  --max-gas MAX_GAS     Maximum gas used for transactions. (Default: 30000000)
+
+Arguments defining debug behavior:
+  --evm-dump-dir, --t8n-dump-dir EVM_DUMP_DIR
+                        Path to dump the transition tool debug output.  (Default:
+                        <repo>/logs/evm)
+  --skip-evm-dump, --skip-t8n-dump
+                        Skip dumping the the transition tool debug output.
 
 Specify the fork range to generate fixtures for:
   --forks               Display forks supported by the test framework and exit.
