@@ -1287,21 +1287,29 @@ class Osaka(Prague, solc_name="cancun"):
     @classmethod
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """EOF V1 is supported starting from Osaka."""
-        return super(Osaka, cls).evm_code_types(
-            block_number,
-            timestamp,
-        ) + [EVMCodeType.EOF_V1]
+        return super(Osaka, cls).evm_code_types(block_number, timestamp) + [
+            EVMCodeType.EOF_V1,
+        ]
 
     @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
         """EOF V1 introduces EXTCALL, EXTSTATICCALL, EXTDELEGATECALL."""
-        return [
+        return super(Osaka, cls).call_opcodes(block_number, timestamp) + [
             (Opcodes.EXTCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTSTATICCALL, EVMCodeType.EOF_V1),
             (Opcodes.EXTDELEGATECALL, EVMCodeType.EOF_V1),
-        ] + super(Osaka, cls).call_opcodes(block_number, timestamp)
+        ]
+
+    @classmethod
+    def create_opcodes(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> List[Tuple[Opcodes, EVMCodeType]]:
+        """EOF V1 introduces `EOFCREATE`."""
+        return super(Osaka, cls).create_opcodes(block_number, timestamp) + [
+            (Opcodes.EOFCREATE, EVMCodeType.EOF_V1),
+        ]
 
     @classmethod
     def is_deployed(cls) -> bool:
