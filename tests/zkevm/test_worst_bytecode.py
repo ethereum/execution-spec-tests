@@ -16,7 +16,7 @@ REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CONTRACT_SIZE = 24 * 1024
 GAS_LIMIT = 36_000_000
-MAX_NUM_CONTRACT_CALLS = (GAS_LIMIT - 21_000) // (3 + 2600)
+MAX_NUM_CONTRACT_CALLS = (GAS_LIMIT - 21_000) // (3 + 2600 + 2)
 
 
 @pytest.mark.zkevm
@@ -43,7 +43,9 @@ def test_worst_bytecode(
         code = Op.JUMPDEST * (MAX_CONTRACT_SIZE - 1 - 10) + Op.PUSH10(i)
         contract_addrs.append(pre.deploy_contract(code=code))
 
-    attack_code = sum([Op.EXTCODESIZE(contract_addrs[i]) for i in range(num_called_contracts)])
+    attack_code = sum(
+        [(Op.EXTCODESIZE(contract_addrs[i]) + Op.POP) for i in range(num_called_contracts)]
+    )
     attack_contract = pre.deploy_contract(code=attack_code)
 
     tx = Transaction(
