@@ -18,6 +18,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test that DELEGATECALL to a 7702 target works as intended ([#1485](https://github.com/ethereum/execution-spec-tests/pull/1485)).
+
 ## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
 
 ### 💥 Breaking Change
