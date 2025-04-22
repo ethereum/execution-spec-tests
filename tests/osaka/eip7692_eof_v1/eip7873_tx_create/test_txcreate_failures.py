@@ -92,8 +92,6 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode_subcontainer],
     )
@@ -128,8 +126,6 @@ def test_txcreate_invalid_hash(
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[smallest_initcode_subcontainer] * tx_initcode_count,
     )
@@ -163,8 +159,6 @@ def test_initcode_aborts(
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[aborting_container],
     )
@@ -253,8 +247,6 @@ def test_txcreate_deploy_sizes(
     tx = Transaction(
         to=contract_address,
         gas_limit=20_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode_subcontainer],
     )
@@ -323,8 +315,6 @@ def test_auxdata_size_failures(state_test: StateTestFiller, pre: Alloc, auxdata_
     tx = Transaction(
         to=contract_address,
         gas_limit=20_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode_subcontainer],
         data=auxdata_bytes,
@@ -376,8 +366,6 @@ def test_txcreate_insufficient_stipend(
     tx = Transaction(
         to=contract_address,
         gas_limit=20_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[smallest_initcode_subcontainer],
     )
@@ -429,8 +417,6 @@ def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork
     tx = Transaction(
         to=contract_address,
         gas_limit=gas_limit,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode_container],
     )
@@ -484,8 +470,6 @@ def test_insufficient_gas_memory_expansion(
     tx = Transaction(
         to=contract_address,
         gas_limit=gas_limit,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[smallest_initcode_subcontainer],
     )
@@ -546,8 +530,6 @@ def test_insufficient_returncode_auxdata_gas(
     tx = Transaction(
         to=contract_address,
         gas_limit=gas_limit,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode_container],
     )
@@ -608,8 +590,6 @@ def test_static_flag_txcreate(
     tx = Transaction(
         to=calling_address,
         gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode],
     )
@@ -713,8 +693,6 @@ def test_eof_txcreate_msg_depth(
     )
 
     tx = Transaction(
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[initcode],
         to=calling_contract_address if who_fails == magic_value_call else passthrough_address,
@@ -797,8 +775,6 @@ def test_reentrant_txcreate(
     tx = Transaction(
         to=contract_address,
         gas_limit=500_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         initcodes=[initcontainer],
         sender=pre.fund_eoa(),
     )
