@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_exceptions.exceptions import TransactionException
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -58,7 +59,7 @@ def test_legacy_create_tx_legacy_initcode_eof_bytecode(
 
 
 @pytest.mark.with_all_contract_creating_tx_types(selector=lambda tx_type: tx_type != 6)
-@pytest.mark.xfail(reason="evmone incorrectly deploys the contract")
+@pytest.mark.exception_test
 def test_legacy_create_tx_eof_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -74,6 +75,7 @@ def test_legacy_create_tx_eof_initcode(
         to=None,
         gas_limit=100_000,
         data=smallest_initcode_subcontainer,
+        error=TransactionException.EOF_CREATION_TRANSACTION,
     )
 
     destination_contract_address = tx.created_contract
