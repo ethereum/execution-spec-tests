@@ -758,6 +758,7 @@ call
 callcode
 return
 delegatecall
+delegatecalling
 eofcreate
 eoftest
 extcall
