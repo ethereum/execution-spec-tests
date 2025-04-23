@@ -106,11 +106,19 @@ def test_valid(
     + [
         pytest.param(
             Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
-            id="not_in_subgroup_1",
+            id="not_in_subgroup_1_pos_0",
         ),
         pytest.param(
             Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
-            id="not_in_subgroup_2",
+            id="not_in_subgroup_2_pos_0",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
+            id="not_in_subgroup_1_pos_1",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
+            id="not_in_subgroup_2_pos_1",
         ),
         pytest.param(
             Spec.G1,
@@ -118,19 +126,35 @@ def test_valid(
         ),
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[0] + Scalar(0),
-            id="rand_not_in_subgroup_0",
+            id="rand_not_in_subgroup_0_pos_0",
         ),
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[1] + Scalar(1),
-            id="rand_not_in_subgroup_1",
+            id="rand_not_in_subgroup_1_pos_0",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + G1_POINTS_NOT_IN_SUBGROUP[0] + Scalar(0),
+            id="rand_not_in_subgroup_0_pos_1",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + G1_POINTS_NOT_IN_SUBGROUP[1] + Scalar(1),
+            id="rand_not_in_subgroup_1_pos_1",
         ),
         pytest.param(
             G1_POINTS_NOT_ON_CURVE[0] + Scalar(0),
-            id="not_on_curve_0",
+            id="not_on_curve_0_pos_0",
         ),
         pytest.param(
             G1_POINTS_NOT_ON_CURVE[1] + Scalar(1),
-            id="not_on_curve_1",
+            id="not_on_curve_1_pos_0",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + G1_POINTS_NOT_ON_CURVE[0] + Scalar(0),
+            id="not_on_curve_0_pos_1",
+        ),
+        pytest.param(
+            Spec.G1 + Scalar(1) + G1_POINTS_NOT_ON_CURVE[1] + Scalar(1),
+            id="not_on_curve_1_pos_1",
         ),
         pytest.param(
             Spec.G1 + Scalar(1) + Spec.G1,
