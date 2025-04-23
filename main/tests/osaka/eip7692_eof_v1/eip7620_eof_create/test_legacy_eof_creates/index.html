@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_gas/test_eofcreate_gas/">
       
       
-        <link rel="next" href="test_cross_version_creates_fail/">
+        <link rel="next" href="test_cross_version_creates_fail_light/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -12643,6 +12643,8 @@
       
         
       
+        
+      
     
     
       
@@ -12691,11 +12693,32 @@
   
   
     <li class="md-nav__item">
-      <a href="test_cross_version_creates_fail/" class="md-nav__link">
+      <a href="test_cross_version_creates_fail_light/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_cross_version_creates_fail</code>
+    <code>test_cross_version_creates_fail_light</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_cross_version_creates_fail_hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_cross_version_creates_fail_hard</code>
   </span>
   
 
@@ -30265,7 +30288,7 @@
 
 
 <h1 id="test-legacy-eof-creates">Test Legacy EOF Creates<a class="headerlink" href="#test-legacy-eof-creates" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3719e9277ca9fdaf97799b8f4084f57e977eb7e4/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L33"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py@3719e927</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L37"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py@fbd9cb20</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py --fork Osaka</span>
@@ -30306,15 +30329,21 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="test_cross_version_creates_fail/"><code>test_cross_version_creates_fail</code></a></td>
+<td><a href="test_cross_version_creates_fail_light/"><code>test_cross_version_creates_fail_light</code></a></td>
 <td>state_test</td>
-<td>4</td>
-<td>Verifies that CREATE and CREATE2 cannot create EOF contracts.</td>
+<td>8</td>
+<td>Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on attempt.</td>
+</tr>
+<tr>
+<td><a href="test_cross_version_creates_fail_hard/"><code>test_cross_version_creates_fail_hard</code></a></td>
+<td>state_test</td>
+<td>10</td>
+<td>Verifies that CREATE and CREATE2 fail hard on attempt to run initcode starting with <code>EF</code> but</td>
 </tr>
 <tr>
 <td><a href="test_legacy_initcode_eof_contract_fails/"><code>test_legacy_initcode_eof_contract_fails</code></a></td>
 <td>state_test</td>
-<td>4</td>
+<td>12</td>
 <td>Verifies that legacy initcode cannot create EOF.</td>
 </tr>
 </tbody>

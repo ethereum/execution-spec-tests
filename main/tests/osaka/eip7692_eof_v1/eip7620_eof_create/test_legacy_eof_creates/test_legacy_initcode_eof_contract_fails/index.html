@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates/test_legacy_initcode_eof_contract_fails/">
       
       
-        <link rel="prev" href="../test_cross_version_creates_fail/">
+        <link rel="prev" href="../test_cross_version_creates_fail_hard/">
       
       
         <link rel="next" href="../../test_memory/">
@@ -12643,6 +12643,8 @@
       
         
       
+        
+      
     
     
       
@@ -12691,11 +12693,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_cross_version_creates_fail/" class="md-nav__link">
+      <a href="../test_cross_version_creates_fail_light/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_cross_version_creates_fail</code>
+    <code>test_cross_version_creates_fail_light</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_cross_version_creates_fail_hard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_cross_version_creates_fail_hard</code>
   </span>
   
 
@@ -30323,7 +30346,7 @@
 
 
 <h1 id="test_legacy_initcode_eof_contract_fails"><code>test_legacy_initcode_eof_contract_fails()</code><a class="headerlink" href="#test_legacy_initcode_eof_contract_fails" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3719e9277ca9fdaf97799b8f4084f57e977eb7e4/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L91"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails@3719e927</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py#L177"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails@fbd9cb20</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails --fork Osaka</span>
@@ -30339,59 +30362,66 @@
     <div class="doc doc-contents first">
 
       <p>Verifies that legacy initcode cannot create EOF.</p>
+<p>This tests only ensures EIP-3541 behavior is kept, not altered by EIP-7620.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;legacy_create_opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;CREATE&quot;</span><span class="p">),</span>
@@ -30401,6 +30431,10 @@
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;deploy_code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF&quot;</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF00&quot;</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF0001&quot;</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF01&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">smallest_initcode_subcontainer</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_eof_initcontainer&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">smallest_runtime_subcontainer</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_eof_container&quot;</span><span class="p">),</span>
     <span class="p">],</span>
@@ -30409,9 +30443,13 @@
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">legacy_create_opcode</span><span class="p">:</span> <span class="n">Opcodes</span><span class="p">,</span>
-    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Container</span><span class="p">,</span>
+    <span class="n">deploy_code</span><span class="p">:</span> <span class="n">Bytes</span> <span class="o">|</span> <span class="n">Container</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies that legacy initcode cannot create EOF.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Verifies that legacy initcode cannot create EOF.</span>
+
+<span class="sd">    This tests only ensures EIP-3541 behavior is kept, not altered by EIP-7620.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">init_code</span> <span class="o">=</span> <span class="n">LegacyInitcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">)</span>
     <span class="n">salt_param</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">legacy_create_opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span> <span class="k">else</span> <span class="p">[]</span>
@@ -30434,8 +30472,6 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">init_code</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
@@ -30497,6 +30533,86 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef-CREATE]">
+                    ...fork_Osaka-state_test-deploy_code_0xef-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef-CREATE2]">
+                    ...fork_Osaka-state_test-deploy_code_0xef-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef00-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef00-CREATE]">
+                    ...fork_Osaka-state_test-deploy_code_0xef00-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef00</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef00-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef00-CREATE2]">
+                    ...fork_Osaka-state_test-deploy_code_0xef00-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef00</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef0001-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef0001-CREATE]">
+                    ...fork_Osaka-state_test-deploy_code_0xef0001-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef0001</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef0001-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef0001-CREATE2]">
+                    ...fork_Osaka-state_test-deploy_code_0xef0001-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef0001</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef01-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef01-CREATE]">
+                    ...fork_Osaka-state_test-deploy_code_0xef01-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef01</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef01-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_code_0xef01-CREATE2]">
+                    ...fork_Osaka-state_test-deploy_code_0xef01-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef01</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_eof_initcontainer-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-state_test-deploy_eof_initcontainer-CREATE]">
                     ...fork_Osaka-state_test-deploy_eof_initcontainer-CREATE
                 </abbr>
@@ -30532,6 +30648,86 @@
                 </abbr>
             </td>
                         <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef00</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef00-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef00</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef0001</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef0001-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef0001</code></td>
+                        <td>CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE
+                </abbr>
+            </td>
+                        <td><code>0xef01</code></td>
+                        <td>CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE2]" title="tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_legacy_eof_creates.py::test_legacy_initcode_eof_contract_fails[fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-deploy_code_0xef01-CREATE2
+                </abbr>
+            </td>
+                        <td><code>0xef01</code></td>
                         <td>CREATE2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
