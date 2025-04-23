@@ -10,7 +10,7 @@ from ethereum_test_tools import Opcodes as Op
 
 from .conftest import G2_POINTS_NOT_IN_SUBGROUP, G2_POINTS_NOT_ON_CURVE
 from .helpers import vectors_from_file
-from .spec import PointG2, Scalar, Spec, ref_spec_2537
+from .spec import Scalar, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
