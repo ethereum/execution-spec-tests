@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_base_types.base_types import Bytes
+from ethereum_test_base_types.base_types import Address, Bytes
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -15,6 +15,7 @@ from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_types.helpers import compute_create_address
+from tests.prague.eip7702_set_code_tx.spec import Spec
 
 from .. import EOF_FORK_NAME
 from .helpers import (
@@ -114,7 +115,7 @@ def test_cross_version_creates_fail_light(
         Bytes("0xEF"),
         Bytes("0xEF01"),
         Bytes("0xEF0101"),
-        Bytes("0xEF01" + "".join("ab")),
+        Spec.delegation_designation(Address(0xAA)),
         Bytes("0xEF02"),
     ],
 )
