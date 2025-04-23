@@ -15754,6 +15754,8 @@
       
         
       
+        
+      
     
     
       
@@ -15807,6 +15809,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp2_to_g2/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -15908,6 +15931,8 @@
       
         
       
+        
+      
     
     
       
@@ -15961,6 +15986,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp_to_g1/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -16131,11 +16177,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_multi_pair_invalid_inf/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_multi_pair_invalid_inf</code>
+    <code>test_invalid</code>
   </span>
   
 
@@ -16152,11 +16198,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_gas/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid</code>
+    <code>test_gas</code>
   </span>
   
 
@@ -30344,7 +30390,7 @@
 
 
 <h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L23"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@fbd9cb20</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b48d1dc81233af6e4d6c7c84e60e8eaa4067a288/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py#L24"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid@b48d1dc8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid --fork Prague</span>
@@ -30363,8 +30409,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 23</span>
-<span class="normal"> 24</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 24</span>
 <span class="normal"> 25</span>
 <span class="normal"> 26</span>
 <span class="normal"> 27</span>
@@ -30444,21 +30489,111 @@
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
+    <span class="c1"># Test vectors from the reference spec (from the cryptography team)</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;mul_G2_bls.json&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
+        <span class="c1"># Basic multiplication test cases.</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(0*inf=inf)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_times_inf&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;one_times_inf&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;two_times_inf&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;q_times_inf&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2**256-1*inf=inf)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_scalar_times_inf&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_times_generator&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_times_point&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">G2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;one_times_generator&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;one_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
@@ -30473,43 +30608,44 @@
                 <span class="p">),</span>
             <span class="p">),</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2**256-1*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_scalar_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
+        <span class="c1"># Subgroup related test cases.</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span>
             <span class="o">-</span><span class="n">Spec</span><span class="o">.</span><span class="n">P2</span><span class="p">,</span>  <span class="c1"># negated P2</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q-1*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;q_minus_1_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;q_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">G2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q*G2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;q_times_generator&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">Q</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(q+1*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;q_plus_1_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(2q*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;2q_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P2</span> <span class="o">+</span> <span class="n">Scalar</span><span class="p">((</span><span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">//</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Q</span><span class="p">),</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span>
             <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bls_g2mul_(Nq*P2)&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;large_multiple_of_q_times_point&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -30717,8 +30853,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(0*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(0*inf=inf)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(0*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_inf-]">
+                    ...fork_Prague-state_test-zero_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
@@ -30729,8 +30865,44 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2**256-1*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2**256-1*inf=inf)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(2**256-1*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_inf-]">
+                    ...fork_Prague-state_test-one_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-two_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-two_times_inf-]">
+                    ...fork_Prague-state_test-two_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_inf-]">
+                    ...fork_Prague-state_test-q_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-max_scalar_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-max_scalar_times_inf-]">
+                    ...fork_Prague-state_test-max_scalar_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -30741,8 +30913,56 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2**256-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2**256-1*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(2**256-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_generator-]">
+                    ...fork_Prague-state_test-zero_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-zero_times_point-]">
+                    ...fork_Prague-state_test-zero_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_generator-]">
+                    ...fork_Prague-state_test-one_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-one_times_point-]">
+                    ...fork_Prague-state_test-one_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-max_scalar_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-max_scalar_times_point-]">
+                    ...fork_Prague-state_test-max_scalar_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -30753,8 +30973,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q-1*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(q-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_minus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_minus_1_times_point-]">
+                    ...fork_Prague-state_test-q_minus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
@@ -30765,8 +30985,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_point-]">
+                    ...fork_Prague-state_test-q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -30777,8 +30997,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q*G2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q*G2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(q*G2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_times_generator-]">
+                    ...fork_Prague-state_test-q_times_generator-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -30789,8 +31009,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q+1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(q+1*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(q+1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_plus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-q_plus_1_times_point-]">
+                    ...fork_Prague-state_test-q_plus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
@@ -30801,8 +31021,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(2q*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(2q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-2q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-2q_times_point-]">
+                    ...fork_Prague-state_test-2q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -30813,8 +31033,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(Nq*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-bls_g2mul_(Nq*P2)-]">
-                    ...fork_Prague-state_test-bls_g2mul_(Nq*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-large_multiple_of_q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-state_test-large_multiple_of_q_times_point-]">
+                    ...fork_Prague-state_test-large_multiple_of_q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -30957,8 +31177,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-zero_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
@@ -30969,8 +31189,44 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-one_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-two_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-two_times_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-two_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-q_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-max_scalar_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-max_scalar_times_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-max_scalar_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -30981,8 +31237,56 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_generator-]">
+                    ...fork_Prague-blockchain_test_from_state_test-zero_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-zero_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-zero_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_generator-]">
+                    ...fork_Prague-blockchain_test_from_state_test-one_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-one_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-one_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-max_scalar_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-max_scalar_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-max_scalar_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -30993,8 +31297,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_minus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_minus_1_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-q_minus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
@@ -31005,8 +31309,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31017,8 +31321,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*G2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*G2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q*G2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_times_generator-]">
+                    ...fork_Prague-blockchain_test_from_state_test-q_times_generator-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31029,8 +31333,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_plus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-q_plus_1_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-q_plus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
@@ -31041,8 +31345,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-2q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-2q_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-2q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -31053,8 +31357,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-]">
-                    ...fork_Prague-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-large_multiple_of_q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Prague-blockchain_test_from_state_test-large_multiple_of_q_times_point-]">
+                    ...fork_Prague-blockchain_test_from_state_test-large_multiple_of_q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -31197,8 +31501,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(0*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(0*inf=inf)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(0*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_inf-]">
+                    ...fork_Osaka-state_test-zero_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
@@ -31209,8 +31513,44 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2**256-1*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2**256-1*inf=inf)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(2**256-1*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_inf-]">
+                    ...fork_Osaka-state_test-one_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-two_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-two_times_inf-]">
+                    ...fork_Osaka-state_test-two_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_inf-]">
+                    ...fork_Osaka-state_test-q_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-max_scalar_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-max_scalar_times_inf-]">
+                    ...fork_Osaka-state_test-max_scalar_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -31221,8 +31561,56 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2**256-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2**256-1*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(2**256-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_generator-]">
+                    ...fork_Osaka-state_test-zero_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-zero_times_point-]">
+                    ...fork_Osaka-state_test-zero_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_generator-]">
+                    ...fork_Osaka-state_test-one_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-one_times_point-]">
+                    ...fork_Osaka-state_test-one_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-max_scalar_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-max_scalar_times_point-]">
+                    ...fork_Osaka-state_test-max_scalar_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -31233,8 +31621,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q-1*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(q-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_minus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_minus_1_times_point-]">
+                    ...fork_Osaka-state_test-q_minus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
@@ -31245,8 +31633,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_point-]">
+                    ...fork_Osaka-state_test-q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31257,8 +31645,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q*G2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q*G2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(q*G2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_times_generator-]">
+                    ...fork_Osaka-state_test-q_times_generator-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31269,8 +31657,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q+1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(q+1*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(q+1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_plus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-q_plus_1_times_point-]">
+                    ...fork_Osaka-state_test-q_plus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
@@ -31281,8 +31669,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(2q*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(2q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-2q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-2q_times_point-]">
+                    ...fork_Osaka-state_test-2q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -31293,8 +31681,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(Nq*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-bls_g2mul_(Nq*P2)-]">
-                    ...fork_Osaka-state_test-bls_g2mul_(Nq*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-large_multiple_of_q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-state_test-large_multiple_of_q_times_point-]">
+                    ...fork_Osaka-state_test-large_multiple_of_q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -31437,8 +31825,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(0*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-zero_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
@@ -31449,8 +31837,44 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*inf=inf)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-one_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-two_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-two_times_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-two_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000002</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-q_times_inf-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-max_scalar_times_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-max_scalar_times_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-max_scalar_times_inf-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -31461,8 +31885,56 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2**256-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_generator-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-zero_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-zero_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-zero_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_generator-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-one_times_generator-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(352701069587466618187139116011060144890029952792775240219908644239793785735715026873347600343865175952761926303160, 3059144344244213709971259814753781636986470325476647558659373206291635324768958432433509563104347017837885763365758), y=(1985150602287291935568054521177171638300868978215655730859378665066344726373823718423869104263333984641494340347905, 927553665492332455747201965776037880757740193453592970025027978793976877002675564980949289727957565575433344219582))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-one_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-one_times_point-
+                </abbr>
+            </td>
+                        <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000001</code></td>
+                        <td>PointG2(x=(2492164500931426079025163640852824812322867633561487327988861767918782925114618691347698906331033143057488152854311, 1296003438898513467811811427923539448251934100547963606575856033955925534446513985696904241181481649924224027073384), y=(2403995578136121235978187296860525416643018865432935587266433984437673369013628886898228883216954086902460896225150, 2021783735792747140008634321371188179203707822883609206755922036803500907979420976539856007028648957203721805595729))</td>
+                        <td>None</td>
+                        <td>14</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-max_scalar_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-max_scalar_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-max_scalar_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code></td>
@@ -31473,8 +31945,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q-1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_minus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_minus_1_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-q_minus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000000</code></td>
@@ -31485,8 +31957,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31497,8 +31969,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*G2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*G2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q*G2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_generator-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_times_generator-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-q_times_generator-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0ce5d527727d6e118cc9cdc6da2e351a</code> <code>adfd9baa8cbdd3a76d429a695160d12c</code> <code>923ac9cc3baca289e193548608b82801</code> <code>00000000000000000000000000000000</code> <code>0606c4a02ea734cc32acd2b02bc28b99</code> <code>cb3e287e85a763af267492ab572e99ab</code> <code>3f370d275cec1da1aaa9075ff05f79be</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000001</code></td>
@@ -31509,8 +31981,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(q+1*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_plus_1_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-q_plus_1_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-q_plus_1_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>73eda753299d7d483339d80809a1d805</code> <code>53bda402fffe5bfeffffffff00000002</code></td>
@@ -31521,8 +31993,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(2q*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-2q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-2q_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-2q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>
@@ -31533,8 +32005,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-bls_g2mul_(Nq*P2)-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-large_multiple_of_q_times_point-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2mul.py::test_valid[fork_Osaka-blockchain_test_from_state_test-large_multiple_of_q_times_point-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-large_multiple_of_q_times_point-
                 </abbr>
             </td>
                         <td><code>00000000000000000000000000000000</code> <code>103121a2ceaae586d240843a39896732</code> <code>5f8eb5a93e8fea99b62b9f88d8556c80</code> <code>dd726a4b30e84a36eeabaf3592937f27</code> <code>00000000000000000000000000000000</code> <code>086b990f3da2aeac0a36143b7d7c8244</code> <code>28215140db1bb859338764cb58458f08</code> <code>1d92664f9053b50b3fbd2e4723121b68</code> <code>00000000000000000000000000000000</code> <code>0f9e7ba9a86a8f7624aa2b42dcc8772e</code> <code>1af4ae115685e60abc2c9b90242167ac</code> <code>ef3d0be4050bf935eed7c3b6fc7ba77e</code> <code>00000000000000000000000000000000</code> <code>0d22c3652d0dc6f0fc9316e14268477c</code> <code>2049ef772e852108d269d9c38dba1d48</code> <code>02e8dae479818184c08f9a569d878451</code> <code>e7db4ea6533afa906673b0101343b00a</code> <code>a77b4805fffcb7fdfffffffe00000002</code></td>

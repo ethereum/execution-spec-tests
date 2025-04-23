@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../test_invalid/">
+        <link rel="next" href="../test_isogeny_kernel_values/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -15696,6 +15696,8 @@
       
         
       
+        
+      
     
     
       
@@ -15823,6 +15825,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_invalid/" class="md-nav__link">
         
   
@@ -15908,6 +15931,8 @@
       
         
       
+        
+      
     
     
       
@@ -15961,6 +15986,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp_to_g1/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -16131,11 +16177,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_multi_pair_invalid_inf/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_multi_pair_invalid_inf</code>
+    <code>test_invalid</code>
   </span>
   
 
@@ -16152,11 +16198,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_gas/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid</code>
+    <code>test_gas</code>
   </span>
   
 
@@ -30344,7 +30390,7 @@
 
 
 <h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L34"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_valid@fbd9cb20</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b48d1dc81233af6e4d6c7c84e60e8eaa4067a288/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L35"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_valid@b48d1dc8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_valid --fork Prague</span>
@@ -30363,8 +30409,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
-<span class="normal">35</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
@@ -30402,8 +30447,11 @@
 <span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
-<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
+    <span class="c1"># Test vectors from the reference spec (from the cryptography team)</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;map_fp2_to_G2_bls.json&quot;</span><span class="p">)</span>
     <span class="o">+</span> <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>

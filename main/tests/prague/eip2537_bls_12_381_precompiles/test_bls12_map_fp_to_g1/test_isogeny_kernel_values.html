@@ -1,0 +1,460 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test_isogeny_kernel_values()</title>
+    <link rel="icon" href="/execution-spec-tests/main/img/ETH-logo-icon.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.7/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="/execution-spec-tests/main/stylesheets/custom.css">
+</head>
+<div class="stand_alone_container">
+        <h1>Test Function: <code>test_isogeny_kernel_values()</code></h1>
+        <p>Test the BLS12_MAP_FP_TO_G1 precompile with isogeny kernel inputs.</p>
+    <p><a href="./test_isogeny_kernel_values/">Back to <code>test_isogeny_kernel_values()</code></a>.</p>
+        <h2>Parametrized Test Cases</h2>
+    <div class="control_panel">
+    <div class="panel_row filters">
+        <div class="filter_wrapper">
+            <label for="fork_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-1.94 2.81.09.46.33 1.02.94 1.82 1 1.29 3 3.2 4 4.54 1-1.34 3-3.25 4-4.54.61-.8.85-1.36.94-1.82A3.015 3.015 0 0 1 15 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.32-.86 2.45-2.05 2.85-.08.52-.31 1.15-.95 1.98-1 1.34-3 3.25-4 4.55-.61.79-.85 1.35-.94 1.81C14.19 16.62 15 17.72 15 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.28.81-2.38 1.94-2.81-.09-.46-.33-1.02-.94-1.81-1-1.3-3-3.21-4-4.55-.64-.83-.87-1.46-.95-1.98A3.015 3.015 0 0 1 3 5a3 3 0 0 1 3-3m0 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m12 0a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m-6 14a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1Z"></path>
+                </svg>
+            </span>
+            Fork
+            </label>
+            <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
+                <option value="all">All Forks</option>
+                                                <option value="Prague" selected>Prague</option>
+                                <option value="Osaka" >Osaka</option>
+                            </select>
+        </div>
+        <div class="filter_wrapper">
+            <label for="fixture_selector">
+            <span class="twemoji">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21.818 3.646H2.182C.982 3.646 0 4.483 0 5.505v3.707h2.182V5.486h19.636v13.036H2.182v-3.735H0v3.726c0 1.022.982 1.84 2.182 1.84h19.636c1.2 0 2.182-.818 2.182-1.84V5.505c0-1.032-.982-1.859-2.182-1.859Zm-10.909 12.07L15.273 12l-4.364-3.717v2.787H0v1.859h10.909v2.787Z"></path>
+                </svg>
+            </span>
+            Fixture Type
+            </label>
+            <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
+                <option value="all">All Fixture Types</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
+                            </select>
+        </div>
+    </div>
+    <div class="panel_row search">
+        <div class="search_wrapper">
+            <input type="text" class="form-control" id="custom_dt_search" placeholder="🔍 Search test cases...">
+        </div>
+    </div>
+</div>
+<table id="test_table" class="display compact nowrap">
+    <thead>
+        <tr>
+            <th>Test ID (Abbreviated)</th>
+                        <th>input_data</th>
+                        <th>vector_gas_value</th>
+                        <th>expected_output</th>
+                        <th>precompile_address</th>
+                    </tr>
+    </thead>
+    <tbody>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_0--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_0--]">
+                    ...fork_Prague-state_test-isogeny_kernel_0--
+                </abbr>
+            </td>
+                        <td>FP(x=1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_1--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_1--]">
+                    ...fork_Prague-state_test-isogeny_kernel_1--
+                </abbr>
+            </td>
+                        <td>FP(x=861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_2--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_2--]">
+                    ...fork_Prague-state_test-isogeny_kernel_2--
+                </abbr>
+            </td>
+                        <td>FP(x=1006044755431560595281793557931171729984964515682961911911398807521437683216171091013202870577238485832047490326971)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_3--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_3--]">
+                    ...fork_Prague-state_test-isogeny_kernel_3--
+                </abbr>
+            </td>
+                        <td>FP(x=1562001338336877267717400325455189014780228097985596277514975439801739125527323838522116502949589758528550231396418)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_4--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_4--]">
+                    ...fork_Prague-state_test-isogeny_kernel_4--
+                </abbr>
+            </td>
+                        <td>FP(x=2271327980655849924096472376460625801249900033784935309133299460372536622850473967367201051801213471874555086217960)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_5--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_5--]">
+                    ...fork_Prague-state_test-isogeny_kernel_5--
+                </abbr>
+            </td>
+                        <td>FP(x=3140998864168905305116999238341094082253376923310959579796412851201896533814081908310962784672298826054629918684568)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_6--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_6--]">
+                    ...fork_Prague-state_test-isogeny_kernel_6--
+                </abbr>
+            </td>
+                        <td>FP(x=2996364799790106798135996267804732426571918304256045973420659328602593967274666773429484758551777178205846782232816)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_7--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-state_test-isogeny_kernel_7--]">
+                    ...fork_Prague-state_test-isogeny_kernel_7--
+                </abbr>
+            </td>
+                        <td>FP(x=2440408216884790125700389500280715141776654721953411607817082696322292524963514025920571126179425905509344041163369)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_0--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_0--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_0--
+                </abbr>
+            </td>
+                        <td>FP(x=1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_1--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_1--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_1--
+                </abbr>
+            </td>
+                        <td>FP(x=861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_2--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_2--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_2--
+                </abbr>
+            </td>
+                        <td>FP(x=1006044755431560595281793557931171729984964515682961911911398807521437683216171091013202870577238485832047490326971)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_3--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_3--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_3--
+                </abbr>
+            </td>
+                        <td>FP(x=1562001338336877267717400325455189014780228097985596277514975439801739125527323838522116502949589758528550231396418)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_4--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_4--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_4--
+                </abbr>
+            </td>
+                        <td>FP(x=2271327980655849924096472376460625801249900033784935309133299460372536622850473967367201051801213471874555086217960)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_5--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_5--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_5--
+                </abbr>
+            </td>
+                        <td>FP(x=3140998864168905305116999238341094082253376923310959579796412851201896533814081908310962784672298826054629918684568)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_6--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_6--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_6--
+                </abbr>
+            </td>
+                        <td>FP(x=2996364799790106798135996267804732426571918304256045973420659328602593967274666773429484758551777178205846782232816)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_7--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-isogeny_kernel_7--]">
+                    ...fork_Prague-blockchain_test_from_state_test-isogeny_kernel_7--
+                </abbr>
+            </td>
+                        <td>FP(x=2440408216884790125700389500280715141776654721953411607817082696322292524963514025920571126179425905509344041163369)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_0--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_0--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_0--
+                </abbr>
+            </td>
+                        <td>FP(x=1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_1--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_1--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_1--
+                </abbr>
+            </td>
+                        <td>FP(x=861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_2--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_2--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_2--
+                </abbr>
+            </td>
+                        <td>FP(x=1006044755431560595281793557931171729984964515682961911911398807521437683216171091013202870577238485832047490326971)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_3--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_3--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_3--
+                </abbr>
+            </td>
+                        <td>FP(x=1562001338336877267717400325455189014780228097985596277514975439801739125527323838522116502949589758528550231396418)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_4--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_4--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_4--
+                </abbr>
+            </td>
+                        <td>FP(x=2271327980655849924096472376460625801249900033784935309133299460372536622850473967367201051801213471874555086217960)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_5--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_5--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_5--
+                </abbr>
+            </td>
+                        <td>FP(x=3140998864168905305116999238341094082253376923310959579796412851201896533814081908310962784672298826054629918684568)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_6--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_6--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_6--
+                </abbr>
+            </td>
+                        <td>FP(x=2996364799790106798135996267804732426571918304256045973420659328602593967274666773429484758551777178205846782232816)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_7--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-state_test-isogeny_kernel_7--]">
+                    ...fork_Osaka-state_test-isogeny_kernel_7--
+                </abbr>
+            </td>
+                        <td>FP(x=2440408216884790125700389500280715141776654721953411607817082696322292524963514025920571126179425905509344041163369)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_0--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_0--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_0--
+                </abbr>
+            </td>
+                        <td>FP(x=1731081574565817469321317449275278355306982786154072576198758675751495027640363897075486577327802192163339186341827)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_1--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_1--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_1--
+                </abbr>
+            </td>
+                        <td>FP(x=861410691052762088300790587394810074303505896628048305535645284922135116676755956131724844456716837983264353875219)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_2--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_2--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_2--
+                </abbr>
+            </td>
+                        <td>FP(x=1006044755431560595281793557931171729984964515682961911911398807521437683216171091013202870577238485832047490326971)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_3--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_3--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_3--
+                </abbr>
+            </td>
+                        <td>FP(x=1562001338336877267717400325455189014780228097985596277514975439801739125527323838522116502949589758528550231396418)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_4--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_4--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_4--
+                </abbr>
+            </td>
+                        <td>FP(x=2271327980655849924096472376460625801249900033784935309133299460372536622850473967367201051801213471874555086217960)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_5--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_5--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_5--
+                </abbr>
+            </td>
+                        <td>FP(x=3140998864168905305116999238341094082253376923310959579796412851201896533814081908310962784672298826054629918684568)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_6--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_6--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_6--
+                </abbr>
+            </td>
+                        <td>FP(x=2996364799790106798135996267804732426571918304256045973420659328602593967274666773429484758551777178205846782232816)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_7--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_7--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-isogeny_kernel_7--
+                </abbr>
+            </td>
+                        <td>FP(x=2440408216884790125700389500280715141776654721953411607817082696322292524963514025920571126179425905509344041163369)</td>
+                        <td>None</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>16</td>
+                    </tr>
+            </tbody>
+</table>    </div>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.7/js/dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.colVis.min.js"></script>
+
+<script src="/execution-spec-tests/main/javascripts/site.js"></script>

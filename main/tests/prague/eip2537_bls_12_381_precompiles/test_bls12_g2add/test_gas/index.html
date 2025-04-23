@@ -15754,6 +15754,8 @@
       
         
       
+        
+      
     
     
       
@@ -15807,6 +15809,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp2_to_g2/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -15908,6 +15931,8 @@
       
         
       
+        
+      
     
     
       
@@ -15961,6 +15986,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp_to_g1/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -16131,11 +16177,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_multi_pair_invalid_inf/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_multi_pair_invalid_inf</code>
+    <code>test_invalid</code>
   </span>
   
 
@@ -16152,11 +16198,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_gas/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_invalid</code>
+    <code>test_gas</code>
   </span>
   
 
@@ -30344,7 +30390,7 @@
 
 
 <h1 id="test_gas"><code>test_gas()</code><a class="headerlink" href="#test_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py#L172"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py::test_gas@fbd9cb20</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b48d1dc81233af6e4d6c7c84e60e8eaa4067a288/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py#L383"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py::test_gas@b48d1dc8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py::test_gas --fork Prague</span>
@@ -30363,36 +30409,36 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g2add.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,precompile_gas_modifier&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>

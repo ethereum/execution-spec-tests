@@ -3691,6 +3691,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_isogeny_kernel_values/</loc>
+         <lastmod>2025-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_valid/</loc>
          <lastmod>2025-04-23</lastmod>
          <changefreq>daily</changefreq>
@@ -3716,6 +3721,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1/test_isogeny_kernel_values/</loc>
+         <lastmod>2025-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1/test_valid/</loc>
          <lastmod>2025-04-23</lastmod>
          <changefreq>daily</changefreq>
@@ -3731,12 +3741,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_invalid/</loc>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_gas/</loc>
          <lastmod>2025-04-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_multi_pair_invalid_inf/</loc>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_invalid/</loc>
          <lastmod>2025-04-23</lastmod>
          <changefreq>daily</changefreq>
     </url>

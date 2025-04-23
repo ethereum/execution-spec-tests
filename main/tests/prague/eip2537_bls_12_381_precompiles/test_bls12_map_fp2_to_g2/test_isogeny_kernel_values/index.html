@@ -10,7 +10,7 @@
       
       
       
-        <link rel="canonical" href="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_multi_pair_invalid_inf/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_isogeny_kernel_values/">
       
       
         <link rel="prev" href="../test_valid/">
@@ -24,7 +24,7 @@
     
     
       
-        <title>test_multi_pair_invalid_inf - Ethereum Execution Spec Tests</title>
+        <title>test_isogeny_kernel_values - Ethereum Execution Spec Tests</title>
       
     
     
@@ -66,11 +66,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="<code>test_multi_pair_invalid_inf</code> - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="<code>test_isogeny_kernel_values</code> - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_multi_pair_invalid_inf.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_isogeny_kernel_values.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,15 +78,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_multi_pair_invalid_inf/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_isogeny_kernel_values/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="<code>test_multi_pair_invalid_inf</code> - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="<code>test_isogeny_kernel_values</code> - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing/test_multi_pair_invalid_inf.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2/test_isogeny_kernel_values.png" >
       
     
     
@@ -111,7 +111,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test_multi_pair_invalid_inf" class="md-skip">
+        <a href="#test_isogeny_kernel_values" class="md-skip">
           Skip to content
         </a>
       
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>test_multi_pair_invalid_inf</code>
+              <code>test_isogeny_kernel_values</code>
             
           </span>
         </div>
@@ -15677,6 +15677,8 @@
                 
   
   
+    
+  
   
   
     
@@ -15694,22 +15696,24 @@
       
         
       
+        
+      
     
     
       
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_2_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_2_9" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../test_bls12_map_fp2_to_g2/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -15726,7 +15730,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_2_9_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_2_9_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10_3_2_9">
             <span class="md-nav__icon md-icon"></span>
             Test BLS12_MAP_FP2_TO_G2
@@ -15742,7 +15746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_map_fp2_to_g2/test_valid/" class="md-nav__link">
+      <a href="../test_valid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -15760,10 +15764,89 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_map_fp2_to_g2.test_isogeny_kernel_values" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_isogeny_kernel_values
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parametrized-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parametrized Test Cases
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_map_fp2_to_g2/test_invalid/" class="md-nav__link">
+      <a href="../test_invalid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -15784,7 +15867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_map_fp2_to_g2/test_gas/" class="md-nav__link">
+      <a href="../test_gas/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -15805,7 +15888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../test_bls12_map_fp2_to_g2/test_call_types/" class="md-nav__link">
+      <a href="../test_call_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -15838,6 +15921,8 @@
       
         
           
+        
+      
         
       
         
@@ -15901,6 +15986,27 @@
   
   <span class="md-ellipsis">
     <code>test_valid</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_map_fp_to_g1/test_isogeny_kernel_values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_isogeny_kernel_values</code>
   </span>
   
 
@@ -15985,8 +16091,6 @@
                 
   
   
-    
-  
   
   
     
@@ -16010,16 +16114,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_2_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_3_2_11" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../test_bls12_pairing/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -16036,7 +16140,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_2_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_10_3_2_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10_3_2_11">
             <span class="md-nav__icon md-icon"></span>
             Test BLS12_PAIRING_CHECK
@@ -16052,7 +16156,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_valid/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_valid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -16070,89 +16174,10 @@
                 
   
   
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    <code>test_multi_pair_invalid_inf</code>
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_multi_pair_invalid_inf</code>
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_pairing.test_multi_pair_invalid_inf" class="md-nav__link">
-    <span class="md-ellipsis">
-      test_multi_pair_invalid_inf
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#parametrized-test-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Parametrized Test Cases
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
-      <a href="../test_invalid/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_invalid/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -16173,7 +16198,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../test_call_types/" class="md-nav__link">
+      <a href="../../test_bls12_pairing/test_gas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_gas</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_bls12_pairing/test_call_types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -30311,9 +30357,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_pairing.test_multi_pair_invalid_inf" class="md-nav__link">
+  <a href="#tests.prague.eip2537_bls_12_381_precompiles.test_bls12_map_fp2_to_g2.test_isogeny_kernel_values" class="md-nav__link">
     <span class="md-ellipsis">
-      test_multi_pair_invalid_inf
+      test_isogeny_kernel_values
     </span>
   </a>
   
@@ -30343,11 +30389,11 @@
                   
 
 
-<h1 id="test_multi_pair_invalid_inf"><code>test_multi_pair_invalid_inf()</code><a class="headerlink" href="#test_multi_pair_invalid_inf" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbd9cb2043e09dd9139b432995b7a0b9550ffdbc/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py#L56"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf@fbd9cb20</code></a>.</p>
+<h1 id="test_isogeny_kernel_values"><code>test_isogeny_kernel_values()</code><a class="headerlink" href="#test_isogeny_kernel_values" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b48d1dc81233af6e4d6c7c84e60e8eaa4067a288/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L78"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values@b48d1dc8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf --fork Prague</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values --fork Prague</span>
 </code></pre></div>
 </div>
 
@@ -30356,66 +30402,77 @@
 
 
 
-<a id="tests.prague.eip2537_bls_12_381_precompiles.test_bls12_pairing.test_multi_pair_invalid_inf"></a>
+<a id="tests.prague.eip2537_bls_12_381_precompiles.test_bls12_map_fp2_to_g2.test_isogeny_kernel_values"></a>
     <div class="doc doc-contents first">
 
-      <p>Multi pair invalid infinity cases for the BLS12_PAIRING precompile.</p>
+      <p>Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists
+to align with the G1 test. <code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty so there are no cases.</p>
+<p>The isogeny kernel is simply the set of special field values, that after the two step mapping
+(first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly
+to the identity point.</p>
+<p>For the G2 case the only kernel element is the point at infinity, and SWU never produces the
+identity point from a finite input t. Hence <code>G2_FIELD_POINTS_MAP_TO_IDENTITY</code> is empty. Please
+proceed to the generator in <code>helpers.py</code> for more details.</p>
 
             <details class="quote">
-              <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
+              <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;input_data,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">G1</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">Spec</span><span class="o">.</span><span class="n">G2</span><span class="p">)),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">PAIRING_FALSE</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;multi_inf_g1_negG2&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">G1</span> <span class="o">+</span> <span class="p">(</span><span class="o">-</span><span class="n">Spec</span><span class="o">.</span><span class="n">G2</span><span class="p">))</span> <span class="o">+</span> <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">),</span>
-            <span class="n">Spec</span><span class="o">.</span><span class="n">PAIRING_FALSE</span><span class="p">,</span>
-            <span class="kc">None</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;g1_negG2_multi_inf&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;isogeny_kernel_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">G2_FIELD_POINTS_MAP_TO_IDENTITY</span><span class="p">)</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_multi_pair_invalid_inf</span><span class="p">(</span>
+<span class="k">def</span> <span class="nf">test_isogeny_kernel_values</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi pair invalid infinity cases for the BLS12_PAIRING precompile.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test the BLS12_MAP_FP2_TO_G2 precompile with isogeny kernel values. Note this test only exists</span>
+<span class="sd">    to align with the G1 test. `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty so there are no cases.</span>
+
+<span class="sd">    The isogeny kernel is simply the set of special field values, that after the two step mapping</span>
+<span class="sd">    (first SWU onto an auxiliary curve, then a 3-degree isogeny back to G2), collapse exactly</span>
+<span class="sd">    to the identity point.</span>
+
+<span class="sd">    For the G2 case the only kernel element is the point at infinity, and SWU never produces the</span>
+<span class="sd">    identity point from a finite input t. Hence `G2_FIELD_POINTS_MAP_TO_IDENTITY` is empty. Please</span>
+<span class="sd">    proceed to the generator in `helpers.py` for more details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
@@ -30427,7 +30484,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>The interactive table below is also available as a <a href="../test_multi_pair_invalid_inf.html">standalone page</a>.</p>
+<p>This test case is only parametrized by fork and fixture format.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -30472,8 +30529,8 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>input_data</th>
-                        <th>expected_output</th>
                         <th>vector_gas_value</th>
+                        <th>expected_output</th>
                         <th>precompile_address</th>
                     </tr>
     </thead>
@@ -30481,98 +30538,50 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-state_test-multi_inf_g1_negG2-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-state_test-multi_inf_g1_negG2-]">
-                    ...fork_Prague-state_test-multi_inf_g1_negG2-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Prague-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Prague-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]">
+                    ...fork_Prague-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--
                 </abbr>
             </td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-state_test-g1_negG2_multi_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-state_test-g1_negG2_multi_inf-]">
-                    ...fork_Prague-state_test-g1_negG2_multi_inf-
-                </abbr>
-            </td>
-                        <td><code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
+                        <td>NotSetType.token</td>
+                        <td>NotSetType.token</td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-blockchain_test_from_state_test-multi_inf_g1_negG2-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-blockchain_test_from_state_test-multi_inf_g1_negG2-]">
-                    ...fork_Prague-blockchain_test_from_state_test-multi_inf_g1_negG2-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Prague-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]">
+                    ...fork_Prague-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--
                 </abbr>
             </td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-blockchain_test_from_state_test-g1_negG2_multi_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Prague-blockchain_test_from_state_test-g1_negG2_multi_inf-]">
-                    ...fork_Prague-blockchain_test_from_state_test-g1_negG2_multi_inf-
-                </abbr>
-            </td>
-                        <td><code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
+                        <td>NotSetType.token</td>
+                        <td>NotSetType.token</td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-state_test-multi_inf_g1_negG2-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-state_test-multi_inf_g1_negG2-]">
-                    ...fork_Osaka-state_test-multi_inf_g1_negG2-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Osaka-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Osaka-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]">
+                    ...fork_Osaka-state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--
                 </abbr>
             </td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-state_test-g1_negG2_multi_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-state_test-g1_negG2_multi_inf-]">
-                    ...fork_Osaka-state_test-g1_negG2_multi_inf-
-                </abbr>
-            </td>
-                        <td><code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
+                        <td>NotSetType.token</td>
+                        <td>NotSetType.token</td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-blockchain_test_from_state_test-multi_inf_g1_negG2-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-blockchain_test_from_state_test-multi_inf_g1_negG2-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-multi_inf_g1_negG2-
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values[fork_Osaka-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--]">
+                    ...fork_Osaka-blockchain_test_from_state_test-input_data_NotSetType.token-vector_gas_value_NotSetType.token--
                 </abbr>
             </td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-blockchain_test_from_state_test-g1_negG2_multi_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_multi_pair_invalid_inf[fork_Osaka-blockchain_test_from_state_test-g1_negG2_multi_inf-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-g1_negG2_multi_inf-
-                </abbr>
-            </td>
-                        <td><code>00000000000000000000000000000000</code> <code>17f1d3a73197d7942695638c4fa9ac0f</code> <code>c3688c4f9774b905a14e3a3f171bac58</code> <code>6c55e83ff97a1aeffb3af00adb22c6bb</code> <code>00000000000000000000000000000000</code> <code>08b3f481e3aaa0f1a09e30ed741d8ae4</code> <code>fcf5e095d5d00af600db18cb2c04b3ed</code> <code>d03cc744a2888ae40caa232946c5e7e1</code> <code>00000000000000000000000000000000</code> <code>024aa2b2f08f0a91260805272dc51051</code> <code>c6e47ad4fa403b02b4510b647ae3d177</code> <code>0bac0326a805bbefd48056c8c121bdb8</code> <code>00000000000000000000000000000000</code> <code>13e02b6052719f607dacd3a088274f65</code> <code>596bd0d09920b61ab5da61bbdc7f5049</code> <code>334cf11213945d57e5ac7d055d042b7e</code> <code>00000000000000000000000000000000</code> <code>0d1b3cc2c7027888be51d9ef691d77bc</code> <code>b679afda66c73f17f9ee3837a55024f7</code> <code>8c71363275a75d75d86bab79f74782aa</code> <code>00000000000000000000000000000000</code> <code>13fa4d4a0ad8b1ce186ed5061789213d</code> <code>993923066dddaf1040bc3ff59f825c78</code> <code>df74f2d75467e25e0f55f8a00fa030ed</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
-                        <td>None</td>
-                        <td>15</td>
+                        <td>NotSetType.token</td>
+                        <td>NotSetType.token</td>
+                        <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
                     </tr>
             </tbody>
 </table>
