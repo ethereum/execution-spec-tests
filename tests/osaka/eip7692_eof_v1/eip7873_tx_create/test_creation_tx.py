@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_base_types.base_types import Bytes
+from ethereum_test_base_types.base_types import Address, Bytes
 from ethereum_test_exceptions.exceptions import TransactionException
 from ethereum_test_tools import (
     Account,
@@ -13,6 +13,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.code.generators import Initcode as LegacyInitcode
 from ethereum_test_types.eof.v1 import Container
+from tests.prague.eip7702_set_code_tx.spec import Spec
 
 from .. import EOF_FORK_NAME
 from ..eip7620_eof_create.helpers import (
@@ -130,7 +131,7 @@ def test_legacy_create_tx_eof_initcode(
         Bytes("0xEF"),
         Bytes("0xEF01"),
         Bytes("0xEF0101"),
-        Bytes("0xEF01" + "".join("ab")),
+        Spec.delegation_designation(Address(0xAA)),
         Bytes("0xEF02"),
     ],
 )
