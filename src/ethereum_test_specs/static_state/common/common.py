@@ -138,7 +138,7 @@ class CodeInFillerSource:
                 return function_signature + function_parameters
             return function_signature
 
-        # Prase plain code 0x
+        # Parse plain code 0x
         elif self.code_raw.lstrip().startswith("0x"):
             compiled_code = self.code_raw[2:].lower()
 
