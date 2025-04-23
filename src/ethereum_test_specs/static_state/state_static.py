@@ -64,6 +64,11 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                         )
             pytest.fail(f"Expectation not found for d={d}, g={g}, v={v}, fork={fork}")
 
+        if self.info and self.info.pytest_marks:
+            for mark in self.info.pytest_marks:
+                apply_mark = getattr(pytest.mark, mark)
+                test_state_vectors = apply_mark(test_state_vectors)
+
         return test_state_vectors
 
     def get_valid_at_forks(self) -> List[str]:

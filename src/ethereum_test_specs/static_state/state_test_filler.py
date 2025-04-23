@@ -17,7 +17,8 @@ from .general_transaction import GeneralTransactionInFiller
 class Info(BaseModel):
     """Class that represents an info filler."""
 
-    comment: str
+    comment: str | None = Field(None)
+    pytest_marks: List[str] = Field(default_factory=list)
 
 
 class StateTestInFiller(BaseModel):
