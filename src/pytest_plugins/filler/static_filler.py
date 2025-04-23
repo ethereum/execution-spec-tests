@@ -190,6 +190,13 @@ class FillerFile(pytest.File):
                     )
                     intersection_set = get_intersection_set(key, validity_markers, self.config)
 
+                    extra_function_marks: List[pytest.Mark] = [
+                        mark
+                        for mark in function_marks
+                        if mark.name != "parametrize"
+                        and (mark.name not in [v.mark.name for v in validity_markers])
+                    ]
+
                     for format_with_or_without_label in fixture_formats:
                         fixture_format_parameter_set = labeled_format_parameter_set(
                             format_with_or_without_label
@@ -221,11 +228,15 @@ class FillerFile(pytest.File):
                                 )
                                 for parameter_set in parameter_set_list:
                                     # Copy and extend the params with the parameter set
-                                    case_marks = marks[:] + [
-                                        mark
-                                        for mark in parameter_set.marks
-                                        if mark.name != "parametrize"
-                                    ]
+                                    case_marks = (
+                                        marks[:]
+                                        + [
+                                            mark
+                                            for mark in parameter_set.marks
+                                            if mark.name != "parametrize"
+                                        ]
+                                        + extra_function_marks
+                                    )
                                     case_params = params.copy() | dict(
                                         zip(parameter_names, parameter_set.values, strict=True)
                                     )
@@ -291,7 +302,10 @@ class FillerTestItem(pytest.Item):
         self.fork = fork
         self.fixture_format = fixture_format
         for marker in marks:
-            self.add_marker(marker)  # type: ignore
+            if type(marker) is pytest.Mark:
+                self.own_markers.append(marker)
+            else:
+                self.add_marker(marker)  # type: ignore
 
     def setup(self):
         """Resolve and apply fixtures before test execution."""
