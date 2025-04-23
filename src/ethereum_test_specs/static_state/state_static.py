@@ -4,6 +4,7 @@ from functools import cached_property
 from typing import Any, Callable, ClassVar, Dict, List, Tuple
 
 import pytest
+from _pytest.mark.structures import ParameterSet
 
 from ethereum_test_base_types import Address, Hash, HexNumber, Storage, ZeroPaddedHexNumber
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
@@ -32,7 +33,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
-        d_g_v_parameters: List[pytest.ParameterSet] = []
+        d_g_v_parameters: List[ParameterSet] = []
         for d in range(len(self.transaction.data)):
             for g in range(len(self.transaction.gas_limit)):
                 for v in range(len(self.transaction.value)):

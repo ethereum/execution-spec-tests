@@ -86,7 +86,7 @@ def get_all_combinations_from_parametrize_marks(
     test_ids = set()
     for combination in itertools.product(*list_of_values):
         values: List[Any] = []
-        marks: List[pytest.Mark] = []
+        marks: List[pytest.Mark | pytest.MarkDecorator] = []
         for param_set in combination:
             values.extend(param_set.values)
             marks.extend(param_set.marks)
