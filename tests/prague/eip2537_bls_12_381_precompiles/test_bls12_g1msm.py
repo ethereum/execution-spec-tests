@@ -26,46 +26,6 @@ pytestmark = [
     # Test vectors from the reference spec (from the cryptography team)
     vectors_from_file("msm_G1_bls.json")
     + [
-        # Single pair scalar multiplication cases.
-        pytest.param(
-            Spec.INF_G1 + Scalar(0),
-            Spec.INF_G1,
-            None,
-            id="single_inf_times_zero",
-        ),
-        pytest.param(
-            Spec.INF_G1 + Scalar(1),
-            Spec.INF_G1,
-            None,
-            id="single_inf_times_one",
-        ),
-        pytest.param(
-            Spec.G1 + Scalar(0),
-            Spec.INF_G1,
-            None,
-            id="single_generator_times_zero",
-        ),
-        pytest.param(
-            Spec.G1 + Scalar(1),
-            Spec.G1,
-            None,
-            id="single_generator_times_one",
-        ),
-        pytest.param(
-            Spec.P1 + Scalar(Spec.Q),
-            Spec.INF_G1,
-            None,
-            id="single_point_times_q",
-        ),
-        pytest.param(
-            Spec.P1 + Scalar(2**256 - 1),
-            PointG1(
-                0x3DA1F13DDEF2B8B5A46CD543CE56C0A90B8B3B0D6D43DEC95836A5FD2BACD6AA8F692601F870CF22E05DDA5E83F460B,  # noqa: E501
-                0x18D64F3C0E9785365CBDB375795454A8A4FA26F30B9C4F6E33CA078EB5C29B7AEA478B076C619BC1ED22B14C95569B2D,  # noqa: E501
-            ),
-            None,
-            id="single_point_times_max_scalar",
-        ),
         # Multiple pair scalar multiplication cases.
         pytest.param(
             Spec.G1 + Scalar(1) + Spec.INF_G1 + Scalar(1),
@@ -145,30 +105,6 @@ def test_valid(
     vectors_from_file("fail-msm_G1_bls.json")
     + [
         pytest.param(
-            PointG1(0, 1) + Scalar(0),
-            id="invalid_point_1",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y - 1) + Scalar(0),
-            id="invalid_point_2",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y + 1) + Scalar(0),
-            id="invalid_point_3",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.x) + Scalar(0),
-            id="invalid_point_4",
-        ),
-        pytest.param(
-            b"\x80" + bytes(Spec.INF_G1)[1:] + Scalar(0),
-            id="invalid_encoding",
-        ),
-        pytest.param(
-            b"\x80" + bytes(Spec.INF_G1)[1:] + Scalar(0),
-            id="invalid_encoding",
-        ),
-        pytest.param(
             Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
             id="not_in_subgroup_1",
         ),
@@ -179,34 +115,6 @@ def test_valid(
         pytest.param(
             Spec.G1,
             id="bls_g1_truncated_input",
-        ),
-        pytest.param(
-            PointG1(0, 1) + Scalar(0),
-            id="invalid_point_1",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y - 1) + Scalar(0),
-            id="invalid_point_2",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y + 1) + Scalar(0),
-            id="invalid_point_3",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.x) + Scalar(0),
-            id="invalid_point_4",
-        ),
-        pytest.param(
-            b"\x80" + bytes(Spec.INF_G1)[1:] + Scalar(0),
-            id="invalid_encoding",
-        ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP + Scalar(Spec.Q),
-            id="not_in_subgroup_1",
-        ),
-        pytest.param(
-            Spec.P1_NOT_IN_SUBGROUP_TIMES_2 + Scalar(Spec.Q),
-            id="not_in_subgroup_2",
         ),
         pytest.param(
             G1_POINTS_NOT_IN_SUBGROUP[0] + Scalar(0),
@@ -223,10 +131,6 @@ def test_valid(
         pytest.param(
             G1_POINTS_NOT_ON_CURVE[1] + Scalar(1),
             id="not_on_curve_1",
-        ),
-        pytest.param(
-            Spec.G1,
-            id="bls_g1_truncated_input",
         ),
         pytest.param(
             Spec.G1 + Scalar(1) + Spec.G1,
