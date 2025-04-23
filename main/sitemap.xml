@@ -4136,6 +4136,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_calls/</loc>
+         <lastmod>2025-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_calls/test_delegate_call_targets/</loc>
+         <lastmod>2025-04-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_gas/</loc>
          <lastmod>2025-04-23</lastmod>
          <changefreq>daily</changefreq>
