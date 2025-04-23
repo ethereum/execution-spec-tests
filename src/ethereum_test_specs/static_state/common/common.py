@@ -70,7 +70,7 @@ class CodeInFillerSource:
         if not isinstance(self.code_raw, str):
             raise ValueError(f"parse_code(code: str) code is not string: {self.code_raw}")
         if len(self.code_raw) == 0:
-            return bytes.fromhex("")
+            return b""
 
         compiled_code = ""
 
@@ -81,11 +81,11 @@ class CodeInFillerSource:
         yul_marker = ":yul"
         yul_index = self.code_raw.find(yul_marker)
 
-        # Prase :raw
+        # Parse :raw
         if raw_index != -1:
             compiled_code = self.code_raw[raw_index + len(raw_marker) :]
 
-        # Prase :yul
+        # Parse :yul
         elif yul_index != -1:
             option_start = yul_index + len(yul_marker)
             options: list[str] = []
@@ -113,7 +113,7 @@ class CodeInFillerSource:
                 optimize=options[1] if len(options) >= 2 else None,
             )[2:]
 
-        # Prase :abi
+        # Parse :abi
         elif abi_index != -1:
             abi_encoding = self.code_raw[abi_index + len(abi_marker) + 1 :]
             tokens = abi_encoding.strip().split()
@@ -143,7 +143,7 @@ class CodeInFillerSource:
         elif self.code_raw.lstrip().startswith("0x"):
             compiled_code = self.code_raw[2:].lower()
 
-        # Prase lllc code
+        # Parse lllc code
         elif self.code_raw.lstrip().startswith("{") or self.code_raw.lstrip().startswith("(asm"):
             with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
                 tmp.write(self.code_raw)
