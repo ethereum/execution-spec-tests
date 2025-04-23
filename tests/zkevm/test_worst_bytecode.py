@@ -47,7 +47,7 @@ def test_worst_bytecode(
     attack_code = sum(
         [(Op.EXTCODESIZE(contract_addrs[i]) + Op.POP) for i in range(num_called_contracts)]
     )
-    attack_contract = pre.deploy_contract(code=attack_code)
+    attack_contract = pre.deploy_contract(code=bytes(attack_code))
 
     tx = Transaction(
         to=attack_contract,
