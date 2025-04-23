@@ -40,8 +40,9 @@ def test_worst_bytecode(
 
     contract_addrs = []
     for i in range(num_called_contracts):
-        code = Op.JUMPDEST * (MAX_CONTRACT_SIZE - 1 - 10) + Op.PUSH10(i)
-        contract_addrs.append(pre.deploy_contract(code=code))
+        contract_addrs.append(
+            pre.deploy_contract(code=Op.JUMPDEST * (MAX_CONTRACT_SIZE - 1 - 10) + Op.PUSH10(i))
+        )
 
     attack_code = sum(
         [(Op.EXTCODESIZE(contract_addrs[i]) + Op.POP) for i in range(num_called_contracts)]
