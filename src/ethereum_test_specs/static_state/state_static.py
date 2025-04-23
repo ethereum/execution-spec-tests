@@ -32,11 +32,23 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
 
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
+        d_g_v_parameters: List[pytest.ParameterSet] = []
+        for d in range(len(self.transaction.data)):
+            for g in range(len(self.transaction.gas_limit)):
+                for v in range(len(self.transaction.value)):
+                    exception_test = False
+                    for expect in self.expect:
+                        if expect.has_index(d, g, v) and expect.expect_exception is not None:
+                            exception_test = True
+                    # TODO: This does not take into account exceptions that only happen on
+                    #       specific forks, but this requires a covariant parametrize
+                    marks = [pytest.mark.exception_test] if exception_test else []
+                    d_g_v_parameters.append(
+                        pytest.param(d, g, v, marks=marks, id=f"d{d}-g{g}-v{v}")
+                    )
 
         @pytest.mark.valid_at(*self.get_valid_at_forks())
-        @pytest.mark.parametrize("d", range(len(self.transaction.data)))
-        @pytest.mark.parametrize("g", range(len(self.transaction.gas_limit)))
-        @pytest.mark.parametrize("v", range(len(self.transaction.value)))
+        @pytest.mark.parametrize("d,g,v", d_g_v_parameters)
         def test_state_vectors(
             state_test: StateTestFiller,
             fork: Fork,
