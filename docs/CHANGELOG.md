@@ -37,6 +37,7 @@ This feature can be disabled by using `--disable-strict-exception-matching` for 
 - ✨ The `static_filler` plug-in now has support for static state tests (from [GeneralStateTests](https://github.com/ethereum/tests/tree/develop/src/GeneralStateTestsFiller)) ([#1362](https://github.com/ethereum/execution-spec-tests/pull/1362)).
 - ✨ Introduce `pytest.mark.exception_test` to mark tests that contain an invalid transaction or block ([#1436](https://github.com/ethereum/execution-spec-tests/pull/1436)).
 - 🐞 Fix `DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.` by avoiding use `itertools` object in the spec `BaseTest` pydantic model ([#1414](https://github.com/ethereum/execution-spec-tests/pull/1414)).
+- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
 
 #### `consume`
 
