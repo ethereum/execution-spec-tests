@@ -6,6 +6,11 @@ develop:
   impl: eels
   repo: null
   ref: null
+legacy:
+  impl: evmone
+  repo: ethereum/evmone
+  ref: master
+  targets: ["evmone-t8n", "evmone-eofparse"]
 eip7692:
   impl: evmone
   repo: ethereum/evmone
