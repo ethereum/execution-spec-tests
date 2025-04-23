@@ -259,7 +259,6 @@ class BesuExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_BLOB_GAS_USED: (
             "Payload BlobGasUsed does not match calculated BlobGasUsed"
         ),
-        BlockException.SYSTEM_CONTRACT_EMPTY: "Invalid system call, no code at address",
         # TODO EVMONE needs to differentiate when the section is missing in the header or body
         EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",
         EOFException.MISSING_CODE_HEADER: "err: code_section_missing",
@@ -311,6 +310,10 @@ class BesuExceptionMapper(ExceptionMapper):
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
             r"System call halted|System call did not execute to completion"
+        ),
+        BlockException.SYSTEM_CONTRACT_EMPTY: (
+            r"(Invalid system call, no code at address)|"
+            r"(Invalid system call address:)"
         ),
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"transaction invalid Initcode size of \d+ exceeds maximum size of \d+"
