@@ -208,7 +208,7 @@ class FillerFile(pytest.File):
                             if isinstance(format_with_or_without_label, LabeledFixtureFormat)
                             else format_with_or_without_label
                         )
-                        for fork in intersection_set:
+                        for fork in sorted(intersection_set):
                             params: Dict[str, Any] = {spec_parameter_name: fixture_format}
                             fixturenames = [
                                 spec_parameter_name,
