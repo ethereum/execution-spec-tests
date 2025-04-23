@@ -86,8 +86,10 @@ def get_all_combinations_from_parametrize_marks(
     test_ids = set()
     for combination in itertools.product(*list_of_values):
         values: List[Any] = []
+        marks: List[pytest.Mark] = []
         for param_set in combination:
             values.extend(param_set.values)
+            marks.extend(param_set.marks)
         test_id = "-".join([param.id or "" for param in combination])
         if test_id in test_ids:
             current_int = 2
@@ -97,7 +99,7 @@ def get_all_combinations_from_parametrize_marks(
         all_value_combinations.append(
             ParameterSet(
                 values=values,
-                marks=[],
+                marks=marks,
                 id=test_id,
             )
         )
