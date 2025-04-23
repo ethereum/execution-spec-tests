@@ -12,6 +12,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `fill`
 
+- 🐞 Fix the reported fixture source URLs for the case of auto-generated tests ([#1488](https://github.com/ethereum/execution-spec-tests/pull/1488)).
+
 #### `consume`
 
 ### 📋 Misc
