@@ -1691,6 +1691,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixtures_static" class="md-nav__link">
+    <span class="md-ellipsis">
+      fixtures_static
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -31219,6 +31234,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixtures_static" class="md-nav__link">
+    <span class="md-ellipsis">
+      fixtures_static
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -31990,6 +32020,11 @@
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking</p>
 <h2 id="unreleased">🔜 [Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
+<h4 id="fixtures_static"><code>fixtures_static</code><a class="headerlink" href="#fixtures_static" title="Permanent link">&para;</a></h4>
+<p>A new fixture tarball has been included in this release: <code>fixtures_static.tar.gz</code>.</p>
+<p>This tarball contains all tests inside of <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static"><code>./tests/static</code></a>, which at this point only contains all tests copied from <a href="https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller"><code>GeneralStateTests</code> in <code>ethereum/tests@7dc757ec132e372b6178a016b91f4c639f366c02</code></a>.</p>
+<p>The tests have been filled using the new static test filler introduced in <a href="https://github.com/ethereum/execution-spec-tests/pull/1336">#1336</a>, and enhanced in <a href="https://github.com/ethereum/execution-spec-tests/pull/1362">#1362</a> and <a href="https://github.com/ethereum/execution-spec-tests/pull/1439">#1439</a>.</p>
+<p>Users can expect that all tests currently living in <a href="https://github.com/ethereum/tests/tree/develop/src">ethereum/tests</a> should eventually make its way into <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static"><code>./tests/static</code></a> and can rely that these tests, filled for new forks even, will be included in <code>fixtures_static.tar.gz</code>.</p>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
@@ -32001,7 +32036,7 @@
 <ul>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702">EIP-7702</a>: Test that DELEGATECALL to a 7702 target works as intended (<a href="https://github.com/ethereum/execution-spec-tests/pull/1485">#1485</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-2537">EIP-2573</a>: Includes a BLS12 point generator, alongside additional coverage many of the precompiles (<a href="https://github.com/ethereum/execution-spec-tests/pull/1350">#1350</a>).</li>
-<li>✨ Add all <a href="https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller"><code>GeneralStateTests</code> from <code>ethereum/tests</code></a> to <code>execution-spec-tests</code> located now at <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/legacy/state_tests">tests/legacy/state_tests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1442">#1442</a>).</li>
+<li>✨ Add all <a href="https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller"><code>GeneralStateTests</code> from <code>ethereum/tests</code></a> to <code>execution-spec-tests</code> located now at <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests">tests/static/state_tests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1442">#1442</a>).</li>
 </ul>
 <h2 id="v430-2025-04-18"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0">v4.3.0</a> - 2025-04-18<a class="headerlink" href="#v430-2025-04-18" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
