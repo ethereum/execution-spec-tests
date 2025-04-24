@@ -7,8 +7,8 @@ develop:
   evm-type: develop
   fill-params: --until=Prague
   solc: 0.8.21
-legacy:
-  evm-type: legacy
+static:
+  evm-type: static
   fill-params: --until=Prague --fill-static-tests ./tests/legacy
   solc: 0.8.21
 eip7692:
