@@ -13812,6 +13812,8 @@
       
         
       
+        
+      
     
     
       
@@ -13886,6 +13888,27 @@
   
   <span class="md-ellipsis">
     <code>test_legacy_create_tx_eof_initcode</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_legacy_create_tx_prefix_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_legacy_create_tx_prefix_initcode</code>
   </span>
   
 
@@ -30421,7 +30444,7 @@
 
 
 <h1 id="test-creation-tx">Test Creation Tx<a class="headerlink" href="#test-creation-tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9bcbe5d01b0ac26dbca309d8fa695a9baee65ab0/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L26"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py@9bcbe5d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/33d4484d47817a3db630befb4422e7c61a6ae3a3/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L30"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py@33d4484d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py --fork Osaka</span>
@@ -30464,14 +30487,20 @@
 <tr>
 <td><a href="test_legacy_create_tx_legacy_initcode_eof_bytecode/"><code>test_legacy_create_tx_legacy_initcode_eof_bytecode</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>18</td>
 <td>Test that a legacy contract creation tx cannot create EOF code.</td>
 </tr>
 <tr>
 <td><a href="test_legacy_create_tx_eof_initcode/"><code>test_legacy_create_tx_eof_initcode</code></a></td>
 <td>state_test</td>
-<td>3</td>
-<td>Test that a legacy contract creation tx cannot use EOF initcode.</td>
+<td>12</td>
+<td>Test that a legacy contract creation tx with EOF initcode (or anything starting with</td>
+</tr>
+<tr>
+<td><a href="test_legacy_create_tx_prefix_initcode/"><code>test_legacy_create_tx_prefix_initcode</code></a></td>
+<td>state_test</td>
+<td>15</td>
+<td>Test that a legacy contract creation tx behaves as it did before EIP-7873 for</td>
 </tr>
 </tbody>
 </table>

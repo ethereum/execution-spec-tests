@@ -11,7 +11,7 @@
 </head>
 <div class="stand_alone_container">
         <h1>Test Function: <code>test_legacy_create_tx_eof_initcode()</code></h1>
-        <p>Test that a legacy contract creation tx cannot use EOF initcode.</p>
+        <p>Test that a legacy contract creation tx with EOF initcode (or anything starting with</p>
     <p><a href="./test_legacy_create_tx_eof_initcode/">Back to <code>test_legacy_create_tx_eof_initcode()</code></a>.</p>
         <h2>Parametrized Test Cases</h2>
     <div class="control_panel">
@@ -57,62 +57,249 @@
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>tx_type</th>
+                        <th>initcode</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test]">
-                    ...fork_Osaka-tx_type_2-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_0xef00
                 </abbr>
             </td>
                         <td>2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test
-                </abbr>
-            </td>
-                        <td>2</td>
+                        <td><code>0xef00</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test]">
-                    ...fork_Osaka-tx_type_1-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_0xef0001
                 </abbr>
             </td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test
-                </abbr>
-            </td>
-                        <td>1</td>
+                        <td>2</td>
+                        <td><code>0xef0001</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test]">
-                    ...fork_Osaka-tx_type_0-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
                 </abbr>
             </td>
-                        <td>0</td>
+                        <td>2</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>Initcode Subcontainer</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_0xef00
                 </abbr>
             </td>
                         <td>0</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_eof_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>Initcode Subcontainer</td>
                     </tr>
             </tbody>
 </table>    </div>
