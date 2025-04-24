@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_eofcreate_insufficient_stipend"><code>test_eofcreate_insufficient_stipend()</code><a class="headerlink" href="#test_eofcreate_insufficient_stipend" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L330"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L341"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_insufficient_stipend --fork Osaka</span>
@@ -30522,18 +30522,7 @@ pay the stipend.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">341</span>
 <span class="normal">342</span>
 <span class="normal">343</span>
 <span class="normal">344</span>
@@ -30572,7 +30561,18 @@ pay the stipend.</p>
 <span class="normal">377</span>
 <span class="normal">378</span>
 <span class="normal">379</span>
-<span class="normal">380</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;1_wei&quot;</span><span class="p">),</span>

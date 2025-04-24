@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_txcreate_invalid_hash"><code>test_txcreate_invalid_hash()</code><a class="headerlink" href="#test_txcreate_invalid_hash" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L102"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L102"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash --fork Osaka</span>
@@ -30553,14 +30553,31 @@
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;initcode_hash&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;00&quot;</span> <span class="o">*</span> <span class="mi">32</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;FF&quot;</span> <span class="o">*</span> <span class="mi">32</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;EF01&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">(),</span>
+        <span class="n">smallest_runtime_subcontainer</span><span class="o">.</span><span class="n">hash</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_initcode_count&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">256</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_txcreate_invalid_hash</span><span class="p">(</span>
-    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">tx_initcode_count</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">tx_initcode_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">initcode_hash</span><span class="p">:</span> <span class="n">Hash</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies proper handling of REVERT in initcode.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">initcode_hash</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">keccak256</span><span class="p">()</span>
 
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
@@ -30575,13 +30592,12 @@
                 <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">TXCREATE_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">smallest_initcode_subcontainer</span><span class="p">]</span> <span class="o">*</span> <span class="n">tx_initcode_count</span><span class="p">,</span>
     <span class="p">)</span>
@@ -30636,128 +30652,669 @@
             <th>Test ID (Abbreviated)</th>
                         <th>evm_code_type</th>
                         <th>tx_initcode_count</th>
+                        <th>initcode_hash</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1]">
-                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>LEGACY</td>
                         <td>1</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255]">
-                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256]">
-                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256
-                </abbr>
-            </td>
-                        <td>LEGACY</td>
-                        <td>256</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
                 </abbr>
             </td>
                         <td>LEGACY</td>
                         <td>1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>LEGACY</td>
                         <td>255</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256]">
-                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>LEGACY</td>
                         <td>256</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>1</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>255</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_LEGACY-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>LEGACY</td>
+                        <td>256</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>EOF_V1</td>
                         <td>1</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255
-                </abbr>
-            </td>
-                        <td>EOF_V1</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256
-                </abbr>
-            </td>
-                        <td>EOF_V1</td>
-                        <td>256</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
                 </abbr>
             </td>
                         <td>EOF_V1</td>
                         <td>1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>EOF_V1</td>
                         <td>255</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
                     </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
+                <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256]">
-                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
                 </abbr>
             </td>
                         <td>EOF_V1</td>
                         <td>256</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_1-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>1</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_255-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>255</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xc5d2460186f7233c927e7db2dcc703</code> <code>c0e500b653ca82273b7bfad8045d85a4</code> <code>70</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0x0000000000000000000000000000000000000000000000000000000000000000
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0x000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xffffffffffffffffffffffffffffff</code> <code>ffffffffffffffffffffffffffffffff</code> <code>ff</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xeadcdba66a79ab5dce91622d1d75c8cff5cff0b96944c3bf1072cd08ce018329
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xeadcdba66a79ab5dce91622d1d75c8</code> <code>cff5cff0b96944c3bf1072cd08ce0183</code> <code>29</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_txcreate_invalid_hash[fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb]">
+                    ...fork_Osaka-evm_code_type_EOF_V1-blockchain_test_from_state_test-tx_initcode_count_256-initcode_hash_0xff16f59977af11499c4b7c645c590082c93b284d5ea06c93e0c04e212bfcaacb
+                </abbr>
+            </td>
+                        <td>EOF_V1</td>
+                        <td>256</td>
+                        <td><code>0xff16f59977af11499c4b7c645c5900</code> <code>82c93b284d5ea06c93e0c04e212bfcaa</code> <code>cb</code></td>
                     </tr>
             </tbody>
 </table>

@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_txcreate_then_call"><code>test_txcreate_then_call()</code><a class="headerlink" href="#test_txcreate_then_call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py#L115"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_call@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py#L111"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_call@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_call --fork Osaka</span>
@@ -30521,7 +30521,11 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
@@ -30564,13 +30568,7 @@
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span> <span class="nf">test_txcreate_then_call</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">evm_code_type</span><span class="p">:</span> <span class="n">EVMCodeType</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verifies a simple TXCREATE case, and then calls the deployed contract.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
@@ -30614,8 +30612,6 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">callable_contract_initcode</span><span class="p">],</span>
     <span class="p">)</span>

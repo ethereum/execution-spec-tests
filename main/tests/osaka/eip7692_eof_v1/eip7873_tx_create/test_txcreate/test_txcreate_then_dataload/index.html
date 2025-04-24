@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_txcreate_then_dataload"><code>test_txcreate_then_dataload()</code><a class="headerlink" href="#test_txcreate_then_dataload" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py#L68"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_dataload@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py#L66"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_dataload@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py::test_txcreate_then_dataload --fork Osaka</span>
@@ -30521,7 +30521,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
 <span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
@@ -30561,11 +30563,7 @@
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_txcreate_then_dataload</span><span class="p">(</span>
+<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_txcreate_then_dataload</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -30604,8 +30602,6 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">10_000_000</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">small_auxdata_container</span><span class="p">],</span>
     <span class="p">)</span>

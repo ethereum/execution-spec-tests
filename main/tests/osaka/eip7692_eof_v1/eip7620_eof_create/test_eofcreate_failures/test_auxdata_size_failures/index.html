@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_auxdata_size_failures"><code>test_auxdata_size_failures()</code><a class="headerlink" href="#test_auxdata_size_failures" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L262"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L269"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_auxdata_size_failures --fork Osaka</span>
@@ -30521,14 +30521,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">269</span>
 <span class="normal">270</span>
 <span class="normal">271</span>
 <span class="normal">272</span>
@@ -30586,7 +30579,18 @@
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
-<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;auxdata_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">MAX_BYTECODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">smallest_runtime_subcontainer</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;maxcode&quot;</span><span class="p">),</span>
@@ -30631,15 +30635,19 @@
 
     <span class="c1"># Storage in 0 will have address in first test, 0 in all other cases indicating failure</span>
     <span class="c1"># Storage 1 in 1 is a canary to see if EOFCREATE opcode halted</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="n">deployed_container_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">deployed_container_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
+                <span class="k">if</span> <span class="n">success</span>
                 <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">success</span>
+        <span class="k">else</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

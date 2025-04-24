@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_eofcreate_deploy_sizes"><code>test_eofcreate_deploy_sizes()</code><a class="headerlink" href="#test_eofcreate_deploy_sizes" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L148"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L151"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_eofcreate_deploy_sizes --fork Osaka</span>
@@ -30521,10 +30521,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
@@ -30609,7 +30606,14 @@
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;target_deploy_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x4000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;large&quot;</span><span class="p">),</span>
@@ -30679,15 +30683,19 @@
     <span class="c1"># Storage in 0 should have the address,</span>
     <span class="c1"># Storage 1 is a canary of 1 to make sure it tried to execute, which also covers cases of</span>
     <span class="c1">#   data+code being greater than initcode_size_max, which is allowed.</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="n">target_deploy_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">target_deploy_size</span> <span class="o">&lt;=</span> <span class="n">MAX_BYTECODE_SIZE</span>
+                <span class="k">if</span> <span class="n">success</span>
                 <span class="k">else</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">success</span>
+        <span class="k">else</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>

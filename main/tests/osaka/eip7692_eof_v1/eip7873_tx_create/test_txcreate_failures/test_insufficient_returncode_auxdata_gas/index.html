@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_insufficient_returncode_auxdata_gas"><code>test_insufficient_returncode_auxdata_gas()</code><a class="headerlink" href="#test_insufficient_returncode_auxdata_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L485"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_returncode_auxdata_gas@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L490"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_returncode_auxdata_gas@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_returncode_auxdata_gas --fork Osaka</span>
@@ -30521,12 +30521,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
 <span class="normal">493</span>
@@ -30580,7 +30575,10 @@
 <span class="normal">541</span>
 <span class="normal">542</span>
 <span class="normal">543</span>
-<span class="normal">544</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span> <span class="nf">test_insufficient_returncode_auxdata_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -30633,8 +30631,6 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">initcode_container</span><span class="p">],</span>
     <span class="p">)</span>

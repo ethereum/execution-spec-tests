@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_insufficient_initcode_gas"><code>test_insufficient_initcode_gas()</code><a class="headerlink" href="#test_insufficient_initcode_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L376"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_initcode_gas@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L385"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_initcode_gas@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_insufficient_initcode_gas --fork Osaka</span>
@@ -30521,16 +30521,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
@@ -30572,7 +30563,14 @@
 <span class="normal">424</span>
 <span class="normal">425</span>
 <span class="normal">426</span>
-<span class="normal">427</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span> <span class="nf">test_insufficient_initcode_gas</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Excercises an TXCREATE when there is not enough gas for the constant charge.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
@@ -30617,8 +30615,6 @@
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">initcode_container</span><span class="p">],</span>
     <span class="p">)</span>

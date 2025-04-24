@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_initcode_aborts"><code>test_initcode_aborts()</code><a class="headerlink" href="#test_initcode_aborts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L102"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_initcode_aborts@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py#L104"><code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_initcode_aborts@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py::test_initcode_aborts --fork Osaka</span>
@@ -30521,9 +30521,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7620_eof_create/test_eofcreate_failures.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
@@ -30557,7 +30555,10 @@
 <span class="normal">135</span>
 <span class="normal">136</span>
 <span class="normal">137</span>
-<span class="normal">138</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_initcode_aborts</span><span class="p">(</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_initcode_aborts</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -30583,7 +30584,8 @@
                 <span class="n">slot_create_address</span><span class="p">:</span> <span class="n">EOFCREATE_FAILURE</span><span class="p">,</span>
                 <span class="n">slot_code_worked</span><span class="p">:</span> <span class="n">value_code_worked</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>

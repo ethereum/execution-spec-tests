@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_reentrant_txcreate"><code>test_reentrant_txcreate()</code><a class="headerlink" href="#test_reentrant_txcreate" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a1183c3c56d5936f1f869d80457967c9b70cdf/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L732"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_reentrant_txcreate@70a1183c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ab9817d3573bfeab93773800ae3df09bf2b7e880/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py#L732"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_reentrant_txcreate@ab9817d3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_txcreate_failures.py::test_reentrant_txcreate --fork Osaka</span>
@@ -30579,7 +30579,10 @@
 <span class="normal">787</span>
 <span class="normal">788</span>
 <span class="normal">789</span>
-<span class="normal">790</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="k">def</span> <span class="nf">test_reentrant_txcreate</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -30593,7 +30596,8 @@
     <span class="n">initcontainer</span> <span class="o">=</span> <span class="n">Container</span><span class="p">(</span>
         <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
             <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">slot_counter</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">slot_counter</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">reenter_code</span><span class="p">)]</span>
                 <span class="o">+</span> <span class="n">reenter_code</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNCODE</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -30621,19 +30625,21 @@
     <span class="c1"># inicode marked (!).</span>
     <span class="c1"># Storage in 0 should have the address from the outer TXCREATE.</span>
     <span class="c1"># Storage in 1 should have 0 from the inner TXCREATE.</span>
+    <span class="c1"># For the created contract storage in `slot_counter` should be 1 as initcode executes only once</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
                 <span class="mi">0</span><span class="p">:</span> <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
                 <span class="mi">1</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
             <span class="p">}</span>
-        <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">compute_eofcreate_address</span><span class="p">(</span><span class="n">contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span>
+            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="n">smallest_runtime_subcontainer</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot_counter</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="p">),</span>
     <span class="p">}</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">initcodes</span><span class="o">=</span><span class="p">[</span><span class="n">initcontainer</span><span class="p">],</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
