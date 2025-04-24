@@ -47,7 +47,10 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_ZERO_BLOBS: (
             r"blob transactions present in pre-cancun payload|empty blobs"
         ),
-        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"failed to apply .* requests contract call"),
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: (
+            r"transaction gas limit \w+ is more than blocks available gas \w+"
+        ),
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"failed to apply .* requests contract call",
         BlockException.INCORRECT_BLOB_GAS_USED: (
             r"blob gas used mismatch|blob gas used \d+ is not a multiple of blob gas per blob"
         ),

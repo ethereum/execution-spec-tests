@@ -55,9 +55,11 @@ class EthereumJSExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             "Invalid 4844 transactions: undefined"
         ),
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: (
-            "tx unable to pay base fee (EIP-1559 tx)"
+        TransactionException.GASLIMIT_PRICE_PRODUCT_OVERFLOW: (
+            "gas limit * gasPrice cannot exceed MAX_INTEGER"
         ),
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "tx unable to pay base fee",
+        TransactionException.NONCE_IS_MAX: "nonce cannot equal or exceed",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "maxFeePerGas cannot be less than maxPriorityFeePerGas"
         ),

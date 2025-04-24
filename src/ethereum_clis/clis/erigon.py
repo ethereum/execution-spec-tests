@@ -12,6 +12,7 @@ class ErigonExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
             "insufficient funds for gas * price + value"
         ),
+        TransactionException.NONCE_IS_MAX: "nonce has max value",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "fee cap less than block base fee",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "tip higher than fee cap",
