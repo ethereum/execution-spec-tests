@@ -7,6 +7,10 @@ develop:
   evm-type: develop
   fill-params: --until=Prague
   solc: 0.8.21
+static:
+  evm-type: static
+  fill-params: --until=Prague --fill-static-tests ./tests/static
+  solc: 0.8.21
 eip7692:
   evm-type: eip7692
   fill-params: --fork=Osaka ./tests/osaka

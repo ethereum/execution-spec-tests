@@ -8,6 +8,16 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+#### `fixtures_static`
+
+A new fixture tarball has been included in this release: `fixtures_static.tar.gz`.
+
+This tarball contains all tests inside of [`./tests/static`](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static), which at this point only contains all tests copied from [`GeneralStateTests` in `ethereum/tests@7dc757ec132e372b6178a016b91f4c639f366c02`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller).
+
+The tests have been filled using the new static test filler introduced in [#1336](https://github.com/ethereum/execution-spec-tests/pull/1336), and enhanced in [#1362](https://github.com/ethereum/execution-spec-tests/pull/1362) and [#1439](https://github.com/ethereum/execution-spec-tests/pull/1439).
+
+Users can expect that all tests currently living in [ethereum/tests](https://github.com/ethereum/tests/tree/develop/src) should eventually make its way into [`./tests/static`](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static) and can rely that these tests, filled for new forks even, will be included in `fixtures_static.tar.gz`.
+
 ### 🛠️ Framework
 
 #### `fill`
@@ -22,7 +32,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test that DELEGATECALL to a 7702 target works as intended ([#1485](https://github.com/ethereum/execution-spec-tests/pull/1485)).
 - ✨ [EIP-2573](https://eips.ethereum.org/EIPS/eip-2537): Includes a BLS12 point generator, alongside additional coverage many of the precompiles ([#1350](https://github.com/ethereum/execution-spec-tests/pull/1350)).
-- ✨ Add all [`GeneralStateTests` from `ethereum/tests`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller) to `execution-spec-tests` located now at [tests/legacy/state_tests](https://github.com/ethereum/execution-spec-tests/tree/main/tests/legacy/state_tests) ([#1442](https://github.com/ethereum/execution-spec-tests/pull/1442)).
+- ✨ Add all [`GeneralStateTests` from `ethereum/tests`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller) to `execution-spec-tests` located now at [tests/static/state_tests](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests) ([#1442](https://github.com/ethereum/execution-spec-tests/pull/1442)).
 
 ## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
 
