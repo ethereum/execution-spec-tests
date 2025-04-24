@@ -9,7 +9,7 @@ develop:
   solc: 0.8.21
 static:
   evm-type: static
-  fill-params: --until=Prague --fill-static-tests ./tests/legacy
+  fill-params: --until=Prague --fill-static-tests ./tests/static
   solc: 0.8.21
 eip7692:
   evm-type: eip7692
