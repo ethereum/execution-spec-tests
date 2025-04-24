@@ -113,7 +113,7 @@ where = ["src"]
 exclude = ["*tests*"]
 
 [tool.pyright]
-exclude = ["**/legacy/**"]
+exclude = ["tests/static/**"]
 
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
