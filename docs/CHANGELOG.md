@@ -22,6 +22,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test that DELEGATECALL to a 7702 target works as intended ([#1485](https://github.com/ethereum/execution-spec-tests/pull/1485)).
 - ✨ [EIP-2573](https://eips.ethereum.org/EIPS/eip-2537): Includes a BLS12 point generator, alongside additional coverage many of the precompiles ([#1350](https://github.com/ethereum/execution-spec-tests/pull/1350)).
+- ✨ Add all [`GeneralStateTests` from `ethereum/tests`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller) to `execution-spec-tests` located now at [tests/legacy/state_tests](https://github.com/ethereum/execution-spec-tests/tree/main/tests/legacy/state_tests) ([#1442](https://github.com/ethereum/execution-spec-tests/pull/1442)).
 
 ## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
 
