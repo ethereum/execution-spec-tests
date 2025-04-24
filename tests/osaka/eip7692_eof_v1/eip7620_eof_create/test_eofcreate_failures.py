@@ -23,6 +23,7 @@ from .helpers import (
     slot_call_result,
     slot_code_should_fail,
     slot_code_worked,
+    slot_counter,
     slot_create_address,
     slot_max_depth,
     slot_returndata,
@@ -776,7 +777,8 @@ def test_reentrant_eofcreate(
     initcontainer = Container(
         sections=[
             Section.Code(
-                Op.CALLDATALOAD(0)
+                Op.SSTORE(slot_counter, Op.ADD(Op.SLOAD(slot_counter), 1))
+                + Op.CALLDATALOAD(0)
                 + Op.RJUMPI[len(reenter_code)]
                 + reenter_code
                 + Op.RETURNCODE[0](0, 0)
@@ -807,6 +809,7 @@ def test_reentrant_eofcreate(
     # inicode marked (!).
     # Storage in 0 should have the address from the outer EOFCREATE.
     # Storage in 1 should have 0 from the inner EOFCREATE.
+    # For the created contract storage in `slot_counter` should be 1 as initcode executes only once
     post = {
         contract_address: Account(
             storage={
@@ -815,7 +818,7 @@ def test_reentrant_eofcreate(
             }
         ),
         compute_eofcreate_address(contract_address, 0): Account(
-            nonce=1, code=smallest_runtime_subcontainer
+            nonce=1, code=smallest_runtime_subcontainer, storage={slot_counter: 1}
         ),
     }
     tx = Transaction(

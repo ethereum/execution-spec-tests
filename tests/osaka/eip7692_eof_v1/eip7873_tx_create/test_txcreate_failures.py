@@ -3,7 +3,7 @@
 import pytest
 
 from ethereum_test_base_types import Bytes
-from ethereum_test_base_types.base_types import Address
+from ethereum_test_base_types.base_types import Address, Hash
 from ethereum_test_forks.base_fork import Fork
 from ethereum_test_tools import (
     Account,
@@ -27,6 +27,7 @@ from ..eip7620_eof_create.helpers import (
     slot_call_result,
     slot_code_should_fail,
     slot_code_worked,
+    slot_counter,
     slot_create_address,
     slot_max_depth,
     slot_returndata,
@@ -99,13 +100,22 @@ def test_initcode_revert(state_test: StateTestFiller, pre: Alloc, revert: bytes)
 
 
 @pytest.mark.with_all_evm_code_types
+@pytest.mark.parametrize(
+    "initcode_hash",
+    [
+        Bytes("").keccak256(),
+        Bytes("00" * 32),
+        Bytes("FF" * 32),
+        Bytes("EF01").keccak256(),
+        smallest_runtime_subcontainer.hash,
+    ],
+)
 @pytest.mark.parametrize("tx_initcode_count", [1, 255, 256])
 def test_txcreate_invalid_hash(
-    state_test: StateTestFiller, pre: Alloc, fork: Fork, tx_initcode_count: int
+    state_test: StateTestFiller, pre: Alloc, tx_initcode_count: int, initcode_hash: Hash
 ):
     """Verifies proper handling of REVERT in initcode."""
     env = Environment()
-    initcode_hash = Bytes("").keccak256()
 
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
@@ -733,7 +743,8 @@ def test_reentrant_txcreate(
     initcontainer = Container(
         sections=[
             Section.Code(
-                Op.CALLDATALOAD(0)
+                Op.SSTORE(slot_counter, Op.ADD(Op.SLOAD(slot_counter), 1))
+                + Op.CALLDATALOAD(0)
                 + Op.RJUMPI[len(reenter_code)]
                 + reenter_code
                 + Op.RETURNCODE[0](0, 0)
@@ -761,6 +772,7 @@ def test_reentrant_txcreate(
     # inicode marked (!).
     # Storage in 0 should have the address from the outer TXCREATE.
     # Storage in 1 should have 0 from the inner TXCREATE.
+    # For the created contract storage in `slot_counter` should be 1 as initcode executes only once
     post = {
         contract_address: Account(
             storage={
@@ -769,7 +781,7 @@ def test_reentrant_txcreate(
             }
         ),
         compute_eofcreate_address(contract_address, 0): Account(
-            nonce=1, code=smallest_runtime_subcontainer
+            nonce=1, code=smallest_runtime_subcontainer, storage={slot_counter: 1}
         ),
     }
     tx = Transaction(
