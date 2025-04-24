@@ -328,6 +328,8 @@ class NethermindExceptionMapper(ExceptionMapper):
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "InvalidMaxPriorityFeePerGas: Cannot be higher than maxFeePerGas"
         ),
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: "Block gas limit exceeded",
+        TransactionException.NONCE_IS_MAX: "nonce overflow",
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "wrong transaction nonce",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
