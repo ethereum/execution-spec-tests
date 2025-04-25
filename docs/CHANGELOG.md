@@ -26,6 +26,8 @@ Users can expect that all tests currently living in [ethereum/tests](https://git
 
 #### `consume`
 
+- 🐞 Fix the Hive commands used to reproduce test executions that are displayed in test descriptions in the Hive UI ([#1494](https://github.com/ethereum/execution-spec-tests/pull/1494)).
+
 ### 📋 Misc
 
 ### 🧪 Test Cases
