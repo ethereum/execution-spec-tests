@@ -42,4 +42,5 @@ class ErigonExceptionMapper(ExceptionMapper):
     mapping_regex = {
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
+        BlockException.INVALID_GAS_USED: r"gas used by execution: \w+, in header: \w+",
     }
