@@ -31273,7 +31273,7 @@
 
 <div class="admonition note">
 <p class="admonition-title">Markdown Content</p>
-<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/bc8713ee14b7418fbe51ab967bd38ca947dafac8/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@bc8713ee</code></a>.</p>
+<p>Below is the verbatim markdown content from <a href="https://github.com/ethereum/execution-spec-tests/blob/db22cee52955d7d9236c8c327307537e7647c1f0/tests/osaka/eip7692_eof_v1/eof_tracker.md"><code>tests/osaka/eip7692_eof_v1/eof_tracker.md@db22cee5</code></a>.</p>
 </div>
 <h1 id="eof-testing-coverage-tracker">EOF Testing Coverage Tracker<a class="headerlink" href="#eof-testing-coverage-tracker" title="Permanent link">&para;</a></h1>
 <ul class="task-list">
@@ -31453,6 +31453,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Valid RJUMP forwards from different stack in variable stack segment (<a href="../eip4200_relative_jumps/test_rjump/test_rjump_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_valid_forward</code></a></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid empty infinite loop with RJUMP (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid balanced infinite loop (ethereum/tests: src/EOFTestsFiller/EIP5450/validInvalidFiller.yml)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMP to self (including variadic stack height) (<a href="../eip4200_relative_jumps/test_rjump/test_rjump_into_self/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjump.py::test_rjump_into_self</code></a>)</li>
 </ul>
 <h5 id="rjumpi">RJUMPI<a class="headerlink" href="#rjumpi" title="Permanent link">&para;</a></h5>
 <ul class="task-list">
@@ -31473,6 +31474,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with equal stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> If-then-else with different stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPI to self (including variadic stack height) (<a href="../eip4200_relative_jumps/test_rjumpi/test_rjumpi_into_self/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpi.py::test_rjumpi_into_self</code></a>)</li>
 </ul>
 <h5 id="rjumpv">RJUMPV<a class="headerlink" href="#rjumpv" title="Permanent link">&para;</a></h5>
 <ul class="task-list">
@@ -31489,6 +31491,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Switch with equal stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpv/test_rjumpv_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_forward</code></a></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Switch with different stack height in branches (<a href="../eip4200_relative_jumps/test_rjumpv/test_rjumpv_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_forward</code></a></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Switch with different stack height in branches, variable stack segment (<a href="../eip4200_relative_jumps/test_rjumpv/test_rjumpv_valid_forward/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_valid_forward</code></a></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> RJUMPV to self (including variadic stack height) (<a href="../eip4200_relative_jumps/test_rjumpv/test_rjumpv_into_self/"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self</code></a>)</li>
 </ul>
 <h5 id="combinations">Combinations<a class="headerlink" href="#combinations" title="Permanent link">&para;</a></h5>
 <ul class="task-list">
@@ -31500,13 +31503,7 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMP and RJUMPV with the same target and equal stack height in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpv_variable_stack_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMP and RJUMPV with the same target and different stack height (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpv_Copier.json)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMP and RJUMPV with the same target and different stack height in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/forwards_rjumpv_variable_stack_Copier.json)</li>
-<li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI and RJUMPV with the same target</p>
-</li>
-<li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMP* to self (ethereum/tests: src/EOFTestsFiller/efStack/self_referencing_jumps_Copier.json)</p>
-</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMP* to self in a variable stack segment (ethereum/tests: src/EOFTestsFiller/efStack/self_referencing_jumps_variable_stack_Copier.json)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RJUMPI and RJUMPV with the same target</li>
 </ul>
 <h4 id="stack-underflow">Stack underflow<a class="headerlink" href="#stack-underflow" title="Permanent link">&para;</a></h4>
 <ul class="task-list">

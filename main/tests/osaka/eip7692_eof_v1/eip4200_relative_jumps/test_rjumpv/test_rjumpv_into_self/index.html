@@ -30502,7 +30502,7 @@
 
 
 <h1 id="test_rjumpv_into_self"><code>test_rjumpv_into_self()</code><a class="headerlink" href="#test_rjumpv_into_self" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/bc8713ee14b7418fbe51ab967bd38ca947dafac8/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L476"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self@bc8713ee</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/db22cee52955d7d9236c8c327307537e7647c1f0/tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py#L477"><code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self@db22cee5</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self --fork Osaka</span>
@@ -30517,12 +30517,12 @@
 <a id="tests.osaka.eip7692_eof_v1.eip4200_relative_jumps.test_rjumpv.test_rjumpv_into_self"></a>
     <div class="doc doc-contents first">
 
-      <p>EOF code containing RJUMPV with target same RJUMPV immediate.</p>
+      <p>EOF code containing RJUMPV targeting itself.
+This can never be valid because this is backward jump and RJUMPV consumes one stack item.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">476</span>
-<span class="normal">477</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">477</span>
 <span class="normal">478</span>
 <span class="normal">479</span>
 <span class="normal">480</span>
@@ -30547,7 +30547,19 @@
 <span class="normal">499</span>
 <span class="normal">500</span>
 <span class="normal">501</span>
-<span class="normal">502</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;table_size,invalid_index&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;t1i0&quot;</span><span class="p">),</span>
@@ -30555,12 +30567,22 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;t256i255&quot;</span><span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;stack_height_spread&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_rjumpv_into_self</span><span class="p">(</span>
     <span class="n">eof_test</span><span class="p">:</span> <span class="n">EOFTestFiller</span><span class="p">,</span>
     <span class="n">table_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">invalid_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stack_height_spread</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;EOF code containing RJUMPV with target same RJUMPV immediate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    EOF code containing RJUMPV targeting itself.</span>
+<span class="sd">    This can never be valid because this is backward jump and RJUMPV consumes one stack item.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Create variadic stack height by the parametrized spread.</span>
+    <span class="n">stack_spread_code</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">stack_height_spread</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">stack_spread_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPI</span><span class="p">[</span><span class="n">stack_height_spread</span><span class="p">](</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">*</span> <span class="n">stack_height_spread</span>
+
     <span class="n">jump_table</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">table_size</span><span class="p">)]</span>
     <span class="n">jump_table</span><span class="p">[</span><span class="n">invalid_index</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="n">jump_table</span><span class="p">])</span>
 
@@ -30568,7 +30590,8 @@
         <span class="n">container</span><span class="o">=</span><span class="n">Container</span><span class="p">(</span>
             <span class="n">sections</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">Section</span><span class="o">.</span><span class="n">Code</span><span class="p">(</span>
-                    <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="n">jump_table</span><span class="p">]</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="n">code</span><span class="o">=</span><span class="n">stack_spread_code</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RJUMPV</span><span class="p">[</span><span class="n">jump_table</span><span class="p">](</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+                    <span class="c1"># max stack increase is computed correctly</span>
                 <span class="p">)</span>
             <span class="p">],</span>
         <span class="p">),</span>
@@ -30623,6 +30646,7 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>stack_height_spread</th>
                         <th>table_size</th>
                         <th>invalid_index</th>
                     </tr>
@@ -30631,90 +30655,396 @@
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t1i0]">
-                    ...fork_Osaka-eof_test-t1i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t1i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_-1-t1i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>1</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t256i0]">
-                    ...fork_Osaka-eof_test-t256i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t256i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_-1-t256i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>256</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="eof_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-t256i255]">
-                    ...fork_Osaka-eof_test-t256i255
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_-1-t256i255]">
+                    ...fork_Osaka-eof_test-stack_height_spread_-1-t256i255
                 </abbr>
             </td>
+                        <td>-1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t1i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_0-t1i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t256i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_0-t256i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_0-t256i255]">
+                    ...fork_Osaka-eof_test-stack_height_spread_0-t256i255
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t1i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_1-t1i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t256i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_1-t256i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_1-t256i255]">
+                    ...fork_Osaka-eof_test-stack_height_spread_1-t256i255
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t1i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_2-t1i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t256i0]">
+                    ...fork_Osaka-eof_test-stack_height_spread_2-t256i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="eof_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-eof_test-stack_height_spread_2-t256i255]">
+                    ...fork_Osaka-eof_test-stack_height_spread_2-t256i255
+                </abbr>
+            </td>
+                        <td>2</td>
                         <td>256</td>
                         <td>255</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t1i0]">
-                    ...fork_Osaka-state_test_from_eof_test-t1i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t1i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t1i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>1</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t256i0]">
-                    ...fork_Osaka-state_test_from_eof_test-t256i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>256</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-t256i255]">
-                    ...fork_Osaka-state_test_from_eof_test-t256i255
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i255]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_-1-t256i255
                 </abbr>
             </td>
+                        <td>-1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t1i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t1i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i255]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_0-t256i255
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t1i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t1i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i255]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_1-t256i255
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t1i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t1i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i0]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i255]">
+                    ...fork_Osaka-state_test_from_eof_test-stack_height_spread_2-t256i255
+                </abbr>
+            </td>
+                        <td>2</td>
                         <td>256</td>
                         <td>255</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t1i0]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-t1i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t1i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t1i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>1</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t256i0]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-t256i0
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i0
                 </abbr>
             </td>
+                        <td>-1</td>
                         <td>256</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-t256i255]">
-                    ...fork_Osaka-blockchain_test_from_eof_test-t256i255
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_-1-t256i255
                 </abbr>
             </td>
+                        <td>-1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t1i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t1i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_0-t256i255
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t1i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t1i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_1-t256i255
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>256</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t1i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t1i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t1i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i0]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i0]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>256</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i255]" title="tests/osaka/eip7692_eof_v1/eip4200_relative_jumps/test_rjumpv.py::test_rjumpv_into_self[fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i255]">
+                    ...fork_Osaka-blockchain_test_from_eof_test-stack_height_spread_2-t256i255
+                </abbr>
+            </td>
+                        <td>2</td>
                         <td>256</td>
                         <td>255</td>
                     </tr>
