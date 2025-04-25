@@ -34,12 +34,12 @@ class ErigonExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "wrong size for To: 0",
         TransactionException.TYPE_4_TX_PRE_FORK: "setCode tx is not supported by signer",
         TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: "could not parse requests logs",
+        BlockException.SYSTEM_CONTRACT_EMPTY: "Syscall failure: Empty Code at",
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: "Unprecedented Syscall failure",
         BlockException.INVALID_REQUESTS: "invalid requests root hash in header",
         BlockException.INVALID_BLOCK_HASH: "invalid block hash",
     }
     mapping_regex = {
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
-        BlockException.SYSTEM_CONTRACT_EMPTY: r"Syscall failure: Empty Code at",
-        BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"Unprecedented Syscall failure",
     }
