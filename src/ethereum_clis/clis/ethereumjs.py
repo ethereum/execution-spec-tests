@@ -87,7 +87,7 @@ class EthereumJSExceptionMapper(ExceptionMapper):
             "sender doesn't have enough funds to send tx"
         ),
         TransactionException.NONCE_MISMATCH_TOO_LOW: "the tx doesn't have the correct nonce",
-         TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "Error verifying block while running: error: number exceeds 53 bits"
         ),
         TransactionException.GAS_ALLOWANCE_EXCEEDED: "tx has a higher gas limit than the block",
