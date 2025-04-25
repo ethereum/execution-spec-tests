@@ -7,6 +7,7 @@ import pytest
 
 from ethereum_test_base_types import Bytes
 from ethereum_test_base_types.base_types import Address, Hash
+from ethereum_test_base_types.composite_types import AccessList
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -76,18 +77,6 @@ class ValidatedCode(Enum):
                     ]
                 )
 
-    def bytecode_hash(self) -> Hash:
-        """Hash of the bytecode to validate."""
-        bytecode = self.bytecode()
-        if isinstance(bytecode, Bytecode):
-            return bytecode.keccak256()
-        elif isinstance(bytecode, Container):
-            return bytecode.hash
-        elif isinstance(bytecode, Bytes):
-            return bytecode.keccak256()
-        else:
-            raise ValueError("Unknown bytecode type")
-
     def valid(self) -> bool:
         """Whether the code is valid in EOF v1."""
         return self in [ValidatedCode.EOFV1_INITCODE]
@@ -122,11 +111,13 @@ class Factory(Enum):
         will end up in the `compute_eofcreate_address`, or None if that would be the snippet
         itself.
         """
+        if evm_code_type not in [EVMCodeType.LEGACY, EVMCodeType.EOF_V1]:
+            raise Exception(f"Test needs to be updated for {evm_code_type}")
         # Snippet which invokes the TXCREATE itself
         txcreate_code = Op.TXCREATE(
             tx_initcode_hash=initcode_hash, salt=salt, value=value, input_size=input_size
         )
-        # Snippet which resutnrs the TXCREATE result to caller
+        # Snippet which returns the TXCREATE result to caller
         callee_txcreate_code = Op.MSTORE(0, txcreate_code) + Op.RETURN(0, 32)
         # Snippet which recovers the TXCREATE result from returndata (wipes memory afterwards)
         returndataload_code = (
@@ -170,6 +161,7 @@ class Factory(Enum):
 @pytest.mark.parametrize("factory_b", Factory)
 @pytest.mark.parametrize("value", [0, 1])
 @pytest.mark.parametrize("input_size", [0, 31])
+@pytest.mark.parametrize("access_list_a", [True, False])
 def test_txcreate_validates(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -180,6 +172,7 @@ def test_txcreate_validates(
     evm_code_type: EVMCodeType,
     value: int,
     input_size: int,
+    access_list_a: bool,
 ):
     """
     Verifies proper validation of initcode on TXCREATE in various circumstances of the
@@ -187,10 +180,10 @@ def test_txcreate_validates(
     """
     env = Environment()
     snippet_a, factory_address_a = factory_a.creation_snippet(
-        code_a.bytecode_hash(), pre, 0, evm_code_type, value, input_size
+        Bytes(code_a.bytecode()).keccak256(), pre, 0, evm_code_type, value, input_size
     )
     snippet_b, factory_address_b = factory_b.creation_snippet(
-        code_b.bytecode_hash(), pre, 1, evm_code_type, value, input_size
+        Bytes(code_b.bytecode()).keccak256(), pre, 1, evm_code_type, value, input_size
     )
 
     sender = pre.fund_eoa()
@@ -205,25 +198,32 @@ def test_txcreate_validates(
 
     create_address_a = factory_address_a if factory_address_a else contract_address
     create_address_b = factory_address_b if factory_address_b else contract_address
+    destination_address_a = compute_eofcreate_address(create_address_a, 0)
+    destination_address_b = compute_eofcreate_address(create_address_b, 1)
     post = {
         contract_address: Account(
             storage={
-                slot_a: compute_eofcreate_address(create_address_a, 0)
+                slot_a: destination_address_a
                 if code_a.valid() and value == 0 and factory_a != Factory.WITH_STATICCALL
                 else TXCREATE_FAILURE,
-                slot_b: compute_eofcreate_address(create_address_b, 1)
+                slot_b: destination_address_b
                 if code_b.valid() and value == 0 and factory_b != Factory.WITH_STATICCALL
                 else TXCREATE_FAILURE,
                 slot_code_worked: value_code_worked,
             }
         )
     }
+
+    if access_list_a:
+        access_list = [AccessList(address=destination_address_a, storage_keys=[Hash(0x0)])]
+    else:
+        access_list = []
+
     tx = Transaction(
         to=contract_address,
         gas_limit=10_000_000,
-        max_priority_fee_per_gas=10,
-        max_fee_per_gas=10,
         sender=sender,
         initcodes=[code_a.bytecode(), code_b.bytecode()],
+        access_list=access_list,
     )
     state_test(env=env, pre=pre, post=post, tx=tx)
