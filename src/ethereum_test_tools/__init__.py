@@ -79,6 +79,7 @@ from .code import (
     Conditional,
     Initcode,
     Switch,
+    While,
     Yul,
     YulCompiler,
 )
@@ -145,6 +146,7 @@ __all__ = (
     "TransactionTest",
     "TransactionTestFiller",
     "UndefinedOpcodes",
+    "While",
     "Withdrawal",
     "WithdrawalRequest",
     "Yul",
