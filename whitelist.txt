@@ -883,3 +883,4 @@ coeffs
 uncomp
 isogeny
 codomain
+nametag

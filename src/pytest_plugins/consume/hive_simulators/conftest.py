@@ -3,6 +3,9 @@
 import io
 import json
 import logging
+import textwrap
+import urllib
+import warnings
 from pathlib import Path
 from typing import Dict, Generator, List, Literal, cast
 
@@ -22,7 +25,7 @@ from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
-from pytest_plugins.pytest_hive.hive_info import ClientInfo
+from pytest_plugins.pytest_hive.hive_info import ClientInfo, HiveInfo
 
 from .exceptions import EXCEPTION_MAPPERS
 from .timing import TimingData
@@ -61,42 +64,106 @@ def eth_rpc(client: Client) -> EthRPC:
 
 
 @pytest.fixture(scope="function")
-def hive_client_config_file_parameter(
+def hive_clients_yaml_generator_command(
     client_type: ClientType, client_file: List[ClientInfo]
-) -> List[str]:
-    """Return the hive client config file that is currently being used to configure tests."""
+) -> str:
+    """Generate a bash command that creates clients.yaml file for the current client."""
     for client in client_file:
         if client_type.name.startswith(client.client):
-            return ["--client-file", f"<('{client.model_dump_json(exclude_none=True)}')"]
-    return []
+            yaml_content = f"- client: {client.client}\n"
+
+            if client.nametag is not None:
+                yaml_content += f"&nbsp;&nbsp;nametag: {client.nametag}\n"
+
+            if client.dockerfile is not None:
+                yaml_content += f"&nbsp;&nbsp;dockerfile: {client.dockerfile}\n"
+
+            if client.build_args:
+                yaml_content += "&nbsp;&nbsp;build_args:\n"
+                for key, value in client.build_args.items():
+                    yaml_content += f"&nbsp;&nbsp;&nbsp;&nbsp;{key}: {value}\n"
+
+            yaml_command = textwrap.dedent(f"""
+                cat > clients.yaml << 'EOF'
+                {yaml_content}EOF
+            """).strip()
+
+            return yaml_command
+
+    warnings.warn(
+        f"Unable to find client '{client_type.name}' in the client file. "
+        "The clients.yaml generator command will not be available.",
+        stacklevel=2,
+    )
+    issue_title = f"Client {client_type.name} not found in client configuration"
+    issue_body = (
+        f"When running tests, client {client_type.name} was not found in the client configuration "
+        "file."
+    )
+    issue_url = f"https://github.com/ethereum/execution-spec-tests/issues/new?title={urllib.parse.quote(issue_title)}&body={urllib.parse.quote(issue_body)}"
+
+    return (
+        f"Unable to find client '{client_type.name}' in the client file.\n"
+        f'Please <a href="{issue_url}">create an issue</a> to report this problem.'
+    )
+
+
+@pytest.fixture(scope="function")
+def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
+    """Filter Hive command options to remove unwanted options."""
+    logger.info("Hive info: %s", hive_info.command)
+
+    unwanted_options = [
+        "--client-file",  # we'll write our own client file
+        "--results-root",  # use default value instead (or you have to pass to ./hiveview)
+        "--sim.limit",  # we specify this ourselves to only run the current test case id
+        "--sim.parallelism",  # we'll only be running a single test
+    ]
+
+    command_parts = []
+    skip_next = False
+    for part in hive_info.command:
+        if skip_next:
+            skip_next = False
+            continue
+
+        if part in unwanted_options:
+            skip_next = True
+            continue
+
+        if any(part.startswith(f"{option}=") for option in unwanted_options):
+            continue
+
+        command_parts.append(part)
+
+    return command_parts
 
 
 @pytest.fixture(scope="function")
 def hive_consume_command(
-    test_suite_name: str,
-    client_type: ClientType,
     test_case: TestCaseIndexFile | TestCaseStream,
-    hive_client_config_file_parameter: List[str],
-) -> List[str]:
+    filtered_hive_options: List[str],
+) -> str:
     """Command to run the test within hive."""
-    command = ["./hive", "--sim", f"ethereum/{test_suite_name}"]
-    if hive_client_config_file_parameter:
-        command += hive_client_config_file_parameter
-    command += ["--client", client_type.name, "--sim.limit", f'"id:{test_case.id}"']
-    return command
+    command_parts = filtered_hive_options.copy()
+    command_parts.append(f'--sim.limit "id:{test_case.id}"')
+
+    return " ".join(command_parts)
+
+
+@pytest.fixture(scope="function")
+def hive_client_config_file_parameter(hive_clients_yaml_generator_command: str) -> str:
+    """Return the hive client config file parameter."""
+    return "--client-file clients.yaml" if hive_clients_yaml_generator_command else ""
 
 
 @pytest.fixture(scope="function")
 def hive_dev_command(
     client_type: ClientType,
-    hive_client_config_file_parameter: List[str],
-) -> List[str]:
+    hive_client_config_file_parameter: str,
+) -> str:
     """Return the command used to instantiate hive alongside the `consume` command."""
-    hive_dev = ["./hive", "--dev"]
-    if hive_client_config_file_parameter:
-        hive_dev += hive_client_config_file_parameter
-    hive_dev += ["--client", client_type.name]
-    return hive_dev
+    return f"./hive --dev {hive_client_config_file_parameter} --client {client_type.name}"
 
 
 @pytest.fixture(scope="function")
@@ -104,15 +171,12 @@ def eest_consume_command(
     test_suite_name: str,
     test_case: TestCaseIndexFile | TestCaseStream,
     fixture_source_flags: List[str],
-) -> List[str]:
+) -> str:
     """Commands to run the test within EEST using a hive dev back-end."""
+    flags = " ".join(fixture_source_flags)
     return (
-        ["consume", test_suite_name.split("-")[-1], "-v"]
-        + fixture_source_flags
-        + [
-            "-k",
-            f'"{test_case.id}"',
-        ]
+        f"uv run consume {test_suite_name.split('-')[-1]} "
+        f'{flags} --sim.limit="id:{test_case.id}" -v -s'
     )
 
 
@@ -120,33 +184,41 @@ def eest_consume_command(
 def test_case_description(
     fixture: BaseFixture,
     test_case: TestCaseIndexFile | TestCaseStream,
-    hive_consume_command: List[str],
-    hive_dev_command: List[str],
-    eest_consume_command: List[str],
+    hive_clients_yaml_generator_command: str,
+    hive_consume_command: str,
+    hive_dev_command: str,
+    eest_consume_command: str,
 ) -> str:
-    """
-    Create the description of the current blockchain fixture test case.
-    Includes reproducible commands to re-run the test case against the target client.
-    """
-    description = f"Test id: {test_case.id}"
-    if "url" in fixture.info:
-        description += f"\n\nTest source: {fixture.info['url']}"
-    if "description" not in fixture.info:
-        description += "\n\nNo description field provided in the fixture's 'info' section."
+    """Create the description of the current blockchain fixture test case."""
+    test_url = fixture.info.get("url", "")
+
+    if "description" not in fixture.info or fixture.info["description"] is None:
+        test_docstring = "No documentation available."
     else:
-        description += f"\n\n{fixture.info['description']}"
-    description += (
-        f"\n\nCommand to reproduce entirely in hive:"
-        f"\n<code>{' '.join(hive_consume_command)}</code>"
-    )
-    eest_commands = "\n".join(
-        f"{i + 1}. <code>{' '.join(cmd)}</code>"
-        for i, cmd in enumerate([hive_dev_command, eest_consume_command])
-    )
-    description += (
-        f"\n\nCommands to reproduce within EEST using a hive dev back-end:\n{eest_commands}"
-    )
+        # this prefix was included in the fixture description field for fixtures <= v4.3.0
+        test_docstring = fixture.info["description"].replace("Test function documentation:\n", "")  # type: ignore
+
+    description = textwrap.dedent(f"""
+        <b>Test Details</b>
+        <code>{test_case.id}</code>
+        {f'<a href="{test_url}">[source]</a>' if test_url else ""}
+
+        {test_docstring}
+
+        <b>Run This Test Locally:</b>
+        To run this test in <a href="https://github.com/ethereum/hive">hive</a></i>:
+        <code>{hive_clients_yaml_generator_command}
+            {hive_consume_command}</code>
+
+        <b>Advanced: Run the test against a hive developer backend using EEST's <code>consume</code> command</b>
+        Create the client YAML file, as above, then:
+        1. Start hive in dev mode: <code>{hive_dev_command}</code>
+        2. In the EEST repository root: <code>{eest_consume_command}</code>
+    """)  # noqa: E501
+
+    description = description.strip()
     description = description.replace("\n", "<br/>")
+    logger.info(f"Test case description:\n{description}")
     return description
 
 
