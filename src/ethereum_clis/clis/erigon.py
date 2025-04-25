@@ -40,4 +40,6 @@ class ErigonExceptionMapper(ExceptionMapper):
     mapping_regex = {
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
+        BlockException.SYSTEM_CONTRACT_EMPTY: r"Syscall failure: Empty Code at",
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"Unprecedented Syscall failure",
     }
