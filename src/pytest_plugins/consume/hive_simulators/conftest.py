@@ -25,7 +25,7 @@ from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
-from pytest_plugins.pytest_hive.hive_info import ClientInfo, HiveInfo
+from pytest_plugins.pytest_hive.hive_info import ClientFile, HiveInfo
 
 from .exceptions import EXCEPTION_MAPPERS
 from .timing import TimingData
@@ -64,48 +64,45 @@ def eth_rpc(client: Client) -> EthRPC:
 
 
 @pytest.fixture(scope="function")
+def hive_clients_yaml_target_filename() -> str:
+    """Return the name of the target clients YAML file."""
+    return "clients_eest.yaml"
+
+
+@pytest.fixture(scope="function")
 def hive_clients_yaml_generator_command(
-    client_type: ClientType, client_file: List[ClientInfo]
+    client_type: ClientType,
+    client_file: ClientFile,
+    hive_clients_yaml_target_filename: str,
+    hive_info: HiveInfo,
 ) -> str:
-    """Generate a bash command that creates clients.yaml file for the current client."""
-    for client in client_file:
-        if client_type.name.startswith(client.client):
-            yaml_content = f"- client: {client.client}\n"
+    """Generate a shell command that creates a clients YAML file for the current client."""
+    try:
+        if not client_file:
+            raise ValueError("No client information available - try updating hive")
+        client_config = [c for c in client_file.root if c.client in client_type.name]
+        if not client_config:
+            raise ValueError(f"Client '{client_type.name}' not found in client file")
+        try:
+            yaml_content = ClientFile(root=[client_config[0]]).yaml().replace(" ", "&nbsp;")
+            return f'echo "\\\n{yaml_content}" > {hive_clients_yaml_target_filename}'
+        except Exception as e:
+            raise ValueError(f"Failed to generate YAML: {str(e)}") from e
+    except ValueError as e:
+        error_message = str(e)
+        warnings.warn(
+            f"{error_message}. The Hive clients YAML generator command will not be available.",
+            stacklevel=2,
+        )
 
-            if client.nametag is not None:
-                yaml_content += f"&nbsp;&nbsp;nametag: {client.nametag}\n"
+        issue_title = f"Client {client_type.name} configuration issue"
+        issue_body = f"Error: {error_message}\nHive version: {hive_info.commit}\n"
+        issue_url = f"https://github.com/ethereum/execution-spec-tests/issues/new?title={urllib.parse.quote(issue_title)}&body={urllib.parse.quote(issue_body)}"
 
-            if client.dockerfile is not None:
-                yaml_content += f"&nbsp;&nbsp;dockerfile: {client.dockerfile}\n"
-
-            if client.build_args:
-                yaml_content += "&nbsp;&nbsp;build_args:\n"
-                for key, value in client.build_args.items():
-                    yaml_content += f"&nbsp;&nbsp;&nbsp;&nbsp;{key}: {value}\n"
-
-            yaml_command = textwrap.dedent(f"""
-                cat > clients.yaml << 'EOF'
-                {yaml_content}EOF
-            """).strip()
-
-            return yaml_command
-
-    warnings.warn(
-        f"Unable to find client '{client_type.name}' in the client file. "
-        "The clients.yaml generator command will not be available.",
-        stacklevel=2,
-    )
-    issue_title = f"Client {client_type.name} not found in client configuration"
-    issue_body = (
-        f"When running tests, client {client_type.name} was not found in the client configuration "
-        "file."
-    )
-    issue_url = f"https://github.com/ethereum/execution-spec-tests/issues/new?title={urllib.parse.quote(issue_title)}&body={urllib.parse.quote(issue_body)}"
-
-    return (
-        f"Unable to find client '{client_type.name}' in the client file.\n"
-        f'Please <a href="{issue_url}">create an issue</a> to report this problem.'
-    )
+        return (
+            f"Error: {error_message}\n"
+            f'Please <a href="{issue_url}">create an issue</a> to report this problem.'
+        )
 
 
 @pytest.fixture(scope="function")
@@ -114,11 +111,11 @@ def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
     logger.info("Hive info: %s", hive_info.command)
 
     unwanted_options = [
-        "--client",  # we specify a single client
-        "--client-file",  # we'll write our own client file
-        "--results-root",  # use default value instead (or you have to pass to ./hiveview)
-        "--sim.limit",  # we specify this ourselves to only run the current test case id
-        "--sim.parallelism",  # we'll only be running a single test
+        "--client",  # gets overwritten: we specify a single client; the one from the test case
+        "--client-file",  # gets overwritten: we'll write our own client file
+        "--results-root",  # use default value instead (or you have to pass it to ./hiveview)
+        "--sim.limit",  # gets overwritten: we only run the current test case id
+        "--sim.parallelism",  # skip; we'll only be running a single test
     ]
 
     command_parts = []
@@ -155,9 +152,9 @@ def hive_consume_command(
 
 
 @pytest.fixture(scope="function")
-def hive_client_config_file_parameter(hive_clients_yaml_generator_command: str) -> str:
+def hive_client_config_file_parameter(hive_clients_yaml_target_filename: str) -> str:
     """Return the hive client config file parameter."""
-    return "--client-file clients.yaml" if hive_clients_yaml_generator_command else ""
+    return f"--client-file {hive_clients_yaml_target_filename}"
 
 
 @pytest.fixture(scope="function")
