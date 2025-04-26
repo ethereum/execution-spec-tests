@@ -219,7 +219,6 @@ def test_case_description(
 
     description = description.strip()
     description = description.replace("\n", "<br/>")
-    logger.info(f"Test case description:\n{description}")
     return description
 
 
