@@ -114,6 +114,7 @@ def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
     logger.info("Hive info: %s", hive_info.command)
 
     unwanted_options = [
+        "--client",  # we specify a single client
         "--client-file",  # we'll write our own client file
         "--results-root",  # use default value instead (or you have to pass to ./hiveview)
         "--sim.limit",  # we specify this ourselves to only run the current test case id
@@ -143,10 +144,12 @@ def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
 def hive_consume_command(
     test_case: TestCaseIndexFile | TestCaseStream,
     filtered_hive_options: List[str],
+    client_type: ClientType,
 ) -> str:
     """Command to run the test within hive."""
     command_parts = filtered_hive_options.copy()
-    command_parts.append(f'--sim.limit "id:{test_case.id}"')
+    command_parts.append(f"--client={client_type.name}")
+    command_parts.append(f'--sim.limit="id:{test_case.id}"')
 
     return " ".join(command_parts)
 
