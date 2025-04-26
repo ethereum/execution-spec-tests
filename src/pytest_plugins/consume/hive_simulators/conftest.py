@@ -138,6 +138,12 @@ def filtered_hive_options(hive_info: HiveInfo) -> List[str]:
 
 
 @pytest.fixture(scope="function")
+def hive_client_config_file_parameter(hive_clients_yaml_target_filename: str) -> str:
+    """Return the hive client config file parameter."""
+    return f"--client-file {hive_clients_yaml_target_filename}"
+
+
+@pytest.fixture(scope="function")
 def hive_consume_command(
     test_case: TestCaseIndexFile | TestCaseStream,
     filtered_hive_options: List[str],
@@ -145,16 +151,11 @@ def hive_consume_command(
 ) -> str:
     """Command to run the test within hive."""
     command_parts = filtered_hive_options.copy()
+    command_parts.append(f"{hive_client_config_file_parameter}")
     command_parts.append(f"--client={client_type.name}")
     command_parts.append(f'--sim.limit="id:{test_case.id}"')
 
     return " ".join(command_parts)
-
-
-@pytest.fixture(scope="function")
-def hive_client_config_file_parameter(hive_clients_yaml_target_filename: str) -> str:
-    """Return the hive client config file parameter."""
-    return f"--client-file {hive_clients_yaml_target_filename}"
 
 
 @pytest.fixture(scope="function")
