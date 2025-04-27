@@ -103,3 +103,80 @@ def test_worst_keccak(
         post={},
         blocks=[Block(txs=[tx])],
     )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "gas_limit",
+    [
+        36_000_000,
+        60_000_000,
+        100_000_000,
+        300_000_000,
+    ],
+)
+@pytest.mark.parametrize(
+    "base_mod_length, exp_length",
+    [
+        (32, 32),
+    ],
+)
+def test_worst_modexp(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_limit: int,
+    base_mod_length: int,
+    exp_length: int,
+):
+    """Test running a block with as many MODEXP calls as possible."""
+    env = Environment(gas_limit=gas_limit)
+
+    base = 2 ** (8 * base_mod_length) - 1
+    mod = 2 ** (8 * base_mod_length) - 1
+    exp = 2 ** (8 * exp_length) - 1
+
+    # EIP-7883 (TODO: generalize)
+    mul_complexity = math.ceil(base_mod_length / 8) ** 2
+    iter_complexity = exp.bit_length() - 1
+    gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
+
+    mem_prep = (
+        Op.MSTORE(0 * 32, 32)
+        + Op.MSTORE(1 * 32, 32)
+        + Op.MSTORE(2 * 32, 32)
+        + Op.MSTORE(3 * 32, base)
+        + Op.MSTORE(4 * 32, exp)
+        + Op.MSTORE(5 * 32, mod)
+    )
+
+    attack_block = Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0) + Op.POP
+
+    jumpdest = Op.JUMPDEST
+    jump_back = Op.JUMP(len(mem_prep))
+    max_iters_loop = (MAX_CODE_SIZE - len(mem_prep) - len(jumpdest) - len(jump_back)) // len(
+        attack_block
+    )
+    code = mem_prep + jumpdest + sum([attack_block] * max_iters_loop) + jump_back
+    if len(code) > MAX_CODE_SIZE:
+        # Must never happen, but keep it as a sanity check.
+        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
+
+    code_address = pre.deploy_contract(code=bytes(code))
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+        data=[],
+        value=0,
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
