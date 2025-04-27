@@ -146,6 +146,7 @@ def hive_client_config_file_parameter(hive_clients_yaml_target_filename: str) ->
 @pytest.fixture(scope="function")
 def hive_consume_command(
     test_case: TestCaseIndexFile | TestCaseStream,
+    hive_client_config_file_parameter: str,
     filtered_hive_options: List[str],
     client_type: ClientType,
 ) -> str:
