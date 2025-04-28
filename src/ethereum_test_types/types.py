@@ -307,6 +307,7 @@ class Alloc(BaseAlloc):
         """
         raise NotImplementedError("empty_account is not implemented in the base class")
 
+
 class WithdrawalGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     """Withdrawal generic type, used as a parent class for `Withdrawal` and `FixtureWithdrawal`."""
 

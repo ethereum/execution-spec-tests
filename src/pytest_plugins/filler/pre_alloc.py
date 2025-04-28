@@ -265,10 +265,12 @@ class Alloc(BaseAlloc):
 
         Returns:
             Address: The address of the created empty account.
+
         """
         eoa = next(self._eoa_iterator)
 
-        return eoa.address
+        return Address(eoa)
+
 
 @pytest.fixture(scope="session")
 def alloc_mode(request: pytest.FixtureRequest) -> AllocMode:

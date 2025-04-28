@@ -358,17 +358,18 @@ class Alloc(BaseAlloc):
 
         Returns:
             Address: The address of the created empty account.
+
         """
         eoa = next(self._eoa_iterator)
 
         super().__setitem__(
-            eoa.address,
+            eoa,
             Account(
                 nonce=0,
                 balance=0,
             ),
         )
-        return eoa.address
+        return Address(eoa)
 
     def wait_for_transactions(self) -> List[TransactionByHashResponse]:
         """Wait for all transactions to be included in blocks."""
