@@ -26,6 +26,8 @@ Users can expect that all tests currently living in [ethereum/tests](https://git
 
 #### `consume`
 
+- 🐞 Fix consume direct fails for geth blockchain tests ([#1502](https://github.com/ethereum/execution-spec-tests/pull/1502)).
+
 ### 📋 Misc
 
 ### 🧪 Test Cases
