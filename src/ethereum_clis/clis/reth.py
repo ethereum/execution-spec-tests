@@ -58,4 +58,7 @@ class RethExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_EXCESS_BLOB_GAS: (
             r"excess blob gas \d+ is not a multiple of blob gas per blob|invalid excess blob gas"
         ),
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (
+            r"block used gas \(\d+\) is greater than gas limit \(\d+\)"
+        ),
     }

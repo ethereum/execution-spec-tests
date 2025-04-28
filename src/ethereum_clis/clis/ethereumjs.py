@@ -152,4 +152,7 @@ class EthereumJSExceptionMapper(ExceptionMapper):
             r"Invalid blockHash, expected: 0x[0-9a-f]+, received: 0x[0-9a-f]+"
         ),
         BlockException.INVALID_REQUESTS: r"Unknown request identifier|invalid requestshash",
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (
+            r"Invalid block: too much gas used. Used: \d+, gas limit: \d+"
+        ),
     }

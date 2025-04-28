@@ -356,6 +356,9 @@ class NethermindExceptionMapper(ExceptionMapper):
             "HeaderBlobGasMismatch: Blob gas in header does not match calculated"
         ),
         BlockException.INVALID_REQUESTS: "InvalidRequestsHash: Requests hash mismatch in block",
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (
+            "ExceededGasLimit: Gas used exceeds gas limit."
+        ),
     }
     mapping_regex = {
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (

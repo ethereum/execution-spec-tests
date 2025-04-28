@@ -264,6 +264,7 @@ class BesuExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_BLOB_GAS_USED: (
             "Payload BlobGasUsed does not match calculated BlobGasUsed"
         ),
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: "Header validation failed (FULL)",
         # TODO EVMONE needs to differentiate when the section is missing in the header or body
         EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",
         EOFException.MISSING_CODE_HEADER: "err: code_section_missing",

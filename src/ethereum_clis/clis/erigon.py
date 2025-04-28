@@ -18,6 +18,7 @@ class ErigonExceptionMapper(ExceptionMapper):
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "tip higher than fee cap",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "max fee per blob gas too low",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "nonce too low",
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: "gas limit reached",
         TransactionException.TYPE_3_TX_PRE_FORK: "blob txn is not supported by signer",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
             "invalid blob versioned hash, must start with VERSIONED_HASH_VERSION_KZG"
@@ -43,4 +44,5 @@ class ErigonExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
         BlockException.INVALID_GAS_USED: r"gas used by execution: \w+, in header: \w+",
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: r"invalid gasUsed: have \d+, gasLimit \d+",
     }
