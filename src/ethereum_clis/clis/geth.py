@@ -121,9 +121,7 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.BLOB_GAS_USED_ABOVE_LIMIT: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
-        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
-            r"system call failed to execute: *"
-        ),
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"system call failed to execute: *"),
     }
 
 
