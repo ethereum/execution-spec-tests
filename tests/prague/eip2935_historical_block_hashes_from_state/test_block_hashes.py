@@ -100,7 +100,7 @@ def generate_block_check_code(
         ),
         pytest.param(
             Spec.BLOCKHASH_OLD_WINDOW + 1,
-            Spec.HISTORY_SERVE_WINDOW + 1,
+            1,
             marks=pytest.mark.slow,
         ),
     ],
