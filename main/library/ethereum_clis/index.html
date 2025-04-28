@@ -33719,8 +33719,7 @@ for future re-use.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">223</span>
-<span class="normal">224</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -33864,7 +33863,8 @@ for future re-use.</p>
 <span class="normal">365</span>
 <span class="normal">366</span>
 <span class="normal">367</span>
-<span class="normal">368</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethFixtureConsumer</span><span class="p">(</span>
+<span class="normal">368</span>
+<span class="normal">369</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethFixtureConsumer</span><span class="p">(</span>
     <span class="n">GethEvm</span><span class="p">,</span>
     <span class="n">FixtureConsumerTool</span><span class="p">,</span>
     <span class="n">fixture_formats</span><span class="o">=</span><span class="p">[</span><span class="n">StateFixture</span><span class="p">,</span> <span class="n">BlockchainFixture</span><span class="p">],</span>
@@ -34040,8 +34040,7 @@ specific fixture from the fixture file when executing.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">230</span>
-<span class="normal">231</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
@@ -34078,7 +34077,8 @@ specific fixture from the fixture file when executing.</p>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_blockchain_test</span><span class="p">(</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_blockchain_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -34151,8 +34151,7 @@ was requested.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">270</span>
-<span class="normal">271</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
@@ -34192,7 +34191,8 @@ was requested.</p>
 <span class="normal">308</span>
 <span class="normal">309</span>
 <span class="normal">310</span>
-<span class="normal">311</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+<span class="normal">311</span>
+<span class="normal">312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span> <span class="nf">consume_state_test_file</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -34262,8 +34262,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">313</span>
-<span class="normal">314</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">314</span>
 <span class="normal">315</span>
 <span class="normal">316</span>
 <span class="normal">317</span>
@@ -34292,7 +34291,8 @@ every time an select a single result from there.</p>
 <span class="normal">340</span>
 <span class="normal">341</span>
 <span class="normal">342</span>
-<span class="normal">343</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_state_test</span><span class="p">(</span>
+<span class="normal">343</span>
+<span class="normal">344</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_state_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -34349,8 +34349,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">345</span>
-<span class="normal">346</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
 <span class="normal">349</span>
@@ -34372,7 +34371,8 @@ every time an select a single result from there.</p>
 <span class="normal">365</span>
 <span class="normal">366</span>
 <span class="normal">367</span>
-<span class="normal">368</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_fixture</span><span class="p">(</span>
+<span class="normal">368</span>
+<span class="normal">369</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">consume_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -34436,8 +34436,7 @@ every time an select a single result from there.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">191</span>
-<span class="normal">192</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
 <span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
@@ -34465,7 +34464,8 @@ every time an select a single result from there.</p>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">GethEvm</span><span class="p">,</span> <span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">220</span>
+<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">GethEvm</span><span class="p">,</span> <span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;go-ethereum `evm` Transition tool interface wrapper class.&quot;&quot;&quot;</span>
 
     <span class="n">subcommand</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;t8n&quot;</span>
@@ -34523,8 +34523,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">198</span>
-<span class="normal">199</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
 <span class="normal">202</span>
@@ -34537,7 +34536,8 @@ every time an select a single result from there.</p>
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
-<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">212</span>
+<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">exception_mapper</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExceptionMapper</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -34579,13 +34579,13 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
-<span class="normal">215</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
 <span class="normal">219</span>
-<span class="normal">220</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">220</span>
+<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return True if the fork is supported by the tool.</span>
 
