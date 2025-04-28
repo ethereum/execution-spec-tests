@@ -22,7 +22,7 @@ from ..eip7620_eof_create.helpers import (
 )
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7873.md"
-REFERENCE_SPEC_VERSION = "todo"
+REFERENCE_SPEC_VERSION = "23d96ceff8f0690432ab91089ae257f08f32340f"
 
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
