@@ -69,6 +69,7 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_EXCESS_BLOB_GAS: "invalid excessBlobGas",
         BlockException.INVALID_VERSIONED_HASHES: "invalid number of versionedHashes",
         BlockException.INVALID_REQUESTS: "invalid requests hash",
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: "system call failed to execute:",
         BlockException.INVALID_BLOCK_HASH: "blockhash mismatch",
         # TODO EVMONE needs to differentiate when the section is missing in the header or body
         EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",
@@ -121,7 +122,6 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.BLOB_GAS_USED_ABOVE_LIMIT: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
-        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"system call failed to execute: *"),
     }
 
 
