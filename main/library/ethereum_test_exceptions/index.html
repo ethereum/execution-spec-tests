@@ -2159,6 +2159,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_GAS_USED_ABOVE_LIMIT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_GAS_USED_ABOVE_LIMIT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.BlockException.INVALID_WITHDRAWALS_ROOT" class="md-nav__link">
     <span class="md-ellipsis">
       INVALID_WITHDRAWALS_ROOT
@@ -32509,6 +32518,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_GAS_USED_ABOVE_LIMIT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_GAS_USED_ABOVE_LIMIT
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_exceptions.BlockException.INVALID_WITHDRAWALS_ROOT" class="md-nav__link">
     <span class="md-ellipsis">
       INVALID_WITHDRAWALS_ROOT
@@ -34772,7 +34790,11 @@ block header contains an invalid field.</p>
 <span class="normal">591</span>
 <span class="normal">592</span>
 <span class="normal">593</span>
-<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -34872,6 +34894,10 @@ block header contains an invalid field.</p>
     <span class="n">INVALID_GAS_USED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block header&#39;s actual gas used does not match the provided header&#39;s value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_GAS_USED_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block header&#39;s gas used value is above the gas limit field&#39;s value.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INVALID_WITHDRAWALS_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -35608,6 +35634,33 @@ block header contains an invalid field.</p>
 
 
 
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_GAS_USED_ABOVE_LIMIT" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_GAS_USED_ABOVE_LIMIT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_GAS_USED_ABOVE_LIMIT" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Block header's gas used value is above the gas limit field's value.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
 <h3 id="ethereum_test_exceptions.BlockException.INVALID_WITHDRAWALS_ROOT" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">INVALID_WITHDRAWALS_ROOT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
 
@@ -36282,11 +36335,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">601</span>
 <span class="normal">602</span>
 <span class="normal">603</span>
 <span class="normal">604</span>
@@ -36493,7 +36542,11 @@ a fork that is not active yet.</p>
 <span class="normal">805</span>
 <span class="normal">806</span>
 <span class="normal">807</span>
-<span class="normal">808</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
