@@ -92,7 +92,7 @@ class ScenariosCallCombinations:
         )
 
         scenario_contract = pre.deploy_contract(
-            code=Op.MSTORE(32, scenario_input.external_address)
+            code=Op.MSTORE(32, 1122334455)
             + first_call(
                 gas=Op.SUB(Op.GAS, self.keep_gas),
                 address=operation_contract,
@@ -139,13 +139,12 @@ class ScenariosCallCombinations:
                         else balance.first_call_value + balance.program_selfbalance
                     )
                 ),
-                ext_balance=scenario_input.external_balance,
                 call_value=(
                     0
                     if first_call in [Op.STATICCALL, Op.DELEGATECALL]
                     else balance.first_call_value
                 ),
-                call_dataload_0=int(scenario_input.external_address.hex(), 16),
+                call_dataload_0=1122334455,
                 call_datasize=40,
                 has_static=True if first_call == Op.STATICCALL else False,
             ),
@@ -229,7 +228,7 @@ class ScenariosCallCombinations:
             code=scenario_input.operation_code, balance=balance.program_selfbalance
         )
         sub_contract = pre.deploy_contract(
-            code=Op.MSTORE(32, scenario_input.external_address)
+            code=Op.MSTORE(32, 1122334455)
             + second_call(
                 gas=Op.SUB(Op.GAS, self.keep_gas),
                 address=operation_contract,
@@ -280,9 +279,8 @@ class ScenariosCallCombinations:
                 # Define code_caller for Op.CALLER
                 code_caller=_compute_code_caller(),
                 selfbalance=_compute_selfbalance(),
-                ext_balance=scenario_input.external_balance,
                 call_value=_compute_callvalue(),
-                call_dataload_0=int(scenario_input.external_address.hex(), 16),
+                call_dataload_0=1122334455,
                 call_datasize=40,
                 has_static=(
                     True if first_call == Op.STATICCALL or second_call == Op.STATICCALL else False

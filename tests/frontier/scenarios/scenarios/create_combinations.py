@@ -73,7 +73,6 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
             code_address=created_address,
             code_caller=scenario_contract,
             selfbalance=3,
-            ext_balance=scenario_input.external_balance,
             call_value=3,
             call_dataload_0=0,
             call_datasize=0,
@@ -108,7 +107,7 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
                 code=Om.MSTORE(deploy_code, 0)
                 + Op.MSTORE(32, create(balance.create_value, 0, deploy_code_size, *salt))
                 + Op.MSTORE(0, 0)
-                + Op.MSTORE(64, scenario_input.external_address)
+                + Op.MSTORE(64, 1122334455)
                 + call(
                     gas=Op.SUB(Op.GAS, keep_gas),
                     address=Op.MLOAD(32),
@@ -148,7 +147,6 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
                 ),
                 code_caller=root_contract if call == Op.DELEGATECALL else scenario_contract,
                 selfbalance=_compute_selfbalance(),
-                ext_balance=scenario_input.external_balance,
                 call_value=(
                     0
                     if call in [Op.STATICCALL]
@@ -158,7 +156,7 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
                         else balance.call_value
                     )
                 ),
-                call_dataload_0=int(scenario_input.external_address.hex(), 16),
+                call_dataload_0=1122334455,
                 call_datasize=40,
                 has_static=True if call == Op.STATICCALL else False,
             )

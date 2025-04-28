@@ -14,7 +14,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Bytecode,
     Environment,
     Storage,
     Transaction,
@@ -23,79 +22,67 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .common import (
     ExecutionEnvironment,
-    ProgramResult,
     Scenario,
     ScenarioDebug,
     ScenarioGeneratorInput,
-    replace_special_calls_in_operation,
-    translate_result,
+    ScenarioTestProgram,
 )
-from .programs.all_frontier_opcodes import program_all_frontier_opcodes
+from .programs.all_frontier_opcodes import ProgramAllFrontierOpcodes
 from .programs.context_calls import (
-    program_address,
-    program_balance,
-    program_basefee,
-    program_blobbasefee,
-    program_blobhash,
-    program_blockhash,
-    program_calldatacopy,
-    program_calldataload,
-    program_calldatasize,
-    program_caller,
-    program_callvalue,
-    program_chainid,
-    program_codecopy_codesize,
-    program_coinbase,
-    program_difficulty_randao,
-    program_ext_codecopy_codesize,
-    program_extcodehash,
-    program_gaslimit,
-    program_gasprice,
-    program_mcopy,
-    program_number,
-    program_origin,
-    program_push0,
-    program_returndatacopy,
-    program_returndatasize,
-    program_selfbalance,
-    program_timestamp,
-    program_tload,
+    ProgramAddress,
+    ProgramBalance,
+    ProgramBasefee,
+    ProgramBlobBaseFee,
+    ProgramBlobhash,
+    ProgramBlockhash,
+    ProgramCallDataCopy,
+    ProgramCallDataLoad,
+    ProgramCallDataSize,
+    ProgramCaller,
+    ProgramCallValue,
+    ProgramChainid,
+    ProgramCodeCopyCodeSize,
+    ProgramCoinbase,
+    ProgramDifficultyRandao,
+    ProgramExtCodeCopyExtCodeSize,
+    ProgramExtCodehash,
+    ProgramGasLimit,
+    ProgramGasPrice,
+    ProgramMcopy,
+    ProgramNumber,
+    ProgramOrigin,
+    ProgramPush0,
+    ProgramReturnDataCopy,
+    ProgramReturnDataSize,
+    ProgramSelfbalance,
+    ProgramTimestamp,
+    ProgramTload,
 )
-from .programs.invalid_opcodes import program_invalid
+from .programs.invalid_opcodes import ProgramInvalidOpcode
 from .programs.static_violation import (
-    program_logs,
-    program_sstore_sload,
-    program_suicide,
-    program_tstore_tload,
+    ProgramLogs,
+    ProgramSstoreSload,
+    ProgramSuicide,
+    ProgramTstoreTload,
 )
 from .scenarios.call_combinations import ScenariosCallCombinations
 from .scenarios.create_combinations import scenarios_create_combinations
 from .scenarios.revert_combinations import scenarios_revert_combinations
 
 REFERENCE_SPEC_GIT_PATH = "N/A"
-
 REFERENCE_SPEC_VERSION = "N/A"
 
 
 @pytest.fixture
-def scenario_input(fork: Fork, pre: Alloc, operation: Bytecode) -> ScenarioGeneratorInput:
-    """Prepare the state for scenario."""
-    external_balance = 123
-    external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=external_balance)
-    operation = replace_special_calls_in_operation(pre, fork, operation, external_address)
-    return ScenarioGeneratorInput(
-        fork=fork,
-        pre=pre,
-        operation_code=operation,
-        external_address=external_address,
-        external_balance=external_balance,
-    )
-
-
-@pytest.fixture
-def scenarios(scenario_input: ScenarioGeneratorInput) -> List[Scenario]:
+def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List[Scenario]:
     """Define fixture vectors of all possible scenarios, given the current pre state input."""
     scenarios_list: List[Scenario] = []
+
+    scenario_input = ScenarioGeneratorInput(
+        fork=fork,
+        pre=pre,
+        operation_code=test_program.make_test_code(pre, fork),
+    )
 
     call_combinations = ScenariosCallCombinations(scenario_input).generate()
     for combination in call_combinations:
@@ -112,68 +99,65 @@ def scenarios(scenario_input: ScenarioGeneratorInput) -> List[Scenario]:
     return scenarios_list
 
 
+program_classes = [
+    ProgramSstoreSload(),
+    ProgramTstoreTload(),
+    ProgramLogs(),
+    ProgramSuicide(),
+    ProgramInvalidOpcode(),
+    ProgramAddress(),
+    ProgramBalance(),
+    ProgramOrigin(),
+    ProgramCaller(),
+    ProgramCallValue(),
+    ProgramCallDataLoad(),
+    ProgramCallDataSize(),
+    ProgramCallDataCopy(),
+    ProgramCodeCopyCodeSize(),
+    ProgramGasPrice(),
+    ProgramExtCodeCopyExtCodeSize(),
+    ProgramReturnDataSize(),
+    ProgramReturnDataCopy(),
+    ProgramExtCodehash(),
+    ProgramBlockhash(),
+    ProgramCoinbase(),
+    ProgramTimestamp(),
+    ProgramNumber(),
+    ProgramDifficultyRandao(),
+    ProgramGasLimit(),
+    ProgramChainid(),
+    ProgramSelfbalance(),
+    ProgramBasefee(),
+    ProgramBlobhash(),
+    ProgramBlobBaseFee(),
+    ProgramTload(),
+    ProgramMcopy(),
+    ProgramPush0(),
+    ProgramAllFrontierOpcodes(),
+]
+
+
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.parametrize(
-    # select program to debug (program, "scenario_name")
-    # program=None select all programs
+    # select program to debug ("program_id", "scenario_name")
+    # program="" select all programs
     # scenario_name="" select all scenarios
-    # Example: [ScenarioDebug(test_param=program_invalid, scenario_name="scenario_CALL_CALL")],
+    # Example: [ScenarioDebug(program_id=ProgramSstoreSload().id, scenario_name="scenario_CALL_CALL")],  # noqa: E501
     "debug",
-    # [ScenarioDebug(test_param=program_invalid, scenario_name="scenario_CALL_CALL")],
-    [ScenarioDebug(test_param=None, scenario_name="")],
+    [ScenarioDebug(program_id="", scenario_name="")],
     ids=["debug"],
 )
 @pytest.mark.parametrize(
-    "operation, expected_result",
-    [
-        # invalid opcodes
-        program_invalid,
-        # static violation programs
-        program_sstore_sload,
-        program_tstore_tload,
-        program_logs,
-        # 00 - 20
-        program_all_frontier_opcodes,
-        # 30
-        program_address,
-        program_balance,
-        program_origin,
-        program_caller,
-        program_callvalue,
-        program_calldataload,
-        program_calldatasize,
-        program_calldatacopy,
-        program_codecopy_codesize,
-        program_gasprice,
-        program_ext_codecopy_codesize,
-        program_returndatasize,
-        program_returndatacopy,
-        program_extcodehash,
-        # 40
-        program_blockhash,  # fails in state mode in py-t8n
-        program_coinbase,
-        program_timestamp,
-        program_number,
-        program_difficulty_randao,
-        program_gaslimit,
-        program_chainid,
-        program_selfbalance,
-        program_basefee,
-        program_blobhash,
-        program_blobbasefee,
-        program_tload,
-        program_mcopy,
-        program_push0,
-        program_suicide,
-    ],
+    "test_program",
+    program_classes,
+    ids=[cls.id for cls in program_classes],
 )
 def test_scenarios(
     blockchain_test: BlockchainTestFiller,
-    pre: Alloc,
     fork: Fork,
-    expected_result: ProgramResult,
+    pre: Alloc,
     debug: ScenarioDebug,
-    operation: Bytecode,
+    test_program: ScenarioTestProgram,
     scenarios,
 ):
     """
@@ -188,26 +172,22 @@ def test_scenarios(
     tx_env = Environment()
     tx_origin: Address = pre.fund_eoa()
 
+    tests: int = 0
     blocks: List[Block] = []
     post: dict = {}
     for scenario in scenarios:
         if debug.scenario_name and scenario.name != debug.scenario_name:
             continue
 
-        if debug.test_param is not None:
-            debug_program = debug.test_param.values[0]
-            if hasattr(debug_program, "hex") and operation.hex() != debug_program.hex():
+        if debug.program_id:
+            if test_program.id != debug.program_id:
                 continue
+        tests = tests + 1
 
         post_storage = Storage()
         result_slot = post_storage.store_next(1, hint=f"runner result {scenario.name}")
 
-        tx_max_gas = (
-            7_000_000
-            if hasattr(program_invalid.values[0], "hex")
-            and operation.hex() == program_invalid.values[0].hex()
-            else 1_000_000
-        )
+        tx_max_gas = 7_000_000 if test_program.id == ProgramInvalidOpcode().id else 1_000_000
         tx_gasprice: int = 10
         exec_env = ExecutionEnvironment(
             fork=fork,
@@ -225,7 +205,8 @@ def test_scenarios(
                 return post.store_next(0, hint=scenario.name)
             else:
                 return post.store_next(
-                    translate_result(expected_result, scenario.env, exec_env), hint=scenario.name
+                    test_program.result().translate_result(scenario.env, exec_env),
+                    hint=scenario.name,
                 )
 
         runner_contract = pre.deploy_contract(
@@ -251,8 +232,9 @@ def test_scenarios(
         post[runner_contract] = Account(storage=post_storage)
         blocks.append(Block(txs=[tx], post=post))
 
-    blockchain_test(
-        pre=pre,
-        blocks=blocks,
-        post=post,
-    )
+    if tests > 0:
+        blockchain_test(
+            pre=pre,
+            blocks=blocks,
+            post=post,
+        )
