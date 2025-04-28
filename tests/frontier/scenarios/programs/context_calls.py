@@ -1,232 +1,562 @@
 """Define programs that will run all context opcodes for test scenarios."""
 
-import pytest
+from functools import cached_property
 
-from ethereum_test_forks import Byzantium, Cancun, Constantinople, Istanbul, London, Shanghai
+from ethereum_test_forks import Byzantium, Cancun, Constantinople, Fork, Istanbul, London, Shanghai
+from ethereum_test_tools import Alloc, Bytecode
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..common import ProgramResult, ScenarioExpectOpcode, SpecialAddress
-
-# Check that ADDRESS is really the code execution address in all scenarios
-program_address = pytest.param(
-    Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CODE_ADDRESS),
-    id="program_ADDRESS",
-)
-
-# Check the BALANCE in all execution contexts
-program_balance = pytest.param(
-    Op.MSTORE(0, Op.BALANCE(SpecialAddress.EXTERNAL_ADDRESS)) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.BALANCE),
-    id="program_BALANCE",
-)
-
-# Check that ORIGIN stays the same in all contexts
-program_origin = pytest.param(
-    Op.MSTORE(0, Op.ORIGIN) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.TX_ORIGIN),
-    id="program_ORIGIN",
+from ..common import (
+    ProgramResult,
+    ScenarioExpectOpcode,
+    ScenarioTestProgram,
+    make_gas_hash_contract,
 )
 
 
-# Check the CALLER in all execution contexts
-program_caller = pytest.param(
-    Op.MSTORE(0, Op.CALLER) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CODE_CALLER),
-    id="program_CALLER",
-)
+class ProgramAddress(ScenarioTestProgram):
+    """Check that ADDRESS is really the code execution address in all scenarios."""
 
-# Check the CALLVALUE in all execution contexts
-program_callvalue = pytest.param(
-    Op.MSTORE(0, Op.CALLVALUE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CALL_VALUE),
-    id="program_CALLVALUE",
-)
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.ADDRESS) + Op.RETURN(0, 32)
 
-# Check the CALLDATALOAD in all execution contexts
-program_calldataload = pytest.param(
-    Op.MSTORE(0, Op.CALLDATALOAD(0)) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CALL_DATALOAD_0),
-    id="program_CALLDATALOAD",
-)
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_ADDRESS"
 
-# Check the CALLDATASIZE in all execution contexts
-program_calldatasize = pytest.param(
-    Op.MSTORE(0, Op.CALLDATASIZE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CALL_DATASIZE),
-    id="program_CALLDATASIZE",
-)
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CODE_ADDRESS)
 
-# Check the CALLDATACOPY in all execution contexts
-program_calldatacopy = pytest.param(
-    Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.CALL_DATALOAD_0),
-    id="program_CALLDATACOPY",
-)
 
-# Check that codecopy and codesize stays the same in all contexts
-program_codecopy_codesize = pytest.param(
-    Op.MSTORE(0, Op.CODESIZE) + Op.CODECOPY(0, 0, 30) + Op.RETURN(0, 32),
-    ProgramResult(result=0x38600052601E600060003960206000F300000000000000000000000000000010),
-    id="program_CODECOPY_CODESIZE",
-)
+class ProgramBalance(ScenarioTestProgram):
+    """Check the BALANCE in all execution contexts."""
 
-# Check that gasprice stays the same in all contexts
-program_gasprice = pytest.param(
-    Op.MSTORE(0, Op.GASPRICE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.GASPRICE),
-    id="program_GASPRICE",
-)
+    external_balance: int = 123
 
-# Check that extcodesize and extcodecopy of pre deployed contract stay the same in all contexts
-program_ext_codecopy_codesize = pytest.param(
-    Op.MSTORE(0, Op.EXTCODESIZE(SpecialAddress.EXTERNAL_ADDRESS))
-    + Op.EXTCODECOPY(SpecialAddress.EXTERNAL_ADDRESS, 0, 0, 30)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=0x6001600101000000000000000000000000000000000000000000000000000005),
-    id="program_EXTCODECOPY_EXTCODESIZE",
-)
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=self.external_balance)
+        return Op.MSTORE(0, Op.BALANCE(external_address)) + Op.RETURN(0, 32)
 
-# Check that returndatasize stays the same in all contexts
-program_returndatasize = pytest.param(
-    Op.MSTORE(0, Op.RETURNDATASIZE)
-    + Op.CALL(100000, 2, 0, 0, 10, 32, 20)
-    + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.RETURNDATASIZE))
-    + Op.RETURN(0, 32),
-    ProgramResult(result=32, from_fork=Byzantium),
-    id="program_RETURNDATASIZE",
-)
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_BALANCE"
 
-# Check that returndatacopy stays the same in all contexts
-program_returndatacopy = pytest.param(
-    Op.CALL(100000, 2, 0, 0, 10, 32, 20) + Op.RETURNDATACOPY(0, 0, 32) + Op.RETURN(0, 32),
-    ProgramResult(
-        result=0x1D448AFD928065458CF670B60F5A594D735AF0172C8D67F22A81680132681CA,
-        from_fork=Byzantium,
-    ),
-    id="program_RETURNDATACOPY",
-)
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=self.external_balance)
 
-# Check that extcodehash stays the same in all contexts
-program_extcodehash = pytest.param(
-    Op.MSTORE(0, Op.EXTCODEHASH(SpecialAddress.EXTERNAL_ADDRESS)) + Op.RETURN(0, 32),
-    ProgramResult(
-        result=0x8C634A8B28DD46F5DCB9A9F5DA1FAED26D0FB5ED98F3873A29AD27AAAFFDE0E4,
-        from_fork=Constantinople,
-    ),
-    id="program_EXTCODEHASH",
-)
 
-# Check that blockhash stays the same in all contexts
-# Need a way to pre calculate at least hash of block 0
-program_blockhash = pytest.param(
-    # Calculate gas hash of Op.BLOCKHASH(0) value
-    Op.MSTORE(64, Op.BLOCKHASH(0))
-    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
-    + Op.MSTORE(0, 1)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=1),
-    id="program_BLOCKHASH",
-)
+class ProgramOrigin(ScenarioTestProgram):
+    """Check that ORIGIN stays the same in all contexts."""
 
-# Need a way to pre calculate coinbase
-program_coinbase = pytest.param(
-    Op.MSTORE(0, Op.COINBASE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.COINBASE),
-    id="program_COINBASE",
-)
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.ORIGIN) + Op.RETURN(0, 32)
 
-program_timestamp = pytest.param(
-    Op.MSTORE(64, Op.TIMESTAMP)
-    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
-    + Op.MSTORE(0, 1)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=1),
-    id="program_TIMESTAMP",
-)
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_ORIGIN"
 
-program_number = pytest.param(
-    Op.MSTORE(0, Op.NUMBER) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.NUMBER),
-    id="program_NUMBER",
-)
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.TX_ORIGIN)
 
-program_difficulty_randao = pytest.param(
-    # Calculate gas hash of DIFFICULTY value
-    Op.MSTORE(0, Op.PREVRANDAO)
-    + Op.MSTORE(64, Op.PREVRANDAO)
-    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
-    + Op.MSTORE(0, 1)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=1),
-    id="program_DIFFICULTY",
-)
 
-program_gaslimit = pytest.param(
-    Op.MSTORE(0, Op.GASLIMIT) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.GASLIMIT),
-    id="program_GASLIMIT",
-)
+class ProgramCaller(ScenarioTestProgram):
+    """Check the CALLER in all execution contexts."""
 
-# Check that chainid stays the same in all contexts
-program_chainid = pytest.param(
-    Op.MSTORE(0, Op.CHAINID) + Op.RETURN(0, 32),
-    ProgramResult(result=1, from_fork=Istanbul),
-    id="program_CHAINID",
-)
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CALLER) + Op.RETURN(0, 32)
 
-# Check the SELFBALANCE in all execution contexts
-program_selfbalance = pytest.param(
-    Op.MSTORE(0, Op.SELFBALANCE) + Op.RETURN(0, 32),
-    ProgramResult(result=ScenarioExpectOpcode.SELFBALANCE, from_fork=Istanbul),
-    id="program_SELFBALANCE",
-)
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CALLER"
 
-program_basefee = pytest.param(
-    # Calculate gas hash of BASEFEE value
-    Op.MSTORE(64, Op.BASEFEE)
-    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
-    + Op.MSTORE(0, 1)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=1, from_fork=London),
-    id="program_BASEFEE",
-)
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CODE_CALLER)
 
-program_blobhash = pytest.param(
-    Op.MSTORE(0, Op.BLOBHASH(0)) + Op.RETURN(0, 32),
-    ProgramResult(result=0, from_fork=Cancun),
-    id="program_BLOBHASH",
-)
 
-program_blobbasefee = pytest.param(
-    # Calculate gas hash of BLOBBASEFEE value
-    Op.MSTORE(64, Op.BLOBBASEFEE)
-    + Op.CALL(Op.GAS, SpecialAddress.GAS_HASH_ADDRESS, 0, 64, 32, 0, 0)
-    + Op.MSTORE(0, 1)
-    + Op.RETURN(0, 32),
-    ProgramResult(result=1, from_fork=Cancun),
-    id="program_BLOBBASEFEE",
-)
+class ProgramCallValue(ScenarioTestProgram):
+    """Check the CALLVALUE in all execution contexts."""
 
-program_tload = pytest.param(
-    Op.MSTORE(0, Op.TLOAD(0)) + Op.RETURN(0, 32),
-    ProgramResult(result=0, from_fork=Cancun),
-    id="program_TLOAD",
-)
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CALLVALUE) + Op.RETURN(0, 32)
 
-program_mcopy = pytest.param(
-    Op.MSTORE(0, 0)
-    + Op.MSTORE(32, 0x000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F)
-    + Op.MCOPY(0, 32, 32)
-    + Op.RETURN(0, 32),
-    ProgramResult(
-        result=0x000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F, from_fork=Cancun
-    ),
-    id="program_MCOPY",
-)
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CALLVALUE"
 
-program_push0 = pytest.param(
-    Op.PUSH1(10) + Op.PUSH0 + Op.MSTORE + Op.RETURN(0, 32),
-    ProgramResult(result=10, from_fork=Shanghai),
-    id="program_PUSH0",
-)
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CALL_VALUE)
+
+
+class ProgramCallDataLoad(ScenarioTestProgram):
+    """Check the CALLDATALOAD in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CALLDATALOAD(0)) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CALLDATALOAD"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CALL_DATALOAD_0)
+
+
+class ProgramCallDataSize(ScenarioTestProgram):
+    """Check the CALLDATASIZE in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CALLDATASIZE) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CALLDATASIZE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CALL_DATASIZE)
+
+
+class ProgramCallDataCopy(ScenarioTestProgram):
+    """Check the CALLDATACOPY in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CALLDATACOPY"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.CALL_DATALOAD_0)
+
+
+class ProgramCodeCopyCodeSize(ScenarioTestProgram):
+    """Check that codecopy and codesize stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CODESIZE) + Op.CODECOPY(0, 0, 30) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CODECOPY_CODESIZE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(
+            result=0x38600052601E600060003960206000F300000000000000000000000000000010
+        )
+
+
+class ProgramGasPrice(ScenarioTestProgram):
+    """Check that gasprice stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.GASPRICE) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_GASPRICE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.GASPRICE)
+
+
+class ProgramExtCodeCopyExtCodeSize(ScenarioTestProgram):
+    """Check that gasprice stays the same in all contexts."""
+
+    external_balance: int = 123
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=self.external_balance)
+        return (
+            Op.MSTORE(0, Op.EXTCODESIZE(external_address))
+            + Op.EXTCODECOPY(external_address, 0, 0, 30)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_EXTCODECOPY_EXTCODESIZE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(
+            result=0x6001600101000000000000000000000000000000000000000000000000000005
+        )
+
+
+class ProgramReturnDataSize(ScenarioTestProgram):
+    """Check that returndatasize stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return (
+            Op.MSTORE(0, Op.RETURNDATASIZE)
+            + Op.CALL(100000, 2, 0, 0, 10, 32, 20)
+            + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.RETURNDATASIZE))
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_RETURNDATASIZE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=32, from_fork=Byzantium)
+
+
+class ProgramReturnDataCopy(ScenarioTestProgram):
+    """Check that returndatacopy stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return (
+            Op.CALL(100000, 2, 0, 0, 10, 32, 20) + Op.RETURNDATACOPY(0, 0, 32) + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_RETURNDATACOPY"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(
+            result=0x1D448AFD928065458CF670B60F5A594D735AF0172C8D67F22A81680132681CA,
+            from_fork=Byzantium,
+        )
+
+
+class ProgramExtCodehash(ScenarioTestProgram):
+    """Check that extcodehash stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        external_address = pre.deploy_contract(code=Op.ADD(1, 1), balance=123)
+        return Op.MSTORE(0, Op.EXTCODEHASH(external_address)) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_EXTCODEHASH"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(
+            result=0x8C634A8B28DD46F5DCB9A9F5DA1FAED26D0FB5ED98F3873A29AD27AAAFFDE0E4,
+            from_fork=Constantinople,
+        )
+
+
+class ProgramBlockhash(ScenarioTestProgram):
+    """Check that blockhash stays the same in all contexts."""
+
+    # Need a way to pre calculate at least hash of block 0
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        # Calculate gas hash of Op.BLOCKHASH(0) value
+        gas_hash = make_gas_hash_contract(pre)
+
+        return (
+            Op.MSTORE(64, Op.BLOCKHASH(0))
+            + Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash, 0, 64, 32, 0, 0)
+            + Op.MSTORE(0, 1)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_BLOCKHASH"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1)
+
+
+class ProgramCoinbase(ScenarioTestProgram):
+    """Check that coinbase stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.COINBASE) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_COINBASE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.COINBASE)
+
+
+class ProgramTimestamp(ScenarioTestProgram):
+    """Check that timestamp stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        gas_hash = make_gas_hash_contract(pre)
+        return (
+            Op.MSTORE(64, Op.TIMESTAMP)
+            + Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash, 0, 64, 32, 0, 0)
+            + Op.MSTORE(0, 1)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_TIMESTAMP"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1)
+
+
+class ProgramNumber(ScenarioTestProgram):
+    """Check that block number stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.NUMBER) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_NUMBER"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.NUMBER)
+
+
+class ProgramDifficultyRandao(ScenarioTestProgram):
+    """Check that difficulty/randao stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        # Calculate gas hash of DIFFICULTY value
+        gas_hash = make_gas_hash_contract(pre)
+        return (
+            Op.MSTORE(0, Op.PREVRANDAO)
+            + Op.MSTORE(64, Op.PREVRANDAO)
+            + Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash, 0, 64, 32, 0, 0)
+            + Op.MSTORE(0, 1)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_DIFFICULTY"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1)
+
+
+class ProgramGasLimit(ScenarioTestProgram):
+    """Check that gaslimit stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.GASLIMIT) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_GASLIMIT"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.GASLIMIT)
+
+
+class ProgramChainid(ScenarioTestProgram):
+    """Check that chainid stays the same in all contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.CHAINID) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_CHAINID"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1, from_fork=Istanbul)
+
+
+class ProgramSelfbalance(ScenarioTestProgram):
+    """Check the SELFBALANCE in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.SELFBALANCE) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_SELFBALANCE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=ScenarioExpectOpcode.SELFBALANCE, from_fork=Istanbul)
+
+
+class ProgramBasefee(ScenarioTestProgram):
+    """Check the BASEFEE in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        gas_hash = make_gas_hash_contract(pre)
+        return (
+            Op.MSTORE(64, Op.BASEFEE)
+            + Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash, 0, 64, 32, 0, 0)
+            + Op.MSTORE(0, 1)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_BASEFEE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1, from_fork=London)
+
+
+class ProgramBlobhash(ScenarioTestProgram):
+    """Check the blobhash in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.BLOBHASH(0)) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_BLOBHASH"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=0, from_fork=Cancun)
+
+
+class ProgramBlobBaseFee(ScenarioTestProgram):
+    """Check the blob basefee in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        gas_hash = make_gas_hash_contract(pre)
+        return (
+            Op.MSTORE(64, Op.BLOBBASEFEE)
+            + Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash, 0, 64, 32, 0, 0)
+            + Op.MSTORE(0, 1)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_BLOBBASEFEE"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1, from_fork=Cancun)
+
+
+class ProgramTload(ScenarioTestProgram):
+    """Check the tload in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.MSTORE(0, Op.TLOAD(0)) + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_TLOAD"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=0, from_fork=Cancun)
+
+
+class ProgramMcopy(ScenarioTestProgram):
+    """Check the mcopy in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return (
+            Op.MSTORE(0, 0)
+            + Op.MSTORE(32, 0x000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F)
+            + Op.MCOPY(0, 32, 32)
+            + Op.RETURN(0, 32)
+        )
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_MCOPY"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(
+            result=0x000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F,
+            from_fork=Cancun,
+        )
+
+
+class ProgramPush0(ScenarioTestProgram):
+    """Check the push0 in all execution contexts."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return Op.PUSH1(10) + Op.PUSH0 + Op.MSTORE + Op.RETURN(0, 32)
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_PUSH0"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=10, from_fork=Shanghai)

@@ -28,7 +28,6 @@ def scenarios_revert_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
             code_address=scenario_contract,
             code_caller=scenario_contract,
             selfbalance=0,
-            ext_balance=scenario_input.external_balance,
             call_value=0,
             call_dataload_0=0,
             call_datasize=0,

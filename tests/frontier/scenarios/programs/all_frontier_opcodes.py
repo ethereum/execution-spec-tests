@@ -1,11 +1,12 @@
 """Define a program for scenario test that executes all frontier opcodes and entangles it's result."""  # noqa: E501
 
-import pytest
+from functools import cached_property
 
-from ethereum_test_tools import Bytecode, Conditional
+from ethereum_test_forks import Fork
+from ethereum_test_tools import Alloc, Bytecode, Conditional
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ..common import ProgramResult
+from ..common import ProgramResult, ScenarioTestProgram
 
 # Opcodes that are not in Frontier
 # 1b - SHL
@@ -468,8 +469,18 @@ def make_all_opcode_program() -> Bytecode:
     return code
 
 
-program_all_frontier_opcodes = pytest.param(
-    make_all_opcode_program(),
-    ProgramResult(result=1),
-    id="program_ALL_FRONTIER_OPCODES",
-)
+class ProgramAllFrontierOpcodes(ScenarioTestProgram):
+    """Check every frontier opcode functions."""
+
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code."""
+        return make_all_opcode_program()
+
+    @cached_property
+    def id(self) -> str:
+        """Id."""
+        return "program_ALL_FRONTIER_OPCODES"
+
+    def result(self) -> ProgramResult:
+        """Test result."""
+        return ProgramResult(result=1)

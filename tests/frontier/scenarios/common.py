@@ -1,32 +1,12 @@
 """Define Scenario structures and helpers for test_scenarios test."""
 
+from abc import abstractmethod
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Tuple
 
-from _pytest.mark import ParameterSet
-
-from ethereum_test_base_types import to_bytes
 from ethereum_test_forks import Fork, Frontier
 from ethereum_test_tools import Address, Alloc, Bytecode, Conditional
 from ethereum_test_tools.vm.opcode import Opcodes as Op
-
-
-@dataclass
-class SpecialAddress:
-    """Special values that are re-directed to test generated contracts."""
-
-    GAS_HASH_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE
-    EXTERNAL_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-    INVALID_CALL_ADDRESS = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD
-
-
-@dataclass
-class ScenarioDebug:
-    """Debug selector for the development."""
-
-    test_param: ParameterSet | None
-    scenario_name: str
 
 
 class ScenarioExpectOpcode(Enum):
@@ -36,7 +16,6 @@ class ScenarioExpectOpcode(Enum):
     CODE_ADDRESS = 2
     CODE_CALLER = 3
     SELFBALANCE = 4
-    BALANCE = 5
     CALL_VALUE = 6
     CALL_DATALOAD_0 = 7
     CALL_DATASIZE = 8
@@ -46,25 +25,6 @@ class ScenarioExpectOpcode(Enum):
     TIMESTAMP = 12
     NUMBER = 13
     GASLIMIT = 14
-
-
-@dataclass
-class ProgramResult:
-    """
-    Describe expected result of a program.
-
-    Attributes:
-        result (int | ScenarioExpectOpcode): The result of the program
-        from_fork (Fork): The result is only valid from this fork (default: Frontier)
-        static_support (bool): Can be verified in static context (default: True)
-
-    """
-
-    result: int | ScenarioExpectOpcode
-
-    """The result is only valid from this fork"""
-    from_fork: Fork = Frontier
-    static_support: bool = True
 
 
 @dataclass
@@ -78,7 +38,6 @@ class ScenarioEnvironment:
     code_address: Address  # Op.ADDRESS, address scope for program
     code_caller: Address  # Op.CALLER, caller of the program
     selfbalance: int  # Op.SELFBALANCE, balance of the environment of the program
-    ext_balance: int  # Op.BALANCE(external) of fixed address deployed in state
     call_value: int  # Op.CALLVALUE of call that is done to the program
     call_dataload_0: int  # Op.CALLDATALOAD(0) expected result
     call_datasize: int  # Op.CALLDATASIZE expected result
@@ -99,6 +58,93 @@ class ExecutionEnvironment:
 
 
 @dataclass
+class ProgramResult:
+    """
+    Describe expected result of a program.
+
+    Attributes:
+        result (int | ScenarioExpectOpcode): The result of the program
+        from_fork (Fork): The result is only valid from this fork (default: Frontier)
+        static_support (bool): Can be verified in static context (default: True)
+
+    """
+
+    result: int | ScenarioExpectOpcode
+
+    """The result is only valid from this fork"""
+    from_fork: Fork = Frontier
+    static_support: bool = True
+
+    def translate_result(
+        self, env: ScenarioEnvironment, exec_env: ExecutionEnvironment
+    ) -> int | Address:
+        """
+        Translate expected program result code into concrete value,
+        given the scenario evm environment and test execution environment.
+        """
+        if exec_env.fork < self.from_fork:
+            return 0
+        if not self.static_support and env.has_static:
+            return 0
+        if isinstance(self.result, ScenarioExpectOpcode):
+            if self.result == ScenarioExpectOpcode.TX_ORIGIN:
+                return exec_env.origin
+            if self.result == ScenarioExpectOpcode.CODE_ADDRESS:
+                return env.code_address
+            if self.result == ScenarioExpectOpcode.CODE_CALLER:
+                return env.code_caller
+            if self.result == ScenarioExpectOpcode.CALL_VALUE:
+                return int(env.call_value)
+            if self.result == ScenarioExpectOpcode.CALL_DATALOAD_0:
+                return env.call_dataload_0
+            if self.result == ScenarioExpectOpcode.CALL_DATASIZE:
+                return env.call_datasize
+            if self.result == ScenarioExpectOpcode.GASPRICE:
+                return exec_env.gasprice
+            if self.result == ScenarioExpectOpcode.COINBASE:
+                return exec_env.coinbase
+            if self.result == ScenarioExpectOpcode.TIMESTAMP:
+                return exec_env.timestamp
+            if self.result == ScenarioExpectOpcode.NUMBER:
+                return exec_env.number
+            if self.result == ScenarioExpectOpcode.GASLIMIT:
+                return exec_env.gaslimit
+            if self.result == ScenarioExpectOpcode.SELFBALANCE:
+                return int(env.selfbalance)
+        else:
+            return self.result
+        return 0
+
+
+class ScenarioTestProgram:
+    """Base class for deploying test code that will be used in scenarios."""
+
+    @abstractmethod
+    def make_test_code(self, pre: Alloc, fork: Fork) -> Bytecode:
+        """Test code to be deployed."""
+        pass
+
+    @property
+    @abstractmethod
+    def id(self) -> str:
+        """Test program pytest id."""
+        pass
+
+    @abstractmethod
+    def result(self) -> ProgramResult:
+        """Test program result."""
+        pass
+
+
+@dataclass
+class ScenarioDebug:
+    """Debug selector for the development."""
+
+    program_id: str
+    scenario_name: str
+
+
+@dataclass
 class ScenarioGeneratorInput:
     """
     Parameters for the scenario generator function.
@@ -114,8 +160,6 @@ class ScenarioGeneratorInput:
     fork: Fork
     pre: Alloc
     operation_code: Bytecode
-    external_address: Address
-    external_balance: int
 
 
 @dataclass
@@ -137,102 +181,6 @@ class Scenario:
     halts: bool = False
 
 
-def translate_result(
-    res: ProgramResult, env: ScenarioEnvironment, exec_env: ExecutionEnvironment
-) -> int:
-    """
-    Translate expected program result code into concrete value,
-    given the scenario evm environment and test execution environment.
-    """
-    if exec_env.fork < res.from_fork:
-        return 0
-    if not res.static_support and env.has_static:
-        return 0
-    if isinstance(res.result, ScenarioExpectOpcode):
-        if res.result == ScenarioExpectOpcode.TX_ORIGIN:
-            return int(exec_env.origin.hex(), 16)
-        if res.result == ScenarioExpectOpcode.CODE_ADDRESS:
-            return int(env.code_address.hex(), 16)
-        if res.result == ScenarioExpectOpcode.CODE_CALLER:
-            return int(env.code_caller.hex(), 16)
-        if res.result == ScenarioExpectOpcode.BALANCE:
-            return int(env.ext_balance)
-        if res.result == ScenarioExpectOpcode.CALL_VALUE:
-            return int(env.call_value)
-        if res.result == ScenarioExpectOpcode.CALL_DATALOAD_0:
-            return env.call_dataload_0
-        if res.result == ScenarioExpectOpcode.CALL_DATASIZE:
-            return env.call_datasize
-        if res.result == ScenarioExpectOpcode.GASPRICE:
-            return exec_env.gasprice
-        if res.result == ScenarioExpectOpcode.COINBASE:
-            return int(exec_env.coinbase.hex(), 16)
-        if res.result == ScenarioExpectOpcode.TIMESTAMP:
-            return exec_env.timestamp
-        if res.result == ScenarioExpectOpcode.NUMBER:
-            return exec_env.number
-        if res.result == ScenarioExpectOpcode.GASLIMIT:
-            return exec_env.gaslimit
-        if res.result == ScenarioExpectOpcode.SELFBALANCE:
-            return int(env.selfbalance)
-    else:
-        return res.result
-    return 0
-
-
-def replace_special_calls_in_operation(
-    pre: Alloc, fork: Fork, operation: Bytecode, external_address: Address
-) -> Bytecode:
-    """
-    Run find replace of some special calls to the contracts that we don't know at compile time
-    replace 0xfff..fff address to external_address
-    replace special call to 0xfff..ffe address to gas_hash_address contract.
-    """
-    gas_hash_address = make_gas_hash_contract(pre)
-    invalid_opcode_contract = make_invalid_opcode_contract(pre, fork)
-
-    replace_list: List[Tuple[str, str]] = [
-        (
-            "602060646020604060007f"
-            + hex(SpecialAddress.INVALID_CALL_ADDRESS)[2:].lower()
-            + "611388f1",
-            Op.CALL(Op.SUB(Op.GAS, 200000), invalid_opcode_contract, 0, 64, 32, 100, 32).hex(),
-        ),
-        (
-            "600060006020604060007f" + hex(SpecialAddress.GAS_HASH_ADDRESS)[2:].lower() + "5af1",
-            Op.CALL(Op.SUB(Op.GAS, 200000), gas_hash_address, 0, 64, 32, 0, 0).hex(),
-        ),
-        (
-            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "31",
-            Op.BALANCE(external_address).hex(),
-        ),
-        (
-            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3b",
-            Op.EXTCODESIZE(external_address).hex(),
-        ),
-        (
-            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3f",
-            Op.EXTCODEHASH(external_address).hex(),
-        ),
-        (
-            "7f" + hex(SpecialAddress.EXTERNAL_ADDRESS)[2:].lower() + "3c",
-            "3c".join(Op.BALANCE(external_address).hex().rsplit("31", 1)),
-        ),
-    ]
-    for find, replace in replace_list:
-        if find in operation.hex():
-            new_operation_hex = operation.hex().replace(
-                find,
-                replace,
-            )
-            operation = Bytecode(
-                bytes_or_byte_code_base=to_bytes(new_operation_hex),
-                popped_stack_items=0,
-                pushed_stack_items=0,
-            )
-    return operation
-
-
 def make_gas_hash_contract(pre: Alloc) -> Address:
     """
     Contract that spends unique amount of gas based on input
@@ -246,7 +194,7 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
         + Op.CALLDATACOPY(63, Op.MLOAD(0), 1)
         + Op.JUMPDEST
         + Conditional(
-            condition=Op.EQ(Op.MLOAD(32), 0),
+            condition=Op.ISZERO(Op.MLOAD(32)),
             if_true=Op.MSTORE(0, Op.ADD(1, Op.MLOAD(0)))
             + Conditional(
                 condition=Op.GT(Op.MLOAD(0), 32),
