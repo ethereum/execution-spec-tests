@@ -11,6 +11,7 @@ from ethereum_test_forks import (
 )
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
     Block,
     BlockchainTestFiller,
@@ -117,7 +118,7 @@ def test_precompiles(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-def precompile_addresses_in_successor(fork: Fork) -> Iterator[Tuple[str, bool]]:
+def precompile_addresses_in_predecessor_successor(fork: Fork) -> Iterator[Tuple[Address, bool]]:
     """
     Yield the addresses of precompiled contracts and whether they existed in the parent fork.
 
@@ -129,27 +130,31 @@ def precompile_addresses_in_successor(fork: Fork) -> Iterator[Tuple[str, bool]]:
             boolean indicating whether the address has existed in the predecessor.
 
     """
-    predecessor_precompiles = [
-        hex(int.from_bytes(address, byteorder="big"))
-        for address in get_transition_fork_predecessor(fork).precompiles()
-    ]
-    successor_precompiles = [
-        hex(int.from_bytes(address, byteorder="big"))
-        for address in get_transition_fork_successor(fork).precompiles()
-    ]
-    for address in successor_precompiles:
-        if address in predecessor_precompiles:
-            yield address, True
-        else:
-            yield address, False
+    predecessor_precompiles = set(get_transition_fork_predecessor(fork).precompiles())
+    successor_precompiles = set(get_transition_fork_successor(fork).precompiles())
+    all_precompiles = successor_precompiles | predecessor_precompiles
+    highest_precompile = int.from_bytes(max(all_precompiles))
+    extra_range = 5
+    extra_precompiles = {
+        Address(i) for i in range(highest_precompile + 1, highest_precompile + extra_range)
+    }
+    all_precompiles = all_precompiles | extra_precompiles
+    for address in sorted(all_precompiles):
+        yield address, address in successor_precompiles, address in predecessor_precompiles
 
 
 @pytest.mark.valid_at_transition_to("Paris", subsequent_forks=True)
 @pytest.mark.parametrize_by_fork(
-    "address,exists_in_predecessor", precompile_addresses_in_successor
+    "address,precompile_in_successor,precompile_in_predecessor",
+    precompile_addresses_in_predecessor_successor,
 )
 def test_precompile_warming(
-    blockchain_test: BlockchainTestFiller, address: str, exists_in_predecessor: bool, pre: Alloc
+    blockchain_test: BlockchainTestFiller,
+    fork: Fork,
+    address: Address,
+    precompile_in_successor: bool,
+    precompile_in_predecessor: bool,
+    pre: Alloc,
 ):
     """
     Call BALANCE of a precompile addresses before and after a fork.
@@ -179,7 +184,7 @@ def test_precompile_warming(
     # Block before fork
     blocks = [
         Block(
-            timestamp=10000,
+            timestamp=10_000,
             txs=[
                 Transaction(
                     sender=sender,
@@ -193,7 +198,7 @@ def test_precompile_warming(
     # Block after fork
     blocks += [
         Block(
-            timestamp=20000,
+            timestamp=20_000,
             txs=[
                 Transaction(
                     sender=sender,
@@ -204,14 +209,25 @@ def test_precompile_warming(
         )
     ]
 
-    if not exists_in_predecessor:
-        expected_gas_before = 2607
-    else:
-        expected_gas_before = 107
+    predecessor = get_transition_fork_predecessor(fork)
+    successor = get_transition_fork_successor(fork)
+
+    def get_expected_gas(precompile_present: bool, fork: Fork) -> int:
+        gas_costs = fork.gas_costs()
+        warm_access_cost = gas_costs.G_WARM_ACCOUNT_ACCESS
+        cold_access_cost = gas_costs.G_COLD_ACCOUNT_ACCESS
+        extra_cost = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW
+        if precompile_present:
+            return warm_access_cost + extra_cost
+        else:
+            return cold_access_cost + extra_cost
+
+    expected_gas_before = get_expected_gas(precompile_in_predecessor, predecessor)
+    expected_gas_after = get_expected_gas(precompile_in_successor, successor)
 
     post = {
         before: Account(storage={call_cost_slot: expected_gas_before}),
-        after: Account(storage={call_cost_slot: 107}),
+        after: Account(storage={call_cost_slot: expected_gas_after}),
     }
 
     blockchain_test(
