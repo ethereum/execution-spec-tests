@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx/test_legacy_create_tx_prefix_initcode/">
       
       
-        <link rel="prev" href="../test_legacy_create_tx_eof_initcode/">
+        <link rel="prev" href="../test_legacy_create_tx_legacy_initcode_eof_bytecode/">
       
       
         <link rel="next" href="../../test_txcreate/">
@@ -13812,8 +13812,6 @@
       
         
       
-        
-      
     
     
       
@@ -13867,27 +13865,6 @@
   
   <span class="md-ellipsis">
     <code>test_legacy_create_tx_legacy_initcode_eof_bytecode</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../test_legacy_create_tx_eof_initcode/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_legacy_create_tx_eof_initcode</code>
   </span>
   
 
@@ -30502,7 +30479,7 @@
 
 
 <h1 id="test_legacy_create_tx_prefix_initcode"><code>test_legacy_create_tx_prefix_initcode()</code><a class="headerlink" href="#test_legacy_create_tx_prefix_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/db22cee52955d7d9236c8c327307537e7647c1f0/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L127"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode@db22cee5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0ee6c6fc870e9ecca0c7765a80bcf9a5f4a01290/tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py#L80"><code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode@0ee6c6fc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode --fork Osaka</span>
@@ -30518,56 +30495,60 @@
     <div class="doc doc-contents first">
 
       <p>Test that a legacy contract creation tx behaves as it did before EIP-7873 for
-initcode stating with <code>EF</code>, but not falling into the special case of <code>EF00</code>.
+initcode stating with <code>EF</code>.
 The transaction should be valid but fail on executing of the first byte <code>EF</code>.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_contract_creating_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_contract_creating_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -30576,6 +30557,10 @@ The transaction should be valid but fail on executing of the first byte <code>EF
         <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF0101&quot;</span><span class="p">),</span>
         <span class="n">Spec</span><span class="o">.</span><span class="n">delegation_designation</span><span class="p">(</span><span class="n">Address</span><span class="p">(</span><span class="mh">0xAA</span><span class="p">)),</span>
         <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF02&quot;</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF00&quot;</span><span class="p">),</span>
+        <span class="n">Bytes</span><span class="p">(</span><span class="s2">&quot;0xEF0001&quot;</span><span class="p">),</span>
+        <span class="n">smallest_runtime_subcontainer</span><span class="p">,</span>
+        <span class="n">smallest_initcode_subcontainer</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_legacy_create_tx_prefix_initcode</span><span class="p">(</span>
@@ -30586,25 +30571,25 @@ The transaction should be valid but fail on executing of the first byte <code>EF
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that a legacy contract creation tx behaves as it did before EIP-7873 for</span>
-<span class="sd">    initcode stating with `EF`, but not falling into the special case of `EF00`.</span>
+<span class="sd">    initcode stating with `EF`.</span>
 <span class="sd">    The transaction should be valid but fail on executing of the first byte `EF`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+    <span class="n">gas_limit</span> <span class="o">=</span> <span class="mi">100_000</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
+        <span class="n">expected_receipt</span><span class="o">=</span><span class="n">TransactionReceipt</span><span class="p">(</span><span class="n">gas_used</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">destination_contract_address</span> <span class="o">=</span> <span class="n">tx</span><span class="o">.</span><span class="n">created_contract</span>
 
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span><span class="n">destination_contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="o">.</span><span class="n">NONEXISTENT</span><span class="p">,</span> <span class="n">sender</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)}</span>
 
     <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
@@ -30715,6 +30700,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
                         <td>2</td>
                         <td><code>0xef02</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_2-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30764,6 +30789,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
             </td>
                         <td>2</td>
                         <td><code>0xef02</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_2-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>Initcode Subcontainer</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -30815,6 +30880,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
                         <td>1</td>
                         <td><code>0xef02</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_1-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30864,6 +30969,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
             </td>
                         <td>1</td>
                         <td><code>0xef02</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_1-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>Initcode Subcontainer</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -30915,6 +31060,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
                         <td>0</td>
                         <td><code>0xef02</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_0-state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>Initcode Subcontainer</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30964,6 +31149,46 @@ The transaction should be valid but fail on executing of the first byte <code>EF
             </td>
                         <td>0</td>
                         <td><code>0xef02</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef00
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_0xef0001
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td><code>0xef0001</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00']">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>b'\xef\x00\x01\x01\x00\x04\x02\x00\x01\x00\x01\xff\x00\x00\x00\x00\x80\x00\x00\x00'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer]" title="tests/osaka/eip7692_eof_v1/eip7873_tx_create/test_creation_tx.py::test_legacy_create_tx_prefix_initcode[fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer]">
+                    ...fork_Osaka-tx_type_0-blockchain_test_from_state_test-initcode_Initcode Subcontainer
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>Initcode Subcontainer</td>
                     </tr>
             </tbody>
 </table>
