@@ -89,7 +89,10 @@ def pytest_configure(config: pytest.Config):
         "markers",
         "exception_test: Negative tests that include an invalid block or transaction.",
     )
-
+    config.addinivalue_line(
+        "markers",
+        "mainnet: Specialty tests crafted for running on mainnet and sanity checking.",
+    )
 
 @pytest.fixture(autouse=True)
 def eips():
