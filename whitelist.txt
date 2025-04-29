@@ -886,3 +886,4 @@ uncomp
 isogeny
 codomain
 nametag
+CFI'd
