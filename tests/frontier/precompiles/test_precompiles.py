@@ -178,8 +178,8 @@ def test_precompile_warming(
         + Op.SSTORE(call_cost_slot, Op.SUB(Op.SWAP1, Op.GAS))
         + Op.STOP
     )
-    before = pre.deploy_contract(code, storage={0: 0xDEADBEEF})
-    after = pre.deploy_contract(code, storage={0: 0xDEADBEEF})
+    before = pre.deploy_contract(code, storage={call_cost_slot: 0xDEADBEEF})
+    after = pre.deploy_contract(code, storage={call_cost_slot: 0xDEADBEEF})
 
     # Block before fork
     blocks = [
