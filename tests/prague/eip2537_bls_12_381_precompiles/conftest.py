@@ -4,6 +4,7 @@ from typing import SupportsBytes
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import EOA, Address, Alloc, Bytecode, Storage, Transaction, keccak256
 from ethereum_test_tools import Opcodes as Op
 
@@ -155,7 +156,7 @@ def call_contract_address(pre: Alloc, call_contract_code: Bytecode) -> Address:
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender of the transaction."""
-    return pre.fund_eoa(1_000_000_000_000_000_000)
+    return pre.fund_eoa()
 
 
 @pytest.fixture
@@ -169,9 +170,12 @@ def post(call_contract_address: Address, call_contract_post_storage: Storage):
 
 
 @pytest.fixture
-def tx_gas_limit(precompile_gas: int) -> int:
+def tx_gas_limit(fork: Fork, input_data: bytes, precompile_gas: int) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
-    return 10_000_000 + precompile_gas
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+    intrinsic_gas_cost = intrinsic_gas_cost_calc(calldata=input_data)
+    extra_gas = 100_000  # Memory expansion, sstores, return data, keccak, etc.
+    return intrinsic_gas_cost + extra_gas + precompile_gas
 
 
 @pytest.fixture
