@@ -8,6 +8,20 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+### 🛠️ Framework
+
+#### `fill`
+
+#### `consume`
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.4.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0) - 2025-04-29
+
+### 💥 Breaking Change
+
 #### `fixtures_static`
 
 A new fixture tarball has been included in this release: `fixtures_static.tar.gz`.
