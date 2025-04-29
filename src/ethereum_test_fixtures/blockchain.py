@@ -1,5 +1,6 @@
 """BlockchainTest types."""
 
+import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -16,7 +17,16 @@ from typing import (
 
 import ethereum_rlp as eth_rlp
 from ethereum_types.numeric import Uint
-from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
+from pydantic import (
+    AliasChoices,
+    ConfigDict,
+    Field,
+    PlainSerializer,
+    ValidationInfo,
+    computed_field,
+    field_validator,
+    model_validator,
+)
 
 from ethereum_test_base_types import (
     Address,
@@ -32,7 +42,7 @@ from ethereum_test_base_types import (
     ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
-from ethereum_test_forks import Fork, Paris
+from ethereum_test_forks import Fork, Paris, get_forks
 from ethereum_test_types.types import (
     Transaction,
     TransactionFixtureConverter,
@@ -77,12 +87,15 @@ class FixtureHeader(CamelModel):
     We combine the `Environment` and `Result` contents to create this model.
     """
 
+    model_config = ConfigDict(extra="forbid")
+
+    hash: Hash | None
     parent_hash: Hash
-    ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="uncleHash")
+    ommers_hash: Hash = Field(..., alias="uncleHash")
     fee_recipient: Address = Field(
         ..., alias="coinbase", validation_alias=AliasChoices("coinbase", "miner")
     )
-    state_root: Hash
+    state_root: Hash = Field(..., alias="stateRoot")
     transactions_trie: Hash = Field(
         validation_alias=AliasChoices("transactionsTrie", "transactionsRoot")
     )
@@ -151,6 +164,12 @@ class FixtureHeader(CamelModel):
                 ):
                     raise ValueError(f"Field {field} is required for fork {self.fork}")
 
+                if (
+                    not header_fork_requirement.required(self.fork, block_number, timestamp)
+                    and getattr(self, field) is not None
+                ):
+                    raise ValueError(f"Field {field} is not required for fork {self.fork}")
+
     @cached_property
     def rlp_encode_list(self) -> List:
         """Compute the RLP of the header."""
@@ -172,7 +191,7 @@ class FixtureHeader(CamelModel):
     @cached_property
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
-        return self.rlp.keccak256()
+        return self.hash if self.hash is not None else self.rlp.keccak256()
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -410,6 +429,18 @@ class BlockchainFixtureCommon(BaseFixture):
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
 
+    @field_validator("genesis", mode="before")
+    @classmethod
+    def assign_fork_context_to_genesis(
+        cls, genesis: FixtureHeader, info: ValidationInfo
+    ) -> FixtureHeader:
+        """Assign fork to genesis for model validation."""
+        network = info.data.get("fork")
+        all_forks_by_name = {fork.name(): fork for fork in get_forks()}
+        if isinstance(genesis, dict):
+            genesis["fork"] = all_forks_by_name[network]
+        return genesis
+
     @model_validator(mode="before")
     @classmethod
     def config_defaults_for_backwards_compatibility(cls, data: Any) -> Any:
@@ -441,6 +472,21 @@ class BlockchainFixture(BlockchainFixtureCommon):
     genesis_rlp: Bytes = Field(..., alias="genesisRLP")
     blocks: List[FixtureBlock | InvalidFixtureBlock]
     seal_engine: Literal["NoProof"] = Field("NoProof")
+
+    @field_validator("blocks", mode="before")
+    @classmethod
+    def assign_fork_context_to_blocks(
+        cls, blocks: List[FixtureBlock | InvalidFixtureBlock], info: ValidationInfo
+    ) -> List[FixtureBlock | InvalidFixtureBlock]:
+        """Assign fork to blocks for model validation."""
+        network = info.data.get("fork")
+        all_forks_by_name = {fork.name(): fork for fork in get_forks()}
+        for block in blocks:
+            if isinstance(block, dict) and "blockHeader" in block:
+                header = block.get("blockHeader")
+                if isinstance(header, dict):
+                    header["fork"] = all_forks_by_name[network]
+        return blocks
 
 
 class BlockchainEngineFixture(BlockchainFixtureCommon):
