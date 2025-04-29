@@ -276,6 +276,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/</loc>
+         <lastmod>2025-04-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming/</loc>
+         <lastmod>2025-04-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming/test_precompile_warming/</loc>
+         <lastmod>2025-04-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/</loc>
          <lastmod>2025-04-29</lastmod>
          <changefreq>daily</changefreq>
