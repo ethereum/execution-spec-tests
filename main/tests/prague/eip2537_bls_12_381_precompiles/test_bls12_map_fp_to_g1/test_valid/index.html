@@ -30477,7 +30477,7 @@
 
 
 <h1 id="test_valid"><code>test_valid()</code><a class="headerlink" href="#test_valid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c14bdb7774c56f2a19cc7c161ad41b680dc36b8b/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L29"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid@c14bdb77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9cc32c37ee45b62fe4b6aa2be1ca152337b2d618/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py#L29"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid@9cc32c37</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid --fork Prague</span>
@@ -30530,7 +30530,15 @@
 <span class="normal">60</span>
 <span class="normal">61</span>
 <span class="normal">62</span>
-<span class="normal">63</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="c1"># Test vectors from the reference spec (from the cryptography team)</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;map_fp_to_G1_bls.json&quot;</span><span class="p">)</span>
@@ -30549,6 +30557,14 @@
             <span class="p">),</span>
             <span class="kc">None</span><span class="p">,</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fp_p_minus_1&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">FP</span><span class="p">(</span>
+                <span class="mi">799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573</span>  <span class="c1"># noqa: E501</span>
+            <span class="p">),</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">INF_G1</span><span class="p">,</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fp_map_to_inf&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
@@ -30705,6 +30721,18 @@
                         <td>None</td>
                         <td>16</td>
                     </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_map_to_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-state_test-fp_map_to_inf-]">
+                    ...fork_Prague-state_test-fp_map_to_inf-
+                </abbr>
+            </td>
+                        <td>FP(x=799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573)</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>None</td>
+                        <td>16</td>
+                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30786,6 +30814,18 @@
             </td>
                         <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
                         <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>None</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test_from_state_test-fp_map_to_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Prague-blockchain_test_from_state_test-fp_map_to_inf-]">
+                    ...fork_Prague-blockchain_test_from_state_test-fp_map_to_inf-
+                </abbr>
+            </td>
+                        <td>FP(x=799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573)</td>
+                        <td>PointG1(x=0, y=0)</td>
                         <td>None</td>
                         <td>16</td>
                     </tr>
@@ -30873,6 +30913,18 @@
                         <td>None</td>
                         <td>16</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_map_to_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-state_test-fp_map_to_inf-]">
+                    ...fork_Osaka-state_test-fp_map_to_inf-
+                </abbr>
+            </td>
+                        <td>FP(x=799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573)</td>
+                        <td>PointG1(x=0, y=0)</td>
+                        <td>None</td>
+                        <td>16</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30954,6 +31006,18 @@
             </td>
                         <td>FP(x=4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786)</td>
                         <td>PointG1(x=2531881720866212573106624935600227374014134685620935604786417060151780484946724414277918138685897016648236293492627, y=3494113976393496954514859967781871848183489674769716304743090628898465306424935307060494264779649759723587972840806)</td>
+                        <td>None</td>
+                        <td>16</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test_from_state_test-fp_map_to_inf-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp_to_g1.py::test_valid[fork_Osaka-blockchain_test_from_state_test-fp_map_to_inf-]">
+                    ...fork_Osaka-blockchain_test_from_state_test-fp_map_to_inf-
+                </abbr>
+            </td>
+                        <td>FP(x=799950832265136997107648781861994410980648980263584507133499364313075404851459407870655748616451882783569609925573)</td>
+                        <td>PointG1(x=0, y=0)</td>
                         <td>None</td>
                         <td>16</td>
                     </tr>

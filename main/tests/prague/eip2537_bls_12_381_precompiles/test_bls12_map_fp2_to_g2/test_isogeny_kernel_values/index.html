@@ -30477,7 +30477,7 @@
 
 
 <h1 id="test_isogeny_kernel_values"><code>test_isogeny_kernel_values()</code><a class="headerlink" href="#test_isogeny_kernel_values" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c14bdb7774c56f2a19cc7c161ad41b680dc36b8b/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L78"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values@c14bdb77</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9cc32c37ee45b62fe4b6aa2be1ca152337b2d618/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L89"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values@9cc32c37</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_isogeny_kernel_values --fork Prague</span>
@@ -30503,18 +30503,7 @@ proceed to the generator in <code>helpers.py</code> for more details.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
 <span class="normal"> 90</span>
 <span class="normal"> 91</span>
 <span class="normal"> 92</span>
@@ -30534,7 +30523,18 @@ proceed to the generator in <code>helpers.py</code> for more details.</p>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
-<span class="normal">109</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,vector_gas_value&quot;</span><span class="p">,</span>
     <span class="p">[</span>
