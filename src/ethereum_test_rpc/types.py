@@ -136,9 +136,22 @@ class BlobsBundle(CamelModel):
         return [Hash(b"\1" + commitment[1:]) for commitment in self.commitments]
 
 
+class BlobAndProof(CamelModel):
+    """Represents a blob and proof structure."""
+
+    blob: Bytes
+    proofs: List[Bytes]
+
+
 class GetPayloadResponse(CamelModel):
     """Represents the response of a get payload request."""
 
     execution_payload: FixtureExecutionPayload
     blobs_bundle: BlobsBundle | None = None
     execution_requests: List[Bytes] | None = None
+
+
+class GetBlobsResponse(CamelModel):
+    """Represents the response of a get blobs request."""
+
+    result: List[BlobAndProof]
