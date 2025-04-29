@@ -44,7 +44,7 @@ def precompile_addresses_in_predecessor_successor(
     successor_precompiles = set(get_transition_fork_successor(fork).precompiles())
     all_precompiles = successor_precompiles | predecessor_precompiles
     highest_precompile = int.from_bytes(max(all_precompiles))
-    extra_range = 5
+    extra_range = 32
     extra_precompiles = {
         Address(i) for i in range(highest_precompile + 1, highest_precompile + extra_range)
     }
