@@ -16,6 +16,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
+- ✨ Engine API updates for Osaka, add `get_blobs` rpc method ([#1510](https://github.com/ethereum/execution-spec-tests/pull/1510)).
+
 ### 🧪 Test Cases
 
 ## [v4.4.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0) - 2025-04-29
