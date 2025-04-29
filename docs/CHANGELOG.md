@@ -36,6 +36,7 @@ Users can expect that all tests currently living in [ethereum/tests](https://git
 - ✨ [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702): Test that DELEGATECALL to a 7702 target works as intended ([#1485](https://github.com/ethereum/execution-spec-tests/pull/1485)).
 - ✨ [EIP-2573](https://eips.ethereum.org/EIPS/eip-2537): Includes a BLS12 point generator, alongside additional coverage many of the precompiles ([#1350](https://github.com/ethereum/execution-spec-tests/pull/1350)), ([#1505](https://github.com/ethereum/execution-spec-tests/pull/1505)).
 - ✨ Add all [`GeneralStateTests` from `ethereum/tests`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller) to `execution-spec-tests` located now at [tests/static/state_tests](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests) ([#1442](https://github.com/ethereum/execution-spec-tests/pull/1442)).
+- ✨ [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929): Test that precompile addresses are cold/warm depending on the fork they are activated ([#1495](https://github.com/ethereum/execution-spec-tests/pull/1495)).
 
 ## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
 
