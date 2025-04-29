@@ -17,6 +17,6 @@ zkevm:
   solc: 0.8.21
 eip7692:
   evm-type: eip7692
-  fill-params: --fork=Osaka ./tests/osaka
+  fill-params: --fork=EOFv1 ./tests/speculative
   solc: 0.8.21
   eofwrap: true
