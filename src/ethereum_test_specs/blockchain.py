@@ -1,5 +1,6 @@
 """Ethereum blockchain test spec definition and filler."""
 
+import hashlib
 import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
@@ -33,6 +34,8 @@ from ethereum_test_fixtures import (
     BlockchainFixture,
     FixtureFormat,
     LabeledFixtureFormat,
+    SharedPreState,
+    SharedPreStateGroup,
 )
 from ethereum_test_fixtures.blockchain import (
     FixtureBlock,
@@ -47,6 +50,7 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
+from ethereum_test_types.types import Alloc as types_Alloc  # TODO: why from .types?
 
 from .base import BaseTest, verify_result
 from .debugging import print_traces
@@ -331,6 +335,43 @@ class BlockchainTest(BaseTest):
         if "blockchain_test_engine_only" in [m.name for m in markers]:
             return fixture_format != BlockchainEngineFixture
         return False
+
+    def update_shared_pre_state(
+        self, shared_pre_state: SharedPreState, fork: Fork, test_id: str
+    ) -> SharedPreState:
+        """Create or update the shared pre-state group with the pre from the current spec."""
+        pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+        if pre_alloc_hash in shared_pre_state:
+            group = shared_pre_state[pre_alloc_hash]
+            group.pre = types_Alloc.merge(
+                group.pre,
+                self.pre,
+                allow_key_collision=False,
+            )
+            _, group.genesis = self.make_genesis(
+                genesis_environment=self.genesis_environment, pre=group.pre, fork=fork
+            )
+            group.fork = fork.name()
+            group.fixture_names.append(str(test_id))
+            shared_pre_state[pre_alloc_hash] = group
+        else:
+            pre_alloc, genesis_block = self.make_genesis(
+                genesis_environment=self.genesis_environment, pre=self.pre, fork=fork
+            )
+            group = SharedPreStateGroup(
+                fork=fork.name(),
+                pre=pre_alloc,
+                genesis=genesis_block,
+                fixture_names=[str(test_id)],
+            )
+            shared_pre_state[pre_alloc_hash] = group
+        return shared_pre_state
+
+    def compute_shared_pre_alloc_hash(self, fork: Fork) -> int:
+        """Hash (fork, env) in order to group tests by shared genesis config."""
+        fork_digest = hashlib.sha256(fork.name().encode("utf-8")).digest()
+        fork_hash = int.from_bytes(fork_digest[:8], byteorder="big")
+        return fork_hash ^ hash(self.genesis_environment)
 
     @staticmethod
     def make_genesis(

@@ -1,5 +1,6 @@
 """Useful types for generating Ethereum tests."""
 
+import hashlib
 from abc import abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass
@@ -164,8 +165,16 @@ class Alloc(BaseAlloc):
             return f"Account missing from allocation {self.address}"
 
     @classmethod
-    def merge(cls, alloc_1: "Alloc", alloc_2: "Alloc") -> "Alloc":
+    def merge(
+        cls, alloc_1: "Alloc", alloc_2: "Alloc", allow_key_collision: bool = True
+    ) -> "Alloc":
         """Return merged allocation of two sources."""
+        overlapping_keys = alloc_1.root.keys() & alloc_2.root.keys()
+        overlapping_keys.discard(Address("0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE"))
+        if overlapping_keys and not allow_key_collision:
+            raise Exception(
+                f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
+            )
         merged = alloc_1.model_dump()
 
         for address, other_account in alloc_2.root.items():
@@ -398,6 +407,25 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
+
+    def __hash__(self):
+        """Hashes the environment object."""
+        json = self.model_dump_json(exclude_none=True, by_alias=True)
+        digest = hashlib.sha256(json.encode("utf-8")).digest()
+        return int.from_bytes(digest[:8], byteorder="big")
+
+    def __eq__(self, other):
+        """
+        Check if two environment objects are equal.
+
+        Two environment objects are considered equal if they serialize to the same JSON.
+        """
+        if not isinstance(other, Environment):
+            return False
+
+        self_json = self.model_dump_json(exclude_none=True, by_alias=True)
+        other_json = other.model_dump_json(exclude_none=True, by_alias=True)
+        return self_json == other_json
 
     @computed_field  # type: ignore[misc]
     @cached_property

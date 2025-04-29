@@ -20,6 +20,7 @@ from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainFixtureCommon,
 )
+from ethereum_test_fixtures.blockchain import SharedPreState
 from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_rpc import EthRPC
@@ -28,9 +29,58 @@ from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: gene
 from pytest_plugins.pytest_hive.hive_info import ClientFile, HiveInfo
 
 from .exceptions import EXCEPTION_MAPPERS
+from .shared_client import SharedClientRegistry
+from .shared_client_proxy import SharedClientProxy
 from .timing import TimingData
 
 logger = logging.getLogger(__name__)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """Clean up all shared clients at the end of the test session."""
+    logger.info(
+        f"Session ending with status {exitstatus}, cleaning up {len(_active_shared_clients)} shared clients"
+    )
+
+    # Track uniqueness to avoid duplicate stop attempts
+    processed_clients = set()
+
+    # Clean up each active client
+    for key, client_data in list(_active_shared_clients.items()):
+        client_manager = client_data["client_manager"]
+        client_info = client_data["client_info"]
+        pre_hash = client_data["pre_hash"]
+        client_type = client_data["client_type"]
+
+        # Skip if we've already processed this client ID
+        if client_info.client_id in processed_clients:
+            logger.info(f"Skipping already processed client {client_info.client_id}")
+            continue
+
+        processed_clients.add(client_info.client_id)
+
+        logger.info(f"Stopping shared client {client_info.client_id} (pre_hash: {pre_hash}, client: {client_type})")
+        try:
+            # Try a direct delete call to the API
+            url = f"{client_manager.base_url}/testsuite/{client_manager.suite_id}/shared-client/{client_info.client_id}"
+            try:
+                import requests
+
+                response = requests.delete(url)
+                logger.info(
+                    f"Direct delete response: {response.status_code} - {response.text[:100]}"
+                )
+            except Exception as req_e:
+                logger.error(f"Direct delete failed: {req_e}")
+                # Fall back to manager release
+                client_manager.release_client(pre_hash, client_type)
+        except Exception as e:
+            logger.error(f"Error stopping client {client_info.client_id}: {e}")
+            logger.error("This is expected if the client was already stopped - continuing cleanup")
+
+    # Clear the dictionary
+    _active_shared_clients.clear()
+    logger.info("All shared clients have been released")
 
 
 def pytest_addoption(parser):
@@ -53,6 +103,19 @@ def pytest_addoption(parser):
         help=(
             "Comma-separated list of client names and/or forks which should NOT use strict "
             "exception matching."
+        ),
+    )
+    consume_group.addoption(
+        "--use-shared-clients",
+        action="store_true",
+        dest="use_shared_clients",
+        default=False,
+        help=(
+            "Use shared client model for more efficient test execution. Clients will be reused "
+            "across test cases with the same pre-state. This can significantly improve performance "
+            "by avoiding repeated client initialization for tests with the same genesis state. "
+            "When enabled, tests are automatically grouped by their pre-state, and a single client "
+            "instance is shared among all tests in each group."
         ),
     )
 
@@ -182,6 +245,11 @@ def eest_consume_command(
     )
 
 
+# Global dictionary to track active shared clients across tests
+# This allows us to maintain clients without reference counting problems
+_active_shared_clients = {}
+
+
 @pytest.fixture(scope="function")
 def test_case_description(
     fixture: BaseFixture,
@@ -234,14 +302,143 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
         request.node.rep_call.timings = total_timing_data
 
 
-@pytest.fixture(scope="function")
-@pytest.mark.usefixtures("total_timing_data")
-def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
-    """Convert the fixture genesis block header and pre-state to a client genesis state."""
+# Module-level cache for client genesis
+_client_genesis_cache = {}
+
+
+def create_client_genesis(
+    fixture: BlockchainFixtureCommon,
+    pre_hash: int = None,
+    use_shared_client: bool = False,
+    shared_pre_alloc_path: Path = None,
+) -> dict:
+    """
+    Convert the fixture genesis block header and pre-state to a client genesis state.
+
+    For shared client mode, we use a cache to avoid repeated processing of the same genesis.
+    This prevents issues with repeated conversion of the allocation dict.
+
+    Args:
+        fixture: The fixture containing genesis and pre-state data
+        pre_hash: Optional hash of the pre-state for caching (only used with use_shared_client)
+        use_shared_client: Whether to use shared client mode with caching
+        shared_pre_alloc_path: Optional path to a shared pre-allocation file
+
+    Returns:
+        dict: The client genesis configuration
+    """
+    # If using shared client mode with a valid pre_hash, check the cache
+    if use_shared_client and pre_hash is not None:
+        if pre_hash in _client_genesis_cache:
+            logger.info(f"Using cached genesis for pre_hash {pre_hash}")
+            return _client_genesis_cache[pre_hash]
+
+        # Try to load from shared_pre_alloc_path first (if provided explicitly)
+        if shared_pre_alloc_path is not None and shared_pre_alloc_path.exists():
+            try:
+                logger.info(f"Loading shared pre-allocation from {shared_pre_alloc_path}")
+
+                # Use the SharedPreState pydantic model to load the file
+                try:
+                    # First try loading with the model directly, expecting 'root' field
+                    shared_data = SharedPreState.model_validate_json(
+                        shared_pre_alloc_path.read_text()
+                    )
+                    logger.info(f"Loaded shared pre-allocation using standard model")
+                except Exception as load_error:
+                    # If that fails, try loading as raw JSON and convert to the expected format
+                    logger.info(
+                        f"Standard model loading failed: {load_error}, trying alternative format"
+                    )
+                    try:
+                        raw_data = json.loads(shared_pre_alloc_path.read_text())
+                        # Check if this is a raw dictionary format without the 'root' wrapper
+                        if isinstance(raw_data, dict) and all(
+                            k.isdigit() for k in raw_data.keys()
+                        ):
+                            # Create a SharedPreState using our helper method
+                            shared_data = SharedPreState.from_raw_dict(raw_data)
+                            logger.info(
+                                f"Created SharedPreState from raw data with {len(shared_data.root)} entries"
+                            )
+                        else:
+                            raise ValueError(
+                                f"Couldn't parse shared pre-allocation file: unknown format"
+                            )
+                    except Exception as e:
+                        logger.error(f"Failed to parse shared pre-allocation file: {e}")
+                        raise
+
+                # Convert pre_hash to string to match the keys in the JSON file
+                # pre_hash_str = str(pre_hash)
+
+                # Check if this pre_hash exists in the shared data
+                if pre_hash in shared_data.root:
+                    logger.info(f"Found shared pre-allocation for pre_hash {pre_hash}")
+                    shared_entry = shared_data.root[pre_hash]
+
+                    # Create genesis from the genesisBlockHeader field
+                    genesis = to_json(fixture.genesis)
+
+                    # Use the pre-allocation from shared data
+                    if shared_entry.pre is not None:
+                        pre_data = to_json(shared_entry.pre)
+                        # NOTE: nethermind requires account keys without '0x' prefix
+                        logger.info(f"Using pre-allocation with {len(pre_data)} accounts")
+                        genesis["alloc"] = {k.replace("0x", ""): v for k, v in pre_data.items()}
+
+                        # Cache this genesis for future use
+                        _client_genesis_cache[pre_hash] = genesis
+                        logger.info(f"Using shared pre-allocation for pre_hash {pre_hash}")
+                        return genesis
+                    else:
+                        logger.warning(
+                            f"Pre-allocation is None in shared data for pre_hash {pre_hash}"
+                        )
+                else:
+                    logger.warning(f"Pre-hash {pre_hash} not found in shared data")
+                    logger.info(f"Available pre-hashes: {list(shared_data.root.keys())[:5]}...")
+            except Exception as e:
+                logger.warning(f"Failed to load shared pre-allocation: {e}")
+                # Continue with checking shared_pre_state.json
+
+    # Process the genesis and allocation
     genesis = to_json(fixture.genesis)
-    alloc = to_json(fixture.pre)
-    # NOTE: nethermind requires account keys without '0x' prefix
-    genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
+
+    # In non-shared client mode, we might not have a pre-allocation
+    if fixture.pre is None:
+        logger.warning(f"Pre-allocation is None for fixture, using empty allocation")
+        genesis["alloc"] = {}
+    else:
+        alloc = to_json(fixture.pre)
+
+        # Handle different types of allocation data
+        if isinstance(alloc, dict):
+            # NOTE: nethermind requires account keys without '0x' prefix
+            genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
+        elif isinstance(alloc, str):
+            # If we got a string, assume it's already formatted correctly
+            try:
+                # Try to parse it just to validate it's valid JSON
+                json.loads(alloc)
+                genesis["alloc"] = alloc
+            except json.JSONDecodeError:
+                # If it's not valid JSON, log an error
+                logger.error(f"Invalid allocation string: {alloc}")
+                raise ValueError(f"Invalid allocation string: {alloc}")
+        elif alloc is None:
+            # Handle None case - use empty allocation
+            logger.warning(f"Allocation is None, using empty allocation")
+            genesis["alloc"] = {}
+        else:
+            # Something unexpected
+            genesis["alloc"] = alloc
+            logger.warning(f"Unexpected allocation type: {type(alloc)}")
+
+    # Cache the result in shared client mode
+    if use_shared_client and pre_hash is not None:
+        _client_genesis_cache[pre_hash] = genesis
+
     return genesis
 
 
@@ -257,26 +454,66 @@ def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
     )
 
 
-@pytest.fixture(scope="function")
-def environment(
+def create_environment(
     fixture: BlockchainFixtureCommon,
     check_live_port: Literal[8545, 8551],
 ) -> dict:
-    """Define the environment that hive will start the client with."""
+    """
+    Define the environment variables that hive will use to start the client.
+
+    Args:
+        fixture: The fixture containing chain configuration
+        check_live_port: Port to check for client liveness (8545 for RLP, 8551 for Engine)
+
+    Returns:
+        dict: Environment variables for client configuration
+    """
     assert fixture.fork in ruleset, f"fork '{fixture.fork}' missing in hive ruleset"
-    return {
+
+    # Always ensure we're in PoS mode for the Engine API
+    environment = {
         "HIVE_CHAIN_ID": str(Number(fixture.config.chain_id)),
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         "HIVE_CHECK_LIVE_PORT": str(check_live_port),
+        # Required to avoid SYNCING when using Engine API
         **{k: f"{v:d}" for k, v in ruleset[fixture.fork].items()},
     }
 
+    # For Engine API, explicitly set PoS mode
+    if check_live_port == 8551:
+        # These settings are needed for the Engine API to work properly
+        environment["HIVE_FORK_MERGE"] = "0"
+        environment["HIVE_TERMINAL_TOTAL_DIFFICULTY"] = "0"
 
-@pytest.fixture(scope="function")
-def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
-    """Create a buffered reader for the genesis block header of the current test fixture."""
-    genesis_json = json.dumps(client_genesis)
+    # Log the environment for debugging
+    logger.info(f"Client environment: {environment}")
+
+    return environment
+
+
+def create_buffered_genesis(genesis: dict) -> io.BufferedReader:
+    """
+    Create a buffered reader for a genesis configuration.
+
+    Args:
+        genesis: The genesis configuration dict
+
+    Returns:
+        io.BufferedReader: A buffered reader containing the genesis JSON
+    """
+    # Ensure the alloc field is properly preserved
+    if "alloc" in genesis and isinstance(genesis["alloc"], dict):
+        alloc_count = len(genesis["alloc"])
+        logger.info(f"Creating buffered genesis with {alloc_count} accounts in alloc")
+        if alloc_count > 0:
+            logger.info(f"Sample account: {next(iter(genesis['alloc']))}")
+    else:
+        logger.warning(f"No alloc dictionary found in genesis")
+
+    # Create the buffered genesis
+    genesis_json = json.dumps(genesis)
+    logger.info(f"Genesis JSON size: {len(genesis_json)} bytes")
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
 
@@ -342,31 +579,223 @@ def strict_exception_matching(
     return client_strict_exception_matching and fork_strict_exception_matching
 
 
+@pytest.fixture(scope="session")
+def shared_client_registry(request) -> SharedClientRegistry:
+    """
+    Get the global shared client registry.
+
+    This fixture provides access to the singleton registry without
+    depending on other fixtures, avoiding scope conflicts.
+    """
+    registry = SharedClientRegistry.get_instance()
+
+    def cleanup_shared_clients():
+        """Release all shared clients at the end of the test session."""
+        registry_instance = SharedClientRegistry.get_instance()
+        logger.info("Cleaning up all shared clients at session end")
+        # For each manager in the registry
+        for manager_key, manager in registry_instance.managers.items():
+            # For each client managed by the manager
+            for client_key, client_info in list(manager.clients.items()):
+                pre_hash, client_type = client_key
+                logger.info(
+                    f"Stopping shared client {client_info.client_id} for pre-hash {pre_hash} and client {client_type}"
+                )
+                manager.release_client(pre_hash, client_type)
+        logger.info("All shared clients have been released")
+
+    # Add session finalizer
+    request.addfinalizer(cleanup_shared_clients)
+    return registry
+
+
+def get_client_manager_for_suite(
+    simulator_url: str, suite_id: str, registry: SharedClientRegistry
+):
+    """
+    Get the shared client manager for a test suite.
+
+    This is a helper function rather than a fixture to avoid scope issues.
+
+    Args:
+        simulator_url: URL of the simulator
+        suite_id: ID of the test suite
+        registry: Shared client registry
+
+    Returns:
+        The shared client manager for the suite
+    """
+    logger.info(f"Getting client manager for URL: {simulator_url} and suite ID: {suite_id}")
+    return registry.get_manager(simulator_url, suite_id)
+
+
+@pytest.fixture(scope="function")
+def use_shared_client(request) -> bool:
+    """
+    Determine whether to use the shared client model based on command line option.
+
+    Uses the --use-shared-clients flag. For consistency with the option name,
+    this fixture should ideally be renamed to use_shared_clients, but keeping
+    it as use_shared_client for backward compatibility.
+    """
+    return request.config.getoption("use_shared_clients")
+
+
+@pytest.fixture(scope="function")
+def pre_hash(fixture: BlockchainFixtureCommon) -> int | None:
+    """
+    Compute a hash value for the pre-state of a blockchain fixture.
+
+    This hash is used to identify fixtures with the same pre-state,
+    which can share the same client instance.
+    """
+    return fixture.pre_hash
+
+
 @pytest.fixture(scope="function")
 def client(
     hive_test: HiveTest,
     client_files: dict,  # configured within: rlp/conftest.py & engine/conftest.py
-    environment: dict,
     client_type: ClientType,
     total_timing_data: TimingData,
+    use_shared_client: bool,
+    pre_hash: int,
+    shared_client_registry,  # The shared client registry (session-scoped)
+    test_suite,  # We need the test suite to get its ID
+    fixture: BlockchainFixtureCommon,
+    check_live_port: Literal[8545, 8551],
+    request,
 ) -> Generator[Client, None, None]:
-    """Initialize the client with the appropriate files and environment variables."""
-    logger.info(f"Starting client ({client_type.name})...")
-    with total_timing_data.time("Start client"):
-        client = hive_test.start_client(
-            client_type=client_type, environment=environment, files=client_files
-        )
-    error_message = (
-        f"Unable to connect to the client container ({client_type.name}) via Hive during test "
-        "setup. Check the client or Hive server logs for more information."
+    """
+    Initialize the client with the appropriate files and environment variables.
+
+    If use_shared_client is True, this will use the shared client model,
+    which allows multiple tests with the same pre-state to share a client.
+    This implementation uses the new Hive shared client API.
+    """
+    # Create a shared pre-state path if using shared clients
+    shared_pre_alloc_path = None
+    if use_shared_client:
+        # Check for fixtures_source to load shared pre-state
+        fixtures_source = request.config.getoption("fixtures_source", None)
+        if fixtures_source:
+            # First try tmp directory
+            shared_pre_alloc_path = Path(
+                "/home/dtopz/code/github/new/execution-spec-tests/tmp/shared_pre_alloc.json"
+            )
+            if not shared_pre_alloc_path.exists():
+                # Try fixtures_source directory
+                shared_pre_alloc_path = Path(fixtures_source) / "shared_pre_alloc.json"
+
+            # Debug log to show what we're using
+            if shared_pre_alloc_path.exists():
+                logger.info(f"Found shared_pre_alloc.json at {shared_pre_alloc_path}")
+            else:
+                logger.warning(f"Could not find shared_pre_alloc.json at {shared_pre_alloc_path}")
+
+    # Generate genesis and environment using helper functions
+    genesis = create_client_genesis(
+        fixture=fixture,
+        pre_hash=pre_hash if use_shared_client else None,
+        use_shared_client=use_shared_client,
+        shared_pre_alloc_path=shared_pre_alloc_path,
     )
-    assert client is not None, error_message
-    logger.info(f"Client ({client_type.name}) ready!")
-    yield client
-    logger.info(f"Stopping client ({client_type.name})...")
-    with total_timing_data.time("Stop client"):
-        client.stop()
-    logger.info(f"Client ({client_type.name}) stopped!")
+
+    # Debug log the genesis config
+    if "alloc" in genesis and isinstance(genesis["alloc"], dict):
+        logger.info(f"Generated genesis with {len(genesis['alloc'])} accounts")
+    else:
+        logger.warning("Generated genesis has no allocation dictionary")
+
+    environment = create_environment(fixture, check_live_port)
+
+    if not use_shared_client:
+        # Traditional client model - create a new client for each test case
+        logger.info(f"Starting individual client ({client_type.name})...")
+        with total_timing_data.time("Start client"):
+            client = hive_test.start_client(
+                client_type=client_type,
+                environment=environment,
+                files={**client_files, "/genesis.json": create_buffered_genesis(genesis)},
+            )
+        error_message = (
+            f"Unable to connect to the client container ({client_type.name}) via Hive during test "
+            "setup. Check the client or Hive server logs for more information."
+        )
+        assert client is not None, error_message
+        logger.info(f"Client ({client_type.name}) ready!")
+        yield client
+        logger.info(f"Stopping client ({client_type.name})...")
+        with total_timing_data.time("Stop client"):
+            client.stop()
+        logger.info(f"Client ({client_type.name}) stopped!")
+    else:
+        # Shared client model using the new Hive shared client API
+        logger.info(f"Using shared client model for pre_hash {pre_hash}")
+
+        # Get the shared client registry
+        registry = shared_client_registry
+
+        # Get the simulator URL from the config
+        simulator_url = request.config.hive_simulator_url
+        # Get the suite ID from test_suite
+        suite_id = test_suite.id
+
+        # Get the client manager using our helper function
+        client_manager = get_client_manager_for_suite(simulator_url, suite_id, registry)
+
+        # logger.info(f"gensis: {genesis}")
+        # genesis["alloc"] = {}  # Remove alloc for shared client
+        with total_timing_data.time("Get or start shared client"):
+            # Use the client manager to get or start a shared client
+            client_info = client_manager.start_client(
+                pre_hash=pre_hash,
+                client_type=client_type.name,
+                environment=environment,
+                files={**client_files, "/genesis.json": create_buffered_genesis(genesis)},
+            )
+
+        if client_info is None:
+            pytest.fail(f"Failed to start or get shared client for pre_hash {pre_hash}")
+
+        # Create a proxy that adapts the SharedClient to the standard Client interface
+        client_proxy = SharedClientProxy(
+            manager=client_manager,
+            pre_hash=pre_hash,
+            client_type=client_type.name,
+            client_id=client_info.client_id,
+            ip=client_info.ip,
+        )
+
+        logger.info(f"Shared client ready (ID: {client_info.client_id}, pre_hash: {pre_hash})")
+
+        # Record starting log offset before running the test
+        client_manager.get_log_offset(pre_hash, client_type.name)
+
+        yield client_proxy
+
+        # Add this client to our global tracking dictionary
+        client_key = f"{simulator_url}:{suite_id}:{pre_hash}:{client_type.name}"
+        if client_key not in _active_shared_clients:
+            _active_shared_clients[client_key] = {
+                "client_info": client_info,
+                "client_manager": client_manager,
+                "pre_hash": pre_hash,
+                "client_type": client_type.name,
+                "ref_count": 0,
+            }
+
+        # Increment reference count
+        _active_shared_clients[client_key]["ref_count"] += 1
+
+        logger.info(
+            f"Keeping shared client (ID: {client_info.client_id}, pre_hash: {pre_hash}) for reuse"
+        )
+        logger.info(
+            f"Current active clients: {len(_active_shared_clients)}, client {client_key} ref count: {_active_shared_clients[client_key]['ref_count']}"
+        )
+
+        # NOTE: Not releasing client here - we want to keep references across test functions!
 
 
 @pytest.fixture(scope="function", autouse=True)

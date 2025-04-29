@@ -24,7 +24,15 @@ from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
+from ethereum_test_fixtures import (
+    BaseFixture,
+    BlockchainEngineFixture,
+    FixtureCollector,
+    FixtureConsumer,
+    SharedPreState,
+    SharedPreStateGroup,
+    TestInfo,
+)
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import SPEC_TYPES, BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -32,6 +40,8 @@ from ethereum_test_tools.utility.versioning import (
     get_current_commit_hash_or_tag,
 )
 from ethereum_test_types import EnvironmentDefaults
+from ethereum_test_types.types import Alloc as types_Alloc
+from ethereum_test_types.types import Environment
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
@@ -183,6 +193,20 @@ def pytest_addoption(parser: pytest.Parser):
             "Default gas limit used ceiling used for blocks and tests that attempt to "
             f"consume an entire block's gas. (Default: {EnvironmentDefaults.gas_limit})"
         ),
+    )
+    test_group.addoption(
+        "--gen-shared-pre",
+        action="store_true",
+        dest="generate_shared_pre_state",
+        default=False,
+        help="Generate shared pre-state for blockchain tests.",
+    )
+    test_group.addoption(
+        "--use-shared-pre",
+        action="store_true",
+        dest="use_shared_pre_state",
+        default=False,
+        help="Use shared pre-state for blockchain tests.",
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -693,6 +717,21 @@ def fixture_source_url(
     return github_url
 
 
+def pytest_sessionstart(session: pytest.Session):
+    """Perform session start tasks."""
+    session.config.shared_pre_state = None  # type: ignore[attr-defined]
+    if is_output_stdout(session.config.getoption("output")):
+        return
+    if session.config.getoption("generate_shared_pre_state"):
+        session.config.shared_pre_state = SharedPreState(root={})  # type: ignore[attr-defined]
+    elif session.config.getoption("use_shared_pre_state"):
+        output_dir = session.config.getoption("output")
+        shared_pre_state_file = output_dir / "shared_pre_alloc.json"
+        session.config.shared_pre_state = SharedPreState.model_validate_json(  # type: ignore[attr-defined]
+            shared_pre_state_file.read_text()
+        )
+
+
 def base_test_parametrizer(cls: Type[BaseTest]):
     """
     Generate pytest.fixture for a given BaseTest subclass.
@@ -703,7 +742,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
     @pytest.fixture(
         scope="function",
-        name=cls.pytest_parameter_name(),
     )
     def base_test_parametrizer_func(
         request: pytest.FixtureRequest,
@@ -744,12 +782,33 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
+
+                if fixture_format is BlockchainEngineFixture and request.config.getoption(
+                    "generate_shared_pre_state"
+                ):
+                    self.update_shared_pre_state(
+                        request.config.shared_pre_state, fork, request.node.nodeid
+                    )
+
+                elif fixture_format is BlockchainEngineFixture and request.config.getoption(
+                    "use_shared_pre_state"
+                ):
+                    pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+                    self.pre = request.config.shared_pre_state[pre_alloc_hash].pre
+
                 fixture = self.generate(
                     t8n=t8n,
                     fork=fork,
                     fixture_format=fixture_format,
                     eips=eips,
                 )
+
+                if fixture_format is BlockchainEngineFixture and request.config.getoption(
+                    "use_shared_pre_state"
+                ):
+                    # fixture.pre = None
+                    fixture.pre_hash = pre_alloc_hash
+
                 fixture.fill_info(
                     t8n.version(),
                     test_case_description,
@@ -888,3 +947,28 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
                 if file.suffix in {".json", ".ini"}:
                     arcname = Path("fixtures") / file.relative_to(source_dir)
                     tar.add(file, arcname=arcname)
+
+    if session.config.getoption("generate_shared_pre_state"):
+        output_dir = session.config.getoption("output")
+        shared_pre_state_file = output_dir / "shared_pre_alloc.json"
+        print("\nkeys:", session.config.shared_pre_state.keys())
+        print("number of keys:", len(session.config.shared_pre_state.keys()))
+        groups_count = 0
+        total_accounts = 0
+        total_fixtures = 0
+        for key, group in session.config.shared_pre_state.items():
+            groups_count += 1
+            total_accounts += len(group.pre.root)
+            total_fixtures += len(group.fixture_names)
+            print(
+                f"  group {key}: has {len(group.pre.root)} accounts and {len(group.fixture_names)} fixture names"
+            )
+        print(
+            f"Total: {groups_count} groups, {total_accounts} total accounts, {total_fixtures} total fixtures"
+        )
+        with open(shared_pre_state_file, "w") as f:
+            f.write(
+                session.config.shared_pre_state.model_dump_json(  # type: ignore[attr-defined]
+                    indent=4, exclude_none=True, by_alias=True
+                )
+            )

@@ -46,8 +46,7 @@ def test_suite_description() -> str:
 
 
 @pytest.fixture(scope="function")
-def client_files(buffered_genesis: io.BufferedReader) -> Mapping[str, io.BufferedReader]:
+def client_files() -> Mapping[str, io.BufferedReader]:
     """Define the files that hive will start the client with."""
-    files = {}
-    files["/genesis.json"] = buffered_genesis
-    return files
+    # Genesis is now added directly in the client fixture
+    return {}

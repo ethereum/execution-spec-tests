@@ -1,5 +1,6 @@
 """Ethereum state test spec definition and filler."""
 
+import hashlib
 import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
@@ -20,6 +21,8 @@ from ethereum_test_fixtures import (
     BaseFixture,
     FixtureFormat,
     LabeledFixtureFormat,
+    SharedPreState,
+    SharedPreStateGroup,
     StateFixture,
 )
 from ethereum_test_fixtures.common import FixtureBlobSchedule
@@ -31,6 +34,7 @@ from ethereum_test_fixtures.state import (
 )
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types.types import Alloc as types_Alloc  # TODO: why from .types?
 
 from .base import BaseTest
 from .blockchain import Block, BlockchainTest, Header
@@ -87,7 +91,39 @@ class StateTest(BaseTest):
             return fixture_format != StateFixture
         return False
 
-    def _generate_blockchain_genesis_environment(self, *, fork: Fork) -> Environment:
+    def update_shared_pre_state(
+        self, shared_pre_state: SharedPreState, fork: Fork, test_id: str
+    ) -> SharedPreState:
+        """Create or update the shared pre-state group with the pre from the current spec."""
+        pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+        if pre_alloc_hash in shared_pre_state:
+            group = shared_pre_state[pre_alloc_hash]
+            group.env = self.make_genesis(fork=fork)
+            group.fork = fork.name()
+            group.pre = types_Alloc.merge(
+                group.pre,
+                types_Alloc(self.pre),
+                allow_key_collision=False,
+            )
+            group.fixture_names.append(str(test_id))
+        else:
+            genesis_block = self.make_genesis(fork=fork)
+            group = SharedPreStateGroup(
+                fork=fork.name(),
+                pre=self.pre,
+                genesis=genesis_block,
+                fixture_names=[str(test_id)],
+            )
+            shared_pre_state[pre_alloc_hash] = group
+        return shared_pre_state
+
+    def compute_shared_pre_alloc_hash(self, fork: Fork) -> int:
+        """Hash (fork, env) in order to group tests by shared genesis config."""
+        fork_digest = hashlib.sha256(fork.name().encode("utf-8")).digest()
+        fork_hash = int.from_bytes(fork_digest[:8], byteorder="big")
+        return fork_hash ^ hash(self.env)
+
+    def make_genesis(self, *, fork: Fork) -> Environment:
         """Generate the genesis environment for the BlockchainTest formatted test."""
         assert self.env.number >= 1, (
             "genesis block number cannot be negative, set state test env.number to 1"
@@ -151,7 +187,7 @@ class StateTest(BaseTest):
         """Generate a BlockchainTest fixture from this StateTest fixture."""
         return BlockchainTest.from_test(
             base_test=self,
-            genesis_environment=self._generate_blockchain_genesis_environment(fork=fork),
+            genesis_environment=self.make_genesis(fork=fork),
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(fork=fork),

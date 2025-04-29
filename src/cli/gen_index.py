@@ -144,7 +144,7 @@ def generate_fixtures_index(
         fixture_formats = set()
         test_cases: List[TestCaseIndexFile] = []
         for file in input_path.rglob("*.json"):
-            if file.name == "index.json" or ".meta" in file.parts:
+            if file.name in ["index.json", "shared_pre_alloc.json"] or ".meta" in file.parts:
                 continue
 
             try:
@@ -163,6 +163,7 @@ def generate_fixtures_index(
                         # eest uses hash; ethereum/tests uses generatedTestHash
                         fixture_hash=fixture.info.get("hash")
                         or f"0x{fixture.info.get('generatedTestHash')}",
+                        pre_hash=fixture.info.get("preHash"),
                         fork=fixture_fork,
                         format=fixture.__class__,
                     )

@@ -5,6 +5,7 @@ from typing import (
     Annotated,
     Any,
     ClassVar,
+    Dict,
     List,
     Literal,
     Tuple,
@@ -25,6 +26,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     EmptyOmmersRoot,
+    EthereumTestRootModel,
     Hash,
     HeaderNonce,
     HexNumber,
@@ -405,10 +407,23 @@ class BlockchainFixtureCommon(BaseFixture):
 
     fork: str = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
-    pre: Alloc
+    pre: Alloc | None = Field(None)
+    pre_hash: int | None = Field(None, alias="preHash")
     post_state: Alloc | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
+
+    @cached_property
+    def json_dict(self) -> Dict[str, Any]:
+        """Returns the JSON representation of the fixture, ensuring pre_hash is included."""
+        # Use parent's method but modify to include pre_hash if it has a value
+        result = super().json_dict
+
+        # Always include pre_hash if it's not None, even if pre exists
+        if self.pre_hash is not None:
+            result["preHash"] = self.pre_hash
+
+        return result
 
     @model_validator(mode="before")
     @classmethod
@@ -462,3 +477,50 @@ class BlockchainEngineFixture(BlockchainFixtureCommon):
         The Engine API is available only on Paris and afterwards.
         """
         return fork >= Paris
+
+
+class SharedPreStateGroup(BaseFixture):
+    """Shared pre-state group."""
+
+    fork: str = Field(..., alias="network")
+    genesis: FixtureBlock = Field(..., alias="genesisBlockHeader")
+    pre: Alloc | None = Field(None)
+    fixture_names: List[str] = Field(
+        default_factory=list,
+        alias="fixtureNames",
+    )
+
+
+class SharedPreState(EthereumTestRootModel):  # noqa: D101
+    root: Dict[int, SharedPreStateGroup]
+
+    def __setitem__(self, key: int, value: Any):  # noqa: D105
+        self.root[key] = value
+
+    @classmethod
+    def from_raw_dict(cls, data: Dict[str, Any]) -> "SharedPreState":
+        """Create a SharedPreState from a raw dictionary without the root wrapper."""
+        # Convert string keys to integers
+        root_dict = {int(k): v for k, v in data.items() if k.isdigit()}
+        return cls(root=root_dict)
+
+    def __getitem__(self, item):  # noqa: D105
+        return self.root[item]
+
+    def __iter__(self):  # noqa: D105
+        return iter(self.root)
+
+    def __contains__(self, item):  # noqa: D105
+        return item in self.root
+
+    def __len__(self):  # noqa: D105
+        return len(self.root)
+
+    def keys(self):  # noqa: D102
+        return self.root.keys()
+
+    def values(self):  # noqa: D102
+        return self.root.values()
+
+    def items(self):  # noqa: D102
+        return self.root.items()

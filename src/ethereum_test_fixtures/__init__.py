@@ -1,7 +1,13 @@
 """Ethereum test fixture format definitions."""
 
 from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
-from .blockchain import BlockchainEngineFixture, BlockchainFixture, BlockchainFixtureCommon
+from .blockchain import (
+    BlockchainEngineFixture,
+    BlockchainFixture,
+    BlockchainFixtureCommon,
+    SharedPreState,
+    SharedPreStateGroup,
+)
 from .collector import FixtureCollector, TestInfo
 from .consume import FixtureConsumer
 from .eof import EOFFixture
@@ -18,6 +24,8 @@ __all__ = [
     "FixtureConsumer",
     "FixtureFormat",
     "LabeledFixtureFormat",
+    "SharedPreState",
+    "SharedPreStateGroup",
     "StateFixture",
     "TestInfo",
     "TransactionFixture",

@@ -47,7 +47,6 @@ def buffered_blocks_rlp(blocks_rlp: List[bytes]) -> List[io.BufferedReader]:
 
 @pytest.fixture(scope="function")
 def client_files(
-    buffered_genesis: io.BufferedReader,
     buffered_blocks_rlp: list[io.BufferedReader],
 ) -> Mapping[str, io.BufferedReader]:
     """
@@ -57,6 +56,5 @@ def client_files(
     - Keys are the target file paths in the client's docker container, and,
     - Values are in-memory buffered file objects.
     """
-    files = {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}
-    files["/genesis.json"] = buffered_genesis
-    return files
+    # Genesis is now added directly in the client fixture
+    return {f"/blocks/{i + 1:04d}.rlp": rlp for i, rlp in enumerate(buffered_blocks_rlp)}

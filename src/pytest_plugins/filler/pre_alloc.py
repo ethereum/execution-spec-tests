@@ -292,7 +292,7 @@ def contract_address_increments(request: pytest.FixtureRequest) -> int:
     return int(request.config.getoption("test_contract_address_increments"), 0)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def contract_address_iterator(
     contract_start_address: int,
     contract_address_increments: int,
@@ -309,7 +309,7 @@ def eoa_by_index(i: int) -> EOA:
     return EOA(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def eoa_iterator() -> Iterator[EOA]:
     """Return iterator over EOAs copies."""
     return iter(eoa_by_index(i).copy() for i in count())
