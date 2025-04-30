@@ -154,4 +154,4 @@ class GetPayloadResponse(CamelModel):
 class GetBlobsResponse(CamelModel):
     """Represents the response of a get blobs request."""
 
-    result: List[BlobAndProof]
+    result: List[BlobAndProof | None]
