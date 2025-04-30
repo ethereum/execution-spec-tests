@@ -5,8 +5,9 @@ abstract: Tests BLS12_G1ADD precompile of [EIP-2537: Precompile for BLS12-381 cu
 
 import pytest
 
-from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Alloc, Environment
 from ethereum_test_tools import Opcodes as Op
+from ethereum_test_tools import StateTestFiller, Transaction
 
 from .conftest import G1_POINTS_NOT_IN_SUBGROUP, G1_POINTS_NOT_ON_CURVE
 from .helpers import add_points_g1, vectors_from_file
@@ -18,6 +19,7 @@ REFERENCE_SPEC_VERSION = ref_spec_2537.version
 pytestmark = [
     pytest.mark.valid_from("Prague"),
     pytest.mark.parametrize("precompile_address", [Spec.G1ADD], ids=[""]),
+    pytest.mark.zkevm
 ]
 
 
