@@ -1,6 +1,6 @@
 """
-abstract: Tests all precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
-    Tests all precompiles of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
+abstract: Crafted tests for mainnet of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
+    Crafted tests for mainnet of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
 """  # noqa: E501
 
 import pytest
@@ -11,6 +11,8 @@ from .spec import FP, FP2, Scalar, Spec, ref_spec_2537
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_2537.git_path
 REFERENCE_SPEC_VERSION = ref_spec_2537.version
+
+pytestmark = [pytest.mark.valid_at("Prague"), pytest.mark.mainnet]
 
 
 @pytest.mark.parametrize(
@@ -74,8 +76,6 @@ REFERENCE_SPEC_VERSION = ref_spec_2537.version
         ),
     ],
 )
-@pytest.mark.valid_at("Prague")
-@pytest.mark.mainnet
 def test_eip_2537(
     state_test: StateTestFiller,
     pre: Alloc,
