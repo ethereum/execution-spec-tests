@@ -140,8 +140,9 @@ class BlobAndProof(CamelModel):
     """Represents a blob and proof structure."""
 
     blob: Bytes
-    proofs: List[Bytes] | None = None
-    proof: Bytes | None= None
+    proofs: List[Bytes] | None = None  # >= Osaka (V2)
+
+    proof: Bytes | None = None  # <= Prague (V1)
 
 
 class GetPayloadResponse(CamelModel):
