@@ -4811,6 +4811,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/</loc>
+         <lastmod>2025-04-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_bytecode/</loc>
+         <lastmod>2025-04-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_bytecode/test_worst_bytecode_single_opcode/</loc>
+         <lastmod>2025-04-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/writing_tests/</loc>
          <lastmod>2025-04-30</lastmod>
          <changefreq>daily</changefreq>
