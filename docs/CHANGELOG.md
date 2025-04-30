@@ -32,6 +32,12 @@ The tests have been filled using the new static test filler introduced in [#1336
 
 Users can expect that all tests currently living in [ethereum/tests](https://github.com/ethereum/tests/tree/develop/src) should eventually make its way into [`./tests/static`](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static) and can rely that these tests, filled for new forks even, will be included in `fixtures_static.tar.gz`.
 
+#### `fixtures_zkevm`
+
+Another new fixture tarball has been included in this release: `fixtures_zkevm.tar.gz`.
+
+Includes tests that are tailored specifically to test the execution layer proof generators.
+
 ### 🛠️ Framework
 
 #### `fill`
