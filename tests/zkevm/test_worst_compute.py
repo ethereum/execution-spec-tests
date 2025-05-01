@@ -55,7 +55,8 @@ def test_worst_keccak(
             + math.ceil(i / 32) * gsc.G_KECCAK_256_WORD  # KECCAK256 dynamic cost
             + gsc.G_BASE  # POP
         )
-        # From the available gas, we substract the mem expansion costs considering we know the current input size length i.
+        # From the available gas, we substract the mem expansion costs considering we know the
+        # current input size length i.
         available_gas_after_expansion = max(0, available_gas - mem_exp_gas_calculator(new_bytes=i))
         # Calculate how many calls we can do.
         num_keccak_calls = available_gas_after_expansion // iteration_gas_cost
