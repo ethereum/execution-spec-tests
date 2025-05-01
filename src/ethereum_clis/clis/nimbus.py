@@ -80,6 +80,9 @@ class NimbusExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: (
             "zero gasUsed but transactions present"
         ),
+        TransactionException.TYPE_4_TX_PRE_FORK: (
+            "zero gasUsed but transactions present"
+        ),
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             "zero gasUsed but transactions present"
         ),
