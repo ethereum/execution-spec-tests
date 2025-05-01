@@ -10,9 +10,17 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
-                                 Environment, Hash, Transaction, While,
-                                 compute_create2_address)
+from ethereum_test_tools import (
+    Account,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Environment,
+    Hash,
+    Transaction,
+    While,
+    compute_create2_address,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -110,7 +118,7 @@ def test_worst_bytecode_single_opcode(
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    loop_cost = ( 
+    loop_cost = (
         gas_costs.G_KECCAK_256  # KECCAK static cost
         + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
         + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
