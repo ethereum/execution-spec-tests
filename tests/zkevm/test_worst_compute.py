@@ -6,6 +6,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
+import time
 
 import pytest
 
@@ -38,11 +39,13 @@ def test_worst_keccak(
     env = Environment(gas_limit=gas_limit)
 
     # Intrinsic gas cost is paid once.
-    intrinsic_gasc_calculator = fork.transaction_intrinsic_cost_calculator()
-    available_gas = gas_limit - intrinsic_gasc_calculator()
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    available_gas = gas_limit - intrinsic_gas_calculator()
 
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
+
+    start = time.time()  # Start time in seconds (float)
 
     # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
     # The complication of the discovery arises from the non-linear gas cost of memory expansion.
@@ -55,14 +58,23 @@ def test_worst_keccak(
             + math.ceil(i / 32) * gsc.G_KECCAK_256_WORD  # KECCAK256 dynamic cost
             + gsc.G_BASE  # POP
         )
+        # From the available gas, we substract the mem expansion costs considering we know the current input size length i.
         available_gas_after_expansion = max(0, available_gas - mem_exp_gas_calculator(new_bytes=i))
+        # Calculate how many calls we can do.
         num_keccak_calls = available_gas_after_expansion // iteration_gas_cost
+        # KECCAK does 1 permutation every 136 bytes.
         num_keccak_permutations = num_keccak_calls * math.ceil(i / KECCAK_RATE)
 
+        # If we found an input size that is better (reg permutations/gas), then save it.
         if num_keccak_permutations > max_keccak_perm_per_block:
             max_keccak_perm_per_block = num_keccak_permutations
             optimal_input_length = i
 
+    end = time.time()  # End time
+
+    # Calculate duration in milliseconds
+    duration_ms = (end - start) * 1000
+    print(f"Execution time: {duration_ms:.2f} ms")
     # max_iters_loop contains how many keccak calls can be done per loop.
     # The loop is as big as possible bounded by the maximum code size.
     #
