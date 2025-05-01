@@ -627,6 +627,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Problem: solc Installation issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-certificate_verify_failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: CERTIFICATE_VERIFY_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-exception-failed-to-compile-yul-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Exception: failed to compile yul source
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -30773,6 +30797,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Problem: solc Installation issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#problem-certificate_verify_failed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: CERTIFICATE_VERIFY_FAILED
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#problem-exception-failed-to-compile-yul-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Problem: Exception: failed to compile yul source
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -30843,6 +30891,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </code></pre></div>
 </div>
 <h2 id="problem-solc-installation-issues">Problem: <code>solc</code> Installation issues<a class="headerlink" href="#problem-solc-installation-issues" title="Permanent link">&para;</a></h2>
+<h3 id="problem-certificate_verify_failed">Problem: <code>CERTIFICATE_VERIFY_FAILED</code><a class="headerlink" href="#problem-certificate_verify_failed" title="Permanent link">&para;</a></h3>
 <div class="admonition danger">
 <p class="admonition-title">Problem: <code>Failed to install solc ... CERTIFICATE_VERIFY_FAILED</code></p>
 <p>When running either <code>uv run solc-select use 0.8.24 --always-install</code> or <code>fill</code> you encounter the following error:</p>
@@ -30869,6 +30918,29 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 </div>
+</div>
+<h3 id="problem-exception-failed-to-compile-yul-source">Problem: <code>Exception: failed to compile yul source</code><a class="headerlink" href="#problem-exception-failed-to-compile-yul-source" title="Permanent link">&para;</a></h3>
+<div class="admonition danger">
+<p class="admonition-title">Problem: <code>Running fill fails with tests that contain yul source code</code> on ARM platforms</p>
+<p>If you're using <code>x86_64</code>, try to manually run <code>solc-select</code> to install the required version of the <code>solc</code> binary:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>solc-select<span class="w"> </span>use<span class="w"> </span><span class="m">0</span>.8.24<span class="w"> </span>--always-install
+</code></pre></div>
+<p>Otherwise, this can happen when you're using an ARM64 OS but followed the x86-64 installation guide.
+To resolve the issue you must build solidity from source (avoid 0.8.24 as it might require building z3 from source as well).</p>
+</div>
+<div class="admonition success">
+<p class="admonition-title">Solution: Build solc from source</p>
+<p>The following steps have been tested on Ubuntu 24.04.2 LTS ARM64:
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.8.28<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>https://github.com/ethereum/solidity.git
+<span class="nb">cd</span><span class="w"> </span>solidity<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>build-essential<span class="w"> </span>libboost-all-dev<span class="w"> </span>z3
+cmake<span class="w"> </span>..
+make
+mv<span class="w"> </span><span class="nv">$HOME</span>/Documents/execution-spec-tests/.venv/bin/solc<span class="w"> </span><span class="nv">$HOME</span>/Documents/execution-spec-tests/.venv/bin/solc-x86-64
+cp<span class="w"> </span>./solc/solc<span class="w"> </span><span class="nv">$HOME</span>/Documents/execution-spec-tests/.venv/bin/
+chmod<span class="w"> </span>+x<span class="w"> </span><span class="nv">$HOME</span>/Documents/execution-spec-tests/.venv/bin/solc
+</code></pre></div>
+Running <code>uv run solc --version</code> should now return the expected version. Verify that <code>fill</code> works by running <code>uv run fill -m yul_test</code> in the execution-spec-tests root folder.</p>
 </div>
 <h2 id="problem-valueerror-unsupported-hash-type-ripemd160">Problem: <code>ValueError: unsupported hash type ripemd160</code><a class="headerlink" href="#problem-valueerror-unsupported-hash-type-ripemd160" title="Permanent link">&para;</a></h2>
 <div class="admonition danger">
@@ -30933,7 +31005,8 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
     <nav>
       
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:felix314159@users.noreply.github.com">felix</a>
     </nav>
   </span>
 
