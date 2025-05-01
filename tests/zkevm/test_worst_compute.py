@@ -74,8 +74,8 @@ def test_worst_keccak(
     # Now calculate available gas for [attack iteration]:
     #   Numerator = MAX_CODE_SIZE-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
     #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
-    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the attack,
-    # whenever this is fixed adjust accordingly.
+    # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
+    # attack, whenever this is fixed adjust accordingly.
     max_iters_loop = (MAX_CODE_SIZE - 3) // (4 + 1 + (optimal_input_length.bit_length() + 7) // 8)
     code = (
         Op.JUMPDEST
