@@ -8,17 +8,9 @@ Tests for zkEVMs worst-cases scenarios.
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Environment,
-    Hash,
-    Transaction,
-    While,
-    compute_create_address,
-)
+from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
+                                 Environment, Hash, Transaction, While,
+                                 compute_create2_address)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -33,7 +25,6 @@ XOR_TABLE_SIZE = 256
 XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
 
 
-# TODO: Parametrize for EOF
 @pytest.mark.zkevm
 @pytest.mark.parametrize(
     "opcode",
@@ -95,12 +86,14 @@ def test_worst_bytecode_single_opcode(
         )
         + Op.MSTORE(
             0,
-            Op.CREATE(
+            Op.CREATE2(
                 value=0,
                 offset=0,
                 size=Op.MSIZE,
+                salt=Op.SLOAD(0),
             ),
         )
+        + Op.SSTORE(0,Op.ADD(Op.SLOAD(0), 1))
         + Op.RETURN(0, 32)
     )
     factory_address = pre.deploy_contract(code=factory_code)
@@ -144,9 +137,10 @@ def test_worst_bytecode_single_opcode(
     post = {}
     deployed_contract_addresses = []
     for i in range(total_contracts_to_deploy):
-        deployed_contract_address = compute_create_address(
+        deployed_contract_address = compute_create2_address(
             address=factory_address,
-            nonce=i + 1,
+            salt=i,
+            initcode=initcode,
         )
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
