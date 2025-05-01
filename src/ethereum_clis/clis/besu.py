@@ -338,8 +338,8 @@ class BesuExceptionMapper(ExceptionMapper):
             r"transaction invalid transaction nonce \d+ below sender account nonce \d+"
         ),
         TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
-            r"Invalid (amount|index|pubKey|signature|withdrawalCred|deposit log length)"
-            r"(offset|size): "
-            r"expected (\d+), but got (-?\d+)"
+            r"Invalid (amount|index|pubKey|signature|withdrawalCred) (offset|size): "
+            r"expected (\d+), but got (-?\d+)|"
+            r"Invalid deposit log length\. Must be \d+ bytes, but is \d+ bytes"
         ),
     }
