@@ -6,7 +6,6 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
-import time
 
 import pytest
 
@@ -45,8 +44,6 @@ def test_worst_keccak(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    start = time.time()  # Start time in seconds (float)
-
     # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
     # The complication of the discovery arises from the non-linear gas cost of memory expansion.
     max_keccak_perm_per_block = 0
@@ -70,11 +67,6 @@ def test_worst_keccak(
             max_keccak_perm_per_block = num_keccak_permutations
             optimal_input_length = i
 
-    end = time.time()  # End time
-
-    # Calculate duration in milliseconds
-    duration_ms = (end - start) * 1000
-    print(f"Execution time: {duration_ms:.2f} ms")
     # max_iters_loop contains how many keccak calls can be done per loop.
     # The loop is as big as possible bounded by the maximum code size.
     #
@@ -89,11 +81,7 @@ def test_worst_keccak(
     loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
     end_code = Op.POP + Op.JUMP(Op.PUSH0)
     max_iters_loop = (MAX_CODE_SIZE - (len(start_code) + len(end_code))) // len(loop_code)
-    code = (
-        start_code
-        + (loop_code * max_iters_loop)
-        + end_code
-    )
+    code = start_code + (loop_code * max_iters_loop) + end_code
     if len(code) > MAX_CODE_SIZE:
         # Must never happen, but keep it as a sanity check.
         raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
