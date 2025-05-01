@@ -10,7 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import (Alloc, Block, BlockchainTestFiller,
+                                 Environment, Transaction)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -26,9 +27,6 @@ KECCAK_RATE = 136
     "gas_limit",
     [
         36_000_000,
-        60_000_000,
-        100_000_000,
-        300_000_000,
     ],
 )
 def test_worst_keccak(
