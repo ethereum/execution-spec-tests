@@ -15,7 +15,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - ✨ The `static_filler` plug-in now has support for static state tests (from [GeneralStateTests](https://github.com/ethereum/tests/tree/develop/src/GeneralStateTestsFiller)) ([#1362](https://github.com/ethereum/execution-spec-tests/pull/1362)).
 - ✨ Introduce `pytest.mark.exception_test` to mark tests that contain an invalid transaction or block ([#1436](https://github.com/ethereum/execution-spec-tests/pull/1436)).
 - 🐞 Fix `DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.` by avoiding use `itertools` object in the spec `BaseTest` pydantic model ([#1414](https://github.com/ethereum/execution-spec-tests/pull/1414)).
-- ✨ Add a `--max-gas` flag to customize the largest amount to use for filling tests. A fixture for `max_gas` has been added. Tests using a higher value now issue a warning in the test output. ([#1470](https://github.com/ethereum/execution-spec-tests/pull/1470)).
+- ✨ Create an environment fixture for filling state tests. Add a `--block-gas-limit` flag to customize the environment with a gas limit to use for filling tests. Tests using a value over the limit now log a warning. ([#1470](https://github.com/ethereum/execution-spec-tests/pull/1470)).
 
 #### `consume`
 

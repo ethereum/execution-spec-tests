@@ -267,7 +267,7 @@ class LoopRunUntilOutOfGasCases(PytestParameterEnum):
 def test_run_until_out_of_gas(
     state_test: StateTestFiller,
     pre: Alloc,
-    max_gas: HexNumber,
+    block_gas_limit: HexNumber,
     repeat_bytecode: Bytecode,
     bytecode_repeat_times: int,
 ):
@@ -277,7 +277,7 @@ def test_run_until_out_of_gas(
     tx = Transaction(
         sender=pre.fund_eoa(),
         to=code_address,
-        gas_limit=max_gas,
+        gas_limit=block_gas_limit,
     )
     post = {
         code_address: Account(code=bytecode, storage={}),

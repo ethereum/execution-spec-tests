@@ -335,6 +335,7 @@ class Withdrawal(WithdrawalGeneric[HexNumber]):
 
 
 DEFAULT_BASE_FEE = 7
+DEFAULT_BLOCK_GAS_LIMIT = 30_000_000
 
 
 class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
@@ -344,7 +345,7 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         alias="currentCoinbase",
     )
-    gas_limit: NumberBoundTypeVar = Field(100_000_000_000_000_000, alias="currentGasLimit")  # type: ignore
+    gas_limit: NumberBoundTypeVar = Field(DEFAULT_BLOCK_GAS_LIMIT, alias="currentGasLimit")  # type: ignore
     number: NumberBoundTypeVar = Field(1, alias="currentNumber")  # type: ignore
     timestamp: NumberBoundTypeVar = Field(1_000, alias="currentTimestamp")  # type: ignore
     prev_randao: NumberBoundTypeVar | None = Field(None, alias="currentRandom")
@@ -352,6 +353,9 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="currentBaseFee")
     excess_blob_gas: NumberBoundTypeVar | None = Field(None, alias="currentExcessBlobGas")
 
+    block_gas_limit: NumberBoundTypeVar = Field(  # type: ignore
+        DEFAULT_BLOCK_GAS_LIMIT, alias="currentBlockGasLimit"
+    )
     parent_difficulty: NumberBoundTypeVar | None = Field(None)
     parent_timestamp: NumberBoundTypeVar | None = Field(None)
     parent_base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="parentBaseFee")

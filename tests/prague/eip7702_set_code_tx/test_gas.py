@@ -725,8 +725,8 @@ def gas_test_parameter_args(
 @pytest.mark.parametrize(**gas_test_parameter_args(include_pre_authorized=False))
 def test_gas_cost(
     state_test: StateTestFiller,
+    env: Environment,
     pre: Alloc,
-    max_gas: HexNumber,
     fork: Fork,
     authorization_list_with_properties: List[AuthorizationWithProperties],
     authorization_list: List[AuthorizationTuple],
@@ -812,7 +812,7 @@ def test_gas_cost(
     )
 
     state_test(
-        env=Environment(gas_limit=max(tx_gas_limit, max_gas)),
+        env=Environment(gas_limit=max(tx_gas_limit, env.gas_limit)),
         pre=pre,
         tx=tx,
         post={

@@ -229,7 +229,7 @@ def base_pre_genesis(
         logs_bloom=0,
         difficulty=0x20000 if env.difficulty is None else env.difficulty,
         number=block_number,
-        gas_limit=env.gas_limit,
+        gas_limit=env.block_gas_limit,
         gas_used=0,
         timestamp=timestamp,
         extra_data=b"\x00",

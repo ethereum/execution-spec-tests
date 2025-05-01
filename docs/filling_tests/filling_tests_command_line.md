@@ -120,12 +120,16 @@ usage: fill [-h] [--strict-alloc] [--ca-start CA_START] [--ca-incr CA_INCR]
             [--verify-fixtures] [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--flat-output]
             [--single-fixture-per-file] [--no-html] [--build-name BUILD_NAME]
-            [--skip-index SKIP_INDEX] [--max-gas MAX_GAS]
+            [--skip-index SKIP_INDEX] [--block-gas-limit BLOCK_GAS_LIMIT]
             [--evm-dump-dir EVM_DUMP_DIR] [--skip-evm-dump] [--forks]
             [--fork FORK] [--from FROM] [--until UNTIL]
 
 options:
   -h, --help            show this help message and exit
+
+Arguments defining environment behavior during test filling:
+  --block-gas-limit BLOCK_GAS_LIMIT     Maximum gas used for transactions.
+                                        (Default: 30000000)
 
 Arguments defining pre-allocation behavior during test filling.:
   --strict-alloc        [DEBUG ONLY] Disallows deploying a contract in a
@@ -183,9 +187,6 @@ Arguments defining filler location and output:
                         'stable'.
   --skip-index SKIP_INDEX
                         Skip generating an index file for all produced fixtures.
-
-Arguments defining debug behavior:
-  --max-gas MAX_GAS     Maximum gas used for transactions. (Default: 30000000)
 
 Arguments defining debug behavior:
   --evm-dump-dir, --t8n-dump-dir EVM_DUMP_DIR

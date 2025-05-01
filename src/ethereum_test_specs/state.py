@@ -127,7 +127,7 @@ class StateTest(BaseTest):
             "timestamp": self.env.timestamp,
             "prev_randao": self.env.prev_randao,
             "fee_recipient": self.env.fee_recipient,
-            "gas_limit": self.env.gas_limit,
+            "gas_limit": self.env.block_gas_limit,
             "extra_data": self.env.extra_data,
             "withdrawals": self.env.withdrawals,
             "parent_beacon_block_root": self.env.parent_beacon_block_root,

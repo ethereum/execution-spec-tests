@@ -24,7 +24,6 @@ from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_base_types.base_types import HexNumber
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import SPEC_TYPES, BaseTest
@@ -32,6 +31,7 @@ from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
+from ethereum_test_types.types import DEFAULT_BLOCK_GAS_LIMIT, Environment
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
@@ -50,14 +50,6 @@ def default_html_report_file_path() -> str:
     function to allow for easier testing.
     """
     return ".meta/report_fill.html"
-
-
-def default_max_gas() -> int:
-    """
-    Maximum gas limit (default) to use for transactions. Defined as a function to
-    allow for easier testing.
-    """
-    return 30_000_000
 
 
 def strip_output_tarball_suffix(output: Path) -> Path:
@@ -182,14 +174,14 @@ def pytest_addoption(parser: pytest.Parser):
         help="Skip generating an index file for all produced fixtures.",
     )
 
-    test_options_group = parser.getgroup("test_options", "Arguments defining debug behavior")
+    test_options_group = parser.getgroup("env_options", "Arguments defining debug behavior")
     test_options_group.addoption(
-        "--max-gas",
+        "--block-gas-limit",
         action="store",
-        dest="max_gas",
-        default=default_max_gas(),
+        dest="block_gas_limit",
+        default=DEFAULT_BLOCK_GAS_LIMIT,
         type=int,
-        help=(f"Maximum gas used for transactions. (Default: {default_max_gas()})"),
+        help=(f"Maximum gas used for transactions. (Default: {DEFAULT_BLOCK_GAS_LIMIT})"),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -402,12 +394,6 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
-
-
-@pytest.fixture(autouse=True, scope="session")
-def max_gas(request: pytest.FixtureRequest) -> HexNumber:
-    """Return maximum gas_limit value to use for Transactions."""
-    return HexNumber(request.config.getoption("max_gas"))
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -707,6 +693,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     def base_test_parametrizer_func(
         request: pytest.FixtureRequest,
         t8n: TransitionTool,
+        env: Environment,
         fork: Fork,
         reference_spec: ReferenceSpec,
         eips: List[int],
@@ -741,6 +728,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
+                if "env" not in kwargs:
+                    kwargs["env"] = env
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 fixture = self.generate(
