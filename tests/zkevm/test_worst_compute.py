@@ -85,12 +85,14 @@ def test_worst_keccak(
     #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
     # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
     # attack, whenever this is fixed adjust accordingly.
-    max_iters_loop = (MAX_CODE_SIZE - 3) // (4 + 1 + (optimal_input_length.bit_length() + 7) // 8)
+    start_code = Op.JUMPDEST + Op.PUSH20[optimal_input_length]
+    loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
+    end_code = Op.POP + Op.JUMP(Op.PUSH0)
+    max_iters_loop = (MAX_CODE_SIZE - (len(start_code) + len(end_code))) // len(loop_code)
     code = (
-        Op.JUMPDEST
-        + sum([Op.SHA3(0, optimal_input_length) + Op.POP] * max_iters_loop)
-        + Op.PUSH0
-        + Op.JUMP
+        start_code
+        + (loop_code * max_iters_loop)
+        + end_code
     )
     if len(code) > MAX_CODE_SIZE:
         # Must never happen, but keep it as a sanity check.
