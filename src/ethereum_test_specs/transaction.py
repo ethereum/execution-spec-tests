@@ -17,7 +17,7 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_fixtures.transaction import FixtureResult
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Transaction
+from ethereum_test_types import Alloc, Environment, Transaction
 
 from .base import BaseTest
 
@@ -45,6 +45,12 @@ class TransactionTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> TransactionFixture:
         """Create a fixture from the transaction test definition."""
+        env = Environment().set_fork_requirements(fork)
+        self.tx.set_gas_price(
+            gas_price=env.base_fee_per_gas,
+            max_fee_per_gas=env.base_fee_per_gas,
+            max_priority_fee_per_gas=0,
+        )
         if self.tx.error is not None:
             result = FixtureResult(
                 exception=self.tx.error,
