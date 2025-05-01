@@ -5,6 +5,8 @@ abstract: Tests for zkEVMs
 Tests for zkEVMs worst-cases scenarios.
 """
 
+import math
+
 import pytest
 
 from ethereum_test_forks import Fork
@@ -108,9 +110,18 @@ def test_worst_bytecode_single_opcode(
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    max_number_of_contract_calls = (OPCODE_GAS_LIMIT - intrinsic_gas_cost_calc()) // (
-        gas_costs.G_VERY_LOW + gas_costs.G_BASE + gas_costs.G_COLD_ACCOUNT_ACCESS
+    loop_cost = ( 
+        gas_costs.G_KECCAK_256  # KECCAK static cost
+        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
+        + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
+        + gas_costs.G_COLD_ACCOUNT_ACCESS  # EXTCODESIZE
+        + 30  # ~Gluing opcodes
     )
+    max_number_of_contract_calls = (
+        # Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)
+        OPCODE_GAS_LIMIT - intrinsic_gas_cost_calc() - gas_costs.G_VERY_LOW * 4
+    ) // loop_cost
+
     total_contracts_to_deploy = max_number_of_contract_calls
     approximate_gas_per_deployment = 4_970_000  # Obtained from evm tracing
     contracts_deployed_per_tx = BLOCK_GAS_LIMIT // approximate_gas_per_deployment
@@ -145,17 +156,16 @@ def test_worst_bytecode_single_opcode(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
-    print(f"Deployed contracts: {factory_address}")
     opcode_code = (
         # Setup memory for later CREATE2 address generation loop.
         Op.MSTORE(0, factory_address)
-        + Op.MSTORE8(32-20-1, 0xFF) # 0xFF prefix byte
+        + Op.MSTORE8(32 - 20 - 1, 0xFF)  # 0xFF prefix byte
         + Op.MSTORE(32, 0)
         + Op.MSTORE(64, initcode.keccak256())
         # Main loop
         + While(
-            body = Op.EXTCODESIZE(Op.SHA3(32-20-1, 85)) + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
-            condition=Op.PUSH1(1)
+            body=Op.EXTCODESIZE(Op.SHA3(32 - 20 - 1, 85)) + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            condition=Op.PUSH1(1),
         )
     )
 
