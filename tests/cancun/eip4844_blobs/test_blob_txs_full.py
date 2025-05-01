@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     BlockException,
+    Bytes,
     Environment,
     Header,
     NetworkWrappedTransaction,
@@ -139,6 +140,28 @@ def tx_error() -> Optional[TransactionException]:
     return None
 
 
+class TransactionWithFullBlobs(Transaction):
+    """Class that overrides `rlp` method to return a transaction with full blobs."""
+
+    wrapped_blob_transaction: bool
+
+    blobs: List[Bytes]
+    blob_kzg_commitments: List[Bytes]
+    blob_kzg_proofs: List[Bytes]
+
+    def rlp(self) -> Bytes:
+        """Return the RLP encoding of the transaction."""
+        if self.wrapped_blob_transaction:
+            return NetworkWrappedTransaction(
+                tx=self,
+                blobs=self.blobs,
+                blob_kzg_commitments=self.blob_kzg_commitments,
+                blob_kzg_proofs=self.blob_kzg_proofs,
+            ).rlp()
+        else:
+            return super().rlp()
+
+
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
     pre: Alloc,
@@ -162,7 +185,8 @@ def txs(  # noqa: D103
     for tx_blobs, tx_versioned_hashes, tx_wrapped_blobs in zip(
         txs_blobs, txs_versioned_hashes, txs_wrapped_blobs, strict=False
     ):
-        tx = Transaction(
+        blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
+        tx = TransactionWithFullBlobs(
             ty=Spec.BLOB_TX_TYPE,
             sender=sender,
             to=destination_account,
@@ -176,16 +200,10 @@ def txs(  # noqa: D103
             blob_versioned_hashes=tx_versioned_hashes,
             error=tx_error,
             wrapped_blob_transaction=tx_wrapped_blobs,
+            blobs=blobs_info[0],
+            blob_kzg_commitments=blobs_info[1],
+            blob_kzg_proofs=blobs_info[2],
         )
-        if tx_wrapped_blobs:
-            blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
-            network_wrapped_tx = NetworkWrappedTransaction(
-                tx=tx,
-                blobs=blobs_info[0],
-                blob_kzg_commitments=blobs_info[1],
-                blob_kzg_proofs=blobs_info[2],
-            )
-            tx.rlp_override = network_wrapped_tx.rlp()
         txs.append(tx)
     return txs
 

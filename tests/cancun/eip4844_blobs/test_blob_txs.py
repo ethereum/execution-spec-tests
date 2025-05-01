@@ -30,6 +30,7 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     BlockException,
     Bytecode,
+    Bytes,
     EngineAPIError,
     Environment,
     Hash,
@@ -1013,6 +1014,19 @@ def test_invalid_blob_hash_versioning_multiple_txs(
     )
 
 
+# Replace the transaction with a contract creating one, only in the returned RLP
+class ContractCreatingTransaction(Transaction):
+    """Class that overrides `rlp` method to return a contract creating RLP encoding."""
+
+    def rlp(self) -> Bytes:
+        """Return the RLP encoding of the transaction."""
+        backup_to = self.to
+        self.to = None
+        rlp = super().rlp()
+        self.to = backup_to
+        return rlp
+
+
 @pytest.mark.parametrize(
     "tx_gas", [500_000], ids=[""]
 )  # Increase gas to account for contract creation
@@ -1028,9 +1042,8 @@ def test_invalid_blob_tx_contract_creation(
     """Reject blocks that include blob transactions that have nil to value (contract creating)."""
     assert len(txs) == 1
     assert txs[0].blob_versioned_hashes is not None and len(txs[0].blob_versioned_hashes) == 1
-    # Replace the transaction with a contract creating one, only in the RLP version
-    contract_creating_tx = txs[0].copy(to=None).with_signature_and_sender()
-    txs[0].rlp_override = contract_creating_tx.rlp()
+
+    txs[0] = ContractCreatingTransaction(**txs[0].model_dump(exclude_unset=True))
     blockchain_test(
         pre=pre,
         post={},
