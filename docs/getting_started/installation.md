@@ -26,7 +26,7 @@ If installed via `curl`, `uv` will download Python for your target platform if o
 
 Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies.
 
-=== "x86-64"
+=== "All x86-64 platforms and ARM64 macOS"
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
