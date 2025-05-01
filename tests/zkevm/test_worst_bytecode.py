@@ -93,7 +93,7 @@ def test_worst_bytecode_single_opcode(
                 salt=Op.SLOAD(0),
             ),
         )
-        + Op.SSTORE(0,Op.ADD(Op.SLOAD(0), 1))
+        + Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1))
         + Op.RETURN(0, 32)
     )
     factory_address = pre.deploy_contract(code=factory_code)
@@ -145,9 +145,20 @@ def test_worst_bytecode_single_opcode(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
+    print(f"Deployed contracts: {factory_address}")
     opcode_code = (
-        sum(Op.POP(opcode(address=address)) for address in deployed_contract_addresses) + Op.STOP
+        # Setup memory for later CREATE2 address generation loop.
+        Op.MSTORE(0, factory_address)
+        + Op.MSTORE8(32-20-1, 0xFF) # 0xFF prefix byte
+        + Op.MSTORE(32, 0)
+        + Op.MSTORE(64, initcode.keccak256())
+        # Main loop
+        + While(
+            body = Op.EXTCODESIZE(Op.SHA3(32-20-1, 85)) + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            condition=Op.PUSH1(1)
+        )
     )
+
     if len(opcode_code) > MAX_CONTRACT_SIZE:
         # TODO: A workaround could be to split the opcode code into multiple contracts
         # and call them in sequence.
