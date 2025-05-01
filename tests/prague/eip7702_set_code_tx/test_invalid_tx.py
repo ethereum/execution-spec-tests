@@ -600,7 +600,19 @@ def test_invalid_tx_invalid_rlp_encoding(
     """
     auth_signer = pre.fund_eoa()
 
-    tx = Transaction(
+    class ModifiedTransaction(Transaction):
+        """Class that overrides `rlp` method to return a modified RLP encoding."""
+
+        def rlp(self) -> Bytes:
+            """Return the RLP encoding of the transaction."""
+            if invalid_rlp_mode == InvalidRLPMode.TRUNCATED_RLP:
+                # Truncate the last byte of the RLP encoding
+                return super().rlp()[:-1]
+            elif invalid_rlp_mode == InvalidRLPMode.EXTRA_BYTES:
+                # Add an extra byte to the end of the RLP encoding
+                return super().rlp() + b"\x00"
+
+    tx = ModifiedTransaction(
         gas_limit=100_000,
         to=0,
         value=0,
@@ -614,13 +626,6 @@ def test_invalid_tx_invalid_rlp_encoding(
         error=TransactionException.TYPE_4_INVALID_AUTHORIZATION_FORMAT,
         sender=pre.fund_eoa(),
     )
-
-    if invalid_rlp_mode == InvalidRLPMode.TRUNCATED_RLP:
-        # Truncate the last byte of the RLP encoding
-        tx.rlp_override = Bytes(tx.rlp()[:-1])
-    elif invalid_rlp_mode == InvalidRLPMode.EXTRA_BYTES:
-        # Add an extra byte to the end of the RLP encoding
-        tx.rlp_override = Bytes(tx.rlp() + b"\x00")
 
     transaction_test(
         pre=pre,
