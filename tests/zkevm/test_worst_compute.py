@@ -10,7 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import (Alloc, Block, BlockchainTestFiller,
+                                 Environment, Transaction)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -126,7 +127,7 @@ def test_worst_modexp(
     exp_length = 32
 
     base = 2 ** (8 * base_mod_length) - 1
-    mod = 2 ** (8 * base_mod_length) - 2  # Prevnts base == mod
+    mod = 2 ** (8 * base_mod_length) - 2  # Prevents base == mod
     exp = 2 ** (8 * exp_length) - 1
 
     # MODEXP calldata
