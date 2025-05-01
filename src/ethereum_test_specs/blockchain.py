@@ -706,6 +706,59 @@ class BlockchainTest(BaseTest):
             print_traces(t8n.get_traces())
             raise e
 
+    def update_transaction_gas_prices(
+        self,
+        env: Environment,
+    ):
+        """
+        Update the gas prices of the transactions in the block/s, assuming EIP-1559 rules and
+        that all gas in every transaction is used.
+        """
+        elasticity_multiplier = 2
+        base_fee_max_change_denominator = 8
+        parent_base_fee_per_gas = env.parent_base_fee_per_gas or 0
+        assert parent_base_fee_per_gas is not None, "Base fee per gas must be set"
+        parent_gas_limit = env.parent_gas_limit
+        parent_gas_target = parent_gas_limit // elasticity_multiplier
+        parent_gas_used = 0
+
+        for block in self.blocks:
+            if parent_gas_used == parent_gas_target:
+                base_fee_per_gas = parent_base_fee_per_gas
+            elif parent_gas_used > parent_gas_target:
+                gas_used_delta = parent_gas_used - parent_gas_target
+                base_fee_per_gas_delta = max(
+                    parent_base_fee_per_gas
+                    * gas_used_delta
+                    // parent_gas_target
+                    // base_fee_max_change_denominator,
+                    1,
+                )
+                base_fee_per_gas = parent_base_fee_per_gas + base_fee_per_gas_delta
+            else:
+                gas_used_delta = parent_gas_target - parent_gas_used
+                base_fee_per_gas_delta = (
+                    parent_base_fee_per_gas
+                    * gas_used_delta
+                    // parent_gas_target
+                    // base_fee_max_change_denominator
+                )
+                base_fee_per_gas = parent_base_fee_per_gas - base_fee_per_gas_delta
+
+            block_max_gas_used = 0
+            for tx in block.txs:
+                tx.set_gas_price(
+                    gas_price=base_fee_per_gas,
+                    max_fee_per_gas=base_fee_per_gas,
+                    max_priority_fee_per_gas=0,
+                )
+                block_max_gas_used += tx.gas_limit
+            # Update values for the next block.
+            parent_gas_used = block_max_gas_used
+            parent_base_fee_per_gas = base_fee_per_gas
+            parent_gas_limit = block.gas_limit or parent_gas_limit
+            parent_gas_target = parent_gas_limit // elasticity_multiplier
+
     def make_fixture(
         self,
         t8n: TransitionTool,
@@ -718,6 +771,8 @@ class BlockchainTest(BaseTest):
 
         alloc = pre
         env = environment_from_parent_header(genesis.header)
+        env = env.set_fork_requirements(fork)
+        self.update_transaction_gas_prices(env)
         head = genesis.header.block_hash
         invalid_blocks = 0
         for i, block in enumerate(self.blocks):
@@ -781,6 +836,8 @@ class BlockchainTest(BaseTest):
         )
         alloc = pre
         env = environment_from_parent_header(genesis.header)
+        env = env.set_fork_requirements(fork)
+        self.update_transaction_gas_prices(env)
         head_hash = genesis.header.block_hash
         invalid_blocks = 0
         for i, block in enumerate(self.blocks):
