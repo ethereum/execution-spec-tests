@@ -962,7 +962,14 @@ class BlockchainTest(BaseTest):
         if execute_format == TransactionPost:
             blocks: List[List[Transaction]] = []
             for block in self.blocks:
-                blocks += [block.txs]
+                for tx in block.txs:
+                    tx.set_gas_price(
+                        gas_price=self.genesis_environment.max_fee_per_gas
+                        + self.genesis_environment.max_priority_fee_per_gas,
+                        max_fee_per_gas=self.genesis_environment.max_fee_per_gas,
+                        max_priority_fee_per_gas=self.genesis_environment.max_priority_fee_per_gas,
+                    )
+                blocks.append(block.txs)
             return TransactionPost(
                 blocks=blocks,
                 post=self.post,
