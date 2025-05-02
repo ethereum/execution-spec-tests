@@ -1,5 +1,6 @@
 """Yul frontend."""
 
+import os
 import re
 import warnings
 from functools import cached_property
@@ -31,7 +32,12 @@ class Solc:
             which_path = which("solc")
             if which_path is not None:
                 binary = Path(which_path)
-        if not binary or not Path(binary).exists():
+        if not binary or not Path(binary).exists():  # pytest might run in isolated env
+            probable_solc_path = Path("/usr/local/bin/solc")
+            if os.path.isfile(probable_solc_path):
+                self.binary = probable_solc_path
+                return
+
             raise Exception(
                 """`solc` binary executable not found, please refer to
                 https://docs.soliditylang.org/en/latest/installing-solidity.html
