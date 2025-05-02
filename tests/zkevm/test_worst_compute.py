@@ -6,7 +6,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
-
+import os
 import pytest
 
 from ethereum_test_forks import Fork
@@ -18,6 +18,19 @@ REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CODE_SIZE = 24 * 1024
 KECCAK_RATE = 136
+
+# Create a summary log file with just the percentages
+SUMMARY_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "tests/zkevm/utilization_summary.log")
+
+# Keep track of descriptions we've already logged to prevent duplicates in the summary
+LOGGED_DESCRIPTIONS = set()
+
+# Initialize the summary file with a header
+with open(SUMMARY_FILE, "w") as f:
+    f.write("===== UTILIZATION SUMMARY =====\n\n")
+    f.write(f"{'TEST PATTERN':<30} {'BYTECODE':>23}{'':8}{'GAS':>20}{'':8}{'SIZE':>4}  {'ITERATIONS':>10}\n")
+    f.write("-" * 100 + "\n")
+
 
 
 @pytest.mark.valid_from("Cancun")
