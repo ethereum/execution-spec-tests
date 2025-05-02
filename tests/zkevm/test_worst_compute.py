@@ -161,10 +161,7 @@ def test_worst_modexp(
     tx = Transaction(
         to=code_address,
         gas_limit=gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
-        data=[],
-        value=0,
     )
 
     blockchain_test(
