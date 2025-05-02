@@ -30864,7 +30864,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fce88dd124bdf0bee502681a9c64103abce95902/tests/zkevm/test_worst_bytecode.py#L37"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@fce88dd1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/624f60bd1330d117524ecaf240397064b7f4519e/tests/zkevm/test_worst_bytecode.py#L38"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@624f60bd</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode --fork Prague</span>
@@ -30889,8 +30889,7 @@ consumed by repeated opcode executions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 37</span>
-<span class="normal"> 38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
@@ -31031,7 +31030,30 @@ consumed by repeated opcode executions.</p>
 <span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
-<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -31092,12 +31114,14 @@ consumed by repeated opcode executions.</p>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span>
             <span class="mi">0</span><span class="p">,</span>
-            <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span><span class="p">(</span>
                 <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">,</span>
+                <span class="n">salt</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
             <span class="p">),</span>
         <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">factory_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_code</span><span class="p">)</span>
@@ -31112,9 +31136,18 @@ consumed by repeated opcode executions.</p>
 
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">max_number_of_contract_calls</span> <span class="o">=</span> <span class="p">(</span><span class="n">OPCODE_GAS_LIMIT</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">())</span> <span class="o">//</span> <span class="p">(</span>
-        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>
+    <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
+        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># EXTCODESIZE</span>
+        <span class="o">+</span> <span class="mi">30</span>  <span class="c1"># ~Gluing opcodes</span>
     <span class="p">)</span>
+    <span class="n">max_number_of_contract_calls</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)</span>
+        <span class="n">OPCODE_GAS_LIMIT</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
+
     <span class="n">total_contracts_to_deploy</span> <span class="o">=</span> <span class="n">max_number_of_contract_calls</span>
     <span class="n">approximate_gas_per_deployment</span> <span class="o">=</span> <span class="mi">4_970_000</span>  <span class="c1"># Obtained from evm tracing</span>
     <span class="n">contracts_deployed_per_tx</span> <span class="o">=</span> <span class="n">BLOCK_GAS_LIMIT</span> <span class="o">//</span> <span class="n">approximate_gas_per_deployment</span>
@@ -31141,16 +31174,27 @@ consumed by repeated opcode executions.</p>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">deployed_contract_addresses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_contracts_to_deploy</span><span class="p">):</span>
-        <span class="n">deployed_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span>
+        <span class="n">deployed_contract_address</span> <span class="o">=</span> <span class="n">compute_create2_address</span><span class="p">(</span>
             <span class="n">address</span><span class="o">=</span><span class="n">factory_address</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">salt</span><span class="o">=</span><span class="n">i</span><span class="p">,</span>
+            <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">post</span><span class="p">[</span><span class="n">deployed_contract_address</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">deployed_contract_addresses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deployed_contract_address</span><span class="p">)</span>
 
     <span class="n">opcode_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">sum</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">))</span> <span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">deployed_contract_addresses</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+        <span class="c1"># Setup memory for later CREATE2 address generation loop.</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">factory_address</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span>  <span class="c1"># 0xFF prefix byte</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">initcode</span><span class="o">.</span><span class="n">keccak256</span><span class="p">())</span>
+        <span class="c1"># Main loop</span>
+        <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">85</span><span class="p">)))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="p">)</span>
     <span class="p">)</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">opcode_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_CONTRACT_SIZE</span><span class="p">:</span>
         <span class="c1"># TODO: A workaround could be to split the opcode code into multiple contracts</span>
         <span class="c1"># and call them in sequence.</span>
