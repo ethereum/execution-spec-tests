@@ -9,7 +9,6 @@ from enum import unique
 
 import pytest
 
-from ethereum_test_base_types.base_types import HexNumber
 from ethereum_test_tools import (
     Account,
     Alloc,

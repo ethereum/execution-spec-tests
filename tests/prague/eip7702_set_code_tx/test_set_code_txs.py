@@ -10,7 +10,6 @@ from typing import List
 import pytest
 
 from ethereum_test_base_types import HexNumber
-from ethereum_test_base_types.base_types import ZeroPaddedHexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
