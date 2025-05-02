@@ -257,6 +257,7 @@ def modify_transaction_defaults(
     default_gas_price: int, default_max_fee_per_gas: int, default_max_priority_fee_per_gas: int
 ):
     """Modify transaction defaults to values better suited for live networks."""
+    # TODO: Update
     TransactionDefaults.gas_price = default_gas_price
     TransactionDefaults.max_fee_per_gas = default_max_fee_per_gas
     TransactionDefaults.max_priority_fee_per_gas = default_max_priority_fee_per_gas
