@@ -18,8 +18,8 @@ from tests.frontier.identity_precompile.common import Constants
 @pytest.mark.parametrize(
     ["args_size", "output_size", "expected_returndatasize"],
     [
-        pytest.param(16, 32, 16, id="output_16"),
-        pytest.param(32, 16, 32, id="output_32"),
+        pytest.param(16, 32, 16, id="output_size_greater_than_input"),
+        pytest.param(32, 16, 32, id="output_size_less_than_input"),
     ],
 )
 def test_identity_precompile_returndata(
