@@ -2,6 +2,8 @@
 
 from typing import Callable, ClassVar, Generator, List, Optional, Sequence, Type
 
+from pydantic import Field
+
 from ethereum_clis import TransitionTool
 from ethereum_test_execution import (
     BaseExecute,
@@ -25,6 +27,7 @@ from .base import BaseTest
 class TransactionTest(BaseTest):
     """Filler type that tests the transaction over the period of a single block."""
 
+    env: Environment = Field(default_factory=Environment)
     tx: Transaction
     pre: Alloc | None = None
 
@@ -45,7 +48,7 @@ class TransactionTest(BaseTest):
         eips: Optional[List[int]] = None,
     ) -> TransactionFixture:
         """Create a fixture from the transaction test definition."""
-        env = Environment().set_fork_requirements(fork)
+        env = self.env.set_fork_requirements(fork)
         self.tx.set_gas_price(
             gas_price=env.base_fee_per_gas,
             max_fee_per_gas=env.base_fee_per_gas,
@@ -103,6 +106,12 @@ class TransactionTest(BaseTest):
     ) -> BaseExecute:
         """Execute the transaction test by sending it to the live network."""
         if execute_format == TransactionPost:
+            env = self.env.set_fork_requirements(fork)
+            self.tx.set_gas_price(
+                gas_price=env.max_fee_per_gas + env.max_priority_fee_per_gas,
+                max_fee_per_gas=env.max_fee_per_gas,
+                max_priority_fee_per_gas=env.max_priority_fee_per_gas,
+            )
             return TransactionPost(
                 blocks=[[self.tx]],
                 post={},
