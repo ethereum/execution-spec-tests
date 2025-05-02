@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Tuple
 
+from pydantic import BaseModel
+
 from ethereum_test_base_types.composite_types import Storage
 from ethereum_test_tools import (
     Bytecode,
@@ -17,25 +19,16 @@ class Constants:
     IDENTITY_PRECOMPILE_ADDRESS = 0x04
 
 
-class CallArgs:
+class CallArgs(BaseModel):
     """Defines inputs to CALL for the Identity precompile."""
 
-    def __init__(
-        self,
-        gas=0x1F4,
-        value=0x0,
-        args_offset=0x0,
-        args_size=0x20,
-        ret_offset=0x0,
-        ret_size=0x20,
-    ):
-        """Create a new instance with the provided values."""
-        self.gas = gas
-        self.value = value
-        self.args_offset = args_offset
-        self.args_size = args_size
-        self.ret_offset = ret_offset
-        self.ret_size = ret_size
+    address: int = Constants.IDENTITY_PRECOMPILE_ADDRESS
+    gas: int = 0x1F4
+    value: int = 0x0
+    args_offset: int = 0x0
+    args_size: int = 0x20
+    ret_offset: int = 0x0
+    ret_size: int = 0x20
 
 
 def generate_identity_call_bytecode(
@@ -76,15 +69,7 @@ def generate_identity_call_bytecode(
     code += (
         Op.SSTORE(
             storage.store_next(call_succeeds),
-            call_type(
-                gas=call_args.gas,
-                address=Constants.IDENTITY_PRECOMPILE_ADDRESS,
-                value=call_args.value,
-                args_offset=call_args.args_offset,
-                args_size=call_args.args_size,
-                ret_offset=call_args.ret_offset,
-                ret_size=call_args.ret_size,
-            ),
+            call_type(**call_args.model_dump()),
         )
         + Op.SSTORE(storage.store_next(mstore_value), Op.MLOAD(mstore_offset))
         + Op.STOP

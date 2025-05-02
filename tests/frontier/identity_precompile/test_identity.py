@@ -34,10 +34,10 @@ from .common import CallArgs, generate_identity_call_bytecode
             id="identity_1",
         ),
         pytest.param(
-            CallArgs(gas=0x30D40, value=0x13, args_size=0x0),
+            CallArgs(gas=0x30D40, value=0x1, args_size=0x0),
             None,
             False,
-            id="identity_1_nonzero",
+            id="identity_1_nonzerovalue",
         ),
         pytest.param(
             CallArgs(args_size=0x25),
@@ -61,13 +61,13 @@ from .common import CallArgs, generate_identity_call_bytecode
             CallArgs(gas=0x11),
             (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,),
             False,
-            id="identity_4_gas17",
+            id="identity_4_insufficient_gas",
         ),
         pytest.param(
             CallArgs(gas=0x12),
             (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,),
             True,
-            id="identity_4_gas18",
+            id="identity_4_exact_gas",
         ),
     ],
 )
