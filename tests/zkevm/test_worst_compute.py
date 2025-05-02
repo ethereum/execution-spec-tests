@@ -143,7 +143,7 @@ def test_worst_modexp(
     mul_complexity = math.ceil(base_mod_length / 8) ** 2
     iter_complexity = exp.bit_length() - 1
     gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
-    attack_block = Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0) + Op.POP
+    attack_block = Op.POP(Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0))
 
     # The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP
     jumpdest = Op.JUMPDEST
