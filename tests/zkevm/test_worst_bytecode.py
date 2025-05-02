@@ -172,8 +172,8 @@ def test_worst_bytecode_single_opcode(
         + Op.MSTORE(64, initcode.keccak256())
         # Main loop
         + While(
-            body=Op.EXTCODESIZE(Op.SHA3(32 - 20 - 1, 85)) + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
-            condition=Op.PUSH1(1),
+            body=Op.POP(Op.EXTCODESIZE(Op.SHA3(32 - 20 - 1, 85)))
+            + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
         )
     )
 
