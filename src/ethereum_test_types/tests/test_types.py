@@ -451,7 +451,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             Environment(),
             {
                 "currentCoinbase": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-                "currentGasLimit": "0x016345785d8a0000",
+                "currentGasLimit": "0x01c9c380",
                 "currentNumber": "0x01",
                 "currentTimestamp": "0x03e8",
                 "blockHashes": {},
@@ -484,7 +484,7 @@ CHECKSUM_ADDRESS = "0x8a0A19589531694250d570040a0c4B74576919B8"
             ),
             {
                 "currentCoinbase": "0x0000000000000000000000000000000000001234",
-                "currentGasLimit": "0x016345785d8a0000",
+                "currentGasLimit": "0x01c9c380",
                 "currentNumber": "0x01",
                 "currentTimestamp": "0x03e8",
                 "currentDifficulty": "0x05",
