@@ -7,7 +7,6 @@ is saved in the appropriate directory with a rendered template using Jinja2.
 """
 
 import os
-import signal
 import sys
 from pathlib import Path
 
