@@ -131,9 +131,9 @@ def test_worst_modexp(
 
     # MODEXP calldata
     calldata = (
-        Op.MSTORE(0 * 32, 32)
-        + Op.MSTORE(1 * 32, 32)
-        + Op.MSTORE(2 * 32, 32)
+        Op.MSTORE(0 * 32, base_mod_length)
+        + Op.MSTORE(1 * 32, exp_length)
+        + Op.MSTORE(2 * 32, base_mod_length)
         + Op.MSTORE(3 * 32, base)
         + Op.MSTORE(4 * 32, exp)
         + Op.MSTORE(5 * 32, mod)
