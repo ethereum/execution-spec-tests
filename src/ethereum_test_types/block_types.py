@@ -117,6 +117,10 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     bal_hash: Hash | None = Field(None)
     block_access_lists: Bytes | None = Field(None)
 
+    # Execution evironment variables (Non-t8n)
+    max_fee_per_gas: NumberBoundTypeVar | None = Field(None, exclude=True)
+    max_priority_fee_per_gas: NumberBoundTypeVar | None = Field(None, exclude=True)
+
     @computed_field  # type: ignore[misc]
     @cached_property
     def parent_hash(self) -> Hash | None:
