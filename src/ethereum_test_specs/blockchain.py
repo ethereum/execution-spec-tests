@@ -364,7 +364,7 @@ class BlockchainTest(BaseTest):
             logs_bloom=0,
             difficulty=0x20000 if env.difficulty is None else env.difficulty,
             number=0,
-            gas_limit=env.block_gas_limit,
+            gas_limit=env.gas_limit,
             gas_used=0,
             timestamp=0,
             extra_data=b"\x00",
@@ -412,7 +412,7 @@ class BlockchainTest(BaseTest):
 
         txs: List[Transaction] = []
         for tx in block.txs:
-            if not self.is_slow_test() and tx.gas_limit >= env.block_gas_limit:
+            if not self.is_slow_test() and tx.gas_limit >= Environment().gas_limit:
                 warnings.warn(
                     f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
                     stacklevel=2,

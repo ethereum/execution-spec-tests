@@ -31,7 +31,6 @@ from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
-from ethereum_test_types.types import DEFAULT_BLOCK_GAS_LIMIT, Environment
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
@@ -683,7 +682,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     def base_test_parametrizer_func(
         request: pytest.FixtureRequest,
         t8n: TransitionTool,
-        env: Environment,
         fork: Fork,
         reference_spec: ReferenceSpec,
         eips: List[int],
@@ -718,8 +716,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
-                if "env" not in kwargs:
-                    kwargs["env"] = env
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 fixture = self.generate(

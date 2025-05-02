@@ -342,8 +342,10 @@ DEFAULT_BLOCK_GAS_LIMIT = 30_000_000
 class EnvironmentDefaults:
     """Default environment values."""
 
+    # By default, the constant `DEFAULT_BLOCK_GAS_LIMIT` is used.
+    # Other libraries (pytest plugins) may override this value by modifying the
+    # `EnvironmentDefaults.gas_limit` class attribute.
     gas_limit: int = DEFAULT_BLOCK_GAS_LIMIT
-    block_gas_limit: int = DEFAULT_BLOCK_GAS_LIMIT
 
 
 class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
@@ -353,7 +355,9 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
         Address("0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba"),
         alias="currentCoinbase",
     )
-    gas_limit: NumberBoundTypeVar = Field(default_factory=lambda: EnvironmentDefaults.gas_limit)  # type: ignore
+    gas_limit: NumberBoundTypeVar = Field(
+        default_factory=lambda: EnvironmentDefaults.gas_limit, alias="currentGasLimit"
+    )  # type: ignore
     number: NumberBoundTypeVar = Field(1, alias="currentNumber")  # type: ignore
     timestamp: NumberBoundTypeVar = Field(1_000, alias="currentTimestamp")  # type: ignore
     prev_randao: NumberBoundTypeVar | None = Field(None, alias="currentRandom")
@@ -361,9 +365,6 @@ class EnvironmentGeneric(CamelModel, Generic[NumberBoundTypeVar]):
     base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="currentBaseFee")
     excess_blob_gas: NumberBoundTypeVar | None = Field(None, alias="currentExcessBlobGas")
 
-    block_gas_limit: NumberBoundTypeVar = Field(
-        default_factory=lambda: EnvironmentDefaults.block_gas_limit
-    )  # type: ignore
     parent_difficulty: NumberBoundTypeVar | None = Field(None)
     parent_timestamp: NumberBoundTypeVar | None = Field(None)
     parent_base_fee_per_gas: NumberBoundTypeVar | None = Field(None, alias="parentBaseFee")

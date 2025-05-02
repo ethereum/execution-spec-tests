@@ -31,7 +31,6 @@ from ethereum_test_fixtures.state import (
 )
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
-from ethereum_test_types.types import DEFAULT_BLOCK_GAS_LIMIT
 
 from .base import BaseTest
 from .blockchain import Block, BlockchainTest, Header
@@ -128,7 +127,7 @@ class StateTest(BaseTest):
             "timestamp": self.env.timestamp,
             "prev_randao": self.env.prev_randao,
             "fee_recipient": self.env.fee_recipient,
-            "gas_limit": self.env.block_gas_limit,
+            "gas_limit": self.env.gas_limit,
             "extra_data": self.env.extra_data,
             "withdrawals": self.env.withdrawals,
             "parent_beacon_block_root": self.env.parent_beacon_block_root,
@@ -165,7 +164,7 @@ class StateTest(BaseTest):
 
         env = self.env.set_fork_requirements(fork)
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
-        if not self.is_slow_test() and tx.gas_limit >= env.block_gas_limit:
+        if not self.is_slow_test() and tx.gas_limit >= Environment().gas_limit:
             warnings.warn(
                 f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
                 stacklevel=2,
