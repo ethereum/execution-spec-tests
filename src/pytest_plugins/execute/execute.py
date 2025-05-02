@@ -12,6 +12,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest
 from ethereum_test_types import TransactionDefaults
+from ethereum_test_types.types import DEFAULT_BLOCK_GAS_LIMIT, EnvironmentDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
@@ -30,11 +31,27 @@ def pytest_addoption(parser):
     """Add command-line options to pytest."""
     execute_group = parser.getgroup("execute", "Arguments defining test execution behavior")
     execute_group.addoption(
+        "--block-gas-limit",
+        action="store",
+        dest="block_gas_limit",
+        default=DEFAULT_BLOCK_GAS_LIMIT,
+        type=int,
+        help=(f"Maximum gas used for blocks. (Default: {DEFAULT_BLOCK_GAS_LIMIT})"),
+    )
+    execute_group.addoption(
+        "--gas-limit",
+        action="store",
+        dest="gas_limit",
+        default=DEFAULT_BLOCK_GAS_LIMIT,
+        type=int,
+        help=(f"Maximum gas used for transactions. (Default: {DEFAULT_BLOCK_GAS_LIMIT})"),
+    )
+    execute_group.addoption(
         "--default-gas-price",
         action="store",
         dest="default_gas_price",
         type=int,
-        default=10**9,
+        default=DEFAULT_BLOCK_GAS_LIMIT,
         help=("Default gas price used for transactions, unless overridden by the test."),
     )
     execute_group.addoption(
@@ -42,7 +59,7 @@ def pytest_addoption(parser):
         action="store",
         dest="default_max_fee_per_gas",
         type=int,
-        default=10**9,
+        default=DEFAULT_BLOCK_GAS_LIMIT,
         help=("Default max fee per gas used for transactions, unless overridden by the test."),
     )
     execute_group.addoption(
@@ -167,6 +184,32 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
+
+
+@pytest.fixture(scope="session")
+def default_block_gas_limit(request) -> int:
+    """Return default gas limit used for blocks."""
+    block_gas_limit = request.config.getoption("default_block_gas_limit")
+    assert block_gas_limit > 0, "Block gas limit must be greater than 0"
+    return block_gas_limit
+
+
+@pytest.fixture(scope="session")
+def default_gas_limit(request) -> int:
+    """Return default gas limit used for transactions."""
+    gas_limit = request.config.getoption("default_gas_limit")
+    assert gas_limit > 0, "Gas limit must be greater than 0"
+    return gas_limit
+
+
+@pytest.fixture(scope="session")
+def modify_block_defaults(
+    default_gas_limit: int,
+    default_block_gas_limit: int,
+):
+    """Modify block defaults to values better suited for live networks."""
+    EnvironmentDefaults.gas_limit = default_gas_limit
+    EnvironmentDefaults.block_gas_limit = default_block_gas_limit
 
 
 @pytest.fixture(scope="session")

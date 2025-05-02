@@ -412,7 +412,7 @@ class BlockchainTest(BaseTest):
 
         txs: List[Transaction] = []
         for tx in block.txs:
-            if not self.is_slow_test() and tx.gas_limit >= 30_000_000:
+            if not self.is_slow_test() and tx.gas_limit >= env.block_gas_limit:
                 warnings.warn(
                     f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
                     stacklevel=2,

@@ -3417,7 +3417,7 @@ def test_creating_delegation_designation_contract(
     ],
 )
 @pytest.mark.parametrize(
-    "gas_limit",
+    "max_gas",
     [
         pytest.param(
             120_000_000,
@@ -3434,7 +3434,7 @@ def test_creating_delegation_designation_contract(
 def test_many_delegations(
     state_test: StateTestFiller,
     pre: Alloc,
-    gas_limit: int,
+    max_gas: int,
     signer_balance: int,
 ):
     """
@@ -3447,7 +3447,7 @@ def test_many_delegations(
     The transaction is expected to succeed and the state after the transaction is expected to have
     the code of the entry contract set to 1.
     """
-    gas_for_delegations = gas_limit - 21_000 - 20_000 - (3 * 2)
+    gas_for_delegations = max_gas - 21_000 - 20_000 - (3 * 2)
 
     delegation_count = gas_for_delegations // Spec.PER_EMPTY_ACCOUNT_COST
 
@@ -3458,7 +3458,7 @@ def test_many_delegations(
     signers = [pre.fund_eoa(signer_balance) for _ in range(delegation_count)]
 
     tx = Transaction(
-        gas_limit=gas_limit,
+        gas_limit=max_gas,
         to=entry_address,
         value=0,
         authorization_list=[
@@ -3484,6 +3484,7 @@ def test_many_delegations(
     }
 
     state_test(
+        env=Environment(),
         pre=pre,
         tx=tx,
         post=post,

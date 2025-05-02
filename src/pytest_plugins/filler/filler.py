@@ -174,16 +174,6 @@ def pytest_addoption(parser: pytest.Parser):
         help="Skip generating an index file for all produced fixtures.",
     )
 
-    test_options_group = parser.getgroup("env_options", "Arguments defining debug behavior")
-    test_options_group.addoption(
-        "--block-gas-limit",
-        action="store",
-        dest="block_gas_limit",
-        default=DEFAULT_BLOCK_GAS_LIMIT,
-        type=int,
-        help=(f"Maximum gas used for transactions. (Default: {DEFAULT_BLOCK_GAS_LIMIT})"),
-    )
-
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
         "--evm-dump-dir",

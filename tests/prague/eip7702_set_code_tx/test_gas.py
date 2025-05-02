@@ -10,7 +10,7 @@ from typing import Dict, Generator, Iterator, List
 
 import pytest
 
-from ethereum_test_base_types.base_types import HexNumber
+from ethereum_test_base_types.base_types import ZeroPaddedHexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     EOA,
@@ -725,7 +725,6 @@ def gas_test_parameter_args(
 @pytest.mark.parametrize(**gas_test_parameter_args(include_pre_authorized=False))
 def test_gas_cost(
     state_test: StateTestFiller,
-    env: Environment,
     pre: Alloc,
     fork: Fork,
     authorization_list_with_properties: List[AuthorizationWithProperties],
@@ -735,6 +734,8 @@ def test_gas_cost(
     sender: EOA,
 ):
     """Test gas at the execution start of a set-code transaction in multiple scenarios."""
+    env = Environment()
+
     # Calculate the intrinsic gas cost of the authorizations, by default the
     # full empty account cost is charged for each authorization.
     intrinsic_gas = fork.transaction_intrinsic_cost_calculator()(
@@ -811,8 +812,10 @@ def test_gas_cost(
         expected_receipt=TransactionReceipt(gas_used=gas_used),
     )
 
+    env.gas_limit = ZeroPaddedHexNumber(max(tx_gas_limit, env.block_gas_limit))
+
     state_test(
-        env=Environment(gas_limit=max(tx_gas_limit, env.gas_limit)),
+        env=env,
         pre=pre,
         tx=tx,
         post={
