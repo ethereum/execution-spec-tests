@@ -11,7 +11,7 @@ from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 from ethereum_test_tools import SPEC_TYPES, BaseTest
-from ethereum_test_types import TransactionDefaults
+from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
@@ -54,6 +54,18 @@ def pytest_addoption(parser):
         help=(
             "Default max priority fee per gas used for transactions, "
             "unless overridden by the test."
+        ),
+    )
+    execute_group.addoption(
+        "--transaction-gas-limit",
+        action="store",
+        dest="transaction_gas_limit",
+        default=EnvironmentDefaults.gas_limit // 4,
+        type=int,
+        help=(
+            "Maximum gas used to execute a single transaction. "
+            "Will be used as ceiling for tests that attempt to consume the entire block gas limit."
+            f"(Default: {EnvironmentDefaults.gas_limit // 4})"
         ),
     )
 
@@ -167,6 +179,14 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
+
+
+@pytest.fixture(autouse=True, scope="session")
+def modify_environment_defaults(
+    request: pytest.FixtureRequest,
+):
+    """Modify environment defaults to values specified in command line."""
+    EnvironmentDefaults.gas_limit = request.config.getoption("transaction_gas_limit")
 
 
 @pytest.fixture(scope="session")

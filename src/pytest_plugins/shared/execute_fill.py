@@ -14,21 +14,7 @@ from ethereum_test_forks import (
 )
 from ethereum_test_specs import SPEC_TYPES
 from ethereum_test_tools import Yul
-from ethereum_test_types import EnvironmentDefaults
 from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
-
-
-def pytest_addoption(parser: pytest.Parser) -> None:
-    """Add command line options for pytest."""
-    shared_group = parser.getgroup("env", "Arguments defining the fill/execute behavior")
-    shared_group.addoption(
-        "--block-gas-limit",
-        action="store",
-        dest="block_gas_limit",
-        default=EnvironmentDefaults.gas_limit,
-        type=int,
-        help=(f"Maximum gas used for blocks. (Default: {EnvironmentDefaults.gas_limit})"),
-    )
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -159,14 +145,6 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
             return super(YulWrapper, cls).__new__(cls, *args, **kwargs, fork=solc_target_fork)
 
     return YulWrapper
-
-
-@pytest.fixture(autouse=True, scope="session")
-def modify_environment_defaults(
-    request: pytest.FixtureRequest,
-):
-    """Modify environment defaults to values specified in command line."""
-    EnvironmentDefaults.gas_limit = request.config.getoption("block_gas_limit")
 
 
 @pytest.fixture(scope="function")

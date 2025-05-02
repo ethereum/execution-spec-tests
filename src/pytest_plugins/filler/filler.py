@@ -31,6 +31,7 @@ from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
+from ethereum_test_types import EnvironmentDefaults
 
 from ..shared.helpers import get_spec_format_for_item, labeled_format_parameter_set
 
@@ -171,6 +172,17 @@ def pytest_addoption(parser: pytest.Parser):
         dest="generate_index",
         default=True,
         help="Skip generating an index file for all produced fixtures.",
+    )
+    test_group.addoption(
+        "--block-gas-limit",
+        action="store",
+        dest="block_gas_limit",
+        default=EnvironmentDefaults.gas_limit,
+        type=int,
+        help=(
+            "Default gas limit used ceiling used for blocks and tests that attempt to "
+            f"consume an entire block's gas. (Default: {EnvironmentDefaults.gas_limit})"
+        ),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
@@ -383,6 +395,14 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
+
+
+@pytest.fixture(autouse=True, scope="session")
+def modify_environment_defaults(
+    request: pytest.FixtureRequest,
+):
+    """Modify environment defaults to values specified in command line."""
+    EnvironmentDefaults.gas_limit = request.config.getoption("block_gas_limit")
 
 
 @pytest.fixture(autouse=True, scope="session")
