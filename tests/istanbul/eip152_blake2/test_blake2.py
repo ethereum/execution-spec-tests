@@ -532,7 +532,7 @@ def test_blake2b_invalid_gas(
 
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
-@pytest.mark.parametrize("gas_limit", [100_000_000, 90_000, 110_000, 200_000])
+@pytest.mark.parametrize("gas_limit", [Environment().gas_limit, 90_000, 110_000, 200_000])
 @pytest.mark.parametrize(
     ["data", "output"],
     [
@@ -606,8 +606,6 @@ def test_blake2b_gas_limit(
     output: ExpectedOutput,
 ):
     """Test BLAKE2b precompile with different gas limits."""
-    env = Environment()
-
     account = pre.deploy_contract(blake2b_contract_bytecode, storage={0: 0xDEADBEEF})
     sender = pre.fund_eoa()
 
@@ -635,7 +633,11 @@ def test_blake2b_gas_limit(
             }
         )
     }
-    state_test(env=env, pre=pre, post=post, tx=tx)
+    state_test(
+        pre=pre,
+        post=post,
+        tx=tx,
+    )
 
 
 @pytest.mark.valid_from("Istanbul")
@@ -743,7 +745,7 @@ def test_blake2b_large_gas_limit(
         ty=0x0,
         to=account,
         data=data,
-        gas_limit=100_000_000,
+        gas_limit=env.gas_limit,
         protected=True,
         sender=sender,
         value=0,
