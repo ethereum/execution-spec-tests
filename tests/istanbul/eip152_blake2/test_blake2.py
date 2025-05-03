@@ -697,7 +697,6 @@ def test_blake2b_gas_limit(
                 data_2="0xd37f63034b83f4a0a07cd238483874862921ef0c40630826a76e41bf3b02ffe3",
             ),
             id="EIP-152-modified-case8-data9-large-gas-limit",
-            marks=pytest.mark.slow,
         ),
         pytest.param(
             Blake2bInput(
@@ -722,6 +721,7 @@ def test_blake2b_gas_limit(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_blake2b_large_gas_limit(
     state_test: StateTestFiller,
     pre: Alloc,

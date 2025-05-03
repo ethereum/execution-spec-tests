@@ -263,6 +263,7 @@ class LoopRunUntilOutOfGasCases(PytestParameterEnum):
 
 
 @LoopRunUntilOutOfGasCases.parametrize()
+@pytest.mark.slow()
 def test_run_until_out_of_gas(
     state_test: StateTestFiller,
     pre: Alloc,
