@@ -43,28 +43,7 @@ jobs:
       - name: Generate report file
         if: steps.check-eip.outputs.exit_code != 0
         run: |
-          cat > ./reports/outdated_eips.md << EOL
-          # EIP Version Check Report
-
-          This automated check has detected that some EIP references in test files are outdated. This means that the EIPs have been updated in the [ethereum/EIPs](https://github.com/ethereum/EIPs) repository since our tests were last updated.
-
-          ## Outdated EIP References
-
-          The EIP spec version checker reports the following failures:
-
-          \`\`\`
-          $(grep "FAILED.* does not match that from ethereum/EIPs" ./reports/eip_check_output.txt || echo "No specific outdated EIPs found in the output.")
-          \`\`\`
-
-          ## Action Required
-
-          1. Please verify whether the affected tests need updating based on the updated EIP spec.
-          2. Update the EIP reference versions in the affected test files, for details see [the online documentation](https://eest.ethereum.org/main/writing_tests/reference_specification/).
-
-          ## Workflow Information
-
-          For more details, see the [workflow run](https://github.com/ethereum/execution-spec-tests/actions/runs/${{ github.run_id }}).
-          EOL
+          uv run python .github/scripts/generate_eip_report.py ./reports/eip_check_output.txt ./reports/outdated_eips.md
 
       - name: Create Issue From File
         if: steps.check-eip.outputs.exit_code != 0
