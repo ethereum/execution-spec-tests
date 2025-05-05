@@ -680,3 +680,67 @@ def test_invalid_multi_type_requests_engine(
         post={},
         blocks=blocks,
     )
+
+
+def invalid_requests_trailing_bytes_combinations() -> List[ParameterSet]:
+    """Generate test combinations for requests with trailing bytes."""
+    expected_exception = [BlockException.INVALID_REQUESTS]
+    combinations: List[ParameterSet] = [
+        pytest.param(
+            [single_deposit_from_eoa(0)],
+            [bytes([0]) + single_deposit(0).calldata + b"\xff"],
+            expected_exception,
+            id="deposit_with_one_trailing_byte",
+        ),
+        pytest.param(
+            [single_withdrawal_from_eoa(0)],
+            [bytes([1]) + single_withdrawal(0).calldata + b"\xaa\xbb"],
+            expected_exception,
+            id="withdrawal_with_two_trailing_bytes",
+        ),
+        pytest.param(
+            [single_consolidation_from_eoa(0)],
+            [bytes([2]) + single_consolidation(0).calldata + b"\xcc\xdd\xee"],
+            expected_exception,
+            id="consolidation_with_three_trailing_bytes",
+        ),
+        pytest.param(
+            [
+                single_deposit_from_eoa(0),
+                single_withdrawal_from_eoa(0),
+                single_consolidation_from_eoa(0),
+            ],
+            [
+                bytes([0]) + single_deposit(0).calldata + b"\x01",
+                bytes([1]) + single_withdrawal(0).calldata + b"\x02\x03",
+                bytes([2]) + single_consolidation(0).calldata + b"\x04\x05\x06",
+            ],
+            expected_exception,
+            id="all_request_types_with_trailing_bytes",
+        ),
+    ]
+
+    return combinations
+
+
+@pytest.mark.exception_test
+@pytest.mark.parametrize(
+    "requests,block_body_override_requests,exception",
+    invalid_requests_trailing_bytes_combinations(),
+)
+def test_invalid_requests_trailing_bytes(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    blocks: List[Block],
+):
+    """
+    Negative testing for all request types individually and in the same block with
+    trailing bytes. These don't form complete requests and blocks should be rejected
+    with the block level `INVALID_REQUESTS` exception.
+    """
+    blockchain_test(
+        genesis_environment=Environment(),
+        pre=pre,
+        post={},
+        blocks=blocks,
+    )
