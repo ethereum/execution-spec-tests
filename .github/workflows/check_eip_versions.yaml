@@ -61,15 +61,19 @@ jobs:
 
           1. Please verify whether the affected tests need updating based on the updated EIP spec.
           2. Update the EIP reference versions in the affected test files, for details see [the online documentation](https://eest.ethereum.org/main/writing_tests/reference_specification/).
+
+          ## Workflow Information
+
+          For more details, see the [workflow run](https://github.com/ethereum/execution-spec-tests/actions/runs/${{ github.run_id }}).
           EOL
 
       - name: Create Issue From File
         if: steps.check-eip.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd
         with:
-          title: "chore(tests): update outdated EIP spec references"
+          title: "chore(tests): eip spec references outdated"
           content-filepath: ./reports/outdated_eips.md
-          labels: report, automated issue, needs-attention
+          labels: report, automated issue, scope:tests, type:chore
 
       - name: Upload test report as artifact
         if: always()
