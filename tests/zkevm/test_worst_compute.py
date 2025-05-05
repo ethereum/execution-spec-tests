@@ -110,7 +110,7 @@ def test_worst_keccak(
 @pytest.mark.parametrize(
     "gas_limit",
     [
-        36_000_000,
+        Environment().gas_limit,
     ],
 )
 def test_worst_modexp(
@@ -156,7 +156,7 @@ def test_worst_modexp(
         # Must never happen, but keep it as a sanity check.
         raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
 
-    code_address = pre.deploy_contract(code=bytes(code))
+    code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
         to=code_address,
