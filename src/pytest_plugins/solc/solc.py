@@ -1,5 +1,7 @@
 """Pytest plugin for configuring and installing the solc compiler."""
 
+import platform
+import subprocess
 from argparse import ArgumentTypeError
 from shutil import which
 
@@ -63,6 +65,12 @@ def pytest_configure(config: pytest.Config):
         except ArgumentTypeError:
             version = None
         if version != solc_version:
+            # solc-select current does not support ARM linux
+            if platform.system().lower() == "linux" and platform.machine().lower() == "aarch64":
+                error_message = f"Version {version} does not match solc_version {solc_version}\
+ and since solc-select currently does not support ARM linux we can not recover from this problem."
+                pytest.exit(error_message, returncode=pytest.ExitCode.USAGE_ERROR)
+
             if config.getoption("verbose") > 0:
                 print(f"Setting solc version {solc_version} via solc-select...")
             try:
@@ -89,6 +97,20 @@ def pytest_configure(config: pytest.Config):
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
     config.solc_version = solc_version_semver  # type: ignore
+
+    # test whether solc_version matches actual one
+    solc_version_check_result = subprocess.run(
+        ["solc", "--version"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+        check=True,
+    )
+    solc_version_check_result_string = solc_version_check_result.stdout
+    if str(solc_version_semver) not in solc_version_check_result_string:
+        error_message = f"Expected solc version {solc_version_semver} but detected a\
+ different solc version:\n{solc_version_check_result_string}\nCritical error, aborting.."
+        pytest.exit(error_message, returncode=pytest.ExitCode.USAGE_ERROR)
 
 
 @pytest.fixture(autouse=True, scope="session")
