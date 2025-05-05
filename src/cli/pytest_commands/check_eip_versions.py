@@ -1,25 +1,19 @@
 """CLI entry point for the EIP version checker pytest-based command."""
 
 import sys
+from typing import List
 
 import click
 import pytest
 
+from .common import common_click_options, handle_help_flags
 
-@click.command(
-    context_settings={
-        "help_option_names": ["-h", "--help"],
-    }
-)
-@click.option(
-    "--github-token",
-    help="GitHub API token required to avoid rate limiting when checking EIP versions",
-    envvar="GITHUB_TOKEN",
-    required=True,
-)
-def check_eip_versions(github_token: str) -> None:
+
+@click.command(context_settings={"ignore_unknown_options": True})
+@common_click_options
+def check_eip_versions(pytest_args: List[str], **kwargs) -> None:
     """Run pytest with the `spec_version_checker` plugin."""
-    args = ["-c", "pytest-check-eip-versions.ini", "--github-token", github_token]
-
+    args = ["-c", "pytest-check-eip-versions.ini"]
+    args += handle_help_flags(list(pytest_args), pytest_type="check-eip-versions")
     result = pytest.main(args)
     sys.exit(result)

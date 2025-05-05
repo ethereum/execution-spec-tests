@@ -16,14 +16,16 @@ from ethereum_test_tools import ReferenceSpec, ReferenceSpecTypes
 
 
 def pytest_addoption(parser):
-    """Add GitHub token option to pytest command line options."""
-    group = parser.getgroup("github")
+    """Add Github token option to pytest command line options."""
+    group = parser.getgroup(
+        "spec_version_checker", "Arguments defining the EIP spec version checker"
+    )
     group.addoption(
         "--github-token",
         action="store",
         dest="github_token",
         default=None,
-        help="GitHub API token to avoid rate limiting",
+        help="A Github API personal access token to avoid rate limiting",
     )
 
 
@@ -44,9 +46,10 @@ def pytest_configure(config):
 
     if not github_token:
         pytest.exit(
-            "A GitHub personal access token is required but has not been provided. "
-            "Either set the GITHUB_TOKEN environment variable or use --github-token option. "
-            "Generate a token at https://github.com/settings/personal-access-tokens/new"
+            "A Github personal access token is required but has not been provided. "
+            "Either set the GITHUB_TOKEN environment variable or specify one via --github-token. "
+            "Generate a token for your Github account at "
+            "https://github.com/settings/personal-access-tokens/new"
         )
 
     config.github_token = github_token
