@@ -98,6 +98,9 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
+    # Modify the block gas limit if specified.
+    if config.getoption("transaction_gas_limit"):
+        EnvironmentDefaults.gas_limit = config.getoption("transaction_gas_limit")
     if config.option.collectonly:
         return
     if config.getoption("disable_html") and config.getoption("htmlpath") is None:
@@ -179,14 +182,6 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
-
-
-@pytest.fixture(autouse=True, scope="session")
-def modify_environment_defaults(
-    request: pytest.FixtureRequest,
-):
-    """Modify environment defaults to values specified in command line."""
-    EnvironmentDefaults.gas_limit = request.config.getoption("transaction_gas_limit")
 
 
 @pytest.fixture(scope="session")
