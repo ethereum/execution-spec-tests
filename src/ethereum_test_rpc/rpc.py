@@ -172,8 +172,15 @@ class EthRPC(BaseRPC):
         return Hash(self.post_request("getStorageAt", f"{address}", f"{position}", block))
 
     def gas_price(self) -> int:
-        """`eth_gasPrice`: Returns the number of transactions sent from an address."""
+        """`eth_gasPrice`: Return the current gas price of the network."""
         return int(self.post_request("gasPrice"), 16)
+
+    def max_priority_fee_per_gas(self) -> int:
+        """
+        `eth_maxPriorityFeePerGas`: Return the current max priority fee per gas of
+        the network.
+        """
+        return int(self.post_request("maxPriorityFeePerGas"), 16)
 
     def send_raw_transaction(self, transaction_rlp: Bytes) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
