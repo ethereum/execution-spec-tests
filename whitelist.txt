@@ -418,7 +418,6 @@ stdout
 stExample
 str
 streetsidesoftware
-stu
 subcall
 subclasscheck
 subcommands

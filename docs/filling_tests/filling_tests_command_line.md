@@ -176,7 +176,7 @@ Arguments defining filler location and output:
 Arguments defining debug behavior:
   --evm-dump-dir, --t8n-dump-dir EVM_DUMP_DIR
                         Path to dump the transition tool debug output. (Default:
-                        /Users/stu/projects/ethereum/execution-spec-tests/logs/evm)
+                        <repo>/logs/evm)
   --skip-evm-dump, --skip-t8n-dump
                         Skip dumping the the transition tool debug output.
 
