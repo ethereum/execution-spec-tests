@@ -234,8 +234,17 @@ class EthRPC(BaseRPC):
         return Hash(response)
 
     def gas_price(self) -> int:
-        """`eth_gasPrice`: Returns the number of transactions sent from an address."""
+        """`eth_gasPrice`: Return the current gas price of the network."""
         response = self.post_request(method="gasPrice")
+
+        return int(response, 16)
+
+    def max_priority_fee_per_gas(self) -> int:
+        """
+        `eth_maxPriorityFeePerGas`: Return the current max priority fee per gas of
+        the network.
+        """
+        response = self.post_request(method="maxPriorityFeePerGas")
 
         return int(response, 16)
 
