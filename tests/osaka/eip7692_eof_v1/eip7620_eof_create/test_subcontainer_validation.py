@@ -585,6 +585,156 @@ def test_subcontainer_wrong_size(
     )
 
 
+empty_container = Container(
+    name="embedded_container_zero_container_size",
+    sections=[
+        Section.Code(
+            code=Op.PUSH1[0] + Op.RJUMPI[0] + Op.STOP,
+            max_stack_height=1,
+        ),
+        Section.Container(
+            container=Container(
+                raw_bytes=([]),  # Empty subcontainer
+            )
+        ),
+    ],
+)
+
+
+@pytest.mark.parametrize(
+    "truncate_at,exception",
+    [
+        pytest.param(-1, None),
+        pytest.param(12, EOFException.INCOMPLETE_SECTION_NUMBER),
+        pytest.param(13, EOFException.INCOMPLETE_SECTION_NUMBER),
+        pytest.param(14, EOFException.MISSING_HEADERS_TERMINATOR),
+        pytest.param(15, EOFException.INCOMPLETE_SECTION_SIZE),
+        pytest.param(16, EOFException.INCOMPLETE_SECTION_SIZE),
+        pytest.param(17, EOFException.INCOMPLETE_SECTION_SIZE),
+        pytest.param(18, EOFException.MISSING_HEADERS_TERMINATOR),
+    ],
+)
+def test_truncated_subcontainer(eof_test, truncate_at, exception):
+    """Test truncated container in subcontainer header description."""
+    container = Container(
+        sections=[
+            Section.Code(
+                code=Op.RETURNCODE[0](0, 0),
+            ),
+            stop_sub_container,
+        ],
+        kind=ContainerKind.INITCODE,
+    )
+    if truncate_at > 0:
+        container = Container(
+            raw_bytes=container.bytecode[0:truncate_at],
+        )
+    eof_test(container=container, expect_exception=exception)
+
+
+@pytest.mark.parametrize(
+    "container,exception",
+    [
+        pytest.param(
+            empty_container,
+            EOFException.ZERO_SECTION_SIZE,
+        ),
+        pytest.param(
+            Container(
+                name="embedded_container_non_zero_section_size_zero_container_size",
+                raw_bytes=(
+                    [
+                        0xEF,
+                        0x00,
+                        0x01,  # Version: 1
+                        0x01,  # Types Length: 4
+                        0x00,
+                        0x04,
+                        0x02,  # Code Sections (Length: 1)
+                        0x00,
+                        0x01,
+                        0x00,  #   Code Section 0 (Length: 6)
+                        0x06,
+                        0x03,  # Container Sections (Length: 1)
+                        0x00,
+                        0x01,
+                        0x00,  #   Container Section 0 (Length: 20)
+                        0x00,
+                        0x00,
+                        0x14,
+                        0xFF,  # Data Length: 0
+                        0x00,
+                        0x00,
+                        0x00,  # Terminator
+                        # Code Section 0 types
+                        0x00,  #   Inputs: 0
+                        0x80,  #   Outputs: 0 (Non-returning function)
+                        0x00,  #   Max Stack Height: 1
+                        0x01,
+                        # Code Section 0
+                        0x60,  #  [0] PUSH1(0)
+                        0x00,
+                        0xE1,  #  [2] RJUMPI(0)
+                        0x00,
+                        0x00,
+                        0x00,  #  [5] STOP
+                        # --- Error: Invalid Container Content ---#
+                    ]
+                ),
+            ),
+            EOFException.INVALID_SECTION_BODIES_SIZE,
+        ),
+        pytest.param(
+            Container(
+                name="embedded_container_zero_section_size",
+                raw_bytes=(
+                    [
+                        0xEF,
+                        0x00,
+                        0x01,  # Version: 1
+                        0x01,  # Types Length: 4
+                        0x00,
+                        0x04,
+                        0x02,  # Code Sections (Length: 1)
+                        0x00,
+                        0x01,
+                        0x00,  #   Code Section 0 (Length: 6)
+                        0x06,
+                        # --- Error: Invalid Container Header (zero section size) ---#
+                        0x03,
+                        0x00,
+                        0x00,
+                        0xFF,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x80,
+                        0x00,
+                        0x01,
+                        0x60,
+                        0x00,
+                        0xE1,
+                        0x00,
+                        0x00,
+                        0x00,
+                    ]
+                ),
+            ),
+            EOFException.ZERO_SECTION_SIZE,
+        ),
+    ],
+)
+def test_subcontainer_zero_section_size(
+    eof_test: EOFTestFiller, container: Container, exception: EOFException
+):
+    """Test subcontainers with declared or non-declared zero section sizes."""
+    eof_test(
+        container=container,
+        expect_exception=exception,
+    )
+
+
 deep_container_parametrize = pytest.mark.parametrize(
     ["deepest_container", "exception"],
     [
