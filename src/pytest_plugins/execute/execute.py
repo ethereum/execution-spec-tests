@@ -110,12 +110,12 @@ def pytest_addoption(parser):
         help="ID of the chain where the tests will be executed.",
     )
     execute_group.addoption(
-        "--test-gas-limit",
+        "--total-gas-limit",
         action="store",
-        dest="test_gas_limit",
+        dest="total_gas_limit",
         default=None,
         type=int,
-        help=("Maximum gas limit in wei for all transactions in a test. Default=None (No limit)"),
+        help=("Maximum gas limit for all transactions in a test. Default=None (No limit)"),
     )
     execute_group.addoption(
         "--dry-run",
@@ -305,6 +305,12 @@ def gas_price(max_fee_per_gas: int, max_priority_fee_per_gas: int) -> int:
     return max_fee_per_gas + max_priority_fee_per_gas
 
 
+@pytest.fixture()
+def total_gas_limit_per_test(request) -> int | None:
+    """Return the total gas limit for all transactions in a given test."""
+    return request.config.getoption("total_gas_limit")
+
+
 @dataclass(kw_only=True)
 class Collector:
     """A class that collects transactions and post-allocations for every test case."""
@@ -354,6 +360,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         gas_price: int,
         max_fee_per_gas: int,
         max_priority_fee_per_gas: int,
+        total_gas_limit_per_test: int | None,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -398,12 +405,17 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     max_priority_fee_per_gas=max_priority_fee_per_gas,
                 )
 
-                minimum_balance = pre.minimum_balance_for_pending_transactions(
+                minimum_balance, gas_consumption = pre.minimum_balance_for_pending_transactions(
                     required_balances,
                     gas_price=gas_price,
                     max_fee_per_gas=max_fee_per_gas,
                     max_priority_fee_per_gas=max_priority_fee_per_gas,
                 )
+                if total_gas_limit_per_test is not None:
+                    assert gas_consumption <= total_gas_limit_per_test, (
+                        f"Test gas consumption ({gas_consumption}) exceeds the gas limit allowed "
+                        f"per test({total_gas_limit_per_test})."
+                    )
 
                 logger.info(f"Minimum balance required: {minimum_balance / 10**18:.18f}")
 

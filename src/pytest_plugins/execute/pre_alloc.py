@@ -512,12 +512,13 @@ class Alloc(BaseAlloc):
         gas_price: int,
         max_fee_per_gas: int,
         max_priority_fee_per_gas: int,
-    ) -> int:
+    ) -> Tuple[int, int]:
         """
         Calculate the minimum balance required by the sender to send all pending
         transactions.
         """
         minimum_balance = 0
+        gas_consumption = 0
         for tx in self._pending_txs:
             if tx.value is None:
                 assert tx.to in sender_balances, "Sender balance must be set before sending"
@@ -527,8 +528,9 @@ class Alloc(BaseAlloc):
                 max_fee_per_gas=max_fee_per_gas,
                 max_priority_fee_per_gas=max_priority_fee_per_gas,
             )
+            gas_consumption += tx.gas_limit
             minimum_balance += tx.signer_minimum_balance()
-        return minimum_balance
+        return minimum_balance + gas_consumption * gas_price, gas_consumption
 
     def send_pending_transactions(self) -> List[TransactionByHashResponse]:
         """Send all pending transactions."""
