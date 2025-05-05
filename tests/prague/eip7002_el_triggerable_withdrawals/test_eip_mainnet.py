@@ -24,7 +24,7 @@ pytestmark = [pytest.mark.valid_at("Prague"), pytest.mark.mainnet]
 
 
 @pytest.mark.parametrize(
-    "blocks_consolidation_requests",
+    "blocks_withdrawal_requests",
     [
         pytest.param(
             [
