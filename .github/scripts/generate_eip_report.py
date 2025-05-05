@@ -17,8 +17,8 @@ REPORT_TEMPLATE = Template(
 
     ### Summary Table
 
-    | File | EIP | Referenced Version | Latest Version | EIP Link |
-    | ---- | --- | ----------------- | ------------- | -------- |
+    | File | EIP Link | Referenced Version | Latest Version |
+    | ---- | -------- | ------------------ | -------------- |
     $summary_table
 
     ### Verbatim Failures
@@ -90,7 +90,7 @@ def generate_summary_table(failures):
     rows = []
     for file_path, eip_num, _, eip_link, ref_version, latest_version in failures:
         rows.append(
-            f"| `{file_path}` | `{ref_version}` | `{latest_version}` | [{eip_num}]({eip_link}) |"  # noqa: E501
+            f"| `{file_path}` | [{eip_num}]({eip_link}) | `{ref_version}` | `{latest_version}` |"
         )
     return "\n".join(rows)
 
