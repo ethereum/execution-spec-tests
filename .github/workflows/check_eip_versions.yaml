@@ -44,30 +44,23 @@ jobs:
       - name: Generate report file
         if: steps.check-eip.outputs.exit_code != 0
         run: |
-          cat > ./reports/outdated_eips.md << 'EOL'
+          cat > ./reports/outdated_eips.md << EOL
           # EIP Version Check Report
 
           This automated check has detected that some EIP references in test files are outdated. This means that the EIPs have been updated in the [ethereum/EIPs](https://github.com/ethereum/EIPs) repository since our tests were last updated.
 
           ## Outdated EIP References
 
-          The following EIP references need to be updated in our tests:
+          The EIP spec version checker reports the following failures:
 
-          ```
-          $(grep -A 10 "does not match that from ethereum/EIPs" ./reports/eip_check_output.txt || echo "No specific outdated EIPs found in the output.")
-          ```
+          \`\`\`
+          $(grep "FAILED.* does not match that from ethereum/EIPs" ./reports/eip_check_output.txt || echo "No specific outdated EIPs found in the output.")
+          \`\`\`
 
           ## Action Required
 
-          Please update the EIP reference versions in the affected test files. For each outdated reference:
-
-          1. Check the latest version of the EIP in the [ethereum/EIPs](https://github.com/ethereum/EIPs) repository
-          2. Update the `REFERENCE_SPEC_VERSION` in the test file to the latest commit SHA
-          3. Verify that the tests still pass with the updated reference
-
-          ## Additional Information
-
-          For more details on the EIP version checking system, please see the documentation in the [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) repository.
+          1. Please verify whether the affected tests need updating based on the updated EIP spec.
+          2. Update the EIP reference versions in the affected test files, for details see [the online documentation](https://eest.ethereum.org/main/writing_tests/reference_specification/).
           EOL
 
       - name: Create Issue From File
