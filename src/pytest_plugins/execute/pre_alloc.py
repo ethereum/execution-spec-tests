@@ -12,6 +12,7 @@ from pydantic import PrivateAttr
 from ethereum_test_base_types import (
     Bytes,
     EthereumTestRootModel,
+    HexNumber,
     Number,
     StorageRootType,
     ZeroPaddedHexNumber,
@@ -164,13 +165,24 @@ def eoa_iterator(request) -> Iterator[EOA]:
     return iter(EOA(key=i, nonce=0) for i in count(start=eoa_start))
 
 
+class PendingTransaction(Transaction):
+    """
+    Custom transaction class that defines a transaction that is yet to be sent.
+
+    The value is allowed to be `None` to allow for the value to be set until the
+    transaction is sent.
+    """
+
+    value: HexNumber | None = None
+
+
 class Alloc(BaseAlloc):
     """A custom class that inherits from the original Alloc class."""
 
     _fork: Fork = PrivateAttr()
     _sender: EOA = PrivateAttr()
     _eth_rpc: EthRPC = PrivateAttr()
-    _txs: List[Transaction] = PrivateAttr(default_factory=list)
+    _pending_txs: List[PendingTransaction] = PrivateAttr(default_factory=list)
     _deployed_contracts: List[Tuple[Address, Bytes]] = PrivateAttr(default_factory=list)
     _funded_eoa: List[EOA] = PrivateAttr(default_factory=list)
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
@@ -186,7 +198,6 @@ class Alloc(BaseAlloc):
         eth_rpc: EthRPC,
         eoa_iterator: Iterator[EOA],
         chain_id: int,
-        eoa_fund_amount_default: int,
         evm_code_type: EVMCodeType | None = None,
         node_id: str = "",
         address_stubs: AddressStubs | None = None,
@@ -200,7 +211,6 @@ class Alloc(BaseAlloc):
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
         self._chain_id = chain_id
-        self._eoa_fund_amount_default = eoa_fund_amount_default
         self._node_id = node_id
         self._address_stubs = address_stubs or AddressStubs(root={})
 
@@ -298,13 +308,13 @@ class Alloc(BaseAlloc):
         deploy_gas_limit = min(deploy_gas_limit * 2, 30_000_000)
         print(f"Deploying contract with gas limit: {deploy_gas_limit}")
 
-        deploy_tx = Transaction(
+        deploy_tx = PendingTransaction(
             sender=self._sender,
             to=None,
             data=initcode,
             value=balance,
             gas_limit=deploy_gas_limit,
-        ).with_signature_and_sender()
+        )
         deploy_tx.metadata = TransactionTestMetadata(
             test_id=self._node_id,
             phase="setup",
@@ -312,8 +322,7 @@ class Alloc(BaseAlloc):
             target=label,
             tx_index=len(self._txs),
         )
-        self._eth_rpc.send_transaction(deploy_tx)
-        self._txs.append(deploy_tx)
+        self._pending_txs.append(deploy_tx)
 
         contract_address = deploy_tx.created_contract
         self._deployed_contracts.append((contract_address, Bytes(code)))
@@ -346,10 +355,7 @@ class Alloc(BaseAlloc):
         eoa = next(self._eoa_iterator)
         eoa.label = label
         # Send a transaction to fund the EOA
-        if amount is None:
-            amount = self._eoa_fund_amount_default
-
-        fund_tx: Transaction | None = None
+        fund_tx: PendingTransaction | None = None
         if delegation is not None or storage is not None:
             if storage is not None:
                 sstore_address = self.deploy_contract(
@@ -357,7 +363,7 @@ class Alloc(BaseAlloc):
                         sum(Op.SSTORE(key, value) for key, value in storage.root.items()) + Op.STOP
                     )
                 )
-                set_storage_tx = Transaction(
+                set_storage_tx = PendingTransaction(
                     sender=self._sender,
                     to=eoa,
                     authorization_list=[
@@ -369,7 +375,7 @@ class Alloc(BaseAlloc):
                         ),
                     ],
                     gas_limit=100_000,
-                ).with_signature_and_sender()
+                )
                 eoa.nonce = Number(eoa.nonce + 1)
                 set_storage_tx.metadata = TransactionTestMetadata(
                     test_id=self._node_id,
@@ -378,14 +384,13 @@ class Alloc(BaseAlloc):
                     target=label,
                     tx_index=len(self._txs),
                 )
-                self._eth_rpc.send_transaction(set_storage_tx)
-                self._txs.append(set_storage_tx)
+                self._pending_txs.append(set_storage_tx)
 
             if delegation is not None:
                 if not isinstance(delegation, Address) and delegation == "Self":
                     delegation = eoa
                 # TODO: This tx has side-effects on the EOA state because of the delegation
-                fund_tx = Transaction(
+                fund_tx = PendingTransaction(
                     sender=self._sender,
                     to=eoa,
                     value=amount,
@@ -398,10 +403,10 @@ class Alloc(BaseAlloc):
                         ),
                     ],
                     gas_limit=100_000,
-                ).with_signature_and_sender()
+                )
                 eoa.nonce = Number(eoa.nonce + 1)
             else:
-                fund_tx = Transaction(
+                fund_tx = PendingTransaction(
                     sender=self._sender,
                     to=eoa,
                     value=amount,
@@ -414,16 +419,16 @@ class Alloc(BaseAlloc):
                         ),
                     ],
                     gas_limit=100_000,
-                ).with_signature_and_sender()
+                )
                 eoa.nonce = Number(eoa.nonce + 1)
 
         else:
-            if Number(amount) > 0:
-                fund_tx = Transaction(
+            if amount is None or Number(amount) > 0:
+                fund_tx = PendingTransaction(
                     sender=self._sender,
                     to=eoa,
                     value=amount,
-                ).with_signature_and_sender()
+                )
 
         if fund_tx is not None:
             fund_tx.metadata = TransactionTestMetadata(
@@ -433,15 +438,14 @@ class Alloc(BaseAlloc):
                 target=label,
                 tx_index=len(self._txs),
             )
-            self._eth_rpc.send_transaction(fund_tx)
-            self._txs.append(fund_tx)
-        super().__setitem__(
-            eoa,
-            Account(
-                nonce=eoa.nonce,
-                balance=amount,
-            ),
-        )
+            self._pending_txs.append(fund_tx)
+        account_kwargs = {
+            "nonce": eoa.nonce,
+        }
+        if amount is not None:
+            account_kwargs["balance"] = amount
+        account = Account(**account_kwargs)
+        super().__setitem__(eoa, account)
         self._funded_eoa.append(eoa)
         return eoa
 
@@ -452,11 +456,11 @@ class Alloc(BaseAlloc):
         If the address is already present in the pre-alloc the amount will be
         added to its existing balance.
         """
-        fund_tx = Transaction(
+        fund_tx = PendingTransaction(
             sender=self._sender,
             to=address,
             value=amount,
-        ).with_signature_and_sender()
+        )
         fund_tx.metadata = TransactionTestMetadata(
             test_id=self._node_id,
             phase="setup",
@@ -464,8 +468,7 @@ class Alloc(BaseAlloc):
             target=address.label,
             tx_index=len(self._txs),
         )
-        self._eth_rpc.send_transaction(fund_tx)
-        self._txs.append(fund_tx)
+        self._pending_txs.append(fund_tx)
         if address in self:
             account = self[address]
             if account is not None:
@@ -503,9 +506,38 @@ class Alloc(BaseAlloc):
         )
         return Address(eoa)
 
+    def minimum_balance_for_pending_transactions(
+        self,
+        sender_balances: Dict[Address, int],
+        gas_price: int,
+        max_fee_per_gas: int,
+        max_priority_fee_per_gas: int,
+    ) -> int:
+        """
+        Calculate the minimum balance required by the sender to send all pending
+        transactions.
+        """
+        minimum_balance = 0
+        for tx in self._pending_txs:
+            if tx.value is None:
+                assert tx.to in sender_balances, "Sender balance must be set before sending"
+                tx.value = sender_balances[tx.to]
+            tx.set_gas_price(
+                gas_price=gas_price,
+                max_fee_per_gas=max_fee_per_gas,
+                max_priority_fee_per_gas=max_priority_fee_per_gas,
+            )
+            minimum_balance += tx.signer_minimum_balance()
+        return minimum_balance
+
+    def send_pending_transactions(self) -> List[TransactionByHashResponse]:
+        """Send all pending transactions."""
+        txs = [tx.with_signature_and_sender() for tx in self._pending_txs]
+        return self._eth_rpc.send_transactions(txs)
+
     def wait_for_transactions(self) -> List[TransactionByHashResponse]:
         """Wait for all transactions to be included in blocks."""
-        return self._eth_rpc.wait_for_transactions(self._txs)
+        return self._eth_rpc.wait_for_transactions(self._pending_txs)
 
 
 @pytest.fixture(autouse=True)
@@ -532,10 +564,11 @@ def pre(
     eth_rpc: EthRPC,
     evm_code_type: EVMCodeType,
     chain_config: ChainConfig,
-    eoa_fund_amount_default: int,
-    default_gas_price: int,
     address_stubs: AddressStubs | None,
     skip_cleanup: bool,
+    max_fee_per_gas: int,
+    max_priority_fee_per_gas: int,
+    dry_run: bool,
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""
@@ -550,7 +583,6 @@ def pre(
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
         chain_id=chain_config.chain_id,
-        eoa_fund_amount_default=eoa_fund_amount_default,
         node_id=request.node.nodeid,
         address_stubs=address_stubs,
     )
@@ -558,6 +590,8 @@ def pre(
     # Yield the pre-alloc for usage during the test
     yield pre
 
+    if dry_run:
+        return
     if not skip_cleanup:
         # Refund all EOAs (regardless of whether the test passed or failed)
         refund_txs = []
@@ -565,14 +599,15 @@ def pre(
             remaining_balance = eth_rpc.get_balance(eoa)
             eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
             refund_gas_limit = 21_000
-            tx_cost = refund_gas_limit * default_gas_price
+            tx_cost = refund_gas_limit * max_fee_per_gas
             if remaining_balance < tx_cost:
                 continue
             refund_tx = Transaction(
                 sender=eoa,
                 to=sender_key,
                 gas_limit=21_000,
-                gas_price=default_gas_price,
+                max_fee_per_gas=max_fee_per_gas,
+                max_priority_fee_per_gas=max_priority_fee_per_gas,
                 value=remaining_balance - tx_cost,
             ).with_signature_and_sender()
             refund_tx.metadata = TransactionTestMetadata(
