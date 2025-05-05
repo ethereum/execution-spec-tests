@@ -24,7 +24,7 @@ template_env = jinja2.Environment(
 
 
 def exit_now():
-    """Helper function to allow user to interrupt execution instantly via ctrl+C."""
+    """Interrupt execution instantly via ctrl+C."""
     print("Ctrl+C detected, exiting..")
     exit(0)
 
