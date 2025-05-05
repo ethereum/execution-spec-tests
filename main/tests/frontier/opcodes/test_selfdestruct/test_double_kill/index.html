@@ -30866,7 +30866,7 @@
 
 
 <h1 id="test_double_kill"><code>test_double_kill()</code><a class="headerlink" href="#test_double_kill" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/624f60bd1330d117524ecaf240397064b7f4519e/tests/frontier/opcodes/test_selfdestruct.py#L17"><code>tests/frontier/opcodes/test_selfdestruct.py::test_double_kill@624f60bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c2cf2a2cd75f33157839175c9c9c80c3fd696a2f/tests/frontier/opcodes/test_selfdestruct.py#L9"><code>tests/frontier/opcodes/test_selfdestruct.py::test_double_kill@c2cf2a2c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_selfdestruct.py::test_double_kill --fork Prague</span>
@@ -30887,7 +30887,15 @@ Dragon).</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_selfdestruct.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
@@ -30928,16 +30936,7 @@ Dragon).</p>
 <span class="normal">55</span>
 <span class="normal">56</span>
 <span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
+<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Homestead&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_double_kill</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -30945,7 +30944,6 @@ Dragon).</p>
 <span class="sd">    the second transaction actually resurrects the contract as an empty account (prior to Spurious</span>
 <span class="sd">    Dragon).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
     <span class="n">deploy_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SELFDESTRUCT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">ADDRESS</span><span class="p">)</span>
@@ -30953,7 +30951,7 @@ Dragon).</p>
     <span class="n">initcode</span> <span class="o">=</span> <span class="n">Initcode</span><span class="p">(</span><span class="n">deploy_code</span><span class="o">=</span><span class="n">deploy_code</span><span class="p">)</span>
 
     <span class="n">create_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
@@ -30963,14 +30961,14 @@ Dragon).</p>
     <span class="n">block_1</span> <span class="o">=</span> <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">create_tx</span><span class="p">])</span>
 
     <span class="n">first_kill</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">create_tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">second_kill</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100000000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">create_tx</span><span class="o">.</span><span class="n">created_contract</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
@@ -30987,7 +30985,7 @@ Dragon).</p>
         <span class="p">),</span>
     <span class="p">}</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
+    <span class="n">blockchain_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">block_1</span><span class="p">,</span> <span class="n">block_2</span><span class="p">])</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

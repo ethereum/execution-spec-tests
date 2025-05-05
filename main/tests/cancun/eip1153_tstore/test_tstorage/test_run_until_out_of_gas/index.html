@@ -30866,7 +30866,7 @@
 
 
 <h1 id="test_run_until_out_of_gas"><code>test_run_until_out_of_gas()</code><a class="headerlink" href="#test_run_until_out_of_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/624f60bd1330d117524ecaf240397064b7f4519e/tests/cancun/eip1153_tstore/test_tstorage.py#L265"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_run_until_out_of_gas@624f60bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c2cf2a2cd75f33157839175c9c9c80c3fd696a2f/tests/cancun/eip1153_tstore/test_tstorage.py#L265"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_run_until_out_of_gas@c2cf2a2c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_run_until_out_of_gas --fork Prague</span>
@@ -30903,7 +30903,11 @@
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
-<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@LoopRunUntilOutOfGasCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@LoopRunUntilOutOfGasCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_run_until_out_of_gas</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -30911,17 +30915,19 @@
     <span class="n">bytecode_repeat_times</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Use TSTORE over and over to different keys until we run out of gas.&quot;&quot;&quot;</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+
     <span class="n">bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">repeat_bytecode</span> <span class="o">*</span> <span class="n">bytecode_repeat_times</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>
     <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">bytecode</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">30_000_000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">code_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">bytecode</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{}),</span>
     <span class="p">}</span>
-    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">)</span>
+    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

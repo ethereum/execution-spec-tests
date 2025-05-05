@@ -11,7 +11,7 @@
 </head>
 <div class="stand_alone_container">
         <h1>Test Function: <code>test_many_delegations()</code></h1>
-        <p>Perform as many delegations as possible in a single 120 million gas transaction.</p>
+        <p>Perform as many delegations as possible in a transaction using the entire block gas limit.</p>
     <p><a href="./test_many_delegations/">Back to <code>test_many_delegations()</code></a>.</p>
         <h2>Parametrized Test Cases</h2>
     <div class="control_panel">
@@ -57,7 +57,6 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>max_gas</th>
                         <th>signer_balance</th>
                     </tr>
     </thead>
@@ -65,161 +64,73 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-120m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-120m-empty_balance]">
-                    ...fork_Prague-state_test-120m-empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-empty_balance]">
+                    ...fork_Prague-state_test-empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-120m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-120m-non_empty_balance]">
-                    ...fork_Prague-state_test-120m-non_empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-non_empty_balance]">
+                    ...fork_Prague-state_test-non_empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-20m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-20m-empty_balance]">
-                    ...fork_Prague-state_test-20m-empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-20m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-state_test-20m-non_empty_balance]">
-                    ...fork_Prague-state_test-20m-non_empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-120m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-120m-empty_balance]">
-                    ...fork_Prague-blockchain_test_from_state_test-120m-empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-empty_balance]">
+                    ...fork_Prague-blockchain_test_from_state_test-empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-120m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-120m-non_empty_balance]">
-                    ...fork_Prague-blockchain_test_from_state_test-120m-non_empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-non_empty_balance]">
+                    ...fork_Prague-blockchain_test_from_state_test-non_empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-20m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-20m-empty_balance]">
-                    ...fork_Prague-blockchain_test_from_state_test-20m-empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-20m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Prague-blockchain_test_from_state_test-20m-non_empty_balance]">
-                    ...fork_Prague-blockchain_test_from_state_test-20m-non_empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-120m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-120m-empty_balance]">
-                    ...fork_Osaka-state_test-120m-empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-empty_balance]">
+                    ...fork_Osaka-state_test-empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-120m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-120m-non_empty_balance]">
-                    ...fork_Osaka-state_test-120m-non_empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-non_empty_balance]">
+                    ...fork_Osaka-state_test-non_empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-20m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-20m-empty_balance]">
-                    ...fork_Osaka-state_test-20m-empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-20m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-state_test-20m-non_empty_balance]">
-                    ...fork_Osaka-state_test-20m-non_empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-120m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-120m-empty_balance]">
-                    ...fork_Osaka-blockchain_test_from_state_test-120m-empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-empty_balance]">
+                    ...fork_Osaka-blockchain_test_from_state_test-empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
                         <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-120m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-120m-non_empty_balance]">
-                    ...fork_Osaka-blockchain_test_from_state_test-120m-non_empty_balance
+                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-non_empty_balance]">
+                    ...fork_Osaka-blockchain_test_from_state_test-non_empty_balance
                 </abbr>
             </td>
-                        <td>120000000</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-20m-empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-20m-empty_balance]">
-                    ...fork_Osaka-blockchain_test_from_state_test-20m-empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
-                        <td>0</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-20m-non_empty_balance]" title="tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_many_delegations[fork_Osaka-blockchain_test_from_state_test-20m-non_empty_balance]">
-                    ...fork_Osaka-blockchain_test_from_state_test-20m-non_empty_balance
-                </abbr>
-            </td>
-                        <td>20000000</td>
                         <td>1</td>
                     </tr>
             </tbody>

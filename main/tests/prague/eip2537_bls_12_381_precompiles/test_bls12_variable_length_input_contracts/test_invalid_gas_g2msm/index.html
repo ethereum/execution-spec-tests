@@ -30866,7 +30866,7 @@
 
 
 <h1 id="test_invalid_gas_g2msm"><code>test_invalid_gas_g2msm()</code><a class="headerlink" href="#test_invalid_gas_g2msm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/624f60bd1330d117524ecaf240397064b7f4519e/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L266"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm@624f60bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c2cf2a2cd75f33157839175c9c9c80c3fd696a2f/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L277"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm@c2cf2a2c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm --fork Prague</span>
@@ -30887,18 +30887,7 @@ all possible input lengths because the appropriate amount of gas is not provided
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">277</span>
 <span class="normal">278</span>
 <span class="normal">279</span>
 <span class="normal">280</span>
@@ -30925,7 +30914,17 @@ all possible input lengths because the appropriate amount of gas is not provided
 <span class="normal">301</span>
 <span class="normal">302</span>
 <span class="normal">303</span>
-<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_gas_list,precompile_data_length_list&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -30944,7 +30943,6 @@ all possible input lengths because the appropriate amount of gas is not provided
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INVALID</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;tx_gas_limit&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">100_000_000</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;precompile_address&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">G2MSM</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_invalid_gas_g2msm</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -30959,7 +30957,7 @@ all possible input lengths because the appropriate amount of gas is not provided
 <span class="sd">    If any of the calls succeeds, the test will fail.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
@@ -31014,7 +31012,6 @@ all possible input lengths because the appropriate amount of gas is not provided
         <tr>
             <th>Test ID (Abbreviated)</th>
                         <th>precompile_address</th>
-                        <th>tx_gas_limit</th>
                         <th>expected_output</th>
                         <th>precompile_gas_list</th>
                         <th>precompile_data_length_list</th>
@@ -31024,12 +31021,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---zero_gas_passed]">
-                    ...fork_Prague-state_test-precompile_address_14---zero_gas_passed
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14--zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14--zero_gas_passed]">
+                    ...fork_Prague-state_test-precompile_address_14--zero_gas_passed
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[0]</td>
                         <td>[288]</td>
@@ -31037,12 +31033,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table]">
-                    ...fork_Prague-state_test-precompile_address_14---insufficient_gas_full_discount_table
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14--insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14--insufficient_gas_full_discount_table]">
+                    ...fork_Prague-state_test-precompile_address_14--insufficient_gas_full_discount_table
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
                         <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
@@ -31050,12 +31045,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]">
-                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed]">
+                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[0]</td>
                         <td>[288]</td>
@@ -31063,12 +31057,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]">
-                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table]">
+                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
                         <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
@@ -31076,12 +31069,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---zero_gas_passed]">
-                    ...fork_Osaka-state_test-precompile_address_14---zero_gas_passed
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14--zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14--zero_gas_passed]">
+                    ...fork_Osaka-state_test-precompile_address_14--zero_gas_passed
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[0]</td>
                         <td>[288]</td>
@@ -31089,12 +31081,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table]">
-                    ...fork_Osaka-state_test-precompile_address_14---insufficient_gas_full_discount_table
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14--insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-state_test-precompile_address_14--insufficient_gas_full_discount_table]">
+                    ...fork_Osaka-state_test-precompile_address_14--insufficient_gas_full_discount_table
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
                         <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>
@@ -31102,12 +31093,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed]">
-                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14---zero_gas_passed
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed]">
+                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14--zero_gas_passed
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[0]</td>
                         <td>[288]</td>
@@ -31115,12 +31105,11 @@ all possible input lengths because the appropriate amount of gas is not provided
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table]">
-                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14---insufficient_gas_full_discount_table
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Osaka-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table]">
+                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_14--insufficient_gas_full_discount_table
                 </abbr>
             </td>
                         <td>14</td>
-                        <td>100000000</td>
                         <td></td>
                         <td>[22499, 44999, 62301, 79559, 96186, 112319, 127889, 143279, 158354, 173249, 187851, 202229, 216449, 230579, 244349, 258119, 271956, 285119, 298821, 311849, 325079, 338084, 351381, 363959, 376874, 389609, 402771, 415169, 427386, 440099, 452676, 465119, 477426, 489599, 501636, 513539, 526139, 537794, 550191, 561599, 573794, 585899, 597914, 608849, 620661, 632384, 644016, 655559, 668114, 679499, 690794, 701999, 713114, 725354, 736311, 747179, 759239, 769949, 781896, 792449, 804284, 814679, 826401, 838079, 848249, 859814, 871334, 881279, 892686, 904049, 915366, 925019, 936224, 947384, 958499, 969569, 980594, 991574, 1000731, 1011599, 1022421, 1033199, 1043931, 1054619, 1065261, 1075859, 1086411, 1096919, 1107381, 1117799, 1130219, 1140569, 1150874, 1161134, 1171349, 1181519, 1191644, 1201724, 1213986, 1223999, 1233966, 1243889, 1253766, 1265939, 1275749, 1285514, 1295234, 1304909, 1316991, 1326599, 1336161, 1348199, 1357694, 1367144, 1376549, 1388519, 1397856, 1407149, 1419074, 1428299, 1437479, 1449359, 1458471, 1467539, 1479374, 1488374, 1497329, 1509119]</td>
                         <td>[288, 576, 864, 1152, 1440, 1728, 2016, 2304, 2592, 2880, 3168, 3456, 3744, 4032, 4320, 4608, 4896, 5184, 5472, 5760, 6048, 6336, 6624, 6912, 7200, 7488, 7776, 8064, 8352, 8640, 8928, 9216, 9504, 9792, 10080, 10368, 10656, 10944, 11232, 11520, 11808, 12096, 12384, 12672, 12960, 13248, 13536, 13824, 14112, 14400, 14688, 14976, 15264, 15552, 15840, 16128, 16416, 16704, 16992, 17280, 17568, 17856, 18144, 18432, 18720, 19008, 19296, 19584, 19872, 20160, 20448, 20736, 21024, 21312, 21600, 21888, 22176, 22464, 22752, 23040, 23328, 23616, 23904, 24192, 24480, 24768, 25056, 25344, 25632, 25920, 26208, 26496, 26784, 27072, 27360, 27648, 27936, 28224, 28512, 28800, 29088, 29376, 29664, 29952, 30240, 30528, 30816, 31104, 31392, 31680, 31968, 32256, 32544, 32832, 33120, 33408, 33696, 33984, 34272, 34560, 34848, 35136, 35424, 35712, 36000, 36288, 36576, 36864]</td>

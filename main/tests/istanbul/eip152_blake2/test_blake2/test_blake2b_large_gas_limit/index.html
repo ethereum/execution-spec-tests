@@ -30866,7 +30866,7 @@
 
 
 <h1 id="test_blake2b_large_gas_limit"><code>test_blake2b_large_gas_limit()</code><a class="headerlink" href="#test_blake2b_large_gas_limit" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/624f60bd1330d117524ecaf240397064b7f4519e/tests/istanbul/eip152_blake2/test_blake2.py#L641"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_large_gas_limit@624f60bd</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c2cf2a2cd75f33157839175c9c9c80c3fd696a2f/tests/istanbul/eip152_blake2/test_blake2.py#L643"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_large_gas_limit@c2cf2a2c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_large_gas_limit --fork Prague</span>
@@ -30885,9 +30885,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip152_blake2/test_blake2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">643</span>
 <span class="normal">644</span>
 <span class="normal">645</span>
 <span class="normal">646</span>
@@ -31005,7 +31003,9 @@
 <span class="normal">758</span>
 <span class="normal">759</span>
 <span class="normal">760</span>
-<span class="normal">761</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">],</span>
@@ -31062,7 +31062,6 @@
                 <span class="n">data_2</span><span class="o">=</span><span class="s2">&quot;0xd37f63034b83f4a0a07cd238483874862921ef0c40630826a76e41bf3b02ffe3&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;EIP-152-modified-case8-data9-large-gas-limit&quot;</span><span class="p">,</span>
-            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Blake2bInput</span><span class="p">(</span>
@@ -31087,6 +31086,7 @@
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_blake2b_large_gas_limit</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -31110,7 +31110,7 @@
         <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">account</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
