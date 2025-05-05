@@ -25,11 +25,10 @@ VALID: List[Container] = [
     Container(
         name="retf_stack_validation_0",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(
                 code=Op.PUSH0 * 2 + Op.RETF,
                 code_outputs=2,
-                max_stack_height=2,
             ),
         ],
     ),
@@ -38,13 +37,13 @@ VALID: List[Container] = [
         sections=[
             Section.Code(
                 code=Op.PUSH0 + Op.CALLF[1] + Op.STOP,
-                max_stack_height=2,
+                max_stack_increase=2,
             ),
             Section.Code(
                 code=Op.RJUMPI[7] + Op.PUSH1[1] * 2 + Op.RJUMP[2] + Op.PUSH0 * 2 + Op.RETF,
                 code_inputs=1,
                 code_outputs=2,
-                max_stack_height=2,
+                max_stack_increase=1,
             ),
         ],
     ),
@@ -64,7 +63,6 @@ VALID: List[Container] = [
             Section.Code(
                 code=Op.CALLF[1] + Op.POP + Op.STOP,
                 code_inputs=0,
-                max_stack_height=1,
             ),
             Section.Code(
                 code=(
@@ -75,7 +73,6 @@ VALID: List[Container] = [
                 ),
                 code_inputs=0,
                 code_outputs=1,
-                max_stack_height=1,
             ),
         ],
     ),
@@ -117,11 +114,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_stack_validation_1",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(
                 code=Op.PUSH0 + Op.RETF,
                 code_outputs=2,
-                max_stack_height=1,
+                max_stack_increase=1,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -129,11 +126,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_0",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=5),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=5),
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.RETF,
                 code_outputs=5,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -141,11 +138,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_1",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=3),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=3),
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.RETF,
                 code_outputs=3,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -153,11 +150,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_4",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=3),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=3),
             Section.Code(
                 code=Op.PUSH0 * 3 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.POP * 2 + Op.RETF,
                 code_outputs=3,
-                max_stack_height=4,
+                max_stack_increase=4,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -165,17 +162,17 @@ INVALID: List[Container] = [
     Container(
         name="callf_inputs_underflow_0",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=1),
             Section.Code(
                 code=Op.PUSH0 + Op.CALLF[2] + Op.RETF,
                 code_outputs=1,
-                max_stack_height=1,
+                max_stack_increase=1,
             ),
             Section.Code(
                 code=Op.POP + Op.RETF,
                 code_inputs=2,
                 code_outputs=1,
-                max_stack_height=2,
+                max_stack_increase=0,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -221,11 +218,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_stack_validation_2",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(
                 code=Op.PUSH0 * 3 + Op.RETF,
                 code_outputs=2,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
@@ -233,11 +230,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_2",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=1),
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.RETF,
                 code_outputs=1,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
@@ -245,11 +242,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_5",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=1),
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[1] + Op.PUSH0 + Op.RETF,
                 code_outputs=1,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
@@ -257,11 +254,11 @@ INVALID: List[Container] = [
     Container(
         name="retf_variable_stack_6",
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=1),
             Section.Code(
                 code=Op.PUSH0 * 2 + Op.PUSH1[0] + Op.RJUMPI[1] + Op.POP + Op.RETF,
                 code_outputs=1,
-                max_stack_height=3,
+                max_stack_increase=3,
             ),
         ],
         validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
@@ -273,7 +270,6 @@ INVALID: List[Container] = [
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.RETF,
                 code_outputs=0,
-                max_stack_height=3,
             ),
         ],
         validity_error=EOFException.STACK_HIGHER_THAN_OUTPUTS,
@@ -300,7 +296,6 @@ INVALID: List[Container] = [
             Section.Code(
                 code=(Op.PUSH0 + Op.RETF),
                 code_outputs=2,
-                max_stack_height=1,
             ),
         ],
         validity_error=EOFException.INVALID_MAX_STACK_INCREASE,
@@ -310,13 +305,13 @@ INVALID: List[Container] = [
         sections=[
             Section.Code(
                 code=(Op.CALLF[1] + Op.STOP),
-                # max_stack_heights of sections aligned with actual stack
-                max_stack_height=1,
+                # max_stack_increases of sections aligned with actual stack
+                max_stack_increase=1,
             ),
             Section.Code(
                 code=(Op.PUSH0 + Op.RETF),
                 code_outputs=2,
-                max_stack_height=1,
+                max_stack_increase=1,
             ),
         ],
         validity_error=EOFException.INVALID_MAX_STACK_INCREASE,
@@ -326,13 +321,13 @@ INVALID: List[Container] = [
         sections=[
             Section.Code(
                 code=(Op.CALLF[1] + Op.STOP),
-                # max_stack_heights of sections aligned with declared outputs
-                max_stack_height=2,
+                # max_stack_increases of sections aligned with declared outputs
+                max_stack_increase=2,
             ),
             Section.Code(
                 code=(Op.PUSH0 + Op.RETF),
                 code_outputs=2,
-                max_stack_height=2,
+                max_stack_increase=2,
             ),
         ],
         validity_error=EOFException.STACK_UNDERFLOW,
@@ -412,13 +407,13 @@ def test_eof_validity(
                     code=Op.CALLF + b"\x00",  # would be valid with "02" + Op.RETF.
                     code_inputs=2,
                     code_outputs=1,
-                    max_stack_height=2,
+                    max_stack_increase=0,
                 ),
                 Section.Code(
                     code=Op.SUB + Op.RETF,  # SUB (0x02) can be confused with CALLF[2].
                     code_inputs=2,
                     code_outputs=1,
-                    max_stack_height=2,
+                    max_stack_increase=0,
                 ),
             ],
         ),
@@ -655,12 +650,12 @@ def test_callf_stack_height_limit_exceeded(eof_test, callee_outputs):
         sections=[
             Section.Code(
                 Op.PUSH0 * callf_stack_height + Op.CALLF[1] + Op.STOP,
-                max_stack_height=MAX_RUNTIME_STACK_HEIGHT,
+                max_stack_increase=MAX_RUNTIME_STACK_HEIGHT,
             ),
             Section.Code(
                 Op.PUSH0 * callee_outputs + Op.RETF,
                 code_outputs=callee_outputs,
-                max_stack_height=callee_outputs,
+                max_stack_increase=callee_outputs,
             ),
         ],
     )
@@ -676,7 +671,7 @@ def test_callf_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
             Section.Code(
                 code=Op.PUSH1[1] * stack_height + Op.CALLF[1] + Op.POP * stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
@@ -694,18 +689,21 @@ def test_callf_stack_overflow_after_callf(eof_test: EOFTestFiller, stack_height:
         sections=[
             Section.Code(code=Op.CALLF[1] + Op.STOP),
             Section.Code(
-                code=Op.PUSH1[1] * 1023 + Op.CALLF[2] + Op.POP * 1023 + Op.RETF,
+                code=Op.PUSH1[1] * MAX_STACK_INCREASE_LIMIT
+                + Op.CALLF[2]
+                + Op.POP * MAX_STACK_INCREASE_LIMIT
+                + Op.RETF,
                 code_outputs=0,
-                max_stack_height=1023,
+                max_stack_increase=MAX_STACK_INCREASE_LIMIT,
             ),
             Section.Code(
                 code=Op.PUSH0 * stack_height + Op.POP * stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
-    stack_overflow = 1023 + stack_height > MAX_RUNTIME_STACK_HEIGHT
+    stack_overflow = MAX_STACK_INCREASE_LIMIT + stack_height > MAX_RUNTIME_STACK_HEIGHT
     eof_test(
         container=container,
         expect_exception=EOFException.STACK_OVERFLOW if stack_overflow else None,
@@ -722,12 +720,12 @@ def test_callf_stack_overflow_variable_stack(eof_test: EOFTestFiller, stack_heig
                 + Op.PUSH0 * (MAX_RUNTIME_STACK_HEIGHT // 2)
                 + Op.CALLF[1]
                 + Op.STOP,
-                max_stack_height=512,
+                max_stack_increase=512,
             ),
             Section.Code(
                 code=Op.PUSH1[1] * stack_height + Op.POP * stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
@@ -750,12 +748,12 @@ def test_callf_stack_overflow_variable_stack_2(eof_test: EOFTestFiller, stack_he
                 + Op.PUSH0 * (MAX_RUNTIME_STACK_HEIGHT // 2)
                 + Op.CALLF[1]
                 + Op.STOP,
-                max_stack_height=514,
+                max_stack_increase=514,
             ),
             Section.Code(
                 code=Op.PUSH1[1] * stack_height + Op.POP * stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
@@ -772,22 +770,19 @@ def test_callf_stack_overflow_variable_stack_3(eof_test: EOFTestFiller, stack_he
     container = Container(
         sections=[
             Section.Code(
-                code=Op.RJUMPI[2](0)
-                + Op.PUSH0 * (MAX_RUNTIME_STACK_HEIGHT - 1)
-                + Op.CALLF[1]
-                + Op.STOP,
-                max_stack_height=1023,
+                code=Op.RJUMPI[2](0) + Op.PUSH0 * MAX_STACK_INCREASE_LIMIT + Op.CALLF[1] + Op.STOP,
+                max_stack_increase=MAX_STACK_INCREASE_LIMIT,
             ),
             Section.Code(
                 code=Op.PUSH0 * stack_height + Op.POP * stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
-    assert container.sections[0].max_stack_height is not None
+    assert container.sections[0].max_stack_increase is not None
     stack_overflow = (
-        container.sections[0].max_stack_height + stack_height > MAX_RUNTIME_STACK_HEIGHT
+        container.sections[0].max_stack_increase + stack_height > MAX_RUNTIME_STACK_HEIGHT
     )
     eof_test(
         container=container,
@@ -803,15 +798,15 @@ def test_callf_stack_overflow_variable_stack_4(eof_test: EOFTestFiller):
                 code=Op.PUSH0 * 2
                 + Op.RJUMPI[2](0)
                 + Op.POP * 2
-                + Op.PUSH0 * (MAX_RUNTIME_STACK_HEIGHT - 1)
+                + Op.PUSH0 * MAX_STACK_INCREASE_LIMIT
                 + Op.CALLF[1]
                 + Op.STOP,
-                max_stack_height=1023,
+                max_stack_increase=MAX_STACK_INCREASE_LIMIT,
             ),
             Section.Code(
                 code=Op.RETF,
                 code_outputs=0,
-                max_stack_height=0,
+                max_stack_increase=0,
             ),
         ],
     )
@@ -826,17 +821,17 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
     """Test CALLF instruction when calling a function returning more outputs than expected."""
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=1),
             Section.Code(
                 code=Op.PUSH0 * stack_height + Op.CALLF[2] + Op.RETF,
                 code_outputs=1,
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
             Section.Code(
                 code=Op.POP + Op.RETF,
                 code_inputs=2,
                 code_outputs=1,
-                max_stack_height=2,
+                max_stack_increase=0,
             ),
         ],
     )
@@ -859,7 +854,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.POP * 2 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=2,
+                max_stack_increase=0,
             ),
             id="pop2",
         ),
@@ -868,7 +863,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.PUSH1[1] + Op.POP + Op.RETF,
                 code_inputs=3,
                 code_outputs=3,
-                max_stack_height=4,
+                max_stack_increase=1,
             ),
             id="push_pop",
         ),
@@ -877,7 +872,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.PUSH0 * 2 + Op.RETF,
                 code_inputs=3,
                 code_outputs=5,
-                max_stack_height=5,
+                max_stack_increase=2,
             ),
             id="push2",
         ),
@@ -886,7 +881,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.PUSH0 * 2 + Op.POP * 2 + Op.RETF,
                 code_inputs=3,
                 code_outputs=3,
-                max_stack_height=5,
+                max_stack_increase=2,
             ),
             id="push2_pop2",
         ),
@@ -895,7 +890,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.PUSH0 + Op.POP * 3 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=3,
+                max_stack_increase=1,
             ),
             id="push_pop3",
         ),
@@ -904,7 +899,7 @@ def test_callf_validate_outputs(eof_test: EOFTestFiller, stack_height: int):
                 code=Op.PUSH0 * 2 + Op.POP * 4 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=4,
+                max_stack_increase=2,
             ),
             id="push2_pop4",
         ),
@@ -919,21 +914,18 @@ def test_callf_with_inputs_stack_overflow(
         sections=[
             Section.Code(
                 code=Op.PUSH1[1] * push_stack + Op.CALLF[1] + Op.POP * pop_stack + Op.RETURN,
-                max_stack_height=1023,
+                max_stack_increase=1023,
             ),
             code_section,
         ],
     )
-    assert code_section.max_stack_height is not None
+    assert code_section.max_stack_increase is not None
     exception = None
-    if (
-        push_stack + code_section.max_stack_height - code_section.code_inputs
-        > MAX_RUNTIME_STACK_HEIGHT
-    ):
+    if push_stack + code_section.max_stack_increase > MAX_RUNTIME_STACK_HEIGHT:
         exception = EOFException.STACK_OVERFLOW
     elif push_stack - code_section.code_inputs + code_section.code_outputs - pop_stack < 2:
         exception = EOFException.STACK_UNDERFLOW
-    elif push_stack != container.sections[0].max_stack_height:
+    elif push_stack != container.sections[0].max_stack_increase:
         exception = EOFException.INVALID_MAX_STACK_INCREASE
 
     eof_test(container=container, expect_exception=exception)
@@ -947,7 +939,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.POP * 2 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=2,
+                max_stack_increase=0,
             ),
             id="pop2",
         ),
@@ -956,7 +948,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH1[1] + Op.POP + Op.RETF,
                 code_inputs=3,
                 code_outputs=3,
-                max_stack_height=4,
+                max_stack_increase=1,
             ),
             id="push_pop",
         ),
@@ -965,7 +957,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 4 + Op.RETF,
                 code_inputs=3,
                 code_outputs=7,
-                max_stack_height=7,
+                max_stack_increase=4,
             ),
             id="push4",
         ),
@@ -974,7 +966,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 2 + Op.RETF,
                 code_inputs=3,
                 code_outputs=5,
-                max_stack_height=5,
+                max_stack_increase=2,
             ),
             id="push2",
         ),
@@ -983,7 +975,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 4 + Op.POP * 2 + Op.RETF,
                 code_inputs=3,
                 code_outputs=3,
-                max_stack_height=7,
+                max_stack_increase=4,
             ),
             id="push4_pop2",
         ),
@@ -992,7 +984,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 2 + Op.POP * 2 + Op.RETF,
                 code_inputs=3,
                 code_outputs=3,
-                max_stack_height=5,
+                max_stack_increase=2,
             ),
             id="push2_pop2",
         ),
@@ -1001,7 +993,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 3 + Op.POP * 5 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=5,
+                max_stack_increase=3,
             ),
             id="push3_pop5",
         ),
@@ -1010,7 +1002,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 + Op.POP * 3 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=3,
+                max_stack_increase=1,
             ),
             id="push_pop3",
         ),
@@ -1019,7 +1011,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 4 + Op.POP * 6 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=6,
+                max_stack_increase=4,
             ),
             id="push4_pop6",
         ),
@@ -1028,7 +1020,7 @@ def test_callf_with_inputs_stack_overflow(
                 code=Op.PUSH0 * 2 + Op.POP * 4 + Op.RETF,
                 code_inputs=2,
                 code_outputs=0,
-                max_stack_height=4,
+                max_stack_increase=2,
             ),
             id="push2_pop4",
         ),
@@ -1049,18 +1041,15 @@ def test_callf_with_inputs_stack_overflow_variable_stack(
                 + Op.PUSH1[1] * push_stack
                 + Op.CALLF[1]
                 + Op.STOP,
-                max_stack_height=1023,
+                max_stack_increase=1023,
             ),
             code_section,
         ],
     )
-    initial_stack = 3  # Initial items in the scak
-    assert code_section.max_stack_height is not None
+    initial_stack = 3  # Initial items on the stack
+    assert code_section.max_stack_increase is not None
     exception = None
-    if (
-        push_stack + initial_stack + code_section.max_stack_height - code_section.code_inputs
-        > MAX_RUNTIME_STACK_HEIGHT
-    ):
+    if push_stack + initial_stack + code_section.max_stack_increase > MAX_RUNTIME_STACK_HEIGHT:
         exception = EOFException.STACK_OVERFLOW
     elif push_stack + initial_stack > 1023:
         exception = EOFException.INVALID_MAX_STACK_INCREASE
@@ -1070,26 +1059,26 @@ def test_callf_with_inputs_stack_overflow_variable_stack(
 
 @pytest.mark.parametrize("callee_outputs", [1, 2, MAX_CODE_OUTPUTS - 1, MAX_CODE_OUTPUTS])
 @pytest.mark.parametrize(
-    "max_stack_height", [0, 1, MAX_STACK_INCREASE_LIMIT - 1, MAX_STACK_INCREASE_LIMIT]
+    "max_stack_increase", [0, 1, MAX_STACK_INCREASE_LIMIT - 1, MAX_STACK_INCREASE_LIMIT]
 )
-def test_callf_stack_overflow_by_outputs(eof_test, callee_outputs, max_stack_height):
+def test_callf_stack_overflow_by_outputs(eof_test, callee_outputs, max_stack_increase):
     """
     Test for invalid EOF code containing CALLF instruction exceeding the runtime stack height limit
     by calling a function with at least one output. The computed stack height of the code section 0
     is always above the maximum allowed in the EOF type section. Therefore, the test declares
-    an invalid max_stack_height.
+    an invalid max_stack_increase.
     """
     callf_stack_height = (MAX_RUNTIME_STACK_HEIGHT + 1) - callee_outputs
     container = Container(
         sections=[
             Section.Code(
                 Op.PUSH0 * callf_stack_height + Op.CALLF[1] + Op.STOP,
-                max_stack_height=max_stack_height,
+                max_stack_increase=max_stack_increase,
             ),
             Section.Code(
                 Op.PUSH0 + Op.DUP1 + Op.RETF,
                 code_outputs=callee_outputs,
-                max_stack_height=callee_outputs,
+                max_stack_increase=callee_outputs,
             ),
         ],
     )
@@ -1111,12 +1100,12 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
         sections=[
             Section.Code(
                 Op.PUSH0 * MAX_STACK_INCREASE_LIMIT + Op.CALLF[1] + Op.STOP,
-                max_stack_height=MAX_STACK_INCREASE_LIMIT,
+                max_stack_increase=MAX_STACK_INCREASE_LIMIT,
             ),
             Section.Code(
                 Op.PUSH0 * callee_stack_height + Op.POP * callee_stack_height + Op.RETF,
                 code_outputs=0,
-                max_stack_height=callee_stack_height,
+                max_stack_increase=callee_stack_height,
             ),
         ],
     )
@@ -1131,13 +1120,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
             sections=[
                 Section.Code(
                     code=Op.CALLF[1] + Op.STOP,
-                    max_stack_height=1,
+                    max_stack_increase=1,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=1,
                     code_outputs=2,
-                    max_stack_height=2,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -1146,13 +1135,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
             sections=[
                 Section.Code(
                     code=Op.CALLF[1] + Op.STOP,
-                    max_stack_height=2,
+                    max_stack_increase=2,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=1,
                     code_outputs=2,
-                    max_stack_height=2,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -1161,13 +1150,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
             sections=[
                 Section.Code(
                     code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 + Op.PUSH0 + Op.CALLF[1] + Op.STOP,
-                    max_stack_height=4,
+                    max_stack_increase=4,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=4,
                     code_outputs=5,
-                    max_stack_height=5,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -1182,13 +1171,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
                     + Op.PUSH0
                     + Op.CALLF[1]
                     + Op.STOP,
-                    max_stack_height=5,
+                    max_stack_increase=5,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=4,
                     code_outputs=5,
-                    max_stack_height=5,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -1197,13 +1186,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
             sections=[
                 Section.Code(
                     code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 + Op.PUSH0 + Op.CALLF[1] + Op.STOP,
-                    max_stack_height=4,
+                    max_stack_increase=4,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=3,
                     code_outputs=4,
-                    max_stack_height=4,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -1212,13 +1201,13 @@ def test_callf_stack_overflow_by_height(eof_test, callee_stack_height):
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 3 + Op.RJUMPI[1](0) + Op.POP + Op.CALLF[1] + Op.STOP,
-                    max_stack_height=4,
+                    max_stack_increase=4,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=3,
                     code_outputs=4,
-                    max_stack_height=4,
+                    max_stack_increase=1,
                 ),
             ],
         ),
