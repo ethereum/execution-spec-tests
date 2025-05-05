@@ -1,7 +1,6 @@
 name: Check EIP Versions
 
 on:
-  push:
   repository_dispatch:
   workflow_dispatch:
   schedule:
