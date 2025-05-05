@@ -138,7 +138,12 @@ def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None
 class EIPSpecTestItem(Item):
     """Custom pytest test item to test EIP spec versions."""
 
-    def __init__(self, name, parent, module, github_token=None):
+    module: ModuleType
+    github_token: Optional[str]
+
+    def __init__(
+        self, name: str, parent: Module, module: ModuleType, github_token: Optional[str] = None
+    ):
         """
         Initialize the test item.
 
@@ -154,21 +159,40 @@ class EIPSpecTestItem(Item):
         self.github_token = github_token
 
     @classmethod
-    def from_parent(cls, parent, module, github_token=None):
+    def from_parent(cls, parent, **kw) -> "EIPSpecTestItem":
         """
         Public constructor to define new tests.
         https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.from_parent.
-        """
-        return super().from_parent(
-            parent=parent, name="test_eip_spec_version", module=module, github_token=github_token
-        )
 
-    def runtest(self):
+        Args:
+            parent: The parent Node
+            kw: Additional keyword arguments (module, github_token)
+
+        """
+        module = kw.pop("module", None)
+        github_token = kw.pop("github_token", None)
+
+        # Call the parent class's from_parent with just the required args
+        item = super().from_parent(parent=parent, name="test_eip_spec_version")
+
+        # Set the additional attributes after creation
+        item.module = module
+        item.github_token = github_token
+
+        return item
+
+    def runtest(self) -> None:
         """Define the test to execute for this item."""
         test_eip_spec_version(self.module, github_token=self.github_token)
 
-    def reportinfo(self):
-        """Get location information for this test item to use test reports."""
+    def reportinfo(self) -> tuple[str, int, str]:
+        """
+        Get location information for this test item to use test reports.
+
+        Returns:
+            A tuple of (path, line_number, description)
+
+        """
         return "spec_version_checker", 0, f"{self.name}"
 
 
@@ -180,7 +204,7 @@ def pytest_collection_modifyitems(
 
     modules: Set[Module] = {item.parent for item in items if isinstance(item.parent, Module)}
     new_test_eip_spec_version_items = [
-        EIPSpecTestItem.from_parent(module, module.obj, github_token=github_token)
+        EIPSpecTestItem.from_parent(parent=module, module=module.obj, github_token=github_token)
         for module in sorted(modules, key=lambda module: module.path)
         if is_test_for_an_eip(str(module.path))
     ]
