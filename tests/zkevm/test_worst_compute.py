@@ -10,7 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import (Alloc, Block, BlockchainTestFiller, Bytecode,
+                                 Environment, Transaction)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -18,13 +19,14 @@ REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CODE_SIZE = 24 * 1024
 KECCAK_RATE = 136
+ECRECOVER_GAS_COST = 3_000
 
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "gas_limit",
     [
-        36_000_000,
+        Environment().gas_limit,
     ],
 )
 def test_worst_keccak(
@@ -144,17 +146,7 @@ def test_worst_modexp(
     iter_complexity = exp.bit_length() - 1
     gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
     attack_block = Op.POP(Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0))
-
-    # The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP
-    jumpdest = Op.JUMPDEST
-    jump_back = Op.JUMP(len(calldata))
-    max_iters_loop = (MAX_CODE_SIZE - len(calldata) - len(jumpdest) - len(jump_back)) // len(
-        attack_block
-    )
-    code = calldata + jumpdest + sum([attack_block] * max_iters_loop) + jump_back
-    if len(code) > MAX_CODE_SIZE:
-        # Must never happen, but keep it as a sanity check.
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
+    code = code_loop_precompile_call(calldata, attack_block)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -170,3 +162,65 @@ def test_worst_modexp(
         post={},
         blocks=[Block(txs=[tx])],
     )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "gas_limit",
+    [
+        Environment().gas_limit,
+    ],
+)
+def test_worst_ecrecover(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_limit: int,
+):
+    """Test running a block with as many ECRECOVER calls as possible."""
+    env = Environment(gas_limit=gas_limit)
+
+    # Calldata
+    calldata = (
+        Op.MSTORE(0 * 32, 0x38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E)
+        + Op.MSTORE(1 * 32, 27)
+        + Op.MSTORE(2 * 32, 0x38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E)
+        + Op.MSTORE(3 * 32, 0x789D1DD423D25F0772D2748D60F7E4B81BB14D086EBA8E8E8EFB6DCFF8A4AE02)
+    )
+
+    attack_block = Op.STATICCALL(ECRECOVER_GAS_COST, 0x1, 0, 32 * 4, 0, 0) + Op.POP
+    code = code_loop_precompile_call(calldata, attack_block)
+    code_address = pre.deploy_contract(code=bytes(code))
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+        data=[],
+        value=0,
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode):
+    """Create a code loop that calls a precompile with the given calldata."""
+    # The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP
+    jumpdest = Op.JUMPDEST
+    jump_back = Op.JUMP(len(calldata))
+    max_iters_loop = (MAX_CODE_SIZE - len(calldata) - len(jumpdest) - len(jump_back)) // len(
+        attack_block
+    )
+    code = calldata + jumpdest + sum([attack_block] * max_iters_loop) + jump_back
+    if len(code) > MAX_CODE_SIZE:
+        # Must never happen, but keep it as a sanity check.
+        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
+
+    return code
