@@ -124,14 +124,16 @@ def test_returning_section_aborts_jumpf(
     """
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=1),
+            Section.Code(
+                code=Op.CALLF[1] + Op.STOP,
+                max_stack_increase=1,
+            ),
             Section.Code(
                 code=Op.PUSH0 * 2 + Op.RJUMPI[4] + Op.POP + Op.JUMPF[2] + Op.RETF,
                 code_outputs=1,
             ),
             Section.Code(
                 code=Op.PUSH0 * 2 + Op.RJUMPI[1] + Op.RETF + Op.INVALID,
-                code_inputs=0,
                 code_outputs=1,
             ),
         ],
@@ -146,7 +148,7 @@ def test_jumpf_self_stack_overflow(eof_test: EOFTestFiller, stack_height: int):
         sections=[
             Section.Code(
                 code=(Op.PUSH0 * stack_height) + Op.JUMPF[0],
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
         ],
     )
@@ -167,11 +169,11 @@ def test_jumpf_other_stack_overflow(
         sections=[
             Section.Code(
                 code=(Op.PUSH0 * stack_height) + Op.JUMPF[1],
-                max_stack_height=stack_height,
+                max_stack_increase=stack_height,
             ),
             Section.Code(
                 code=(Op.PUSH0 * stack_height_other) + Op.STOP,
-                max_stack_height=stack_height_other,
+                max_stack_increase=stack_height_other,
             ),
         ],
     )
@@ -189,9 +191,14 @@ def test_jumpf_to_non_returning(eof_test: EOFTestFiller, stack_height: int, code
     container = Container(
         sections=[
             Section.Code(
-                code=Op.PUSH0 * stack_height + Op.JUMPF[1], max_stack_height=stack_height
+                code=Op.PUSH0 * stack_height + Op.JUMPF[1],
+                max_stack_increase=stack_height,
             ),
-            Section.Code(code=Op.STOP, code_inputs=code_inputs, max_stack_height=code_inputs),
+            Section.Code(
+                code=Op.STOP,
+                code_inputs=code_inputs,
+                max_stack_increase=0,
+            ),
         ],
     )
     eof_test(
@@ -207,9 +214,8 @@ def test_jumpf_to_non_returning_variable_stack(eof_test: EOFTestFiller, code_inp
         sections=[
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[1],
-                max_stack_height=3,
             ),
-            Section.Code(code=Op.INVALID, code_inputs=code_inputs, max_stack_height=code_inputs),
+            Section.Code(code=Op.INVALID, code_inputs=code_inputs, max_stack_increase=0),
         ],
     )
     eof_test(
@@ -231,8 +237,6 @@ def test_jumpf_to_returning(
     if stack_height - code_inputs + code_outputs > 2:
         exceptions.append(EOFException.STACK_HIGHER_THAN_OUTPUTS)
 
-    third_cs_stack_height = code_inputs if code_inputs > code_outputs else code_outputs
-    third_cs = None
     if code_outputs < code_inputs:
         third_cs = Op.POP * (code_inputs - code_outputs) + Op.RETF
     else:
@@ -240,13 +244,13 @@ def test_jumpf_to_returning(
 
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(code=Op.PUSH0 * stack_height + Op.JUMPF[2], code_outputs=2),
             Section.Code(
                 code=third_cs,
                 code_inputs=code_inputs,
                 code_outputs=code_outputs,
-                max_stack_height=third_cs_stack_height,
+                max_stack_increase=max(0, code_outputs - code_inputs),
             ),
         ],
     )
@@ -275,17 +279,16 @@ def test_jumpf_to_returning_variable_stack_1(
 
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=3),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=3),
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[2],
                 code_outputs=3,
-                max_stack_height=3,
             ),
             Section.Code(
                 code=Op.PUSH0 * stack_increase + Op.RETF,
                 code_inputs=code_inputs,
                 code_outputs=code_outputs,
-                max_stack_height=code_inputs if code_inputs > code_outputs else code_outputs,
+                max_stack_increase=max(0, code_outputs - code_inputs),
             ),
         ],
     )
@@ -314,17 +317,16 @@ def test_jumpf_to_returning_variable_stack_2(
 
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[2],
                 code_outputs=2,
-                max_stack_height=3,
             ),
             Section.Code(
                 code=Op.POP * stack_decrease + Op.RETF,
                 code_inputs=code_inputs,
                 code_outputs=code_outputs,
-                max_stack_height=code_inputs if code_inputs > code_outputs else code_outputs,
+                max_stack_increase=max(0, code_outputs - code_inputs),
             ),
         ],
     )
@@ -339,16 +341,14 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
     """Test JUMPF with variable stack jumping to a returning function increasing the stack."""
     container = Container(
         sections=[
-            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_height=2),
+            Section.Code(code=Op.CALLF[1] + Op.STOP, max_stack_increase=2),
             Section.Code(
                 code=Op.PUSH0 + Op.PUSH1[0] + Op.RJUMPI[2] + Op.PUSH0 * 2 + Op.JUMPF[2],
                 code_outputs=2,
-                max_stack_height=3,
             ),
             Section.Code(
                 code=Op.PUSH0 + Op.RETF,
                 code_outputs=1,
-                max_stack_height=1,
             ),
         ],
     )
@@ -367,18 +367,17 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
             sections=[
                 Section.Code(
                     code=Op.CALLF[1] + Op.STOP,
-                    max_stack_height=2,
+                    max_stack_increase=2,
                 ),
                 Section.Code(
                     code=Op.JUMPF[2],
                     code_outputs=2,
-                    max_stack_height=0,
+                    max_stack_increase=0,
                 ),
                 Section.Code(
                     code=Op.PUSH0 + Op.RETF,
                     code_inputs=1,
                     code_outputs=2,
-                    max_stack_height=2,
                 ),
             ],
         ),
@@ -391,7 +390,7 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
                 Section.Code(
                     code=Op.REVERT(0, 0),
                     code_inputs=1,
-                    max_stack_height=3,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -400,18 +399,17 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
             sections=[
                 Section.Code(
                     code=Op.CALLF[1] + Op.STOP,
-                    max_stack_height=3,
+                    max_stack_increase=3,
                 ),
                 Section.Code(
-                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[2],
+                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[2],
                     code_outputs=3,
-                    max_stack_height=3,
                 ),
                 Section.Code(
                     code=Op.POP + Op.POP + Op.RETF,
                     code_inputs=5,
                     code_outputs=3,
-                    max_stack_height=5,
+                    max_stack_increase=0,
                 ),
             ],
         ),
@@ -419,13 +417,12 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
             name="underflow_variable_stack_6",
             sections=[
                 Section.Code(
-                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[1],
-                    max_stack_height=3,
+                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[1],
                 ),
                 Section.Code(
                     code=Op.REVERT(0, 0),
                     code_inputs=4,
-                    max_stack_height=6,
+                    max_stack_increase=2,
                 ),
             ],
         ),
@@ -433,13 +430,12 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
             name="underflow_variable_stack_7",
             sections=[
                 Section.Code(
-                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 + Op.PUSH0 + Op.JUMPF[1],
-                    max_stack_height=3,
+                    code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 2 + Op.JUMPF[1],
                 ),
                 Section.Code(
                     code=Op.REVERT(0, 0),
                     code_inputs=3,
-                    max_stack_height=5,
+                    max_stack_increase=2,
                 ),
             ],
         ),
@@ -448,12 +444,11 @@ def test_jumpf_to_returning_variable_stack_3(eof_test: EOFTestFiller):
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 3 + Op.RJUMPI[1](0) + Op.POP + Op.JUMPF[1],
-                    max_stack_height=3,
                 ),
                 Section.Code(
                     code=Op.REVERT(0, 0),
                     code_inputs=3,
-                    max_stack_height=5,
+                    max_stack_increase=2,
                 ),
             ],
         ),

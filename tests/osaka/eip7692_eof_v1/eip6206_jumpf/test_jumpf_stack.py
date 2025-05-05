@@ -44,14 +44,13 @@ def test_jumpf_stack_non_returning_rules(
             ),
             Section.Code(
                 code=Op.PUSH0 * stack_height + Op.JUMPF[2],
-                max_stack_height=stack_height,
             ),
             Section.Code(
                 code=Op.POP * target_inputs
                 + Op.SSTORE(slot_code_worked, value_code_worked)
                 + Op.STOP,
                 code_inputs=target_inputs,
-                max_stack_height=max(2, target_inputs),
+                max_stack_increase=max(0, 2 - target_inputs),
             ),
         ],
     )
@@ -107,19 +106,19 @@ def test_jumpf_stack_returning_rules(
         sections=[
             Section.Code(
                 code=Op.CALLF[1] + Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
-                max_stack_height=2 + source_outputs,
+                max_stack_increase=2 + source_outputs,
             ),
             Section.Code(
                 code=Op.PUSH0 * max(0, target_inputs + stack_diff) + Op.JUMPF[2],
                 code_outputs=source_outputs,
-                max_stack_height=target_inputs,
+                max_stack_increase=target_inputs,
             ),
             Section.Code(
                 code=(Op.POP * -target_delta if target_delta < 0 else Op.PUSH0 * target_delta)
                 + Op.RETF,
                 code_inputs=target_inputs,
                 code_outputs=target_outputs,
-                max_stack_height=max(target_inputs, target_outputs),
+                max_stack_increase=max(0, target_outputs - target_inputs),
             ),
         ],
     )
@@ -165,7 +164,7 @@ def test_jumpf_incompatible_outputs(
     eof_test(
         container=Container(
             sections=[
-                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_height=1),
+                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_increase=1),
                 Section.Code(
                     Op.PUSH0 * stack_height + Op.JUMPF(2),
                     code_outputs=current_section_outputs,
@@ -174,7 +173,7 @@ def test_jumpf_incompatible_outputs(
                     Op.POP * (target_inputs - target_outputs) + Op.RETF,
                     code_inputs=target_inputs,
                     code_outputs=target_outputs,
-                    max_stack_height=target_inputs,
+                    max_stack_increase=0,
                 ),
             ]
         ),
@@ -209,7 +208,7 @@ def test_jumpf_diff_max_stack_height(
     eof_test(
         container=Container(
             sections=[
-                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_height=1),
+                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_increase=1),
                 Section.Code(
                     (Op.PUSH0 * stack_height)  # (0, 0)
                     + Op.PUSH0  # (stack_height, stack_height)
@@ -222,7 +221,7 @@ def test_jumpf_diff_max_stack_height(
                     Op.POP * (target_inputs - target_outputs) + Op.RETF,
                     code_inputs=target_inputs,
                     code_outputs=target_outputs,
-                    max_stack_height=target_inputs,
+                    max_stack_increase=0,
                 ),
             ]
         ),
@@ -257,7 +256,7 @@ def test_jumpf_diff_min_stack_height(
     eof_test(
         container=Container(
             sections=[
-                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_height=1),
+                Section.Code(Op.CALLF(1) + Op.STOP, max_stack_increase=1),
                 Section.Code(
                     (Op.PUSH0 * (stack_height - 1))  # (0, 0)
                     + Op.PUSH0  # (stack_height - 1, stack_height - 1)
@@ -270,7 +269,7 @@ def test_jumpf_diff_min_stack_height(
                     Op.POP * (target_inputs - target_outputs) + Op.RETF,
                     code_inputs=target_inputs,
                     code_outputs=target_outputs,
-                    max_stack_height=target_inputs,
+                    max_stack_increase=0,
                 ),
             ]
         ),
@@ -285,7 +284,6 @@ def test_jumpf_self_variadic_stack_overflow(eof_test: EOFTestFiller):
         sections=[
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * 511 + Op.JUMPF[0],
-                max_stack_height=512,
             ),
         ],
     )
@@ -302,11 +300,9 @@ def test_jumpf_variadic_stack_overflow(
         sections=[
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * (stack_height - 1) + Op.JUMPF[1],
-                max_stack_height=stack_height,
             ),
             Section.Code(
                 code=Op.PUSH0 * callee_stack_height + Op.STOP,
-                max_stack_height=callee_stack_height,
             ),
         ],
         validity_error=EOFException.STACK_OVERFLOW
@@ -326,12 +322,11 @@ def test_jumpf_with_inputs_stack_overflow(
         sections=[
             Section.Code(
                 code=Op.PUSH0 * stack_height + Op.JUMPF[1],
-                max_stack_height=stack_height,
             ),
             Section.Code(
                 code=Op.PUSH0 * callee_stack_increase + Op.STOP,
                 code_inputs=2,
-                max_stack_height=2 + callee_stack_increase,
+                max_stack_increase=callee_stack_increase,
             ),
         ],
         validity_error=EOFException.STACK_OVERFLOW
@@ -351,12 +346,11 @@ def test_jumpf_with_inputs_stack_overflow_variable_stack(
         sections=[
             Section.Code(
                 code=Op.PUSH0 + Op.RJUMPI[2](0) + Op.PUSH0 * (stack_height - 1) + Op.JUMPF[1],
-                max_stack_height=stack_height,
             ),
             Section.Code(
                 code=Op.PUSH0 * callee_stack_increase + Op.STOP,
                 code_inputs=2,
-                max_stack_height=2 + callee_stack_increase,
+                max_stack_increase=callee_stack_increase,
             ),
         ],
         validity_error=EOFException.STACK_OVERFLOW

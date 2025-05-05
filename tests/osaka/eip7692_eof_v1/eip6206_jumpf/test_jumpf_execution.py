@@ -8,7 +8,6 @@ from ethereum_test_tools import Account, Environment, EOFException, EOFStateTest
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import Alloc
 from ethereum_test_types.eof.v1 import Container, Section
-from ethereum_test_types.eof.v1.constants import NON_RETURNING_SECTION
 
 from .. import EOF_FORK_NAME
 from .helpers import (
@@ -84,17 +83,16 @@ def test_jumpf_forward(
             sections=[
                 Section.Code(
                     Op.CALLF[1] + Op.SSTORE + Op.STOP,
-                    max_stack_height=2,
+                    max_stack_increase=2,
                 ),
                 Section.Code(
                     Op.JUMPF[2],
                     code_outputs=2,
-                    max_stack_height=0,
+                    max_stack_increase=0,
                 ),
                 Section.Code(
                     Op.PUSH2[value_code_worked] + Op.PUSH2[slot_code_worked] + Op.RETF,
                     code_outputs=2,
-                    max_stack_height=2,
                 ),
             ],
         ),
@@ -103,17 +101,16 @@ def test_jumpf_forward(
             sections=[
                 Section.Code(
                     code=Op.CALLF[1] + Op.SSTORE + Op.STOP,
-                    max_stack_height=2,
+                    max_stack_increase=2,
                 ),
                 Section.Code(
                     Op.PUSH2[value_code_worked] + Op.JUMPF[2],
                     code_outputs=2,
-                    max_stack_height=1,
+                    max_stack_increase=1,
                 ),
                 Section.Code(
                     Op.PUSH2[slot_code_worked] + Op.RETF,
                     code_outputs=1,
-                    max_stack_height=1,
                 ),
             ],
         ),
@@ -341,13 +338,9 @@ def test_jumpf_stack_size_1024(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1022 + Op.JUMPF[1],
-                    max_stack_height=1022,
                 ),
                 Section.Code(
                     Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
-                    code_inputs=0,
-                    code_outputs=NON_RETURNING_SECTION,
-                    max_stack_height=2,
                 ),
             ],
         ),
@@ -364,13 +357,11 @@ def test_jumpf_with_inputs_stack_size_1024(
             sections=[
                 Section.Code(
                     code=Op.PUSH0 * 1022 + Op.JUMPF[1],
-                    max_stack_height=1022,
                 ),
                 Section.Code(
                     Op.SSTORE(slot_code_worked, value_code_worked) + Op.STOP,
                     code_inputs=3,
-                    code_outputs=NON_RETURNING_SECTION,
-                    max_stack_height=5,
+                    max_stack_increase=2,
                 ),
             ],
         ),
@@ -391,24 +382,17 @@ def test_jumpf_stack_size_1024_at_push(
                     + Op.POP * 1023
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.RETURN(0, 0),
-                    max_stack_height=1023,
                 ),
                 Section.Code(
                     # stack has 1023 items
                     Op.JUMPF[2],
-                    code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=0,
                 ),
                 Section.Code(
-                    Op.PUSH0
-                    +
-                    # stack has 1024 items
-                    Op.POP
+                    Op.PUSH0  # stack has 1024 items
+                    + Op.POP
                     + Op.RETF,
-                    code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=1,
                 ),
             ],
         ),
@@ -447,14 +431,11 @@ def test_jumpf_stack_overflow(
                     + Op.POP * stack_height
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.RETURN(0, 0),
-                    max_stack_height=stack_height,
                 ),
                 Section.Code(
                     # Stack has stack_height items
                     Op.JUMPF[2],
-                    code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=0,
                 ),
                 Section.Code(
                     Op.CALLDATALOAD(0)
@@ -464,9 +445,7 @@ def test_jumpf_stack_overflow(
                     + Op.POP * 3
                     + Op.SSTORE(slot_stack_canary, value_canary_written)
                     + Op.RETF,
-                    code_inputs=0,
                     code_outputs=0,
-                    max_stack_height=3,
                 ),
             ],
         ),
@@ -492,24 +471,21 @@ def test_jumpf_with_inputs_stack_size_1024_at_push(
                     + Op.POP * 1023
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.RETURN(0, 0),
-                    max_stack_height=1023,
                 ),
                 Section.Code(
                     # Stack has 1023 items
                     Op.JUMPF[2],
                     code_inputs=3,
                     code_outputs=3,
-                    max_stack_height=3,
+                    max_stack_increase=0,
                 ),
                 Section.Code(
-                    Op.PUSH0
-                    +
-                    # Stack has 1024 items
-                    Op.POP
+                    Op.PUSH0  # Stack has 1024 items
+                    + Op.POP
                     + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
-                    max_stack_height=4,
+                    max_stack_increase=1,
                 ),
             ],
         ),
@@ -530,26 +506,23 @@ def test_jumpf_with_inputs_stack_overflow(
                     + Op.POP * 1023
                     + Op.SSTORE(slot_code_worked, value_code_worked)
                     + Op.RETURN(0, 0),
-                    max_stack_height=1023,
                 ),
                 Section.Code(
                     # Stack has 1023 items
                     Op.JUMPF[2],
                     code_inputs=3,
                     code_outputs=3,
-                    max_stack_height=3,
+                    max_stack_increase=0,
                 ),
                 Section.Code(
                     Op.PUSH0
-                    + Op.PUSH0
-                    +
-                    # Runtime stackoverflow
-                    Op.POP
+                    + Op.PUSH0  # Runtime stackoverflow
+                    + Op.POP
                     + Op.POP
                     + Op.RETF,
                     code_inputs=3,
                     code_outputs=3,
-                    max_stack_height=5,
+                    max_stack_increase=2,
                 ),
             ],
         ),
