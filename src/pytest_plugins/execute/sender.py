@@ -35,7 +35,10 @@ def pytest_addoption(parser):
         dest="sender_funding_transactions_gas_price",
         type=Wei,
         default=None,
-        help=("Gas price set for the funding transactions of each worker's sender key."),
+        help=(
+            "Gas price set for the funding transactions of each worker's sender key. "
+            "Default=None (1.5x current network gas price)"
+        ),
     )
 
     sender_group.addoption(
@@ -50,12 +53,13 @@ def pytest_addoption(parser):
 
 @pytest.fixture(scope="session")
 def sender_funding_transactions_gas_price(
-    request: pytest.FixtureRequest, default_gas_price: int
+    request: pytest.FixtureRequest,
+    eth_rpc: EthRPC,
 ) -> int:
     """Get the gas price for the funding transactions."""
     gas_price: int | None = request.config.option.sender_funding_transactions_gas_price
     if gas_price is None:
-        gas_price = default_gas_price
+        gas_price = int(eth_rpc.gas_price() * 1.5)
     assert gas_price > 0, "Gas price must be greater than 0"
     return gas_price
 
@@ -128,6 +132,7 @@ def sender_key(
     session_temp_folder: Path,
     sender_funding_transactions_gas_price: int,
     sender_fund_refund_gas_limit: int,
+    dry_run: bool,
 ) -> Generator[EOA, None, None]:
     """
     Get the sender keys for all tests.
@@ -156,10 +161,12 @@ def sender_key(
             gas_price=sender_funding_transactions_gas_price,
             value=sender_key_initial_balance,
         ).with_signature_and_sender()
-        eth_rpc.send_transaction(fund_tx)
+        if not dry_run:
+            eth_rpc.send_transaction(fund_tx)
         with seed_sender_nonce_file.open("w") as f:
             f.write(str(seed_sender.nonce))
-    eth_rpc.wait_for_transaction(fund_tx)
+    if not dry_run:
+        eth_rpc.wait_for_transaction(fund_tx)
 
     yield sender
 
