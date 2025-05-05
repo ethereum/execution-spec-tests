@@ -5,7 +5,7 @@ on:
   repository_dispatch:
   workflow_dispatch:
   schedule:
-    - cron: "00 12 * * *" # Run daily at 12:00 UTC
+    - cron: "00 12 * * 1" # Run weekly on Mondays at 12:00 UTC
 
 jobs:
   check_eip_versions:
