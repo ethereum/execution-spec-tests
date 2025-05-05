@@ -141,22 +141,19 @@ class EIPSpecTestItem(Item):
     module: ModuleType
     github_token: Optional[str]
 
-    def __init__(
-        self, name: str, parent: Module, module: ModuleType, github_token: Optional[str] = None
-    ):
+    def __init__(self, name: str, parent: Node, **kwargs: Any):
         """
         Initialize the test item.
 
         Args:
             name: Name of the test
             parent: Parent node
-            module: Module to test
-            github_token: Optional GitHub token for API authentication
+            **kwargs: Additional keyword arguments
 
         """
         super().__init__(name, parent)
-        self.module = module
-        self.github_token = github_token
+        self.module = None  # type: ignore
+        self.github_token = None
 
     @classmethod
     def from_parent(cls, parent: Node, **kw: Any) -> "EIPSpecTestItem":
@@ -172,13 +169,11 @@ class EIPSpecTestItem(Item):
         module = kw.pop("module", None)
         github_token = kw.pop("github_token", None)
 
-        # Call the parent class's from_parent with just the required args
-        item = super().from_parent(parent=parent, name="test_eip_spec_version")
+        kw["name"] = "test_eip_spec_version"
+        item = super(EIPSpecTestItem, cls).from_parent(parent, **kw)
 
-        # Set the additional attributes after creation
         item.module = module
         item.github_token = github_token
-
         return item
 
     def runtest(self) -> None:
