@@ -62,18 +62,6 @@ def get_ref_spec_from_module(module: ModuleType) -> None | ReferenceSpec:
     return spec_obj
 
 
-@pytest.fixture(autouse=True, scope="module")
-def reference_spec(request) -> None | ReferenceSpec:
-    """
-    Pytest fixture that returns the reference spec defined in a module.
-
-    See `get_ref_spec_from_module`.
-    """
-    if hasattr(request, "module"):
-        return get_ref_spec_from_module(request.module)
-    return None
-
-
 def is_test_for_an_eip(input_string: str) -> bool:
     """Return True if `input_string` contains an EIP number, i.e., eipNNNN."""
     pattern = re.compile(r".*eip\d{1,4}", re.IGNORECASE)
