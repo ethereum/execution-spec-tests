@@ -22,6 +22,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 🧪 Test Cases
 
+- 🔀 Automatically apply the `zkevm` marker to all tests under `./tests/zkevm/` and `./tests/prague/eip2537_bls_12_381_precompiles/` via conftest configuration ([#1534](https://github.com/ethereum/execution-spec-tests/pull/1534)).
+
 ## [v4.4.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0) - 2025-04-29
 
 ### 💥 Breaking Change
