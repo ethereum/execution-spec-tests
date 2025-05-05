@@ -295,12 +295,6 @@ class StateTest(BaseTest):
     ) -> BaseExecute:
         """Generate the list of test fixtures."""
         if execute_format == TransactionPost:
-            env = self.env.set_fork_requirements(fork)
-            self.tx.set_gas_price(
-                gas_price=env.max_fee_per_gas + env.max_priority_fee_per_gas,
-                max_fee_per_gas=env.max_fee_per_gas,
-                max_priority_fee_per_gas=env.max_priority_fee_per_gas,
-            )
             return TransactionPost(
                 blocks=[[self.tx]],
                 post=self.post,

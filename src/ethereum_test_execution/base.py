@@ -6,7 +6,7 @@ from typing import Annotated, Any, ClassVar, Dict, Type
 from pydantic import PlainSerializer, PlainValidator
 from pytest import FixtureRequest
 
-from ethereum_test_base_types import CamelModel
+from ethereum_test_base_types import Address, CamelModel
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 
@@ -31,6 +31,14 @@ class BaseExecute(CamelModel):
         if cls.format_name:
             # Register the new execute format
             BaseExecute.formats[cls.format_name] = cls
+
+    def get_required_sender_balances(
+        self,
+        max_fee_per_gas: int,
+        max_priority_fee_per_gas: int,
+    ) -> Dict[Address, int]:
+        """Get the required sender balances."""
+        pass
 
     @abstractmethod
     def execute(
