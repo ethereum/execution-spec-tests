@@ -7,6 +7,7 @@ is saved in the appropriate directory with a rendered template using Jinja2.
 """
 
 import os
+import signal
 import sys
 from pathlib import Path
 
@@ -21,6 +22,12 @@ template_loader = jinja2.PackageLoader("cli.eest.make")
 template_env = jinja2.Environment(
     loader=template_loader, keep_trailing_newline=True, trim_blocks=True, lstrip_blocks=True
 )
+
+
+def exit_now():
+    """Helper function to allow user to interrupt execution instantly via ctrl+C."""
+    print("Ctrl+C detected, exiting..")
+    exit(0)
 
 
 @click.command(
@@ -53,9 +60,13 @@ def test():
     test_type = input_select(
         "Choose the type of test to generate", choices=["State", "Blockchain"]
     )
+    if test_type is None:
+        exit_now()
 
     fork_choices = [str(fork) for fork in get_forks()]
     fork = input_select("Select the fork", choices=fork_choices)
+    if fork is None:
+        exit_now()
 
     base_path = Path("tests") / fork.lower()
     base_path.mkdir(parents=True, exist_ok=True)
@@ -70,6 +81,8 @@ def test():
             {"name": "** Create new sub-directory **", "value": "new"},
         ],
     )
+    if location_choice is None:
+        exit_now()
 
     if location_choice == "new":
         eip_number = input_text("Enter the EIP number (int)").strip()
