@@ -6,10 +6,10 @@ modules matches that of https://github.com/ethereum/EIPs.
 import os
 import re
 from types import ModuleType
-from typing import List, Optional, Set
+from typing import Any, List, Optional, Set
 
 import pytest
-from _pytest.nodes import Item
+from _pytest.nodes import Item, Node
 from _pytest.python import Module
 
 from ethereum_test_tools import ReferenceSpec, ReferenceSpecTypes
@@ -159,7 +159,7 @@ class EIPSpecTestItem(Item):
         self.github_token = github_token
 
     @classmethod
-    def from_parent(cls, parent, **kw) -> "EIPSpecTestItem":
+    def from_parent(cls, parent: Node, **kw: Any) -> "EIPSpecTestItem":
         """
         Public constructor to define new tests.
         https://docs.pytest.org/en/latest/reference/reference.html#pytest.nodes.Node.from_parent.
