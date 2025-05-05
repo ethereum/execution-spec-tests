@@ -94,6 +94,7 @@ def pytest_configure(config: pytest.Config):
         "mainnet: Specialty tests crafted for running on mainnet and sanity checking.",
     )
 
+
 @pytest.fixture(autouse=True)
 def eips():
     """
