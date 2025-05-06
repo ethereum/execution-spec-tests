@@ -57,7 +57,6 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=0x0,
                         )
                     ],
-                    sender_balance=120_000_001_000_000_000 * 10**9,
                 ),
             ],
             id="single_deposit_from_eoa_huge_amount",

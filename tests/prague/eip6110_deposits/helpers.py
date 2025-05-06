@@ -198,10 +198,6 @@ class DepositRequest(DepositRequestBase):
 class DepositInteractionBase:
     """Base class for all types of deposit transactions we want to test."""
 
-    sender_balance: int = 32_000_000_000_000_000_000 * 100
-    """
-    Balance of the account that sends the transaction.
-    """
     sender_account: EOA | None = None
     """
     Account that sends the transaction.
@@ -210,6 +206,10 @@ class DepositInteractionBase:
     """
     Deposit request to be included in the block.
     """
+
+    def total_requests_value(self) -> int:
+        """Return the total value of the deposit requests."""
+        return sum(r.value for r in self.requests)
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the deposit request."""
@@ -234,7 +234,6 @@ class DepositTransaction(DepositInteractionBase):
         return [
             Transaction(
                 gas_limit=request.gas_limit,
-                gas_price=0x07,
                 to=request.interaction_contract_address,
                 value=request.value,
                 data=request.calldata,
@@ -245,7 +244,8 @@ class DepositTransaction(DepositInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        pre.fund_address(self.sender_account, self.total_requests_value())
 
     def valid_requests(self, current_minimum_fee: int) -> List[DepositRequest]:
         """Return the list of deposit requests that should be included in the block."""
@@ -269,9 +269,11 @@ class DepositContract(DepositInteractionBase):
     Value to send with the transaction.
     """
 
-    contract_balance: int = 32_000_000_000_000_000_000 * 100
+    contract_balance: int | None = None
     """
     Balance of the contract that sends the deposit requests.
+
+    If not set, the contract will be funded with the total value of the deposit requests.
     """
     contract_address: Address | None = None
     """
@@ -321,7 +323,6 @@ class DepositContract(DepositInteractionBase):
         return [
             Transaction(
                 gas_limit=self.tx_gas_limit,
-                gas_price=0x07,
                 to=self.entry_address,
                 value=self.tx_value,
                 data=b"".join(r.calldata for r in self.requests),
@@ -331,12 +332,16 @@ class DepositContract(DepositInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        required_balance = self.sender_balance
+        self.sender_account = pre.fund_eoa()
         if self.tx_value > 0:
-            required_balance = max(required_balance, self.tx_value + self.tx_gas_limit * 7)
-        self.sender_account = pre.fund_eoa(required_balance)
+            pre.fund_address(self.sender_account, self.tx_value)
+        contract_balance = (
+            self.contract_balance
+            if self.contract_balance is not None
+            else self.total_requests_value()
+        )
         self.contract_address = pre.deploy_contract(
-            code=self.contract_code, balance=self.contract_balance
+            code=self.contract_code, balance=contract_balance
         )
         self.entry_address = self.contract_address
         if self.call_depth > 2:
