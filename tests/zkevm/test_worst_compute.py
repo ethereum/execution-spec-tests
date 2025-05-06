@@ -195,7 +195,7 @@ def test_worst_ecrecover(
         + Op.MSTORE(3 * 32, 0x789D1DD423D25F0772D2748D60F7E4B81BB14D086EBA8E8E8EFB6DCFF8A4AE02)
     )
 
-    attack_block = Op.STATICCALL(ECRECOVER_GAS_COST, 0x1, 0, 32 * 4, 0, 0) + Op.POP
+    attack_block = Op.POP(Op.STATICCALL(ECRECOVER_GAS_COST, 0x1, 0, 32 * 4, 0, 0))
     code = code_loop_precompile_call(calldata, attack_block)
     code_address = pre.deploy_contract(code=bytes(code))
 
@@ -218,7 +218,7 @@ def test_worst_ecrecover(
 
 def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode):
     """Create a code loop that calls a precompile with the given calldata."""
-    # The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP
+    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* + JUMP(#)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(calldata))
     max_iters_loop = (MAX_CODE_SIZE - len(calldata) - len(jumpdest) - len(jump_back)) // len(
