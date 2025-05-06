@@ -244,7 +244,7 @@ def test_invalid_tx_invalid_nonce(
     Test sending a transaction where the nonce field of an authorization overflows the maximum
     value.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     tx = Transaction(
         gas_limit=100_000,
@@ -292,7 +292,7 @@ def test_invalid_tx_invalid_nonce_as_list(
     Test sending a transaction where the nonce field of an authorization overflows the maximum
     value.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     class AuthorizationTupleWithNonceAsList(AuthorizationTuple):
         nonce: List[HexNumber]  # type: ignore
@@ -392,7 +392,7 @@ def test_invalid_tx_invalid_address(
     Test sending a transaction where the address field of an authorization is incorrectly
     serialized.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     class ModifiedAuthorizationTuple(AuthorizationTuple):
         address: address_type  # type: ignore
@@ -436,7 +436,7 @@ def test_invalid_tx_invalid_authorization_tuple_extra_element(
     Test sending a transaction where the authorization tuple field of the type-4 transaction
     is serialized to contain an extra element.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     class ExtraElementAuthorizationTuple(AuthorizationTuple):
         extra_element: HexNumber  # type: ignore
@@ -497,7 +497,7 @@ def test_invalid_tx_invalid_authorization_tuple_missing_element(
     Test sending a transaction where the authorization tuple field of the type-4 transaction
     is serialized to miss one element.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     class MissingElementAuthorizationTuple(AuthorizationTuple):
         missing_element_index: int
@@ -550,7 +550,7 @@ def test_invalid_tx_invalid_authorization_tuple_encoded_as_bytes(
     class ModifiedTransaction(Transaction):
         authorization_list: List[Bytes] | None  # type: ignore
 
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     authorization_list = AuthorizationTuple(
         address=delegate_address,
@@ -596,7 +596,7 @@ def test_invalid_tx_invalid_rlp_encoding(
     Test sending a transaction type-4 where the RLP encoding of the transaction is
     invalid.
     """
-    auth_signer = pre.fund_eoa()
+    auth_signer = pre.fund_eoa(amount=0)
 
     class ModifiedTransaction(Transaction):
         """Class that overrides `rlp` method to return a modified RLP encoding."""
