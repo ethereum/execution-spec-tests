@@ -73,6 +73,7 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     ids=lambda op: str(op),
 )
 @pytest.mark.parametrize("stack_height", range(1024, 1026))
+@pytest.mark.execute(pytest.mark.xfail(reason="Contract exceeds 24kB limit"))
 @pytest.mark.valid_from("Frontier")
 def test_stack_overflow(
     state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: Op, stack_height: int

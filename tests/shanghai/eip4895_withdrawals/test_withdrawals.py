@@ -697,7 +697,6 @@ def test_withdrawing_to_precompiles(
     pre: Alloc,
     precompile: int,
     amount: int,
-    t8n: TransitionTool,
 ):
     """Test withdrawing to all precompiles for a given fork."""
     sender = pre.fund_eoa()

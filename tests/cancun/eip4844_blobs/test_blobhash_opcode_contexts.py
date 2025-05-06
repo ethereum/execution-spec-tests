@@ -27,7 +27,10 @@ from .spec import Spec, ref_spec_4844
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
 
-pytestmark = pytest.mark.valid_from("Cancun")
+pytestmark = [
+    pytest.mark.valid_from("Cancun"),
+    pytest.mark.execute(pytest.mark.xfail(reason="Test needs pre-alloc update")),
+]
 
 
 def create_opcode_context(pre, tx, post):

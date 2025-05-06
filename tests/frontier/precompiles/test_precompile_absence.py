@@ -26,6 +26,9 @@ RETURNDATASIZE_OFFSET = 0x10000000000000000  # Must be greater than UPPER_BOUND
         pytest.param(32, id="32_bytes"),
     ],
 )
+@pytest.mark.execute(
+    pytest.mark.xfail(reason="Deployed contract storage canary too big"),  # TODO: Fix Initcode
+)
 @pytest.mark.valid_from("Byzantium")
 def test_precompile_absence(
     state_test: StateTestFiller,

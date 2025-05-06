@@ -45,8 +45,8 @@ def test_pointer_contract_pointer_loop(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
-    pointer_b = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
+    pointer_b = pre.fund_eoa(amount=0)
 
     storage: Storage = Storage()
     contract_a = pre.deploy_contract(
@@ -101,8 +101,8 @@ def test_pointer_to_pointer(state_test: StateTestFiller, pre: Alloc):
     storage: Storage = Storage()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
-    pointer_b = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
+    pointer_b = pre.fund_eoa(amount=0)
 
     contract_a = pre.deploy_contract(
         code=Op.SSTORE(storage.store_next(0, "contract_a_worked"), 0x1)
@@ -144,7 +144,7 @@ def test_pointer_normal(blockchain_test: BlockchainTestFiller, pre: Alloc):
     storage: Storage = Storage()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     slot_worked = storage.store_next(3, "contract_a_worked")
     contract_a = pre.deploy_contract(
@@ -335,7 +335,7 @@ def test_call_to_precompile_in_pointer_context(
     storage: Storage = Storage()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_test = pre.deploy_contract(
         code=Op.MSTORE(1000, Op.GAS())
@@ -410,7 +410,7 @@ def test_pointer_to_precompile(state_test: StateTestFiller, pre: Alloc, precompi
     storage: Storage = Storage()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_test_normal = pre.deploy_contract(
         code=Op.MSTORE(0, Op.CALL(gas=0, address=precompile, args_size=Op.CALLDATASIZE()))
@@ -530,7 +530,7 @@ def test_gas_diff_pointer_vs_direct_call(
     env = Environment()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
     call_worked = 1
     gas_costs: GasCosts = fork.gas_costs()
 
@@ -733,7 +733,7 @@ def test_pointer_call_followed_by_direct_call(
     env = Environment()
 
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
     gas_costs: GasCosts = fork.gas_costs()
     call_worked = 1
     opcodes_price: int = 37
@@ -808,7 +808,7 @@ def test_pointer_to_static(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
     storage: Storage = Storage()
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_b = pre.deploy_contract(code=Op.SSTORE(0, 5))
     contract_a = pre.deploy_contract(
@@ -854,7 +854,7 @@ def test_static_to_pointer(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
     storage: Storage = Storage()
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_b = pre.deploy_contract(code=Op.SSTORE(0, 5))
     contract_a = pre.deploy_contract(
@@ -900,7 +900,7 @@ def test_pointer_to_eof(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
     storage: Storage = Storage()
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_a = pre.deploy_contract(
         code=Container(
@@ -945,7 +945,7 @@ def test_pointer_to_static_reentry(state_test: StateTestFiller, pre: Alloc):
     env = Environment()
     storage: Storage = Storage()
     sender = pre.fund_eoa()
-    pointer_a = pre.fund_eoa()
+    pointer_a = pre.fund_eoa(amount=0)
 
     contract_b = pre.deploy_contract(
         code=Op.MSTORE(0, Op.ADD(1, Op.CALLDATALOAD(0)))
@@ -1026,7 +1026,7 @@ def test_contract_storage_to_pointer_with_storage(
     )
     storage_pointer_b.store_next(0, "second_slot")
     storage_pointer_b.store_next(0, "third_slot")
-    pointer_b = pre.fund_eoa()
+    pointer_b = pre.fund_eoa(amount=0)
 
     # Contract B
     storage_b: Storage = Storage()
@@ -1259,7 +1259,7 @@ def test_call_pointer_to_created_from_create_after_oog_call_again(
     env = Environment()
 
     storage_pointer = Storage()
-    pointer = pre.fund_eoa()
+    pointer = pre.fund_eoa(amount=0)
     sender = pre.fund_eoa()
 
     storage_contract = Storage()
@@ -1360,7 +1360,7 @@ def test_pointer_reverts(
 ):
     """Pointer do operations then revert."""
     sender = pre.fund_eoa()
-    pointer = pre.fund_eoa()
+    pointer = pre.fund_eoa(amount=0)
 
     contract_storage = Storage()
     contract_calls = (
@@ -1456,7 +1456,7 @@ def test_double_auth(
     """Only the last auth works, but first auth still charges the gas."""
     env = Environment()
     sender = pre.fund_eoa()
-    pointer = pre.fund_eoa()
+    pointer = pre.fund_eoa(amount=0)
 
     storage = Storage()
     contract_a = pre.deploy_contract(
@@ -1626,7 +1626,7 @@ def test_pointer_resets_an_empty_code_account_with_storage(
     deploy_code = Op.SSTORE(5, 5) + Op.SELFDESTRUCT(suicide_dest)
     sender_storage[5] = 5
 
-    another_pointer = pre.fund_eoa()
+    another_pointer = pre.fund_eoa(amount=0)
 
     contract_create = pre.deploy_contract(
         code=Op.MSTORE(0, Op.CALLDATALOAD(0))
