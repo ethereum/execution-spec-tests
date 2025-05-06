@@ -1,10 +1,10 @@
 """Simple transaction-send then post-check execution format."""
 
-from typing import ClassVar, List
+from typing import ClassVar, Dict, List
 
 import pytest
 
-from ethereum_test_base_types import Alloc, Hash
+from ethereum_test_base_types import Address, Alloc, Hash
 from ethereum_test_rpc import EthRPC, SendTransactionExceptionError
 from ethereum_test_types import Transaction
 
@@ -21,6 +21,27 @@ class TransactionPost(BaseExecute):
     description: ClassVar[str] = (
         "Simple transaction sending, then post-check after all transactions are included"
     )
+
+    def get_required_sender_balances(
+        self,
+        gas_price: int,
+        max_fee_per_gas: int,
+        max_priority_fee_per_gas: int,
+    ) -> Dict[Address, int]:
+        """Get the required sender balances."""
+        balances: Dict[Address, int] = {}
+        for block in self.blocks:
+            for tx in block:
+                sender = tx.sender
+                tx.set_gas_price(
+                    gas_price=gas_price,
+                    max_fee_per_gas=max_fee_per_gas,
+                    max_priority_fee_per_gas=max_priority_fee_per_gas,
+                )
+                if sender not in balances:
+                    balances[sender] = 0
+                balances[sender] += tx.signer_minimum_balance()
+        return balances
 
     def execute(self, eth_rpc: EthRPC):
         """Execute the format."""

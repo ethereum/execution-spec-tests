@@ -169,6 +169,14 @@ class StateTest(BaseTest):
         fork = fork.fork_at(self.env.number, self.env.timestamp)
 
         env = self.env.set_fork_requirements(fork)
+
+        # Need to set the gas price here based on the environment if not set by the test
+        self.tx.set_gas_price(
+            gas_price=env.base_fee_per_gas,
+            max_fee_per_gas=env.base_fee_per_gas,
+            max_priority_fee_per_gas=0,
+        )
+
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
         if not self.is_slow_test() and tx.gas_limit >= Environment().gas_limit:
             warnings.warn(
