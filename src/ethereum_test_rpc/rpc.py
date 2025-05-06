@@ -109,7 +109,11 @@ class EthRPC(BaseRPC):
     hive simulators.
     """
 
-    transaction_wait_timeout: int = 60
+    transaction_wait_timeout: int
+    gas_information_stale_seconds: int
+
+    _gas_information_cache: Dict[str, int]
+    _gas_information_cache_timestamp: Dict[str, int]
 
     BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
 
@@ -119,6 +123,7 @@ class EthRPC(BaseRPC):
         extra_headers: Dict | None = None,
         *,
         transaction_wait_timeout: int = 60,
+        gas_information_stale_seconds: int = 12,
         response_validation_context: Any | None = None,
     ):
         """Initialize EthRPC class with the given url and transaction wait timeout."""
@@ -128,6 +133,15 @@ class EthRPC(BaseRPC):
             url, extra_headers, response_validation_context=response_validation_context
         )
         self.transaction_wait_timeout = transaction_wait_timeout
+        self.gas_information_stale_seconds = gas_information_stale_seconds
+        self._gas_information_cache = {
+            "gasPrice": 0,
+            "maxPriorityFeePerGas": 0,
+        }
+        self._gas_information_cache_timestamp = {
+            "gasPrice": 0,
+            "maxPriorityFeePerGas": 0,
+        }
 
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
         """`eth_getBlockByNumber`: Returns information about a block by block number."""
@@ -171,16 +185,26 @@ class EthRPC(BaseRPC):
         block = hex(block_number) if isinstance(block_number, int) else block_number
         return Hash(self.post_request("getStorageAt", f"{address}", f"{position}", block))
 
+    def _get_gas_information(self, key: Literal["gasPrice", "maxPriorityFeePerGas"]) -> int:
+        """Get gas information from the cache or the RPC server."""
+        if (
+            time.time() - self._gas_information_cache_timestamp[key]
+            > self.gas_information_stale_seconds
+        ):
+            self._gas_information_cache[key] = int(self.post_request(key), 16)
+            self._gas_information_cache_timestamp[key] = time.time()
+        return self._gas_information_cache[key]
+
     def gas_price(self) -> int:
         """`eth_gasPrice`: Return the current gas price of the network."""
-        return int(self.post_request("gasPrice"), 16)
+        return self._get_gas_information("gasPrice")
 
     def max_priority_fee_per_gas(self) -> int:
         """
         `eth_maxPriorityFeePerGas`: Return the current max priority fee per gas of
         the network.
         """
-        return int(self.post_request("maxPriorityFeePerGas"), 16)
+        return self._get_gas_information("maxPriorityFeePerGas")
 
     def send_raw_transaction(self, transaction_rlp: Bytes) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
