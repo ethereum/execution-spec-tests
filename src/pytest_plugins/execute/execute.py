@@ -67,6 +67,18 @@ def pytest_addoption(parser):
         ),
     )
     execute_group.addoption(
+        "--network-gas-price-multiplier",
+        action="store",
+        dest="network_gas_price_multiplier",
+        type=float,
+        default=1.5,
+        help=(
+            "Multiplier for the gas price used for transactions, "
+            "unless overridden by the test. "
+            "Default=1.5"
+        ),
+    )
+    execute_group.addoption(
         "--transaction-gas-limit",
         action="store",
         dest="transaction_gas_limit",
@@ -227,11 +239,21 @@ def default_max_priority_fee_per_gas(request) -> int | None:
     return request.config.getoption("default_max_priority_fee_per_gas")
 
 
+@pytest.fixture(scope="session")
+def network_gas_price_multiplier(request) -> float:
+    """Return the multiplier for the gas price used for transactions."""
+    return request.config.getoption("network_gas_price_multiplier")
+
+
 @pytest.fixture()
-def max_fee_per_gas(eth_rpc: EthRPC, default_max_fee_per_gas: int | None) -> int:
+def max_fee_per_gas(
+    eth_rpc: EthRPC,
+    default_max_fee_per_gas: int | None,
+    network_gas_price_multiplier: float,
+) -> int:
     """Return max fee per gas used for transactions in a given test."""
     if default_max_fee_per_gas is None:
-        return eth_rpc.gas_price()
+        return int(eth_rpc.gas_price() * network_gas_price_multiplier)
     return default_max_fee_per_gas
 
 
@@ -400,7 +422,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 if dry_run:
                     logger.info(f"Minimum balance required: {minimum_balance / 10**18:.18f}")
-                    logger.info(f"Gas consumption: {gas_consumption}")
+                    logger.info(f"Max gas consumption: {gas_consumption}")
                     return
 
                 # send the funds to the required sender accounts
