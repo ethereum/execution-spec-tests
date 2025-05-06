@@ -521,6 +521,8 @@ class Alloc(BaseAlloc):
         gas_consumption = 0
         for tx in self._pending_txs:
             if tx.value is None:
+                # WARN: This currently fails if there's an account with `pre.fund_eoa()` that
+                # never sends a transaction during the test.
                 assert tx.to in sender_balances, "Sender balance must be set before sending"
                 tx.value = sender_balances[tx.to]
             tx.set_gas_price(
