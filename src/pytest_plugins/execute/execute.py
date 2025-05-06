@@ -79,9 +79,9 @@ def pytest_addoption(parser):
         ),
     )
     execute_group.addoption(
-        "--total-gas-limit",
+        "--test-max-gas",
         action="store",
-        dest="total_gas_limit",
+        dest="test_max_gas",
         default=None,
         type=int,
         help=("Maximum gas limit for all transactions in a test. Default=None (No limit)"),
@@ -250,9 +250,9 @@ def gas_price(max_fee_per_gas: int, max_priority_fee_per_gas: int) -> int:
 
 
 @pytest.fixture()
-def total_gas_limit_per_test(request) -> int | None:
+def max_gas_limit_per_test(request) -> int | None:
     """Return the total gas limit for all transactions in a given test."""
-    return request.config.getoption("test_gas_limit")
+    return request.config.getoption("test_max_gas")
 
 
 @dataclass(kw_only=True)
@@ -265,6 +265,46 @@ class Collector:
     def collect(self, test_name: str, execute_format: BaseExecute):
         """Collect transactions and post-allocations for the test case."""
         self.collected_tests[test_name] = execute_format
+
+
+@dataclass(kw_only=True)
+class GasInfo:
+    """A class that contains gas limit and minimum balance for a test."""
+
+    gas_limit: int
+    minimum_balance: int
+
+
+@dataclass(kw_only=True)
+class GasInfoAccumulator:
+    """A class that accumulates gas limit for all tests."""
+
+    test_gas_info: Dict[str, GasInfo] = field(default_factory=dict)
+
+    def add(self, test_name: str, gas_limit: int, minimum_balance: int):
+        """Add gas limit and minimum balance for a test."""
+        self.test_gas_info[test_name] = GasInfo(
+            gas_limit=gas_limit, minimum_balance=minimum_balance
+        )
+
+    def total_gas_limit(self) -> int:
+        """Return the total gas limit for all tests."""
+        return sum(gas_info.gas_limit for gas_info in self.test_gas_info.values())
+
+    def total_minimum_balance(self) -> int:
+        """Return the total minimum balance for all tests."""
+        return sum(gas_info.minimum_balance for gas_info in self.test_gas_info.values())
+
+
+@pytest.fixture(scope="session")
+def gas_limit_accumulator() -> Generator[GasInfoAccumulator, None, None]:
+    """Return the gas limit accumulator for all tests."""
+    gas_limit_accumulator = GasInfoAccumulator()
+    yield gas_limit_accumulator
+    logger.info(f"Total gas limit: {gas_limit_accumulator.total_gas_limit()}")
+    logger.info(
+        f"Total minimum balance: {gas_limit_accumulator.total_minimum_balance() / 10**18:.18f}"
+    )
 
 
 @pytest.fixture(scope="session")
@@ -303,7 +343,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         gas_price: int,
         max_fee_per_gas: int,
         max_priority_fee_per_gas: int,
-        total_gas_limit_per_test: int | None,
+        max_gas_limit_per_test: int | None,
+        gas_limit_accumulator: GasInfoAccumulator,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -345,15 +386,21 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     max_fee_per_gas=max_fee_per_gas,
                     max_priority_fee_per_gas=max_priority_fee_per_gas,
                 )
-                if total_gas_limit_per_test is not None:
-                    assert gas_consumption <= total_gas_limit_per_test, (
+                if max_gas_limit_per_test is not None:
+                    assert gas_consumption <= max_gas_limit_per_test, (
                         f"Test gas consumption ({gas_consumption}) exceeds the gas limit allowed "
-                        f"per test({total_gas_limit_per_test})."
+                        f"per test({max_gas_limit_per_test})."
                     )
 
-                logger.info(f"Minimum balance required: {minimum_balance / 10**18:.18f}")
+                gas_limit_accumulator.add(
+                    test_name=request.node.nodeid,
+                    gas_limit=gas_consumption,
+                    minimum_balance=minimum_balance,
+                )
 
                 if dry_run:
+                    logger.info(f"Minimum balance required: {minimum_balance / 10**18:.18f}")
+                    logger.info(f"Gas consumption: {gas_consumption}")
                     return
 
                 # send the funds to the required sender accounts
