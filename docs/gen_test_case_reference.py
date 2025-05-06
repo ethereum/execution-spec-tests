@@ -48,7 +48,7 @@ args = [
     f"--until={GENERATE_UNTIL_FORK}",
     "--skip-index",
     "-m",
-    "(not blockchain_test_engine) and (not eip_version_check)",
+    "not blockchain_test_engine",
     "-s",
     test_arg,
 ]
