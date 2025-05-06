@@ -10,15 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Address,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Bytecode,
-    Environment,
-    Transaction,
-)
+from ethereum_test_tools import (Address, Alloc, Block, BlockchainTestFiller,
+                                 Bytecode, Environment, Transaction)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -114,7 +107,6 @@ def test_worst_keccak(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "gas_limit",
@@ -202,7 +194,6 @@ def test_worst_precompile_only_data_input(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "gas_limit",
@@ -259,7 +250,6 @@ def test_worst_modexp(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "gas_limit",
