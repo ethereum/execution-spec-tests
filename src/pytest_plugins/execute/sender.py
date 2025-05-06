@@ -85,6 +85,7 @@ def sender_key_initial_balance(
     sender_funding_transactions_gas_price: int,
     sender_fund_refund_gas_limit: int,
     seed_account_sweep_amount: int | None,
+    dry_run: bool,
 ) -> int:
     """
     Calculate the initial balance of each sender key.
@@ -99,6 +100,8 @@ def sender_key_initial_balance(
     is going to run, so we can't really calculate the initial balance of each sender key
     based on that.
     """
+    if dry_run:
+        return 0
     base_name = "sender_key_initial_balance"
     base_file = session_temp_folder / base_name
     base_lock_file = session_temp_folder / f"{base_name}.lock"
