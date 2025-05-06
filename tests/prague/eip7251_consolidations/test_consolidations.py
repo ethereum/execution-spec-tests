@@ -376,6 +376,7 @@ pytestmark = pytest.mark.valid_from("Prague")
                             for i in range(Spec.MAX_CONSOLIDATION_REQUESTS_PER_BLOCK * 5)
                         ],
                         call_depth=100,
+                        tx_gas_limit=10_000_000,
                     ),
                 ],
             ],

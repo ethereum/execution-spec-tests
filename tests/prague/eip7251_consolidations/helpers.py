@@ -61,10 +61,6 @@ class ConsolidationRequest(ConsolidationRequestBase):
 class ConsolidationRequestInteractionBase:
     """Base class for all types of consolidation transactions we want to test."""
 
-    sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
     sender_account: EOA | None = None
     """
     Account that will send the transaction.
@@ -73,6 +69,10 @@ class ConsolidationRequestInteractionBase:
     """
     Consolidation requests to be included in the block.
     """
+
+    def total_requests_value(self) -> int:
+        """Return the total value of the consolidation requests."""
+        return sum(r.value for r in self.requests)
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
@@ -97,7 +97,6 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
         return [
             Transaction(
                 gas_limit=request.gas_limit,
-                gas_price=1_000_000_000,
                 to=request.interaction_contract_address,
                 value=request.value,
                 data=request.calldata,
@@ -108,7 +107,8 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        pre.fund_address(self.sender_account, self.total_requests_value())
 
     def valid_requests(self, current_minimum_fee: int) -> List[ConsolidationRequest]:
         """Return the list of consolidation requests that are valid."""
@@ -124,14 +124,18 @@ class ConsolidationRequestTransaction(ConsolidationRequestInteractionBase):
 class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     """Class used to describe a consolidation originated from a contract."""
 
-    tx_gas_limit: int = 10_000_000
+    tx_gas_limit: int | None = None
     """
     Gas limit for the transaction.
+
+    If not set, the gas limit will be 200,000 * number of requests + 100,000.
     """
 
-    contract_balance: int = 1_000_000_000_000_000_000
+    contract_balance: int | None = None
     """
     Balance of the contract that will make the call to the pre-deploy contract.
+
+    If not set, the contract will be funded with the total value of the consolidation requests.
     """
     contract_address: Address | None = None
     """
@@ -179,10 +183,14 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the consolidation request."""
         assert self.entry_address is not None, "Entry address not initialized"
+        tx_gas_limit = (
+            200_000 * len(self.requests) + 100_000
+            if self.tx_gas_limit is None
+            else self.tx_gas_limit
+        )
         return [
             Transaction(
-                gas_limit=self.tx_gas_limit,
-                gas_price=1_000_000_000,
+                gas_limit=tx_gas_limit,
                 to=self.entry_address,
                 value=0,
                 data=b"".join(r.calldata for r in self.requests),
@@ -192,9 +200,14 @@ class ConsolidationRequestContract(ConsolidationRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        contract_balance = (
+            self.contract_balance
+            if self.contract_balance is not None
+            else self.total_requests_value()
+        )
         self.contract_address = pre.deploy_contract(
-            code=self.contract_code, balance=self.contract_balance
+            code=self.contract_code, balance=contract_balance
         )
         self.entry_address = self.contract_address
         if self.call_depth > 2:
