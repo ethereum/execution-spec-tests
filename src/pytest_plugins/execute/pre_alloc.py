@@ -399,7 +399,7 @@ class Alloc(BaseAlloc):
             )
             gas_consumption += tx.gas_limit
             minimum_balance += tx.signer_minimum_balance()
-        return minimum_balance + gas_consumption * gas_price, gas_consumption
+        return minimum_balance, gas_consumption
 
     def send_pending_transactions(self) -> List[TransactionByHashResponse]:
         """Send all pending transactions."""
