@@ -65,10 +65,6 @@ class WithdrawalRequest(WithdrawalRequestBase):
 class WithdrawalRequestInteractionBase:
     """Base class for all types of withdrawal transactions we want to test."""
 
-    sender_balance: int = 1_000_000_000_000_000_000
-    """
-    Balance of the account that sends the transaction.
-    """
     sender_account: EOA | None = None
     """
     Account that will send the transaction.
@@ -77,6 +73,10 @@ class WithdrawalRequestInteractionBase:
     """
     Withdrawal request to be included in the block.
     """
+
+    def total_requests_value(self) -> int:
+        """Return the total value of the deposit requests."""
+        return sum(r.value for r in self.requests)
 
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
@@ -101,7 +101,6 @@ class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
         return [
             Transaction(
                 gas_limit=request.gas_limit,
-                gas_price=1_000_000_000,
                 to=request.interaction_contract_address,
                 value=request.value,
                 data=request.calldata,
@@ -112,7 +111,8 @@ class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        pre.fund_address(self.sender_account, self.total_requests_value())
 
     def valid_requests(self, current_minimum_fee: int) -> List[WithdrawalRequest]:
         """Return the list of withdrawal requests that are valid."""
@@ -133,9 +133,11 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     Gas limit for the transaction.
     """
 
-    contract_balance: int = 1_000_000_000_000_000_000
+    contract_balance: int | None = None
     """
     Balance of the contract that will make the call to the pre-deploy contract.
+
+    If not set, the contract will be funded with the total value of the withdrawal requests.
     """
     contract_address: Address | None = None
     """
@@ -186,7 +188,6 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
         return [
             Transaction(
                 gas_limit=self.tx_gas_limit,
-                gas_price=1_000_000_000,
                 to=self.entry_address,
                 value=0,
                 data=b"".join(r.calldata for r in self.requests),
@@ -196,9 +197,14 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
 
     def update_pre(self, pre: Alloc):
         """Return the pre-state of the account."""
-        self.sender_account = pre.fund_eoa(self.sender_balance)
+        self.sender_account = pre.fund_eoa()
+        contract_balance = (
+            self.contract_balance
+            if self.contract_balance is not None
+            else self.total_requests_value()
+        )
         self.contract_address = pre.deploy_contract(
-            code=self.contract_code, balance=self.contract_balance
+            code=self.contract_code, balance=contract_balance
         )
         self.entry_address = self.contract_address
         if self.call_depth > 2:
