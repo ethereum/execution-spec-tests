@@ -28,8 +28,23 @@ pytestmark = [pytest.mark.valid_at("Prague"), pytest.mark.mainnet]
 @pytest.mark.parametrize(
     "ty,protected,access_list,blob_versioned_hashes,authorization_list",
     [
-        pytest.param(0, True, None, None, None, id="type_0_protected"),
-        pytest.param(0, False, None, None, None, id="type_0_unprotected"),
+        pytest.param(
+            0,
+            True,
+            None,
+            None,
+            None,
+            id="type_0_protected",
+        ),
+        pytest.param(
+            0,
+            False,
+            None,
+            None,
+            None,
+            id="type_0_unprotected",
+            marks=pytest.mark.execute(pytest.mark.skip(reason="RPC rejects unprotected txs")),
+        ),
         pytest.param(
             1,
             True,
