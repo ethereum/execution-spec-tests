@@ -31,6 +31,13 @@ def handle_hive_env_flags(args: List[str]) -> List[str]:
 
 def handle_consume_command_flags(consume_args: List[str], is_hive: bool) -> List[str]:
     """Handle all consume CLI flag pre-processing."""
+    # Ensure the consume command was called in the root folder of execution-spec-tests repo
+    cwd = Path(os.getcwd())
+    cwd_as_list = list(cwd.parts)
+    if cwd_as_list[-1].lower() != "execution-spec-tests":
+        pytest.exit(
+            "Please run the consume command in the root folder of the execution-spec-tests repo!"
+        )
     args = list(handle_help_flags(consume_args, pytest_type="consume"))
     args += ["-c", "pytest-consume.ini"]
     if is_hive:
