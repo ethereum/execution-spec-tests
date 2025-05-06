@@ -128,9 +128,11 @@ class WithdrawalRequestTransaction(WithdrawalRequestInteractionBase):
 class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     """Class used to describe a withdrawal originated from a contract."""
 
-    tx_gas_limit: int = 1_000_000
+    tx_gas_limit: int | None = None
     """
     Gas limit for the transaction.
+
+    If not set, the gas limit will be 200,000 * number of requests + 100,000.
     """
 
     contract_balance: int | None = None
@@ -185,9 +187,14 @@ class WithdrawalRequestContract(WithdrawalRequestInteractionBase):
     def transactions(self) -> List[Transaction]:
         """Return a transaction for the withdrawal request."""
         assert self.entry_address is not None, "Entry address not initialized"
+        tx_gas_limit = (
+            200_000 * len(self.requests) + 100_000
+            if self.tx_gas_limit is None
+            else self.tx_gas_limit
+        )
         return [
             Transaction(
-                gas_limit=self.tx_gas_limit,
+                gas_limit=tx_gas_limit,
                 to=self.entry_address,
                 value=0,
                 data=b"".join(r.calldata for r in self.requests),
