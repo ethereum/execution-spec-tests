@@ -10,17 +10,9 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Environment,
-    Hash,
-    Transaction,
-    While,
-    compute_create2_address,
-)
+from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
+                                 Environment, Hash, Transaction, While,
+                                 compute_create2_address)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
