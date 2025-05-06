@@ -223,6 +223,14 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
+    # Ensure the fill command was called in the root folder of execution-spec-tests repo
+    cwd = Path(os.getcwd())
+    cwd_as_list = list(cwd.parts)
+    if cwd_as_list[-1].lower() != "execution-spec-tests":
+        pytest.exit(
+            "Please run the fill command in the root folder of the execution-spec-tests repo!"
+        )
+
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
