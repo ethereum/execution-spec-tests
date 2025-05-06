@@ -45,18 +45,18 @@ This check accomplished by adding the following two global variables anywhere in
 
 ## Running the `check_eip_versions` Command Locally
 
-A Github Personal Access Token (PAT) is required to avoid rate-limiting issues when using the Github API. A PAT can be created at: https://github.com/settings/personal-access-tokens/new.
+A Github Personal Access Token (PAT) is required to avoid rate-limiting issues when using the Github API. The token can be specified via an environment variable or via the command-line. For example, the Github CLI can be used to obtain a token:
 
-After setting the `GITHUB_TOKEN` environment variable to the value of your PAT, EIP versions can be checked locally using:
-
-```shell
-uv run check_eip_versions
+```bash
+uv run check_eip_versions --github-token=$(gh auth token)
 ```
+
+or a PAT can be created at: https://github.com/settings/personal-access-tokens/new.
 
 By default, only tests up to and including the current fork under development will be checked. This is controlled by the `UNTIL_FORK` setting in the `src/config/check_eip_versions.py` configuration file. You can also pass a specific test path to limit the scope:
 
 ```shell
-uv run check_eip_versions tests/shanghai/eip3651_warm_coinbase/
+uv run check_eip_versions --github-token=$(gh auth token) tests/shanghai/eip3651_warm_coinbase/
 ```
 
 This would only check EIP versions for the EIP-3651 tests in the `shanghai/eip3651_warm_coinbase` sub-directory.

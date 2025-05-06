@@ -5,6 +5,7 @@ modules matches that of https://github.com/ethereum/EIPs.
 
 import os
 import re
+import textwrap
 from types import ModuleType
 from typing import Any, List, Optional, Set
 
@@ -13,6 +14,12 @@ from _pytest.nodes import Item, Node
 from _pytest.python import Module
 
 from ethereum_test_tools import ReferenceSpec, ReferenceSpecTypes
+
+GITHUB_TOKEN_HELP = textwrap.dedent(
+    "Either set the GITHUB_TOKEN environment variable or specify one via --github-token. "
+    "The Github CLI can be used: `--github-token $(gh auth token)` (https://cli.github.com/) "
+    "or a PAT can be generated at https://github.com/settings/personal-access-tokens/new."
+)
 
 
 def pytest_addoption(parser):
@@ -25,7 +32,10 @@ def pytest_addoption(parser):
         action="store",
         dest="github_token",
         default=None,
-        help="A Github API personal access token to avoid rate limiting",
+        help=(
+            "Specify a Github API personal access token (PAT) to avoid rate limiting. "
+            f"{GITHUB_TOKEN_HELP}"
+        ),
     )
 
 
@@ -46,10 +56,8 @@ def pytest_configure(config):
 
     if not github_token:
         pytest.exit(
-            "A Github personal access token is required but has not been provided. "
-            "Either set the GITHUB_TOKEN environment variable or specify one via --github-token. "
-            "Generate a token for your Github account at "
-            "https://github.com/settings/personal-access-tokens/new"
+            "A Github personal access token (PAT) is required but has not been provided. "
+            f"{GITHUB_TOKEN_HELP}"
         )
 
     config.github_token = github_token
