@@ -100,6 +100,7 @@ jobs:
           path: testpath
           sparse-checkout: |
             GeneralStateTests
+            BlockchainTests
             EOFTests
 
       - name: Checkout ethereum/legacytests
@@ -110,6 +111,7 @@ jobs:
           path: legacytestpath
           sparse-checkout: |
             Cancun/GeneralStateTests
+            Cancun/BlockchainTests
 
       # This command diffs the file and filters in new lines
       - name: Parse converted tests from converted-ethereum-tests.txt
@@ -197,7 +199,7 @@ jobs:
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
           mkdir -p $PATCH_TEST_PATH
-          find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
+          find fixtures/blockchain_tests -type f -name "*.json" -exec bash -c 'cp "$0" "$1/blockchain_$(basename "$0")"' {} "$PATCH_TEST_PATH" \;
           find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
           find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
