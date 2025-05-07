@@ -54,6 +54,7 @@
     ],
     "ruff.enable": true,
     "ruff.lineLength": 99,
+    "ruff.logLevel": "error",
     "extensions.ignoreRecommendations": false,
     "search.exclude": {
       "tests/legacy": true
