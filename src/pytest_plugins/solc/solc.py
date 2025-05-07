@@ -67,8 +67,14 @@ def pytest_configure(config: pytest.Config):
         if version != solc_version:
             # solc-select current does not support ARM linux
             if platform.system().lower() == "linux" and platform.machine().lower() == "aarch64":
-                error_message = f"Version {version} does not match solc_version {solc_version}\
- and since solc-select currently does not support ARM linux we can not recover from this problem."
+                error_message = (
+                    f"Version {version} does not match solc_version {solc_version} "
+                    "and since solc-select currently does not support ARM linux you must "
+                    "manually do the following: "
+                    "Build solc from source, and manually move the binary to "
+                    ".venv/.solc-select/artifacts/solc-x.y.z/solc-x.y.z, then run "
+                    "'uv run solc-select use <x.y.z>'"
+                )
                 pytest.exit(error_message, returncode=pytest.ExitCode.USAGE_ERROR)
 
             if config.getoption("verbose") > 0:
