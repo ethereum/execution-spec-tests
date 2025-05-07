@@ -27,7 +27,7 @@ REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CONTRACT_SIZE = 24 * 1024  # TODO: This could be a fork property
-OPCODE_GAS_LIMIT = 100_000
+OPCODE_GAS_LIMIT = 36_000_000
 
 XOR_TABLE_SIZE = 256
 XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
@@ -196,4 +196,5 @@ def test_worst_bytecode_single_opcode(
             *[Block(txs=[deploy_tx]) for deploy_tx in deploy_txs],
             Block(txs=[opcode_tx]),
         ],
+        exclude_post_state=True,
     )
