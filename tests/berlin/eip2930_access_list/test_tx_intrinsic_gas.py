@@ -7,7 +7,7 @@ from typing import List
 
 import pytest
 
-from ethereum_test_forks import Fork, London
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
     Address,
@@ -135,8 +135,10 @@ tx_intrinsic_gas_access_list_vectors = [
         pytest.param(True, marks=pytest.mark.exception_test),
     ],
 )
+@pytest.mark.with_all_tx_types(selector=lambda tx_type: tx_type in [1, 2])
 def test_tx_intrinsic_gas(
     state_test: StateTestFiller,
+    tx_type: int,
     pre: Alloc,
     fork: Fork,
     data: Bytes,
@@ -148,10 +150,7 @@ def test_tx_intrinsic_gas(
     intrinsic_gas_cost = intrinsic_gas_cost_calculator(calldata=data, access_list=access_list)
 
     tx = Transaction(
-        ty=0x1 if fork < London else 0x2,
-        max_fee_per_gas=None if fork < London else 1000,
-        max_priority_fee_per_gas=None if fork < London else 200,
-        chain_id=0x01,
+        ty=tx_type,
         sender=pre.fund_eoa(),
         to=pre.deploy_contract(code=Op.SSTORE(0, Op.ADD(1, 1))),
         data=data,
