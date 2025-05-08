@@ -370,6 +370,22 @@ def test_worst_modexp(
             384,
             id="bls12_pairing_check",
         ),
+        pytest.param(
+            0x10,
+            [
+                "0000000000000000000000000000000014406e5bfb9209256a3820879a29ac2f62d6aca82324bf3ae2aa7d3c54792043bd8c791fccdb080c1a52dc68b8b69350",
+            ],
+            64,
+            id="bls12_fp_to_g1",
+        ),
+        pytest.param(
+            0x11,
+            [
+                "0000000000000000000000000000000014406e5bfb9209256a3820879a29ac2f62d6aca82324bf3ae2aa7d3c54792043bd8c791fccdb080c1a52dc68b8b69350000000000000000000000000000000000e885bb33996e12f07da69073e2c0cc880bc8eff26d2a724299eb12d54f4bcf26f4748bb020e80a7e3794a7b0e47a641",
+            ],
+            128,
+            id="bls12_fp_to_g2",
+        ),
     ],
 )
 def test_worst_precompile_fixed_cost(
