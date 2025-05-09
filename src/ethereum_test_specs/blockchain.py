@@ -301,6 +301,11 @@ class BlockchainTest(BaseTest):
     verify_sync: bool = False
     chain_id: int = 1
     exclude_post_state: bool = False
+    """
+    Exclude the post state from the fixture output.
+    
+    In this case, the state verification is only performed based on the state root.
+    """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
