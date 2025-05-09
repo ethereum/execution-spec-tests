@@ -27,8 +27,6 @@ REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CONTRACT_SIZE = 24 * 1024  # TODO: This could be a fork property
-BLOCK_GAS_LIMIT = 36_000_000  # TODO: Parametrize using the (yet to be implemented) block gas limit
-# OPCODE_GAS_LIMIT = BLOCK_GAS_LIMIT  # TODO: Reduced in order to run the test in a reasonable time
 OPCODE_GAS_LIMIT = 100_000
 
 XOR_TABLE_SIZE = 256
@@ -60,7 +58,7 @@ def test_worst_bytecode_single_opcode(
     The test is performed in the last block of the test, and the entire block gas limit is
     consumed by repeated opcode executions.
     """
-    env = Environment(gas_limit=BLOCK_GAS_LIMIT)
+    env = Environment()
 
     # The initcode will take its address as a starting point to the input to the keccak
     # hash function.
@@ -131,14 +129,14 @@ def test_worst_bytecode_single_opcode(
 
     total_contracts_to_deploy = max_number_of_contract_calls
     approximate_gas_per_deployment = 4_970_000  # Obtained from evm tracing
-    contracts_deployed_per_tx = BLOCK_GAS_LIMIT // approximate_gas_per_deployment
+    contracts_deployed_per_tx = env.gas_limit // approximate_gas_per_deployment
 
     deploy_txs = []
 
     def generate_deploy_tx(contracts_to_deploy: int):
         return Transaction(
             to=factory_caller_address,
-            gas_limit=BLOCK_GAS_LIMIT,
+            gas_limit=env.gas_limit,
             gas_price=10**9,  # Bump required due to the amount of full blocks
             data=Hash(contracts_deployed_per_tx),
             sender=pre.fund_eoa(),
