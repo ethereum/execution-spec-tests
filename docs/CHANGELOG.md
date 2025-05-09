@@ -8,6 +8,14 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+#### EOF removed from Osaka
+
+Following ["Interop Testing Call 34"](https://github.com/ethereum/pm/issues/1499) and the procedural EIPs [PR](https://github.com/ethereum/EIPs/pull/9703) the decision to remove EOF from Osaka was made.
+
+To accommodate EOF testing for the interim within EEST, its tests have migrated to a new `tests/unscheduled` folder. This folder will now contain tests for features that are not yet CFI'd in any fork. When EOF is CFI'd for a fork in the future, all tests will be moved from unscheduled to the respective future fork folder.
+
+A new fork `EOFv1` has additionally been created to fill and consume EOF related fixtures. Client tests fillers such as `evmone` (and client consumers) will now need to use this fork name.
+
 ### 🛠️ Framework
 
 - ✨ Add an empty account function for usage within fill and execute ([#1482](https://github.com/ethereum/execution-spec-tests/pull/1482)).
@@ -20,6 +28,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Engine API updates for Osaka, add `get_blobs` rpc method ([#1510](https://github.com/ethereum/execution-spec-tests/pull/1510)).
 - ✨ The EIP Version checker has been moved from `fill` and `execute` to it's own command-line tool `check_eip_versions` that gets ran daily as a Github Action ([#1537](https://github.com/ethereum/execution-spec-tests/pull/1537)).
+🔀 Add new `tests/unscheduled` folder, move EOF from Osaka to unscheduled, add `EOFv1` fork name for EOF tests ([#1507](https://github.com/ethereum/execution-spec-tests/pull/1507)).
 
 ### 🧪 Test Cases
 

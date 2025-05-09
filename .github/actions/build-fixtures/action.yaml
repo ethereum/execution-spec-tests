@@ -43,7 +43,7 @@ runs:
       env:
         tests_url: https://github.com/ethereum/tests/archive/refs/tags/v
         tests_version: 14.1
-        output_path: blockchain_tests/osaka/eofwrap
+        output_path: blockchain_tests/unscheduled/eofwrap
     - name: Generate fixtures using fill
       shell: bash
       run: |
