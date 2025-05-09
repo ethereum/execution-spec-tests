@@ -43,16 +43,16 @@ The EIP introduces one or more new opcodes to the EVM.
             - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n/bottom --> Bottom stack item
             - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n/middle --> Middle stack item
 - [ ] <!-- id:new_opcode/test/execution_context --> Execution context
-    - [ ] <!-- id:new_opcode/test/execution_context/call --> CALL
-    - [ ] <!-- id:new_opcode/test/execution_context/staticcall --> STATICCALL
+    - [ ] <!-- id:new_opcode/test/execution_context/call --> `CALL`
+    - [ ] <!-- id:new_opcode/test/execution_context/staticcall --> `STATICCALL`
         - [ ] <!-- id:new_opcode/test/execution_context/staticcall/ban_check --> Verify exceptional abort if the opcode is banned for static contexts or if it attempts to modify the code, storage or balance of an account.
         - [ ] <!-- id:new_opcode/test/execution_context/staticcall/ban_no_modification --> If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. Op.PAY with zero value, or Op.SSTORE to the value it already has in the storage).
-        - [ ] <!-- id:new_opcode/test/execution_context/staticcall/sub_calls --> Verify sub-calls using other opcodes (e.g. CALL, DELEGATECALL, etc) also results in the same exceptional abort behavior.
-    - [ ] <!-- id:new_opcode/test/execution_context/delegatecall --> DELEGATECALL
+        - [ ] <!-- id:new_opcode/test/execution_context/staticcall/sub_calls --> Verify sub-calls using other opcodes (e.g. `CALL`, `DELEGATECALL`, etc) also results in the same exceptional abort behavior.
+    - [ ] <!-- id:new_opcode/test/execution_context/delegatecall --> `DELEGATECALL`
         - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/storage --> If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.
         - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/balance --> If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.
         - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/code --> If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.
-    - [ ] <!-- id:new_opcode/test/execution_context/callcode --> CALLCODE
+    - [ ] <!-- id:new_opcode/test/execution_context/callcode --> `CALLCODE`
     - [ ] <!-- id:new_opcode/test/execution_context/initcode --> Initcode
         - [ ] <!-- id:new_opcode/test/execution_context/initcode/behavior --> Verify opcode behaves as expected when running during the initcode phase of contract creation
             - [ ] <!-- id:new_opcode/test/execution_context/initcode/behavior/tx --> Initcode of a contract creating transaction.
@@ -111,138 +111,140 @@ The EIP introduces one or more new precompiles.
 
 ### <!-- id:new_precompile/test --> Test Vectors
 
-- [ ] Call contexts
-    - [ ] Normal call to precompile from contract
-    - [ ] Delegate call to precompile from contract
-    - [ ] Static call to precompile from contract
-    - [ ] Code call to precompile from contract
-    - [ ] Precompile as transaction entry-point
-    - [ ] Call from initcode
-        - [ ] Contract creating transaction
-        - [ ] Contract creating opcode
-    - [ ] Set code delegated address (no precompile logic executed)
-- [ ] Inputs
-    - [ ] Verify combinations of valid inputs to the precompile
-        - [ ] Verify interesting edge values given the precompile functionality.
-        - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties (e.g. infinity points as inputs, or input values that result in infinity points returned).
-    - [ ] Verify all zeros input.
-    - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
-    - [ ] Verify combinations of invalid inputs to the precompile.
-        - [ ] Inputs that fail specific mathematical or cryptographic validity checks.
-        - [ ] Inputs that are malformed/corrupted.
-- [ ] Value Transfer
-    - [ ] If the precompile requires a minimum value with the calls to it, either constant or depending on a formula, verify:
-        - [ ] Calls with the required value amount minus one, expect failure.
-        - [ ] Calls with the exact required amount, expect success.
-        - [ ] Calls with extra value than the required amount, expect success.
-    - [ ] If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
-- [ ] Out-of-bounds checks
-    - [ ] Verify if the precompile has out-of-bounds conditions in its inputs and verify:
-        - [ ] Max value for each input
-        - [ ] Max value + 1 for each input
-- [ ] Input Lengths
-    - [ ] Zero-length calldata.
-    - [ ] Precompile has static-length input
-        - [ ] Correct static-length calldata
-        - [ ] Calldata too short, where the value represents a correct but truncated input to the precompile.
-        - [ ] Calldata too long, where the value represents a correct input to the precompile with padded zeros.
-    - [ ] Precompile has dynamic-length input
-        - [ ] Verify correct precompile execution for valid lengths, given different inputs.
-        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the precompile.
-        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the precompile with padded zeros.
-- [ ] Gas usage
-    - [ ] Precompile has constant gas usage
-        - [ ] Verify exact gas consumption
-        - [ ] Verify exact gas consumption minus one results in out-of-gas error.
-    - [ ] Precompile has dynamic gas usage
-        - [ ] Verify exact gas consumption, given different valid inputs.
-        - [ ] Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
-- [ ] Excessive Gas Cases: Verify spending all block gas in calls to the precompile (Use `Environment().gas_limit` as max amount).
-- [ ] Fork transition
-    - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
-    - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
-    - [ ] Verify precompile address becomes warm on and after the fork activation block, but not prior.
+- [ ] <!-- id:new_precompile/test/call_contexts --> Call contexts
+    - [ ] <!-- id:new_precompile/test/call_contexts/normal --> `CALL`
+    - [ ] <!-- id:new_precompile/test/call_contexts/delegate --> `DELEGATECALL`
+    - [ ] <!-- id:new_precompile/test/call_contexts/static --> `STATICCALL`
+        - [ ] <!-- id:new_precompile/test/call_contexts/static/stateful --> If the precompile is stateful, meaning calling it affects its storage, verify that using `STATICCALL` to call it results in exceptional abort.
+    - [ ] <!-- id:new_precompile/test/call_contexts/callcode --> `CALLCODE`
+    - [ ] <!-- id:new_precompile/test/call_contexts/tx_entry --> Precompile as transaction entry-point
+    - [ ] <!-- id:new_precompile/test/call_contexts/initcode --> Call from Initcode
+        - [ ] <!-- id:new_precompile/test/call_contexts/initcode/tx --> Contract creating transaction
+        - [ ] <!-- id:new_precompile/test/call_contexts/initcode/opcode --> Contract creating opcode
+    - [ ] <!-- id:new_precompile/test/call_contexts/set_code --> Set code delegated address (no precompile logic executed)
+- [ ] <!-- id:new_precompile/test/inputs --> Inputs
+    - [ ] <!-- id:new_precompile/test/inputs/valid --> Verify combinations of valid inputs to the precompile
+        - [ ] <!-- id:new_precompile/test/inputs/valid/edge --> Verify interesting edge values given the precompile functionality.
+        - [ ] <!-- id:new_precompile/test/inputs/valid/crypto --> If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties (e.g. infinity points as inputs, or input values that result in infinity points returned).
+    - [ ] <!-- id:new_precompile/test/inputs/all_zeros --> Verify all zeros input.
+    - [ ] <!-- id:new_precompile/test/inputs/max_values --> Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+    - [ ] <!-- id:new_precompile/test/inputs/invalid --> Verify combinations of invalid inputs to the precompile.
+        - [ ] <!-- id:new_precompile/test/inputs/invalid/crypto --> Inputs that fail specific mathematical or cryptographic validity checks.
+        - [ ] <!-- id:new_precompile/test/inputs/invalid/corrupted --> Inputs that are malformed/corrupted.
+- [ ] <!-- id:new_precompile/test/value_transfer --> Value Transfer
+    - [ ] <!-- id:new_precompile/test/value_transfer/minimum --> If the precompile requires a minimum value with the calls to it, either constant or depending on a formula, verify:
+        - [ ] <!-- id:new_precompile/test/value_transfer/minimum/under --> Calls with the required value amount minus one, expect failure.
+        - [ ] <!-- id:new_precompile/test/value_transfer/minimum/exact --> Calls with the exact required amount, expect success.
+        - [ ] <!-- id:new_precompile/test/value_transfer/minimum/over --> Calls with extra value than the required amount, expect success.
+    - [ ] <!-- id:new_precompile/test/value_transfer/no_minimum --> If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
+- [ ] <!-- id:new_precompile/test/out_of_bounds --> Out-of-bounds checks
+    - [ ] <!-- id:new_precompile/test/out_of_bounds/verify --> Verify if the precompile has out-of-bounds conditions in its inputs and verify:
+        - [ ] <!-- id:new_precompile/test/out_of_bounds/verify/max --> Max value for each input
+        - [ ] <!-- id:new_precompile/test/out_of_bounds/verify/max_plus_one --> Max value + 1 for each input
+- [ ] <!-- id:new_precompile/test/input_lengths --> Input Lengths
+    - [ ] <!-- id:new_precompile/test/input_lengths/zero --> Zero-length calldata.
+    - [ ] <!-- id:new_precompile/test/input_lengths/static --> Precompile has static-length input
+        - [ ] <!-- id:new_precompile/test/input_lengths/static/correct --> Correct static-length calldata
+        - [ ] <!-- id:new_precompile/test/input_lengths/static/too_short --> Calldata too short, where the value represents a correct but truncated input to the precompile.
+        - [ ] <!-- id:new_precompile/test/input_lengths/static/too_long --> Calldata too long, where the value represents a correct input to the precompile with padded zeros.
+    - [ ] <!-- id:new_precompile/test/input_lengths/dynamic --> Precompile has dynamic-length input
+        - [ ] <!-- id:new_precompile/test/input_lengths/dynamic/valid --> Verify correct precompile execution for valid lengths, given different inputs.
+        - [ ] <!-- id:new_precompile/test/input_lengths/dynamic/too_short --> Calldata too short, given different inputs, where the value represents a correct but truncated input to the precompile.
+        - [ ] <!-- id:new_precompile/test/input_lengths/dynamic/too_long --> Calldata too long, given different inputs, where the value represents a correct input to the precompile with padded zeros.
+- [ ] <!-- id:new_precompile/test/gas_usage --> Gas usage
+    - [ ] <!-- id:new_precompile/test/gas_usage/constant --> Precompile has constant gas usage
+        - [ ] <!-- id:new_precompile/test/gas_usage/constant/exact --> Verify exact gas consumption
+        - [ ] <!-- id:new_precompile/test/gas_usage/constant/oog --> Verify exact gas consumption minus one results in out-of-gas error.
+    - [ ] <!-- id:new_precompile/test/gas_usage/dynamic --> Precompile has dynamic gas usage
+        - [ ] <!-- id:new_precompile/test/gas_usage/dynamic/exact --> Verify exact gas consumption, given different valid inputs.
+        - [ ] <!-- id:new_precompile/test/gas_usage/dynamic/oog --> Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
+- [ ] <!-- id:new_precompile/test/excessive_gas --> Excessive Gas Cases: Verify spending all block gas in calls to the precompile (Use `Environment().gas_limit` as max amount).
+- [ ] <!-- id:new_precompile/test/fork_transition --> Fork transition
+    - [ ] <!-- id:new_precompile/test/fork_transition/before --> Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
+    - [ ] <!-- id:new_precompile/test/fork_transition/zero_gas --> Verify that calling the precompile before its activation fork with zero gas results in a valid call.
+    - [ ] <!-- id:new_precompile/test/fork_transition/warm --> Verify precompile address becomes warm on and after the fork activation block, but not prior.
 
 ### <!-- id:new_precompile/framework --> Framework Changes
 
-- [ ] Add precompile address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] <!-- id:new_precompile/framework/fork_methods --> Add precompile address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
-## <!-- id:new_precompile --> Removed Precompile
+## <!-- id:removed_precompile --> Removed Precompile
 
 The EIP removes one or more precompiles from the existing list of precompiles.
 
-### <!-- id:new_precompile/test --> Test Vectors
+### <!-- id:removed_precompile/test --> Test Vectors
 
-- [ ] Fork boundary
-    - [ ] Verify that the precompile remains operational up until the last block before the fork is active, and behaves as an account with empty code afterwards.
-    - [ ] Verify the account is warm up until the last block before the fork is active, and becomes cold afterwards.
+- [ ] <!-- id:removed_precompile/test/fork_boundary --> Fork boundary
+    - [ ] <!-- id:removed_precompile/test/fork_boundary/operational --> Verify that the precompile remains operational up until the last block before the fork is active, and behaves as an account with empty code afterwards.
+    - [ ] <!-- id:removed_precompile/test/fork_boundary/warm --> Verify the account is warm up until the last block before the fork is active, and becomes cold afterwards.
 
-### <!-- id:new_precompile/framework --> Framework Changes
+### <!-- id:removed_precompile/framework --> Framework Changes
 
-- [ ] Remove the precompile address from relevant methods in the fork where the EIP is removed in `src/ethereum_test_forks/forks/forks.py`
+- [ ] <!-- id:removed_precompile/framework/fork_methods --> Remove the precompile address from relevant methods in the fork where the EIP is removed in `src/ethereum_test_forks/forks/forks.py`
 
 ## <!-- id:new_system_contract --> New System Contract
 
 ### <!-- id:new_system_contract/test --> Test Vectors
 
-- [ ] Call contexts
-    - [ ] Normal call to system contract from contract
-    - [ ] Delegate call to system contract from contract
-    - [ ] Static call to system contract from contract
-    - [ ] Code call to system contract from contract
-    - [ ] System contract as transaction entry-point
-    - [ ] Call from initcode
-        - [ ] Contract creating transaction
-        - [ ] Contract creating opcode
-- [ ] Inputs
-    - [ ] Verify combinations of valid inputs to the system contract
-    - [ ] Verify interesting boundary values given the system contract functionality.
-    - [ ] Verify all zeros input.
-    - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
-    - [ ] Verify combinations of invalid inputs to the precompile.
-        - [ ] Inputs that fail specific validity checks.
-        - [ ] Inputs that are malformed/corrupted.
-- [ ] Value Transfer
-    - [ ] If the system contract requires a minimum value with the calls to it, either constant or depending on a formula, verify:
-        - [ ] Calls with the required value amount minus one, expect failure.
-        - [ ] Calls with the exact required amount, expect success.
-        - [ ] Calls with extra value than the required amount, expect success.
-    - [ ] If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
-- [ ] Out-of-bounds checks
-    - [ ] Verify if the system contract has out-of-bounds conditions in its inputs and verify:
-        - [ ] Max value for each input
-        - [ ] Max value + 1 for each input
-- [ ] Input Lengths
-    - [ ] Zero-length calldata.
-    - [ ] System contract has static-length input
-        - [ ] Correct static-length calldata
-        - [ ] Calldata too short, where the value represents a correct but truncated input to the contract.
-        - [ ] Calldata too long, where the value represents a correct input to the contract with padded zeros.
-    - [ ] System contract has dynamic-length input
-        - [ ] Verify correct System contract execution for valid lengths, given different inputs.
-        - [ ] Calldata too short, given different inputs, where the value represents a correct but truncated input to the contract.
-        - [ ] Calldata too long, given different inputs, where the value represents a correct input to the contract with padded zeros.
-- [ ] Excessive Gas Cases
-    - [ ] If possible, simulate a scenario where the execution of the contract at the end of the block execution by the system address would result in excessive gas usage (100 million gas or more).
-    - [ ] Verify spending all block gas in calls to system contract (100 million gas or more).
-- [ ] System Contract Deployment
-    - [ ] Verify block execution behavior after fork activation if the system contract has not been deployed (Depending on the EIP, block could be invalid).
-    - [ ] Verify deployment transaction results in the system contract being deployed to the expected address.
-- [ ] Contract Variations
-    - [ ] Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior,
-    - [ ] Verify execution of a variation that causes an exception.
-    - [ ] Verify execution of a variation that consumes:
-        - [ ] 30,000,000 million gas exactly, execution should be successful.
-        - [ ] 30,000,001 million gas exactly, execution should fail.
-- [ ] Contract Substitution: Substitute the contract to modify its behavior when called by the system address (at the end of the block execution):
-    - [ ] Modified return value lengths
-    - [ ] Modify emitted logs
-- [ ] Fork transition: Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
+- [ ] <!-- id:new_system_contract/test/call_contexts --> Call contexts
+    - [ ] <!-- id:new_system_contract/test/call_contexts/normal --> `CALL`
+    - [ ] <!-- id:new_system_contract/test/call_contexts/delegate --> `DELEGATECALL`
+    - [ ] <!-- id:new_system_contract/test/call_contexts/static --> `STATICCALL`
+        - [ ] <!-- id:new_precompile/test/call_contexts/static/stateful --> If the system contract is stateful, meaning calling it affects its storage, verify that using `STATICCALL` to call it results in exceptional abort.
+    - [ ] <!-- id:new_system_contract/test/call_contexts/callcode --> `CALLCODE`
+    - [ ] <!-- id:new_system_contract/test/call_contexts/tx_entry --> System contract as transaction entry-point
+    - [ ] <!-- id:new_system_contract/test/call_contexts/initcode --> Call from Initcode
+        - [ ] <!-- id:new_system_contract/test/call_contexts/initcode/tx --> Contract creating transaction
+        - [ ] <!-- id:new_system_contract/test/call_contexts/initcode/opcode --> Contract creating opcode
+- [ ] <!-- id:new_system_contract/test/inputs --> Inputs
+    - [ ] <!-- id:new_system_contract/test/inputs/valid --> Verify combinations of valid inputs to the system contract
+    - [ ] <!-- id:new_system_contract/test/inputs/boundary --> Verify interesting boundary values given the system contract functionality.
+    - [ ] <!-- id:new_system_contract/test/inputs/all_zeros --> Verify all zeros input.
+    - [ ] <!-- id:new_system_contract/test/inputs/max_values --> Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+    - [ ] <!-- id:new_system_contract/test/inputs/invalid --> Verify combinations of invalid inputs to the precompile.
+        - [ ] <!-- id:new_system_contract/test/inputs/invalid/checks --> Inputs that fail specific validity checks.
+        - [ ] <!-- id:new_system_contract/test/inputs/invalid/corrupted --> Inputs that are malformed/corrupted.
+- [ ] <!-- id:new_system_contract/test/value_transfer --> Value Transfer
+    - [ ] <!-- id:new_system_contract/test/value_transfer/minimum --> If the system contract requires a minimum value with the calls to it, either constant or depending on a formula, verify:
+        - [ ] <!-- id:new_system_contract/test/value_transfer/minimum/under --> Calls with the required value amount minus one, expect failure.
+        - [ ] <!-- id:new_system_contract/test/value_transfer/minimum/exact --> Calls with the exact required amount, expect success.
+        - [ ] <!-- id:new_system_contract/test/value_transfer/minimum/over --> Calls with extra value than the required amount, expect success.
+    - [ ] <!-- id:new_system_contract/test/value_transfer/no_minimum --> If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
+- [ ] <!-- id:new_system_contract/test/out_of_bounds --> Out-of-bounds checks
+    - [ ] <!-- id:new_system_contract/test/out_of_bounds/verify --> Verify if the system contract has out-of-bounds conditions in its inputs and verify:
+        - [ ] <!-- id:new_system_contract/test/out_of_bounds/verify/max --> Max value for each input
+        - [ ] <!-- id:new_system_contract/test/out_of_bounds/verify/max_plus_one --> Max value + 1 for each input
+- [ ] <!-- id:new_system_contract/test/input_lengths --> Input Lengths
+    - [ ] <!-- id:new_system_contract/test/input_lengths/zero --> Zero-length calldata.
+    - [ ] <!-- id:new_system_contract/test/input_lengths/static --> System contract has static-length input
+        - [ ] <!-- id:new_system_contract/test/input_lengths/static/correct --> Correct static-length calldata
+        - [ ] <!-- id:new_system_contract/test/input_lengths/static/too_short --> Calldata too short, where the value represents a correct but truncated input to the contract.
+        - [ ] <!-- id:new_system_contract/test/input_lengths/static/too_long --> Calldata too long, where the value represents a correct input to the contract with padded zeros.
+    - [ ] <!-- id:new_system_contract/test/input_lengths/dynamic --> System contract has dynamic-length input
+        - [ ] <!-- id:new_system_contract/test/input_lengths/dynamic/valid --> Verify correct System contract execution for valid lengths, given different inputs.
+        - [ ] <!-- id:new_system_contract/test/input_lengths/dynamic/too_short --> Calldata too short, given different inputs, where the value represents a correct but truncated input to the contract.
+        - [ ] <!-- id:new_system_contract/test/input_lengths/dynamic/too_long --> Calldata too long, given different inputs, where the value represents a correct input to the contract with padded zeros.
+- [ ] <!-- id:new_system_contract/test/excessive_gas --> Excessive Gas Cases
+    - [ ] <!-- id:new_system_contract/test/excessive_gas/simulation --> If possible, simulate a scenario where the execution of the contract at the end of the block execution by the system address would result in excessive gas usage (100 million gas or more).
+    - [ ] <!-- id:new_system_contract/test/excessive_gas/block_gas --> Verify spending all block gas in calls to system contract (100 million gas or more).
+- [ ] <!-- id:new_system_contract/test/deployment --> System Contract Deployment
+    - [ ] <!-- id:new_system_contract/test/deployment/missing --> Verify block execution behavior after fork activation if the system contract has not been deployed (Depending on the EIP, block could be invalid).
+    - [ ] <!-- id:new_system_contract/test/deployment/address --> Verify deployment transaction results in the system contract being deployed to the expected address.
+- [ ] <!-- id:new_system_contract/test/contract_variations --> Contract Variations
+    - [ ] <!-- id:new_system_contract/test/contract_variations/networks --> Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior,
+    - [ ] <!-- id:new_system_contract/test/contract_variations/exception --> Verify execution of a variation that causes an exception.
+    - [ ] <!-- id:new_system_contract/test/contract_variations/gas_limits --> Verify execution of a variation that consumes:
+        - [ ] <!-- id:new_system_contract/test/contract_variations/gas_limits/success --> 30,000,000 million gas exactly, execution should be successful.
+        - [ ] <!-- id:new_system_contract/test/contract_variations/gas_limits/failure --> 30,000,001 million gas exactly, execution should fail.
+- [ ] <!-- id:new_system_contract/test/contract_substitution --> Contract Substitution: Substitute the contract to modify its behavior when called by the system address (at the end of the block execution):
+    - [ ] <!-- id:new_system_contract/test/contract_substitution/return_lengths --> Modified return value lengths
+    - [ ] <!-- id:new_system_contract/test/contract_substitution/logs --> Modify emitted logs
+- [ ] <!-- id:new_system_contract/test/fork_transition --> Fork transition: Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
 
-### <!-- id:new_system_contract_framework --> Framework Changes
+### <!-- id:new_system_contract/framework --> Framework Changes
 
-- [ ] Add system contract address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
-- [ ] Add system contract bytecode to the returned value of `pre_allocation_blockchain` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] <!-- id:new_system_contract/framework/fork_methods --> Add system contract address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+- [ ] <!-- id:new_system_contract/framework/pre_allocation --> Add system contract bytecode to the returned value of `pre_allocation_blockchain` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
 ## <!-- id:new_transaction_type --> New Transaction Type
 
