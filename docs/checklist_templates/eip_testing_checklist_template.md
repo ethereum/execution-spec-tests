@@ -403,7 +403,11 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ### Test Vectors
 
-**TBD**
+- [ ] Gas Usage: Measure and store the gas usage during the operations affected by the gas cost changes and verify the updated behavior.
+- [ ] Out-of-gas: Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.
+- [ ] Fork transition: Verify gas costs are:
+    - [ ] Unaffected before the fork activation block.
+    - [ ] Updated on and after fork activation block.
 
 ### Framework Changes
 
@@ -416,11 +420,26 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ### Test Vectors
 
-**TBD**
+- [ ] Refund calculation: Verify that the refund does not exceed `gas_used // MAX_REFUND_QUOTIENT` (`MAX_REFUND_QUOTIENT==5` in [EIP-3529](https://eips.ethereum.org/EIPS/eip-3529)) in the following scenarios:
+    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT + 1`
+    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT`
+    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT - 1`
+- [ ] Exceptional Abort:
+    - [ ] If the operation causing the refund can be reverted, verify the refund is not applied if the following cases:
+        - [ ] `REVERT`
+        - [ ] Out-of-gas
+        - [ ] Invalid opcode
+        - [ ] `REVERT` of an upper call frame
+    - [ ] If the operation causing the refund cannot be reverted (e.g. in the case of a transaction-scoped operation such as authorization refunds in EIP-7702), verify the refund is still applied even in the following cases:
+        - [ ] `REVERT` at the top call frame
+        - [ ] Out-of-gas at the top call frame
+        - [ ] Invalid opcode at the top call frame
+- [ ] Cross-Functional Test: Verify the following tests are updated to support the new type of refunds:
+    - [ ] `tests/prague/eip7623_increase_calldata_cost/test_refunds.py`
 
 ### Framework Changes
 
-**TBD**
+N/A
 
 ## <!-- id:blob_count_changes --> Blob Count Changes
 
