@@ -6,7 +6,6 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
-import os
 
 import pytest
 
@@ -192,7 +191,7 @@ def test_jumps(
     fork: Fork,
     gas_limit: int,
 ):
-    """Test with many JUMPs"""
+    """Test a single block of JUMPs."""
     env = Environment(gas_limit=gas_limit)
 
     # Intrinsic gas cost is paid once
@@ -237,7 +236,11 @@ def test_jumps(
     bytecode_values = f"{len(code)}/{MAX_CODE_SIZE}"
     gas_values = f"{gas_used}/{available_gas}"
     print(
-        f"{'MANY JUMPS':<30} {bytecode_values:>15} ({code_size_pct:6.2f}%)  {gas_values:>20} ({gas_pct:6.2f}%)  {bytes_per_iter:>4}  {num_iters:>10}"
+        f"{'MANY JUMPS':<30} "
+        f"{bytecode_values:>15} ({code_size_pct:6.2f}%)  "
+        f"{gas_values:>20}({gas_pct:6.2f}%)  "
+        f"{bytes_per_iter:>4}  "
+        f"{num_iters:>10}"
     )
 
     if len(code) > MAX_CODE_SIZE:
