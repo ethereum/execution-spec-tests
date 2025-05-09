@@ -886,3 +886,7 @@ uncomp
 isogeny
 codomain
 nametag
+qube
+nagydani
+guido
+marcin
