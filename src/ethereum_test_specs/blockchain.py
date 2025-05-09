@@ -303,7 +303,6 @@ class BlockchainTest(BaseTest):
     exclude_post_state: bool = False
     """
     Exclude the post state from the fixture output.
-    
     In this case, the state verification is only performed based on the state root.
     """
 
