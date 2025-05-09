@@ -419,6 +419,7 @@ squidfunk
 src
 ssz
 stackoverflow
+stateful
 StateTest
 StateTestFiller
 StateTests
