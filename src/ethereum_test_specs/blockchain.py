@@ -300,6 +300,7 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = Field(default_factory=Environment)
     verify_sync: bool = False
     chain_id: int = 1
+    exclude_post_state: bool = False
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
@@ -643,7 +644,8 @@ class BlockchainTest(BaseTest):
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
-        self.verify_post_state(t8n, t8n_state=alloc)
+        if not self.exclude_post_state:
+            self.verify_post_state(t8n, t8n_state=alloc)
         network_info = BlockchainTest.network_info(fork, eips)
         return BlockchainFixture(
             fork=network_info,
@@ -652,7 +654,7 @@ class BlockchainTest(BaseTest):
             blocks=fixture_blocks,
             last_block_hash=head,
             pre=pre,
-            post_state=alloc,
+            post_state=alloc if not self.exclude_post_state else {},
             config=FixtureConfig(
                 fork=network_info,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
@@ -714,7 +716,8 @@ class BlockchainTest(BaseTest):
             " The framework should never try to execute this test case."
         )
 
-        self.verify_post_state(t8n, t8n_state=alloc)
+        if not self.exclude_post_state:
+            self.verify_post_state(t8n, t8n_state=alloc)
 
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
@@ -751,7 +754,7 @@ class BlockchainTest(BaseTest):
             payloads=fixture_payloads,
             fcu_version=fcu_version,
             pre=pre,
-            post_state=alloc,
+            post_state=alloc if not self.exclude_post_state else {},
             sync_payload=sync_payload,
             last_block_hash=head_hash,
             config=FixtureConfig(
