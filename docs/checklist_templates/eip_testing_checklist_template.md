@@ -6,6 +6,7 @@ Depending on the changes introduced by an EIP, the following template is the min
 
 - [ ] Code coverage
     - [ ] Run produced tests against [EELS](https://github.com/ethereum/execution-specs) and verify that line code coverage of new added lines for the EIP is 100%, with only exeptions being unreachable code lines.
+    - [ ] Run coverage on the test code itself (as a basic logic sanity check), i.e., `uv run fill --cov tests`.
     - [ ] Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.
 - [ ] Fuzzing
     - [ ] TBD
@@ -29,16 +30,25 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] 2**32 bytes expansion
     - [ ] 2**64-1 bytes expansion
     - [ ] 2**64 bytes expansion
-    - [ ] 2**256-1 bytes expansion
+    - [ ] 2**256-1 bytes expansion (Should always result in Out-of-gas)
 - [ ] Stack
     - [ ] Overflows/Underflows
         - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exeptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
-        - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more, verify that the opcode execution results in exeptional abort then stack has 1 less item than the minimum stack height expected.
-    - [ ] If opcode performs stack operations different of simple pop->push, test for these operations on an asymmetrical stack.
+        - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. Op.DUPN requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exeptional abort then stack has 1 less item than the minimum stack height expected.
+    - [ ] If opcode performs stack operations more complex than simple pop/push (e.g. the opcode has a data portion that specifies a variable to access a specific stack element), perform the following test combinations:
+        - [ ] Operation on different stack heights:
+            - [ ] Zero (Potential stack-underflow)
+            - [ ] Odd
+            - [ ] Even
+        - [ ] For each variable `n` of the opcode that accesses the nth stack item, test `n` being:
+            - [ ] Top stack item
+            - [ ] Bottom stack item
+            - [ ] Middle stack item
 - [ ] Execution context
     - [ ] CALL
     - [ ] STATICCALL
         - [ ] Verify exeptional abort if the opcode is banned for static contexts or if it attempts to modify the code, storage or balance of an account.
+        - [ ] If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. Op.PAY with zero value, or Op.SSTORE to the value it already has in the storage).
         - [ ] Verify subcalls using other opcodes (e.g. CALL, DELEGATECALL, etc) also results in the same exeptional abort behavior.
     - [ ] DELEGATECALL
         - [ ] If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.
@@ -49,6 +59,8 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Verify opcode behaves as expected when running during the initcode phase of contract creation
             - [ ] Initcode of a contract creating transaction.
             - [ ] Initcode of a contract creating opcode (including itself if opcode creates a contract).
+        - [ ] Verify opcode behavior on re-entry using the same initcode and same address (e.g. CREATE2->REVERT->CREATE2).
+    - [ ] Set-code delegated account: Verify opcode operations are applied to the set-code account and do not affect the address that is the target of the delegation.
     - [ ] Transaction context
         - [ ] If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
     - [ ] Block context
@@ -58,14 +70,12 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] At current call context.
         - [ ] At parent call context.
 - [ ] Gas usage
-    - [ ] Normal operation gas usage
-        - [ ] Verify gas affectation of each parameter value consumed by the opcode.
-    - [ ] Memory expansion
-        - [ ] Verify that the memory expansion correctly follows the gas calculation
-    - [ ] Out-of-gas during opcode execution
-        - [ ] Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exeptional abort.
-    - [ ] Out-of-gas during memory expansion
-        - [ ] Verify that the expansion of memory can result in out-of-gas exeptional abort.
+    - [ ] Normal operation gas usage: Verify gas affectation of each parameter value consumed by the opcode.
+    - [ ] Memory expansion: Verify that the memory expansion correctly follows the gas calculation
+    - [ ] Out-of-gas during opcode execution: Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exeptional abort.
+    - [ ] Out-of-gas during memory expansion: Verify that the expansion of memory can result in out-of-gas exeptional abort.
+    - [ ] Order-of-operations:
+        - [ ] If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of eachother) and create a case for success and another for OOG (with a 1-gas-difference).
 - [ ] Terminating opcode
     - [ ] If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios
         - [ ] Top-level call termination
@@ -102,6 +112,8 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ## <!-- id:new_precompile --> New Precompile
 
+The EIP introduces one or more new precompiles.
+
 ### <!-- id:new_precompile/test --> Test Vectors
 
 - [ ] Call contexts
@@ -117,9 +129,18 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Inputs
     - [ ] Verify combinations of valid inputs to the precompile
         - [ ] Verify interesting edge values given the precompile functionality.
-        - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties.
+        - [ ] If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties (e.g. infinity points as inputs, or input values that result in infinity points returned).
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+    - [ ] Verify combinations of invalid inputs to the precompile.
+         - [ ] Inputs that fail specific mathematical or cryptographic validity checks.
+         - [ ] Inputs that are malformed/corrupted.
+- [ ] Value Transfer
+    - [ ] If the precompile requires a minimum value with the calls to it, either constant or depending on a formula, verify:
+        - [ ] Calls with the required value amount minus one, expect failure.
+        - [ ] Calls with the exact required amount, expect success.
+        - [ ] Calls with extra value than the required amount, expect success.
+    - [ ] If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
 - [ ] Out-of-bounds checks
     - [ ] Verify if the precompile has out-of-bounds conditions in its inputs and verify:
         - [ ] Max value for each input
@@ -142,7 +163,7 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Verify exact gas consumption, given different valid inputs.
         - [ ] Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
 - [ ] Excessive Gas Cases
-    - [ ] Verify spending all block gas in calls to the precompile (100 million gas or more).
+    - [ ] Verify spending all block gas in calls to the precompile (Use `Environment().gas_limit` as max amount).
 - [ ] Fork transition
     - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
     - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
@@ -152,6 +173,20 @@ The EIP introduces one or more new opcodes to the EVM.
 ### <!-- id:new_precompile/framework --> Framework Changes
 
 - [ ] Add precompile address to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
+
+## <!-- id:new_precompile --> Removed Precompile
+
+The EIP removes one or more precompiles from the existing list of precompiles.
+
+### <!-- id:new_precompile/test --> Test Vectors
+
+- [ ] Fork boundary
+    - [ ] Verify that the precompile remains operational up until the last block before the fork is active, and behaves as an account with empty code afterwards.
+    - [ ] Verify the account is warm up until the last block before the fork is active, and becomes cold afterwards.
+
+### <!-- id:new_precompile/framework --> Framework Changes
+
+- [ ] Remove the precompile address from relevant methods in the fork where the EIP is removed in `src/ethereum_test_forks/forks/forks.py`
 
 ## <!-- id:new_system_contract --> New System Contract
 
@@ -171,6 +206,15 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] Verify interesting edge values given the system contract functionality.
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
+    - [ ] Verify combinations of invalid inputs to the precompile.
+         - [ ] Inputs that fail specific validity checks.
+         - [ ] Inputs that are malformed/corrupted.
+- [ ] Value Transfer
+    - [ ] If the system contract requires a minimum value with the calls to it, either constant or depending on a formula, verify:
+        - [ ] Calls with the required value amount minus one, expect failure.
+        - [ ] Calls with the exact required amount, expect success.
+        - [ ] Calls with extra value than the required amount, expect success.
+    - [ ] If the system contract does not require a minimum value embedded in the calls to it, verify sending value does not cause an exception, unless otherwise specified by the EIP.
 - [ ] Out-of-bounds checks
     - [ ] Verify if the system contract has out-of-bounds conditions in its inputs and verify:
         - [ ] Max value for each input
@@ -191,6 +235,7 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] System Contract Deployment
     - [ ] Verify block execution behavior after fork activation if the system contract has not been deployed.
     - [ ] Verify deployment transaction results in the system contract being deployed to the expected address.
+    <!-- TODO: Missing contract at fork check --> 
 - [ ] Contract Variations
     - [ ] Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior
 - [ ] Contract Substitution
@@ -258,7 +303,10 @@ The EIP introduces one or more new opcodes to the EVM.
             - [ ] `SECP256K1N - S` of a valid signature
 - Transaction-Scoped Attributes/Variables
     - Verify attributes that can be read in the EVM from transaction fields.
-    - Verify values or variables that are persistent through the execution of the transaction (transient storage, warm/cold accounts).
+    - Verify attributes specific to the new transaction type that can be read in the EVM behave correctly on older transaction types.
+    - Verify values or variables that are persistent through the execution of the transaction (transient storage, warm/cold accounts):
+        - Persist throughout the entire transaction.
+        - Reset on subsequent transactions in the same block.
 - [ ] Encoding (RLP, SSZ)
     - [ ] Verify correct transaction rejection due to incorrect field sizes:
         - [ ] Add leading zero byte
@@ -280,8 +328,18 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Contract creation
     - [ ] Verify that the transaction can create new contracts if the transaction type supports it.
 - [ ] Sender account modifications
-    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanic that bumps the nonce by more than one).
-    - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) after the transaction is included in a block
+    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).
+    - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using Op.BALANCE).
+- [ ] Block Level Interactions
+     - [ ] Verify the new transaction type and the following accept/reject behavior depending on interactions with the block gas limit:
+        - [ ] New transaction type is the single transaction in the block:
+            - [ ] Rejected if `tx.gas_limit == block.gas_limit + 1`
+            - [ ] Accepted if `tx.gas_limit == block.gas_limit`
+        - [ ] New transaction type is the last transaction of a block with two transactions:
+            - [ ] Accepted if `block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit`
+            - [ ] Rejected if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`
+     - [ ] Verify a transaction of the new type is rejected if its gas limit exceeds the [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825) gas limit for the current fork.
+     - [ ] Verify a block with all transactions types including the new type is executed correctly.
 - [ ] Fork transition
     - [ ] Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
 - [ ] RPC Tests
@@ -303,8 +361,8 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] Genesis value
     - [ ] Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
 - [ ] Value behavior
-    - [ ] Verify, given multiple initial values, that a block is accepted if the value is correctly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
-    - [ ] Verify, given multiple initial values, that a block is rejected if the value is incorrectly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is rejected if the value is modified (using `block.rlp_modifier`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
 - [ ] Fork transition
     - [ ] Verify initial value of the field at the first block of the activation fork.
     - [ ] Verify that a block containing the new header field before the activation of the fork is invalid.
@@ -313,17 +371,33 @@ The EIP introduces one or more new opcodes to the EVM.
 
 ### <!-- id:new_block_header/framework --> Framework Changes
 
-**TBD**
+- [ ] Add the new header field to the relevant objects:
+    - [ ] `ethereum_test_fixtures.FixtureHeader`
+    - [ ] `ethereum_test_fixtures.FixtureExecutionPayload`
+    - [ ] `ethereum_test_specs.Header`
+- [ ] Add the appropriate `header_*_required` fork method to `BaseFork` in `ethereum_test_forks`.
 
 ## <!-- id:new_block_body_field --> New Block Body Field
 
 ### Test Vectors
 
-**TBD**
+- [ ] Value behavior
+    - [ ] Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is rejected if the value is modified (using appropriate `block`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] Fork transition
+    - [ ] Verify that a block containing the new block body field before the activation of the fork is invalid.
+    - [ ] Verify that a block lacking the new block  field at the activation of the fork is invalid.
 
 ### Framework Changes
 
-**TBD**
+- [ ] Value behavior
+    - [ ] Verify, given multiple initial values, that a block is accepted if the value is correctly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] Verify, given multiple initial values, that a block is rejected if the value is incorrectly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] Add the new body field to the relevant objects:
+    - [ ] `ethereum_test_fixtures.FixtureBlockBase`
+    - [ ] `ethereum_test_fixtures.FixtureEngineNewPayload`
+    - [ ] `ethereum_test_specs.Block`
+- [ ] Modify `ethereum_test_specs.BlockchainTest` filling behavior to account for the new block field.
 
 ## <!-- id:gas_cost_changes --> Gas Cost Changes
 
