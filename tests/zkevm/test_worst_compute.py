@@ -267,6 +267,7 @@ def test_jumps(
 
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
 @pytest.mark.parametrize(
     "gas_limit",
     [36_000_000],
