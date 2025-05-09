@@ -250,10 +250,6 @@ class Alloc(BaseAlloc):
                 return
         super().__setitem__(address, Account(balance=amount))
 
-    def get_block_number(self):
-        """Return the last block number."""
-        return 0
-
 
 @pytest.fixture(scope="session")
 def alloc_mode(request: pytest.FixtureRequest) -> AllocMode:
