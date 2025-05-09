@@ -10,7 +10,13 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import (
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Environment,
+    Transaction,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -18,6 +24,7 @@ REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CODE_SIZE = 24 * 1024
 KECCAK_RATE = 136
+OPCODE_GAS_LIMIT = 100_000
 
 
 @pytest.mark.valid_from("Cancun")
@@ -169,4 +176,66 @@ def test_worst_modexp(
         pre=pre,
         post={},
         blocks=[Block(txs=[tx])],
+    )
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "gas_limit",
+    [36_000_000],
+)
+def test_worst_jumps(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_limit: int,
+):
+    """
+    Test executing a jump-intensive contract using multiple direct transactions.
+    This spreads the execution across multiple transactions in a single block.
+    """
+    env = Environment(gas_limit=gas_limit)
+    
+    # Create jump-intensive contract code; 5 bytes, 12 gas
+    def opcodes(pos):
+        return Op.PUSH2(3 + 5 * pos) + Op.JUMP + Op.JUMPDEST
+
+    bytes_per_iter = 5
+    gas_costs = fork.gas_costs()
+    gas_per_iter = gas_costs.G_VERY_LOW + gas_costs.G_MID + gas_costs.G_JUMPDEST
+
+    # Calculate number of jump iterations to include
+    iters_per_call = MAX_CODE_SIZE // bytes_per_iter
+    print(f"num iters in jump contract: {iters_per_call}")
+
+    # Create and deploy the jump-intensive contract
+    code = sum(opcodes(pos) for pos in range(iters_per_call))
+    address = pre.deploy_contract(code=code)
+
+    # Determine how many transactions to include
+    # Intrinsic gas cost is paid once.
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    available_gas = gas_limit - intrinsic_gas_calculator()
+    num_calls = available_gas // (iters_per_call * gas_per_iter) 
+
+    # Create a list of transactions, all calling the same jump contract
+    txs = [
+        Transaction(
+            to=address,
+            gas_limit=available_gas // num_calls,  # Distribute gas across transactions
+            gas_price=10**9,
+            sender=pre.fund_eoa(),
+        )
+        for _ in range(num_calls)
+    ]
+
+    print(f"Jump contract size: {len(code)} bytes")
+    print(f"Creating {num_calls} transactions to the jump contract")
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
     )
