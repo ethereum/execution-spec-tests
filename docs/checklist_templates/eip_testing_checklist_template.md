@@ -61,10 +61,8 @@ The EIP introduces one or more new opcodes to the EVM.
             - [ ] Initcode of a contract creating opcode (including itself if opcode creates a contract).
         - [ ] Verify opcode behavior on re-entry using the same initcode and same address (e.g. CREATE2->REVERT->CREATE2).
     - [ ] Set-code delegated account: Verify opcode operations are applied to the set-code account and do not affect the address that is the target of the delegation.
-    - [ ] Transaction context
-        - [ ] If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
-    - [ ] Block context
-        - [ ] If opcode changes behavior depending on particular block properties, test using multiple values for each property.
+    - [ ] Transaction context: If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
+    - [ ] Block context: If opcode changes behavior depending on particular block properties, test using multiple values for each property.
 - [ ] Return data
     - [ ] Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected:
         - [ ] At current call context.
@@ -74,8 +72,9 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Memory expansion: Verify that the memory expansion correctly follows the gas calculation
     - [ ] Out-of-gas during opcode execution: Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exeptional abort.
     - [ ] Out-of-gas during memory expansion: Verify that the expansion of memory can result in out-of-gas exeptional abort.
-    - [ ] Order-of-operations:
-        - [ ] If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of eachother) and create a case for success and another for OOG (with a 1-gas-difference).
+    - [ ] Order-of-operations: If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of eachother) and the following cases for each:
+        - [ ] Success using the exact amount of gas required for the stipend.
+        - [ ] OOG with a 1-gas-difference from the gas required for the stipend.
 - [ ] Terminating opcode
     - [ ] If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios
         - [ ] Top-level call termination
@@ -91,10 +90,8 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify if the opcode has out-of-bounds conditions in its parameters and verify:
         - [ ] Max value for each parameter
         - [ ] Max value + 1 for each parameter
-- [ ] Exeptional Abort
-    - [ ] Verify behavior that is supposed to cause an exeptional abort, other than stack over or underflow, or out-of-gas errors.
-- [ ] Data portion
-    - [ ] If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
+- [ ] Exeptional Abort: Verify behavior that is supposed to cause an exeptional abort, other than stack over or underflow, or out-of-gas errors.
+- [ ] Data portion: If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
 - [ ] Contract creation
     - [ ] Verify contract is created at the expected address given multiple inputs to the opcode parameters.
     - [ ] Verify that contract is not created in case of:
@@ -162,8 +159,7 @@ The EIP introduces one or more new precompiles.
     - [ ] Precompile has dynamic gas usage
         - [ ] Verify exact gas consumption, given different valid inputs.
         - [ ] Verify exact gas consumption minus one results in out-of-gas error, given different valid inputs.
-- [ ] Excessive Gas Cases
-    - [ ] Verify spending all block gas in calls to the precompile (Use `Environment().gas_limit` as max amount).
+- [ ] Excessive Gas Cases: Verify spending all block gas in calls to the precompile (Use `Environment().gas_limit` as max amount).
 - [ ] Fork transition
     - [ ] Verify that calling the precompile before its activation fork results in a valid call even for inputs that are expected to be invalid for the precompile.
     - [ ] Verify that calling the precompile before its activation fork with zero gas results in a valid call.
@@ -203,7 +199,7 @@ The EIP removes one or more precompiles from the existing list of precompiles.
         - [ ] Contract creating opcode
 - [ ] Inputs
     - [ ] Verify combinations of valid inputs to the system contract
-        - [ ] Verify interesting edge values given the system contract functionality.
+    - [ ] Verify interesting boundary values given the system contract functionality.
     - [ ] Verify all zeros input.
     - [ ] Verify 2^N-1 where N is a single or multiple valid bit-lengths.
     - [ ] Verify combinations of invalid inputs to the precompile.
@@ -237,13 +233,15 @@ The EIP removes one or more precompiles from the existing list of precompiles.
     - [ ] Verify deployment transaction results in the system contract being deployed to the expected address.
     <!-- TODO: Missing contract at fork check --> 
 - [ ] Contract Variations
-    - [ ] Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior
-- [ ] Contract Substitution
-    - [ ] Substitute the contract to modify its behavior when called by the system address (at the end of the block execution):
-        - [ ] Modified return value lengths
-        - [ ] Modify emitted logs
-- [ ] Fork transition
-    - [ ] Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
+    - [ ] Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior,
+    - [ ] Verify execution of a variation that causes an exception.
+    - [ ] Verify execution of a variation that consumes:
+        - [ ] 30,000,000 million gas exactly, execution should be successful.
+        - [ ] 30,000,001 million gas exactly, execution should fail.
+- [ ] Contract Substitution: Substitute the contract to modify its behavior when called by the system address (at the end of the block execution):
+    - [ ] Modified return value lengths
+    - [ ] Modify emitted logs
+- [ ] Fork transition: Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).
 
 ### <!-- id:new_system_contract_framework --> Framework Changes
 
@@ -258,21 +256,15 @@ The EIP removes one or more precompiles from the existing list of precompiles.
     - [ ] Gas Limit: For each new field that affects the intrinsic gas cost of the transaction:
         - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
         - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
-    - [ ] Max fee per gas:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if its max-priority-fee-per-gas value is lower than the max-fee-per-gas.
-        - [ ] Verify the transaction (and the block it is included in) is invalid if its max-fee-per-gas value is lower than the blocks base-fee-per-gas.
-    - [ ] Chain ID:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if its chain-id value does not match the network configuration.
-    - [ ] Nonce:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if its nonce value does not match the account's current nonce.
-    - [ ] To:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction type does not allow contract creation and the to-address field is empty.
-    - [ ] Value:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
-    - [ ] Data:
-        - [ ] Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas gost.
-    - [ ] Sender balance:
-        - [ ] Verify the transaction (and the block it is included in) is invalid when the sender account does not have enough balance to cover the gas limit multiplied by the max fee per gas.
+    - [ ] Max fee per gas: Verify the transaction (and the block it is included in) is invalid if:
+        - [ ] Its max-priority-fee-per-gas value is lower than the max-fee-per-gas.
+        - [ ] Its max-fee-per-gas value is lower than the blocks base-fee-per-gas.
+    - [ ] Chain ID: Verify the transaction (and the block it is included in) is invalid if its chain-id value does not match the network configuration.
+    - [ ] Nonce: Verify the transaction (and the block it is included in) is invalid if its nonce value does not match the account's current nonce.
+    - [ ] To: Verify the transaction (and the block it is included in) is invalid if the transaction type does not allow contract creation and the to-address field is empty.
+    - [ ] Value: Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
+    - [ ] Data: Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas gost.
+    - [ ] Sender balance: Verify the transaction (and the block it is included in) is invalid when the sender account does not have enough balance to cover the gas limit multiplied by the max fee per gas.
 - [ ] Signature:
     - [ ] Verify the transaction is correctly rejected if it contains an invalid signature:
         - [ ] V, R, S represent a value that is inside of the field but outside of the curve.
@@ -321,12 +313,10 @@ The EIP removes one or more precompiles from the existing list of precompiles.
     - [ ] Verify transaction is correctly rejected if the serialized bytes object has extra bytes
     - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field, plus:
         - [ ] Verify transaction rejection if the serializable field is incorrectly encoded as bytes instead of using the correct encoding.
-- [ ] Out-of-bounds checks
-    - [ ] Verify if the transaction has out-of-bounds conditions in its fields and verify:
-        - [ ] Max value for each field
-        - [ ] Max value + 1 for each field
-- [ ] Contract creation
-    - [ ] Verify that the transaction can create new contracts if the transaction type supports it.
+- [ ] Out-of-bounds checks: Verify if the transaction has out-of-bounds conditions in its fields and verify:
+    - [ ] Max value for each field
+    - [ ] Max value + 1 for each field
+- [ ] Contract creation: Verify that the transaction can create new contracts if the transaction type supports it.
 - [ ] Sender account modifications
     - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).
     - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using Op.BALANCE).
@@ -340,8 +330,7 @@ The EIP removes one or more precompiles from the existing list of precompiles.
             - [ ] Rejected if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`
      - [ ] Verify a transaction of the new type is rejected if its gas limit exceeds the [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825) gas limit for the current fork.
      - [ ] Verify a block with all transactions types including the new type is executed correctly.
-- [ ] Fork transition
-    - [ ] Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
+- [ ] Fork transition: Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
 - [ ] RPC Tests
     - [ ] * Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
     - [ ] Verify `eth_sendRawTransaction` using `execute`
@@ -358,8 +347,7 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ### <!-- id:new_block_header_field/test --> Test Vectors
 
-- [ ] Genesis value
-    - [ ] Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
+- [ ] Genesis value: Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
 - [ ] Value behavior
     - [ ] Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
     - [ ] Verify, given multiple initial values, that a block is rejected if the value is modified (using `block.rlp_modifier`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
