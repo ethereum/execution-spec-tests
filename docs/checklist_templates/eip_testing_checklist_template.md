@@ -19,87 +19,86 @@ The EIP introduces one or more new opcodes to the EVM.
 - [ ] <!-- id:new_opcode/test/mem_exp --> Memory expansion: Verify that the opcode execution results in the correct memory expansion, being by offset or size or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value). Test at least the following memory expansion sizes:
     - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes --> Zero bytes expansion
         - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes/zero_offset --> Zero-offset
-        - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes/2_256_minus_one_offset --> 2**256-1 offset
-    - [ ] Single byte expansion
-    - [ ] 31 bytes expansion
-    - [ ] 32 bytes expansion
-    - [ ] 33 bytes expansion
-    - [ ] 64 bytes expansion
-    - [ ] 2**32-1 bytes expansion
-    - [ ] 2**32 bytes expansion
-    - [ ] 2**64-1 bytes expansion
-    - [ ] 2**64 bytes expansion
-    - [ ] 2**256-1 bytes expansion (Should always result in Out-of-gas)
-- [ ] Stack
-    - [ ] Overflow/Underflow
-        - [ ] If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exceptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
-        - [ ] If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. Op.DUPN requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exceptional abort then stack has 1 less item than the minimum stack height expected.
-    - [ ] If opcode performs stack operations more complex than simple pop/push (e.g. the opcode has a data portion that specifies a variable to access a specific stack element), perform the following test combinations:
-        - [ ] Operation on different stack heights:
-            - [ ] Zero (Potential stack-underflow)
-            - [ ] Odd
-            - [ ] Even
-        - [ ] For each variable `n` of the opcode that accesses the nth stack item, test `n` being:
-            - [ ] Top stack item
-            - [ ] Bottom stack item
-            - [ ] Middle stack item
-- [ ] Execution context
-    - [ ] CALL
-    - [ ] STATICCALL
-        - [ ] Verify exceptional abort if the opcode is banned for static contexts or if it attempts to modify the code, storage or balance of an account.
-        - [ ] If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. Op.PAY with zero value, or Op.SSTORE to the value it already has in the storage).
-        - [ ] Verify sub-calls using other opcodes (e.g. CALL, DELEGATECALL, etc) also results in the same exceptional abort behavior.
-    - [ ] DELEGATECALL
-        - [ ] If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.
-        - [ ] If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.
-        - [ ] If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.
-    - [ ] CALLCODE
-    - [ ] Initcode
-        - [ ] Verify opcode behaves as expected when running during the initcode phase of contract creation
-            - [ ] Initcode of a contract creating transaction.
-            - [ ] Initcode of a contract creating opcode (including itself if opcode creates a contract).
-        - [ ] Verify opcode behavior on re-entry using the same initcode and same address (e.g. CREATE2->REVERT->CREATE2).
-    - [ ] Set-code delegated account: Verify opcode operations are applied to the set-code account and do not affect the address that is the target of the delegation.
-    - [ ] Transaction context: If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
-    - [ ] Block context: If opcode changes behavior depending on particular block properties, test using multiple values for each property.
-- [ ] Return data
-    - [ ] Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unaffected:
-        - [ ] At current call context.
-        - [ ] At parent call context.
-- [ ] Gas usage
-    - [ ] Normal operation gas usage: Verify gas affectation of each parameter value consumed by the opcode.
-    - [ ] Memory expansion: Verify that the memory expansion correctly follows the gas calculation
-    - [ ] Out-of-gas during opcode execution: Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exceptional abort.
-    - [ ] Out-of-gas during memory expansion: Verify that the expansion of memory can result in out-of-gas exceptional abort.
-    - [ ] Order-of-operations: If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of each other) and the following cases for each:
-        - [ ] Success using the exact amount of gas required for the stipend.
-        - [ ] OOG with a 1-gas-difference from the gas required for the stipend.
-- [ ] Terminating opcode
-    - [ ] If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios
-        - [ ] Top-level call termination
-        - [ ] Sub-level call termination
-        - [ ] Initcode termination
-    - [ ] If the terminating opcode is meant to rollback the executing call frame, verify the following events are properly rolled back:
-        - [ ] Balance changes
-        - [ ] Storage changes
-        - [ ] Contract creations
-        - [ ] Nonce increments
-        - [ ] Log events
-- [ ] Out-of-bounds checks
-    - [ ] Verify if the opcode has out-of-bounds conditions in its parameters and verify:
-        - [ ] Max value for each parameter
-        - [ ] Max value + 1 for each parameter
-- [ ] Exceptional Abort: Verify behavior that is supposed to cause an exceptional abort, other than stack over or underflow, or out-of-gas errors.
-- [ ] Data portion: If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
-- [ ] Contract creation
-    - [ ] Verify contract is created at the expected address given multiple inputs to the opcode parameters.
-    - [ ] Verify that contract is not created in case of:
-        - [ ] Out-of-gas when available gas is less than minimum contract creation stipend.
-        - [ ] Creation would result in an address collision with an existing contract or EOA-delegated address.
-    - [ ] Verify recursive contract creation using the opcode: Factory contract uses the opcode, and initcode calls back to factory contract.
-- [ ] Fork transition
-    - [ ] Verify that the opcode results in exceptional abort if executed before its activation fork.
-    - [ ] Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.
+        - [ ] <!-- id:new_opcode/test/mem_exp/zero_bytes/max_offset --> 2**256-1 offset
+    - [ ] <!-- id:new_opcode/test/mem_exp/single_byte --> Single byte expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/31_bytes --> 31 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/32_bytes --> 32 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/33_bytes --> 33 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/64_bytes --> 64 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/2_32_minus_one_bytes --> 2**32-1 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/2_32_bytes --> 2**32 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/2_64_minus_one_bytes --> 2**64-1 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/2_64_bytes --> 2**64 bytes expansion
+    - [ ] <!-- id:new_opcode/test/mem_exp/2_256_minus_one_bytes --> 2**256-1 bytes expansion (Should always result in Out-of-gas)
+- [ ] <!-- id:new_opcode/test/stack --> Stack
+    - [ ] <!-- id:new_opcode/test/stack/overflow --> Overflow: If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exceptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.
+    - [ ] <!-- id:new_opcode/test/stack/underflow --> Underflow: If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. Op.DUPN requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exceptional abort then stack has 1 less item than the minimum stack height expected.
+    - [ ] <!-- id:new_opcode/test/stack/complex_operations --> If opcode performs stack operations more complex than simple pop/push (e.g. the opcode has a data portion that specifies a variable to access a specific stack element), perform the following test combinations:
+        - [ ] <!-- id:new_opcode/test/stack/complex_operations/stack_heights --> Operation on different stack heights:
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/stack_heights/zero --> Zero (Potential stack-underflow)
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/stack_heights/odd --> Odd
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/stack_heights/even --> Even
+        - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n --> For each variable `n` of the opcode that accesses the nth stack item, test `n` being:
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n/top --> Top stack item
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n/bottom --> Bottom stack item
+            - [ ] <!-- id:new_opcode/test/stack/complex_operations/variable_n/middle --> Middle stack item
+- [ ] <!-- id:new_opcode/test/execution_context --> Execution context
+    - [ ] <!-- id:new_opcode/test/execution_context/call --> CALL
+    - [ ] <!-- id:new_opcode/test/execution_context/staticcall --> STATICCALL
+        - [ ] <!-- id:new_opcode/test/execution_context/staticcall/ban_check --> Verify exceptional abort if the opcode is banned for static contexts or if it attempts to modify the code, storage or balance of an account.
+        - [ ] <!-- id:new_opcode/test/execution_context/staticcall/ban_no_modification --> If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. Op.PAY with zero value, or Op.SSTORE to the value it already has in the storage).
+        - [ ] <!-- id:new_opcode/test/execution_context/staticcall/sub_calls --> Verify sub-calls using other opcodes (e.g. CALL, DELEGATECALL, etc) also results in the same exceptional abort behavior.
+    - [ ] <!-- id:new_opcode/test/execution_context/delegatecall --> DELEGATECALL
+        - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/storage --> If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.
+        - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/balance --> If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.
+        - [ ] <!-- id:new_opcode/test/execution_context/delegatecall/code --> If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.
+    - [ ] <!-- id:new_opcode/test/execution_context/callcode --> CALLCODE
+    - [ ] <!-- id:new_opcode/test/execution_context/initcode --> Initcode
+        - [ ] <!-- id:new_opcode/test/execution_context/initcode/behavior --> Verify opcode behaves as expected when running during the initcode phase of contract creation
+            - [ ] <!-- id:new_opcode/test/execution_context/initcode/behavior/tx --> Initcode of a contract creating transaction.
+            - [ ] <!-- id:new_opcode/test/execution_context/initcode/behavior/opcode --> Initcode of a contract creating opcode (including itself if opcode creates a contract).
+        - [ ] <!-- id:new_opcode/test/execution_context/initcode/reentry --> Verify opcode behavior on re-entry using the same initcode and same address (e.g. CREATE2->REVERT->CREATE2).
+    - [ ] <!-- id:new_opcode/test/execution_context/set_code --> Set-code delegated account: Verify opcode operations are applied to the set-code account and do not affect the address that is the target of the delegation.
+    - [ ] <!-- id:new_opcode/test/execution_context/tx_context --> Transaction context: If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
+    - [ ] <!-- id:new_opcode/test/execution_context/block_context --> Block context: If opcode changes behavior depending on particular block properties, test using multiple values for each property.
+- [ ] <!-- id:new_opcode/test/return_data --> Return data
+    - [ ] <!-- id:new_opcode/test/return_data/buffer --> Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unaffected:
+        - [ ] <!-- id:new_opcode/test/return_data/buffer/current --> At current call context.
+        - [ ] <!-- id:new_opcode/test/return_data/buffer/parent --> At parent call context.
+- [ ] <!-- id:new_opcode/test/gas_usage --> Gas usage
+    - [ ] <!-- id:new_opcode/test/gas_usage/normal --> Normal operation gas usage: Verify gas affectation of each parameter value consumed by the opcode.
+    - [ ] <!-- id:new_opcode/test/gas_usage/memory_expansion --> Memory expansion: Verify that the memory expansion correctly follows the gas calculation
+    - [ ] <!-- id:new_opcode/test/gas_usage/out_of_gas_execution --> Out-of-gas during opcode execution: Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exceptional abort.
+    - [ ] <!-- id:new_opcode/test/gas_usage/out_of_gas_memory --> Out-of-gas during memory expansion: Verify that the expansion of memory can result in out-of-gas exceptional abort.
+    - [ ] <!-- id:new_opcode/test/gas_usage/order_of_operations --> Order-of-operations: If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of each other) and the following cases for each:
+        - [ ] <!-- id:new_opcode/test/gas_usage/order_of_operations/exact --> Success using the exact amount of gas required for the stipend.
+        - [ ] <!-- id:new_opcode/test/gas_usage/order_of_operations/oog --> OOG with a 1-gas-difference from the gas required for the stipend.
+- [ ] <!-- id:new_opcode/test/terminating --> Terminating opcode
+    - [ ] <!-- id:new_opcode/test/terminating/scenarios --> If an opcode is terminating, meaning it results in the current call context to end execution, test the following scenarios
+        - [ ] <!-- id:new_opcode/test/terminating/scenarios/top_level --> Top-level call termination
+        - [ ] <!-- id:new_opcode/test/terminating/scenarios/sub_level --> Sub-level call termination
+        - [ ] <!-- id:new_opcode/test/terminating/scenarios/initcode --> Initcode termination
+    - [ ] <!-- id:new_opcode/test/terminating/rollback --> If the terminating opcode is meant to rollback the executing call frame, verify the following events are properly rolled back:
+        - [ ] <!-- id:new_opcode/test/terminating/rollback/balance --> Balance changes
+        - [ ] <!-- id:new_opcode/test/terminating/rollback/storage --> Storage changes
+        - [ ] <!-- id:new_opcode/test/terminating/rollback/contracts --> Contract creations
+        - [ ] <!-- id:new_opcode/test/terminating/rollback/nonce --> Nonce increments
+        - [ ] <!-- id:new_opcode/test/terminating/rollback/logs --> Log events
+- [ ] <!-- id:new_opcode/test/out_of_bounds --> Out-of-bounds checks
+    - [ ] <!-- id:new_opcode/test/out_of_bounds/verify --> Verify if the opcode has out-of-bounds conditions in its parameters and verify:
+        - [ ] <!-- id:new_opcode/test/out_of_bounds/verify/max --> Max value for each parameter
+        - [ ] <!-- id:new_opcode/test/out_of_bounds/verify/max_plus_one --> Max value + 1 for each parameter
+- [ ] <!-- id:new_opcode/test/exceptional_abort --> Exceptional Abort: Verify behavior that is supposed to cause an exceptional abort, other than stack over or underflow, or out-of-gas errors.
+- [ ] <!-- id:new_opcode/test/data_portion --> Data portion: If an opcode has data portion that affects its behavior, verify checklist items with multiple interesting values (E.g. if data portion size is 1 byte, use at least 0x00, 0x01, 0x7F, 0xFF).
+- [ ] <!-- id:new_opcode/test/contract_creation --> Contract creation
+    - [ ] <!-- id:new_opcode/test/contract_creation/address --> Verify contract is created at the expected address given multiple inputs to the opcode parameters.
+    - [ ] <!-- id:new_opcode/test/contract_creation/failure --> Verify that contract is not created in case of:
+        - [ ] <!-- id:new_opcode/test/contract_creation/failure/oog --> Out-of-gas when available gas is less than minimum contract creation stipend.
+        - [ ] <!-- id:new_opcode/test/contract_creation/failure/collision --> Creation would result in an address collision with an existing contract or EOA-delegated address.
+    - [ ] <!-- id:new_opcode/test/contract_creation/recursive --> Verify recursive contract creation using the opcode: Factory contract uses the opcode, and initcode calls back to factory contract.
+- [ ] <!-- id:new_opcode/test/fork_transition --> Fork transition
+    - [ ] <!-- id:new_opcode/test/fork_transition/before --> Verify that the opcode results in exceptional abort if executed before its activation fork.
+    - [ ] <!-- id:new_opcode/test/fork_transition/at --> Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.
 
 ### <!-- id:new_opcode/framework --> Framework Changes
 
@@ -249,95 +248,94 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ### <!-- id:new_transaction_type/test --> Test Vectors
 
-- [ ] Intrinsic Validity
-    - [ ] Gas Limit: For each new field that affects the intrinsic gas cost of the transaction:
-        - [ ] Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
-        - [ ] Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
-    - [ ] Max fee per gas: Verify the transaction (and the block it is included in) is invalid if:
-        - [ ] Its max-priority-fee-per-gas value is lower than the max-fee-per-gas.
-        - [ ] Its max-fee-per-gas value is lower than the blocks base-fee-per-gas.
-    - [ ] Chain ID: Verify the transaction (and the block it is included in) is invalid if its chain-id value does not match the network configuration.
-    - [ ] Nonce: Verify the transaction (and the block it is included in) is invalid if its nonce value does not match the account's current nonce.
-    - [ ] To: Verify the transaction (and the block it is included in) is invalid if the transaction type does not allow contract creation and the to-address field is empty.
-    - [ ] Value: Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
-    - [ ] Data: Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas cost.
-    - [ ] Sender balance: Verify the transaction (and the block it is included in) is invalid when the sender account does not have enough balance to cover the gas limit multiplied by the max fee per gas.
-- [ ] Signature:
-    - [ ] Verify the transaction is correctly rejected if it contains an invalid signature:
-        - [ ] V, R, S represent a value that is inside of the field but outside of the curve.
-        - [ ] V (yParity) is any of the following invalid values:
-            - [ ] `2`
-            - [ ] `27` (Type-0 transaction valid value)
-            - [ ] `28` (Type-0 transaction valid value)
-            - [ ] `35` (Type-0 replay-protected transaction valid value for chain id 1)
-            - [ ] `36` (Type-0 replay-protected transaction valid value for chain id 1)
-            - [ ] `2**8-1`
-        - [ ] R is any of the following invalid values:
-            - [ ] `0`
-            - [ ] `SECP256K1N-1`
-            - [ ] `SECP256K1N`
-            - [ ] `SECP256K1N+1`
-            - [ ] `2**256-1`
-            - [ ] `2**256`
-        - [ ] S is any of the following invalid values:
-            - [ ] `0`
-            - [ ] `SECP256K1N//2-1`
-            - [ ] `SECP256K1N//2`
-            - [ ] `SECP256K1N//2+1`
-            - [ ] `SECP256K1N-1`
-            - [ ] `SECP256K1N`
-            - [ ] `SECP256K1N+1`
-            - [ ] `2**256-1`
-            - [ ] `2**256`
-            - [ ] `SECP256K1N - S` of a valid signature
-- Transaction-Scoped Attributes/Variables
-    - Verify attributes that can be read in the EVM from transaction fields.
-    - Verify attributes specific to the new transaction type that can be read in the EVM behave correctly on older transaction types.
-    - Verify values or variables that are persistent through the execution of the transaction (transient storage, warm/cold accounts):
-        - Persist throughout the entire transaction.
-        - Reset on subsequent transactions in the same block.
-- [ ] Encoding (RLP, SSZ)
-    - [ ] Verify correct transaction rejection due to incorrect field sizes:
-        - [ ] Add leading zero byte
-        - [ ] Remove single byte from fixed-byte-length fields
-    - [ ] If the transaction contains a new field that is a list, verify:
-        - [ ] Zero-element list
-        - [ ] Max count list
-        - [ ] Max count plus one list
-    - [ ] Verify correct transaction rejection if the fields particular to the new transaction types are missing
-    - [ ] Verify correct transaction rejection if the transaction type contains extra fields
-    - [ ] Verify transaction is correctly rejected if the serialized bytes object is truncated
-    - [ ] Verify transaction is correctly rejected if the serialized bytes object has extra bytes
-    - [ ] If the transaction contains fields with new serializable types, perform all previous tests on the new type/field, plus:
-        - [ ] Verify transaction rejection if the serializable field is incorrectly encoded as bytes instead of using the correct encoding.
-- [ ] Out-of-bounds checks: Verify if the transaction has out-of-bounds conditions in its fields and verify:
-    - [ ] Max value for each field
-    - [ ] Max value + 1 for each field
-- [ ] Contract creation: Verify that the transaction can create new contracts if the transaction type supports it.
-- [ ] Sender account modifications
-    - [ ] Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).
-    - [ ] Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using Op.BALANCE).
-- [ ] Block Level Interactions
-    - [ ] Verify the new transaction type and the following accept/reject behavior depending on interactions with the block gas limit:
-        - [ ] New transaction type is the single transaction in the block:
-            - [ ] Rejected if `tx.gas_limit == block.gas_limit + 1`
-            - [ ] Accepted if `tx.gas_limit == block.gas_limit`
-        - [ ] New transaction type is the last transaction of a block with two transactions:
-            - [ ] Accepted if `block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit`
-            - [ ] Rejected if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`
-    - [ ] Verify a transaction of the new type is rejected if its gas limit exceeds the [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825) gas limit for the current fork.
-    - [ ] Verify a block with all transactions types including the new type is executed correctly.
-- [ ] Fork transition: Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
-- [ ] RPC Tests
-    - [ ] *Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
-    - [ ] Verify `eth_sendRawTransaction` using `execute`
+- [ ] <!-- id:new_transaction_type/test/intrinsic_validity --> Intrinsic Validity
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/gas_limit --> Gas Limit: For each new field that affects the intrinsic gas cost of the transaction:
+        - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/gas_limit/exact --> Verify the transaction (and the block it is included in) is valid by providing the exact intrinsic gas as `gas_limit` value to the transaction with all multiple combinations of values to the field.
+        - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/gas_limit/insufficient --> Verify the transaction (and the block it is included in) is invalid by providing the exact intrinsic gas minus one as `gas_limit` value to the transaction with all multiple combinations of values to the field.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/max_fee --> Max fee per gas: Verify the transaction (and the block it is included in) is invalid if:
+        - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/max_fee/priority_lower --> Its max-priority-fee-per-gas value is lower than the max-fee-per-gas.
+        - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/max_fee/base_lower --> Its max-fee-per-gas value is lower than the blocks base-fee-per-gas.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/chain_id --> Chain ID: Verify the transaction (and the block it is included in) is invalid if its chain-id value does not match the network configuration.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/nonce --> Nonce: Verify the transaction (and the block it is included in) is invalid if its nonce value does not match the account's current nonce.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/to --> To: Verify the transaction (and the block it is included in) is invalid if the transaction type does not allow contract creation and the to-address field is empty.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/value --> Value: Verify the transaction (and the block it is included in) is invalid if the transaction contains a value of 1 and the account does not contain enough funds to cover the intrinsic transaction cost plus 1.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/data --> Data: Verify the transaction (and the block it is included in) is invalid if the transaction contains enough data so the data floor cost is higher than the intrinsic gas cost and the gas_limit is equal to the intrinsic gas cost.
+    - [ ] <!-- id:new_transaction_type/test/intrinsic_validity/sender_balance --> Sender balance: Verify the transaction (and the block it is included in) is invalid when the sender account does not have enough balance to cover the gas limit multiplied by the max fee per gas.
+- [ ] <!-- id:new_transaction_type/test/signature --> Signature:
+    - [ ] <!-- id:new_transaction_type/test/signature/invalid --> Verify the transaction is correctly rejected if it contains an invalid signature:
+        - [ ] <!-- id:new_transaction_type/test/signature/invalid/field_outside_curve --> V, R, S represent a value that is inside of the field but outside of the curve.
+        - [ ] <!-- id:new_transaction_type/test/signature/invalid/v --> V (yParity) is any of the following invalid values:
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/2 --> `2`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/27 --> `27` (Type-0 transaction valid value)
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/28 --> `28` (Type-0 transaction valid value)
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/35 --> `35` (Type-0 replay-protected transaction valid value for chain id 1)
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/36 --> `36` (Type-0 replay-protected transaction valid value for chain id 1)
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/v/max --> `2**8-1`
+        - [ ] <!-- id:new_transaction_type/test/signature/invalid/r --> R is any of the following invalid values:
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/0 --> `0`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/secp256k1n_minus_one --> `SECP256K1N-1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/secp256k1n --> `SECP256K1N`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/secp256k1n_plus_one --> `SECP256K1N+1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/max_minus_one --> `2**256-1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/r/max --> `2**256`
+        - [ ] <!-- id:new_transaction_type/test/signature/invalid/s --> S is any of the following invalid values:
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/0 --> `0`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n_half_minus_one --> `SECP256K1N//2-1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n_half --> `SECP256K1N//2`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n_half_plus_one --> `SECP256K1N//2+1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n_minus_one --> `SECP256K1N-1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n --> `SECP256K1N`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/secp256k1n_plus_one --> `SECP256K1N+1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/max_minus_one --> `2**256-1`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/max --> `2**256`
+            - [ ] <!-- id:new_transaction_type/test/signature/invalid/s/complement --> `SECP256K1N - S` of a valid signature
+- [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes --> Transaction-Scoped Attributes/Variables
+    - [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes/read --> Verify attributes that can be read in the EVM from transaction fields.
+    - [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes/older_tx_types --> Verify attributes specific to the new transaction type that can be read in the EVM behave correctly on older transaction types.
+    - [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes/persistent --> Verify values or variables that are persistent through the execution of the transaction (transient storage, warm/cold accounts):
+        - [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes/persistent/throughout --> Persist throughout the entire transaction.
+        - [ ] <!-- id:new_transaction_type/test/tx_scoped_attributes/persistent/reset --> Reset on subsequent transactions in the same block.
+- [ ] <!-- id:new_transaction_type/test/encoding --> Encoding (RLP, SSZ)
+    - [ ] <!-- id:new_transaction_type/test/encoding/field_sizes --> Verify correct transaction rejection due to incorrect field sizes:
+        - [ ] <!-- id:new_transaction_type/test/encoding/field_sizes/leading_zero --> Add leading zero byte
+        - [ ] <!-- id:new_transaction_type/test/encoding/field_sizes/remove_byte --> Remove single byte from fixed-byte-length fields
+    - [ ] <!-- id:new_transaction_type/test/encoding/list_field --> If the transaction contains a new field that is a list, verify:
+        - [ ] <!-- id:new_transaction_type/test/encoding/list_field/zero --> Zero-element list
+        - [ ] <!-- id:new_transaction_type/test/encoding/list_field/max --> Max count list
+        - [ ] <!-- id:new_transaction_type/test/encoding/list_field/max_plus_one --> Max count plus one list
+    - [ ] <!-- id:new_transaction_type/test/encoding/missing_fields --> Verify correct transaction rejection if the fields particular to the new transaction types are missing
+    - [ ] <!-- id:new_transaction_type/test/encoding/extra_fields --> Verify correct transaction rejection if the transaction type contains extra fields
+    - [ ] <!-- id:new_transaction_type/test/encoding/truncated --> Verify transaction is correctly rejected if the serialized bytes object is truncated
+    - [ ] <!-- id:new_transaction_type/test/encoding/extra_bytes --> Verify transaction is correctly rejected if the serialized bytes object has extra bytes
+    - [ ] <!-- id:new_transaction_type/test/encoding/new_types --> If the transaction contains fields with new serializable types, perform all previous tests on the new type/field, plus:
+        - [ ] <!-- id:new_transaction_type/test/encoding/new_types/incorrect_encoding --> Verify transaction rejection if the serializable field is incorrectly encoded as bytes instead of using the correct encoding.
+- [ ] <!-- id:new_transaction_type/test/out_of_bounds --> Out-of-bounds checks: Verify if the transaction has out-of-bounds conditions in its fields and verify:
+    - [ ] <!-- id:new_transaction_type/test/out_of_bounds/max --> Max value for each field
+    - [ ] <!-- id:new_transaction_type/test/out_of_bounds/max_plus_one --> Max value + 1 for each field
+- [ ] <!-- id:new_transaction_type/test/contract_creation --> Contract creation: Verify that the transaction can create new contracts if the transaction type supports it.
+- [ ] <!-- id:new_transaction_type/test/sender_account --> Sender account modifications
+    - [ ] <!-- id:new_transaction_type/test/sender_account/nonce --> Verify that the sender account of the new transaction type transaction has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).
+    - [ ] <!-- id:new_transaction_type/test/sender_account/balance --> Verify that the sender account of the new transaction type transaction has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using Op.BALANCE).
+- [ ] <!-- id:new_transaction_type/test/block_interactions --> Block Level Interactions
+    - [ ] <!-- id:new_transaction_type/test/block_interactions/single_tx --> Verify the new transaction type and the following accept/reject behavior depending on interactions with the block gas limit:
+        - [ ] <!-- id:new_transaction_type/test/block_interactions/single_tx/rejected --> Rejected if `tx.gas_limit == block.gas_limit + 1`
+        - [ ] <!-- id:new_transaction_type/test/block_interactions/single_tx/accepted --> Accepted if `tx.gas_limit == block.gas_limit`
+    - [ ] <!-- id:new_transaction_type/test/block_interactions/last_tx --> New transaction type is the last transaction of a block with two transactions:
+        - [ ] <!-- id:new_transaction_type/test/block_interactions/last_tx/accepted --> Accepted if `block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit`
+        - [ ] <!-- id:new_transaction_type/test/block_interactions/last_tx/rejected --> Rejected if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`
+    - [ ] <!-- id:new_transaction_type/test/block_interactions/eip7825 --> Verify a transaction of the new type is rejected if its gas limit exceeds the [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825) gas limit for the current fork.
+    - [ ] <!-- id:new_transaction_type/test/block_interactions/mixed_txs --> Verify a block with all transactions types including the new type is executed correctly.
+- [ ] <!-- id:new_transaction_type/test/fork_transition --> Fork transition: Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.
+- [ ] <!-- id:new_transaction_type/test/rpc --> RPC Tests
+    - [ ] <!-- id:new_transaction_type/test/rpc/estimate_gas --> *Verify `eth_estimateGas` behavior for different valid combinations of the new transaction type
+    - [ ] <!-- id:new_transaction_type/test/rpc/send_raw --> Verify `eth_sendRawTransaction` using `execute`
 
 *Tests must be added to [`execution-apis`](https://github.com/ethereum/execution-apis) repository.
 
 ### <!-- id:new_transaction_type/framework --> Framework Changes
 
-- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
-- [ ] Add the transaction type number to `tx_types` response in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` (If applicable add also to `contract_creating_tx_types`).
+- [ ] <!-- id:new_transaction_type/framework/intrinsic_cost --> Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.
+- [ ] <!-- id:new_transaction_type/framework/tx_types --> Add the transaction type number to `tx_types` response in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` (If applicable add also to `contract_creating_tx_types`).
 
 ## <!-- id:new_block_header_field --> New Block Header Field
 
