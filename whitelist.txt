@@ -94,6 +94,7 @@ controlflow
 cp
 CPUs
 crypto
+cryptographic
 currentframe
 customizations
 Customizations
@@ -295,6 +296,8 @@ mixins
 mixhash
 mkdocs
 mkdocstrings
+mortem
+mortems
 msm
 mypy
 ctx
@@ -334,6 +337,7 @@ parseable
 passthrough
 pathlib
 pdb
+Pectra
 perf
 permalink
 petersburg
@@ -395,6 +399,7 @@ secp256k1
 secp256k1n
 selfbalance
 ser
+serializable
 servable
 setenv
 setitem
@@ -412,6 +417,7 @@ spencertb
 splitext
 squidfunk
 src
+ssz
 stackoverflow
 StateTest
 StateTestFiller
@@ -436,6 +442,7 @@ sudo
 sysconfig
 t8n
 tamasfe
+tbd
 terminalreporter
 testability
 TestAddress
@@ -470,6 +477,7 @@ ubuntu
 ukiyo
 uid
 uncomment
+underflow
 undersize
 unlink
 usr
@@ -509,6 +517,7 @@ xpassed
 yaml
 YAML
 yml
+yParity
 yul
 zfill
 

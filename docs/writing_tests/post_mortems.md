@@ -9,6 +9,7 @@ Each entry must include an explanation of why the test case was missed plus the 
 ## List
 
 ## TEMPLATE
+
 ## Date - Title - Fork
 
 ### Description
@@ -48,5 +49,5 @@ IDs of the tests added that now cover the missed scenario and link to the docume
 Note any modifications that were introduced in the framework and/or documentation to prevent similar misses.
 
 *Example:*
-- Updated EIP checklist to include testing combinations of interesting points related to the elliptic-curve under test, and all combinations between them.
 
+- Updated EIP checklist to include testing combinations of interesting points related to the elliptic-curve under test, and all combinations between them.
