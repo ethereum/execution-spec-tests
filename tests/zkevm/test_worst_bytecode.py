@@ -27,7 +27,6 @@ REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CONTRACT_SIZE = 24 * 1024  # TODO: This could be a fork property
-OPCODE_GAS_LIMIT = 36_000_000
 
 XOR_TABLE_SIZE = 256
 XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
@@ -39,12 +38,19 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
         Op.EXTCODESIZE,
     ],
 )
+@pytest.mark.parametrize(
+    "attack_gas_limit",
+    [
+        Environment().gas_limit,
+    ],
+)
 @pytest.mark.valid_from("Cancun")
 def test_worst_bytecode_single_opcode(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
+    attack_gas_limit: int,
 ):
     """
     Test a block execution where a single opcode execution maxes out the gas limit,
@@ -58,7 +64,9 @@ def test_worst_bytecode_single_opcode(
     The test is performed in the last block of the test, and the entire block gas limit is
     consumed by repeated opcode executions.
     """
-    env = Environment()
+    # We use 100G gas limit to be able to deploy a large number of contracts in a single block,
+    # avoiding bloating the number of preparing blocks in the test.
+    env = Environment(gas_limit=100_000_000_000)
 
     # The initcode will take its address as a starting point to the input to the keccak
     # hash function.
@@ -124,7 +132,7 @@ def test_worst_bytecode_single_opcode(
     )
     max_number_of_contract_calls = (
         # Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)
-        OPCODE_GAS_LIMIT - intrinsic_gas_cost_calc() - gas_costs.G_VERY_LOW * 4
+        attack_gas_limit - intrinsic_gas_cost_calc() - gas_costs.G_VERY_LOW * 4
     ) // loop_cost
 
     total_contracts_to_deploy = max_number_of_contract_calls
@@ -183,7 +191,7 @@ def test_worst_bytecode_single_opcode(
     opcode_address = pre.deploy_contract(code=opcode_code)
     opcode_tx = Transaction(
         to=opcode_address,
-        gas_limit=OPCODE_GAS_LIMIT,
+        gas_limit=attack_gas_limit,
         gas_price=10**9,  # Bump required due to the amount of full blocks
         sender=pre.fund_eoa(),
     )
