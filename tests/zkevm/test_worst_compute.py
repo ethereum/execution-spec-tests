@@ -178,93 +178,6 @@ def test_worst_modexp(
         blocks=[Block(txs=[tx])],
     )
 
-
-@pytest.mark.zkevm
-@pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize(
-    "gas_limit",
-    [36_000_000],
-)
-def test_jumps(
-    blockchain_test: BlockchainTestFiller,
-    pre: Alloc,
-    fork: Fork,
-    gas_limit: int,
-):
-    """Test a single block of JUMPs."""
-    env = Environment(gas_limit=gas_limit)
-
-    # Intrinsic gas cost is paid once
-    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    available_gas = gas_limit - intrinsic_gas_calculator()
-
-    def opcode_block(pos):
-        # could squeeze out a tiny bit more by using PUSH1 for pos < 256...
-        return Op.PUSH2(3 + 5 * pos) + Op.JUMP + Op.JUMPDEST
-
-    gsc = fork.gas_costs()
-    # Gas cost breakdown for PUSH2 + JUMP + JUMPDEST pattern:
-    # - PUSH2: G_VERY_LOW (3) - pushes a 2-byte value onto the stack
-    # - JUMP: G_MID (8) - jumps to the destination
-    # - JUMPDEST: G_JUMPDEST (1) - marks a valid jump destination
-    # Total: 3 + 8 + 1 = 12 gas per iteration
-    iteration_gas_cost = gsc.G_VERY_LOW + gsc.G_MID + gsc.G_JUMPDEST
-
-    # Bytes per iteration calculation:
-    # - PUSH2: 3 bytes (1 for opcode + 2 for the value)
-    # - JUMP: 1 byte (opcode)
-    # - JUMPDEST: 1 byte (opcode)
-    # Total: 5 bytes per iteration
-    bytes_per_iter = 5
-
-    # Calculate max iterations based on code size and gas constraints
-    max_iters_by_size = MAX_CODE_SIZE // bytes_per_iter
-    max_iters_by_gas = available_gas // iteration_gas_cost
-    num_iters = int(min(max_iters_by_size, max_iters_by_gas))
-
-    print(f"num_iters: {num_iters}")
-
-    # Create code with repeated pattern
-    code = bytes(sum(opcode_block(pos) for pos in range(num_iters)))
-
-    # Calculate utilization percentages for logging
-    code_size_pct = (len(code) / MAX_CODE_SIZE) * 100
-    gas_used = num_iters * iteration_gas_cost
-    gas_pct = (gas_used / available_gas) * 100 if available_gas > 0 else None
-
-    # Log the results to stdout instead of a file
-    bytecode_values = f"{len(code)}/{MAX_CODE_SIZE}"
-    gas_values = f"{gas_used}/{available_gas}"
-    print(
-        f"{'MANY JUMPS':<30} "
-        f"{bytecode_values:>15} ({code_size_pct:6.2f}%)  "
-        f"{gas_values:>20}({gas_pct:6.2f}%)  "
-        f"{bytes_per_iter:>4}  "
-        f"{num_iters:>10}"
-    )
-
-    if len(code) > MAX_CODE_SIZE:
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
-
-    code_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=code_address,
-        gas_limit=gas_limit,
-        gas_price=10,
-        sender=pre.fund_eoa(),
-        data=[],
-        value=0,
-    )
-
-    blockchain_test(
-        env=env,
-        pre=pre,
-        post={},
-        blocks=[Block(txs=[tx])],
-    )
-
-
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
@@ -272,7 +185,7 @@ def test_jumps(
     "gas_limit",
     [36_000_000],
 )
-def test_many_jumps(
+def test_worst_jumps(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
@@ -283,43 +196,42 @@ def test_many_jumps(
     This spreads the execution across multiple transactions in a single block.
     """
     env = Environment(gas_limit=gas_limit)
-
-    # Create jump-intensive contract code
-    def opcode_block(pos):
+    
+    # Create jump-intensive contract code; 5 bytes, 12 gas
+    def opcodes(pos):
         return Op.PUSH2(3 + 5 * pos) + Op.JUMP + Op.JUMPDEST
 
+    bytes_per_iter = 5
     gas_costs = fork.gas_costs()
-    loop_cost = gas_costs.G_VERY_LOW + gas_costs.G_MID + gas_costs.G_JUMPDEST
-    bytes_per_iter = 5  # PUSH2(3) + JUMP(1) + JUMPDEST(1)
+    gas_per_iter = gas_costs.G_VERY_LOW + gas_costs.G_MID + gas_costs.G_JUMPDEST
 
     # Calculate number of jump iterations to include
-    max_iters_by_size = MAX_CODE_SIZE // bytes_per_iter
-    max_iters_by_gas = gas_limit // (loop_cost * 2)  # Conservative estimate
-    num_iters = int(min(max_iters_by_size, max_iters_by_gas))
-
-    print(f"num_iters in jump contract: {num_iters}")
+    iters_per_call = MAX_CODE_SIZE // bytes_per_iter
+    print(f"num iters in jump contract: {iters_per_call}")
 
     # Create and deploy the jump-intensive contract
-    jump_code = bytes(sum(opcode_block(pos) for pos in range(num_iters)))
-    jump_address = pre.deploy_contract(code=jump_code)
+    code = sum(opcodes(pos) for pos in range(iters_per_call))
+    address = pre.deploy_contract(code=code)
 
     # Determine how many transactions to include
-    # We'll use a reasonable number that fits within a block
-    num_txs = 591  # maximal for current setup
+    # Intrinsic gas cost is paid once.
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    available_gas = gas_limit - intrinsic_gas_calculator()
+    num_calls = available_gas // (iters_per_call * gas_per_iter) 
 
     # Create a list of transactions, all calling the same jump contract
     txs = [
         Transaction(
-            to=jump_address,
-            gas_limit=gas_limit // num_txs,  # Distribute gas across transactions
+            to=address,
+            gas_limit=available_gas // num_calls,  # Distribute gas across transactions
             gas_price=10**9,
             sender=pre.fund_eoa(),
         )
-        for _ in range(num_txs)
+        for _ in range(num_calls)
     ]
 
-    print(f"Jump contract size: {len(jump_code)} bytes")
-    print(f"Creating {num_txs} transactions to the jump contract")
+    print(f"Jump contract size: {len(code)} bytes")
+    print(f"Creating {num_calls} transactions to the jump contract")
 
     blockchain_test(
         genesis_environment=env,
