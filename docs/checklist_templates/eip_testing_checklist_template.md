@@ -341,22 +341,22 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ### <!-- id:new_block_header_field/test --> Test Vectors
 
-- [ ] Genesis value: Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
-- [ ] Value behavior
-    - [ ] Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
-    - [ ] Verify, given multiple initial values, that a block is rejected if the value is modified (using `block.rlp_modifier`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
-- [ ] Fork transition
-    - [ ] Verify initial value of the field at the first block of the activation fork.
-    - [ ] Verify that a block containing the new header field before the activation of the fork is invalid.
-    - [ ] Verify that a block lacking the new header field at the activation of the fork is invalid.
+- [ ] <!-- id:new_block_header_field/test/genesis --> Genesis value: Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.
+- [ ] <!-- id:new_block_header_field/test/value_behavior --> Value behavior
+    - [ ] <!-- id:new_block_header_field/test/value_behavior/accept --> Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] <!-- id:new_block_header_field/test/value_behavior/reject --> Verify, given multiple initial values, that a block is rejected if the value is modified (using `block.rlp_modifier`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] <!-- id:new_block_header_field/test/fork_transition --> Fork transition
+    - [ ] <!-- id:new_block_header_field/test/fork_transition/initial --> Verify initial value of the field at the first block of the activation fork.
+    - [ ] <!-- id:new_block_header_field/test/fork_transition/before --> Verify that a block containing the new header field before the activation of the fork is invalid.
+    - [ ] <!-- id:new_block_header_field/test/fork_transition/after --> Verify that a block lacking the new header field at the activation of the fork is invalid.
 
-### <!-- id:new_block_header/framework --> Framework Changes
+### <!-- id:new_block_header_field/framework --> Framework Changes
 
-- [ ] Add the new header field to the relevant objects:
-    - [ ] `ethereum_test_fixtures.FixtureHeader`
-    - [ ] `ethereum_test_fixtures.FixtureExecutionPayload`
-    - [ ] `ethereum_test_specs.Header`
-- [ ] Add the appropriate `header_*_required` fork method to `BaseFork` in `ethereum_test_forks`.
+- [ ] <!-- id:new_block_header_field/framework/objects --> Add the new header field to the relevant objects:
+    - [ ] <!-- id:new_block_header_field/framework/objects/fixture_header --> `ethereum_test_fixtures.FixtureHeader`
+    - [ ] <!-- id:new_block_header_field/framework/objects/fixture_execution_payload --> `ethereum_test_fixtures.FixtureExecutionPayload`
+    - [ ] <!-- id:new_block_header_field/framework/objects/header --> `ethereum_test_specs.Header`
+- [ ] <!-- id:new_block_header_field/framework/fork_method --> Add the appropriate `header_*_required` fork method to `BaseFork` in `ethereum_test_forks`.
 
 ## <!-- id:new_block_body_field --> New Block Body Field
 
