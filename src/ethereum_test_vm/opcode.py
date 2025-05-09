@@ -5592,6 +5592,44 @@ class Opcodes(Opcode, Enum):
     Source: [EIP-7069](https://eips.ethereum.org/EIPS/eip-7069)
     """
 
+    PAY = Opcode(0xFC, popped_stack_items=2, pushed_stack_items=0)
+    """
+    PAY(addr, val)
+    ----
+    Description
+    ----
+    Transfers wei (val) from the contracts balance to the address addr without executing any code.
+    Exceptionally halts if addr has any high 12 bytes set to non-zero values or if the contracts
+    balance is less than val.
+
+    Inputs
+    ----
+    - addr: destination address (20 bytes)
+    - val: amount to transfer in wei
+
+    Outputs
+    ----
+    None (consumes values and returns nothing)
+
+    Fork
+    ----
+    Osaka
+
+    Gas
+    ----
+    - Is addr in accessed_addresses:
+        - If yes, WARM_STORAGE_READ_COST (100)
+        - Otherwise, COLD_ACCOUNT_ACCESS_COST (2600)
+    - Does addr exist or is val zero:
+        - If yes to either, zero
+        - Otherwise, GAS_NEW_ACCOUNT (25000)
+    - Is val zero:
+        - If yes, zero
+        - Otherwise, GAS_CALL_VALUE (9000)
+
+    Source: [EIP-5920](https://eips.ethereum.org/EIPS/eip-5920)
+    """
+
     RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1, pushed_stack_items=1, kwargs=["offset"])
     """
     RETURNDATALOAD(offset)
