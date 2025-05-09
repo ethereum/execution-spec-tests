@@ -2,14 +2,13 @@
 
 Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features.
 
-## General
+## <!-- id:general --> General
 
-- [ ] Code coverage
-    - [ ] Run produced tests against [EELS](https://github.com/ethereum/execution-specs) and verify that line code coverage of new added lines for the EIP is 100%, with only exceptions being unreachable code lines.
-    - [ ] Run coverage on the test code itself (as a basic logic sanity check), i.e., `uv run fill --cov tests`.
-    - [ ] Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.
-- [ ] Fuzzing
-    - [ ] TBD
+- [ ] <!-- id:general/code_coverage --> Code coverage
+    - [ ] <!-- id:general/code_coverage/eels --> Run produced tests against [EELS](https://github.com/ethereum/execution-specs) and verify that line code coverage of new added lines for the EIP is 100%, with only exceptions being unreachable code lines.
+    - [ ] <!-- id:general/code_coverage/test_coverage --> Run coverage on the test code itself (as a basic logic sanity check), i.e., `uv run fill --cov tests`.
+    - [ ] <!-- id:general/code_coverage/second_client --> Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.
+- [ ] <!-- id:general/fuzzing --> Fuzzing
 
 ## <!-- id:new_opcode --> New Opcode
 
@@ -363,85 +362,85 @@ The EIP removes one or more precompiles from the existing list of precompiles.
 
 ## <!-- id:new_block_body_field --> New Block Body Field
 
-### Test Vectors
+### <!-- id:new_block_body_field/test --> Test Vectors
 
-- [ ] Value behavior
-    - [ ] Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
-    - [ ] Verify, given multiple initial values, that a block is rejected if the value is modified (using appropriate `block`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
-- [ ] Fork transition
-    - [ ] Verify that a block containing the new block body field before the activation of the fork is invalid.
-    - [ ] Verify that a block lacking the new block  field at the activation of the fork is invalid.
+- [ ] <!-- id:new_block_body_field/test/value_behavior --> Value behavior
+    - [ ] <!-- id:new_block_body_field/test/value_behavior/accept --> Verify, given multiple initial values, that a block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] <!-- id:new_block_body_field/test/value_behavior/reject --> Verify, given multiple initial values, that a block is rejected if the value is modified (using appropriate `block`) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] <!-- id:new_block_body_field/test/fork_transition --> Fork transition
+    - [ ] <!-- id:new_block_body_field/test/fork_transition/before --> Verify that a block containing the new block body field before the activation of the fork is invalid.
+    - [ ] <!-- id:new_block_body_field/test/fork_transition/after --> Verify that a block lacking the new block  field at the activation of the fork is invalid.
 
-### Framework Changes
+### <!-- id:new_block_body_field/framework --> Framework Changes
 
-- [ ] Value behavior
-    - [ ] Verify, given multiple initial values, that a block is accepted if the value is correctly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
-    - [ ] Verify, given multiple initial values, that a block is rejected if the value is incorrectly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
-- [ ] Add the new body field to the relevant objects:
-    - [ ] `ethereum_test_fixtures.FixtureBlockBase`
-    - [ ] `ethereum_test_fixtures.FixtureEngineNewPayload`
-    - [ ] `ethereum_test_specs.Block`
-- [ ] Modify `ethereum_test_specs.BlockchainTest` filling behavior to account for the new block field.
+- [ ] <!-- id:new_block_body_field/framework/value_behavior --> Value behavior
+    - [ ] <!-- id:new_block_body_field/framework/value_behavior/accept --> Verify, given multiple initial values, that a block is accepted if the value is correctly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+    - [ ] <!-- id:new_block_body_field/framework/value_behavior/reject --> Verify, given multiple initial values, that a block is rejected if the value is incorrectly modified for the current block, depending on the circumstances that affect the value as defined in the EIP.
+- [ ] <!-- id:new_block_body_field/framework/objects --> Add the new body field to the relevant objects:
+    - [ ] <!-- id:new_block_body_field/framework/objects/fixture_block --> `ethereum_test_fixtures.FixtureBlockBase`
+    - [ ] <!-- id:new_block_body_field/framework/objects/fixture_engine --> `ethereum_test_fixtures.FixtureEngineNewPayload`
+    - [ ] <!-- id:new_block_body_field/framework/objects/block --> `ethereum_test_specs.Block`
+- [ ] <!-- id:new_block_body_field/framework/filling --> Modify `ethereum_test_specs.BlockchainTest` filling behavior to account for the new block field.
 
 ## <!-- id:gas_cost_changes --> Gas Cost Changes
 
-### Test Vectors
+### <!-- id:gas_cost_changes/test --> Test Vectors
 
-- [ ] Gas Usage: Measure and store the gas usage during the operations affected by the gas cost changes and verify the updated behavior.
-- [ ] Out-of-gas: Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.
-- [ ] Fork transition: Verify gas costs are:
-    - [ ] Unaffected before the fork activation block.
-    - [ ] Updated on and after fork activation block.
+- [ ] <!-- id:gas_cost_changes/test/gas_usage --> Gas Usage: Measure and store the gas usage during the operations affected by the gas cost changes and verify the updated behavior.
+- [ ] <!-- id:gas_cost_changes/test/out_of_gas --> Out-of-gas: Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.
+- [ ] <!-- id:gas_cost_changes/test/fork_transition --> Fork transition: Verify gas costs are:
+    - [ ] <!-- id:gas_cost_changes/test/fork_transition/before --> Unaffected before the fork activation block.
+    - [ ] <!-- id:gas_cost_changes/test/fork_transition/after --> Updated on and after fork activation block.
 
-### Framework Changes
+### <!-- id:gas_cost_changes/framework --> Framework Changes
 
-- [ ] Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects intrinsic gas cost calculation.
-- [ ] Modify `transaction_data_floor_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects calldata floor cost.
-- [ ] Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
-- [ ] Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
+- [ ] <!-- id:gas_cost_changes/framework/intrinsic_cost --> Modify `transaction_intrinsic_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects intrinsic gas cost calculation.
+- [ ] <!-- id:gas_cost_changes/framework/data_floor --> Modify `transaction_data_floor_cost_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects calldata floor cost.
+- [ ] <!-- id:gas_cost_changes/framework/memory_expansion --> Modify `memory_expansion_gas_calculator` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects memory expansion gas cost calculation.
+- [ ] <!-- id:gas_cost_changes/framework/opcode_costs --> Modify `gas_costs` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects specific opcode gas costs.
 
 ## <!-- id:gas_refunds_changes --> Gas Refunds Changes
 
-### Test Vectors
+### <!-- id:gas_refunds_changes/test --> Test Vectors
 
-- [ ] Refund calculation: Verify that the refund does not exceed `gas_used // MAX_REFUND_QUOTIENT` (`MAX_REFUND_QUOTIENT==5` in [EIP-3529](https://eips.ethereum.org/EIPS/eip-3529)) in the following scenarios:
-    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT + 1`
-    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT`
-    - [ ] `refund == gas_used // MAX_REFUND_QUOTIENT - 1`
-- [ ] Exceptional Abort:
-    - [ ] If the operation causing the refund can be reverted, verify the refund is not applied if the following cases:
-        - [ ] `REVERT`
-        - [ ] Out-of-gas
-        - [ ] Invalid opcode
-        - [ ] `REVERT` of an upper call frame
-    - [ ] If the operation causing the refund cannot be reverted (e.g. in the case of a transaction-scoped operation such as authorization refunds in EIP-7702), verify the refund is still applied even in the following cases:
-        - [ ] `REVERT` at the top call frame
-        - [ ] Out-of-gas at the top call frame
-        - [ ] Invalid opcode at the top call frame
-- [ ] Cross-Functional Test: Verify the following tests are updated to support the new type of refunds:
-    - [ ] `tests/prague/eip7623_increase_calldata_cost/test_refunds.py`
+- [ ] <!-- id:gas_refunds_changes/test/refund_calculation --> Refund calculation: Verify that the refund does not exceed `gas_used // MAX_REFUND_QUOTIENT` (`MAX_REFUND_QUOTIENT==5` in [EIP-3529](https://eips.ethereum.org/EIPS/eip-3529)) in the following scenarios:
+    - [ ] <!-- id:gas_refunds_changes/test/refund_calculation/over --> `refund == gas_used // MAX_REFUND_QUOTIENT + 1`
+    - [ ] <!-- id:gas_refunds_changes/test/refund_calculation/exact --> `refund == gas_used // MAX_REFUND_QUOTIENT`
+    - [ ] <!-- id:gas_refunds_changes/test/refund_calculation/under --> `refund == gas_used // MAX_REFUND_QUOTIENT - 1`
+- [ ] <!-- id:gas_refunds_changes/test/exceptional_abort --> Exceptional Abort:
+    - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/revertable --> If the operation causing the refund can be reverted, verify the refund is not applied if the following cases:
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/revertable/revert --> `REVERT`
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/revertable/out_of_gas --> Out-of-gas
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/revertable/invalid_opcode --> Invalid opcode
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/revertable/upper_revert --> `REVERT` of an upper call frame
+    - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/non_revertable --> If the operation causing the refund cannot be reverted (e.g. in the case of a transaction-scoped operation such as authorization refunds in EIP-7702), verify the refund is still applied even in the following cases:
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/non_revertable/revert --> `REVERT` at the top call frame
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/non_revertable/out_of_gas --> Out-of-gas at the top call frame
+        - [ ] <!-- id:gas_refunds_changes/test/exceptional_abort/non_revertable/invalid_opcode --> Invalid opcode at the top call frame
+- [ ] <!-- id:gas_refunds_changes/test/cross_functional --> Cross-Functional Test: Verify the following tests are updated to support the new type of refunds:
+    - [ ] <!-- id:gas_refunds_changes/test/cross_functional/calldata_cost --> `tests/prague/eip7623_increase_calldata_cost/test_refunds.py`
 
-### Framework Changes
+### <!-- id:gas_refunds_changes/framework --> Framework Changes
 
 N/A
 
 ## <!-- id:blob_count_changes --> Blob Count Changes
 
-### <!-- id:blob_count_changes_test --> Test Vectors
+### <!-- id:blob_count_changes/test --> Test Vectors
 
-- [ ] Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
+- [ ] <!-- id:blob_count_changes/test/update_eip4844_blobs --> Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
 
-### <!-- id:blob_count_changes_framework --> Framework Changes
+### <!-- id:blob_count_changes/framework --> Framework Changes
 
-- [ ] Modify `blob_base_fee_update_fraction`, `target_blobs_per_block`, `max_blobs_per_block` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects any of the values returned by each function.
+- [ ] <!-- id:blob_count_changes/framework/fork_parameters --> Modify `blob_base_fee_update_fraction`, `target_blobs_per_block`, `max_blobs_per_block` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` if the EIP affects any of the values returned by each function.
 
 ## <!-- id:new_execution_layer_request --> New Execution Layer Request
 
-### <!-- id:new_execution_layer_request_test --> Test Vectors
+### <!-- id:new_execution_layer_request/test --> Test Vectors
 
-- [ ] Cross-Request-Type Interaction
-    - [ ] Update `tests/prague/eip7685_general_purpose_el_requests` tests to include the new request type in the tests combinations
+- [ ] <!-- id:new_execution_layer_request/test/cross_request_type --> Cross-Request-Type Interaction
+    - [ ] <!-- id:new_execution_layer_request/test/cross_request_type/update --> Update `tests/prague/eip7685_general_purpose_el_requests` tests to include the new request type in the tests combinations
 
-### <!-- id:new_execution_layer_request_framework --> Framework Changes
+### <!-- id:new_execution_layer_request/framework --> Framework Changes
 
-- [ ] Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
+- [ ] <!-- id:new_execution_layer_request/framework/max_request_type --> Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
