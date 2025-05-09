@@ -53,8 +53,6 @@ The EIP introduces one or more new opcodes to the EVM.
         - [ ] If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.
     - [ ] Block context
         - [ ] If opcode changes behavior depending on particular block properties, test using multiple values for each property.
-    - [ ] EOF Container Context
-        - [ ] If opcode changes behavior depending on particular EOF container properties, test using multiple values for each property.
 - [ ] Return data
     - [ ] Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unnaffected:
         - [ ] At current call context.
@@ -95,7 +93,6 @@ The EIP introduces one or more new opcodes to the EVM.
     - [ ] Verify recursive contract creation using the opcode: Factory contract uses the opcode, and initcode calls back to factory contract.
 - [ ] Fork transition
     - [ ] Verify that the opcode results in exeptional abort if executed before its activation fork.
-    - [ ] Verify that the opcode results in invalid EOF container if attempted to deploy before its activation fork.
     - [ ] Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.
 
 ### <!-- id:new_opcode/framework --> Framework Changes
