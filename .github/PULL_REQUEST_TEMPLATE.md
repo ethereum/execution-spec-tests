@@ -14,3 +14,4 @@
 - [ ] Tests: A PR with removal of converted JSON/YML tests from [ethereum/tests](/ethereum/tests) have been opened.
 - [ ] Tests: Included the type and version of evm t8n tool used to locally execute test cases:  e.g., ref with commit hash or geth 1.13.1-stable-3f40e65.
 - [ ] Tests: Ran `mkdocs serve` locally and verified the auto-generated docs for new tests in the [Test Case Reference](https://eest.ethereum.org/main/tests/) are correctly formatted.
+- [ ] Tests: For PRs implementing a missed test case, update the [post-mortem document](/ethereum/execution-spec-tests/blob/main/docs/writing_tests/post_mortems.md) to add an entry the list.
