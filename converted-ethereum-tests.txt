@@ -4,6 +4,10 @@ BlockchainTests/ValidBlocks/bcEIP1559/intrinsic.json
 BlockchainTests/ValidBlocks/bcEIP1559/intrinsicTip.json
 BlockchainTests/InvalidBlocks/bcEIP1559/intrinsicOrFailCancun.json
 
+([#1236](https://github.com/ethereum/execution-spec-tests/pull/1236))
+GeneralStateTests/VMTests/vmTests/calldataload.json
+GeneralStateTests/VMTests/vmTests/calldatasize.json
+
 ([#1056](https://github.com/ethereum/execution-spec-tests/pull/1056))
 GeneralStateTests/VMTests/vmTests/calldatacopy.json
 
