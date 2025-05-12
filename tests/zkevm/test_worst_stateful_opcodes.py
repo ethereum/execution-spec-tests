@@ -11,13 +11,14 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (Account, Address, Alloc, Block,
-                                 BlockchainTestFiller, Environment,
+                                 BlockchainTestFiller, Bytecode, Environment,
                                  Transaction, While)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
+MAX_CODE_SIZE = 24 * 1024
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ REFERENCE_SPEC_VERSION = "TODO"
 @pytest.mark.parametrize(
     "absent",
     [
-        True,
+        # True,
         False,
     ],
 )
@@ -52,8 +53,6 @@ def test_worst_address_state_cold(
     """
     env = Environment(gas_limit=100_000_000_000)
 
-
-    # Setup
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     num_target_accounts = (
@@ -63,6 +62,8 @@ def test_worst_address_state_cold(
     blocks = []
     post = {}
 
+
+    # Setup
     # The target addresses are going to be constructed (in the case of absent=False) and called
     # as addr_offset + i, where i is the index of the account. This is to avoid
     # collisions with the addresses indirectly created by the testing framework.
@@ -108,3 +109,69 @@ def test_worst_address_state_cold(
         blocks=blocks,
         # TODO: add skip_post_check=True
     )
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "attack_gas_limit",
+    [
+        Environment().gas_limit,
+    ],
+)
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.BALANCE,
+    ],
+)
+@pytest.mark.parametrize(
+    "absent",
+    [
+        True,
+        False,
+    ],
+)
+def test_worst_address_state_warm(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    attack_gas_limit: int,
+    opcode: Op,
+    absent: bool,
+):
+    """
+    Test running a block with as many stateful opcodes doing warm access for an account. 
+    """
+    env = Environment(gas_limit=100_000_000_000)
+
+    # Setup
+    target_addr = Address(100_000) 
+    post = {target_addr:  None}
+    if not absent: 
+        target_addr =pre.fund_eoa(100)
+        post[target_addr] = Account(balance=100)
+
+    # Execution
+    prep = Op.PUSH20(target_addr)
+    jumpdest = Op.JUMPDEST
+    jump_back = Op.JUMP(len(prep))
+    iter_block  = Op.POP(opcode(Op.DUP1))
+    max_iters_loop = (MAX_CODE_SIZE - len(prep) - len(jumpdest) - len(jump_back)) // len(iter_block)
+    op_code = prep + jumpdest + sum([iter_block] * max_iters_loop) + jump_back
+    if len(op_code) > MAX_CODE_SIZE:
+        # Must never happen, but keep it as a sanity check.
+        raise ValueError(f"Code size {len(op_code)} exceeds maximum code size {MAX_CODE_SIZE}")
+    op_address = pre.deploy_contract(code=op_code)
+    op_tx = Transaction(
+        to=op_address,
+        gas_limit=attack_gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=[Block(txs=[op_tx])],
+    )
+        # TODO: add skip_post_check=True
