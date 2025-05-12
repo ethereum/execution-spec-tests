@@ -65,7 +65,7 @@ memCopySelf:
     data: 
     - 0x
     gasLimit:
-    - 80000000
+    - 30000000
     gasPrice: 10
     nonce: 1
     to: cccccccccccccccccccccccccccccccccccccccc
