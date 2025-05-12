@@ -101,7 +101,7 @@ msize:
            ; Does the chunk size change in very high offsets?
            ;
            ; Note: It doesn't
-           (mstore8 0xB00000 1)
+           (mstore8 0xa0000 1)
            [[0]] (msize)
         }
       nonce: '0'
@@ -141,7 +141,7 @@ msize:
     # Off in hyperspace, is the chunk size still 0x20?
     - :label farChunk :abi f(uint) 5
     gasLimit:
-    - 0x1c9c380
+    - 1_000_000
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc
@@ -158,7 +158,7 @@ msize:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Prague'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
@@ -173,7 +173,7 @@ msize:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Prague'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
@@ -187,7 +187,7 @@ msize:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Prague'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
@@ -201,7 +201,7 @@ msize:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Prague'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
@@ -218,8 +218,8 @@ msize:
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - '>=Prague'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
-            0x00: 0xb00020
+            0x00: 0xa0020

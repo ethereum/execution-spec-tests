@@ -184,8 +184,8 @@ costRevert:
             } 0)
 
 
-            ; If the gas cost is above 0x04000000, assume it means "all the gas"
-            [[0]] (if (> @@0 0x04000000) 0xFFFFFF @@0)
+            ; If the gas cost is above 3000000, assume it means "all the gas"
+            [[0]] (if (> @@0 3000000) 0xFFFFFF @@0)
         }
       nonce: '0'
       storage: {}
@@ -240,7 +240,7 @@ costRevert:
     - :label stackOver  :abi f(uint,uint) 0x1006 3
 
     gasLimit:
-    - '30000000'
+    - '4_000_000'
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc
