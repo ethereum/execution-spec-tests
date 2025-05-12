@@ -18461,7 +18461,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3131f662dd49436afe2f7c385cdbc576954198ad/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2630"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@3131f662</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d07c5fad0b22a12829d8637a31846e6791a794a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2630"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@d07c5fad</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Prague</span>
@@ -18609,7 +18609,22 @@
 <span class="normal">2756</span>
 <span class="normal">2757</span>
 <span class="normal">2758</span>
-<span class="normal">2759</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
+<span class="normal">2759</span>
+<span class="normal">2760</span>
+<span class="normal">2761</span>
+<span class="normal">2762</span>
+<span class="normal">2763</span>
+<span class="normal">2764</span>
+<span class="normal">2765</span>
+<span class="normal">2766</span>
+<span class="normal">2767</span>
+<span class="normal">2768</span>
+<span class="normal">2769</span>
+<span class="normal">2770</span>
+<span class="normal">2771</span>
+<span class="normal">2772</span>
+<span class="normal">2773</span>
+<span class="normal">2774</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">opcode</span>
         <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]</span>
@@ -18685,17 +18700,32 @@
             <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">calldata</span>
             <span class="n">call_value</span> <span class="o">=</span> <span class="n">consolidation_request</span><span class="o">.</span><span class="n">value</span>
         <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
-            <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># This payload is used to identify the number of blocks to be subtracted from the</span>
+            <span class="c1"># latest block number</span>
+            <span class="n">caller_payload</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">caller_code_storage</span><span class="p">[</span><span class="n">call_return_data_size_slot</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
         <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Not implemented system contract: </span><span class="si">{</span><span class="n">system_contract</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
+    <span class="c1"># Setup the code to call the system contract</span>
+    <span class="k">match</span> <span class="n">system_contract</span><span class="p">:</span>
+        <span class="k">case</span> <span class="n">Address</span><span class="p">(</span><span class="mh">0x0000F90827F1C53A10CB7A02335B175320002935</span><span class="p">):</span>  <span class="c1"># EIP-2935</span>
+            <span class="c1"># Do a trick here to get the block number of the penultimate block to ensure it is</span>
+            <span class="c1"># saved in the history contract</span>
+            <span class="n">check_block_number</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">call_system_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_block_number</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+                <span class="n">call_return_code_slot</span><span class="p">,</span>
+                <span class="n">call_opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">call_value</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+            <span class="c1"># Call another system contract with fabricated payload</span>
+            <span class="n">call_system_contract_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+                <span class="n">call_return_code_slot</span><span class="p">,</span>
+                <span class="n">call_opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">call_value</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>
+            <span class="p">)</span>
+
     <span class="n">caller_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="n">call_return_code_slot</span><span class="p">,</span>
-            <span class="n">call_opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">call_value</span><span class="p">,</span> <span class="n">args_size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>
-        <span class="p">)</span>
+        <span class="n">call_system_contract_code</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">call_return_data_size_slot</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
     <span class="p">)</span>

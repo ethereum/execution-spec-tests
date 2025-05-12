@@ -18461,7 +18461,7 @@
 
 
 <h1 id="test_delegation_clearing_failing_tx"><code>test_delegation_clearing_failing_tx()</code><a class="headerlink" href="#test_delegation_clearing_failing_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3131f662dd49436afe2f7c385cdbc576954198ad/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3251"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@3131f662</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d07c5fad0b22a12829d8637a31846e6791a794a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3266"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@d07c5fad</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx --fork Prague</span>
@@ -18480,22 +18480,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3251</span>
-<span class="normal">3252</span>
-<span class="normal">3253</span>
-<span class="normal">3254</span>
-<span class="normal">3255</span>
-<span class="normal">3256</span>
-<span class="normal">3257</span>
-<span class="normal">3258</span>
-<span class="normal">3259</span>
-<span class="normal">3260</span>
-<span class="normal">3261</span>
-<span class="normal">3262</span>
-<span class="normal">3263</span>
-<span class="normal">3264</span>
-<span class="normal">3265</span>
-<span class="normal">3266</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3266</span>
 <span class="normal">3267</span>
 <span class="normal">3268</span>
 <span class="normal">3269</span>
@@ -18526,7 +18511,22 @@
 <span class="normal">3294</span>
 <span class="normal">3295</span>
 <span class="normal">3296</span>
-<span class="normal">3297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3297</span>
+<span class="normal">3298</span>
+<span class="normal">3299</span>
+<span class="normal">3300</span>
+<span class="normal">3301</span>
+<span class="normal">3302</span>
+<span class="normal">3303</span>
+<span class="normal">3304</span>
+<span class="normal">3305</span>
+<span class="normal">3306</span>
+<span class="normal">3307</span>
+<span class="normal">3308</span>
+<span class="normal">3309</span>
+<span class="normal">3310</span>
+<span class="normal">3311</span>
+<span class="normal">3312</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;entry_code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;out_of_gas&quot;</span><span class="p">),</span>

@@ -18461,7 +18461,7 @@
 
 
 <h1 id="test_contract_create"><code>test_contract_create()</code><a class="headerlink" href="#test_contract_create" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3131f662dd49436afe2f7c385cdbc576954198ad/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2976"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_contract_create@3131f662</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d07c5fad0b22a12829d8637a31846e6791a794a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2991"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_contract_create@d07c5fad</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_contract_create --fork Prague</span>
@@ -18480,22 +18480,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2976</span>
-<span class="normal">2977</span>
-<span class="normal">2978</span>
-<span class="normal">2979</span>
-<span class="normal">2980</span>
-<span class="normal">2981</span>
-<span class="normal">2982</span>
-<span class="normal">2983</span>
-<span class="normal">2984</span>
-<span class="normal">2985</span>
-<span class="normal">2986</span>
-<span class="normal">2987</span>
-<span class="normal">2988</span>
-<span class="normal">2989</span>
-<span class="normal">2990</span>
-<span class="normal">2991</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2991</span>
 <span class="normal">2992</span>
 <span class="normal">2993</span>
 <span class="normal">2994</span>
@@ -18505,7 +18490,22 @@
 <span class="normal">2998</span>
 <span class="normal">2999</span>
 <span class="normal">3000</span>
-<span class="normal">3001</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
+<span class="normal">3001</span>
+<span class="normal">3002</span>
+<span class="normal">3003</span>
+<span class="normal">3004</span>
+<span class="normal">3005</span>
+<span class="normal">3006</span>
+<span class="normal">3007</span>
+<span class="normal">3008</span>
+<span class="normal">3009</span>
+<span class="normal">3010</span>
+<span class="normal">3011</span>
+<span class="normal">3012</span>
+<span class="normal">3013</span>
+<span class="normal">3014</span>
+<span class="normal">3015</span>
+<span class="normal">3016</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="k">def</span> <span class="nf">test_contract_create</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

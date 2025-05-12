@@ -18461,7 +18461,7 @@
 
 
 <h1 id="test_set_code_from_account_with_non_delegating_code"><code>test_set_code_from_account_with_non_delegating_code()</code><a class="headerlink" href="#test_set_code_from_account_with_non_delegating_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3131f662dd49436afe2f7c385cdbc576954198ad/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3572"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@3131f662</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d07c5fad0b22a12829d8637a31846e6791a794a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3587"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@d07c5fad</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code --fork Prague</span>
@@ -18484,22 +18484,7 @@ To be eoa, delegation, contract .. etc</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3572</span>
-<span class="normal">3573</span>
-<span class="normal">3574</span>
-<span class="normal">3575</span>
-<span class="normal">3576</span>
-<span class="normal">3577</span>
-<span class="normal">3578</span>
-<span class="normal">3579</span>
-<span class="normal">3580</span>
-<span class="normal">3581</span>
-<span class="normal">3582</span>
-<span class="normal">3583</span>
-<span class="normal">3584</span>
-<span class="normal">3585</span>
-<span class="normal">3586</span>
-<span class="normal">3587</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3587</span>
 <span class="normal">3588</span>
 <span class="normal">3589</span>
 <span class="normal">3590</span>
@@ -18560,7 +18545,22 @@ To be eoa, delegation, contract .. etc</p>
 <span class="normal">3645</span>
 <span class="normal">3646</span>
 <span class="normal">3647</span>
-<span class="normal">3648</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3648</span>
+<span class="normal">3649</span>
+<span class="normal">3650</span>
+<span class="normal">3651</span>
+<span class="normal">3652</span>
+<span class="normal">3653</span>
+<span class="normal">3654</span>
+<span class="normal">3655</span>
+<span class="normal">3656</span>
+<span class="normal">3657</span>
+<span class="normal">3658</span>
+<span class="normal">3659</span>
+<span class="normal">3660</span>
+<span class="normal">3661</span>
+<span class="normal">3662</span>
+<span class="normal">3663</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;set_code_type&quot;</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">AddressType</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">address_type</span><span class="p">:</span> <span class="n">address_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>

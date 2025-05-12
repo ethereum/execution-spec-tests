@@ -18461,7 +18461,7 @@
 
 
 <h1 id="test_eoa_tx_after_set_code"><code>test_eoa_tx_after_set_code()</code><a class="headerlink" href="#test_eoa_tx_after_set_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3131f662dd49436afe2f7c385cdbc576954198ad/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2762"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@3131f662</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d07c5fad0b22a12829d8637a31846e6791a794a9/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2777"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code@d07c5fad</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_eoa_tx_after_set_code --fork Prague</span>
@@ -18480,22 +18480,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2762</span>
-<span class="normal">2763</span>
-<span class="normal">2764</span>
-<span class="normal">2765</span>
-<span class="normal">2766</span>
-<span class="normal">2767</span>
-<span class="normal">2768</span>
-<span class="normal">2769</span>
-<span class="normal">2770</span>
-<span class="normal">2771</span>
-<span class="normal">2772</span>
-<span class="normal">2773</span>
-<span class="normal">2774</span>
-<span class="normal">2775</span>
-<span class="normal">2776</span>
-<span class="normal">2777</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2777</span>
 <span class="normal">2778</span>
 <span class="normal">2779</span>
 <span class="normal">2780</span>
@@ -18615,7 +18600,22 @@
 <span class="normal">2894</span>
 <span class="normal">2895</span>
 <span class="normal">2896</span>
-<span class="normal">2897</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
+<span class="normal">2897</span>
+<span class="normal">2898</span>
+<span class="normal">2899</span>
+<span class="normal">2900</span>
+<span class="normal">2901</span>
+<span class="normal">2902</span>
+<span class="normal">2903</span>
+<span class="normal">2904</span>
+<span class="normal">2905</span>
+<span class="normal">2906</span>
+<span class="normal">2907</span>
+<span class="normal">2908</span>
+<span class="normal">2909</span>
+<span class="normal">2910</span>
+<span class="normal">2911</span>
+<span class="normal">2912</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_evm_code_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">tx_type</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">,</span>
     <span class="n">marks</span><span class="o">=</span><span class="k">lambda</span> <span class="n">tx_type</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;incompatible tx&quot;</span><span class="p">))</span>
