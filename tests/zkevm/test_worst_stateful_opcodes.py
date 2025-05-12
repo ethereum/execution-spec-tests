@@ -23,7 +23,7 @@ REFERENCE_SPEC_VERSION = "TODO"
 @pytest.mark.parametrize(
     "attack_gas_limit",
     [
-        36_000_000,
+        Environment().gas_limit,
     ],
 )
 @pytest.mark.parametrize(
@@ -32,16 +32,23 @@ REFERENCE_SPEC_VERSION = "TODO"
         Op.BALANCE,
     ],
 )
+@pytest.mark.parametrize(
+    "absent",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_address_state_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     attack_gas_limit: int,
     opcode: Op,
+    absent : bool,
 ):
     """
-    Test running a block with as many stateful opcodes execution accessing
-    an account state as possible.
+    Test running a block with as many stateful opcodes accessing cold accounts. 
     """
     env = Environment(gas_limit=100_000_000_000)
 
@@ -53,21 +60,32 @@ def test_worst_address_state_cold(
         attack_gas_limit - intrinsic_gas_cost_calc()
     ) // gas_costs.G_COLD_ACCOUNT_ACCESS
 
-    # Create num_target_accounts accounts by sending 10 wei to each. The addresses are 
-    # consecutive numbers starting from addr_offset so we avoid collisions.
-    addr_offset = 100_000
-    factory_code = Op.PUSH4(num_target_accounts) + While(
-        body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
-        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
-    )
-    factory_address = pre.deploy_contract(code=factory_code, balance=10**18)
+    blocks = []
+    post = {}
 
-    setup_tx = Transaction(
-        to=factory_address,
-        gas_limit=env.gas_limit,
-        gas_price=10,
-        sender=pre.fund_eoa(),
-    )
+    # The target addresses are going to be constructed (in the case of absent=False) and called
+    # as addr_offset + i, where i is the index of the account. This is to avoid
+    # collisions with the addresses indirectly created by the testing framework.
+    addr_offset = 100_000
+
+    if not absent:
+        factory_code = Op.PUSH4(num_target_accounts) + While(
+            body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
+            condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+        )
+        factory_address = pre.deploy_contract(code=factory_code, balance=10**18)
+
+        setup_tx = Transaction(
+            to=factory_address,
+            gas_limit=env.gas_limit,
+            gas_price=10,
+            sender=pre.fund_eoa(),
+        )
+        blocks.append(Block(txs=[setup_tx]))
+
+        for i in range(num_target_accounts):
+            addr = Address(i+addr_offset+1)
+            post[addr] = Account(balance=10)
 
     # Execution
     op_code = Op.PUSH4(num_target_accounts) + While(
@@ -81,19 +99,12 @@ def test_worst_address_state_cold(
         gas_price=10,
         sender=pre.fund_eoa(),
     )
-
-    post = {}
-    for i in range(num_target_accounts):
-        addr = Address(i+addr_offset+1)
-        post[addr] = Account(balance=10)
+    blocks.append(Block(txs=[op_tx]))
 
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
-        blocks=[
-            Block(txs=[setup_tx]),
-            Block(txs=[op_tx]),
-        ],
+        blocks=blocks,
         # TODO: add skip_post_check=True
     )
