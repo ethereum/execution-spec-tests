@@ -24,6 +24,14 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_152.git_path
 REFERENCE_SPEC_VERSION = ref_spec_152.version
 
 
+@pytest.mark.converted_from(
+    [
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL])
 @pytest.mark.parametrize(
@@ -417,6 +425,14 @@ def test_blake2b(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize("gas_limit", [90_000, 110_000, 200_000])
@@ -530,6 +546,14 @@ def test_blake2b_invalid_gas(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize("gas_limit", [Environment().gas_limit, 90_000, 110_000, 200_000])
@@ -640,6 +664,14 @@ def test_blake2b_gas_limit(
     )
 
 
+@pytest.mark.converted_from(
+    [
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
+        "/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize(

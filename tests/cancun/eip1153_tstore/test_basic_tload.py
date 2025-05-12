@@ -16,6 +16,11 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_1153.git_path
 REFERENCE_SPEC_VERSION = ref_spec_1153.version
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/01_tloadBeginningTxnFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_transaction_begin(
     state_test: StateTestFiller,
@@ -61,6 +66,11 @@ def test_basic_tload_transaction_begin(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/02_tloadAfterTstoreFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_works(
     state_test: StateTestFiller,
@@ -113,6 +123,11 @@ def test_basic_tload_works(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/03_tloadAfterStoreIs0Filler.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_other_after_tstore(
     state_test: StateTestFiller,
@@ -161,6 +176,11 @@ def test_basic_tload_other_after_tstore(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/16_tloadGasFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_gasprice(
     state_test: StateTestFiller,
@@ -239,6 +259,11 @@ def test_basic_tload_gasprice(
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/18_tloadAfterStoreFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 def test_basic_tload_after_store(
     state_test: StateTestFiller,

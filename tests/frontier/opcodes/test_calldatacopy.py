@@ -7,6 +7,11 @@ from ethereum_test_tools import Account, Alloc, Bytecode, StateTestFiller, Trans
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml",
+    ]
+)
 @pytest.mark.parametrize(
     "code,tx_data,code_address_storage,to_address_storage",
     [

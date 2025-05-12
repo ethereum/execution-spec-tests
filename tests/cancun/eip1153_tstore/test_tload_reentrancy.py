@@ -33,6 +33,11 @@ class CallDestType(Enum):
     EXTERNAL_CALL = 2
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/05_tloadReentrancyFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL])
 @pytest.mark.parametrize("call_return", [Op.RETURN, Op.REVERT, Om.OOG])

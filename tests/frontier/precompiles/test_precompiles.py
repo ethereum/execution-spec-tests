@@ -42,6 +42,9 @@ def precompile_addresses(fork: Fork) -> Iterator[Tuple[str, bool]]:
             num_unsupported -= 1
 
 
+@pytest.mark.converted_from(
+    ["/src/LegacyTests/Cancun/GeneralStateTestsFiller/stPreCompiledContracts/idPrecompsFiller.yml"]
+)
 @pytest.mark.valid_from("Berlin")
 @pytest.mark.parametrize_by_fork("address,precompile_exists", precompile_addresses)
 def test_precompiles(
