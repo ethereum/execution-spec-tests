@@ -296,12 +296,27 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/spec/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/</loc>
          <lastmod>2025-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_access_list/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_tx_intrinsic_gas/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_tx_intrinsic_gas/test_tx_intrinsic_gas/</loc>
          <lastmod>2025-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -1212,6 +1227,21 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/precompiles/test_precompiles/test_precompiles/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/scenarios/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/scenarios/test_scenarios/</loc>
+         <lastmod>2025-05-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/scenarios/test_scenarios/test_scenarios/</loc>
          <lastmod>2025-05-12</lastmod>
          <changefreq>daily</changefreq>
     </url>
