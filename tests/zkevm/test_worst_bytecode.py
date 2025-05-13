@@ -36,6 +36,7 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
     "opcode",
     [
         Op.EXTCODESIZE,
+        Op.EXTCODEHASH,
     ],
 )
 @pytest.mark.parametrize(
@@ -128,7 +129,7 @@ def test_worst_bytecode_single_opcode(
         gas_costs.G_KECCAK_256  # KECCAK static cost
         + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
         + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
-        + gas_costs.G_COLD_ACCOUNT_ACCESS  # EXTCODESIZE
+        + gas_costs.G_COLD_ACCOUNT_ACCESS  # Opcode cost
         + 30  # ~Gluing opcodes
     )
     max_number_of_contract_calls = (
