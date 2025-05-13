@@ -17,7 +17,16 @@ jobs:
         id: parse
         shell: bash
         run: |
-          echo "features=$(grep -Po "^[0-9a-zA-Z_\-]+" ./.github/configs/feature.yaml | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
+          # Get all features without `feature_only: true`
+          grep -Po "^[0-9a-zA-Z_\-]+" ./.github/configs/feature.yaml | \
+          while read feature; do
+            if ! awk "/^$feature:/{flag=1; next} /^[[:alnum:]]/{flag=0} flag && /feature_only:.*true/{exit 1}" \
+                  ./.github/configs/feature.yaml; then
+              continue
+            fi
+            echo "$feature"
+          done | jq -R . | jq -cs . > features.json
+          echo "features=$(cat features.json)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
     runs-on: self-hosted
