@@ -648,8 +648,7 @@ class BlockchainTest(BaseTest):
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
-        if not self.exclude_post_state:
-            self.verify_post_state(t8n, t8n_state=alloc)
+        self.verify_post_state(t8n, t8n_state=alloc)
         network_info = BlockchainTest.network_info(fork, eips)
         return BlockchainFixture(
             fork=network_info,
