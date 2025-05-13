@@ -657,7 +657,7 @@ class BlockchainTest(BaseTest):
             blocks=fixture_blocks,
             last_block_hash=head,
             pre=pre,
-            post_state=alloc if not self.exclude_post_state else None,
+            post_state=alloc if not self.exclude_full_post_state_in_output else None,
             config=FixtureConfig(
                 fork=network_info,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
@@ -719,8 +719,7 @@ class BlockchainTest(BaseTest):
             " The framework should never try to execute this test case."
         )
 
-        if not self.exclude_post_state:
-            self.verify_post_state(t8n, t8n_state=alloc)
+        self.verify_post_state(t8n, t8n_state=alloc)
 
         sync_payload: Optional[FixtureEngineNewPayload] = None
         if self.verify_sync:
@@ -757,7 +756,7 @@ class BlockchainTest(BaseTest):
             payloads=fixture_payloads,
             fcu_version=fcu_version,
             pre=pre,
-            post_state=alloc if not self.exclude_post_state else None,
+            post_state=alloc if not self.exclude_full_post_state_in_output else None,
             sync_payload=sync_payload,
             last_block_hash=head_hash,
             config=FixtureConfig(
