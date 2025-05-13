@@ -10,17 +10,9 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Bytecode,
-    Environment,
-    Transaction,
-    While,
-)
+from ethereum_test_tools import (Account, Address, Alloc, Block,
+                                 BlockchainTestFiller, Bytecode, Environment,
+                                 Transaction, While)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -43,7 +35,7 @@ MAX_CODE_SIZE = 24 * 1024
     ],
 )
 @pytest.mark.parametrize(
-    "absent",
+    "absent_target",
     [
         True,
         False,
@@ -55,7 +47,7 @@ def test_worst_address_state_cold(
     fork: Fork,
     attack_gas_limit: int,
     opcode: Op,
-    absent: bool,
+    absent_target: bool,
 ):
     """
     Test running a block with as many stateful opcodes accessing cold accounts.
@@ -77,7 +69,7 @@ def test_worst_address_state_cold(
     # collisions with the addresses indirectly created by the testing framework.
     addr_offset = 100_000
 
-    if not absent:
+    if not absent_target:
         factory_code = Op.PUSH4(num_target_accounts) + While(
             body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
@@ -135,7 +127,7 @@ def test_worst_address_state_cold(
     ],
 )
 @pytest.mark.parametrize(
-    "absent",
+    "absent_target",
     [
         True,
         False,
@@ -147,7 +139,7 @@ def test_worst_address_state_warm(
     fork: Fork,
     attack_gas_limit: int,
     opcode: Op,
-    absent: bool,
+    absent_target: bool,
 ):
     """
     Test running a block with as many stateful opcodes doing warm access for an account.
@@ -157,7 +149,7 @@ def test_worst_address_state_warm(
     # Setup
     target_addr = Address(100_000)
     post = {target_addr: None}
-    if not absent:
+    if not absent_target:
         target_addr = pre.deploy_contract(balance=100, code=Op.JUMPDEST * 100)
         post[target_addr] = Account(balance=100, code=Op.JUMPDEST * 100)
 
