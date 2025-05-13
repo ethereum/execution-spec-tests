@@ -36,7 +36,7 @@ MAX_CODE_SIZE = 24 * 1024
 @pytest.mark.parametrize(
     "absent",
     [
-        # True,
+        True,
         False,
     ],
 )
@@ -61,7 +61,6 @@ def test_worst_address_state_cold(
 
     blocks = []
     post = {}
-
 
     # Setup
     # The target addresses are going to be constructed (in the case of absent=False) and called
@@ -121,6 +120,8 @@ def test_worst_address_state_cold(
     "opcode",
     [
         Op.BALANCE,
+        Op.EXTCODESIZE,
+        Op.EXTCODEHASH,
     ],
 )
 @pytest.mark.parametrize(
@@ -147,8 +148,8 @@ def test_worst_address_state_warm(
     target_addr = Address(100_000) 
     post = {target_addr:  None}
     if not absent: 
-        target_addr =pre.fund_eoa(100)
-        post[target_addr] = Account(balance=100)
+        target_addr = pre.deploy_contract(balance=100, code=Op.JUMPDEST * 100)
+        post[target_addr] = Account(balance=100, code = Op.JUMPDEST * 100)
 
     # Execution
     prep = Op.PUSH20(target_addr)
