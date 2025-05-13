@@ -10,9 +10,17 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (Account, Address, Alloc, Block,
-                                 BlockchainTestFiller, Bytecode, Environment,
-                                 Transaction, While)
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Bytecode,
+    Environment,
+    Transaction,
+    While,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -124,6 +132,10 @@ def test_worst_address_state_cold(
         Op.BALANCE,
         Op.EXTCODESIZE,
         Op.EXTCODEHASH,
+        Op.CALL,
+        Op.CALLCODE,
+        Op.DELEGATECALL,
+        Op.STATICCALL,
     ],
 )
 @pytest.mark.parametrize(
@@ -150,14 +162,15 @@ def test_worst_address_state_warm(
     target_addr = Address(100_000)
     post = {target_addr: None}
     if not absent_target:
-        target_addr = pre.deploy_contract(balance=100, code=Op.JUMPDEST * 100)
-        post[target_addr] = Account(balance=100, code=Op.JUMPDEST * 100)
+        code = Op.STOP + Op.JUMPDEST * 100
+        target_addr = pre.deploy_contract(balance=100, code=code)
+        post[target_addr] = Account(balance=100, code=code)
 
     # Execution
-    prep = Op.PUSH20(target_addr)
+    prep = Op.MSTORE(0, target_addr)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(prep))
-    iter_block = Op.POP(opcode(Op.DUP1))
+    iter_block = Op.POP(opcode(address=Op.MLOAD(0)))
     max_iters_loop = (MAX_CODE_SIZE - len(prep) - len(jumpdest) - len(jump_back)) // len(
         iter_block
     )
