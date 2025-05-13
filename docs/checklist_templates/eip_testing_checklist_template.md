@@ -1038,19 +1038,29 @@ Verify, given multiple initial values, that a block is accepted or rejected depe
 ###  Test Vectors
 
 #### Gas Usage
+
 Measure and store the gas usage during the operations affected by the gas cost changes and verify the updated behavior.
-
-#### Out-of-gas
-Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.
-
-#### Fork transition
-
-Verify gas costs are.
 
 | ID | Description | Status | Tests |
 |-|-|-|-|
-| `gas_cost_changes/test/fork_transition/before` | Unaffected before the fork activation block. |  |  |
-| `gas_cost_changes/test/fork_transition/after` | Updated on and after fork activation block. |  |  |
+| `gas_cost_changes/test/gas_updates_measurement` | Measure updated gas costs. |  |  |
+
+#### Out-of-gas
+
+Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.
+
+| ID | Description | Status | Tests |
+|-|-|-|-|
+| `gas_cost_changes/test/out_of_gas` | Out-Of-Gas with new gas prices. |  |  |
+
+#### Fork transition
+
+Verify gas costs are updated at the fork transition boundary.
+
+| ID | Description | Status | Tests |
+|-|-|-|-|
+| `gas_cost_changes/test/fork_transition/before` | Costs unaffected before the fork activation block. |  |  |
+| `gas_cost_changes/test/fork_transition/after` | Costs are updated on and after fork activation block. |  |  |
 
 ###  Framework Changes
 
@@ -1103,7 +1113,13 @@ N/A
 
 ###  Test Vectors
 
-#### Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
+#### Existing Test Updates
+
+Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically updated to take into account the new blob count values at the new fork activation block.
+
+| ID | Description | Status | Tests |
+|-|-|-|-|
+| `blob_count_changes/test/eip4844_blobs_changes` | Updates to `tests/cancun/eip4844_blobs` were applied correctly. |  |  |
 
 ###  Framework Changes
 
