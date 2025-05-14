@@ -176,7 +176,9 @@ Verify gas usage affectation of each stack argument or memory input consumed by 
 
 Verify that the memory expansion correctly follows the gas calculation.
 
-| `new_opcode/test/gas_usage/memory_expansion` | Memory expansion. | | |
+| ID                                           | Description       | Status | Tests |
+| -------------------------------------------- | ----------------- | ------ | ----- |
+| `new_opcode/test/gas_usage/memory_expansion` | Memory expansion. |        |       |
 
 ##### Out-Of-Gas
 
@@ -191,8 +193,10 @@ Verify that attempting to execute the opcode when gas available is 1 less than t
 
 If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of each other) and the listed cases for each.
 
-| `new_opcode/test/gas_usage/order_of_operations/exact` | Success using the exact amount of gas required for the stipend. | | |
-| `new_opcode/test/gas_usage/order_of_operations/oog` | OOG with a 1-gas-difference from the gas required for the stipend. | | |
+| ID                                                    | Description                                                        | Status | Tests |
+| ----------------------------------------------------- | ------------------------------------------------------------------ | ------ | ----- |
+| `new_opcode/test/gas_usage/order_of_operations/exact` | Success using the exact amount of gas required for the stipend.    |        |       |
+| `new_opcode/test/gas_usage/order_of_operations/oog`   | OOG with a 1-gas-difference from the gas required for the stipend. |        |       |
 
 #### Terminating opcode
 
@@ -259,15 +263,19 @@ Verify contract is created at the expected address given multiple inputs.
 
 The contract creation fails given the listed conditions.
 
-| `new_opcode/test/contract_creation/failure/oog` | Out-of-gas when available gas is less than minimum contract creation stipend. | | |
-| `new_opcode/test/contract_creation/failure/insufficient_value` | Opcode has a value parameter and the caller does not have enough funds. | | |
-| `new_opcode/test/contract_creation/failure/collision` | Creation would result in an address collision with an existing contract or EOA-delegated address. | | |
+| ID                                                             | Description                                                                                       | Status | Tests |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_opcode/test/contract_creation/failure/oog`                | Out-of-gas when available gas is less than minimum contract creation stipend.                     |        |       |
+| `new_opcode/test/contract_creation/failure/insufficient_value` | Opcode has a value parameter and the caller does not have enough funds.                           |        |       |
+| `new_opcode/test/contract_creation/failure/collision`          | Creation would result in an address collision with an existing contract or EOA-delegated address. |        |       |
 
 ##### Recursive Contract Creation
 
 Opcode is used to attempt to recreate a contract that is currently mid-creation by a previous call of the same opcode.
 
-| `new_opcode/test/contract_creation/recursive` | Recursive contract creation using the opcode. | | |
+| ID                                            | Description                                   | Status | Tests |
+| --------------------------------------------- | --------------------------------------------- | ------ | ----- |
+| `new_opcode/test/contract_creation/recursive` | Recursive contract creation using the opcode. |        |       |
 
 #### Fork transition
 
@@ -409,17 +417,21 @@ Regardless of the input requirements for the precompile.
 
 If the precompile has a static required input length.
 
-| `new_precompile/test/input_lengths/static/correct` | Correct static-length calldata. | | |
-| `new_precompile/test/input_lengths/static/too_short` | Calldata too short, where the value represents a correct but truncated input to the precompile. | | |
-| `new_precompile/test/input_lengths/static/too_long` | Calldata too long, where the value represents a correct input to the precompile with padded zeros. | | |
+| ID                                                   | Description                                                                                        | Status | Tests |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_precompile/test/input_lengths/static/correct`   | Correct static-length calldata.                                                                    |        |       |
+| `new_precompile/test/input_lengths/static/too_short` | Calldata too short, where the value represents a correct but truncated input to the precompile.    |        |       |
+| `new_precompile/test/input_lengths/static/too_long`  | Calldata too long, where the value represents a correct input to the precompile with padded zeros. |        |       |
 
 ##### Dynamic Required Input Length
 
 If the precompile has a variable required input-length based on a formula, test all listed scenarios given different input lengths.
 
-| `new_precompile/test/input_lengths/dynamic/valid` | Verify correct precompile execution for valid lengths. | | |
-| `new_precompile/test/input_lengths/dynamic/too_short` | Calldata too short, where the value represents a correct but truncated input to the precompile. | | |
-| `new_precompile/test/input_lengths/dynamic/too_long` | Calldata too long, where the value represents a correct input to the precompile with padded zeros. | | |
+| ID                                                    | Description                                                                                        | Status | Tests |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_precompile/test/input_lengths/dynamic/valid`     | Verify correct precompile execution for valid lengths.                                             |        |       |
+| `new_precompile/test/input_lengths/dynamic/too_short` | Calldata too short, where the value represents a correct but truncated input to the precompile.    |        |       |
+| `new_precompile/test/input_lengths/dynamic/too_long`  | Calldata too long, where the value represents a correct input to the precompile with padded zeros. |        |       |
 
 #### Gas usage
 
@@ -600,7 +612,9 @@ If the system contract requires a minimum value (fee) to execute, either constan
 
 If the system contract does not require any minimum value (fee) to execute.
 
-| `new_system_contract/test/value_transfer/no_fee` | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |
+| ID                                               | Description                                                                                 | Status | Tests |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_system_contract/test/value_transfer/no_fee` | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). |        |       |
 
 #### Out-of-bounds checks
 
@@ -869,19 +883,25 @@ Verify for each transaction field that is of type list.
 
 ##### Extra/Missing Fields
 
-| `new_transaction_type/test/encoding/missing_fields` | Any fields particular to the new transaction types are missing. | | |
-| `new_transaction_type/test/encoding/extra_fields` | Transaction contains extra fields. | | |
+| ID                                                  | Description                                                     | Status | Tests |
+| --------------------------------------------------- | --------------------------------------------------------------- | ------ | ----- |
+| `new_transaction_type/test/encoding/missing_fields` | Any fields particular to the new transaction types are missing. |        |       |
+| `new_transaction_type/test/encoding/extra_fields`   | Transaction contains extra fields.                              |        |       |
 
 ##### Serialization Corruption
 
-| `new_transaction_type/test/encoding/truncated` | Serialized bytes object is truncated by one byte. | | |
-| `new_transaction_type/test/encoding/extra_bytes` | Serialized bytes object has one extra byte. | | |
+| ID                                               | Description                                       | Status | Tests |
+| ------------------------------------------------ | ------------------------------------------------- | ------ | ----- |
+| `new_transaction_type/test/encoding/truncated`   | Serialized bytes object is truncated by one byte. |        |       |
+| `new_transaction_type/test/encoding/extra_bytes` | Serialized bytes object has one extra byte.       |        |       |
 
 ##### Serializable Fields
 
 Verify for each serializable field, all previous tests plus following listed scenario.
 
-| `new_transaction_type/test/encoding/new_types/incorrect_encoding` | Serializable field is encoded as bytes instead of using the correct encoding (e.g. list in the case of RLP). | | |
+| ID                                                                | Description                                                                                                  | Status | Tests |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ | ----- |
+| `new_transaction_type/test/encoding/new_types/incorrect_encoding` | Serializable field is encoded as bytes instead of using the correct encoding (e.g. list in the case of RLP). |        |       |
 
 #### Out-of-bounds checks
 
@@ -922,21 +942,27 @@ Verify a block where the new transaction type is the sole transaction contained 
 
 Verify a block where the new transaction type is the last transaction contained in a block with two transactions.
 
-| `new_transaction_type/test/block_interactions/last_tx/valid` | Valid if `block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit`. | | |
-| `new_transaction_type/test/block_interactions/last_tx/invalid` | Invalid if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`. | | |
+| ID                                                             | Description                                                                                                                         | Status | Tests |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_transaction_type/test/block_interactions/last_tx/valid`   | Valid if `block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit`.                                                       |        |       |
+| `new_transaction_type/test/block_interactions/last_tx/invalid` | Invalid if `(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used < block.gas_limit)`. |        |       |
 
 ##### EIP-7825
 
 Verify a transaction of the new type is rejected if its gas limit exceeds the [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825) gas limit for the current fork.
 
-| `new_transaction_type/test/block_interactions/eip7825/invalid` | Exceeds EIP-7825 gas limit by one. | | |
-| `new_transaction_type/test/block_interactions/eip7825/valid` | Gas limit is exactly the EIP-7825 gas limit. | | |
+| ID                                                             | Description                                  | Status | Tests |
+| -------------------------------------------------------------- | -------------------------------------------- | ------ | ----- |
+| `new_transaction_type/test/block_interactions/eip7825/invalid` | Exceeds EIP-7825 gas limit by one.           |        |       |
+| `new_transaction_type/test/block_interactions/eip7825/valid`   | Gas limit is exactly the EIP-7825 gas limit. |        |       |
 
 ##### Mixed transactions
 
 Verify a block with all transactions types including the new type is executed correctly.
 
-| `new_transaction_type/test/block_interactions/mixed_txs` | Mixed transactions. | | |
+| ID                                                       | Description         | Status | Tests |
+| -------------------------------------------------------- | ------------------- | ------ | ----- |
+| `new_transaction_type/test/block_interactions/mixed_txs` | Mixed transactions. |        |       |
 
 #### Fork transition
 
