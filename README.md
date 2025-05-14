@@ -178,9 +178,15 @@ If you encounter issues during the installation process, please refer to the [In
 
 ## Contributing
 
-Contributions and feedback are welcome. Please see the [online documentation](https://eest.ethereum.org/main/writing_tests/) for this repository's coding standards and help on implementing new tests.
+Contributions and feedback are welcome. Please see our [Contributing Guidelines](CONTRIBUTING.md) for detailed information on how to contribute, and the [online documentation](https://eest.ethereum.org/main/writing_tests/) for this repository's coding standards and help on implementing new tests.
 
-We welcome earnest newcomers, no matter how small the contribution! However, we currently do not accept contributions that only fix spelling or grammatical errors in documentation, code or elsewhere. Pull requests should have reasonable substance or resolve an existing repository open issue; pull requests from obvious airdrop farmers will be closed upon review.
+We welcome earnest newcomers, no matter how small the contribution! However, we do not accept:
+
+- Contributions that only fix spelling or grammatical errors in documentation, code or elsewhere
+- Pull requests from obvious airdrop farmers
+- Drive-by or vibe code contributions without proper engagement or context
+
+Pull requests should have reasonable substance or resolve an existing repository open issue.
 
 Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet, please refer to the [Security Policy](SECURITY.md) for more information about reporting vulnerabilities and eligibility for the [bug bounty program](https://bounty.ethereum.org).
 

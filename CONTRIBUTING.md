@@ -1,0 +1,293 @@
+# Contributing
+
+Contributions are welcome from anyone, regardless of whether you are just starting your Python journey, a web developer or a seasoned Execution Layer developer!
+
+We appreciate your help and appreciate your contributions!
+
+## Communication
+
+We encourage questions and discussions about the project. If you need help with the codebase or have questions about implementation details, please don't hesitate to reach out in the `#el-testing` channel in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA).
+
+For detailed information on how to get help, please see the [Getting Help](https://eest.ethereum.org/main/getting_started/getting_help) page in our documentation, which includes communication channels and contact information for project maintainers.
+
+## Contributions We Welcome
+
+As mentioned in the README's [Contributing section](https://github.com/ethereum/execution-spec-tests#contributing), we welcome earnest contributions that have reasonable substance or resolve existing repository issues.
+
+## Contributions We Don't Accept
+
+We do not accept:
+
+- Contributions that only fix spelling or grammatical errors in documentation, code, or elsewhere.
+- Pull requests from obvious airdrop farmers.
+- Drive-by or vibe code contributions without proper engagement or context.
+
+Pull requests should have reasonable substance or resolve an existing repository open issue.
+
+## Reporting Bugs
+
+We use GitHub Issues to track bugs. To report a bug, please follow these guidelines:
+
+### Before Reporting
+
+1. **Check existing issues**: Search [open issues](https://github.com/ethereum/execution-spec-tests/issues) to see if your problem has already been reported.
+2. **Try to reproduce**: Confirm you can reproduce the issue consistently.
+3. **Consider security implications**: For security vulnerabilities, please do NOT create a public issue (or PR). Instead, refer to our [Security Policy](SECURITY.md) for responsible disclosure guidelines.
+
+### Creating a Bug Report
+
+When creating a new issue:
+
+1. **Use a clear, descriptive title** that identifies the problem.
+2. **Provide detailed reproduction steps**:
+    - Include the exact commands you ran.
+    - Share relevant console output.
+    - Specify your environment (OS, Python version, `uv` version from `uv --version`).
+3. **Include relevant information**:
+    - Branch and commit of execution-spec-tests you're using.
+    - For test failures, include the test case and failure details.
+    - Screenshots if applicable.
+
+## Pull Requests
+
+We welcome contributions via pull requests! This section will guide you through the process.
+
+### For First-Time Contributors
+
+1. **Fork the repository** by clicking the "Fork" button on the top right of the [GitHub repository page](https://github.com/ethereum/execution-spec-tests).
+
+2. **Clone your fork** to your local machine:
+
+    ```bash
+    git clone https://github.com/YOUR-USERNAME/execution-spec-tests.git
+    cd execution-spec-tests
+    ```
+
+3. **Set up your environment**:
+
+    ```bash
+    uv sync --all-extras
+    uv run solc-select use 0.8.24 --always-install
+    ```
+
+    See [installation troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting) if you encounter issues.
+
+4. **Create a branch** for your changes:
+
+    ```bash
+    git checkout -b your-branch-name
+    ```
+
+5. **Make your changes** according to our code standards.
+
+6. **Verify your changes** by running the appropriate checks:
+
+    ```bash
+    uvx --with=tox-uv tox -e lint,typecheck
+    ```
+
+7. **Commit your changes** with meaningful commit messages (see [Commit Messages](#commit-messages-and-pr-titles)).
+
+8. **Push your branch** to your GitHub fork:
+
+    ```bash
+    git push -u origin your-branch-name
+    ```
+
+9. **Create a pull request** by navigating to your fork on GitHub and clicking the "New Pull Request" button.
+
+### Branch Naming Conventions
+
+Branch names should follow this format:
+
+```text
+<type>/<short-description>
+```
+
+Where `<type>` matches the semantic commit types:
+
+- `feat/` - For new features.
+- `fix/` - For bug fixes.
+- `docs/` - For documentation changes.
+- `test/` - For adding or modifying tests.
+- `refactor/` - For code refactoring.
+- `chore/` - For maintenance tasks.
+
+Examples:
+
+```text
+feat/add-prague-blob-tests
+fix/cancun-initialization-bug
+docs/improve-installation-guide
+```
+
+### PR Review Process
+
+1. **Initial checks**: When you submit a PR, automated CI checks will run. Make sure all checks pass before requesting a review.
+
+2. **Requesting review**: Assign your PR to a maintainer or ask for review in the PR description.
+
+3. **Review feedback**: Maintainers will review your code and may suggest changes. Please address all comments and engage in discussion if needed.
+
+4. **Iteration**: Make requested changes, push to your branch, and the PR will update automatically. No need to create a new PR.
+
+5. **Approval**: Once your changes are approved, a maintainer will merge your PR.
+
+### PR Expectations
+
+To increase the chances of your PR being merged quickly:
+
+- **Scope**: Keep PRs focused on a single issue or feature.
+- **Tests**: Include tests for new functionality.
+- **Documentation**: Update documentation for new features or changes.
+- **Clean history**: Use meaningful, atomic commits that can be easily understood.
+- **CI checks**: Ensure all CI checks pass before requesting review.
+- **Responsiveness**: Try to respond to review feedback within a reasonable time.
+
+For detailed code standards and enforcement checks, see our [Code Standards documentation](https://eest.ethereum.org/main/getting_started/code_standards).
+
+We use Ruff for code formatting and linting.
+All code must be type-annotated.
+Tests are written with pytest.
+Follow Conventional Commits for commit messages.
+
+### Code Standards and Enforced CI Checks
+
+Please see [code_standards](https://eest.ethereum.org/main/getting_started/code_standards) in the online documentation.
+
+### Commits
+
+It's recommended to keep changes logically grouped into smaller, individual commits to make changes easier to review.
+
+### Commit Messages and PR Titles
+
+We use semantic commit messages and PR titles following the format:
+
+```console
+<type>(<scope>): <description>
+```
+
+#### Rules
+
+- The format should be lowercase except for object names, which should be backticked (e.g., `FixtureCollector`).
+- The description should be clear and concise.
+- No period at the end of the title/message.
+- Use the imperative ("add" not "added" or "adds").
+
+#### Types
+
+The following commit types are used in this repository:
+
+| Type       | Repo Label      | Description                                                  |
+| ---------- | --------------- | ------------------------------------------------------------ |
+| `feat`     | `type:feat`     | A new feature                                                |
+| `fix`      | `type:bug`      | A bug fix                                                    |
+| `docs`     | `type:docs`     | Documentation changes                                        |
+| `style`    | -               | Formatting changes that don't affect code functionality      |
+| `refactor` | `type:refactor` | Code changes that neither fix bugs nor add features          |
+| `test`     | `type:test`     | Add, refactor, modify an EEST library or framework unit test |
+| `chore`    | `type:chore`    | Routine tasks, dependency updates, etc.                      |
+
+#### Scopes
+
+The following scopes are used in this repository:
+
+| Scope     | Repo Label         | Description                                    |
+| --------- | ------------------ | ---------------------------------------------- |
+| `fill`    | `scope:fill`       | Changes to `fill` command                      |
+| `execute` | `scope:execute`    | Changes to the `execute` command               |
+| `consume` | `scope:consume`    | Changes to `consume` command suite             |
+| `pytest`  | `scope:pytest`     | Changes that effect all EEST pytest plugins    |
+| `evm`     | `scope:evm`        | Changes to the `evm_transition_tool` package   |
+| `forks`   | `scope:forks`      | Changes to `ethereum_test_forks` package       |
+| `tools`   | `scope:tools`      | Changes to `ethereum_test_tools` package       |
+| `fw`      | `scope:fw`         | Framework changes (evm\|tools\|forks\|pytest)  |
+| `tests`   | `scope:tests`      | Changes to EL client test cases in `./tests`   |
+| `docs`    | `scope:docs`       | Documentation flow changes                     |
+| `ci`      | `scope:ci`         | Continuous Integration changes                 |
+| `gentest` | `scope:gentest`    | Changes to `gentest` CLI command               |
+| `eest`    | `scope:eest`       | Changes to `eest` CLI command                  |
+| `make`    | `scope:make`       | Changes to `eest make` command                 |
+| `tooling` | `scope:tooling`    | Python tools changes (`uv`, `ruff`, `tox`,...) |
+| `deps`    | `scope:deps`       | Updates package dependencies                   |
+
+#### Examples
+
+```console
+feat(eest): add new test generator command
+fix(forks): resolve `Cancun` initialization issue
+docs(fill): describe new command-line args
+refactor(tools): improve code organization in bytecode helpers
+test(pytest): add tests for logging plugin
+chore(deps): update dependency versions
+new(tests): add test cases for EIP-7702
+```
+
+## Merging PRs
+
+We maintain high standards for our repository history to ensure it's clean, understandable, and properly documented. Maintainers should follow these guidelines when merging PRs:
+
+### Pre-Merge Checklist
+
+1. **Review the PR template checklist**
+
+    - Ensure all applicable items are checked.
+    - Items that aren't relevant can be deleted or marked as N/A.
+    - Don't merge PRs with unchecked relevant items.
+
+2. **Verify changelog entry**
+
+    - Every PR that impacts functionality should have a changelog entry.
+    - The entry should clearly but concisely describe the change.
+    - It must include a link to the PR (e.g., `[#1234](https://github.com/ethereum/execution-spec-tests/pull/1234)`).
+    - Clearly highlight any breaking changes in the changelog.
+    - Example: `- [#1234](https://github.com/ethereum/execution-spec-tests/pull/1234): Add support for Prague EIP-7702 blob gas tests`
+
+3. **Check PR title format**
+
+    - The PR title must follow our semantic commit format: `<type>(<scope>): <description>`.
+    - This title will be used as the squash commit message, so it's essential it's correct.
+    - Follow the same rules as commit messages (imperative tense, no period at end, etc.).
+    - Example: `feat(tests): add tests for EIP-7702 blob gas calculation`
+
+4. **Review PR description**
+
+    - Ensure the PR description is accurate and up-to-date.
+    - The description should match what the code actually does.
+    - Verify that any referenced issues are properly linked.
+
+5. **Add appropriate labels**
+
+    - Ensure the PR has the appropriate labels matching its type and scope.
+    - Labels help with categorizing changes and generating accurate release notes.
+
+### Merge Strategy
+
+We **strongly prefer squash merging** over other strategies.
+
+Exceptions to the squash merge policy may include:
+
+- Large PRs with logically separate commits that should be preserved.
+- Work that spans multiple distinct features or fixes.
+
+### Squash Commit Details
+
+When performing a squash merge:
+
+1. **Include PR number in the commit title**
+
+    - Add the PR number in parentheses at the end of the title.
+    - Example: `feat(tests): add tests for EIP-7702 blob gas calculation (#1234)`
+
+2. **Clean up the extended commit message**
+
+    - Delete all content in the extended message section EXCEPT:
+
+        - Any `Co-authored-by:` lines, which must be preserved to properly attribute work.
+        - The format should be `Co-authored-by: Full Name <email@example.com>`
+
+3. **Final review before merge**
+
+    - Double-check that all CI checks are passing.
+    - Verify the PR has been reviewed and approved by any key stakeholders.
+    - Ensure any merge conflicts have been properly resolved.
