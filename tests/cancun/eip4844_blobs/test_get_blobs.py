@@ -1,0 +1,222 @@
+"""
+abstract: Tests get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
+    Test get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+
+"""  # noqa: E501
+
+from typing import List, Optional
+
+import pytest
+
+from ethereum_test_forks import Fork
+from ethereum_test_tools import (
+    Address,
+    Alloc,
+    BlobsTestFiller,
+    NetworkWrappedTransaction,
+    Transaction,
+    TransactionException,
+)
+
+from .common import INF_POINT, Blob
+from .spec import Spec, SpecHelpers, ref_spec_4844
+
+REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
+REFERENCE_SPEC_VERSION = ref_spec_4844.version
+
+
+@pytest.fixture
+def destination_account(pre: Alloc) -> Address:
+    """Destination account for the blob transactions."""
+    return pre.fund_eoa(amount=0)
+
+
+@pytest.fixture
+def tx_value() -> int:
+    """
+    Value contained by the transactions sent during test.
+
+    Can be overloaded by a test case to provide a custom transaction value.
+    """
+    return 1
+
+
+@pytest.fixture
+def tx_gas() -> int:
+    """Gas allocated to transactions sent during test."""
+    return 21_000
+
+
+@pytest.fixture
+def tx_calldata() -> bytes:
+    """Calldata in transactions sent during test."""
+    return b""
+
+
+@pytest.fixture(autouse=True)
+def parent_excess_blobs() -> int:
+    """
+    Excess blobs of the parent block.
+
+    Can be overloaded by a test case to provide a custom parent excess blob
+    count.
+    """
+    return 10  # Defaults to a blob gas price of 1.
+
+
+@pytest.fixture(autouse=True)
+def parent_blobs() -> int:
+    """
+    Blobs of the parent blob.
+
+    Can be overloaded by a test case to provide a custom parent blob count.
+    """
+    return 0
+
+
+@pytest.fixture
+def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
+    """List of blob versioned hashes derived from the blobs."""
+    return [[blob.versioned_hash() for blob in blob_tx] for blob_tx in txs_blobs]
+
+
+@pytest.fixture
+def tx_max_fee_per_blob_gas(  # noqa: D103
+    blob_gas_price: Optional[int],
+) -> int:
+    """
+    Max fee per blob gas for transactions sent during test.
+
+    By default, it is set to the blob gas price of the block.
+
+    Can be overloaded by a test case to test rejection of transactions where
+    the max fee per blob gas is insufficient.
+    """
+    if blob_gas_price is None:
+        # When fork transitioning, the default blob gas price is 1.
+        return 1
+    return blob_gas_price
+
+
+@pytest.fixture
+def tx_error() -> Optional[TransactionException]:
+    """
+    Even though the final block we are producing in each of these tests is invalid, and some of the
+    transactions will be invalid due to the format in the final block, none of the transactions
+    should be rejected by the transition tool because they are being sent to it with the correct
+    format.
+    """
+    return None
+
+
+@pytest.fixture(autouse=True)
+def txs(  # noqa: D103
+    pre: Alloc,
+    destination_account: Optional[Address],
+    tx_gas: int,
+    tx_value: int,
+    tx_calldata: bytes,
+    tx_max_fee_per_blob_gas: int,
+    txs_versioned_hashes: List[List[bytes]],
+    tx_error: Optional[TransactionException],
+    txs_blobs: List[List[Blob]],
+) -> List[NetworkWrappedTransaction | Transaction]:
+    """Prepare the list of transactions that are sent during the test."""
+    if len(txs_blobs) != len(txs_versioned_hashes):
+        raise ValueError("txs_blobs and txs_versioned_hashes should have the same length")
+    txs: List[Transaction] = []
+    sender = pre.fund_eoa()
+    for tx_blobs, tx_versioned_hashes in zip(txs_blobs, txs_versioned_hashes, strict=False):
+        tx = Transaction(
+            ty=Spec.BLOB_TX_TYPE,
+            sender=sender,
+            to=destination_account,
+            value=tx_value,
+            gas_limit=tx_gas,
+            data=tx_calldata,
+            max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
+            access_list=[],
+            blob_versioned_hashes=tx_versioned_hashes,
+            error=tx_error,
+        )
+        blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
+        network_wrapped_tx = NetworkWrappedTransaction(
+            tx=tx,
+            blobs=blobs_info[0],
+            blob_kzg_commitments=blobs_info[1],
+            blob_kzg_proofs=blobs_info[2],
+        )
+        txs.append(network_wrapped_tx)
+    return txs
+
+
+def generate_full_blob_tests(
+    fork: Fork,
+) -> List:
+    """
+    Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
+    parametrized for each different fork.
+    """
+    blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
+    max_blobs = fork.max_blobs_per_block()
+    return [
+        pytest.param(
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob(
+                        blob=bytes(blob_size),
+                        kzg_commitment=INF_POINT,
+                        kzg_proof=INF_POINT,
+                    ),
+                ]
+            ],
+            id="single_blob_transaction",
+        ),
+        pytest.param(
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob(
+                        blob=bytes(blob_size),
+                        kzg_commitment=INF_POINT,
+                        kzg_proof=INF_POINT,
+                    )
+                    for _ in range(max_blobs)
+                ]
+            ],
+            id="max_blobs_transaction",
+        ),
+        pytest.param(
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob(
+                        blob=bytes(blob_size),
+                        kzg_commitment=INF_POINT,
+                        kzg_proof=INF_POINT,
+                    )
+                ]
+                for _ in range(max_blobs)
+            ],
+            id="single_blob_max_txs",
+        ),
+    ]
+
+
+@pytest.mark.parametrize_by_fork(
+    "txs_blobs",
+    generate_full_blob_tests,
+)
+@pytest.mark.exception_test
+@pytest.mark.valid_from("Cancun")
+def test_reject_valid_full_blob_in_block_rlp(
+    blobs_test: BlobsTestFiller,
+    pre: Alloc,
+    txs: List[NetworkWrappedTransaction | Transaction],
+):
+    """
+    Test valid blob combinations where one or more txs in the block
+    serialized version contain a full blob (network version) tx.
+    """
+    blobs_test(
+        pre=pre,
+        txs=txs,
+    )
