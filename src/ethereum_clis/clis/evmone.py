@@ -60,6 +60,7 @@ class EvmoneExceptionMapper(ExceptionMapper):
         ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "intrinsic gas too low",
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "blob gas limit exceeded",
         TransactionException.INITCODE_SIZE_EXCEEDED: "max initcode size exceeded",
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
@@ -71,6 +72,7 @@ class EvmoneExceptionMapper(ExceptionMapper):
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             "max blob fee per gas less than block base fee"
         ),
+        TransactionException.TYPE_4_TX_PRE_FORK: "transaction type not supported",
         TransactionException.TYPE_3_TX_PRE_FORK: "transaction type not supported",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "invalid blob hash version",
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "blob gas limit exceeded",

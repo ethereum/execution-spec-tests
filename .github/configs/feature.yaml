@@ -15,8 +15,10 @@ zkevm:
   evm-type: zkevm
   fill-params: --from=Cancun --until=Prague -m zkevm ./tests
   solc: 0.8.21
+  feature_only: true
 eip7692:
   evm-type: eip7692
   fill-params: --fork=EOFv1 ./tests/unscheduled
   solc: 0.8.21
   eofwrap: true
+  feature_only: true

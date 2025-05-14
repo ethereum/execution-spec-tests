@@ -8,6 +8,23 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+### 🛠️ Framework
+
+#### `fill`
+
+- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
+- ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
+
+#### `consume`
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
+
+### 💥 Breaking Change
+
 #### EOF removed from Osaka
 
 Following ["Interop Testing Call 34"](https://github.com/ethereum/pm/issues/1499) and the procedural EIPs [PR](https://github.com/ethereum/EIPs/pull/9703) the decision to remove EOF from Osaka was made.
@@ -19,18 +36,15 @@ A new fork `EOFv1` has additionally been created to fill and consume EOF related
 ### 🛠️ Framework
 
 - ✨ Add an empty account function for usage within fill and execute ([#1482](https://github.com/ethereum/execution-spec-tests/pull/1482)).
-
-#### `fill`
-
-- ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
-
-#### `consume`
+- ✨ Added `TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST` exception to specifically catch the case where the intrinsic gas cost is insufficient due to the data floor gas cost ([#1582](https://github.com/ethereum/execution-spec-tests/pull/1582)).
 
 ### 📋 Misc
 
 - ✨ Engine API updates for Osaka, add `get_blobs` rpc method ([#1510](https://github.com/ethereum/execution-spec-tests/pull/1510)).
 - ✨ The EIP Version checker has been moved from `fill` and `execute` to it's own command-line tool `check_eip_versions` that gets ran daily as a Github Action ([#1537](https://github.com/ethereum/execution-spec-tests/pull/1537)).
-🔀 Add new `tests/unscheduled` folder, move EOF from Osaka to unscheduled, add `EOFv1` fork name for EOF tests ([#1507](https://github.com/ethereum/execution-spec-tests/pull/1507)).
+- 🔀 Add new `tests/unscheduled` folder, move EOF from Osaka to unscheduled, add `EOFv1` fork name for EOF tests ([#1507](https://github.com/ethereum/execution-spec-tests/pull/1507)).
+- ✨ CI features now contain an optional field to skip them from EEST full releases, `zkevm` and EOF features are now feature only ([#1596](https://github.com/ethereum/execution-spec-tests/pull/1596)).
+- 🐞 Don't attempt to install `solc` via `solc-select` on ARM (official Linux ARM builds of `solc` are not available at the time of writing, cf [ethereum/solidity#11351](https://github.com/ethereum/solidity/issues/11351)) and add a version sanity check ([#1556](https://github.com/ethereum/execution-spec-tests/pull/1556)).
 
 ### 🧪 Test Cases
 
