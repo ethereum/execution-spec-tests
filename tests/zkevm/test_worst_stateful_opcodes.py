@@ -199,9 +199,9 @@ class StorageAction:
 @pytest.mark.parametrize(
     "storage_action",
     [
-        StorageAction.READ,
-        StorageAction.WRITE_SAME_VALUE,
-        StorageAction.WRITE_NEW_VALUE,
+        pytest.param(StorageAction.READ, id="SSLOAD"),
+        pytest.param(StorageAction.WRITE_SAME_VALUE, id="SSTORE same value"),
+        pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
     ],
 )
 @pytest.mark.parametrize(
@@ -314,9 +314,9 @@ def test_worst_storage_access_cold(
 @pytest.mark.parametrize(
     "storage_action",
     [
-        # StorageAction.READ,
-        # StorageAction.WRITE_SAME_VALUE,
-        StorageAction.WRITE_NEW_VALUE,
+        pytest.param(StorageAction.READ, id="SLOAD"),
+        pytest.param(StorageAction.WRITE_SAME_VALUE, id="SSTORE same value"),
+        pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
     ],
 )
 def test_worst_storage_access_warm(
