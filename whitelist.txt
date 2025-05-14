@@ -997,3 +997,4 @@ isogeny
 codomain
 nametag
 CFI'd
+opcode's
