@@ -15,6 +15,10 @@ Depending on the changes introduced by an EIP, the following template is the min
 
 #### Fuzzing
 
+Fuzzing is recommended to be performed on EIPs that introduce new cryptography primitives.
+
+See [holiman/goevmlab](https://github.com/holiman/goevmlab) for an example of a fuzzing framework for the EVM.
+
 ## New Opcode
 
 The EIP introduces one or more new opcodes to the EVM.
