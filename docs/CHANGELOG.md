@@ -22,6 +22,8 @@ A new fork `EOFv1` has additionally been created to fill and consume EOF related
 
 #### `fill`
 
+- ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
+
 #### `consume`
 
 ### 📋 Misc
