@@ -196,18 +196,21 @@ def test_worst_address_state_warm(
     # TODO: add skip_post_check=True
 
 
+class StorageAction:
+    """Enum for storage actions."""
+
+    READ = 1
+    WRITE_SAME_VALUE = 2
+    WRITE_NEW_VALUE = 3
+
+
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "attack_gas_limit",
+    "storage_action",
     [
-        Environment().gas_limit,
-    ],
-)
-@pytest.mark.parametrize(
-    "opcode",
-    [
-        Op.SSTORE,
-        Op.SLOAD,
+        StorageAction.READ,
+        StorageAction.WRITE_SAME_VALUE,
+        StorageAction.WRITE_NEW_VALUE,
     ],
 )
 @pytest.mark.parametrize(
@@ -221,8 +224,7 @@ def test_worst_storage_access_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    attack_gas_limit: int,
-    opcode: Op,
+    storage_action: StorageAction,
     absent_slots: bool,
 ):
     """
@@ -230,32 +232,48 @@ def test_worst_storage_access_cold(
     """
     env = Environment(gas_limit=100_000_000_000)
     gas_costs = fork.gas_costs()
+    attack_gas_limit = Environment().gas_limit
 
-    cold_cost = None
-    if opcode == Op.SSTORE:
-        # We assume a write to a non-zero storage slot. Writing to a zero storage slot
-        # is very expensive and unrelated to execution cost (i.e. storage growth).
-        cold_cost = 2_900
-    elif opcode == Op.SLOAD:
-        cold_cost = gas_costs.G_COLD_SLOAD
-    else:
-        raise ValueError(f"Invalid opcode {opcode} for cold storage access")
+    cost = gas_costs.G_COLD_SLOAD  # All accesses are always cold
+    if storage_action == StorageAction.WRITE_NEW_VALUE:
+        if not absent_slots:
+            cost += gas_costs.G_STORAGE_RESET
+        else:
+            cost += gas_costs.G_STORAGE_SET
+    elif storage_action == StorageAction.WRITE_SAME_VALUE:
+        if absent_slots:
+            cost += gas_costs.G_STORAGE_SET
+        else:
+            cost += gas_costs.G_WARM_ACCOUNT_ACCESS
+    elif storage_action == StorageAction.READ:
+        cost += gas_costs.G_WARM_ACCOUNT_ACCESS
+
+    print(f"cold_cost: {cost}")
 
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    num_target_slots = (attack_gas_limit - intrinsic_gas_cost_calc()) // cold_cost
+    num_target_slots = (attack_gas_limit - intrinsic_gas_cost_calc()) // cost
 
     blocks = []
-    post = {}
 
-    # Setup
-    execution_code_body = (
-        Op.POP(opcode(Op.DUP1)) if opcode == Op.SLOAD else opcode(Op.DUP1, Op.DUP1)
-    )
+    # Contract code
+    execution_code_body = Bytecode()
+    if storage_action == StorageAction.WRITE_SAME_VALUE:
+        # All the storage slots in the contract are initialized to their index.
+        # That is, storage slot `i` is initialized to `i`.
+        execution_code_body = Op.SSTORE(Op.DUP1, Op.DUP1)
+    elif storage_action == StorageAction.WRITE_NEW_VALUE:
+        # To generate a new value, we need to use a different value leveraging ADDRESS as a value.
+        execution_code_body = Op.SSTORE(Op.DUP2, Op.ADDRESS)
+    elif storage_action == StorageAction.READ:
+        execution_code_body = Op.POP(Op.SLOAD(Op.DUP1))
+
     execution_code = Op.PUSH4(num_target_slots) + While(
         body=execution_code_body,
         condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
     )
     execution_code_address = pre.deploy_contract(code=execution_code)
+
+    # Contract creation
     slots_init = Bytecode()
     if not absent_slots:
         slots_init = Op.PUSH4(num_target_slots) + While(
@@ -263,6 +281,8 @@ def test_worst_storage_access_cold(
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
         )
 
+    # To create the contract, we apply the slots_init code to initialize the storage slots
+    # (int the case of absent_slots=False) and then copy the execution code to the contract.
     creation_code = (
         slots_init
         + Op.EXTCODECOPY(
@@ -283,10 +303,7 @@ def test_worst_storage_access_cold(
     blocks.append(Block(txs=[setup_tx]))
 
     contract_address = compute_create_address(address=setup_tx.sender, nonce=0)
-    storage = {} if absent_slots else {i + 1: i + 1 for i in range(num_target_slots)}
-    post[contract_address] = Account(storage=storage)
 
-    # Execution
     op_tx = Transaction(
         to=contract_address,
         gas_limit=attack_gas_limit,
@@ -298,7 +315,7 @@ def test_worst_storage_access_cold(
     blockchain_test(
         genesis_environment=env,
         pre=pre,
-        post=post,
+        post={},
         blocks=blocks,
         # TODO: add skip_post_check=True
     )
