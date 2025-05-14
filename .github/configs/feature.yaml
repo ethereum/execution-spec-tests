@@ -13,7 +13,7 @@ static:
   solc: 0.8.21
 zkevm:
   evm-type: zkevm
-  fill-params: --from=Cancun --until=Prague -m zkevm ./tests
+  fill-params: --from=Cancun --until=Prague --block-gas-limit 36000000 -m zkevm ./tests
   solc: 0.8.21
   feature_only: true
 eip7692:
