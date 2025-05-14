@@ -460,3 +460,50 @@ def test_worst_selfbalance(
         post={},
         blocks=[Block(txs=[op_tx])],
     )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "copied_size",
+    [
+        pytest.param(512, id="512"),
+        pytest.param(1024, id="1KiB"),
+        pytest.param(5 * 1024, id="5KiB"),
+    ],
+)
+def test_worst_extcodecopy_warm(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    copied_size: int,
+):
+    """
+    Test running a block with as many wamr EXTCODECOPY work as possible.
+    """
+    env = Environment()
+
+    copied_contract_address = pre.deploy_contract(
+        code=Op.JUMPDEST * copied_size,
+    )
+
+    execution_code = (
+        Op.PUSH10(copied_size)
+        + Op.PUSH20(copied_contract_address)
+        + While(
+            body=Op.EXTCODECOPY(Op.DUP4, 0, 0, Op.DUP2),
+        )
+    )
+    execution_code_address = pre.deploy_contract(code=execution_code)
+    op_tx = Transaction(
+        to=execution_code_address,
+        gas_limit=env.gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[op_tx])],
+    )
