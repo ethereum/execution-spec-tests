@@ -2691,6 +2691,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/writing_tests/post_mortems/</loc>
+         <lastmod>2025-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/writing_tests/reference_specification/</loc>
          <lastmod>2025-05-14</lastmod>
          <changefreq>daily</changefreq>
@@ -2712,6 +2717,16 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/writing_tests/writing_a_new_test/</loc>
+         <lastmod>2025-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/writing_tests/checklist_templates/</loc>
+         <lastmod>2025-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/</loc>
          <lastmod>2025-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>

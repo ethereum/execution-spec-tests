@@ -676,6 +676,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -808,27 +812,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../writing_tests/reference_specification/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Referencing an EIP Spec Version
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../writing_tests/verifying_changes/" class="md-nav__link">
         
   
@@ -876,6 +859,133 @@
   
   <span class="md-ellipsis">
     Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_tests/reference_specification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Referencing an EIP Spec Version
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../writing_tests/checklist_templates/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Testing Checklist Templates
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_10" id="__nav_3_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            Testing Checklist Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_tests/checklist_templates/eip_testing_checklist_template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EIP Execution Layer Testing Checklist Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../writing_tests/post_mortems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Post-mortems
   </span>
   
 
@@ -1967,9 +2077,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.is_slow_test" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.is_tx_gas_heavy_test" class="md-nav__link">
     <span class="md-ellipsis">
-      is_slow_test
+      is_tx_gas_heavy_test
     </span>
   </a>
   
@@ -19418,9 +19528,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.is_slow_test" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.is_tx_gas_heavy_test" class="md-nav__link">
     <span class="md-ellipsis">
-      is_slow_test
+      is_tx_gas_heavy_test
     </span>
   </a>
   
@@ -20243,7 +20353,10 @@
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test which must return a single test fixture.&quot;&quot;&quot;</span>
 
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -20338,10 +20451,13 @@
             <span class="nb">str</span><span class="p">(</span><span class="n">current_value</span><span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">is_slow_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the test is slow.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">is_tx_gas_heavy_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the test is gas-heavy for transaction execution.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;slow&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span>
+            <span class="n">has_slow_marker</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;slow&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">has_zkevm_marker</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;zkevm&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">has_slow_marker</span> <span class="ow">or</span> <span class="n">has_zkevm_marker</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">is_exception_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -20740,15 +20856,15 @@ spec type as filler for the test.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BaseTest.is_slow_test" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">is_slow_test</span><span class="p">()</span></code>
+<h3 id="ethereum_test_specs.BaseTest.is_tx_gas_heavy_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">is_tx_gas_heavy_test</span><span class="p">()</span></code>
 
-<a href="#ethereum_test_specs.BaseTest.is_slow_test" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#ethereum_test_specs.BaseTest.is_tx_gas_heavy_test" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Check if the test is slow.</p>
+      <p>Check if the test is gas-heavy for transaction execution.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
@@ -20756,10 +20872,16 @@ spec type as filler for the test.</p>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_slow_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the test is slow.&quot;&quot;&quot;</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_tx_gas_heavy_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the test is gas-heavy for transaction execution.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;slow&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span>
+        <span class="n">has_slow_marker</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;slow&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">has_zkevm_marker</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_closest_marker</span><span class="p">(</span><span class="s2">&quot;zkevm&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">has_slow_marker</span> <span class="ow">or</span> <span class="n">has_zkevm_marker</span>
     <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -20789,16 +20911,16 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_exception_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_exception_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if the test is an exception test (invalid block, invalid transaction).</span>
 
@@ -20834,11 +20956,11 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the node ID of the test.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span>
@@ -20869,10 +20991,7 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
@@ -20890,7 +21009,10 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_exception_test</span><span class="p">(</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_exception_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">exception</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -22126,10 +22248,7 @@ return test_state_filler
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -22240,7 +22359,6 @@ return test_state_filler
         <span class="n">previous_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
         <span class="n">previous_alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">slow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">Environment</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate common block data for both make_fixture and make_hive_fixture.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -22255,7 +22373,7 @@ return test_state_filler
 
         <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2"> uses a high Transaction gas_limit: </span><span class="si">{</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                     <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -22284,7 +22402,7 @@ return test_state_filler
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-            <span class="n">slow_request</span><span class="o">=</span><span class="n">slow</span><span class="p">,</span>
+            <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
         <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -22436,7 +22554,6 @@ return test_state_filler
                     <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                     <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
                     <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
-                    <span class="n">slow</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
                 <span class="p">)</span>
                 <span class="n">fixture_block</span> <span class="o">=</span> <span class="n">FixtureBlockBase</span><span class="p">(</span>
                     <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
@@ -22525,7 +22642,6 @@ return test_state_filler
                 <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
                 <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
-                <span class="n">slow</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">fixture_payloads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -22878,7 +22994,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.generate_block_data" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_block_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">previous_env</span><span class="p">,</span> <span class="n">previous_alloc</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">slow</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_block_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">previous_env</span><span class="p">,</span> <span class="n">previous_alloc</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.generate_block_data" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -23043,8 +23159,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">548</span>
 <span class="normal">549</span>
 <span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">551</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -23052,7 +23167,6 @@ In this case, the state verification is only performed based on the state root.<
     <span class="n">previous_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">previous_alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">slow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">Environment</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate common block data for both make_fixture and make_hive_fixture.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -23067,7 +23181,7 @@ In this case, the state verification is only performed based on the state root.<
 
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">tx</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">txs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2"> uses a high Transaction gas_limit: </span><span class="si">{</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -23096,7 +23210,7 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
-        <span class="n">slow_request</span><span class="o">=</span><span class="n">slow</span><span class="p">,</span>
+        <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
@@ -23230,14 +23344,14 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">554</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">553</span>
+<span class="normal">554</span>
 <span class="normal">555</span>
 <span class="normal">556</span>
 <span class="normal">557</span>
 <span class="normal">558</span>
 <span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fixture network information for the fork &amp; EIP/s.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span>
@@ -23271,7 +23385,8 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">563</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
+<span class="normal">563</span>
 <span class="normal">564</span>
 <span class="normal">565</span>
 <span class="normal">566</span>
@@ -23279,8 +23394,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">568</span>
 <span class="normal">569</span>
 <span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -23316,7 +23430,8 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">574</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
+<span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
 <span class="normal">577</span>
@@ -23406,9 +23521,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">661</span>
 <span class="normal">662</span>
 <span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -23435,7 +23548,6 @@ In this case, the state verification is only performed based on the state root.<
                 <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
                 <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
-                <span class="n">slow</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
             <span class="p">)</span>
             <span class="n">fixture_block</span> <span class="o">=</span> <span class="n">FixtureBlockBase</span><span class="p">(</span>
                 <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
@@ -23527,7 +23639,9 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">668</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
 <span class="normal">669</span>
 <span class="normal">670</span>
 <span class="normal">671</span>
@@ -23623,10 +23737,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">761</span>
 <span class="normal">762</span>
 <span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">764</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -23648,7 +23759,6 @@ In this case, the state verification is only performed based on the state root.<
             <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
-            <span class="n">slow</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fixture_payloads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -23752,7 +23862,10 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">769</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
 <span class="normal">770</span>
 <span class="normal">771</span>
 <span class="normal">772</span>
@@ -23763,10 +23876,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">777</span>
 <span class="normal">778</span>
 <span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span>
-<span class="normal">783</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -23807,7 +23917,10 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">785</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
 <span class="normal">786</span>
 <span class="normal">787</span>
 <span class="normal">788</span>
@@ -23820,10 +23933,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -26585,7 +26695,7 @@ unset.</p>
 
         <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
         <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">(</span><span class="n">keep_secret_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2"> uses a high Transaction gas_limit: </span><span class="si">{</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -26608,7 +26718,7 @@ unset.</p>
             <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="n">state_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
+            <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
         <span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
@@ -26893,7 +27003,7 @@ unset.</p>
 
     <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">(</span><span class="n">keep_secret_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">()</span> <span class="ow">and</span> <span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">&gt;=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2"> uses a high Transaction gas_limit: </span><span class="si">{</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -26916,7 +27026,7 @@ unset.</p>
         <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
         <span class="n">state_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_slow_test</span><span class="p">(),</span>
+        <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>

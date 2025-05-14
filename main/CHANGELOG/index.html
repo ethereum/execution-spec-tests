@@ -676,6 +676,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -808,27 +812,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../writing_tests/reference_specification/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Referencing an EIP Spec Version
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../writing_tests/verifying_changes/" class="md-nav__link">
         
   
@@ -876,6 +859,133 @@
   
   <span class="md-ellipsis">
     Exception Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writing_tests/reference_specification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Referencing an EIP Spec Version
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_10" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../writing_tests/checklist_templates/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Testing Checklist Templates
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_10" id="__nav_3_10_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            Testing Checklist Templates
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writing_tests/checklist_templates/eip_testing_checklist_template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    EIP Execution Layer Testing Checklist Template
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writing_tests/post_mortems/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Post-mortems
   </span>
   
 
@@ -20548,9 +20658,14 @@
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
 <li>🔀 Refactor: Encapsulate <code>fill</code>'s fixture output options (<code>--output</code>, <code>--flat-output</code>, <code>--single-fixture-per-file</code>) into a <code>FixtureOutput</code> class (<a href="https://github.com/ethereum/execution-spec-tests/pull/1471">#1471</a>).</li>
+<li>✨ Don't warn about a "high Transaction gas_limit" for <code>zkevm</code> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1598">#1598</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✨ Added the <a href="https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/">EIP checklist template</a> that serves as a reference to achieve better coverage when implementing tests for new EIPs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1327">#1327</a>).</li>
+<li>✨ Added <a href="https://eest.ethereum.org/main/writing_tests/post_mortems/">Post-Mortems of Missed Test Scenarios</a> to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future (<a href="https://github.com/ethereum/execution-spec-tests/pull/1327">#1327</a>).</li>
+</ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <h2 id="v450-2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0">v4.5.0</a> - 2025-05-14<a class="headerlink" href="#v450-2025-05-14" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
