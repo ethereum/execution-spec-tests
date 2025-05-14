@@ -44,6 +44,7 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
         Environment().gas_limit,
     ],
 )
+@pytest.mark.slow()
 @pytest.mark.valid_from("Cancun")
 def test_worst_bytecode_single_opcode(
     blockchain_test: BlockchainTestFiller,
