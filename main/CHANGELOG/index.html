@@ -20405,9 +20405,10 @@
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ Engine API updates for Osaka, add <code>get_blobs</code> rpc method (<a href="https://github.com/ethereum/execution-spec-tests/pull/1510">#1510</a>).</li>
-<li>✨ The EIP Version checker has been moved from <code>fill</code> and <code>execute</code> to it's own command-line tool <code>check_eip_versions</code> that gets ran daily as a Github Action (<a href="https://github.com/ethereum/execution-spec-tests/pull/1537">#1537</a>).
-🔀 Add new <code>tests/unscheduled</code> folder, move EOF from Osaka to unscheduled, add <code>EOFv1</code> fork name for EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1507">#1507</a>).</li>
+<li>✨ The EIP Version checker has been moved from <code>fill</code> and <code>execute</code> to it's own command-line tool <code>check_eip_versions</code> that gets ran daily as a Github Action (<a href="https://github.com/ethereum/execution-spec-tests/pull/1537">#1537</a>).</li>
+<li>🔀 Add new <code>tests/unscheduled</code> folder, move EOF from Osaka to unscheduled, add <code>EOFv1</code> fork name for EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1507">#1507</a>).</li>
 <li>✨ CI features now contain an optional field to skip them from EEST full releases, <code>zkevm</code> and EOF features are now feature only (<a href="https://github.com/ethereum/execution-spec-tests/pull/1596">#1596</a>).</li>
+<li>🐞 Don't attempt to install <code>solc</code> via <code>solc-select</code> on ARM (official Linux ARM builds of <code>solc</code> are not available at the time of writing, cf <a href="https://github.com/ethereum/solidity/issues/11351">ethereum/solidity#11351</a>) and add a version sanity check (<a href="https://github.com/ethereum/execution-spec-tests/pull/1556">#1556</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
