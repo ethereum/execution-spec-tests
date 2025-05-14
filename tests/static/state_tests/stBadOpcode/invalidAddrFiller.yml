@@ -330,7 +330,7 @@ invalidAddr:
 
 
     gasLimit:
-    - '80000000'
+    - '30000000'
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc

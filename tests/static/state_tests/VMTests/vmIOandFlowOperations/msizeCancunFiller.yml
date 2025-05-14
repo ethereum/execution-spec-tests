@@ -1,11 +1,12 @@
-# Verify the mstore opcode
+# Memory size tests
 
-mstore:
+
+msize:
 
   env:
     currentCoinbase: 2adc25665018aa1fe0e6bc666dac8fc2697ff9ba
     currentDifficulty: 0x20000
-    currentGasLimit: 100000000
+    currentGasLimit: 0x100000000
     currentNumber: 1
     currentTimestamp: 1000
 
@@ -18,8 +19,9 @@ mstore:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
-             (mstore 1 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
-             [[0]] @1
+            ; Store an entire 32 byte value
+            [0]  0xFF
+           [[0]] (msize)
         }
       nonce: '0'
       storage: {}
@@ -29,50 +31,81 @@ mstore:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
-           (mstore 1 (+ 2 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff) )
-           [[0]] @1
+            ; Store an entire 32 byte value
+            [0]  0xffffffffff
+           [[0]] (msize)
         }
       nonce: '0'
       storage: {}
+
 
 
     0000000000000000000000000000000000001002:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
-             (mstore 1 (- 0 1))
-             [[0]] @1
+            ; Store two values
+           [0]    0xffffffffff
+           [0x20] 0xeeee
+           [[0]] (msize)
         }
       nonce: '0'
       storage: {}
 
 
 
-    # Memory is addressed in bytes. Storage isn't.
-    #
-    # So after (mstore 1 n)
-    # @0 is n/256 (assuming byte 0 itself is zero)
     0000000000000000000000000000000000001003:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
-             (mstore 1 0xFF)
-             [[0]] @0
+            ; Store two values
+           [0]    0xffffffffff
+           [0x5a] 0xeeee
+           [[0]] (msize)
+
+           ; The 0xEEEE value is stored 0x5a-0x79,
+           ; and memory is allocated in 0x20 byte chunks
         }
       nonce: '0'
       storage: {}
 
 
+    # chunks
     0000000000000000000000000000000000001004:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
-             (mstore 1 0xFF00)
-             [[0]] @0
+           ; Store at the very end of the first chunk
+           (mstore8 0x1F 1)
+           [[0]] (msize)
+
+           ; Store at the beginning of the second chuck
+           (mstore8 0x20 1)
+           [[1]] (msize)
+
+           ; Does it matter if we reset the memory?
+           ; Spoiler alert, it doesn't
+           (mstore8 0x20 0)
+           [[2]] (msize)
+
         }
       nonce: '0'
       storage: {}
 
+
+    # farChunk
+    0000000000000000000000000000000000001005:
+      balance: '0x0ba1a9ce0ba1a9ce'
+      code: |
+        {
+           ; Does the chunk size change in very high offsets?
+           ;
+           ; Note: It doesn't
+           (mstore8 0xB00000 1)
+           [[0]] (msize)
+        }
+      nonce: '0'
+      storage: {}
 
 
 
@@ -85,8 +118,7 @@ mstore:
             (delegatecall (gas) (+ 0x1000 $4) 0 0 0 0)
         }
       nonce: '0'
-      storage:
-        0x00: 0x0BAD
+      storage: {}
 
 
     a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
@@ -100,13 +132,16 @@ mstore:
 
   transaction:
     data:
-    - :label mstore_allF      :abi f(uint) 0
-    - :label mstore_one       :abi f(uint) 1
-    - :label mstore_neg1      :abi f(uint) 2
-    - :label mstore_byte32    :abi f(uint) 3
-    - :label mstore_byte31    :abi f(uint) 4
+    - :label msize0   :abi f(uint) 0
+    - :label msize1   :abi f(uint) 1
+    - :label msize2   :abi f(uint) 2
+    - :label msize3   :abi f(uint) 3
+    - :label chunks   :abi f(uint) 4
+
+    # Off in hyperspace, is the chunk size still 0x20?
+    - :label farChunk :abi f(uint) 5
     gasLimit:
-    - '30000000'
+    - 270_000_000
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc
@@ -118,53 +153,73 @@ mstore:
   expect:
     - indexes:
         data:
-        - :label mstore_allF
-        - :label mstore_neg1
+        - :label msize0
+        - :label msize1
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - 'Cancun'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
-            0x00: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+            0x00: 0x20
+
 
 
 
     - indexes:
         data:
-        - :label mstore_one
+        - :label msize2
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - 'Cancun'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
-            0x00: 0x01
+            0x00: 0x40
+
 
 
     - indexes:
         data:
-        - :label mstore_byte32
+        - :label msize3
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - 'Cancun'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
-            0x00: 0x00
+            0x00: 0x80
+
 
 
     - indexes:
         data:
-        - :label mstore_byte31
+        - :label chunks
         gas:  !!int -1
         value: !!int -1
       network:
-        - '>=Cancun'
+        - 'Cancun'
       result:
         cccccccccccccccccccccccccccccccccccccccc:
           storage:
-            0x00: 0xFF
+            0x00: 0x20
+            0x01: 0x40
+            0x02: 0x40
+
+
+
+
+    - indexes:
+        data:
+        - :label farChunk
+        gas:  !!int -1
+        value: !!int -1
+      network:
+        - 'Cancun'
+      result:
+        cccccccccccccccccccccccccccccccccccccccc:
+          storage:
+            0x00: 0xb00020
