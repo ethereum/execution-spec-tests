@@ -386,3 +386,38 @@ def test_worst_storage_access_warm(
         blocks=blocks,
         # TODO: add skip_post_check=True
     )
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_blockhash(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """
+    Test running a block with as max-window blockhash accesses as possible.
+    """
+    env = Environment()
+
+    # Create 256 dummy blocks to fill the blockhash window.
+    blocks = [Block()] * 256
+
+    # Always ask for the oldest allowed BLOCKHASH block.
+    execution_code = Op.PUSH1(1) + While(
+        body=Op.POP(Op.BLOCKHASH(Op.DUP1)),
+    )
+    execution_code_address = pre.deploy_contract(code=execution_code)
+    op_tx = Transaction(
+        to=execution_code_address,
+        gas_limit=env.gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+    blocks.append(Block(txs=[op_tx]))
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=blocks,
+    )
+
