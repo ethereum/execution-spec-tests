@@ -8,6 +8,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+### 🛠️ Framework
+
+- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
+
+### 💥 Breaking Change
+
 #### EOF removed from Osaka
 
 Following ["Interop Testing Call 34"](https://github.com/ethereum/pm/issues/1499) and the procedural EIPs [PR](https://github.com/ethereum/EIPs/pull/9703) the decision to remove EOF from Osaka was made.
@@ -20,7 +32,6 @@ A new fork `EOFv1` has additionally been created to fill and consume EOF related
 
 - ✨ Add an empty account function for usage within fill and execute ([#1482](https://github.com/ethereum/execution-spec-tests/pull/1482)).
 - ✨ Added `TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST` exception to specifically catch the case where the intrinsic gas cost is insufficient due to the data floor gas cost ([#1582](https://github.com/ethereum/execution-spec-tests/pull/1582)).
-- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
 
 ### 📋 Misc
 
