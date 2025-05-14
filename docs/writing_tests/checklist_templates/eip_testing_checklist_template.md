@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD001 (MD001=heading-increment) -->
 # EIP Execution Layer Testing Checklist Template
 
 Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features.
