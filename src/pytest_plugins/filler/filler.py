@@ -15,6 +15,7 @@ from typing import Any, Dict, Generator, List, Type
 
 import pytest
 import xdist
+from _pytest.compat import NotSetType
 from _pytest.terminal import TerminalReporter
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
@@ -25,7 +26,7 @@ from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Alloc, ReferenceSpec
 from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
-from ethereum_test_specs import SPEC_TYPES, BaseTest
+from ethereum_test_specs import BaseTest
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -778,7 +779,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
 
 # Dynamically generate a pytest fixture for each test spec type.
-for cls in SPEC_TYPES:
+for cls in BaseTest.spec_types.values():
     # Fixture needs to be defined in the global scope so pytest can detect it.
     globals()[cls.pytest_parameter_name()] = base_test_parametrizer(cls)
 
@@ -788,14 +789,14 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     Pytest hook used to dynamically generate test cases for each fixture format a given
     test spec supports.
     """
-    for test_type in SPEC_TYPES:
+    for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameter_set = []
+            for format_with_or_without_label in test_type.supported_fixture_formats:
+                parameter_set.append(labeled_format_parameter_set(format_with_or_without_label))
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    labeled_format_parameter_set(format_with_or_without_label)
-                    for format_with_or_without_label in test_type.supported_fixture_formats
-                ],
+                parameter_set,
                 scope="function",
                 indirect=True,
             )
@@ -824,6 +825,9 @@ def pytest_collection_modifyitems(
             continue
         fork: Fork = params["fork"]
         spec_type, fixture_format = get_spec_format_for_item(params)
+        if isinstance(fixture_format, NotSetType):
+            items.remove(item)
+            continue
         assert issubclass(fixture_format, BaseFixture)
         if not fixture_format.supports_fork(fork):
             items.remove(item)
