@@ -3734,6 +3734,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.TransactionException.INITCODE_SIZE_EXCEEDED" class="md-nav__link">
     <span class="md-ellipsis">
       INITCODE_SIZE_EXCEEDED
@@ -23687,6 +23696,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_tools.TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_tools.TransactionException.INITCODE_SIZE_EXCEEDED" class="md-nav__link">
     <span class="md-ellipsis">
       INITCODE_SIZE_EXCEEDED
@@ -27643,11 +27661,7 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
@@ -27844,7 +27858,11 @@ block header contains an invalid field.</p>
 <span class="normal">595</span>
 <span class="normal">596</span>
 <span class="normal">597</span>
-<span class="normal">598</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">BlockException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a block is invalid, but not due to a transaction.</span>
@@ -29454,11 +29472,7 @@ a fork that is not active yet.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">605</span>
 <span class="normal">606</span>
 <span class="normal">607</span>
 <span class="normal">608</span>
@@ -29665,7 +29679,11 @@ a fork that is not active yet.</p>
 <span class="normal">809</span>
 <span class="normal">810</span>
 <span class="normal">811</span>
-<span class="normal">812</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">EOFException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception raised when an EOF container is invalid.&quot;&quot;&quot;</span>
 
@@ -31579,7 +31597,11 @@ when returning</p>
 <span class="normal">391</span>
 <span class="normal">392</span>
 <span class="normal">393</span>
-<span class="normal">394</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -31790,6 +31812,10 @@ when returning</p>
     <span class="n">INTRINSIC_GAS_TOO_LOW</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction&#39;s gas limit is too low.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INTRINSIC_GAS_BELOW_FLOOR_GAS_COST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transaction&#39;s gas limit is below the floor gas cost.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">INITCODE_SIZE_EXCEEDED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -33241,6 +33267,33 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>Transaction's gas limit is too low.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_tools.TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INTRINSIC_GAS_BELOW_FLOOR_GAS_COST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Transaction's gas limit is below the floor gas cost.</p>
     </div>
 
 </div>
