@@ -11,6 +11,8 @@ plugins:
       exclude:
         - tests/*
         - navigation.md
+        - getting_started/contributing.md
+        - getting_started/security.md
   - glightbox
   - mkdocstrings:
       handlers:
@@ -23,11 +25,14 @@ plugins:
   - social
   - gen-files:
       scripts:
-        - docs/gen_test_case_reference.py
+        - docs/scripts/copy_repo_docs_to_mkdocs.py
+        - docs/scripts/gen_test_case_reference.py
   - literate-nav:
       nav_file: navigation.md
 
 watch:
+  - CONTRIBUTING.md
+  - SECURITY.md
   - src/
   - tests/
 

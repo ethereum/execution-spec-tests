@@ -1,8 +1,13 @@
 <!-- markdownlint-disable MD007 MD041 (MD007=ul-indent MD041=first-line-heading) -->
+<!-- Contributing and Security: included via mkdocs-gen-files and docs/include_contributing.py -->
   * [Home](index.md)
   * Getting Started
       * [Installation](getting_started/installation.md)
       * [Installation Troubleshooting](getting_started/installation_troubleshooting.md)
+      * [Contributing](getting_started/contributing.md)
+      * [Security Policy](getting_started/security.md)
+      * [Code Standards](getting_started/code_standards.md)
+      * [Detailed Code Standards](getting_started/code_standards_details.md)
       * [VS Code Setup](getting_started/setup_vs_code.md)
       * [Repository Overview](getting_started/repository_overview.md)
       * [Getting Help](getting_started/getting_help.md)
