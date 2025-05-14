@@ -10,18 +10,9 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Bytecode,
-    Environment,
-    Transaction,
-    While,
-    compute_create_address,
-)
+from ethereum_test_tools import (Account, Address, Alloc, Block,
+                                 BlockchainTestFiller, Bytecode, Environment,
+                                 Transaction, While, compute_create_address)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -244,11 +235,9 @@ def test_worst_storage_access_cold(
         if absent_slots:
             cost += gas_costs.G_STORAGE_SET
         else:
-            cost += gas_costs.G_WARM_ACCOUNT_ACCESS
+            cost += gas_costs.G_WARM_SLOAD
     elif storage_action == StorageAction.READ:
-        cost += gas_costs.G_WARM_ACCOUNT_ACCESS
-
-    print(f"cold_cost: {cost}")
+        cost += gas_costs.G_WARM_SLOAD
 
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     num_target_slots = (attack_gas_limit - intrinsic_gas_cost_calc()) // cost
@@ -285,6 +274,84 @@ def test_worst_storage_access_cold(
     # (int the case of absent_slots=False) and then copy the execution code to the contract.
     creation_code = (
         slots_init
+        + Op.EXTCODECOPY(
+            address=execution_code_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(execution_code_address),
+        )
+        + Op.RETURN(0, Op.MSIZE)
+    )
+    setup_tx = Transaction(
+        to=None,
+        gas_limit=env.gas_limit,
+        data=creation_code,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+    blocks.append(Block(txs=[setup_tx]))
+
+    contract_address = compute_create_address(address=setup_tx.sender, nonce=0)
+
+    op_tx = Transaction(
+        to=contract_address,
+        gas_limit=attack_gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+    blocks.append(Block(txs=[op_tx]))
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=blocks,
+        # TODO: add skip_post_check=True
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "storage_action",
+    [
+        # StorageAction.READ,
+        # StorageAction.WRITE_SAME_VALUE,
+        StorageAction.WRITE_NEW_VALUE,
+    ],
+)
+def test_worst_storage_access_warm(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    storage_action: StorageAction,
+):
+    """
+    Test running a block with as many warm storage slot accesses as possible.
+    """
+    env = Environment(gas_limit=100_000_000_000)
+    attack_gas_limit = Environment().gas_limit
+
+    blocks = []
+
+    # The target storage slot for the warm access is storage slot 0.
+    storage_slot_initial_value = 10
+
+    # Contract code
+    execution_code_body = Bytecode()
+    if storage_action == StorageAction.WRITE_SAME_VALUE:
+        execution_code_body = Op.SSTORE(0, Op.DUP1)
+    elif storage_action == StorageAction.WRITE_NEW_VALUE:
+        execution_code_body = Op.PUSH1(1) + Op.ADD + Op.SSTORE(0, Op.DUP1)
+    elif storage_action == StorageAction.READ:
+        execution_code_body = Op.POP(Op.SLOAD(0))
+
+    execution_code = Op.PUSH1(storage_slot_initial_value) + While(
+        body=execution_code_body,
+    )
+    execution_code_address = pre.deploy_contract(code=execution_code)
+
+    creation_code = (
+        Op.SSTORE(0, storage_slot_initial_value)
         + Op.EXTCODECOPY(
             address=execution_code_address,
             dest_offset=0,
