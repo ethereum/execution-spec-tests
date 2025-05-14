@@ -8,6 +8,22 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+### 🛠️ Framework
+
+#### `fill`
+
+- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471)).
+
+#### `consume`
+
+### 📋 Misc
+
+### 🧪 Test Cases
+
+## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
+
+### 💥 Breaking Change
+
 #### EOF removed from Osaka
 
 Following ["Interop Testing Call 34"](https://github.com/ethereum/pm/issues/1499) and the procedural EIPs [PR](https://github.com/ethereum/EIPs/pull/9703) the decision to remove EOF from Osaka was made.
