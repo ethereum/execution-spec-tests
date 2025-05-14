@@ -785,7 +785,7 @@ Note: Data floor gas cost affects the intrinsic validity of all transaction type
 | `new_transaction_type/test/intrinsic_validity/data_floor_above_intrinsic_gas_cost` | Invalid if `data_floor_cost(len(tx.data)) > tx.intrinsic_gas_cost` and `tx.gas_limit == tx.intrinsic_gas_cost`.       |        |       |
 | `new_transaction_type/test/intrinsic_validity/data_floor_above_intrinsic_gas_cost` | Valid if `data_floor_cost(len(tx.data)) > tx.intrinsic_gas_cost` and `tx.gas_limit == data_floor_cost(len(tx.data))`. |        |       |
 
-#### Signature.
+#### Signature
 
 Verify the transaction is correctly rejected if it contains an invalid signature.
 
@@ -1073,7 +1073,7 @@ Verify that the refund does not exceed `gas_used // MAX_REFUND_QUOTIENT` (`MAX_R
 | `gas_refunds_changes/test/refund_calculation/exact` | `refund == gas_used // MAX_REFUND_QUOTIENT`.     |        |       |
 | `gas_refunds_changes/test/refund_calculation/under` | `refund == gas_used // MAX_REFUND_QUOTIENT - 1`. |        |       |
 
-#### Exceptional Abort.
+#### Exceptional Abort
 
 | ID                                                                         | Description                                                                                                                                                                                                             | Status | Tests |
 | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
