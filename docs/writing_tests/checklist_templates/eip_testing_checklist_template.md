@@ -23,7 +23,7 @@ The EIP introduces one or more new opcodes to the EVM.
 
 #### Memory expansion
 
-If the opcode execution can expand the memory size, either by writing to memory or reading from an offset that exceeds current memory, or interaction of both parameters (Size of zero should never result in memory expansion, regardless of offset value).
+If the opcode execution can expand the memory size, either by writing to memory or reading from an offset that exceeds current memory, or interaction of both parameters (size of zero should never result in memory expansion, regardless of offset value).
 
 | ID                                               | Description                                                      | Status | Tests |
 | ------------------------------------------------ | ---------------------------------------------------------------- | ------ | ----- |
@@ -52,7 +52,7 @@ If the opcode pushes one or more items to the stack, and the opcode pushes more 
 
 ##### Stack Underflow
 
-If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. Op.DUPN requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exceptional abort then stack has 1 less item than the minimum stack height expected.
+If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. `DUPN` requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exceptional abort then stack has 1 less item than the minimum stack height expected.
 
 | ID                                | Description      | Status | Tests |
 | --------------------------------- | ---------------- | ------ | ----- |
@@ -97,7 +97,7 @@ Verify opcode operation in a subcall frame originated from a `STATICCALL` opcode
 | ID                                                                 | Description                                                                                                                                                                                                                                                                                | Status | Tests |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----- |
 | `new_opcode/test/execution_context/staticcall/ban_check`           | Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.                                                                                                                                                                                      |        |       |
-| `new_opcode/test/execution_context/staticcall/ban_no_modification` | If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. Op.PAY with zero value, or Op.SSTORE to the value it already has in the storage). |        |       |
+| `new_opcode/test/execution_context/staticcall/ban_no_modification` | If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. `PAY` with zero value, or `SSTORE` to the value it already has in the storage). |        |       |
 | `new_opcode/test/execution_context/staticcall/sub_calls`           | Verify sub-calls using other opcodes (e.g. `CALL`, `DELEGATECALL`, etc) also results in the same exceptional abort behavior.                                                                                                                                                               |        |       |
 
 ##### `DELEGATECALL`
@@ -926,7 +926,7 @@ Verify that the transaction can create new contracts if the transaction type sup
 | ID                                                 | Description                                                                                                                                                                                               | Status | Tests |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
 | `new_transaction_type/test/sender_account/nonce`   | Sender account has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one). |        |       |
-| `new_transaction_type/test/sender_account/balance` | Sender account has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using Op.BALANCE).                                                                  |        |       |
+| `new_transaction_type/test/sender_account/balance` | Sender account has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using `BALANCE`).                                                                  |        |       |
 
 #### Block Level Interactions
 
