@@ -10,9 +10,18 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (Account, Address, Alloc, Block,
-                                 BlockchainTestFiller, Bytecode, Environment,
-                                 Transaction, While, compute_create_address)
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Bytecode,
+    Environment,
+    Transaction,
+    While,
+    compute_create_address,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -387,6 +396,7 @@ def test_worst_storage_access_warm(
         # TODO: add skip_post_check=True
     )
 
+
 @pytest.mark.valid_from("Cancun")
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
@@ -394,7 +404,7 @@ def test_worst_blockhash(
     fork: Fork,
 ):
     """
-    Test running a block with as max-window blockhash accesses as possible.
+    Test running a block with as many blockhash accessing oldest allowed block as possible.
     """
     env = Environment()
 
@@ -421,3 +431,32 @@ def test_worst_blockhash(
         blocks=blocks,
     )
 
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_selfbalance(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """
+    Test running a block with as many SELFBALANCE opcodes as possible.
+    """
+    env = Environment()
+
+    execution_code = While(
+        body=Op.POP(Op.SELFBALANCE),
+    )
+    execution_code_address = pre.deploy_contract(code=execution_code)
+    op_tx = Transaction(
+        to=execution_code_address,
+        gas_limit=env.gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[op_tx])],
+    )
