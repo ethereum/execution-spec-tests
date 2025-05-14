@@ -10,6 +10,7 @@ from ethereum_clis.clis.geth import GethExceptionMapper
 from ethereum_clis.clis.nethermind import NethermindExceptionMapper
 from ethereum_clis.clis.nimbus import NimbusExceptionMapper
 from ethereum_clis.clis.reth import RethExceptionMapper
+from ethereum_clis.clis.ethrex import EthrexExceptionMapper
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures.blockchain import FixtureHeader
 
@@ -70,4 +71,5 @@ EXCEPTION_MAPPERS: Dict[str, ExceptionMapper] = {
     "reth": RethExceptionMapper(),
     "nimbus": NimbusExceptionMapper(),
     "ethereumjs": EthereumJSExceptionMapper(),
+    "ethrex": EthrexExceptionMapper(),
 }
