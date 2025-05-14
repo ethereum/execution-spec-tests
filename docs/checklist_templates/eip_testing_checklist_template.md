@@ -990,9 +990,9 @@ Verify, given multiple initial values, that a block is accepted or rejected depe
 ### Framework Changes
 
 - Add the new header field to the relevant objects:
-  - `ethereum_test_fixtures.FixtureHeader`.
-  - `ethereum_test_fixtures.FixtureExecutionPayload`.
-  - `ethereum_test_specs.Header`.
+    - `ethereum_test_fixtures.FixtureHeader`.
+    - `ethereum_test_fixtures.FixtureExecutionPayload`.
+    - `ethereum_test_specs.Header`.
 - Add the appropriate `header_*_required` fork method to `BaseFork` in `ethereum_test_forks`.
 
 ## New Block Body Field
@@ -1018,9 +1018,9 @@ Verify, given multiple initial values, that a block is accepted or rejected depe
 ### Framework Changes
 
 - Add the new body field to the relevant objects.
-  - `ethereum_test_fixtures.FixtureBlockBase`.
-  - `ethereum_test_fixtures.FixtureEngineNewPayload`.
-  - `ethereum_test_specs.Block`.
+    - `ethereum_test_fixtures.FixtureBlockBase`.
+    - `ethereum_test_fixtures.FixtureEngineNewPayload`.
+    - `ethereum_test_specs.Block`.
 - Modify `ethereum_test_specs.BlockchainTest` filling behavior to account for the new block field.
 
 ## Gas Cost Changes
