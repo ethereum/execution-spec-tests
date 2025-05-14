@@ -2,6 +2,8 @@
 
 EEST uses [`uv`](https://docs.astral.sh/uv/) to manage and pin its dependencies.
 
+Please use `uv>=0.7.0` to ensure `uv` writes `uv.lock` files with consistent fields and formatting (see [ethereum/execution-spec-tests#1597]https://github.com/ethereum/execution-spec-tests/pull/1597).
+
 ## Managing Dependencies
 
 We aim to provide specific [version specifiers](https://peps.python.org/pep-0440/#version-specifiers) for each of our direct and extra dependencies.
@@ -45,7 +47,7 @@ ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-s
 
 ### Adding/modifying optional dependencies
 
-These are packages in the optional "extra" groups: `lint`, `docs`, `test`, defined in the `pyproject.toml`:
+The package versions in the optional "extra" groups should also be managed via uv on the command-line These are the: `lint`, `docs`, `test` optional groups defined in the `pyproject.toml`:
 
 ```toml
 [project.optional-dependencies]
