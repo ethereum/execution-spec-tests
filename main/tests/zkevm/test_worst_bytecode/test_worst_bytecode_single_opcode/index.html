@@ -18832,7 +18832,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cc9a56a2021821cfdb5f8621e63c1da9b989a465/tests/zkevm/test_worst_bytecode.py#L38"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@cc9a56a2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3be4d6f1ddcba9c620450c53687d84eef9e113ea/tests/zkevm/test_worst_bytecode.py#L35"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@3be4d6f1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode --fork Prague</span>
@@ -18857,7 +18857,10 @@ consumed by repeated opcode executions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 38</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
 <span class="normal"> 39</span>
 <span class="normal"> 40</span>
 <span class="normal"> 41</span>
@@ -19020,18 +19023,33 @@ consumed by repeated opcode executions.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;attack_gas_limit&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_bytecode_single_opcode</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
+    <span class="n">attack_gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test a block execution where a single opcode execution maxes out the gas limit,</span>
@@ -19045,7 +19063,9 @@ consumed by repeated opcode executions.</p>
 <span class="sd">    The test is performed in the last block of the test, and the entire block gas limit is</span>
 <span class="sd">    consumed by repeated opcode executions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">BLOCK_GAS_LIMIT</span><span class="p">)</span>
+    <span class="c1"># We use 100G gas limit to be able to deploy a large number of contracts in a single block,</span>
+    <span class="c1"># avoiding bloating the number of preparing blocks in the test.</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000_000</span><span class="p">)</span>
 
     <span class="c1"># The initcode will take its address as a starting point to the input to the keccak</span>
     <span class="c1"># hash function.</span>
@@ -19111,19 +19131,19 @@ consumed by repeated opcode executions.</p>
     <span class="p">)</span>
     <span class="n">max_number_of_contract_calls</span> <span class="o">=</span> <span class="p">(</span>
         <span class="c1"># Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)</span>
-        <span class="n">OPCODE_GAS_LIMIT</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
     <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
 
     <span class="n">total_contracts_to_deploy</span> <span class="o">=</span> <span class="n">max_number_of_contract_calls</span>
     <span class="n">approximate_gas_per_deployment</span> <span class="o">=</span> <span class="mi">4_970_000</span>  <span class="c1"># Obtained from evm tracing</span>
-    <span class="n">contracts_deployed_per_tx</span> <span class="o">=</span> <span class="n">BLOCK_GAS_LIMIT</span> <span class="o">//</span> <span class="n">approximate_gas_per_deployment</span>
+    <span class="n">contracts_deployed_per_tx</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">//</span> <span class="n">approximate_gas_per_deployment</span>
 
     <span class="n">deploy_txs</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span> <span class="nf">generate_deploy_tx</span><span class="p">(</span><span class="n">contracts_to_deploy</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Transaction</span><span class="p">(</span>
             <span class="n">to</span><span class="o">=</span><span class="n">factory_caller_address</span><span class="p">,</span>
-            <span class="n">gas_limit</span><span class="o">=</span><span class="n">BLOCK_GAS_LIMIT</span><span class="p">,</span>
+            <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
             <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span>  <span class="c1"># Bump required due to the amount of full blocks</span>
             <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">contracts_deployed_per_tx</span><span class="p">),</span>
             <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
@@ -19156,8 +19176,7 @@ consumed by repeated opcode executions.</p>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">initcode</span><span class="o">.</span><span class="n">keccak256</span><span class="p">())</span>
         <span class="c1"># Main loop</span>
         <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
-            <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">85</span><span class="p">)))</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">opcode</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">85</span><span class="p">)))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -19170,7 +19189,7 @@ consumed by repeated opcode executions.</p>
     <span class="n">opcode_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">opcode_code</span><span class="p">)</span>
     <span class="n">opcode_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">opcode_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">OPCODE_GAS_LIMIT</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">attack_gas_limit</span><span class="p">,</span>
         <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span>  <span class="c1"># Bump required due to the amount of full blocks</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
@@ -19183,6 +19202,7 @@ consumed by repeated opcode executions.</p>
             <span class="o">*</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">deploy_tx</span><span class="p">])</span> <span class="k">for</span> <span class="n">deploy_tx</span> <span class="ow">in</span> <span class="n">deploy_txs</span><span class="p">],</span>
             <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">opcode_tx</span><span class="p">]),</span>
         <span class="p">],</span>
+        <span class="n">exclude_full_post_state_in_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -19233,6 +19253,7 @@ consumed by repeated opcode executions.</p>
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>attack_gas_limit</th>
                         <th>opcode</th>
                     </tr>
     </thead>
@@ -19240,28 +19261,31 @@ consumed by repeated opcode executions.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]">
+                    ...fork_Cancun-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE
                 </abbr>
             </td>
+                        <td>0x044aa200</td>
                         <td>EXTCODESIZE</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Prague-blockchain_test-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Prague-blockchain_test-opcode_EXTCODESIZE]">
-                    ...fork_Prague-blockchain_test-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Prague-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Prague-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]">
+                    ...fork_Prague-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE
                 </abbr>
             </td>
+                        <td>0x044aa200</td>
                         <td>EXTCODESIZE</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Osaka-blockchain_test-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Osaka-blockchain_test-opcode_EXTCODESIZE]">
-                    ...fork_Osaka-blockchain_test-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Osaka-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Osaka-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-blockchain_test-attack_gas_limit_0x044aa200-opcode_EXTCODESIZE
                 </abbr>
             </td>
+                        <td>0x044aa200</td>
                         <td>EXTCODESIZE</td>
                     </tr>
             </tbody>
