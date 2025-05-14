@@ -138,18 +138,13 @@ docs/improve-installation-guide
 To increase the chances of your PR being merged quickly:
 
 - **Scope**: Keep PRs focused on a single issue or feature.
+- **CI checks**: Ensure all CI checks pass before requesting review.
+- **Clean history**: Use meaningful, atomic commits that can be easily understood.
 - **Tests**: Include tests for new functionality.
 - **Documentation**: Update documentation for new features or changes.
-- **Clean history**: Use meaningful, atomic commits that can be easily understood.
-- **CI checks**: Ensure all CI checks pass before requesting review.
 - **Responsiveness**: Try to respond to review feedback within a reasonable time.
 
 For detailed code standards and enforcement checks, see our [Code Standards documentation](https://eest.ethereum.org/main/getting_started/code_standards).
-
-We use Ruff for code formatting and linting.
-All code must be type-annotated.
-Tests are written with pytest.
-Follow Conventional Commits for commit messages.
 
 ### Code Standards and Enforced CI Checks
 
@@ -233,7 +228,6 @@ We maintain high standards for our repository history to ensure it's clean, unde
 
     - Ensure all applicable items are checked.
     - Items that aren't relevant can be deleted or marked as N/A.
-    - Don't merge PRs with unchecked relevant items.
 
 2. **Verify changelog entry**
 
@@ -241,7 +235,6 @@ We maintain high standards for our repository history to ensure it's clean, unde
     - The entry should clearly but concisely describe the change.
     - It must include a link to the PR (e.g., `[#1234](https://github.com/ethereum/execution-spec-tests/pull/1234)`).
     - Clearly highlight any breaking changes in the changelog.
-    - Example: `- [#1234](https://github.com/ethereum/execution-spec-tests/pull/1234): Add support for Prague EIP-7702 blob gas tests`
 
 3. **Check PR title format**
 
@@ -250,16 +243,17 @@ We maintain high standards for our repository history to ensure it's clean, unde
     - Follow the same rules as commit messages (imperative tense, no period at end, etc.).
     - Example: `feat(tests): add tests for EIP-7702 blob gas calculation`
 
-4. **Review PR description**
+4. **Review PR description**:
 
     - Ensure the PR description is accurate and up-to-date.
-    - The description should match what the code actually does.
-    - Verify that any referenced issues are properly linked.
 
-5. **Add appropriate labels**
+5. **Add appropriate labels**:
 
     - Ensure the PR has the appropriate labels matching its type and scope.
-    - Labels help with categorizing changes and generating accurate release notes.
+
+6. **Consider other contributors/stakeholders**:
+
+    - Verify the PR has been reviewed and approved by any interested contributors and/or stakeholders.
 
 ### Merge Strategy
 
@@ -276,7 +270,7 @@ When performing a squash merge:
 
 1. **Include PR number in the commit title**
 
-    - Add the PR number in parentheses at the end of the title.
+    - Leave, respectively add, the PR number in parentheses at the end of the title.
     - Example: `feat(tests): add tests for EIP-7702 blob gas calculation (#1234)`
 
 2. **Clean up the extended commit message**
@@ -285,9 +279,3 @@ When performing a squash merge:
 
         - Any `Co-authored-by:` lines, which must be preserved to properly attribute work.
         - The format should be `Co-authored-by: Full Name <email@example.com>`
-
-3. **Final review before merge**
-
-    - Double-check that all CI checks are passing.
-    - Verify the PR has been reviewed and approved by any key stakeholders.
-    - Ensure any merge conflicts have been properly resolved.
