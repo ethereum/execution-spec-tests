@@ -184,10 +184,11 @@ jobs:
               exit 1
           fi
 
+          mkdir -p fixtures/blockchain_tests
+          mkdir -p fixtures/state_tests
           filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
           filesState=$(find fixtures/state_tests -type f -name "*.json")
-          filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
-          if [ -z "$filesState" ] && [ -z "$filesEOF" ] && [ -z "$filesBlock" ]; then
+          if [ -z "$filesState" ] && [ -z "$filesBlock" ]; then
               echo "Error: No supported filled JSON files found in fixtures."
               exit 1
           fi
@@ -197,7 +198,6 @@ jobs:
           mkdir -p $PATCH_TEST_PATH
           find fixtures/blockchain_tests -type f -name "*.json" -exec bash -c 'cp "$0" "$1/blockchain_$(basename "$0")"' {} "$PATCH_TEST_PATH" \;
           find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
-          find fixtures/eof_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
 
       - name: Parse and fill introduced test sources from before the PR
         if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && env.converted_skip == 'true' }}
@@ -226,9 +226,6 @@ jobs:
 
           rm -r fixtures
           rm filloutput.log
-          mkdir -p fixtures/blockchain_tests
-          mkdir -p fixtures/state_tests
-          mkdir -p fixtures/eof_tests
 
           if [ -n "$files_fixed" ]; then
               echo "uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
@@ -247,16 +244,16 @@ jobs:
               echo "No tests affected from before the patch!"
           fi
 
+          mkdir -p fixtures/blockchain_tests
+          mkdir -p fixtures/state_tests
           filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
           filesState=$(find fixtures/state_tests -type f -name "*.json")
-          filesEOF=$(find fixtures/eof_tests -type f -name "*.json")
 
           BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
           mkdir -p $BASE_TEST_PATH
 
           find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
           find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-          find fixtures/eof_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
           for file in $BASE_TEST_PATH/*.json; do
               if [ -e "$file" ]; then
                   mv "$file" "${file%.json}_$PREV_COMMIT.json"
