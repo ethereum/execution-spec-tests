@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import Enum
 
 from ethereum_test_forks import Fork, Frontier
-from ethereum_test_tools import Address, Alloc, Bytecode, Conditional
+from ethereum_test_tools import Address, Alloc, Bytecode, Conditional, MemoryVariable
 from ethereum_test_vm import Opcodes as Op
 
 
@@ -196,20 +196,40 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
     So that if we can't check exact value in expect section, we at least
     could spend unique gas amount.
     """
+    # EVM memory variables
+    variable_byte_offset = MemoryVariable(0)
+    variable_current_byte = MemoryVariable(32)
+
+    # Code for memory initialization
+    initialize_code = variable_byte_offset.store(0)
+    calldata_copy = Op.JUMPDEST + Op.CALLDATACOPY(
+        dest_offset=variable_current_byte.offset + 32 - 1,
+        offset=variable_byte_offset,
+        size=1,
+    )
+
+    # Code offsets
+    offset_calldata_copy = len(initialize_code)
+    offset_conditional = offset_calldata_copy + len(calldata_copy)
+
+    # Deploy contract
     gas_hash_address = pre.deploy_contract(
-        code=Op.MSTORE(0, 0)
-        + Op.JUMPDEST
-        + Op.CALLDATACOPY(63, Op.MLOAD(0), 1)
-        + Op.JUMPDEST
+        code=initialize_code
+        + calldata_copy  # offset_calldata_copy
+        + Op.JUMPDEST  # offset_conditional
         + Conditional(
-            condition=Op.ISZERO(Op.MLOAD(32)),
-            if_true=Op.MSTORE(0, Op.ADD(1, Op.MLOAD(0)))
-            + Conditional(
-                condition=Op.GT(Op.MLOAD(0), 32),
-                if_true=Op.RETURN(0, 0),
-                if_false=Op.JUMP(5),
+            condition=Op.ISZERO(variable_current_byte),
+            if_true=(
+                # Increase the calldata byte offset, and if it's greater than the calldata size,
+                # return, otherwise jump to the calldata copy code and read the next byte.
+                variable_byte_offset.add(1)
+                + Conditional(
+                    condition=Op.GT(variable_byte_offset, Op.CALLDATASIZE()),
+                    if_true=Op.RETURN(offset=0, size=0),
+                    if_false=Op.JUMP(offset_calldata_copy),
+                )
             ),
-            if_false=Op.MSTORE(32, Op.SUB(Op.MLOAD(32), 1)) + Op.JUMP(14),
+            if_false=(variable_current_byte.sub(1) + Op.JUMP(offset_conditional)),
         )
     )
     return gas_hash_address
@@ -241,19 +261,25 @@ def make_invalid_opcode_contract(pre: Alloc, fork: Fork) -> Address:
         if op not in valid_opcode_values:
             invalid_opcodes.append(op)
 
+    variable_results_sum = MemoryVariable(0)
+    variable_opcode = MemoryVariable(32)
+
     code = Bytecode(
         sum(
-            Op.MSTORE(64, opcode)
-            + Op.MSTORE(
-                32,
-                Op.CALL(gas=50000, address=invalid_opcode_caller, args_offset=64, args_size=32),
+            variable_opcode.store(opcode)
+            + variable_results_sum.add(
+                Op.CALL(
+                    gas=50000,
+                    address=invalid_opcode_caller,
+                    args_offset=variable_opcode.offset,
+                    args_size=32,
+                ),
             )
-            + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), Op.MLOAD(32)))
             for opcode in invalid_opcodes
         )
         # If any of invalid instructions works, mstore[0] will be > 1
-        + Op.MSTORE(0, Op.ADD(Op.MLOAD(0), 1))
-        + Op.RETURN(0, 32)
+        + variable_results_sum.add(1)
+        + variable_results_sum.return_value()
     )
 
     return pre.deploy_contract(code=code)
