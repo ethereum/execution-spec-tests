@@ -1,3 +1,6 @@
+([#1606](https://github.com/ethereum/execution-spec-tests/pull/1606))
+BlockchainTests/GeneralStateTests/stSelfBalance/diffPlaces.json
+
 ([#1535](https://github.com/ethereum/execution-spec-tests/pull/1535))
 GeneralStateTests/stEIP1559/intrinsicCancun.json
 BlockchainTests/ValidBlocks/bcEIP1559/intrinsic.json
