@@ -38,7 +38,7 @@ def copy_markdown_file(source_path, destination_path, fix_links=True):
 
                         # Fix EIP checklist template link
                         line = re.sub(
-                            r"\[EIP checklist template\]\(./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md\)"  # noqa: E501
+                            r"\[EIP checklist template\]\(./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md\)",  # noqa: E501
                             r"[EIP checklist template](../writing_tests/checklist_templates/eip_testing_checklist_template.md)",  # noqa: E501
                             line,
                         )
