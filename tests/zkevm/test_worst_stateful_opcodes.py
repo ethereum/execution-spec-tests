@@ -5,7 +5,6 @@ abstract: Tests zkEVMs worst-case stateful opcodes.
 Tests running worst-case stateful opcodes for zkEVMs.
 """
 
-import math
 
 import pytest
 
@@ -52,9 +51,7 @@ def test_worst_address_state_cold(
     opcode: Op,
     absent_targets: bool,
 ):
-    """
-    Test running a block with as many stateful opcodes accessing cold accounts.
-    """
+    """Test running a block with as many stateful opcodes accessing cold accounts."""
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
@@ -142,9 +139,7 @@ def test_worst_address_state_warm(
     opcode: Op,
     absent_target: bool,
 ):
-    """
-    Test running a block with as many stateful opcodes doing warm access for an account.
-    """
+    """Test running a block with as many stateful opcodes doing warm access for an account."""
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
@@ -216,9 +211,7 @@ def test_worst_storage_access_cold(
     storage_action: StorageAction,
     absent_slots: bool,
 ):
-    """
-    Test running a block with as many cold storage slot accesses as possible.
-    """
+    """Test running a block with as many cold storage slot accesses as possible."""
     env = Environment(gas_limit=100_000_000_000)
     gas_costs = fork.gas_costs()
     attack_gas_limit = Environment().gas_limit
@@ -323,9 +316,7 @@ def test_worst_storage_access_warm(
     fork: Fork,
     storage_action: StorageAction,
 ):
-    """
-    Test running a block with as many warm storage slot accesses as possible.
-    """
+    """Test running a block with as many warm storage slot accesses as possible."""
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
@@ -392,9 +383,7 @@ def test_worst_blockhash(
     pre: Alloc,
     fork: Fork,
 ):
-    """
-    Test running a block with as many blockhash accessing oldest allowed block as possible.
-    """
+    """Test running a block with as many blockhash accessing oldest allowed block as possible."""
     env = Environment()
 
     # Create 256 dummy blocks to fill the blockhash window.
@@ -427,9 +416,7 @@ def test_worst_selfbalance(
     pre: Alloc,
     fork: Fork,
 ):
-    """
-    Test running a block with as many SELFBALANCE opcodes as possible.
-    """
+    """Test running a block with as many SELFBALANCE opcodes as possible."""
     env = Environment()
 
     execution_code = While(
@@ -466,9 +453,7 @@ def test_worst_extcodecopy_warm(
     fork: Fork,
     copied_size: int,
 ):
-    """
-    Test running a block with as many wamr EXTCODECOPY work as possible.
-    """
+    """Test running a block with as many wamr EXTCODECOPY work as possible."""
     env = Environment()
 
     copied_contract_address = pre.deploy_contract(
