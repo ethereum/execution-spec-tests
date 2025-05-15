@@ -139,7 +139,7 @@ def test_worst_precompile_only_data_input(
     max_work = 0
     optimal_input_length = 0
     for input_length in range(1, 1_000_000, 32):
-        staticcall_parameters_gas = (
+        parameters_gas = (
             gsc.G_BASE  # PUSH0 = arg offset
             + gsc.G_BASE  # PUSH0 = arg size
             + gsc.G_BASE  # PUSH0 = arg size
@@ -148,7 +148,7 @@ def test_worst_precompile_only_data_input(
             + gsc.G_BASE  # GAS
         )
         iteration_gas_cost = (
-            staticcall_parameters_gas
+            parameters_gas
             + +static_cost  # Precompile static cost
             + math.ceil(input_length / 32) * per_word_dynamic_cost  # Precompile dynamic cost
             + gsc.G_BASE  # POP
