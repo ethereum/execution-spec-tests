@@ -6,11 +6,11 @@ from typing import Dict, List, Tuple
 from ethereum_clis.clis.besu import BesuExceptionMapper
 from ethereum_clis.clis.erigon import ErigonExceptionMapper
 from ethereum_clis.clis.ethereumjs import EthereumJSExceptionMapper
+from ethereum_clis.clis.ethrex import EthrexExceptionMapper
 from ethereum_clis.clis.geth import GethExceptionMapper
 from ethereum_clis.clis.nethermind import NethermindExceptionMapper
 from ethereum_clis.clis.nimbus import NimbusExceptionMapper
 from ethereum_clis.clis.reth import RethExceptionMapper
-from ethereum_clis.clis.ethrex import EthrexExceptionMapper
 from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures.blockchain import FixtureHeader
 
