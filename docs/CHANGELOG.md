@@ -18,6 +18,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 📋 Misc
 
+- ✨ Added the `MemoryVariable` EVM abstraction to generate more readable bytecode when there's heavy use of variables that are stored in memory ([#1609](https://github.com/ethereum/execution-spec-tests/pull/1609)).
+
 ### 🧪 Test Cases
 
 ## [v5.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v5.0.0) - 2025-09-05
