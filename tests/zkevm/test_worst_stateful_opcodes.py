@@ -5,7 +5,6 @@ abstract: Tests zkEVMs worst-case stateful opcodes.
 Tests running worst-case stateful opcodes for zkEVMs.
 """
 
-
 import pytest
 
 from ethereum_test_forks import Fork
@@ -47,7 +46,6 @@ def test_worst_address_state_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    attack_gas_limit: int,
     opcode: Op,
     absent_targets: bool,
 ):
@@ -108,7 +106,7 @@ def test_worst_address_state_cold(
         pre=pre,
         post=post,
         blocks=blocks,
-        # TODO: add skip_post_check=True
+        exclude_full_post_state_in_output=True,
     )
 
 
@@ -145,7 +143,7 @@ def test_worst_address_state_warm(
 
     # Setup
     target_addr = Address(100_000)
-    post = {target_addr: None}
+    post = {}
     if not absent_target:
         code = Op.STOP + Op.JUMPDEST * 100
         target_addr = pre.deploy_contract(balance=100, code=code)
@@ -177,7 +175,6 @@ def test_worst_address_state_warm(
         post=post,
         blocks=[Block(txs=[op_tx])],
     )
-    # TODO: add skip_post_check=True
 
 
 class StorageAction:
@@ -273,16 +270,17 @@ def test_worst_storage_access_cold(
         )
         + Op.RETURN(0, Op.MSIZE)
     )
+    sender_addr = pre.fund_eoa()
     setup_tx = Transaction(
         to=None,
         gas_limit=env.gas_limit,
         data=creation_code,
         gas_price=10,
-        sender=pre.fund_eoa(),
+        sender=sender_addr,
     )
     blocks.append(Block(txs=[setup_tx]))
 
-    contract_address = compute_create_address(address=setup_tx.sender, nonce=0)
+    contract_address = compute_create_address(address=sender_addr, nonce=0)
 
     op_tx = Transaction(
         to=contract_address,
@@ -297,7 +295,7 @@ def test_worst_storage_access_cold(
         pre=pre,
         post={},
         blocks=blocks,
-        # TODO: add skip_post_check=True
+        exclude_full_post_state_in_output=True,
     )
 
 
@@ -349,16 +347,17 @@ def test_worst_storage_access_warm(
         )
         + Op.RETURN(0, Op.MSIZE)
     )
+    sender_addr = pre.fund_eoa()
     setup_tx = Transaction(
         to=None,
         gas_limit=env.gas_limit,
         data=creation_code,
         gas_price=10,
-        sender=pre.fund_eoa(),
+        sender=sender_addr,
     )
     blocks.append(Block(txs=[setup_tx]))
 
-    contract_address = compute_create_address(address=setup_tx.sender, nonce=0)
+    contract_address = compute_create_address(address=sender_addr, nonce=0)
 
     op_tx = Transaction(
         to=contract_address,
@@ -373,7 +372,6 @@ def test_worst_storage_access_warm(
         pre=pre,
         post={},
         blocks=blocks,
-        # TODO: add skip_post_check=True
     )
 
 
