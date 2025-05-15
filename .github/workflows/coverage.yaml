@@ -172,12 +172,12 @@ jobs:
           source $GITHUB_ENV
           files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
 
-          mkdir -p fixtures/state_tests
-          mkdir -p fixtures/eof_tests
-          mkdir -p fixtures/blockchain_tests
+          # Include basic evm operations into coverage by default
+          # As when we translate from yul/solidity some dup/push opcodes could become untouched
+          files="$files tests/homestead/coverage/test_coverage.py"
 
-          echo "uv run fill $files --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-          uv run fill $files --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+          echo "uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
+          uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
           if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests."
@@ -192,9 +192,6 @@ jobs:
               exit 1
           fi
 
-          # Include basic evm operations into coverage by default
-          # As when we translate from yul/solidity some dup/push opcodes could become untouched
-          uv run fill tests/homestead/coverage/test_coverage.py --until=Cancun --evm-bin evmone-t8n
 
           PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
           mkdir -p $PATCH_TEST_PATH
@@ -234,8 +231,8 @@ jobs:
           mkdir -p fixtures/eof_tests
 
           if [ -n "$files_fixed" ]; then
-              echo "uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-              uv run fill $files_fixed --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+              echo "uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
+              uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
               if grep -q "FAILURES" filloutput.log; then
                 echo "Error: failed to generate .py tests from before the PR."
