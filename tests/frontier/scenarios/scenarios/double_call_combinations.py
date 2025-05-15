@@ -27,7 +27,7 @@ def scenarios_double_call_combinations(scenario_input: ScenarioGeneratorInput) -
         operation_contract = scenario_input.pre.deploy_contract(code=scenario_input.operation_code)
         subcall_contract = scenario_input.pre.deploy_contract(
             code=Op.MSTORE(0, 0x1122334455667788991011121314151617181920212223242526272829303132)
-            + revert(0, 32, unchecked=True)
+            + revert(offset=0, size=32)
         )
         scenario_contract = scenario_input.pre.deploy_contract(
             code=Op.CALL(gas=Op.SUB(Op.GAS, keep_gas), address=operation_contract, ret_size=32)
