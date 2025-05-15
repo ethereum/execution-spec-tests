@@ -70,6 +70,8 @@ We welcome contributions via pull requests! This section will guide you through 
 3. **Set up your environment**:
 
     ```bash
+    uv python install 3.11
+    uv python pin 3.11
     uv sync --all-extras
     uv run solc-select use 0.8.24 --always-install
     ```
