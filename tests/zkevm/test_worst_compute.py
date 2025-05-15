@@ -10,7 +10,7 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction, While
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -169,4 +169,136 @@ def test_worst_modexp(
         pre=pre,
         post={},
         blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "gas_limit",
+    [36_000_000],
+)
+def test_worst_jumps(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_limit: int,
+):
+    """Test running a JUMP-intensive contract."""
+    env = Environment(gas_limit=gas_limit)
+    gsc = fork.gas_costs()
+
+    def jump_seq(i):
+        return Op.PUSH2(4 + 5 * i) + Op.JUMP + Op.JUMPDEST
+
+    gas_per_seq = gsc.G_VERY_LOW + gsc.G_MID + gsc.G_JUMPDEST
+    bytes_per_seq = 5
+    seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
+    gas_per_call = gas_per_seq * seqs_per_call
+
+    # Create and deploy the jump-intensive contract
+    jumps_code = sum(jump_seq(i) for i in range(seqs_per_call))
+    jumps_address = pre.deploy_contract(code=jumps_code)
+
+    # Determine how many calls to the jumps contract to make.
+    # `While` with N loops has a single PUSH2 and N times:
+    #  - JUMPDEST
+    #  - loop body: call overhead + call cost + POP
+    #  - loop condition overhead: PC + PUSH4 + SUB
+    #  - loop condition: PUSH1 + SWAP1 + SUB + DUP1 + ISZERO + ISZERO
+    # Relevant costs are those of JUMPDEST, CALL overhead (estimated), called cost cost (computed
+    # above),  BASE cost (POP, PC), and VERY_LOW for everything else.
+    # Pay transaction overhead
+    available_gas = gas_limit - fork.transaction_intrinsic_cost_calculator()()
+    function_call_overhead = 100  # estimated
+    body_cost = function_call_overhead + gas_per_call + gsc.G_BASE
+    condition_cost = 6 * gsc.G_VERY_LOW
+    while_linear_cost = gsc.G_JUMPDEST + gsc.G_BASE + 2 * gsc.G_VERY_LOW
+    cost_per_loop = body_cost + condition_cost + while_linear_cost
+    num_calls = (available_gas - gsc.G_VERY_LOW) // cost_per_loop
+    # num_calls = int(0.95 * num_calls)  # TODO: multiplier to avoid timeout on my machine
+
+    # Caller contract that calls the jump contract N times (N passed via calldata)
+    caller_code = Op.PUSH2(num_calls) + While(
+        body=Op.POP(Op.CALL(address=jumps_address)),
+        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+    )
+    caller_address = pre.deploy_contract(caller_code)
+
+    txs = [
+        Transaction(
+            to=caller_address,
+            gas_limit=gas_limit,
+            sender=pre.fund_eoa(),
+        )
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "gas_limit",
+    [36_000_000],
+)
+def test_worst_jumpdests(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_limit: int,
+):
+    """Test running a JUMPDEST-intensive contract."""
+    env = Environment(gas_limit=gas_limit)
+    gsc = fork.gas_costs()
+
+    # Create and deploy a contract with many JUMPDESTs
+    jumpdests_code = Op.PUSH1(3) + Op.JUMP + sum(Op.JUMPDEST for _ in range(MAX_CODE_SIZE - 3))
+    jumpdests_address = pre.deploy_contract(code=jumpdests_code)
+    gas_per_call = gsc.G_VERY_LOW + gsc.G_MID + (MAX_CODE_SIZE - 3) * gsc.G_JUMPDEST
+
+    # Determine how many calls to the jumps contract to make.
+    # `While` with N loops has a single PUSH2 and N times:
+    #  - JUMPDEST
+    #  - loop body: call overhead + call cost + POP
+    #  - loop condition overhead: PC + PUSH4 + SUB
+    #  - loop condition: PUSH1 + SWAP1 + SUB + DUP1 + ISZERO + ISZERO
+    # Relevant costs are those of JUMPDEST, CALL overhead (estimated), called cost cost (computed
+    # above),  BASE cost (POP, PC), and VERY_LOW for everything else.
+    # Pay transaction overhead
+    available_gas = gas_limit - fork.transaction_intrinsic_cost_calculator()()
+    function_call_overhead = 125  # estimated
+    body_cost = function_call_overhead + gas_per_call + gsc.G_BASE
+    condition_cost = 6 * gsc.G_VERY_LOW
+    while_linear_cost = gsc.G_JUMPDEST + gsc.G_BASE + 2 * gsc.G_VERY_LOW
+    cost_per_loop = body_cost + condition_cost + while_linear_cost
+    num_calls = (available_gas - gsc.G_VERY_LOW) // cost_per_loop
+
+    # Caller contract that calls the jump contract N times (N passed via calldata)
+    caller_code = Op.PUSH2(num_calls) + While(
+        body=Op.POP(Op.CALL(address=jumpdests_address)),
+        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+    )
+    caller_address = pre.deploy_contract(caller_code)
+
+    txs = [
+        Transaction(
+            to=caller_address,
+            gas_limit=gas_limit,
+            sender=pre.fund_eoa(),
+        )
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
     )
