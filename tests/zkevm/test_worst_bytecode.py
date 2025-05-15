@@ -10,17 +10,9 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Environment,
-    Hash,
-    Transaction,
-    While,
-    compute_create2_address,
-)
+from ethereum_test_tools import (Account, Alloc, Block, BlockchainTestFiller,
+                                 Environment, Hash, Transaction, While,
+                                 compute_create2_address)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -39,12 +31,6 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
         Op.EXTCODEHASH,
     ],
 )
-@pytest.mark.parametrize(
-    "attack_gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
 @pytest.mark.slow()
 @pytest.mark.valid_from("Cancun")
 def test_worst_bytecode_single_opcode(
@@ -52,7 +38,6 @@ def test_worst_bytecode_single_opcode(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    attack_gas_limit: int,
 ):
     """
     Test a block execution where a single opcode execution maxes out the gas limit,
@@ -69,6 +54,7 @@ def test_worst_bytecode_single_opcode(
     # We use 100G gas limit to be able to deploy a large number of contracts in a single block,
     # avoiding bloating the number of preparing blocks in the test.
     env = Environment(gas_limit=100_000_000_000)
+    attack_gas_limit = Environment().gas_limit
 
     # The initcode will take its address as a starting point to the input to the keccak
     # hash function.
