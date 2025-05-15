@@ -144,7 +144,7 @@ def test_worst_bytecode_single_opcode(
     contracts_deployment_tx = Transaction(
         to=factory_caller_address,
         gas_limit=env.gas_limit,
-        gas_price=10**9,  # Bump required due to the amount of full blocks
+        gas_price=10**9,
         data=Hash(num_contracts),
         sender=pre.fund_eoa(),
     )
@@ -162,7 +162,7 @@ def test_worst_bytecode_single_opcode(
 
     attack_call = Bytecode()
     if opcode == Op.EXTCODECOPY:
-        attack_call = Op.EXTCODECOPY(address=Op.SHA3(32 - 20 - 1, 85), size=1000)
+        attack_call = Op.EXTCODECOPY(address=Op.SHA3(32 - 20 - 1, 85), dest_offset=85, size=1000)
     else:
         # For the rest of the opcodes, we can use the same generic attack call
         # since all only minimally need the `address` of the target.
@@ -171,7 +171,7 @@ def test_worst_bytecode_single_opcode(
         # Setup memory for later CREATE2 address generation loop.
         # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
         Op.MSTORE(0, factory_address)
-        + Op.MSTORE8(32 - 20 - 1, 0xFF)  # 0xFF prefix byte
+        + Op.MSTORE8(32 - 20 - 1, 0xFF)
         + Op.MSTORE(32, 0)
         + Op.MSTORE(64, initcode.keccak256())
         # Main loop
@@ -190,7 +190,7 @@ def test_worst_bytecode_single_opcode(
     opcode_tx = Transaction(
         to=opcode_address,
         gas_limit=attack_gas_limit,
-        gas_price=10**9,  # Bump required due to the amount of full blocks
+        gas_price=10**9,
         sender=pre.fund_eoa(),
     )
 
