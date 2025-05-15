@@ -84,23 +84,25 @@ We welcome contributions via pull requests! This section will guide you through 
     git checkout -b your-branch-name
     ```
 
-5. **Make your changes** according to our code standards.
+5. **Make your changes** according to our [code standards](https://eest.ethereum.org/main/getting_started/code_standards).
 
-6. **Verify your changes** by running the appropriate checks:
+6. **For EVM Tests**: Review the cases in the [EIP checklist template](./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md).
+
+7. **Verify your changes** by running the appropriate checks:
 
     ```bash
     uvx --with=tox-uv tox -e lint,typecheck
     ```
 
-7. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
+8. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
 
-8. **Push your branch** to your GitHub fork:
+9. **Push your branch** to your GitHub fork:
 
     ```bash
     git push -u origin your-branch-name
     ```
 
-9. **Create a pull request** by navigating to your fork on GitHub and clicking the "New Pull Request" button.
+10. **Create a pull request** by navigating to your fork on GitHub and clicking the "New Pull Request" button.
 
 ### Branch Naming Conventions
 
