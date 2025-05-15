@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     Hash,
     Transaction,
@@ -37,6 +38,10 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
     [
         Op.EXTCODESIZE,
         Op.EXTCODEHASH,
+        Op.CALL,
+        Op.CALLCODE,
+        Op.DELEGATECALL,
+        Op.STATICCALL,
     ],
 )
 @pytest.mark.slow()
@@ -165,25 +170,27 @@ def test_worst_bytecode_single_opcode(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
-    opcode_code = (
+    attack_code = (
         # Setup memory for later CREATE2 address generation loop.
+        # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
         Op.MSTORE(0, factory_address)
         + Op.MSTORE8(32 - 20 - 1, 0xFF)  # 0xFF prefix byte
         + Op.MSTORE(32, 0)
         + Op.MSTORE(64, initcode.keccak256())
         # Main loop
         + While(
-            body=Op.POP(opcode(Op.SHA3(32 - 20 - 1, 85))) + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            body=Op.POP(opcode(address=Op.SHA3(32 - 20 - 1, 85)))
+            + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
         )
     )
 
-    if len(opcode_code) > MAX_CONTRACT_SIZE:
+    if len(attack_code) > MAX_CONTRACT_SIZE:
         # TODO: A workaround could be to split the opcode code into multiple contracts
         # and call them in sequence.
         raise ValueError(
-            f"Code size {len(opcode_code)} exceeds maximum code size {MAX_CONTRACT_SIZE}"
+            f"Code size {len(attack_code)} exceeds maximum code size {MAX_CONTRACT_SIZE}"
         )
-    opcode_address = pre.deploy_contract(code=opcode_code)
+    opcode_address = pre.deploy_contract(code=attack_code)
     opcode_tx = Transaction(
         to=opcode_address,
         gas_limit=attack_gas_limit,
