@@ -833,11 +833,6 @@ class Paris(
         """From Paris, payloads can be sent through the engine API."""
         return 1
 
-    @classmethod
-    def transition_time(cls) -> int:
-        """Return the fork transition timestamp for Paris."""
-        return 15_000
-
 
 class Shanghai(Paris):
     """Shanghai fork."""
