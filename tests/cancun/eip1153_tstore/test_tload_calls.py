@@ -13,6 +13,12 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1153.md"
 REFERENCE_SPEC_VERSION = "1eb863b534a5a3e19e9c196ab2a7f3db4bb9da17"
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/04_tloadAfterCallFiller.yml",
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/12_tloadDelegateCallFiller.yml",
+    ]
+)
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE, Op.DELEGATECALL])
 def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):

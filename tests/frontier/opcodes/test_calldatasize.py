@@ -8,6 +8,11 @@ from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml",
+    ]
+)
 @pytest.mark.parametrize(
     "args_size",
     [0, 2, 16, 33, 257],

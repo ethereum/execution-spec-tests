@@ -15,6 +15,12 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_1014.git_path
 REFERENCE_SPEC_VERSION = ref_spec_1014.version
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/stCreate2/call_outsize_then_create2_successful_then_returndatasizeFiller.json",
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/stCreate2/call_then_create2_successful_then_returndatasizeFiller.json",
+    ]
+)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_return_size", [35, 32, 0])
 @pytest.mark.parametrize("create_type", [Op.CREATE, Op.CREATE2])

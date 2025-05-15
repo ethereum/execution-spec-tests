@@ -8,6 +8,11 @@ from ethereum_test_tools import Macros as Om
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/VMTests/vmTests/calldataloadFiller.yml",
+    ]
+)
 @pytest.mark.parametrize(
     "calldata,calldata_offset,expected_storage",
     [

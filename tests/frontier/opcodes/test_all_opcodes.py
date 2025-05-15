@@ -46,6 +46,12 @@ def prepare_suffix(opcode: Opcode) -> Bytecode:
     return Op.STOP
 
 
+@pytest.mark.converted_from(
+    [
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/stBadOpcode/badOpcodesFiller.json",
+        "src/LegacyTests/Cancun/GeneralStateTestsFiller/stBugs/evmBytecodeFiller.json",
+    ]
+)
 @pytest.mark.valid_from("Frontier")
 def test_all_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """
