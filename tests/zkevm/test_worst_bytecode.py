@@ -87,6 +87,10 @@ def test_worst_bytecode_single_opcode(
             ),
             condition=Op.LT(Op.MSIZE, MAX_CONTRACT_SIZE),
         )
+        # Despite the whole contract has random bytecode, we make the first opcode be a STOP
+        # so CALL-like attacks return as soon as possible, while EXTCODE(HASH|SIZE) work as
+        # intended.
+        + Op.MSTORE8(0, 0x00)
         + Op.RETURN(0, MAX_CONTRACT_SIZE)
     )
     initcode_address = pre.deploy_contract(code=initcode)
@@ -105,7 +109,7 @@ def test_worst_bytecode_single_opcode(
             Op.CREATE2(
                 value=0,
                 offset=0,
-                size=Op.MSIZE,
+                size=Op.EXTCODESIZE(initcode_address),
                 salt=Op.SLOAD(0),
             ),
         )
@@ -131,37 +135,22 @@ def test_worst_bytecode_single_opcode(
         + gas_costs.G_COLD_ACCOUNT_ACCESS  # Opcode cost
         + 30  # ~Gluing opcodes
     )
-    max_number_of_contract_calls = (
+    num_contracts = (
         # Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)
         attack_gas_limit - intrinsic_gas_cost_calc() - gas_costs.G_VERY_LOW * 4
     ) // loop_cost
 
-    total_contracts_to_deploy = max_number_of_contract_calls
-    approximate_gas_per_deployment = 4_970_000  # Obtained from evm tracing
-    contracts_deployed_per_tx = env.gas_limit // approximate_gas_per_deployment
-
-    deploy_txs = []
-
-    def generate_deploy_tx(contracts_to_deploy: int):
-        return Transaction(
-            to=factory_caller_address,
-            gas_limit=env.gas_limit,
-            gas_price=10**9,  # Bump required due to the amount of full blocks
-            data=Hash(contracts_deployed_per_tx),
-            sender=pre.fund_eoa(),
-        )
-
-    for _ in range(total_contracts_to_deploy // contracts_deployed_per_tx):
-        deploy_txs.append(generate_deploy_tx(contracts_deployed_per_tx))
-
-    if total_contracts_to_deploy % contracts_deployed_per_tx != 0:
-        deploy_txs.append(
-            generate_deploy_tx(total_contracts_to_deploy % contracts_deployed_per_tx)
-        )
+    contracts_deployment_tx = Transaction(
+        to=factory_caller_address,
+        gas_limit=env.gas_limit,
+        gas_price=10**9,  # Bump required due to the amount of full blocks
+        data=Hash(num_contracts),
+        sender=pre.fund_eoa(),
+    )
 
     post = {}
     deployed_contract_addresses = []
-    for i in range(total_contracts_to_deploy):
+    for i in range(num_contracts):
         deployed_contract_address = compute_create2_address(
             address=factory_address,
             salt=i,
@@ -203,7 +192,7 @@ def test_worst_bytecode_single_opcode(
         pre=pre,
         post=post,
         blocks=[
-            *[Block(txs=[deploy_tx]) for deploy_tx in deploy_txs],
+            Block(txs=[contracts_deployment_tx]),
             Block(txs=[opcode_tx]),
         ],
         exclude_full_post_state_in_output=True,
