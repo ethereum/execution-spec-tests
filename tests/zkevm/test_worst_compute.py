@@ -30,24 +30,17 @@ ECRECOVER_GAS_COST = 3_000
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize(
-    "gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
 def test_worst_keccak(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
 ):
     """Test running a block with as many KECCAK256 permutations as possible."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    available_gas = gas_limit - intrinsic_gas_calculator()
+    available_gas = env.gas_limit - intrinsic_gas_calculator()
 
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
@@ -99,7 +92,7 @@ def test_worst_keccak(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=gas_limit,
+        gas_limit=env.gas_limit,
         gas_price=10,
         sender=pre.fund_eoa(),
         data=[],
@@ -116,12 +109,6 @@ def test_worst_keccak(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
-@pytest.mark.parametrize(
     "address,static_cost,per_word_dynamic_cost,bytes_per_unit_of_work",
     [
         pytest.param(0x02, 60, 12, 64, id="SHA2-256"),
@@ -133,18 +120,17 @@ def test_worst_precompile_only_data_input(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
     address: Address,
     static_cost: int,
     per_word_dynamic_cost: int,
     bytes_per_unit_of_work: int,
 ):
     """Test running a block with as many precompile calls which have a single `data` input."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    available_gas = gas_limit - intrinsic_gas_calculator()
+    available_gas = env.gas_limit - intrinsic_gas_calculator()
 
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
@@ -189,7 +175,7 @@ def test_worst_precompile_only_data_input(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=gas_limit,
+        gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
 
@@ -202,20 +188,13 @@ def test_worst_precompile_only_data_input(
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize(
-    "gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
 def test_worst_modexp(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
 ):
     """Test running a block with as many MODEXP calls as possible."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     base_mod_length = 32
     exp_length = 32
@@ -245,7 +224,7 @@ def test_worst_modexp(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=gas_limit,
+        gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
 
@@ -258,20 +237,13 @@ def test_worst_modexp(
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize(
-    "gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
 def test_worst_ecrecover(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
 ):
     """Test running a block with as many ECRECOVER calls as possible."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     # Calldata
     calldata = (
@@ -287,7 +259,7 @@ def test_worst_ecrecover(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=gas_limit,
+        gas_limit=env.gas_limit,
         gas_price=10,
         sender=pre.fund_eoa(),
         data=[],
