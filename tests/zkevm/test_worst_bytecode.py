@@ -42,6 +42,7 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
         Op.CALLCODE,
         Op.DELEGATECALL,
         Op.STATICCALL,
+        Op.EXTCODECOPY,
     ],
 )
 @pytest.mark.slow()
@@ -159,6 +160,13 @@ def test_worst_bytecode_single_opcode(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
+    attack_call = Bytecode()
+    if opcode == Op.EXTCODECOPY:
+        attack_call = Op.EXTCODECOPY(address=Op.SHA3(32 - 20 - 1, 85), size=1000)
+    else:
+        # For the rest of the opcodes, we can use the same generic attack call
+        # since all only minimally need the `address` of the target.
+        attack_call = Op.POP(opcode(address=Op.SHA3(32 - 20 - 1, 85)))
     attack_code = (
         # Setup memory for later CREATE2 address generation loop.
         # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
@@ -168,8 +176,7 @@ def test_worst_bytecode_single_opcode(
         + Op.MSTORE(64, initcode.keccak256())
         # Main loop
         + While(
-            body=Op.POP(opcode(address=Op.SHA3(32 - 20 - 1, 85)))
-            + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            body=attack_call + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
         )
     )
 
