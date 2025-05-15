@@ -32,12 +32,6 @@ MAX_CODE_SIZE = 24 * 1024
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "attack_gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
-@pytest.mark.parametrize(
     "opcode",
     [
         Op.BALANCE,
@@ -62,6 +56,7 @@ def test_worst_address_state_cold(
     Test running a block with as many stateful opcodes accessing cold accounts.
     """
     env = Environment(gas_limit=100_000_000_000)
+    attack_gas_limit = Environment().gas_limit
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
