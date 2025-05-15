@@ -117,12 +117,6 @@ def test_worst_address_state_cold(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "attack_gas_limit",
-    [
-        Environment().gas_limit,
-    ],
-)
-@pytest.mark.parametrize(
     "opcode",
     [
         Op.BALANCE,
@@ -145,7 +139,6 @@ def test_worst_address_state_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    attack_gas_limit: int,
     opcode: Op,
     absent_target: bool,
 ):
@@ -153,6 +146,7 @@ def test_worst_address_state_warm(
     Test running a block with as many stateful opcodes doing warm access for an account.
     """
     env = Environment(gas_limit=100_000_000_000)
+    attack_gas_limit = Environment().gas_limit
 
     # Setup
     target_addr = Address(100_000)
