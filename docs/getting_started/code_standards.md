@@ -66,7 +66,10 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 
 - **Line Length**: 100 characters maximum.
 - **Formatting**: Enforced by `ruff` (similar to `black`).
-- **Documentation**: All public functions and classes should have docstrings.
+- **Documentation**: All public functions and classes should have docstrings
+    - Docstrings should have a good one-line summary which uses the imperative ("Return" not "Returns").
+    - Add a blank line after the summary for multi-line docstrings.
+    - Single-line docstrings should have triple quotes on the same line.
 - **Imports**: Use explicit imports (no `from module import *`).
 - **Relative Imports**: Use relative imports within the same package
 - **Error Handling**: Use explicit exception types and meaningful error messages.
