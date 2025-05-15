@@ -4,6 +4,10 @@ Contributions are welcome from anyone, regardless of whether you are just starti
 
 We appreciate your help and appreciate your contributions!
 
+## Code of Conduct
+
+All contributors are expected to be excellent to each other; other behavior is not tolerated.
+
 ## Communication
 
 We encourage questions and discussions about the project. If you need help with the codebase or have questions about implementation details, please don't hesitate to reach out in the `#el-testing` channel in the [Ethereum R&D Discord Server](https://discord.com/invite/qGpsxSA).
@@ -19,10 +23,10 @@ As mentioned in the README's [Contributing section](https://github.com/ethereum/
 We do not accept:
 
 - Contributions that only fix spelling or grammatical errors in documentation, code, or elsewhere.
-- Pull requests from obvious airdrop farmers.
 - Drive-by or vibe code contributions without proper engagement or context.
+- Pull requests from airdrop farmers.
 
-Pull requests should have reasonable substance or resolve an existing repository open issue.
+I.e., pull requests should have reasonable substance and context.
 
 ## Reporting Bugs
 
@@ -38,11 +42,11 @@ We use GitHub Issues to track bugs. To report a bug, please follow these guideli
 
 When creating a new issue:
 
-1. **Use a clear, descriptive title** that identifies the problem.
+1. **Use a clear, descriptive title** that identifies the problem, (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
 2. **Provide detailed reproduction steps**:
     - Include the exact commands you ran.
     - Share relevant console output.
-    - Specify your environment (OS, Python version, `uv` version from `uv --version`).
+    - Specify your environment (OS, Python version, if relevant, `uv` version from `uv --version`).
 3. **Include relevant information**:
     - Branch and commit of execution-spec-tests you're using.
     - For test failures, include the test case and failure details.
@@ -86,7 +90,7 @@ We welcome contributions via pull requests! This section will guide you through 
     uvx --with=tox-uv tox -e lint,typecheck
     ```
 
-7. **Commit your changes** with meaningful commit messages (see [Commit Messages](#commit-messages-and-pr-titles)).
+7. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
 
 8. **Push your branch** to your GitHub fork:
 
@@ -116,8 +120,8 @@ Where `<type>` matches the semantic commit types:
 Examples:
 
 ```text
-feat/add-prague-blob-tests
-fix/cancun-initialization-bug
+feat/add-cancun-blob-tests
+fix/prague-consume-genesis
 docs/improve-installation-guide
 ```
 
@@ -125,7 +129,7 @@ docs/improve-installation-guide
 
 1. **Initial checks**: When you submit a PR, automated CI checks will run. Make sure all checks pass before requesting a review.
 
-2. **Requesting review**: Assign your PR to a maintainer or ask for review in the PR description.
+2. **Requesting review**: Feel free to tag a maintainer or ask for review in a PR comment.
 
 3. **Review feedback**: Maintainers will review your code and may suggest changes. Please address all comments and engage in discussion if needed.
 
@@ -137,24 +141,22 @@ docs/improve-installation-guide
 
 To increase the chances of your PR being merged quickly:
 
-- **Scope**: Keep PRs focused on a single issue or feature.
-- **CI checks**: Ensure all CI checks pass before requesting review.
+- **Scope**: Keep PRs focused on a _single issue or feature_.
+- **CI checks**: Ensure all CI checks pass before requesting review; but do ask for help if you don't understand the fail!
 - **Clean history**: Use meaningful, atomic commits that can be easily understood.
 - **Tests**: Include tests for new functionality.
 - **Documentation**: Update documentation for new features or changes.
 - **Responsiveness**: Try to respond to review feedback within a reasonable time.
 
-For detailed code standards and enforcement checks, see our [Code Standards documentation](https://eest.ethereum.org/main/getting_started/code_standards).
-
 ### Code Standards and Enforced CI Checks
 
-Please see [code_standards](https://eest.ethereum.org/main/getting_started/code_standards) in the online documentation.
+We enforce lint, code formatting and unit test checks in our CI - for detailed code standards and enforcement checks, see our [Code Standards documentation](https://eest.ethereum.org/main/getting_started/code_standards).
 
 ### Commits
 
 It's recommended to keep changes logically grouped into smaller, individual commits to make changes easier to review.
 
-### Commit Messages and PR Titles
+### Commit Messages, Issue and PR Titles
 
 We use semantic commit messages and PR titles following the format:
 
@@ -164,7 +166,7 @@ We use semantic commit messages and PR titles following the format:
 
 #### Rules
 
-- The format should be lowercase except for object names, which should be backticked (e.g., `FixtureCollector`).
+- The format should be lowercase except for object names, which should be back-ticked (e.g., `FixtureCollector`).
 - The description should be clear and concise.
 - No period at the end of the title/message.
 - Use the imperative ("add" not "added" or "adds").
@@ -173,21 +175,21 @@ We use semantic commit messages and PR titles following the format:
 
 The following commit types are used in this repository:
 
-| Type       | Repo Label      | Description                                                  |
-| ---------- | --------------- | ------------------------------------------------------------ |
-| `feat`     | `type:feat`     | A new feature                                                |
-| `fix`      | `type:bug`      | A bug fix                                                    |
-| `docs`     | `type:docs`     | Documentation changes                                        |
-| `style`    | -               | Formatting changes that don't affect code functionality      |
-| `refactor` | `type:refactor` | Code changes that neither fix bugs nor add features          |
-| `test`     | `type:test`     | Add, refactor, modify an EEST library or framework unit test |
-| `chore`    | `type:chore`    | Routine tasks, dependency updates, etc.                      |
+| `<type>`       | Repo Label      | Description                                                  |
+| -------------- | --------------- | ------------------------------------------------------------ |
+| `feat`         | `type:feat`     | A new feature                                                |
+| `bug` or `fix` | `type:bug`      | A bug/bug fix (`bug` in issue; `fix` in commit/PR)           |
+| `docs`         | `type:docs`     | Documentation changes                                        |
+| `style`        | -               | Formatting changes that don't affect code functionality      |
+| `refactor`     | `type:refactor` | Code changes that neither fix bugs nor add features          |
+| `test`         | `type:test`     | Add, refactor, modify an EEST library or framework unit test |
+| `chore`        | `type:chore`    | Routine tasks, dependency updates, etc.                      |
 
 #### Scopes
 
 The following scopes are used in this repository:
 
-| Scope     | Repo Label         | Description                                    |
+| `<scope>` | Repo Label         | Description                                    |
 | --------- | ------------------ | ---------------------------------------------- |
 | `fill`    | `scope:fill`       | Changes to `fill` command                      |
 | `execute` | `scope:execute`    | Changes to the `execute` command               |
@@ -233,13 +235,13 @@ We maintain high standards for our repository history to ensure it's clean, unde
 
     - Every PR that impacts functionality should have a changelog entry.
     - The entry should clearly but concisely describe the change.
-    - It must include a link to the PR (e.g., `[#1234](https://github.com/ethereum/execution-spec-tests/pull/1234)`).
-    - Clearly highlight any breaking changes in the changelog.
+    - It must include a link to the PR in brackets (e.g., `([#1234](https://github.com/ethereum/execution-spec-tests/pull/1234))`).
+    - Add any breaking changes at the top of the upcoming release section.
 
 3. **Check PR title format**
 
     - The PR title must follow our semantic commit format: `<type>(<scope>): <description>`.
-    - This title will be used as the squash commit message, so it's essential it's correct.
+    - This title will be used (suggested automatically by Github) as the squash commit message, so it's essential it's correct.
     - Follow the same rules as commit messages (imperative tense, no period at end, etc.).
     - Example: `feat(tests): add tests for EIP-7702 blob gas calculation`
 
@@ -271,7 +273,7 @@ When performing a squash merge:
 1. **Include PR number in the commit title**
 
     - Leave, respectively add, the PR number in parentheses at the end of the title.
-    - Example: `feat(tests): add tests for EIP-7702 blob gas calculation (#1234)`
+    - Example: `feat(tests): add tests for EIP-7702 gas calculation (#1234)`
 
 2. **Clean up the extended commit message**
 
