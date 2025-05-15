@@ -10,15 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import (
-    Address,
-    Alloc,
-    Block,
-    BlockchainTestFiller,
-    Bytecode,
-    Environment,
-    Transaction,
-)
+from ethereum_test_tools import (Address, Alloc, Block, BlockchainTestFiller,
+                                 Bytecode, Environment, Transaction)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -135,7 +128,7 @@ def test_worst_precompile_only_data_input(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
-    # Discover the optimal input size to maximize precompile calls, not precompile permutations.
+    # Discover the optimal input size to maximize precompile work, not precompile calls.
     max_work = 0
     optimal_input_length = 0
     for input_length in range(1, 1_000_000, 32):
