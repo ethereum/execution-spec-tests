@@ -27,7 +27,7 @@ class EthrexExceptionMapper(ExceptionMapper):
             "World State Root does not match the one in the header after executing",
         ),
         BlockException.INVALID_GAS_USED: "Gas used doesn't match value in header",
-        BlockException.INCORRECT_BLOB_GAS_USED: "Blob gas used doesn't match value in header"
+        BlockException.INCORRECT_BLOB_GAS_USED: "Blob gas used doesn't match value in header",
     }
     mapping_regex = {
         TransactionException.SENDER_NOT_EOA: (
@@ -73,19 +73,9 @@ class EthrexExceptionMapper(ExceptionMapper):
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"create initcode size limit|Initcode size exceeded"
         ),
-        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
-            r"failed to apply .* requests contract call"
-        ),
-        BlockException.INCORRECT_BLOB_GAS_USED: (
-            r"Blob gas used doesn't match value in header"
-        ),
-        BlockException.RLP_STRUCTURES_ENCODING: (
-            r"Error decoding field '\D+' of type \w+.*"
-        ),
-        BlockException.INCORRECT_EXCESS_BLOB_GAS: (
-            r".* Excess blob gas is incorrect"
-        ),
-        BlockException.INVALID_BLOCK_HASH: (
-            r"Invalid block hash. Expected \w+, got \w+"
-        )
+        BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"failed to apply .* requests contract call"),
+        BlockException.INCORRECT_BLOB_GAS_USED: (r"Blob gas used doesn't match value in header"),
+        BlockException.RLP_STRUCTURES_ENCODING: (r"Error decoding field '\D+' of type \w+.*"),
+        BlockException.INCORRECT_EXCESS_BLOB_GAS: (r".* Excess blob gas is incorrect"),
+        BlockException.INVALID_BLOCK_HASH: (r"Invalid block hash. Expected \w+, got \w+"),
     }
