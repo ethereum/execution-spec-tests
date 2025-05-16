@@ -160,3 +160,34 @@ jobs:
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: uvx --with=tox-uv tox -e tests-deployed
+  tests_deployed_zkevm:
+    name: Fill zkEVM test cases, deployed, ${{ matrix.os }}, ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          # Still getting requests.exceptions.ReadTimeout: UnixHTTPConnectionPool() in CI, even with local EELS
+          # - os: ubuntu-latest
+          #  python: "3.10"
+          - os: ubuntu-latest
+            python: "3.11"
+          - os: macos-latest
+            python: "3.12"
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ matrix.python }}
+      - name: Build EVMONE EVM
+        uses: ./.github/actions/build-evm-client/evmone
+        with:
+          targets: "evmone-t8n"
+      - name: Run tox - fill tests for deployed forks
+        env:
+          EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
+        run: uvx --with=tox-uv tox -e tests-deployed-zkevm
