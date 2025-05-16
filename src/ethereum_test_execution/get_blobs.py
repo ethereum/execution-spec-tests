@@ -1,7 +1,8 @@
 """Test execution format to get blobs from the execution client."""
 
-from typing import ClassVar, List
+from typing import ClassVar, Dict, List
 
+from ethereum_test_base_types import Hash
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_types import NetworkWrappedTransaction, Transaction
@@ -24,12 +25,14 @@ class GetBlobs(BaseExecute):
     def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
         """Execute the format."""
         assert engine_rpc is not None, "Engine RPC is required for this format."
+        versioned_hashes: Dict[Hash, bool] = {}
         sent_txs: List[Transaction] = []
         for tx in self.txs:
             if isinstance(tx, NetworkWrappedTransaction):
                 tx.tx = tx.tx.with_signature_and_sender()
                 sent_txs.append(tx.tx)
                 expected_hash = tx.tx.hash
+                versioned_hashes.update(tx.versioned_hashes_with_blobs_and_proofs())
             else:
                 tx = tx.with_signature_and_sender()
                 sent_txs.append(tx)
@@ -40,5 +43,8 @@ class GetBlobs(BaseExecute):
             )
 
         # TODO: Implement verification of blobs.
+        resp = engine_rpc.get_blobs(
+            list(versioned_hashes.keys()), version=fork.engine_get_blobs_version()
+        )
 
         eth_rpc.wait_for_transactions(sent_txs)
