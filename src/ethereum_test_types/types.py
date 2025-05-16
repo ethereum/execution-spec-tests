@@ -1162,12 +1162,18 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         proofs.
         """
         versioned_hashes: Dict[Hash, BlobAndProof] = {}
-        for i, blob in enumerate(self.blobs):
-            commitment = self.blob_kzg_commitments[i]
-            versioned_hash = Hash(bytes([1]) + sha256(commitment).digest()[1:])
-            versioned_hashes[versioned_hash] = BlobAndProof(
-                blob=blob.data, proofs=[self.blob_kzg_proofs[i]]
-            )
+        for blob in self.blobs:
+            versioned_hash = blob.versioned_hash()
+            if blob.kzg_proof is not None:
+                versioned_hashes[versioned_hash] = BlobAndProof(
+                    blob=blob.data, proof=blob.kzg_proof
+                )
+            elif blob.kzg_cell_proofs is not None:
+                versioned_hashes[versioned_hash] = BlobAndProof(
+                    blob=blob.data, proofs=blob.kzg_cell_proofs
+                )
+            else:
+                raise ValueError("Invalid blob: missing kzg proof or cell proofs")
         return versioned_hashes
 
     def get_rlp_fields(self) -> List[str]:
