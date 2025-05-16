@@ -93,10 +93,7 @@ def test_worst_keccak(
     tx = Transaction(
         to=code_address,
         gas_limit=env.gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
-        data=[],
-        value=0,
     )
 
     blockchain_test(
@@ -260,10 +257,7 @@ def test_worst_ecrecover(
     tx = Transaction(
         to=code_address,
         gas_limit=env.gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
-        data=[],
-        value=0,
     )
 
     blockchain_test(
