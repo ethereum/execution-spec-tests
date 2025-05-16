@@ -2661,12 +2661,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_ecrecover/</loc>
+         <lastmod>2025-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_keccak/</loc>
          <lastmod>2025-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_modexp/</loc>
+         <lastmod>2025-05-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_precompile_only_data_input/</loc>
          <lastmod>2025-05-16</lastmod>
          <changefreq>daily</changefreq>
     </url>

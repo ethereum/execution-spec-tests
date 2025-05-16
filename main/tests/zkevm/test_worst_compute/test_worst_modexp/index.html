@@ -13,8 +13,10 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_modexp/">
       
       
-        <link rel="prev" href="../test_worst_keccak/">
+        <link rel="prev" href="../test_worst_precompile_only_data_input/">
       
+      
+        <link rel="next" href="../test_worst_ecrecover/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -18606,6 +18608,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -18659,6 +18665,27 @@
   
   <span class="md-ellipsis">
     <code>test_worst_keccak</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_precompile_only_data_input/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_precompile_only_data_input</code>
   </span>
   
 
@@ -18747,6 +18774,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_ecrecover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_ecrecover</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -18830,7 +18878,7 @@
 
 
 <h1 id="test_worst_modexp"><code>test_worst_modexp()</code><a class="headerlink" href="#test_worst_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c95339a81412819360669327a1d2fcdb25d14a1/tests/zkevm/test_worst_compute.py#L108"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@9c95339a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/25f001229803eb8dac8841f5b2fee7b36d5ca002/tests/zkevm/test_worst_compute.py#L187"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@25f00122</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_modexp --fork Prague</span>
@@ -18849,86 +18897,60 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;gas_limit&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_modexp</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many MODEXP calls as possible.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">base_mod_length</span> <span class="o">=</span> <span class="mi">32</span>
     <span class="n">exp_length</span> <span class="o">=</span> <span class="mi">32</span>
@@ -18952,23 +18974,13 @@
     <span class="n">iter_complexity</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">gas_cost</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">mul_complexity</span> <span class="o">*</span> <span class="n">iter_complexity</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
     <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">gas_cost</span><span class="p">,</span> <span class="mh">0x5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-    <span class="c1"># The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP</span>
-    <span class="n">jumpdest</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
-    <span class="n">jump_back</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">calldata</span><span class="p">))</span>
-    <span class="n">max_iters_loop</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">calldata</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jumpdest</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jump_back</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span>
-        <span class="n">attack_block</span>
-    <span class="p">)</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">calldata</span> <span class="o">+</span> <span class="n">jumpdest</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">attack_block</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_iters_loop</span><span class="p">)</span> <span class="o">+</span> <span class="n">jump_back</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_CODE_SIZE</span><span class="p">:</span>
-        <span class="c1"># Must never happen, but keep it as a sanity check.</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">MAX_CODE_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">)</span>
 
     <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
@@ -19027,36 +19039,32 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>gas_limit</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test-gas_limit_0x044aa200]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test-gas_limit_0x044aa200]">
-                    ...fork_Cancun-blockchain_test-gas_limit_0x044aa200
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test]">
+                    ...fork_Cancun-blockchain_test
                 </abbr>
             </td>
-                        <td>0x044aa200</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test-gas_limit_0x044aa200]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test-gas_limit_0x044aa200]">
-                    ...fork_Prague-blockchain_test-gas_limit_0x044aa200
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test]">
+                    ...fork_Prague-blockchain_test
                 </abbr>
             </td>
-                        <td>0x044aa200</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test-gas_limit_0x044aa200]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test-gas_limit_0x044aa200]">
-                    ...fork_Osaka-blockchain_test-gas_limit_0x044aa200
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test]">
+                    ...fork_Osaka-blockchain_test
                 </abbr>
             </td>
-                        <td>0x044aa200</td>
                     </tr>
             </tbody>
 </table>

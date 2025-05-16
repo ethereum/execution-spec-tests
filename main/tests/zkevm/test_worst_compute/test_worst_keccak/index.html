@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../test_worst_modexp/">
+        <link rel="next" href="../test_worst_precompile_only_data_input/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -18608,6 +18608,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -18735,11 +18739,53 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_worst_precompile_only_data_input/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_precompile_only_data_input</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_worst_modexp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     <code>test_worst_modexp</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_ecrecover/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_ecrecover</code>
   </span>
   
 
@@ -18832,7 +18878,7 @@
 
 
 <h1 id="test_worst_keccak"><code>test_worst_keccak()</code><a class="headerlink" href="#test_worst_keccak" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c95339a81412819360669327a1d2fcdb25d14a1/tests/zkevm/test_worst_compute.py#L23"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@9c95339a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/25f001229803eb8dac8841f5b2fee7b36d5ca002/tests/zkevm/test_worst_compute.py#L32"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@25f00122</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_keccak --fork Prague</span>
@@ -18851,16 +18897,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 23</span>
-<span class="normal"> 24</span>
-<span class="normal"> 25</span>
-<span class="normal"> 26</span>
-<span class="normal"> 27</span>
-<span class="normal"> 28</span>
-<span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 32</span>
 <span class="normal"> 33</span>
 <span class="normal"> 34</span>
 <span class="normal"> 35</span>
@@ -18932,26 +18969,18 @@
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;gas_limit&quot;</span><span class="p">,</span>
-    <span class="p">[</span>
-        <span class="mi">36_000_000</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">)</span>
+<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_keccak</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many KECCAK256 permutations as possible.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="c1"># Intrinsic gas cost is paid once.</span>
     <span class="n">intrinsic_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">available_gas</span> <span class="o">=</span> <span class="n">gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_calculator</span><span class="p">()</span>
+    <span class="n">available_gas</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_calculator</span><span class="p">()</span>
 
     <span class="n">gsc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">mem_exp_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
@@ -19003,11 +19032,8 @@
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
-        <span class="n">data</span><span class="o">=</span><span class="p">[],</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
@@ -19065,36 +19091,32 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>gas_limit</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test-gas_limit_36000000]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test-gas_limit_36000000]">
-                    ...fork_Cancun-blockchain_test-gas_limit_36000000
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test]">
+                    ...fork_Cancun-blockchain_test
                 </abbr>
             </td>
-                        <td>36000000</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test-gas_limit_36000000]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test-gas_limit_36000000]">
-                    ...fork_Prague-blockchain_test-gas_limit_36000000
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test]">
+                    ...fork_Prague-blockchain_test
                 </abbr>
             </td>
-                        <td>36000000</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test-gas_limit_36000000]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test-gas_limit_36000000]">
-                    ...fork_Osaka-blockchain_test-gas_limit_36000000
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test]">
+                    ...fork_Osaka-blockchain_test
                 </abbr>
             </td>
-                        <td>36000000</td>
                     </tr>
             </tbody>
 </table>
