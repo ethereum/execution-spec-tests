@@ -46,5 +46,12 @@ class GetBlobs(BaseExecute):
         resp = engine_rpc.get_blobs(
             list(versioned_hashes.keys()), version=fork.engine_get_blobs_version()
         )
+        local_blobs_and_proofs = list(versioned_hashes.values())
+        assert len(resp) == len(local_blobs_and_proofs), (
+            f"Expected {len(local_blobs_and_proofs)} blobs and proofs, got {len(resp)}."
+        )
+        for local, remote in zip(local_blobs_and_proofs, resp, strict=False):
+            assert local.blob == remote.blob, "Blob mismatch."
+            assert local.proofs == remote.proofs, "Proofs mismatch."
 
         eth_rpc.wait_for_transactions(sent_txs)
