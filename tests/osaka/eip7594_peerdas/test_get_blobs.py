@@ -19,7 +19,9 @@ from ethereum_test_tools import (
 )
 
 from ...cancun.eip4844_blobs.common import INF_POINT, Blob
-from ...cancun.eip4844_blobs.spec import Spec, SpecHelpers, ref_spec_4844
+from ...cancun.eip4844_blobs.spec import Spec as Spec4844
+from ...cancun.eip4844_blobs.spec import SpecHelpers, ref_spec_4844
+from .spec import Spec
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -144,6 +146,12 @@ def tx_error() -> Optional[TransactionException]:
     return None
 
 
+@pytest.fixture
+def tx_wrapper_version() -> int | None:
+    """Return wrapper version used for the transactions sent during test."""
+    return 1
+
+
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
     pre: Alloc,
@@ -155,6 +163,7 @@ def txs(  # noqa: D103
     txs_versioned_hashes: List[List[bytes]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
+    tx_wrapper_version: int | None,
 ) -> List[NetworkWrappedTransaction | Transaction]:
     """Prepare the list of transactions that are sent during the test."""
     if len(txs_blobs) != len(txs_versioned_hashes):
@@ -163,7 +172,7 @@ def txs(  # noqa: D103
     sender = pre.fund_eoa()
     for tx_blobs, tx_versioned_hashes in zip(txs_blobs, txs_versioned_hashes, strict=False):
         tx = Transaction(
-            ty=Spec.BLOB_TX_TYPE,
+            ty=Spec4844.BLOB_TX_TYPE,
             sender=sender,
             to=destination_account,
             value=tx_value,
@@ -174,12 +183,10 @@ def txs(  # noqa: D103
             blob_versioned_hashes=tx_versioned_hashes,
             error=tx_error,
         )
-        blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
-        network_wrapped_tx = NetworkWrappedTransaction(
-            tx=tx,
-            blobs=blobs_info[0],
-            blob_kzg_commitments=blobs_info[1],
-            blob_kzg_proofs=blobs_info[2],
+        network_wrapped_tx = Blob.blobs_to_network_wrapped_transaction(
+            tx,
+            tx_blobs,
+            wrapper_version=tx_wrapper_version,
         )
         txs.append(network_wrapped_tx)
     return txs
@@ -192,7 +199,7 @@ def generate_full_blob_tests(
     Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
-    blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
+    blob_size = Spec4844.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
     full_tests = [
         pytest.param(
@@ -201,7 +208,7 @@ def generate_full_blob_tests(
                     Blob(
                         blob=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
+                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     ),
                 ]
             ],
@@ -213,7 +220,7 @@ def generate_full_blob_tests(
                     Blob(
                         blob=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
+                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     )
                     for _ in range(max_blobs)
                 ]
@@ -226,7 +233,7 @@ def generate_full_blob_tests(
                     Blob(
                         blob=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
+                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     )
                 ]
                 for _ in range(max_blobs)
