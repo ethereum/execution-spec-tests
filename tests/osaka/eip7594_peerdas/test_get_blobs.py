@@ -202,7 +202,7 @@ def generate_full_blob_tests(
     """
     blob_size = Spec4844.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
-    full_tests = [
+    return [
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
@@ -242,9 +242,6 @@ def generate_full_blob_tests(
             id="single_blob_max_txs",
         ),
     ]
-    # TODO: Enable all tests
-    full_tests = full_tests[:1]
-    return full_tests
 
 
 @pytest.mark.parametrize_by_fork(
@@ -253,7 +250,7 @@ def generate_full_blob_tests(
 )
 @pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
-def test_reject_valid_full_blob_in_block_rlp(
+def test_get_blobs(
     blobs_test: BlobsTestFiller,
     pre: Alloc,
     txs: List[NetworkWrappedTransaction | Transaction],
