@@ -4,6 +4,7 @@ from abc import abstractmethod
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import cached_property
+from hashlib import sha256
 from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, SupportsBytes
 
 import ethereum_rlp as eth_rlp
@@ -1099,6 +1100,15 @@ class Transaction(
         return Address(hash_bytes[-20:])
 
 
+class BlobAndProof(CamelModel):
+    """Represents a blob and proof structure."""
+
+    blob: Bytes
+    proofs: List[Bytes] | None = None  # >= Osaka (V2)
+
+    proof: Bytes | None = None  # <= Prague (V1)
+
+
 class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
     Network wrapped transaction as defined in
@@ -1112,6 +1122,20 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
+
+    def versioned_hashes_with_blobs_and_proofs(self) -> Dict[Hash, BlobAndProof]:
+        """
+        Return a dictionary of versioned hashes with their corresponding blobs and
+        proofs.
+        """
+        versioned_hashes: Dict[Hash, BlobAndProof] = {}
+        for i, blob in enumerate(self.blobs):
+            commitment = self.blob_kzg_commitments[i]
+            versioned_hash = Hash(bytes([1]) + sha256(commitment).digest()[1:])
+            versioned_hashes[versioned_hash] = BlobAndProof(
+                blob=blob, proofs=[self.blob_kzg_proofs[i]]
+            )
+        return versioned_hashes
 
     def get_rlp_fields(self) -> List[str]:
         """

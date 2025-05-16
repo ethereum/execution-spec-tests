@@ -6,7 +6,14 @@ from typing import Annotated, Any, List, Union
 
 from pydantic import AliasChoices, Field, model_validator
 
-from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_base_types import (
+    Address,
+    Bytes,
+    CamelModel,
+    EthereumTestRootModel,
+    Hash,
+    HexNumber,
+)
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -15,7 +22,7 @@ from ethereum_test_exceptions import (
     UndefinedException,
 )
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
-from ethereum_test_types import Transaction, Withdrawal
+from ethereum_test_types import BlobAndProof, Transaction, Withdrawal
 
 
 class JSONRPCError(Exception):
@@ -142,15 +149,6 @@ class BlobsBundle(CamelModel):
         return versioned_hashes
 
 
-class BlobAndProof(CamelModel):
-    """Represents a blob and proof structure."""
-
-    blob: Bytes
-    proofs: List[Bytes] | None = None  # >= Osaka (V2)
-
-    proof: Bytes | None = None  # <= Prague (V1)
-
-
 class GetPayloadResponse(CamelModel):
     """Represents the response of a get payload request."""
 
@@ -159,7 +157,7 @@ class GetPayloadResponse(CamelModel):
     execution_requests: List[Bytes] | None = None
 
 
-class GetBlobsResponse(CamelModel):
+class GetBlobsResponse(EthereumTestRootModel):
     """Represents the response of a get blobs request."""
 
-    result: List[BlobAndProof | None]
+    root: List[BlobAndProof | None]
