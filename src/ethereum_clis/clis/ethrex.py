@@ -7,13 +7,9 @@ class EthrexExceptionMapper(ExceptionMapper):
     """Ethrex exception mapper."""
 
     mapping_substring = {
-        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
-            "(?i)priority fee is greater than max fee"
-        ),
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             "Exceeded MAX_BLOB_GAS_PER_BLOCK"
         ),
-        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "(?i)empty authorization list",
         TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "Requests hash does not match the one in the header after executing"
         ),
@@ -30,6 +26,10 @@ class EthrexExceptionMapper(ExceptionMapper):
         BlockException.INCORRECT_BLOB_GAS_USED: "Blob gas used doesn't match value in header",
     }
     mapping_regex = {
+        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
+            r"(?i)priority fee is greater than max fee"
+        ),
+        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: r"(?i)empty authorization list",
         TransactionException.SENDER_NOT_EOA: (
             r"reject transactions from senders with deployed code|"
             r"Sender account should not have bytecode"
