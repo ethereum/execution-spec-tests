@@ -5,7 +5,7 @@ from typing import ClassVar, Dict, List
 from ethereum_test_base_types import Hash
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
-from ethereum_test_types import NetworkWrappedTransaction, Transaction
+from ethereum_test_types import BlobAndProof, NetworkWrappedTransaction, Transaction
 
 from .base import BaseExecute
 
@@ -25,7 +25,7 @@ class GetBlobs(BaseExecute):
     def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
         """Execute the format."""
         assert engine_rpc is not None, "Engine RPC is required for this format."
-        versioned_hashes: Dict[Hash, bool] = {}
+        versioned_hashes: Dict[Hash, BlobAndProof] = {}
         sent_txs: List[Transaction] = []
         for tx in self.txs:
             if isinstance(tx, NetworkWrappedTransaction):
