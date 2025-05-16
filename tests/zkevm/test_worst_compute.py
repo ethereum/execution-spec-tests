@@ -115,6 +115,7 @@ def test_worst_keccak(
         pytest.param(0x04, 15, 3, 1, id="IDENTITY"),
     ],
 )
+@pytest.mark.slow()
 def test_worst_precompile_only_data_input(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -369,6 +370,7 @@ def test_worst_modexp(
         ),
     ],
 )
+@pytest.mark.slow()
 def test_worst_precompile_fixed_cost(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
