@@ -1121,6 +1121,13 @@ class BlobAndProof(CamelModel):
 
     proof: Bytes | None = None  # <= Prague (V1)
 
+    def model_post_init(self, __context: Any) -> None:
+        """Post-initialization hook."""
+        if self.proofs is None and self.proof is None:
+            raise ValueError("proofs or proof must be set")
+        if self.proofs is not None and self.proof is not None:
+            raise ValueError("proofs and proof cannot both be set")
+
 
 class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
