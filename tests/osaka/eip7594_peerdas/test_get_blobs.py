@@ -183,9 +183,9 @@ def txs(  # noqa: D103
             blob_versioned_hashes=tx_versioned_hashes,
             error=tx_error,
         )
-        network_wrapped_tx = NetworkWrappedTransaction.from_blob_list(
-            tx,
-            tx_blobs,
+        network_wrapped_tx = NetworkWrappedTransaction(
+            tx=tx,
+            blobs=tx_blobs,
             wrapper_version=tx_wrapper_version,
         )
         txs.append(network_wrapped_tx)
@@ -206,7 +206,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     ),
@@ -218,7 +218,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     )
@@ -231,7 +231,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
                     )

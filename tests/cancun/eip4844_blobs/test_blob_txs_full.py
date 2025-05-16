@@ -179,7 +179,7 @@ def txs(  # noqa: D103
             wrapped_blob_transaction=tx_wrapped_blobs,
         )
         if tx_wrapped_blobs:
-            network_wrapped_tx = NetworkWrappedTransaction.from_blob_list(tx, tx_blobs)
+            network_wrapped_tx = NetworkWrappedTransaction(tx=tx, blobs=tx_blobs)
             tx.rlp_override = network_wrapped_tx.rlp()
         txs.append(tx)
     return txs
@@ -244,7 +244,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
                     ),
@@ -257,7 +257,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
                     )
@@ -271,7 +271,7 @@ def generate_full_blob_tests(
             [  # Txs
                 [  # Blobs per transaction
                     Blob(
-                        blob=bytes(blob_size),
+                        data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
                         kzg_proof=INF_POINT,
                     )
