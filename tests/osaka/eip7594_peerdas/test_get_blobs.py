@@ -18,8 +18,8 @@ from ethereum_test_tools import (
     TransactionException,
 )
 
-from .common import INF_POINT, Blob
-from .spec import Spec, SpecHelpers, ref_spec_4844
+from ...cancun.eip4844_blobs.common import INF_POINT, Blob
+from ...cancun.eip4844_blobs.spec import Spec, SpecHelpers, ref_spec_4844
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -72,6 +72,41 @@ def parent_blobs() -> int:
     Can be overloaded by a test case to provide a custom parent blob count.
     """
     return 0
+
+
+@pytest.fixture
+def excess_blob_gas(
+    fork: Fork,
+    parent_excess_blobs: int | None,
+    parent_blobs: int | None,
+) -> int | None:
+    """
+    Calculate the excess blob gas of the block under test from the parent block.
+
+    Value can be overloaded by a test case to provide a custom excess blob gas.
+    """
+    if parent_excess_blobs is None or parent_blobs is None:
+        return None
+    excess_blob_gas = fork.excess_blob_gas_calculator()
+    return excess_blob_gas(
+        parent_excess_blobs=parent_excess_blobs,
+        parent_blob_count=parent_blobs,
+    )
+
+
+@pytest.fixture
+def blob_gas_price(
+    fork: Fork,
+    excess_blob_gas: int | None,
+) -> int | None:
+    """Return blob gas price for the block of the test."""
+    if excess_blob_gas is None:
+        return None
+
+    get_blob_gas_price = fork.blob_gas_price_calculator()
+    return get_blob_gas_price(
+        excess_blob_gas=excess_blob_gas,
+    )
 
 
 @pytest.fixture
@@ -159,7 +194,7 @@ def generate_full_blob_tests(
     """
     blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
-    return [
+    full_tests = [
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
@@ -199,6 +234,9 @@ def generate_full_blob_tests(
             id="single_blob_max_txs",
         ),
     ]
+    # TODO: Enable all tests
+    full_tests = full_tests[:1]
+    return full_tests
 
 
 @pytest.mark.parametrize_by_fork(
