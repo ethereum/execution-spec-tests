@@ -22,7 +22,8 @@ from ethereum_test_tools import (
 from ...cancun.eip4844_blobs.common import INF_POINT
 from ...cancun.eip4844_blobs.spec import Spec as Spec4844
 from ...cancun.eip4844_blobs.spec import SpecHelpers, ref_spec_4844
-from .spec import Spec
+
+CELLS_PER_EXT_BLOB = 128
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -208,7 +209,7 @@ def generate_full_blob_tests(
                     Blob(
                         data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
+                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
                     ),
                 ]
             ],
@@ -220,7 +221,7 @@ def generate_full_blob_tests(
                     Blob(
                         data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
+                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
                     )
                     for _ in range(max_blobs)
                 ]
@@ -233,7 +234,7 @@ def generate_full_blob_tests(
                     Blob(
                         data=bytes(blob_size),
                         kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * Spec.CELLS_PER_EXT_BLOB,
+                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
                     )
                 ]
                 for _ in range(max_blobs)
