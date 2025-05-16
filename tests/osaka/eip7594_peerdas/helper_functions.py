@@ -2,11 +2,13 @@
 abstract: Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
     Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
 """  # noqa: E501
+import base64 as b64
+import json
 import math
 
 import ckzg
 
-from .spec import Spec, ref_spec_7594
+from spec import Spec, ref_spec_7594
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7594.version
@@ -73,7 +75,7 @@ def eest_compute_cells(blob: bytes) -> list[int]:
     return cells
 
 
-def eest_compute_cells_and_kzg_proofs(blob: bytes) -> tuple[list[int], list[int]]:
+def eest_compute_cells_and_kzg_proofs(blob: bytes) -> tuple[list[bytes], list[bytes]]:
     """Take a blob and returns a list of cells and a list of proofs derived from this blob."""
     ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
 
@@ -93,14 +95,14 @@ def eest_verify_cell_kzg_proof_batch(commitment: bytes, cell_indices: list, cell
     assert len(cell_indices) == len(cells), f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(cells)}) should have same length."  # noqa: E501
 
     # each cell refers to the same commitment
-    commitments = [commitment] * len(cell_indices)
+    commitments: list[bytes] = [commitment] * len(cell_indices)
 
     is_valid = ckzg.verify_cell_kzg_proof_batch(commitments, cell_indices, cells, proofs, ts)
 
     return is_valid
 
 # our equivalent of ckzg test_recover_cells_and_kzg_proofs
-def eest_delete_cells_then_recover_them(cells: list[int], proofs: list[int], deletion_indices: list[int]):  # noqa: E501
+def eest_delete_cells_then_recover_them(cells: list[bytes], proofs: list[bytes], deletion_indices: list[int]):  # noqa: E501
     """
     Simulate the cell recovery process in user-specified scenario.
 
@@ -138,11 +140,90 @@ def eest_delete_cells_then_recover_them(cells: list[int], proofs: list[int], del
 
     # print("Successful reconstruction")
 
+class PersistentBlobGenerator:
+    # PersistentBlobGenerator("4a") creates blob_4a.json in cwd and contains blob, commitment, cells and proofs
+    encoding: str = "utf-8"
+
+    def __init__(self, singular_byte: str):
+        # safely derive blob from input
+        blob: bytes | None = generate_blob_from_hex_byte(singular_byte)
+        assert blob is not None, f"PersistentBlobGenerator received invalid input: {singular_byte}"
+
+        if "0x" in singular_byte:
+            singular_byte = singular_byte.replace("0x", "", 1)
+
+        commitment: bytes = eest_blob_to_kzg_commitment(blob)
+        cells, proofs = eest_compute_cells_and_kzg_proofs(blob)
+
+        # populate instance
+        self.name: str = "blob_" + singular_byte
+        self.blob: bytes = blob
+        self.commitments: list[bytes] = [commitment] * len(cells)
+        self.cells: list[bytes] = cells
+        self.proofs: list[bytes] = proofs
+
+    def to_json(self) -> str:
+        # json does not support bytes, so we b64 encode these fields into strings
+        #       blob: bytes -> str
+        b64_blob_str: str = b64.b64encode(self.blob).decode(self.encoding)
+        #       commitments: list[bytes] -> list[str]
+        b64_commitment_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.commitments]
+        #       cells: list[bytes] -> list[str]
+        b64_cell_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.cells]
+        #       proofs: list[bytes] -> list[str]
+        b64_proofs_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.proofs]
+
+        json_dict = {
+            "name": self.name,
+            "b64_blob": b64_blob_str,
+            "b64_commitments": b64_commitment_list,
+            "b64_cells": b64_cell_list,
+            "b64_proofs": b64_proofs_list,
+        }
+
+
+        return json.dumps(json_dict)
+    
+    @classmethod
+    def from_json(cls, json_str: str) -> "PersistentBlobGenerator":
+        data = json.loads(json_str)
+
+        # convert b64 blob back to bytes
+        blob: bytes = b64.b64decode(data["b64_blob"])
+        # convert b64 commitments back to list[bytes]
+        commitments: list[bytes] = [b64.b64decode(s) for s in data["b64_commitments"]]
+        # convert b64 cells back to list[bytes]
+        cells: list[bytes] = [b64.b64decode(s) for s in data["b64_cells"]]
+        # convert b64 proofs back to list[bytes]
+        proofs: list[bytes] = [b64.b64decode(s) for s in data["b64_proofs"]]
+        
+        # get data
+        obj = cls("00") # dummy object
+        obj.name = data["name"]
+        obj.blob = blob
+        obj.commitments = commitments
+        obj.cells = cells
+        obj.proofs = proofs
+        return obj
+
+
+original = PersistentBlobGenerator("4a")
+json_str = original.to_json()
+restored = PersistentBlobGenerator.from_json(json_str)
+assert original.name == restored.name
+assert original.blob == restored.blob
+assert original.commitments == restored.commitments
+assert original.cells == restored.cells
+assert original.proofs == restored.proofs
+print("It works")
+
+# TODO: add write to file / read from file
 
 """ Example Usage
 my_byte = "42" # 0x73 (115) or lower works, 0x74 (116) or higher fails
 # generate blob
-blob: bytes = generate_blob_from_hex_byte(my_byte)
+blob: bytes | None = generate_blob_from_hex_byte(my_byte)
+assert blob is not None, "blob is None"
 # get cells and proofs
 cells, proofs = eest_compute_cells_and_kzg_proofs(blob)
 # delete some cells and recover them again
