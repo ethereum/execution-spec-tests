@@ -521,6 +521,7 @@ yml
 yParity
 yul
 zfill
+zkEVM
 
 addoption
 addinivalue
