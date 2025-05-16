@@ -8,7 +8,9 @@ from typing import List, Optional
 
 import pytest
 
+from ethereum_test_base_types.base_types import Hash
 from ethereum_test_forks import Fork
+from ethereum_test_forks.forks.forks import Cancun
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -23,8 +25,7 @@ from ethereum_test_tools import (
     TransactionException,
 )
 
-from .common import INF_POINT
-from .spec import Spec, SpecHelpers, ref_spec_4844
+from .spec import Spec, ref_spec_4844
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -91,9 +92,12 @@ def tx_max_priority_fee_per_gas() -> int:
 
 
 @pytest.fixture
-def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
+def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[Hash]]:
     """List of blob versioned hashes derived from the blobs."""
-    return [[blob.versioned_hash() for blob in blob_tx] for blob_tx in txs_blobs]
+    version_hashes: List[List[Hash]] = [
+        [blob.versioned_hash for blob in blob_tx] for blob_tx in txs_blobs
+    ]
+    return version_hashes
 
 
 @pytest.fixture(autouse=True)
@@ -150,7 +154,7 @@ def txs(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_max_priority_fee_per_gas: int,
-    txs_versioned_hashes: List[List[bytes]],
+    txs_versioned_hashes: List[List[Hash]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     txs_wrapped_blobs: List[bool],
@@ -237,17 +241,12 @@ def generate_full_blob_tests(
     Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
-    blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
     return [
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    ),
+                    Blob.from_fork(Cancun),
                 ]
             ],
             [True],
@@ -256,11 +255,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_fork(Cancun),
                 ]
                 for _ in range(max_blobs)
             ],
@@ -270,11 +265,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_fork(Cancun),
                 ]
                 for _ in range(max_blobs)
             ],
