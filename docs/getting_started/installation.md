@@ -31,6 +31,8 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
+    uv python install 3.11
+    uv python pin 3.11
     uv sync --all-extras
     uv run solc-select use 0.8.24 --always-install
     ```
@@ -39,6 +41,8 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
+    uv python install 3.11
+    uv python pin 3.11
     cd execution-spec-tests
     uv sync --all-extras
     ```
