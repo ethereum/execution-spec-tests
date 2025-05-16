@@ -2,7 +2,7 @@
 
 from enum import Enum
 from hashlib import sha256
-from typing import Annotated, Any, List, Union
+from typing import Annotated, Any, Iterator, List, Union
 
 from pydantic import AliasChoices, Field, model_validator
 
@@ -161,3 +161,15 @@ class GetBlobsResponse(EthereumTestRootModel):
     """Represents the response of a get blobs request."""
 
     root: List[BlobAndProof | None]
+
+    def __len__(self) -> int:
+        """Return the number of blobs in the response."""
+        return len(self.root)
+
+    def __iter__(self) -> Iterator[BlobAndProof | None]:
+        """Return an iterator over the blobs in the response."""
+        return iter(self.root)
+
+    def __getitem__(self, index: int) -> BlobAndProof | None:
+        """Return the blob at the given index."""
+        return self.root[index]
