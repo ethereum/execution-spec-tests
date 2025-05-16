@@ -12,6 +12,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
+    Blob,
     Block,
     BlockchainTestFiller,
     BlockException,
@@ -22,7 +23,7 @@ from ethereum_test_tools import (
     TransactionException,
 )
 
-from .common import INF_POINT, Blob
+from .common import INF_POINT
 from .spec import Spec, SpecHelpers, ref_spec_4844
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
@@ -178,7 +179,7 @@ def txs(  # noqa: D103
             wrapped_blob_transaction=tx_wrapped_blobs,
         )
         if tx_wrapped_blobs:
-            network_wrapped_tx = Blob.blobs_to_network_wrapped_transaction(tx, tx_blobs)
+            network_wrapped_tx = NetworkWrappedTransaction.from_blob_list(tx, tx_blobs)
             tx.rlp_override = network_wrapped_tx.rlp()
         txs.append(tx)
     return txs

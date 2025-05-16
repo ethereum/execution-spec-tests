@@ -12,13 +12,14 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
+    Blob,
     BlobsTestFiller,
     NetworkWrappedTransaction,
     Transaction,
     TransactionException,
 )
 
-from ...cancun.eip4844_blobs.common import INF_POINT, Blob
+from ...cancun.eip4844_blobs.common import INF_POINT
 from ...cancun.eip4844_blobs.spec import Spec as Spec4844
 from ...cancun.eip4844_blobs.spec import SpecHelpers, ref_spec_4844
 from .spec import Spec
@@ -169,11 +170,10 @@ def txs(  # noqa: D103
     if len(txs_blobs) != len(txs_versioned_hashes):
         raise ValueError("txs_blobs and txs_versioned_hashes should have the same length")
     txs: List[Transaction] = []
-    sender = pre.fund_eoa()
     for tx_blobs, tx_versioned_hashes in zip(txs_blobs, txs_versioned_hashes, strict=False):
         tx = Transaction(
             ty=Spec4844.BLOB_TX_TYPE,
-            sender=sender,
+            sender=pre.fund_eoa(),
             to=destination_account,
             value=tx_value,
             gas_limit=tx_gas,
@@ -183,7 +183,7 @@ def txs(  # noqa: D103
             blob_versioned_hashes=tx_versioned_hashes,
             error=tx_error,
         )
-        network_wrapped_tx = Blob.blobs_to_network_wrapped_transaction(
+        network_wrapped_tx = NetworkWrappedTransaction.from_blob_list(
             tx,
             tx_blobs,
             wrapper_version=tx_wrapper_version,

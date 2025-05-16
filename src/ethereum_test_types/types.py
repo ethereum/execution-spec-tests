@@ -1100,6 +1100,19 @@ class Transaction(
         return Address(hash_bytes[-20:])
 
 
+class Blob(CamelModel):
+    """Class representing a full blob."""
+
+    blob: Bytes
+    kzg_commitment: Bytes
+    kzg_proof: Bytes | None = None
+    kzg_cell_proofs: List[Bytes] | None = None
+
+    def versioned_hash(self, version: int = 1) -> Hash:
+        """Calculate versioned hash for a given blob."""
+        return Hash(bytes([version]) + sha256(self.kzg_commitment).digest()[1:])
+
+
 class BlobAndProof(CamelModel):
     """Represents a blob and proof structure."""
 
@@ -1122,6 +1135,35 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
+
+    @classmethod
+    def from_blob_list(
+        cls,
+        tx: Transaction,
+        input_blobs: List["Blob"],
+        wrapper_version: int | None = None,
+    ) -> "NetworkWrappedTransaction":
+        """Create a network wrapped transaction from a list of blobs."""
+        blobs: List[Bytes] = []
+        kzg_commitments: List[Bytes] = []
+        kzg_proofs: List[Bytes] = []
+        for blob in input_blobs:
+            blobs.append(blob.blob)
+            kzg_commitments.append(blob.kzg_commitment)
+            if blob.kzg_proof is not None:
+                kzg_proofs.append(blob.kzg_proof)
+            elif blob.kzg_cell_proofs is not None:
+                kzg_proofs.extend(blob.kzg_cell_proofs)
+            else:
+                raise ValueError("Invalid blob: missing kzg proof or cell proofs")
+
+        return cls(
+            tx=tx,
+            blobs=blobs,
+            blob_kzg_commitments=kzg_commitments,
+            blob_kzg_proofs=kzg_proofs,
+            wrapper_version=wrapper_version,
+        )
 
     def versioned_hashes_with_blobs_and_proofs(self) -> Dict[Hash, BlobAndProof]:
         """

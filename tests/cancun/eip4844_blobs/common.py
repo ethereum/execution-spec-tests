@@ -1,15 +1,11 @@
 """Common constants, classes & functions local to EIP-4844 tests."""
 
-from dataclasses import dataclass
 from typing import List, Literal, Union
 
 from ethereum_test_tools import (
     Address,
-    Bytes,
     Hash,
-    NetworkWrappedTransaction,
     TestAddress,
-    Transaction,
     YulCompiler,
     add_kzg_version,
     compute_create2_address,
@@ -23,51 +19,6 @@ INF_POINT = (0xC0 << 376).to_bytes(48, byteorder="big")
 Z = 0x623CE31CF9759A5C8DAF3A357992F9F3DD7F9339D8998BC8E68373E54F00B75E
 Z_Y_INVALID_ENDIANNESS: Literal["little", "big"] = "little"
 Z_Y_VALID_ENDIANNESS: Literal["little", "big"] = "big"
-
-
-@dataclass(kw_only=True)
-class Blob:
-    """Class representing a full blob."""
-
-    blob: Bytes
-    kzg_commitment: Bytes
-    kzg_proof: Bytes | None = None
-    kzg_cell_proofs: List[Bytes] | None = None
-
-    def versioned_hash(self) -> bytes:
-        """Calculate versioned hash for a given blob."""
-        return Spec.kzg_to_versioned_hash(self.kzg_commitment)
-
-    @staticmethod
-    def blobs_to_network_wrapped_transaction(
-        tx: Transaction,
-        input_blobs: List["Blob"],
-        wrapper_version: int | None = None,
-    ) -> NetworkWrappedTransaction:
-        """
-        Return tuple of lists of blobs, kzg commitments formatted to be added to a network blob
-        type transaction.
-        """
-        blobs: List[Bytes] = []
-        kzg_commitments: List[Bytes] = []
-        kzg_proofs: List[Bytes] = []
-        for blob in input_blobs:
-            blobs.append(blob.blob)
-            kzg_commitments.append(blob.kzg_commitment)
-            if blob.kzg_proof is not None:
-                kzg_proofs.append(blob.kzg_proof)
-            elif blob.kzg_cell_proofs is not None:
-                kzg_proofs.extend(blob.kzg_cell_proofs)
-            else:
-                raise ValueError("Invalid blob: missing kzg proof or cell proofs")
-
-        return NetworkWrappedTransaction(
-            tx=tx,
-            blobs=blobs,
-            blob_kzg_commitments=kzg_commitments,
-            blob_kzg_proofs=kzg_proofs,
-            wrapper_version=wrapper_version,
-        )
 
 
 # Random fixed list of blob versioned hashes
