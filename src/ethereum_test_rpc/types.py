@@ -1,6 +1,7 @@
 """Types used in the RPC module for `eth` and `engine` namespaces' requests."""
 
 from enum import Enum
+from hashlib import sha256
 from typing import Annotated, Any, List, Union
 
 from pydantic import AliasChoices, Field, model_validator
@@ -131,9 +132,14 @@ class BlobsBundle(CamelModel):
     proofs: List[Bytes]
     blobs: List[Bytes]
 
-    def blob_versioned_hashes(self) -> List[Hash]:
+    def blob_versioned_hashes(self, versioned_hash_version: int = 1) -> List[Hash]:
         """Return versioned hashes of the blobs."""
-        return [Hash(b"\1" + commitment[1:]) for commitment in self.commitments]
+        versioned_hashes: List[Hash] = []
+        for commitment in self.commitments:
+            commitment_hash = sha256(commitment).digest()
+            versioned_hash = Hash(bytes([versioned_hash_version]) + commitment_hash[1:])
+            versioned_hashes.append(versioned_hash)
+        return versioned_hashes
 
 
 class BlobAndProof(CamelModel):
