@@ -236,7 +236,7 @@ def test_worst_modexp(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "precompile_address,input",
+    "precompile_address,parameters",
     [
         pytest.param(
             0x01,
@@ -371,12 +371,12 @@ def test_worst_precompile_fixed_cost(
     pre: Alloc,
     fork: Fork,
     precompile_address: Address,
-    input: list[str],
+    parameters: list[str],
 ):
     """Test running a block filled with a precompile with fixed cost."""
     env = Environment()
 
-    concatenated_hex_string = "".join(input)
+    concatenated_hex_string = "".join(parameters)
     concatenated_bytes = bytes.fromhex(concatenated_hex_string)
 
     padding_length = (32 - (len(concatenated_bytes) % 32)) % 32
