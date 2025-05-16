@@ -1107,11 +1107,26 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     tx: Transaction
 
+    wrapper_version: Literal[1] | None = None
+
     blobs: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_commitments: Sequence[Bytes] | None = Field(None, exclude=True)
     blob_kzg_proofs: Sequence[Bytes] | None = Field(None, exclude=True)
 
-    rlp_fields: ClassVar[List[str]] = ["tx", "blobs", "blob_kzg_commitments", "blob_kzg_proofs"]
+    def get_rlp_fields(self) -> List[str]:
+        """
+        Return an ordered list of field names to be included in RLP serialization.
+
+        Function can be overridden to customize the logic to return the fields.
+
+        By default, rlp_fields class variable is used.
+
+        The list can be nested list up to one extra level to represent nested fields.
+        """
+        wrapper = []
+        if self.wrapper_version is not None:
+            wrapper = ["wrapper_version"]
+        return ["tx", *wrapper, "blobs", "blob_kzg_commitments", "blob_kzg_proofs"]
 
     def get_rlp_prefix(self) -> bytes:
         """
