@@ -24,12 +24,15 @@ class GetBlobs(BaseExecute):
     def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
         """Execute the format."""
         assert engine_rpc is not None, "Engine RPC is required for this format."
+        sent_txs: List[Transaction] = []
         for tx in self.txs:
             if isinstance(tx, NetworkWrappedTransaction):
                 tx.tx = tx.tx.with_signature_and_sender()
+                sent_txs.append(tx.tx)
                 expected_hash = tx.tx.hash
             else:
                 tx = tx.with_signature_and_sender()
+                sent_txs.append(tx)
                 expected_hash = tx.hash
             received_hash = eth_rpc.send_raw_transaction(tx.rlp())
             assert expected_hash == received_hash, (
@@ -37,3 +40,5 @@ class GetBlobs(BaseExecute):
             )
 
         # TODO: Implement verification of blobs.
+
+        eth_rpc.wait_for_transactions(sent_txs)
