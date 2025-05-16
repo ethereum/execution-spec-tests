@@ -42,7 +42,6 @@ class GetBlobs(BaseExecute):
                 f"Expected hash {expected_hash} does not match received hash {received_hash}."
             )
 
-        # TODO: Implement verification of blobs.
         resp = engine_rpc.get_blobs(
             list(versioned_hashes.keys()), version=fork.engine_get_blobs_version()
         )
