@@ -1,5 +1,7 @@
 """Ethereum test fork definitions."""
 
+from typing import Literal
+
 from .base_fork import Fork, ForkAttribute
 from .forks.forks import (
     ArrowGlacier,

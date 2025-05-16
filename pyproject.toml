@@ -50,6 +50,7 @@ dependencies = [
     "pytest-regex>=0.2.0,<0.3",
     "eth-abi>=5.2.0",
     "joblib>=1.4.2",
+    "ckzg>=2.1.1",
 ]
 
 [project.urls]
