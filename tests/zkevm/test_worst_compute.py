@@ -20,7 +20,6 @@ from ethereum_test_tools import (
     Environment,
     Transaction,
 )
-from ethereum_test_tools.code.generators import While
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm import Opcode
 
