@@ -1,12 +1,15 @@
 """Common constants, classes & functions local to EIP-4844 tests."""
 
 from dataclasses import dataclass
-from typing import List, Literal, Tuple, Union
+from typing import List, Literal, Union
 
 from ethereum_test_tools import (
     Address,
+    Bytes,
     Hash,
+    NetworkWrappedTransaction,
     TestAddress,
+    Transaction,
     YulCompiler,
     add_kzg_version,
     compute_create2_address,
@@ -26,31 +29,45 @@ Z_Y_VALID_ENDIANNESS: Literal["little", "big"] = "big"
 class Blob:
     """Class representing a full blob."""
 
-    blob: bytes
-    kzg_commitment: bytes
-    kzg_proof: bytes
+    blob: Bytes
+    kzg_commitment: Bytes
+    kzg_proof: Bytes | None = None
+    kzg_cell_proofs: List[Bytes] | None = None
 
     def versioned_hash(self) -> bytes:
         """Calculate versioned hash for a given blob."""
         return Spec.kzg_to_versioned_hash(self.kzg_commitment)
 
     @staticmethod
-    def blobs_to_transaction_input(
+    def blobs_to_network_wrapped_transaction(
+        tx: Transaction,
         input_blobs: List["Blob"],
-    ) -> Tuple[List[bytes], List[bytes], List[bytes]]:
+        wrapper_version: int | None = None,
+    ) -> NetworkWrappedTransaction:
         """
         Return tuple of lists of blobs, kzg commitments formatted to be added to a network blob
         type transaction.
         """
-        blobs: List[bytes] = []
-        kzg_commitments: List[bytes] = []
-        kzg_proofs: List[bytes] = []
-
+        blobs: List[Bytes] = []
+        kzg_commitments: List[Bytes] = []
+        kzg_proofs: List[Bytes] = []
         for blob in input_blobs:
             blobs.append(blob.blob)
             kzg_commitments.append(blob.kzg_commitment)
-            kzg_proofs.append(blob.kzg_proof)
-        return (blobs, kzg_commitments, kzg_proofs)
+            if blob.kzg_proof is not None:
+                kzg_proofs.append(blob.kzg_proof)
+            elif blob.kzg_cell_proofs is not None:
+                kzg_proofs.extend(blob.kzg_cell_proofs)
+            else:
+                raise ValueError("Invalid blob: missing kzg proof or cell proofs")
+
+        return NetworkWrappedTransaction(
+            tx=tx,
+            blobs=blobs,
+            blob_kzg_commitments=kzg_commitments,
+            blob_kzg_proofs=kzg_proofs,
+            wrapper_version=wrapper_version,
+        )
 
 
 # Random fixed list of blob versioned hashes
