@@ -6,7 +6,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
-from typing import SupportsBytes
+from typing import cast
 
 import pytest
 
@@ -337,7 +337,7 @@ def test_worst_modexp(
         pytest.param(
             bls12381_spec.Spec.G2MSM,
             [
-                # TODO: the //2 is only required due to a limitation of the max contract size limit.
+                # TODO: the //2 is required due to a limitation of the max contract size limit.
                 # In a further iteration we can insert the inputs as calldata or storage and avoid
                 # having to do PUSHes which has this limtiation. This also applies to G1MSM.
                 (bls12381_spec.Spec.P2 + bls12381_spec.Scalar(bls12381_spec.Spec.Q))
@@ -348,7 +348,8 @@ def test_worst_modexp(
         pytest.param(
             bls12381_spec.Spec.PAIRING,
             [
-                bls12381_spec.Spec.G1 + bls12381_spec.Spec.INF_G2,
+                bls12381_spec.Spec.G1,
+                bls12381_spec.Spec.G2,
             ],
             id="bls12_pairing_check",
         ),
@@ -373,17 +374,24 @@ def test_worst_precompile_fixed_cost(
     pre: Alloc,
     fork: Fork,
     precompile_address: Address,
-    parameters: list[str] | list[BytesConcatenation],
+    parameters: list[str] | list[BytesConcatenation] | list[bytes],
 ):
     """Test running a block filled with a precompile with fixed cost."""
     env = Environment()
 
-    concatenated_bytes = bytes()
-    if isinstance(parameters[0], str):
-        concatenated_hex_string = "".join(parameters)
+    concatenated_bytes: bytes
+    if all(isinstance(p, str) for p in parameters):
+        parameters_str = cast(list[str], parameters)
+        concatenated_hex_string = "".join(parameters_str)
         concatenated_bytes = bytes.fromhex(concatenated_hex_string)
+    elif all(isinstance(p, (bytes, BytesConcatenation)) for p in parameters):
+        parameters_bytes_list = [bytes(p) for p in parameters]
+        concatenated_bytes = b"".join(parameters_bytes_list)
     else:
-        concatenated_bytes = b"".join(bytes(p) for p in parameters)
+        raise TypeError(
+            "parameters must be a list of strings (hex) "
+            "or a list of byte-like objects (bytes or BytesConcatenation)."
+        )
 
     padding_length = (32 - (len(concatenated_bytes) % 32)) % 32
     input_bytes = concatenated_bytes + b"\x00" * padding_length
