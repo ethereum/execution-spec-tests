@@ -1,3 +1,6 @@
+([#1615](https://github.com/ethereum/execution-spec-tests/pull/1615))
+GeneralStateTests/stCreateTest/CREATE_FirstByte_loop.json
+
 ([#1606](https://github.com/ethereum/execution-spec-tests/pull/1606))
 BlockchainTests/GeneralStateTests/stSelfBalance/diffPlaces.json
 
