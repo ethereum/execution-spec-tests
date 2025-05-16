@@ -385,7 +385,9 @@ def test_worst_precompile_fixed_cost(
         concatenated_hex_string = "".join(parameters_str)
         concatenated_bytes = bytes.fromhex(concatenated_hex_string)
     elif all(isinstance(p, (bytes, BytesConcatenation)) for p in parameters):
-        parameters_bytes_list = [bytes(p) for p in parameters]
+        parameters_bytes_list = [
+            bytes(p) for p in cast(list[BytesConcatenation | bytes], parameters)
+        ]
         concatenated_bytes = b"".join(parameters_bytes_list)
     else:
         raise TypeError(
