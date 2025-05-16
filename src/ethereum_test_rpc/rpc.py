@@ -1,7 +1,10 @@
 """JSON-RPC methods and helper functions for EEST consume based hive simulators."""
 
+import json
+import logging
 import time
 from itertools import count
+from pathlib import Path
 from pprint import pprint
 from typing import Any, ClassVar, Dict, List, Literal, Union
 
@@ -11,6 +14,7 @@ from pydantic import ValidationError
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
+from pytest_plugins.logging import get_logger
 
 from .types import (
     ForkchoiceState,
@@ -24,6 +28,7 @@ from .types import (
 )
 
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+logger = get_logger(__name__)
 
 
 class SendTransactionExceptionError(Exception):
@@ -31,19 +36,55 @@ class SendTransactionExceptionError(Exception):
 
     tx: Transaction | None = None
     tx_rlp: Bytes | None = None
+    shorten_errors: bool = False
+    log_rlp_data: bool = False
 
-    def __init__(self, *args, tx: Transaction | None = None, tx_rlp: Bytes | None = None):
+    def __init__(
+        self,
+        *args,
+        tx: Transaction | None = None,
+        tx_rlp: Bytes | None = None,
+        shorten_errors: bool = False,
+        log_rlp_data: bool = False,
+    ):
         """Initialize SendTransactionExceptionError class with the given transaction."""
         super().__init__(*args)
         self.tx = tx
         self.tx_rlp = tx_rlp
+        self.shorten_errors = shorten_errors
+        self.log_rlp_data = log_rlp_data
 
     def __str__(self):
         """Return string representation of the exception."""
+        # create ./logs/rlp folder for detailed rlp logging
+        rlp_logs_folder = Path(".") / "logs" / "rlp"
+        rlp_logs_folder.mkdir(parents=True, exist_ok=True)
+
         if self.tx is not None:
             f"{super().__str__()} Transaction={self.tx.model_dump_json()}"
         elif self.tx_rlp is not None:
-            return f"{super().__str__()} Transaction RLP={self.tx_rlp.hex()}"
+            tx_rlp_hex = self.tx_rlp.hex()
+
+            # log rpc call data to file (each rlp object gets dumped in its own file)
+            if self.log_rlp_data:
+                #   create and config a temporary logger (unique filename via timestamp)
+                timestamp = time.time_ns()
+                file_name = rlp_logs_folder / f"{timestamp}_rlp_data.log"
+                temp_logger = logging.getLogger(f"rlp_{timestamp}")
+                temp_logger.setLevel(logging.ERROR)
+                temp_logger.propagate = False
+                file_handler = logging.FileHandler(file_name)
+                temp_logger.addHandler(file_handler)
+                #   log rlp to file
+                temp_logger.error(tx_rlp_hex)
+                #   cleanup
+                temp_logger.removeHandler(file_handler)
+                file_handler.close()
+
+            if self.shorten_errors:
+                tx_rlp_hex = tx_rlp_hex[:50]  # just print first few chars
+            return f"{super().__str__()} Transaction RLP={tx_rlp_hex}"
+
         return super().__str__()
 
 
@@ -90,6 +131,15 @@ class BaseRPC:
             "Content-Type": "application/json",
         }
         headers = base_header | self.extra_headers | extra_headers
+
+        # debugging, estimate payload size
+        payload_json = json.dumps(payload)  # pydantic.json
+        payload_size_bytes = len(payload_json.encode("utf-8"))
+        payload_size_mb = payload_size_bytes / (1024 * 1024)
+        logger.info(
+            f"I am about to send a POST request of approximated size: {payload_size_mb:.2f} MB "
+            f"({payload_size_bytes} bytes)"
+        )
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
@@ -178,23 +228,43 @@ class EthRPC(BaseRPC):
     def send_raw_transaction(self, transaction_rlp: Bytes) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
         try:
-            result_hash = Hash(self.post_request("sendRawTransaction", f"{transaction_rlp.hex()}"))
-            assert result_hash is not None
+            tx_rlp_hex = transaction_rlp.hex()
+            result_hash = Hash(self.post_request("sendRawTransaction", f"{tx_rlp_hex}"))
+            assert result_hash is not None, "result_hash seems to be None, critical error!"
+            # debug: also log successful rpc calls
+            print(
+                SendTransactionExceptionError(
+                    str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=True
+                )
+            )  # print triggers __str__ which triggers logging
+
             return result_hash
         except Exception as e:
-            raise SendTransactionExceptionError(str(e), tx_rlp=transaction_rlp) from e
+            raise SendTransactionExceptionError(
+                str(e), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=True
+            ) from e
 
     def send_transaction(self, transaction: Transaction) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
         try:
-            result_hash = Hash(
-                self.post_request("sendRawTransaction", f"{transaction.rlp().hex()}")
-            )
+            transaction_rlp = transaction.rlp()
+            tx_rlp_hex = transaction_rlp.hex()
+            result_hash = Hash(self.post_request("sendRawTransaction", f"{tx_rlp_hex}"))
             assert result_hash == transaction.hash
             assert result_hash is not None
+
+            # debug: also log successful rpc calls
+            print(
+                SendTransactionExceptionError(
+                    str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=True
+                )
+            )  # print triggers __str__ which triggers logging
+
             return transaction.hash
         except Exception as e:
-            raise SendTransactionExceptionError(str(e), tx=transaction) from e
+            raise SendTransactionExceptionError(
+                str(e), tx=transaction, shorten_errors=True, log_rlp_data=True
+            ) from e
 
     def send_transactions(self, transactions: List[Transaction]) -> List[Hash]:
         """Use `eth_sendRawTransaction` to send a list of transactions to the client."""

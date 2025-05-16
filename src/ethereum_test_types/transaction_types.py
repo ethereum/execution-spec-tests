@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Union
 
 import ethereum_rlp as eth_rlp
 from coincurve.keys import PrivateKey, PublicKey
@@ -33,11 +33,14 @@ from ethereum_test_base_types import (
     TestPrivateKey,
 )
 from ethereum_test_exceptions import TransactionException
+from pytest_plugins.logging import get_logger
 
 from .account_types import EOA
 from .blob_types import Blob
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
+
+logger = get_logger(__name__)
 
 
 class TransactionType(IntEnum):
@@ -596,6 +599,8 @@ class Transaction(
         Return the transaction type as bytes to be appended at the beginning of the
         serialized transaction if type is not 0.
         """
+        # if self.ty == 3:  # dont add 0x03 to the rlp
+        #     return b""
         if self.ty > 0:
             return bytes([self.ty])
         return b""
@@ -652,35 +657,102 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
     Network wrapped transaction as defined in
     [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
+
+    < Osaka:
+        rlp([tx_payload_body,                   blobs, commitments, proofs])
+
+    >= Osaka:
+        rlp([tx_payload_body, wrapper_version,  blobs, commitments, cell_proofs])
     """
 
     tx: Transaction
-    wrapper_version: Literal[1] | None = None
-    blobs: Sequence[Blob]
+    blob_objects: Sequence[Blob]
+    wrapper_version: Union[Bytes | None] = None  # only exists in >= osaka
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_data(self) -> Sequence[Bytes]:
-        """Return a list of blobs as bytes."""
-        return [blob.data for blob in self.blobs]
+    def blobs(self) -> Sequence[Bytes]:
+        """Return a list of blob data as bytes."""
+        return [blob.data for blob in self.blob_objects]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_commitments(self) -> Sequence[Bytes]:
+    def commitments(self) -> Sequence[Bytes]:
         """Return a list of kzg commitments."""
-        return [blob.kzg_commitment for blob in self.blobs]
+        return [blob.commitment for blob in self.blob_objects]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_proofs(self) -> Sequence[Bytes]:
-        """Return a list of kzg proofs."""
-        proofs: List[Bytes] = []
-        for blob in self.blobs:
-            if blob.kzg_proof is not None:
-                proofs.append(blob.kzg_proof)
-            elif blob.kzg_cell_proofs is not None:
-                proofs.extend(blob.kzg_cell_proofs)
+    def proofs(self) -> Sequence[Bytes] | None:
+        """Return a list of kzg proofs (returns None >= Osaka)."""
+        if self.wrapper_version is not None:
+            return None
+
+        proofs: list[Bytes] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.proof, Bytes)
+            proofs.append(blob.proof)
+
         return proofs
+
+    # original cell proofs with length 4098
+    # error: InvalidBlobDataSize: Blob data fields are of incorrect size.
+    #   -> i think its cuz each cell_proof has length 4098, but for some reason it wants length 98 (but ofc if we just shorten it it will expect a different proof)
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def cell_proofs(self) -> Sequence[Sequence[Bytes]] | Sequence[Bytes] | None:
+        """Return a list of cells (returns None < Osaka)."""
+        if self.wrapper_version is None:
+            return None
+
+        cells: list[list[Bytes]] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.cells, list)
+            cells.append(blob.cells)
+
+        # if you remove below you instead get error: Invalid RLP. (which means getting what we have to work NWT that hold many blobs will be even more work)  # noqa: E501
+        if len(cells) == 1:
+            return cells[0]
+
+        return cells
+
+    # shortened cell proofs of length 98 ( 48*2 + len(0x00) + len(0x03) )
+    # unlocks new error: proofs dont match cells
+    # @computed_field  # type: ignore[prop-decorator]
+    # @property
+    # def cell_proofs(self) -> Sequence[Bytes] | None:
+    #     """Return a list of cells (returns None < Osaka)."""
+    #     if self.wrapper_version is None:
+    #         return None
+
+    #     cells: list[Bytes] = []
+    #     for blob in self.blob_objects:
+    #         assert isinstance(blob.cells, list)
+    #         # code below gives: InvalidBlobDataSize: Blob data fields are of incorrect size:
+    #         # cells.extend(
+    #         #     Bytes(cell)
+    #         #     for cell in blob.cells  # Bytes(cell[:48])
+    #         # )  # extend unpacks the elements instead of adding it as list
+
+    #         # code below gives: InvalidBlobProof: Proofs do not match the blobs.
+    #         cells.extend(
+    #             Bytes(cell[:48]) for cell in blob.cells
+    #         )  # extend unpacks the elements instead of adding it as list
+
+    #     return cells
+
+    # just trying to match the 'before.txt' even more closely
+    # # unlocks new error: proofs dont match cells
+    # @computed_field  # type: ignore[prop-decorator]
+    # @property
+    # def cell_proofs(self) -> Sequence[Bytes] | None:
+    #     """Return a list of cells (returns None < Osaka)."""
+    #     if self.wrapper_version is None:
+    #         return None
+
+    #     cells: list[Bytes] = [self.commitments[0]] * 128
+
+    #     return cells
 
     def get_rlp_fields(self) -> List[str]:
         """
@@ -692,16 +764,69 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         The list can be nested list up to one extra level to represent nested fields.
         """
+        # only put a wrapper_version field for >=osaka (value 1), otherwise omit field
         wrapper = []
         if self.wrapper_version is not None:
             wrapper = ["wrapper_version"]
-        return ["tx", *wrapper, "blob_data", "blob_kzg_commitments", "blob_kzg_proofs"]
+
+        rlp_proofs: list[str] = []
+        if self.proofs is not None:
+            rlp_proofs = ["proofs"]
+
+        rlp_cell_proofs: list[str] = []
+        if self.cell_proofs is not None:
+            rlp_cell_proofs = ["cell_proofs"]
+
+        # GETH FUSAKA_DEVNET_0 EXPECTS:
+        #   type blobTxWithBlobs struct {
+        #       BlobTx      *BlobTx
+        #       Blobs       []kzg4844.Blob
+        #       Commitments []kzg4844.Commitment
+        #       Proofs      []kzg4844.Proof
+        #   }
+
+        #   type versionedBlobTxWithBlobs struct {
+        #       BlobTx      *BlobTx
+        #       Version     byte
+        #       Blobs       []kzg4844.Blob
+        #       Commitments []kzg4844.Commitment
+        #       Proofs      []kzg4844.Proof
+        #   }
+
+        rlp_fields: List[
+            str
+        ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
+            "tx",  # tx_payload_body, in geth: BlobTx, https://github.com/ethereum/go-ethereum/blob/e17f97a8242c55b6fba66317d3720b9728a12f78/core/types/tx_blob.go#L122
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before), in geth: Version  # noqa: E501
+            "blobs",  # Blob.data, in geth: Blobs
+            "commitments",  # in geth: Commitments
+            *rlp_proofs,  # only included < osaka, in geth: Proofs
+            *rlp_cell_proofs,  # only included >=osaka, in geth this does not exist(always uses Proofs)
+        ]
+
+        assert ("proofs" in rlp_fields) or ("cell_proofs" in rlp_fields), (
+            "Neither proofs nor cell_proofs are in rlp_fields. Critical error!"
+        )
+
+        logger.debug(f"Ended up with this rlp field list: {rlp_fields}")
+
+        return rlp_fields
+
+    # GETH PROBLEM:
+    # osaka without wrapper: too few elements for types.blobTxWithBlobs
+    # osaka with wrapper: it tries to deserialize into blobTxWithBlobs instead of versionedBlobTxWithBlobs, so it complains about unexpectedly seeing wrapper instead of blob data  # noqa: E501
+
+    # NETHERMIND PROBLEM:
+    # osaka without wrapper: code=-32602, message=Specified argument was out of the range of valid values.
+    # osaka with wrapper: code=-32602, message=Specified argument was out of the range of valid values
 
     def get_rlp_prefix(self) -> bytes:
         """
         Return the transaction type as bytes to be appended at the beginning of the
         serialized transaction if type is not 0.
         """
+        # if self.tx.ty == 3:  # don't add 0x03 to the rlp
+        #     return b""
         if self.tx.ty > 0:
             return bytes([self.tx.ty])
         return b""
