@@ -25,6 +25,7 @@ from dataclasses import dataclass
 from typing import Any, Dict, Optional
 
 import requests
+from hive.testing import HiveTestSuite
 
 from pytest_plugins.logging import get_logger
 
@@ -84,6 +85,85 @@ class SharedClientManager:
         self.suite_id = suite_id
         # Use a dictionary with composite keys (pre_hash, client_type) to track clients
         self.clients: Dict[tuple[int, str], ClientInfo] = {}
+
+        # Track test execution per pre_hash
+        self.test_counts: Dict[int, Dict[str, int]] = {}  # pre_hash -> {total: n, completed: m}
+        self.test_suites: Dict[int, HiveTestSuite] = {}  # pre_hash -> HiveTestSuite
+
+    def set_test_count(self, pre_hash: int, count: int):
+        """Set the total test count for a pre_hash group."""
+        if pre_hash not in self.test_counts:
+            self.test_counts[pre_hash] = {"total": 0, "completed": 0}
+
+        # Only set if not already set (to avoid resetting during subsequent tests)
+        if self.test_counts[pre_hash]["total"] == 0:
+            self.test_counts[pre_hash]["total"] = count
+            logger.info(f"Set test count for pre_hash {pre_hash}: {count} tests")
+        else:
+            logger.debug(
+                f"Test count already set for pre_hash {pre_hash}: {self.test_counts[pre_hash]['total']} tests"
+            )
+
+    def set_test_suite(self, pre_hash: int, test_suite: HiveTestSuite):
+        """Associate a test suite with a pre_hash group."""
+        if pre_hash not in self.test_suites:
+            self.test_suites[pre_hash] = test_suite
+            logger.info(f"Associated test suite {test_suite.id} with pre_hash {pre_hash}")
+        else:
+            logger.debug(
+                f"Test suite already set for pre_hash {pre_hash}: {self.test_suites[pre_hash].id}"
+            )
+
+    def complete_test(self, pre_hash: int):
+        """Mark a test as completed for the given pre_hash group."""
+        if pre_hash not in self.test_counts:
+            logger.warning(f"No test count tracking for pre_hash {pre_hash}")
+            return
+
+        self.test_counts[pre_hash]["completed"] += 1
+        completed = self.test_counts[pre_hash]["completed"]
+        total = self.test_counts[pre_hash]["total"]
+
+        logger.info(f"Completed test for pre_hash {pre_hash}: {completed}/{total}")
+
+        # Check if all tests are done
+        if completed >= total:
+            logger.info(f"All tests completed for pre_hash {pre_hash}, cleaning up")
+            self._cleanup_pre_hash_resources(pre_hash)
+
+    def _cleanup_pre_hash_resources(self, pre_hash: int):
+        """Clean up all resources associated with a pre_hash group."""
+        # End the test suite if it exists
+        if pre_hash in self.test_suites:
+            test_suite = self.test_suites[pre_hash]
+            logger.info(f"Ending test suite {test_suite.id} for pre_hash {pre_hash}")
+            try:
+                test_suite.end()
+            except Exception as e:
+                logger.error(f"Error ending test suite: {e}")
+            del self.test_suites[pre_hash]
+
+        # Clean up any remaining clients
+        clients_to_remove = []
+        for (client_pre_hash, client_type), client_info in self.clients.items():
+            if client_pre_hash == pre_hash:
+                logger.info(f"Stopping client {client_info.client_id} for pre_hash {pre_hash}")
+                try:
+                    # Force stop the client
+                    url = f"{self.base_url}/testsuite/{self.suite_id}/shared-client/{client_info.client_id}"
+                    response = requests.delete(url)
+                    response.raise_for_status()
+                except Exception as e:
+                    logger.error(f"Error stopping client {client_info.client_id}: {e}")
+                clients_to_remove.append((client_pre_hash, client_type))
+
+        # Remove clients from tracking
+        for key in clients_to_remove:
+            del self.clients[key]
+
+        # Clean up test count tracking
+        if pre_hash in self.test_counts:
+            del self.test_counts[pre_hash]
 
     def start_client(
         self, pre_hash: int, client_type: str, environment: Dict[str, str], files: Dict[str, Any]
@@ -225,7 +305,9 @@ class SharedClientManager:
             client_info = ClientInfo(client_id=client_id, ip=ip)
             self.clients[client_key] = client_info
 
-            logger.info(f"Started shared client {client_id} for pre-hash {pre_hash} and client {client_type}")
+            logger.info(
+                f"Started shared client {client_id} for pre-hash {pre_hash} and client {client_type}"
+            )
             return client_info
 
         except Exception as e:
@@ -244,7 +326,9 @@ class SharedClientManager:
         client_key = (pre_hash, client_type)
 
         if client_key not in self.clients:
-            logger.warning(f"Attempted to release non-existent client for pre-hash {pre_hash} and client {client_type}")
+            logger.warning(
+                f"Attempted to release non-existent client for pre-hash {pre_hash} and client {client_type}"
+            )
             return False
 
         client_info = self.clients[client_key]
@@ -257,7 +341,9 @@ class SharedClientManager:
 
         # If ref count is zero, stop the client
         if client_info.ref_count <= 0:
-            logger.info(f"Stopping client {client_info.client_id} for pre-hash {pre_hash} and client {client_type}")
+            logger.info(
+                f"Stopping client {client_info.client_id} for pre-hash {pre_hash} and client {client_type}"
+            )
 
             try:
                 # Call DELETE /testsuite/{suite}/shared-client/{client_id}
@@ -274,7 +360,9 @@ class SharedClientManager:
 
                 # Remove client from registry
                 del self.clients[client_key]
-                logger.info(f"Stopped client {client_info.client_id} for pre-hash {pre_hash} and client {client_type}")
+                logger.info(
+                    f"Stopped client {client_info.client_id} for pre-hash {pre_hash} and client {client_type}"
+                )
                 return True
 
             except Exception as e:
@@ -345,7 +433,9 @@ class SharedClientManager:
         client_key = (pre_hash, client_type)
 
         if client_key not in self.clients:
-            logger.warning(f"Attempted to get logs for non-existent client (pre-hash {pre_hash}, client {client_type})")
+            logger.warning(
+                f"Attempted to get logs for non-existent client (pre-hash {pre_hash}, client {client_type})"
+            )
             return ""
 
         client_info = self.clients[client_key]
@@ -373,7 +463,9 @@ class SharedClientManager:
             logger.error(f"Failed to get logs: {str(e)}")
             return f"Error retrieving logs: {str(e)}"
 
-    def exec_in_client(self, pre_hash: int, client_type: str, command: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def exec_in_client(
+        self, pre_hash: int, client_type: str, command: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
         """
         Execute a command in the shared client.
 
@@ -388,7 +480,9 @@ class SharedClientManager:
         client_key = (pre_hash, client_type)
 
         if client_key not in self.clients:
-            logger.warning(f"Attempted to exec in non-existent client (pre-hash {pre_hash}, client {client_type})")
+            logger.warning(
+                f"Attempted to exec in non-existent client (pre-hash {pre_hash}, client {client_type})"
+            )
             return None
 
         client_info = self.clients[client_key]

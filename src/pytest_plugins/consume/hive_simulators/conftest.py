@@ -59,7 +59,9 @@ def pytest_sessionfinish(session, exitstatus):
 
         processed_clients.add(client_info.client_id)
 
-        logger.info(f"Stopping shared client {client_info.client_id} (pre_hash: {pre_hash}, client: {client_type})")
+        logger.info(
+            f"Stopping shared client {client_info.client_id} (pre_hash: {pre_hash}, client: {client_type})"
+        )
         try:
             # Try a direct delete call to the API
             url = f"{client_manager.base_url}/testsuite/{client_manager.suite_id}/shared-client/{client_info.client_id}"
@@ -302,8 +304,9 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
         request.node.rep_call.timings = total_timing_data
 
 
-# Module-level cache for client genesis
+# Module-level cache for client genesis and test counts
 _client_genesis_cache = {}
+_test_count_cache = {}
 
 
 def create_client_genesis(
@@ -311,7 +314,7 @@ def create_client_genesis(
     pre_hash: int = None,
     use_shared_client: bool = False,
     shared_pre_alloc_path: Path = None,
-) -> dict:
+) -> tuple[dict, int]:
     """
     Convert the fixture genesis block header and pre-state to a client genesis state.
 
@@ -325,13 +328,15 @@ def create_client_genesis(
         shared_pre_alloc_path: Optional path to a shared pre-allocation file
 
     Returns:
-        dict: The client genesis configuration
+        tuple: (genesis dict, test count for this pre_hash group)
     """
+    test_count = 0
     # If using shared client mode with a valid pre_hash, check the cache
     if use_shared_client and pre_hash is not None:
         if pre_hash in _client_genesis_cache:
             logger.info(f"Using cached genesis for pre_hash {pre_hash}")
-            return _client_genesis_cache[pre_hash]
+            cached_test_count = _test_count_cache.get(pre_hash, 0)
+            return _client_genesis_cache[pre_hash], cached_test_count
 
         # Try to load from shared_pre_alloc_path first (if provided explicitly)
         if shared_pre_alloc_path is not None and shared_pre_alloc_path.exists():
@@ -377,6 +382,10 @@ def create_client_genesis(
                     logger.info(f"Found shared pre-allocation for pre_hash {pre_hash}")
                     shared_entry = shared_data.root[pre_hash]
 
+                    # Extract test count from fixture_names
+                    test_count = len(shared_entry.fixture_names)
+                    logger.info(f"Pre-hash {pre_hash} has {test_count} tests in fixture_names")
+
                     # Create genesis from the genesisBlockHeader field
                     genesis = to_json(fixture.genesis)
 
@@ -387,10 +396,11 @@ def create_client_genesis(
                         logger.info(f"Using pre-allocation with {len(pre_data)} accounts")
                         genesis["alloc"] = {k.replace("0x", ""): v for k, v in pre_data.items()}
 
-                        # Cache this genesis for future use
+                        # Cache this genesis and test count for future use
                         _client_genesis_cache[pre_hash] = genesis
+                        _test_count_cache[pre_hash] = test_count
                         logger.info(f"Using shared pre-allocation for pre_hash {pre_hash}")
-                        return genesis
+                        return genesis, test_count
                     else:
                         logger.warning(
                             f"Pre-allocation is None in shared data for pre_hash {pre_hash}"
@@ -439,7 +449,7 @@ def create_client_genesis(
     if use_shared_client and pre_hash is not None:
         _client_genesis_cache[pre_hash] = genesis
 
-    return genesis
+    return genesis, test_count
 
 
 @pytest.fixture(scope="function")
@@ -662,6 +672,8 @@ def client(
     pre_hash: int,
     shared_client_registry,  # The shared client registry (session-scoped)
     test_suite,  # We need the test suite to get its ID
+    test_suite_name: str,
+    test_suite_description: str,
     fixture: BlockchainFixtureCommon,
     check_live_port: Literal[8545, 8551],
     request,
@@ -694,7 +706,7 @@ def client(
                 logger.warning(f"Could not find shared_pre_alloc.json at {shared_pre_alloc_path}")
 
     # Generate genesis and environment using helper functions
-    genesis = create_client_genesis(
+    genesis, test_count = create_client_genesis(
         fixture=fixture,
         pre_hash=pre_hash if use_shared_client else None,
         use_shared_client=use_shared_client,
@@ -738,11 +750,45 @@ def client(
 
         # Get the simulator URL from the config
         simulator_url = request.config.hive_simulator_url
-        # Get the suite ID from test_suite
-        suite_id = test_suite.id
 
-        # Get the client manager using our helper function
-        client_manager = get_client_manager_for_suite(simulator_url, suite_id, registry)
+        # Create a unique test suite for this pre_hash group
+        # Using the pre_hash in the suite name ensures 1-to-1 mapping
+        suite_name = f"{test_suite_name}_pre{pre_hash}"
+        suite_description = f"{test_suite_description} (pre_hash: {pre_hash})"
+
+        # First check if we already have a manager for this pre_hash
+        # We need to look through all managers to find one handling this pre_hash
+        client_manager = None
+        shared_test_suite = None
+        suite_id = None
+
+        for manager_key, manager in registry.managers.items():
+            if pre_hash in manager.test_suites:
+                # Found a manager already handling this pre_hash
+                client_manager = manager
+                shared_test_suite = manager.test_suites[pre_hash]
+                suite_id = shared_test_suite.id
+                logger.info(f"Found existing suite {shared_test_suite.id} for pre_hash {pre_hash}")
+                break
+
+        if client_manager is None:
+            # No existing manager for this pre_hash, create a new suite
+            with total_timing_data.time("Create shared client test suite"):
+                simulator = request.config.hive_simulator
+                shared_test_suite = simulator.start_suite(
+                    name=suite_name,
+                    description=suite_description,
+                )
+                logger.info(f"Created test suite {shared_test_suite.id} for pre_hash {pre_hash}")
+
+                # Use the suite ID to get/create the manager
+                suite_id = shared_test_suite.id
+                client_manager = get_client_manager_for_suite(simulator_url, suite_id, registry)
+
+        # Set the test count and suite for this pre_hash group
+        if test_count > 0:
+            client_manager.set_test_count(pre_hash, test_count)
+            client_manager.set_test_suite(pre_hash, shared_test_suite)
 
         # logger.info(f"gensis: {genesis}")
         # genesis["alloc"] = {}  # Remove alloc for shared client
@@ -794,6 +840,9 @@ def client(
         logger.info(
             f"Current active clients: {len(_active_shared_clients)}, client {client_key} ref count: {_active_shared_clients[client_key]['ref_count']}"
         )
+
+        # Mark this test as completed for the pre_hash group
+        client_manager.complete_test(pre_hash)
 
         # NOTE: Not releasing client here - we want to keep references across test functions!
 
