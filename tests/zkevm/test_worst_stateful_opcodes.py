@@ -42,6 +42,7 @@ MAX_CODE_SIZE = 24 * 1024
         False,
     ],
 )
+@pytest.mark.slow()
 def test_worst_address_state_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -130,6 +131,7 @@ def test_worst_address_state_cold(
         False,
     ],
 )
+@pytest.mark.slow()
 def test_worst_address_state_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -201,6 +203,7 @@ class StorageAction:
         False,
     ],
 )
+@pytest.mark.slow()
 def test_worst_storage_access_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -308,6 +311,7 @@ def test_worst_storage_access_cold(
         pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
     ],
 )
+@pytest.mark.slow()
 def test_worst_storage_access_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -376,6 +380,7 @@ def test_worst_storage_access_warm(
 
 
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow()
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -409,6 +414,7 @@ def test_worst_blockhash(
 
 
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow()
 def test_worst_selfbalance(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -445,6 +451,7 @@ def test_worst_selfbalance(
         pytest.param(5 * 1024, id="5KiB"),
     ],
 )
+@pytest.mark.slow()
 def test_worst_extcodecopy_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
