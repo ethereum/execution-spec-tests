@@ -16,6 +16,8 @@
         <link rel="prev" href="../test_worst_modexp/">
       
       
+        <link rel="next" href="../test_worst_jumps/">
+      
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.33">
@@ -18610,6 +18612,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -18793,6 +18799,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_jumps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_jumps</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_jumpdests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_jumpdests</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -18876,7 +18924,7 @@
 
 
 <h1 id="test_worst_ecrecover"><code>test_worst_ecrecover()</code><a class="headerlink" href="#test_worst_ecrecover" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/25f001229803eb8dac8841f5b2fee7b36d5ca002/tests/zkevm/test_worst_compute.py#L236"><code>tests/zkevm/test_worst_compute.py::test_worst_ecrecover@25f00122</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/04abde5d0adf60ee6dfe2a34f291c692cb71adba/tests/zkevm/test_worst_compute.py#L237"><code>tests/zkevm/test_worst_compute.py::test_worst_ecrecover@04abde5d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_ecrecover --fork Prague</span>
@@ -18895,8 +18943,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
-<span class="normal">237</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">237</span>
 <span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
@@ -18927,7 +18974,8 @@
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
-<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_ecrecover</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
