@@ -242,8 +242,8 @@ def test_worst_storage_access_cold(
         # That is, storage slot `i` is initialized to `i`.
         execution_code_body = Op.SSTORE(Op.DUP1, Op.DUP1)
     elif storage_action == StorageAction.WRITE_NEW_VALUE:
-        # To generate a new value, we need to use a different value leveraging ADDRESS as a value.
-        execution_code_body = Op.SSTORE(Op.DUP2, Op.ADDRESS)
+        # The new value 2^256-1 is guaranteed to be different from the initial value.
+        execution_code_body = Op.SSTORE(Op.DUP2, Op.NOT(0))
     elif storage_action == StorageAction.READ:
         execution_code_body = Op.POP(Op.SLOAD(Op.DUP1))
 
