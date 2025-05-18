@@ -27,6 +27,7 @@
       * [Transition Tool Support](filling_tests/transition_tool_support.md)
       * [Debugging Transition Tools](filling_tests/debugging_t8n_tools.md)
   * [Consuming Tests](consuming_tests/index.md)
+      * [Consume Command](consuming_tests/consume.md)
       * [State Tests](consuming_tests/state_test.md)
       * [Blockchain Tests](consuming_tests/blockchain_test.md)
       * [Blockchain Engine Tests](consuming_tests/blockchain_test_engine.md)
