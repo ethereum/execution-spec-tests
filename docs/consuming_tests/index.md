@@ -24,6 +24,12 @@ Here's a top-level comparison of the different methods of consuming tests:
 
     The `fill` command uses `t8n` tools to generate fixtures. Whilst this will provide basic sanity checking of EVM behavior and a sub-set of post conditions are typically checked within test cases, it is not considered the actual test. The actual test is the execution of the fixture against the EVM which will check the entire post allocation and typically use different code paths than `t8n` commands.
 
+## Using the Consume Command
+
+The `consume` command provides a unified way to run test fixtures against execution clients directly within the execution-spec-tests framework. It offers several methods for consuming fixtures, including direct client testing, Engine API testing, and Hive integration.
+
+For detailed information on using the `consume` command, see the [Consume Command](./consume.md) documentation.
+
 ## Release Formats
 
 The @ethereum/execution-spec-tests repository provides [releases](https://github.com/ethereum/execution-spec-tests/releases) of fixtures in various formats (as of 2023-10-16):
