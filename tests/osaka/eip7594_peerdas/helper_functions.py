@@ -184,28 +184,29 @@ class PersistentBlobGenerator:
         return obj
 
 
-my_seed = 77
-original = PersistentBlobGenerator(my_seed)
-json_str = original.to_json()
-restored = PersistentBlobGenerator.from_json(json_str)
-assert original.name == restored.name
-assert original.blob == restored.blob
-assert original.commitments == restored.commitments
-assert original.cells == restored.cells
-assert original.proofs == restored.proofs
+for i in range(10):
+    my_seed = i
+    original = PersistentBlobGenerator(my_seed)
+    json_str = original.to_json()
+    restored = PersistentBlobGenerator.from_json(json_str)
+    assert original.name == restored.name
+    assert original.blob == restored.blob
+    assert original.commitments == restored.commitments
+    assert original.cells == restored.cells
+    assert original.proofs == restored.proofs
 
-# write to file
-original.to_file()
+    # write to file
+    original.to_file()
 
-# read from file
-file_to_read = "blob_" + str(my_seed) + ".json"
-AnotherInstanceOfBlob: PersistentBlobGenerator = PersistentBlobGenerator.from_file(file_to_read)
-#       ensure object read from file matches original object
-assert original.name == AnotherInstanceOfBlob.name, f"Expected name {original.name} but got name {AnotherInstanceOfBlob.name}"
-assert original.blob == AnotherInstanceOfBlob.blob
-assert original.commitments == AnotherInstanceOfBlob.commitments
-assert original.cells == AnotherInstanceOfBlob.cells
-assert original.proofs == AnotherInstanceOfBlob.proofs
+    # read from file
+    file_to_read = "blob_" + str(my_seed) + ".json"
+    AnotherInstanceOfBlob: PersistentBlobGenerator = PersistentBlobGenerator.from_file(file_to_read)
+    #       ensure object read from file matches original object
+    assert original.name == AnotherInstanceOfBlob.name, f"Expected name {original.name} but got name {AnotherInstanceOfBlob.name}"
+    assert original.blob == AnotherInstanceOfBlob.blob
+    assert original.commitments == AnotherInstanceOfBlob.commitments
+    assert original.cells == AnotherInstanceOfBlob.cells
+    assert original.proofs == AnotherInstanceOfBlob.proofs
 
 print("It works")
 
@@ -232,6 +233,7 @@ print("Success")
 # - trusted_setup is only loaded once
 # - rename constants to match deneb specs
 # - removed two unnecessary wrapper functions
+# - added read/write functions to class
 
 # TODO: make PersistentBlobGenerator use a pydantic model
 # TODO: uv lock
