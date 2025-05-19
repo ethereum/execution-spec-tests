@@ -2696,6 +2696,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_unop/</loc>
+         <lastmod>2025-05-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/writing_tests/</loc>
          <lastmod>2025-05-19</lastmod>
          <changefreq>daily</changefreq>
