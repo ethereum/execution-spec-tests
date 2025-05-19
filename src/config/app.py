@@ -13,7 +13,7 @@ from pydantic import BaseModel
 class AppConfig(BaseModel):
     """A class for accessing documentation-related configurations."""
 
-    version: str = "3.0.0"
+    version: str = "v4.5.0 (Hradčany)"
     """The version of the application framework."""
 
     DEFAULT_LOGS_DIR: Path = Path(__file__).resolve().parent.parent.parent / "logs"
