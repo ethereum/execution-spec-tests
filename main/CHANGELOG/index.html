@@ -20776,6 +20776,7 @@
 <li>🔀 Refactor: Encapsulate <code>fill</code>'s fixture output options (<code>--output</code>, <code>--flat-output</code>, <code>--single-fixture-per-file</code>) into a <code>FixtureOutput</code> class (<a href="https://github.com/ethereum/execution-spec-tests/pull/1471">#1471</a>,<a href="https://github.com/ethereum/execution-spec-tests/pull/1612">#1612</a>).</li>
 <li>✨ Don't warn about a "high Transaction gas_limit" for <code>zkevm</code> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1598">#1598</a>).</li>
 <li>🐞 <code>fill</code> no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or <code>--clean</code> must be used to delete it first (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608">#1608</a>).</li>
+<li>🐞 zkEVM marked tests have been removed from <code>tests-deployed</code> tox environment into its own separate workflow <code>tests-deployed-zkevm</code> and are filled by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1617">#1617</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
