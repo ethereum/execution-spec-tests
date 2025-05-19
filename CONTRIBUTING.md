@@ -214,6 +214,29 @@ The following scopes are used in this repository:
 
 #### Examples
 
+This repository's main focus are the EL client tests in `./tests/` (`scope:tests`), but it contains many unit/module tests (`type:tests`) for the test generation frameworks and libraries in this repository. This can be a bit confusing, these examples demonstrate how we apply these labels and terms:
+
+```console
+# adds new EVM tests to tests/prague/eip7702_set_code_tx/
+feat(tests): add test cases for EIP-7702
+
+# a pure EVM test code refactor; no changes to test fixture JSON (at least not to fixture hashes, IDs might change if it's too difficult to preserve them).
+refactor(tests): split test setup across several fixtures
+
+# improve EVM test docstrings (these are included in HTML documentation):
+docs(tests): improve EIP-7623 docstrings
+
+# fix an EVM test
+fix(tests): EIP-7702 test authorization list nonce/gas
+
+# add unit tests for the `execute` command
+test(execute): add tests for output dir arguments
+
+# fix a broken unit test
+test(fill): fix broken unit test
+
+Examples of messages and titles for other types and scopes:
+
 ```console
 feat(eest): add new test generator command
 fix(forks): resolve `Cancun` initialization issue
@@ -221,9 +244,6 @@ docs(fill): describe new command-line args
 refactor(tools): improve code organization in bytecode helpers
 test(pytest): add tests for logging plugin
 chore(deps): update dependency versions
-new(tests): add test cases for EIP-7702
-```
-
 ## Merging PRs
 
 We maintain high standards for our repository history to ensure it's clean, understandable, and properly documented. Maintainers should follow these guidelines when merging PRs:
