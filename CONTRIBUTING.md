@@ -47,8 +47,14 @@ When creating a new issue:
     - Include the exact commands you ran.
     - Share relevant console output.
     - Specify your environment (OS, Python version, if relevant, `uv` version from `uv --version`).
-3. **Include relevant information**:
-    - Branch and commit of execution-spec-tests you're using.
+3. **Include relevant information and versions**:
+    - Run `eest info` to get repo and tool versions and copy the information to the issue:
+
+        ```console
+        uv run eest info
+        ```
+
+    - Branch of execution-spec-tests you're using, if applicable.
     - For test failures, include the test case and failure details.
     - Screenshots if applicable.
 
