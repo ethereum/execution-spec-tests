@@ -176,8 +176,8 @@ jobs:
           # As when we translate from yul/solidity some dup/push opcodes could become untouched
           files="$files tests/homestead/coverage/test_coverage.py"
 
-          echo "uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-          uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+          echo "uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump >> filloutput.log 2>&1"
+          uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
           if grep -q "FAILURES" filloutput.log; then
               echo "Error: failed to generate .py tests."
@@ -228,8 +228,8 @@ jobs:
           rm filloutput.log
 
           if [ -n "$files_fixed" ]; then
-              echo "uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n >> filloutput.log 2>&1"
-              uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+              echo "uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump >> filloutput.log 2>&1"
+              uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
               if grep -q "FAILURES" filloutput.log; then
                 echo "Error: failed to generate .py tests from before the PR."
