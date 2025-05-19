@@ -6,21 +6,22 @@ This document outlines the coding standards and practices used in the @ethereum/
 
 Code pushed to @ethereum/execution-spec-tests must fulfill the following checks in [CI](https://github.com/ethereum/execution-spec-tests/actions/workflows/tox_verify.yaml):
 
-| Type                   | Tox Command                               | Explanation                                                                                                  |
-| ---------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Lint & code formatting | `uvx --with=tox-uv tox -e lint`           | Python lint, format and module import check via `ruff`                                                       |
-| Typecheck              | `uvx --with=tox-uv tox -e typecheck`      | Objects that provide typehints pass type-checking via `mypy`.                                                |
-| Framework unit tests   | `uvx --with=tox-uv tox -e pytest`         | All framework unit tests must execute correctly.                                                             |
-| Client test cases      | `uvx --with=tox-uv tox -e tests-deployed` | All client test cases for deployed forks can be generated.                                                   |
-| HTML doc build         | `uvx --with=tox-uv tox -e mkdocs`         | Documentation generated without warnings.                                                                    |
-| Spellcheck             | `uvx --with=tox-uv tox -e spellcheck`     | Markdown spell-check (requires [additional dependency](code_standards_details.md#additional-dependencies)). |
-| Markdown lint          | `uvx --with=tox-uv tox -e markdownlint`   | Markdown lint (requires [additional dependency](code_standards_details.md#additional-dependencies)).        |
+| Type                   | Tox Command                                     | Explanation                                                                                                 |
+| ---------------------- | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Lint & code formatting | `uvx --with=tox-uv tox -e lint`                 | Python lint, format and module import check via `ruff`                                                      |
+| Typecheck              | `uvx --with=tox-uv tox -e typecheck`            | Objects that provide typehints pass type-checking via `mypy`.                                               |
+| Framework unit tests   | `uvx --with=tox-uv tox -e pytest`               | All framework unit tests must execute correctly.                                                            |
+| EL Client test cases   | `uvx --with=tox-uv tox -e tests-deployed`       | All client test cases for deployed forks can be generated.                                                  |
+| zkEVM EL Test cases    | `uvx --with=tox-uv tox -e tests-deployed-zkevm` | All client test cases specific to zkEVMs for deployed forks can be generated.                               |
+| HTML doc build         | `uvx --with=tox-uv tox -e mkdocs`               | Documentation generated without warnings.                                                                   |
+| Spellcheck             | `uvx --with=tox-uv tox -e spellcheck`           | Markdown spell-check (requires [additional dependency](code_standards_details.md#additional-dependencies)). |
+| Markdown lint          | `uvx --with=tox-uv tox -e markdownlint`         | Markdown lint (requires [additional dependency](code_standards_details.md#additional-dependencies)).        |
 
 !!! tip "Running checks easily"
 
-    Add an alias: 
-    
-    ```
+    Add an alias:
+
+    ```console
     alias tox="uvx --with=tox-uv tox"
     ```
 
@@ -52,7 +53,7 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 
     On the command-line, solve fixable issues with:
 
-    ```
+    ```console
     uv run ruff check --fix
     ```
 
