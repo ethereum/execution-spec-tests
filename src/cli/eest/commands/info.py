@@ -7,6 +7,7 @@ import sys
 import click
 
 from config.app import AppConfig
+from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
 
 
 def run_command(command: list[str]) -> str:
@@ -23,13 +24,6 @@ def run_command(command: list[str]) -> str:
         return "unknown"
 
 
-def get_git_commit() -> str:
-    """Get the current git commit message and hash."""
-    git_hash = run_command(["git", "rev-parse", "--short=6", "HEAD"])
-    message = run_command(["git", "log", "-1", "--pretty=%s"])
-    return f"{message} ({git_hash})" if git_hash != "unknown" else "unknown"
-
-
 def get_uv_version() -> str:
     """Get the installed uv package manager version."""
     return run_command(["uv", "--version"])
@@ -40,13 +34,14 @@ def info():
     """Display EEST and system information."""
     # Format headers
     title = click.style("EEST", fg="green", bold=True)
-    version = click.style(f"{AppConfig().version}", fg="blue", bold=True)
+
+    version = AppConfig().version
 
     info_text = f"""
-    {title} {version}
+    {title} {click.style(f"v{version}", fg="blue", bold=True)}
 {"─" * 50}
 
-    Git commit: {click.style(get_git_commit(), fg="yellow")}
+    Git commit: {click.style(get_current_commit_hash_or_tag(shorten_hash=True), fg="yellow")}
     Python: {click.style(platform.python_version(), fg="blue")}
     uv: {click.style(get_uv_version(), fg="magenta")}
     OS: {click.style(f"{platform.system()} {platform.release()}", fg="cyan")}
