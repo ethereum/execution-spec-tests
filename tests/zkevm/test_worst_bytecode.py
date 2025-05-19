@@ -67,7 +67,7 @@ def test_worst_bytecode_single_opcode(
     """
     # We use 100G gas limit to be able to deploy a large number of contracts in a single block,
     # avoiding bloating the number of preparing blocks in the test.
-    env = Environment(gas_limit=1_000_000_000_000)
+    env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
     # The initcode will take its address as a starting point to the input to the keccak
