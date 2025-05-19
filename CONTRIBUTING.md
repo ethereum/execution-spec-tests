@@ -241,6 +241,7 @@ test(execute): add tests for output dir arguments
 
 # fix a broken unit test
 test(fill): fix broken unit test
+```
 
 Examples of messages and titles for other types and scopes:
 
@@ -251,6 +252,8 @@ docs(fill): describe new command-line args
 refactor(tools): improve code organization in bytecode helpers
 test(pytest): add tests for logging plugin
 chore(deps): update dependency versions
+```
+
 ## Merging PRs
 
 We maintain high standards for our repository history to ensure it's clean, understandable, and properly documented. Maintainers should follow these guidelines when merging PRs:
