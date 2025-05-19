@@ -103,7 +103,7 @@ class PersistentBlobGenerator:
     # e.g. PersistentBlobGenerator(42) creates blob_42.json in cwd and contains blob, commitment, cells and proofs. 42 stands for the rng seed used  # noqa: E501
     encoding: str = "utf-8"
 
-    def __init__(self, rng_seed: int):
+    def __init__(self, rng_seed: int = 0):
         """Construct."""
         # safely derive blob from input
         blob: bytes | None = generate_blob_from_seed(rng_seed)
@@ -157,7 +157,7 @@ class PersistentBlobGenerator:
         proofs: list[bytes] = [b64.b64decode(s) for s in data["b64_proofs"]]
 
         # get data
-        obj = cls(0) # dummy object
+        obj = cls(1337) # dummy object
         obj.name = data["name"]
         obj.blob = blob
         obj.commitments = commitments
@@ -165,8 +165,27 @@ class PersistentBlobGenerator:
         obj.proofs = proofs
         return obj
 
+    def to_file(self):
+        """Take an object, serialize it and write it to disk as json."""
+        file_name: str = self.name + ".json"
+        json_str: str = self.to_json()
+        with open(file_name, "w", encoding=self.encoding) as f: # overwrite existing
+            f.write(json_str)
 
-original = PersistentBlobGenerator(55)
+    @classmethod
+    def from_file(cls, file_name: str) -> "PersistentBlobGenerator":
+        """Read a .json file and reconstruct object it represents."""
+        # read json
+        with open(file_name, "r", encoding=cls.encoding) as f:
+            json_str: str = f.read()
+
+        # reconstruct object
+        obj: PersistentBlobGenerator = cls.from_json(json_str)
+        return obj
+
+
+my_seed = 77
+original = PersistentBlobGenerator(my_seed)
 json_str = original.to_json()
 restored = PersistentBlobGenerator.from_json(json_str)
 assert original.name == restored.name
@@ -174,6 +193,20 @@ assert original.blob == restored.blob
 assert original.commitments == restored.commitments
 assert original.cells == restored.cells
 assert original.proofs == restored.proofs
+
+# write to file
+original.to_file()
+
+# read from file
+file_to_read = "blob_" + str(my_seed) + ".json"
+AnotherInstanceOfBlob: PersistentBlobGenerator = PersistentBlobGenerator.from_file(file_to_read)
+#       ensure object read from file matches original object
+assert original.name == AnotherInstanceOfBlob.name, f"Expected name {original.name} but got name {AnotherInstanceOfBlob.name}"
+assert original.blob == AnotherInstanceOfBlob.blob
+assert original.commitments == AnotherInstanceOfBlob.commitments
+assert original.cells == AnotherInstanceOfBlob.cells
+assert original.proofs == AnotherInstanceOfBlob.proofs
+
 print("It works")
 
 """ Example Usage
@@ -201,7 +234,6 @@ print("Success")
 # - removed two unnecessary wrapper functions
 
 # TODO: make PersistentBlobGenerator use a pydantic model
-# TODO: PersistentBlobGenerator needs functions for writing/reading to/from file
 # TODO: uv lock
 
 # ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
