@@ -2,7 +2,7 @@
     "EELSMaster": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
         "branch": "master",
-        "commit": "fa847a0e48309debee8edc510ceddb2fd5db2f2e"
+        "commit": "v1.17.0"
     },
     "Frontier": {
         "same_as": "EELSMaster"
@@ -36,6 +36,6 @@
     },
     "Prague": {
         "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "forks/prague"
+        "same_as": "EELSMaster"
     }
 }

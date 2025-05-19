@@ -101,7 +101,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
-          ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
+          ref: v1.17.0
           path: execution-specs
           sparse-checkout: |
             src/ethereum
@@ -144,7 +144,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
-          ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
+          ref: v1.17.0
           path: execution-specs
           sparse-checkout: |
             src/ethereum
