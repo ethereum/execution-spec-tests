@@ -56,6 +56,9 @@ def test_worst_address_state_cold(
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+    # For calculation robustness, the calculation below ignores "glue" opcodes like  PUSH and POP.
+    # It should be considered a worst-case number of accounts, and a few of them might not be
+    # targeted before the attacking transaction runs out of gas.
     num_target_accounts = (
         attack_gas_limit - intrinsic_gas_cost_calc()
     ) // gas_costs.G_COLD_ACCOUNT_ACCESS
