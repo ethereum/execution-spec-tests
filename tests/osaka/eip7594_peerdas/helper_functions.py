@@ -4,100 +4,58 @@ abstract: Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://ei
 """  # noqa: E501
 import base64 as b64
 import json
-import math
+from os.path import realpath
+from pathlib import Path
+from random import randrange, seed
 
 import ckzg
-
 from spec import Spec, ref_spec_7594
+
+TRUSTED_SETUP_FILE_NAME = "trusted_setup.txt"
+TRUSTED_SETUP_PATH = Path(realpath(__file__)).parent / TRUSTED_SETUP_FILE_NAME
+TRUSTED_SETUP = ckzg.load_trusted_setup(str(TRUSTED_SETUP_PATH), 0)
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7594.version
+
 
 def bytes_from_hex(hex_string):
     """Convert a hex string to bytes."""
     return bytes.fromhex(hex_string.replace("0x", ""))
 
-def generate_blob_from_hex_byte(hex_byte: str) -> bytes | None:
-    """Take a singular hex byte string and return a valid blob built from this byte."""
-    # preparation (remove 0x if present)
-    if "0x" in hex_byte:
-        hex_byte = hex_byte.replace("0x", "", 1)
+def generate_blob_from_seed(rng_seed: int) -> bytes | None:
+    """Take a seed and deterministically returns a valid blob generated from this seed."""
+    # apply RNG seed
+    seed(rng_seed)
 
-    # validity checks
-    if len(hex_byte) != 2:
-        print("You should have passed a singular hex byte like e.g. fe to this function")
-        return None
-
-    if int(hex_byte, 16) > 115:
-        # TODO: figure out why this happens
-        print("For some reason bytes larger than this will lead to errors later in compute_cells(), so it's not allowed for now.")  # noqa: E501
-        return None
-
-    hex_byte = hex_byte.lower()
-
-    valid_chars = "0123456789abcdef"
-    if (hex_byte[0] not in valid_chars) or (hex_byte[1] not in valid_chars):
-        print("You should have passed a singular hex byte consisting of only two chars in 0-9 and a-f like e.g. fe to this function")  # noqa: E501
-        return None
-
-
-    # create blob
-    exp = int(math.log2(Spec.BYTES_PER_BLOB))
-    blob_string: str = "0x" + hex_byte * (2**exp)
-    blob: bytes = bytes_from_hex(blob_string)
+    # generate blob
+    ints: list[int] = [randrange(Spec.BLS_MODULUS) for _ in range(Spec.FIELD_ELEMENTS_PER_BLOB)]            # len: 4096  # noqa: E501
+    encoded: list[bytes] = [i.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, Spec.KZG_ENDIANNESS) for i in ints]    # len: 4096  # noqa: E501
+    blob: bytes = b"".join(encoded) # without 0x
 
     return blob
-
 
 def eest_blob_to_kzg_commitment(blob: bytes) -> bytes:
     """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
     # sanity check
-    expected_blob_length = 2**int(math.log2(Spec.BYTES_PER_BLOB))
-    assert len(blob) == expected_blob_length, f"Expected blob of length {expected_blob_length} but got blob of length {len(blob)}"  # noqa: E501
+    assert len(blob) == Spec.BYTES_PER_BLOB, f"Expected blob of length {Spec.BYTES_PER_BLOB} but got blob of length {len(blob)}"  # noqa: E501
 
     # calculate commitment
-    ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
-    commitment = ckzg.blob_to_kzg_commitment(blob, ts)
+    commitment = ckzg.blob_to_kzg_commitment(blob, TRUSTED_SETUP)
 
-    assert len(commitment) == Spec.KZG_COMMITMENT_LENGTH, f"Expected {Spec.KZG_COMMITMENT_LENGTH} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
+    assert len(commitment) == Spec.BYTES_PER_COMMITMENT, f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
 
     return commitment
 
-
-def eest_compute_cells(blob: bytes) -> list[int]:
-    """Take a blob and returns a list of cells that are derived from this blob."""
-    ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
-
-    cells = ckzg.compute_cells(blob, ts)
-
-    assert len(cells) == 128
-
-    return cells
-
-
-def eest_compute_cells_and_kzg_proofs(blob: bytes) -> tuple[list[bytes], list[bytes]]:
-    """Take a blob and returns a list of cells and a list of proofs derived from this blob."""
-    ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
-
-    cells, proofs = ckzg.compute_cells_and_kzg_proofs(blob, ts) # both returns are of type list
-
-    assert len(cells) == 128
-    assert len(proofs) == 128
-
-    return cells, proofs
-
-
 def eest_verify_cell_kzg_proof_batch(commitment: bytes, cell_indices: list, cells: list, proofs: list) -> bool:  # noqa: E501
     """Check whether all cell proofs are valid and returns True only if that is the case."""
-    ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
-
     # sanity check
     assert len(cell_indices) == len(cells), f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(cells)}) should have same length."  # noqa: E501
 
     # each cell refers to the same commitment
     commitments: list[bytes] = [commitment] * len(cell_indices)
 
-    is_valid = ckzg.verify_cell_kzg_proof_batch(commitments, cell_indices, cells, proofs, ts)
+    is_valid = ckzg.verify_cell_kzg_proof_batch(commitments, cell_indices, cells, proofs, TRUSTED_SETUP)  # noqa: E501
 
     return is_valid
 
@@ -127,47 +85,47 @@ def eest_delete_cells_then_recover_them(cells: list[bytes], proofs: list[bytes],
     # print(f"Cells: {cells}\nDeletion Indices: {deletion_indices}\nRemaining indices: {remaining_indices}\nRemaining cells: {remaining_cells}")  # noqa: E501
 
     # try to reconstruct cells
-    ts = ckzg.load_trusted_setup("trusted_setup.txt", 0)
-    recovered_cells, recovered_proofs = ckzg.recover_cells_and_kzg_proofs(remaining_indices, remaining_cells, ts) # on success returns two lists of len 128  # noqa: E501
+    recovered_cells, recovered_proofs = ckzg.recover_cells_and_kzg_proofs(remaining_indices, remaining_cells, TRUSTED_SETUP) # on success returns two lists of len 128  # noqa: E501
 
     # determine success/failure
     assert len(recovered_cells) == len(cells), f"Failed to recover cell list. Original cell list had length {len(cells)} but recovered cell list has length {len(recovered_cells)}"  # noqa: E501
     assert len(recovered_proofs) == len(proofs), f"Failed to recover proofs list. Original proofs list had length {len(proofs)} but recovered proofs list has length {len(recovered_proofs)}"  # noqa: E501
 
     for i in range(len(recovered_cells)):
-        assert cells[i] == recovered_cells[i], f"Failed to correctly restore missing cells. At index {i} original cell was {cells[i]} but reconstructed cell does not match: {recovered_cells[i]}"  # noqa: E501
-        assert proofs[i] == recovered_proofs[i], f"Failed to correctly restore missing proofs. At index {i} original proof was {proofs[i]} but reconstructed proof does not match: {recovered_proofs[i]}"  # noqa: E501
+        assert cells[i] == recovered_cells[i], f"Failed to correctly restore missing cells. At index {i} original cell was 0x{cells[i].hex()} but reconstructed cell does not match: 0x{recovered_cells[i].hex()}"  # noqa: E501
+        assert proofs[i] == recovered_proofs[i], f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{proofs[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"  # noqa: E501
 
     # print("Successful reconstruction")
 
 class PersistentBlobGenerator:
-    # PersistentBlobGenerator("4a") creates blob_4a.json in cwd and contains blob, commitment, cells and proofs
+    """PersistentBlobGenerator takes an rng seed and returns a valid blob deterministically derived from it."""  # noqa: E501
+
+    # e.g. PersistentBlobGenerator(42) creates blob_42.json in cwd and contains blob, commitment, cells and proofs. 42 stands for the rng seed used  # noqa: E501
     encoding: str = "utf-8"
 
-    def __init__(self, singular_byte: str):
+    def __init__(self, rng_seed: int):
+        """Construct."""
         # safely derive blob from input
-        blob: bytes | None = generate_blob_from_hex_byte(singular_byte)
-        assert blob is not None, f"PersistentBlobGenerator received invalid input: {singular_byte}"
-
-        if "0x" in singular_byte:
-            singular_byte = singular_byte.replace("0x", "", 1)
+        blob: bytes | None = generate_blob_from_seed(rng_seed)
+        assert blob is not None, f"PersistentBlobGenerator received invalid rng_seed: {rng_seed}"
 
         commitment: bytes = eest_blob_to_kzg_commitment(blob)
-        cells, proofs = eest_compute_cells_and_kzg_proofs(blob)
+        cells, proofs = ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
 
         # populate instance
-        self.name: str = "blob_" + singular_byte
+        self.name: str = "blob_" + str(rng_seed)
         self.blob: bytes = blob
         self.commitments: list[bytes] = [commitment] * len(cells)
         self.cells: list[bytes] = cells
         self.proofs: list[bytes] = proofs
 
     def to_json(self) -> str:
+        """Convert object to json-compatible string."""
         # json does not support bytes, so we b64 encode these fields into strings
         #       blob: bytes -> str
         b64_blob_str: str = b64.b64encode(self.blob).decode(self.encoding)
         #       commitments: list[bytes] -> list[str]
-        b64_commitment_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.commitments]
+        b64_commitment_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.commitments]  # noqa: E501
         #       cells: list[bytes] -> list[str]
         b64_cell_list: list[str] = [b64.b64encode(c).decode(self.encoding) for c in self.cells]
         #       proofs: list[bytes] -> list[str]
@@ -183,9 +141,10 @@ class PersistentBlobGenerator:
 
 
         return json.dumps(json_dict)
-    
+
     @classmethod
     def from_json(cls, json_str: str) -> "PersistentBlobGenerator":
+        """Take json and reconstruct blob it represents."""
         data = json.loads(json_str)
 
         # convert b64 blob back to bytes
@@ -196,9 +155,9 @@ class PersistentBlobGenerator:
         cells: list[bytes] = [b64.b64decode(s) for s in data["b64_cells"]]
         # convert b64 proofs back to list[bytes]
         proofs: list[bytes] = [b64.b64decode(s) for s in data["b64_proofs"]]
-        
+
         # get data
-        obj = cls("00") # dummy object
+        obj = cls(0) # dummy object
         obj.name = data["name"]
         obj.blob = blob
         obj.commitments = commitments
@@ -207,7 +166,7 @@ class PersistentBlobGenerator:
         return obj
 
 
-original = PersistentBlobGenerator("4a")
+original = PersistentBlobGenerator(55)
 json_str = original.to_json()
 restored = PersistentBlobGenerator.from_json(json_str)
 assert original.name == restored.name
@@ -217,15 +176,12 @@ assert original.cells == restored.cells
 assert original.proofs == restored.proofs
 print("It works")
 
-# TODO: add write to file / read from file
-
 """ Example Usage
-my_byte = "42" # 0x73 (115) or lower works, 0x74 (116) or higher fails
 # generate blob
-blob: bytes | None = generate_blob_from_hex_byte(my_byte)
+blob: bytes | None = generate_blob_from_seed(5)
 assert blob is not None, "blob is None"
 # get cells and proofs
-cells, proofs = eest_compute_cells_and_kzg_proofs(blob)
+cells, proofs = ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
 # delete some cells and recover them again
 deletion_indices: list[int] = [5, 42, 100]
 eest_delete_cells_then_recover_them(cells, proofs, deletion_indices)
@@ -238,3 +194,15 @@ my_cell_indices: list[int] = list(range(128))
 is_valid = eest_verify_cell_kzg_proof_batch(commitment, my_cell_indices, cells, proofs)
 print("Success")
 """
+
+# - blob is now deterministically generated via seed
+# - trusted_setup is only loaded once
+# - rename constants to match deneb specs
+# - removed two unnecessary wrapper functions
+
+# TODO: make PersistentBlobGenerator use a pydantic model
+# TODO: PersistentBlobGenerator needs functions for writing/reading to/from file
+# TODO: uv lock
+
+# ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
+# ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
