@@ -1003,3 +1003,4 @@ backticked
 Typecheck
 autoformat
 Typechecking
+zkEVMs
