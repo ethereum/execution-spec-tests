@@ -36,7 +36,7 @@ MAX_CODE_SIZE = 24 * 1024
     ],
 )
 @pytest.mark.parametrize(
-    "absent_targets",
+    "absent_accounts",
     [
         True,
         False,
@@ -48,7 +48,7 @@ def test_worst_address_state_cold(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    absent_targets: bool,
+    absent_accounts: bool,
 ):
     """Test running a block with as many stateful opcodes accessing cold accounts."""
     env = Environment(gas_limit=100_000_000_000)
@@ -72,7 +72,7 @@ def test_worst_address_state_cold(
     # collisions with the addresses indirectly created by the testing framework.
     addr_offset = 100_000
 
-    if not absent_targets:
+    if not absent_accounts:
         factory_code = Op.PUSH4(num_target_accounts) + While(
             body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
