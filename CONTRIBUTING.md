@@ -118,7 +118,7 @@ Branch names should follow this format:
 <type>/<short-description>
 ```
 
-Where `<type>` matches the semantic commit types:
+Where `<type>` matches the [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) types:
 
 - `feat/` - For new features.
 - `fix/` - For bug fixes.
@@ -168,7 +168,7 @@ It's recommended to keep changes logically grouped into smaller, individual comm
 
 ### Commit Messages, Issue and PR Titles
 
-We use semantic commit messages and PR titles following the format:
+We use [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) messages and PR titles following the format:
 
 ```console
 <type>(<scope>): <description>
@@ -180,6 +180,7 @@ We use semantic commit messages and PR titles following the format:
 - The description should be clear and concise.
 - No period at the end of the title/message.
 - Use the imperative ("add" not "added" or "adds").
+- A breaking change should be indicated by appending `!` directly after the type/scope.
 
 #### Types
 
@@ -270,7 +271,7 @@ We maintain high standards for our repository history to ensure it's clean, unde
 
 3. **Check PR title format**
 
-    - The PR title must follow our semantic commit format: `<type>(<scope>): <description>`.
+    - The PR title must follow the [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) format: `<type>(<scope>): <description>`.
     - This title will be used (suggested automatically by Github) as the squash commit message, so it's essential it's correct.
     - Follow the same rules as commit messages (imperative tense, no period at end, etc.).
     - Example: `feat(tests): add tests for EIP-7702 blob gas calculation`
