@@ -51,6 +51,7 @@ pip-delete-this-directory.txt
 # misc
 *.code-workspace
 verify_kzg_proof
+.vscode/launch.json
 .vscode/launch.recommended.json
 .vscode/settings.local.recommended.json
 
