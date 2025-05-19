@@ -67,36 +67,42 @@ We welcome contributions via pull requests! This section will guide you through 
     cd execution-spec-tests
     ```
 
-3. **Set up your environment**:
+3. **Install `uv`**:
 
     ```bash
-    uv python install 3.11
-    uv python pin 3.11
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
+
+4. **Set up your environment**:
+
+    ```bash
+    uv python install 3.12
+    uv python pin 3.12
     uv sync --all-extras
     uv run solc-select use 0.8.24 --always-install
     ```
 
     See [installation troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting) if you encounter issues.
 
-4. **Create a branch** for your changes:
+5. **Create a branch** for your changes:
 
     ```bash
     git checkout -b your-branch-name
     ```
 
-5. **Make your changes** according to our [code standards](https://eest.ethereum.org/main/getting_started/code_standards).
+6. **Make your changes** according to our [code standards](https://eest.ethereum.org/main/getting_started/code_standards).
 
-6. **For EVM Tests**: Review the cases in the [EIP checklist template](./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md).
+7. **For EVM Tests**: Review the cases in the [EIP checklist template](./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md).
 
-7. **Verify your changes** by running the appropriate checks:
+8. **Verify your changes** by running the appropriate checks:
 
     ```bash
     uvx --with=tox-uv tox -e lint,typecheck
     ```
 
-8. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
+9. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
 
-9. **Push your branch** to your GitHub fork:
+10. **Push your branch** to your GitHub fork:
 
     ```bash
     git push -u origin your-branch-name
