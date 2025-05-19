@@ -70,7 +70,7 @@ def test_worst_address_state_cold(
     # The target addresses are going to be constructed (in the case of absent=False) and called
     # as addr_offset + i, where i is the index of the account. This is to avoid
     # collisions with the addresses indirectly created by the testing framework.
-    addr_offset = 100_000
+    addr_offset = int.from_bytes(pre.fund_eoa(amount=0))
 
     if not absent_accounts:
         factory_code = Op.PUSH4(num_target_accounts) + While(
@@ -82,7 +82,6 @@ def test_worst_address_state_cold(
         setup_tx = Transaction(
             to=factory_address,
             gas_limit=env.gas_limit,
-            gas_price=10,
             sender=pre.fund_eoa(),
         )
         blocks.append(Block(txs=[setup_tx]))
@@ -100,7 +99,6 @@ def test_worst_address_state_cold(
     op_tx = Transaction(
         to=op_address,
         gas_limit=attack_gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
     blocks.append(Block(txs=[op_tx]))
@@ -170,7 +168,6 @@ def test_worst_address_state_warm(
     op_tx = Transaction(
         to=op_address,
         gas_limit=attack_gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
@@ -281,7 +278,6 @@ def test_worst_storage_access_cold(
         to=None,
         gas_limit=env.gas_limit,
         data=creation_code,
-        gas_price=10,
         sender=sender_addr,
     )
     blocks.append(Block(txs=[setup_tx]))
@@ -291,7 +287,6 @@ def test_worst_storage_access_cold(
     op_tx = Transaction(
         to=contract_address,
         gas_limit=attack_gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
     blocks.append(Block(txs=[op_tx]))
@@ -359,7 +354,6 @@ def test_worst_storage_access_warm(
         to=None,
         gas_limit=env.gas_limit,
         data=creation_code,
-        gas_price=10,
         sender=sender_addr,
     )
     blocks.append(Block(txs=[setup_tx]))
@@ -369,7 +363,6 @@ def test_worst_storage_access_warm(
     op_tx = Transaction(
         to=contract_address,
         gas_limit=attack_gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
     blocks.append(Block(txs=[op_tx]))
@@ -403,7 +396,6 @@ def test_worst_blockhash(
     op_tx = Transaction(
         to=execution_code_address,
         gas_limit=env.gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
     blocks.append(Block(txs=[op_tx]))
@@ -433,7 +425,6 @@ def test_worst_selfbalance(
     op_tx = Transaction(
         to=execution_code_address,
         gas_limit=env.gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
@@ -479,7 +470,6 @@ def test_worst_extcodecopy_warm(
     op_tx = Transaction(
         to=execution_code_address,
         gas_limit=env.gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
