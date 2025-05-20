@@ -504,6 +504,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -638,6 +646,90 @@
   
   <span class="md-ellipsis">
     Installation Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code_standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code Standards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../code_standards_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detailed Code Standards
   </span>
   
 
@@ -19028,18 +19120,22 @@
 </div>
 <p>If installed via <code>curl</code>, <code>uv</code> will download Python for your target platform if one of the required versions (Python 3.10, 3.11 or 3.12) is not available natively.</p>
 <h2 id="installation-commands">Installation Commands<a class="headerlink" href="#installation-commands" title="Permanent link">&para;</a></h2>
-<p>Clone <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> and install its dependencies.</p>
+<p>Clone <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> and install its dependencies. We recommend using Python 3.12, the following uses <code>uv</code> to download and configures 3.12 to be the Python version used in execution-spec-tests:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">All x86-64 platforms and ARM64 macOS</label><label for="__tabbed_2_2">ARM64 Linux</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
 <span class="go">cd execution-spec-tests</span>
+<span class="go">uv python install 3.12</span>
+<span class="go">uv python pin 3.12</span>
 <span class="go">uv sync --all-extras</span>
 <span class="go">uv run solc-select use 0.8.24 --always-install</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p><div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
+<span class="go">uv python install 3.12</span>
+<span class="go">uv python pin 3.12</span>
 <span class="go">cd execution-spec-tests</span>
 <span class="go">uv sync --all-extras</span>
 </code></pre></div>

@@ -502,6 +502,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -566,6 +574,90 @@
   
   <span class="md-ellipsis">
     Installation Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code Standards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detailed Code Standards
   </span>
   
 
@@ -18918,55 +19010,9 @@
 
 
 <h1 id="code-standards">Code Standards<a class="headerlink" href="#code-standards" title="Permanent link">&para;</a></h1>
-<p>The Python code in the tests subdirectory <code>./tests</code> must fulfill the following checks:</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>Command</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td><code>ruff check tests</code></td>
-<td>Python lint, format and imports check.</td>
-</tr>
-<tr>
-<td>2</td>
-<td><code>mypy tests</code></td>
-<td>Objects that provide typehints pass type-checking via mypy.</td>
-</tr>
-<tr>
-<td>3</td>
-<td><code>fill</code></td>
-<td>All tests must execute correctly.</td>
-</tr>
-<tr>
-<td>4</td>
-<td><code>mkdocs build --strict</code></td>
-<td>Documentation generated without warnings.</td>
-</tr>
-<tr>
-<td>5</td>
-<td><code>pyspelling</code></td>
-<td>Markdown spell-check.</td>
-</tr>
-<tr>
-<td>6</td>
-<td><code>markdownlint-cli2</code></td>
-<td>Markdown lint check.</td>
-</tr>
-</tbody>
-</table>
-<p>A correctly configured editor (see <a href="../../getting_started/setup_vs_code/">VS Code Setup</a>) will ensure that most points are resolved automatically upon file save.</p>
-<p>Additionally, if you skip type hints, they won't be checked; we can help you add these in the PR.</p>
-<p>These checks must pass in order for the execution-spec-tests Github Actions to pass upon pushing to remote.</p>
-<div class="admonition info">
-<p class="admonition-title">Running the checks with tox</p>
-<p>All these checks can be executed locally in a single command, <code>tox</code>, see <a href="../verifying_changes/">Verifying Changes</a>.</p>
-<p>If you need help, <a href="../../getting_started/getting_help/">get in touch</a>!</p>
+<div class="admonition warning">
+<p class="admonition-title">Documentation Moved</p>
+<p>This documentation has been relocated to <a href="../../getting_started/code_standards/">Code Standards</a>. Please use the new location for the most up-to-date information.</p>
 </div>
 
 
@@ -18988,14 +19034,12 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
-        <a href="mailto:165581775+redistay@users.noreply.github.com">redistay</a>, 
-        <a href="mailto:spencer.taylor-brown@ethereum.org">spencer</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
     </nav>
   </span>
 

@@ -496,6 +496,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -560,6 +568,90 @@
   
   <span class="md-ellipsis">
     Installation Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code Standards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detailed Code Standards
   </span>
   
 
@@ -18919,6 +19011,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#upgrading-pinned-dependencies-in-uvlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading Pinned Dependencies in uv.lock
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -18945,6 +19046,16 @@
 <div class="admonition note">
 <p class="admonition-title">Packages should be managed via <code>uv</code></p>
 <p>Dependencies should be managed using <code>uv</code> on the command-line to ensure that version compatibility is ensured across all dependencies and that <code>uv.lock</code> is updated as required.</p>
+<p>The docs below cover common operations, see the <code>uv</code> <a href="https://docs.astral.sh/uv/concepts/projects/dependencies/#multiple-sources">documentation on managing dependencies</a> for more information.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Separate PRs are preferred when managing dependencies</p>
+<p>An upgrade of all pinned dependencies in <code>uv.lock</code> must be performed in a dedicated PR!</p>
+<p>For other dependency changes, they can be included in the PR that removed use of the library, for example. But if a version bump is made, without related source code changes, it should be done in a dedicated PR. This makes the change:</p>
+<ul>
+<li>Easier to track.</li>
+<li>Trivial to revert.</li>
+</ul>
 </div>
 <h3 id="addingmodifying-direct-dependencies">Adding/modifying direct dependencies<a class="headerlink" href="#addingmodifying-direct-dependencies" title="Permanent link">&para;</a></h3>
 <p>These are packages listed in the project's direct dependencies, i.e., in <code>pyproject.toml</code> <code>[project]</code> section:</p>
@@ -18988,6 +19099,15 @@
 <div class="highlight"><pre><span></span><code>uv add --optional lint &quot;types-requests&gt;=2.31,&lt;2.33&quot;
 </code></pre></div>
 </div>
+<h2 id="upgrading-pinned-dependencies-in-uvlock">Upgrading Pinned Dependencies in <code>uv.lock</code><a class="headerlink" href="#upgrading-pinned-dependencies-in-uvlock" title="Permanent link">&para;</a></h2>
+<p>To upgrade all pinned dependencies in <code>uv.lock</code> to the latest version permitted by EEST's <code>project.toml</code> version specifiers run:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv lock --upgrade</span>
+</code></pre></div>
+<p>Project-wide dependency upgrades must be made via a dedicated PR!</p>
+<p>To upgrade a single package run:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv lock --upgrade-package &lt;package&gt;</span>
+</code></pre></div>
+<p>See <a href="https://docs.astral.sh/uv/concepts/projects/sync/#upgrading-locked-package-versions">Locking and Syncing</a> in the <code>uv</code> docs for more information.</p>
 
 
 

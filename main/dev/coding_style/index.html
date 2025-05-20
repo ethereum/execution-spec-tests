@@ -502,6 +502,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -566,6 +574,90 @@
   
   <span class="md-ellipsis">
     Installation Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/security/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Code Standards
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/code_standards_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Detailed Code Standards
   </span>
   
 
@@ -1641,17 +1733,6 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Coding Style
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1661,49 +1742,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#formatting-and-line-length" class="md-nav__link">
-    <span class="md-ellipsis">
-      Formatting and Line Length
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Formatting and Line Length">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ignoring-bulk-change-commits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ignoring Bulk Change Commits
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -18955,38 +18993,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#formatting-and-line-length" class="md-nav__link">
-    <span class="md-ellipsis">
-      Formatting and Line Length
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Formatting and Line Length">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ignoring-bulk-change-commits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Ignoring Bulk Change Commits
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -19004,15 +19010,10 @@
 
 
 <h1 id="coding-style">Coding Style<a class="headerlink" href="#coding-style" title="Permanent link">&para;</a></h1>
-<h2 id="formatting-and-line-length">Formatting and Line Length<a class="headerlink" href="#formatting-and-line-length" title="Permanent link">&para;</a></h2>
-<p>The Python code in execution-spec-tests is black formatted with a maximum line length of 100. Using VS Code with <code>editor.formatOnSave</code> is a big help to ensure files conform to the repo's coding style, see <a href="../../getting_started/setup_vs_code/">VS Code Setup</a> to configure this and other useful settings.</p>
-<h3 id="ignoring-bulk-change-commits">Ignoring Bulk Change Commits<a class="headerlink" href="#ignoring-bulk-change-commits" title="Permanent link">&para;</a></h3>
-<p>The max line length was changed from 80 to 100 in Q2 2023. To ignore this bulk change commit in git blame output, use the <code>.git-blame-ignore-revs</code> file, for example:</p>
-<div class="highlight"><pre><span></span><code><span class="go">git blame --ignore-revs-file .git-blame-ignore-revs docs/gen_test_case_reference.py</span>
-</code></pre></div>
-<p>To use the revs file persistently with <code>git blame</code>, run</p>
-<div class="highlight"><pre><span></span><code><span class="go">git config blame.ignoreRevsFile .git-blame-ignore-revs</span>
-</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Documentation Moved</p>
+<p>This documentation has been relocated to <a href="../../getting_started/code_standards/">Getting Started -&gt; Code Standards</a>. Please use the new location for the most up-to-date information.</p>
+</div>
 
 
 

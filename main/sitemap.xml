@@ -156,6 +156,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/getting_started/code_standards/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/getting_started/code_standards_details/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/getting_started/contributing/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/getting_started/getting_help/</loc>
          <lastmod>2025-05-20</lastmod>
          <changefreq>daily</changefreq>
@@ -172,6 +187,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/getting_started/repository_overview/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/getting_started/security/</loc>
          <lastmod>2025-05-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
