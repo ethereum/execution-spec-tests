@@ -245,7 +245,7 @@ class Blob(CamelModel):
     cells: List[Bytes] | None  # None  < Osaka, List[Bytes] >= Osaka
 
     versioned_hash: Hash
-    name: str
+    name: str  # blob_<fork>_<seed>
     fork: str
     timestamp: int
 
@@ -326,10 +326,12 @@ class Blob(CamelModel):
             f.write(json_str)
 
 
-def LoadBlobFromFile(seed: int) -> Blob:
+def LoadBlobFromFile(file_name: str) -> Blob:
     """Read a .json file and reconstruct object it represents."""
     # TODO: file_name should match location defined in write_to_file
-    file_name: str = "blob_" + str(seed) + ".json"
+    if ".json" not in file_name:
+        file_name = file_name + ".json"
+
     with open(file_name, "r", encoding="utf-8") as f:
         json_str: str = f.read()
 
@@ -366,7 +368,7 @@ def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
 
     def get_name(seed: int) -> str:
         """Derive blob name from the seed that generates its data."""
-        return "blob_" + str(seed)
+        return "blob_" + fork + "_" + str(seed)
 
     def get_commitment(data: Bytes) -> Bytes:
         """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
@@ -425,7 +427,9 @@ def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
     )
 
 
-b = NewBlob("osaka", 1337)
+fork = "osaka"
+seed = 1337  # fork+seed is the unique ID of a blob
+b = NewBlob(fork, seed)
 json_str: str = b.model_dump_json()
 restored: Blob = Blob.model_validate_json(json_str)
 assert b.data == restored.data
@@ -438,7 +442,9 @@ assert b.fork == restored.fork
 assert b.timestamp == restored.timestamp
 
 b.write_to_file()
-c: Blob = LoadBlobFromFile(1337)  # annoying: have to put dummy value for fork
+c: Blob = LoadBlobFromFile(
+    "blob_" + fork + "_" + str(seed)
+)  # or just put filename blob_osaka_1337
 assert b.data == c.data
 assert b.commitment == c.commitment
 assert b.proof == c.proof
