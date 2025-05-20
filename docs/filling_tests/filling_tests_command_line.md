@@ -159,7 +159,7 @@ Arguments defining filler location and output:
                         in '.tar.gz', then the specified tarball is additionally created (the fixtures
                         are still written to the specified path without the '.tar.gz' suffix). Can be
                         deleted. Default: './fixtures'.
-  --flat-output         Output each test case in the directory without the folder structure.
+  --flat-output         [DEPRECATED] Output each test case in the directory without the folder structure. This flag will be removed in a future version.
   --single-fixture-per-file
                         Don't group fixtures in JSON files by test function; write each fixture to its
                         own file. This can be used to increase the granularity of --verify-fixtures.
