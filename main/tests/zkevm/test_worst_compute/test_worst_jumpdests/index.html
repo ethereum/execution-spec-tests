@@ -18620,6 +18620,8 @@
       
         
       
+        
+      
     
     
       
@@ -18887,6 +18889,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_shifts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_shifts</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -18970,7 +18993,7 @@
 
 
 <h1 id="test_worst_jumpdests"><code>test_worst_jumpdests()</code><a class="headerlink" href="#test_worst_jumpdests" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d9f5eabebb35b4f6a44e10f9163aa27e31125c52/tests/zkevm/test_worst_compute.py#L329"><code>tests/zkevm/test_worst_compute.py::test_worst_jumpdests@d9f5eabe</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b0c9ced18547e6250ab844ee1953b438137af119/tests/zkevm/test_worst_compute.py#L331"><code>tests/zkevm/test_worst_compute.py::test_worst_jumpdests@b0c9ced1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_jumpdests --fork Prague</span>
@@ -18989,9 +19012,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">331</span>
 <span class="normal">332</span>
 <span class="normal">333</span>
 <span class="normal">334</span>
@@ -19021,7 +19042,9 @@
 <span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span>
-<span class="normal">361</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
 <span class="k">def</span> <span class="nf">test_worst_jumpdests</span><span class="p">(</span>
