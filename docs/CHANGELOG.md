@@ -8,6 +8,10 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
+Tests for the Prague fork are now marked as stable will be included in the `fixtures_stable.tar.gz` tarball from now on.
+
+Tests for the Osaka fork are now included in the `fixtures_develop.tar.gz` tarball.
+
 ### 💥 Important Change for `fill` Users
 
 The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
