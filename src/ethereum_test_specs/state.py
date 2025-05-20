@@ -7,7 +7,7 @@ from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Seq
 import pytest
 from pydantic import Field
 
-from ethereum_clis import TransitionTool
+from ethereum_clis import BesuTransitionTool, TransitionTool
 from ethereum_test_base_types import HexNumber
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
 from ethereum_test_execution import (
@@ -175,10 +175,18 @@ class StateTest(BaseTest):
                 f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
                 stacklevel=2,
             )
-        pre_alloc = Alloc.merge(
-            Alloc.model_validate(fork.pre_allocation()),
-            self.pre,
-        )
+
+        if isinstance(t8n, BesuTransitionTool):
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation_blockchain()),
+                self.pre,
+            )
+        else:
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation()),
+                self.pre,
+            )
+
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
 
