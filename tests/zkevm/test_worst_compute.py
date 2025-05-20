@@ -6,39 +6,44 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
+import random
 
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Environment, Transaction
+from ethereum_test_tools import (
+    Address,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Bytecode,
+    Environment,
+    Transaction,
+    While,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcode
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CODE_SIZE = 24 * 1024
 KECCAK_RATE = 136
+ECRECOVER_GAS_COST = 3_000
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize(
-    "gas_limit",
-    [
-        36_000_000,
-    ],
-)
 def test_worst_keccak(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
 ):
     """Test running a block with as many KECCAK256 permutations as possible."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
-    available_gas = gas_limit - intrinsic_gas_calculator()
+    available_gas = env.gas_limit - intrinsic_gas_calculator()
 
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
@@ -90,11 +95,8 @@ def test_worst_keccak(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=gas_limit,
-        gas_price=10,
+        gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
-        data=[],
-        value=0,
     )
 
     blockchain_test(
@@ -105,22 +107,94 @@ def test_worst_keccak(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "gas_limit",
+    "address,static_cost,per_word_dynamic_cost,bytes_per_unit_of_work",
     [
-        Environment().gas_limit,
+        pytest.param(0x02, 60, 12, 64, id="SHA2-256"),
+        pytest.param(0x03, 600, 120, 64, id="RIPEMD-160"),
+        pytest.param(0x04, 15, 3, 1, id="IDENTITY"),
     ],
 )
+def test_worst_precompile_only_data_input(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    address: Address,
+    static_cost: int,
+    per_word_dynamic_cost: int,
+    bytes_per_unit_of_work: int,
+):
+    """Test running a block with as many precompile calls which have a single `data` input."""
+    env = Environment()
+
+    # Intrinsic gas cost is paid once.
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    available_gas = env.gas_limit - intrinsic_gas_calculator()
+
+    gsc = fork.gas_costs()
+    mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
+
+    # Discover the optimal input size to maximize precompile work, not precompile calls.
+    max_work = 0
+    optimal_input_length = 0
+    for input_length in range(1, 1_000_000, 32):
+        parameters_gas = (
+            gsc.G_BASE  # PUSH0 = arg offset
+            + gsc.G_BASE  # PUSH0 = arg size
+            + gsc.G_BASE  # PUSH0 = arg size
+            + gsc.G_VERY_LOW  # PUSH0 = arg offset
+            + gsc.G_VERY_LOW  # PUSHN = address
+            + gsc.G_BASE  # GAS
+        )
+        iteration_gas_cost = (
+            parameters_gas
+            + +static_cost  # Precompile static cost
+            + math.ceil(input_length / 32) * per_word_dynamic_cost  # Precompile dynamic cost
+            + gsc.G_BASE  # POP
+        )
+        # From the available gas, we substract the mem expansion costs considering we know the
+        # current input size length.
+        available_gas_after_expansion = max(
+            0, available_gas - mem_exp_gas_calculator(new_bytes=input_length)
+        )
+        # Calculate how many calls we can do.
+        num_calls = available_gas_after_expansion // iteration_gas_cost
+        total_work = num_calls * math.ceil(input_length / bytes_per_unit_of_work)
+
+        # If we found an input size that is better (reg permutations/gas), then save it.
+        if total_work > max_work:
+            max_work = total_work
+            optimal_input_length = input_length
+
+    calldata = Op.CODECOPY(0, 0, optimal_input_length)
+    attack_block = Op.POP(Op.STATICCALL(Op.GAS, address, 0, optimal_input_length, 0, 0))
+    code = code_loop_precompile_call(calldata, attack_block)
+
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.valid_from("Cancun")
 def test_worst_modexp(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    gas_limit: int,
 ):
     """Test running a block with as many MODEXP calls as possible."""
-    env = Environment(gas_limit=gas_limit)
+    env = Environment()
 
     base_mod_length = 32
     exp_length = 32
@@ -144,8 +218,62 @@ def test_worst_modexp(
     iter_complexity = exp.bit_length() - 1
     gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
     attack_block = Op.POP(Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0))
+    code = code_loop_precompile_call(calldata, attack_block)
 
-    # The attack contract is: JUMPDEST + [attack_block]* + PUSH0 + JUMP
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_ecrecover(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test running a block with as many ECRECOVER calls as possible."""
+    env = Environment()
+
+    # Calldata
+    calldata = (
+        Op.MSTORE(0 * 32, 0x38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E)
+        + Op.MSTORE(1 * 32, 27)
+        + Op.MSTORE(2 * 32, 0x38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E)
+        + Op.MSTORE(3 * 32, 0x789D1DD423D25F0772D2748D60F7E4B81BB14D086EBA8E8E8EFB6DCFF8A4AE02)
+    )
+
+    attack_block = Op.POP(Op.STATICCALL(ECRECOVER_GAS_COST, 0x1, 0, 32 * 4, 0, 0))
+    code = code_loop_precompile_call(calldata, attack_block)
+    code_address = pre.deploy_contract(code=bytes(code))
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode):
+    """Create a code loop that calls a precompile with the given calldata."""
+    # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* + JUMP(#)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(calldata))
     max_iters_loop = (MAX_CODE_SIZE - len(calldata) - len(jumpdest) - len(jump_back)) // len(
@@ -156,11 +284,357 @@ def test_worst_modexp(
         # Must never happen, but keep it as a sanity check.
         raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
 
-    code_address = pre.deploy_contract(code=code)
+    return code
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+def test_worst_jumps(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test running a JUMP-intensive contract."""
+    env = Environment()
+
+    def jump_seq():
+        return Op.JUMP(Op.ADD(Op.PC, 1)) + Op.JUMPDEST
+
+    bytes_per_seq = len(jump_seq())
+    seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
+
+    # Create and deploy the jump-intensive contract
+    jumps_code = sum([jump_seq() for _ in range(seqs_per_call)])
+    jumps_address = pre.deploy_contract(code=bytes(jumps_code))
+
+    # Call the contract repeatedly until gas runs out.
+    caller_code = While(body=Op.POP(Op.CALL(address=jumps_address)))
+    caller_address = pre.deploy_contract(caller_code)
+
+    txs = [
+        Transaction(
+            to=caller_address,
+            gas_limit=env.gas_limit,
+            sender=pre.fund_eoa(),
+        )
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+def test_worst_jumpdests(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test running a JUMPDEST-intensive contract."""
+    env = Environment()
+
+    # Create and deploy a contract with many JUMPDESTs
+    jumpdests_code = sum([Op.JUMPDEST] * MAX_CODE_SIZE)
+    jumpdests_address = pre.deploy_contract(code=bytes(jumpdests_code))
+
+    # Call the contract repeatedly until gas runs out.
+    caller_code = While(body=Op.POP(Op.CALL(address=jumpdests_address)))
+    caller_address = pre.deploy_contract(caller_code)
+
+    txs = [
+        Transaction(
+            to=caller_address,
+            gas_limit=env.gas_limit,
+            sender=pre.fund_eoa(),
+        )
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
+    )
+
+
+DEFAULT_BINOP_ARGS = (
+    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+    0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001,
+)
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "opcode,opcode_args",
+    [
+        (
+            Op.ADD,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            Op.MUL,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            # This has the cycle of 2, after two SUBs values are back to initials.
+            Op.SUB,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            # This has the cycle of 2:
+            # v[0] = a // b
+            # v[1] = a // v[0] = a // (a // b) = b
+            # v[2] = a // b
+            Op.DIV,
+            (
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+                # We want the first divisor to be slightly bigger than 2**128:
+                # this is the worst case for the division algorithm.
+                0x100000000000000000000000000000033,
+            ),
+        ),
+        (
+            # Same as DIV, but the numerator made positive, and the divisor made negative.
+            Op.SDIV,
+            (
+                0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCD,
+            ),
+        ),
+        (
+            # This scenario is not suitable for MOD because the values quickly become 0.
+            Op.MOD,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            # This scenario is not suitable for SMOD because the values quickly become 0.
+            Op.SMOD,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            # This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256) == 2**256-1.
+            Op.EXP,
+            (
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+            ),
+        ),
+        (
+            # Not great because we always sign-extend the 4 bytes.
+            Op.SIGNEXTEND,
+            (
+                3,
+                0xFFDADADA,  # Negative to have more work.
+            ),
+        ),
+        (
+            Op.LT,  # Keeps getting result 1.
+            (0, 1),
+        ),
+        (
+            Op.GT,  # Keeps getting result 0.
+            (0, 1),
+        ),
+        (
+            Op.SLT,  # Keeps getting result 1.
+            (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
+        ),
+        (
+            Op.SGT,  # Keeps getting result 0.
+            (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
+        ),
+        (
+            # The worst case is if the arguments are equal (no early return),
+            # so let's keep it comparing ones.
+            Op.EQ,
+            (1, 1),
+        ),
+        (
+            Op.AND,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            Op.OR,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            Op.XOR,
+            DEFAULT_BINOP_ARGS,
+        ),
+        (
+            Op.BYTE,  # Keep extracting the last byte: 0x2F.
+            (31, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        ),
+        (
+            Op.SHL,  # Shift by 1 until getting 0.
+            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        ),
+        (
+            Op.SHR,  # Shift by 1 until getting 0.
+            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        ),
+        (
+            Op.SAR,  # Shift by 1 until getting -1.
+            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        ),
+    ],
+    ids=lambda param: "" if isinstance(param, tuple) else param,
+)
+def test_worst_binop_simple(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    opcode_args: tuple[int, int],
+):
+    """
+    Test running a block with as many binary instructions (takes two args, produces one value)
+    as possible. The execution starts with two initial values on the stack, and the stack is
+    balanced by the DUP2 instruction.
+    """
+    env = Environment()
+
+    tx_data = b"".join(arg.to_bytes(32, byteorder="big") for arg in opcode_args)
+
+    code_prefix = Op.JUMPDEST + Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32)
+    code_suffix = Op.POP + Op.POP + Op.PUSH0 + Op.JUMP
+    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body = (Op.DUP2 + opcode) * (code_body_len // 2)
+    code = code_prefix + code_body + code_suffix
+    assert len(code) == MAX_CODE_SIZE - 1
 
     tx = Transaction(
-        to=code_address,
-        gas_limit=gas_limit,
+        to=pre.deploy_contract(code=code),
+        data=tx_data,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
+def test_worst_unop(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    opcode: Op,
+):
+    """
+    Test running a block with as many unary instructions (takes one arg, produces one value)
+    as possible.
+    """
+    env = Environment()
+
+    code_prefix = Op.JUMPDEST + Op.PUSH0  # Start with the arg 0.
+    code_suffix = Op.POP + Op.PUSH0 + Op.JUMP
+    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body = opcode * code_body_len
+    code = code_prefix + code_body + code_suffix
+    assert len(code) == MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    blockchain_test(
+        env=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("shift_right", [Op.SHR, Op.SAR])
+def test_worst_shifts(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    shift_right: Op,
+):
+    """
+    Test running a block with as many shift instructions with non-trivial arguments.
+    This test generates left-right pairs of shifts to avoid zeroing the argument.
+    The shift amounts are randomly pre-selected from the constant pool of 15 values on the stack.
+    """
+
+    def to_signed(x):
+        return x if x < 2**255 else x - 2**256
+
+    def to_unsigned(x):
+        return x if x >= 0 else x + 2**256
+
+    def shr(x, s):
+        return x >> s
+
+    def shl(x, s):
+        return x << s
+
+    def sar(x, s):
+        return to_unsigned(to_signed(x) >> s)
+
+    match shift_right:
+        case Op.SHR:
+            shift_right_fn = shr
+        case Op.SAR:
+            shift_right_fn = sar
+        case _:
+            raise ValueError(f"Unexpected shift op: {shift_right}")
+
+    rng = random.Random(1)  # Use random with a fixed seed.
+    initial_value = 2**256 - 1  # The initial value to be shifted; should be negative for SAR.
+
+    # Create the list of shift amounts if length 15 (max reachable by DUPs instructions).
+    # For the worst case keep the values small and omit values divisible by 8.
+    shift_amounts = [x + (x >= 8) + (x >= 15) for x in range(1, 16)]
+
+    code_prefix = sum(Op.PUSH1[sh] for sh in shift_amounts) + Op.JUMPDEST + Op.CALLDATALOAD(0)
+    code_suffix = Op.POP + Op.JUMP(len(shift_amounts) * 2)
+    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+
+    def select_shift_amount(shift_fn, v):
+        """Select a shift amount that will produce a non-zero result."""
+        while True:
+            index = rng.randint(0, len(shift_amounts) - 1)
+            sh = shift_amounts[index]
+            new_v = shift_fn(v, sh) % 2**256
+            if new_v != 0:
+                return new_v, index
+
+    def make_dup(i):
+        """Create a DUP instruction to get the i-th shift amount constant from the stack."""
+        # TODO: Create a global helper for this.
+        return Opcode(0x80 + (len(shift_amounts) - i))
+
+    code_body = Bytecode()
+    v = initial_value
+    while len(code_body) <= code_body_len - 4:
+        v, i = select_shift_amount(shl, v)
+        code_body += make_dup(i) + Op.SHL
+        v, i = select_shift_amount(shift_right_fn, v)
+        code_body += make_dup(i) + shift_right
+
+    code = code_prefix + code_body + code_suffix
+    assert len(code) == MAX_CODE_SIZE - 2
+
+    env = Environment()
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        data=initial_value.to_bytes(32, byteorder="big"),
+        gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
 

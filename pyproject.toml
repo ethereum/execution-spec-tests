@@ -28,7 +28,7 @@ dependencies = [
     "requests>=2.31.0,<3",
     "requests_unixsocket2>=0.4.0",
     "colorlog>=6.7.0,<7",
-    "pytest>7.3.2,<8",
+    "pytest>=8,<9",
     "pytest-custom-report>=1.0.1,<2",
     "pytest-html>=4.1.0,<5",
     "pytest-metadata>=3,<4",
@@ -45,12 +45,7 @@ dependencies = [
     "types-pyyaml>=6.0.12.20240917,<7",
     "pytest-json-report>=1.5.0,<2",
     "typing-extensions>=4.12.2,<5",
-    # TODO: bump questionary to a newer release, when it becomes available.
-    # The current release questionary 2.0.1 requires `prompt_toolkit = ">=2.0,<=3.0.36"`.
-    # This conflicts with ipython; while not an EEST dependency, ipython is a very useful tool:
-    # https://eest.ethereum.org/main/dev/interactive_usage/
-    "questionary @ git+https://github.com/tmbo/questionary@ff22aeae1cd9c1c734f14329934e349bec7873bc",
-    "prompt_toolkit>=3.0.48,<4", # ensure we have a new enough version for ipython
+    "questionary>=2.1.0,<3",
     "ethereum-rlp>=0.1.3,<0.2",
     "pytest-regex>=0.2.0,<0.3",
     "eth-abi>=5.2.0",
@@ -67,7 +62,7 @@ Changelog = "https://eest.ethereum.org/main/CHANGELOG/"
 [project.optional-dependencies]
 test = ["pytest-cov>=4.1.0,<5"]
 lint = [
-    "ruff==0.9.4",
+    "ruff==0.11.8",
     "mypy>=1.15.0,<1.16",
     "types-requests>=2.31,<2.33",
 ]
@@ -126,7 +121,7 @@ line-length = 99
 [tool.ruff.lint]
 select = ["E", "F", "B", "W", "I", "A", "N", "D", "C"]
 fixable = ["I", "B", "E", "F", "W", "D", "C"]
-ignore = ["D205", "D203", "D212", "D415", "C901", "A005"]
+ignore = ["D205", "D203", "D212", "D415", "C901", "A005", "C420"]
 
 
 [tool.mypy]

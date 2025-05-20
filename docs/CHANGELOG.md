@@ -8,21 +8,60 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
-### 🛠️ Framework
+### 💥 Important Change for `fill` Users
 
-- ✨ Add an empty account function for usage within fill and execute ([#1482](https://github.com/ethereum/execution-spec-tests/pull/1482)).
+The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
+
+- Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
+- Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
+
+### 🛠️ Framework
 
 #### `fill`
 
 - ✨ Add `ported_from` test marker to track Python test cases that were converted from static fillers in
   [ethereum/tests](https://github.com/ethereum/tests) repository [#1590](https://github.com/ethereum/execution-spec-tests/pull/1590).
+- 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471),[#1612](https://github.com/ethereum/execution-spec-tests/pull/1612)).
+- ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
+- 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
+- 🐞 zkEVM marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 
 #### `consume`
 
 ### 📋 Misc
 
+- ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
+- ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
+- ✨ Added a new `eest` sub-command, `eest info`, to easily print a cloned EEST repository's version and the versions of relevant tools, e.g., `python`, `uv` ([#1621](https://github.com/ethereum/execution-spec-tests/pull/1621)).
+- ✨ Add `CONTRIBUTING.md` for execution-spec-tests and improve coding standards documentation ([#1604](https://github.com/ethereum/execution-spec-tests/pull/1604)).
+- 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development [#1433](https://github.com/ethereum/execution-spec-tests/pull/1433).
+
+### 🧪 Test Cases
+
+## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
+
+### 💥 Breaking Change
+
+#### EOF removed from Osaka
+
+Following ["Interop Testing Call 34"](https://github.com/ethereum/pm/issues/1499) and the procedural EIPs [PR](https://github.com/ethereum/EIPs/pull/9703) the decision to remove EOF from Osaka was made.
+
+To accommodate EOF testing for the interim within EEST, its tests have migrated to a new `tests/unscheduled` folder. This folder will now contain tests for features that are not yet CFI'd in any fork. When EOF is CFI'd for a fork in the future, all tests will be moved from unscheduled to the respective future fork folder.
+
+A new fork `EOFv1` has additionally been created to fill and consume EOF related fixtures. Client tests fillers such as `evmone` (and client consumers) will now need to use this fork name.
+
+### 🛠️ Framework
+
+- ✨ Add an empty account function for usage within fill and execute ([#1482](https://github.com/ethereum/execution-spec-tests/pull/1482)).
+- ✨ Added `TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST` exception to specifically catch the case where the intrinsic gas cost is insufficient due to the data floor gas cost ([#1582](https://github.com/ethereum/execution-spec-tests/pull/1582)).
+
+### 📋 Misc
+
 - ✨ Engine API updates for Osaka, add `get_blobs` rpc method ([#1510](https://github.com/ethereum/execution-spec-tests/pull/1510)).
 - ✨ The EIP Version checker has been moved from `fill` and `execute` to it's own command-line tool `check_eip_versions` that gets ran daily as a Github Action ([#1537](https://github.com/ethereum/execution-spec-tests/pull/1537)).
+- 🔀 Add new `tests/unscheduled` folder, move EOF from Osaka to unscheduled, add `EOFv1` fork name for EOF tests ([#1507](https://github.com/ethereum/execution-spec-tests/pull/1507)).
+- ✨ CI features now contain an optional field to skip them from EEST full releases, `zkevm` and EOF features are now feature only ([#1596](https://github.com/ethereum/execution-spec-tests/pull/1596)).
+- 🐞 Don't attempt to install `solc` via `solc-select` on ARM (official Linux ARM builds of `solc` are not available at the time of writing, cf [ethereum/solidity#11351](https://github.com/ethereum/solidity/issues/11351)) and add a version sanity check ([#1556](https://github.com/ethereum/execution-spec-tests/pull/1556)).
 
 ### 🧪 Test Cases
 

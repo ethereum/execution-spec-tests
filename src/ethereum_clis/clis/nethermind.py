@@ -324,6 +324,7 @@ class NethermindExceptionMapper(ExceptionMapper):
     mapping_substring = {
         TransactionException.SENDER_NOT_EOA: "sender has deployed code",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "intrinsic gas too low",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "miner premium is negative",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "InvalidMaxPriorityFeePerGas: Cannot be higher than maxFeePerGas"
@@ -359,6 +360,9 @@ class NethermindExceptionMapper(ExceptionMapper):
         BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (
             "ExceededGasLimit: Gas used exceeds gas limit."
         ),
+        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+            "DepositsInvalid: Invalid deposit event layout:"
+        ),
     }
     mapping_regex = {
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: (
@@ -381,9 +385,9 @@ class NethermindExceptionMapper(ExceptionMapper):
             r"Invalid block hash 0x[0-9a-f]+ does not match calculated hash 0x[0-9a-f]+"
         ),
         BlockException.SYSTEM_CONTRACT_EMPTY: (
-            r"(Withdrawals|Consolidations)\: Contract is not deployed\."
+            r"(Withdrawals|Consolidations)Empty\: Contract is not deployed\."
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
-            r"(Withdrawals|Consolidations)\: Contract execution failed\."
+            r"(Withdrawals|Consolidations)Failed\: Contract execution failed\."
         ),
     }
