@@ -8,6 +8,7 @@ from ethereum_test_base_types import (
     BlobSchedule,
     CamelModel,
     EthereumTestRootModel,
+    Number,
     SignableRLPSerializable,
     ZeroPaddedHexNumber,
 )
@@ -17,9 +18,10 @@ from ethereum_test_types.types import Address, AuthorizationTupleGeneric
 class FixtureForkBlobSchedule(CamelModel):
     """Representation of the blob schedule of a given fork."""
 
-    target_blobs_per_block: ZeroPaddedHexNumber = Field(..., alias="target")
-    max_blobs_per_block: ZeroPaddedHexNumber = Field(..., alias="max")
-    base_fee_update_fraction: ZeroPaddedHexNumber = Field(...)
+    timestamp: Number
+    target_blobs_per_block: Number = Field(..., alias="target")
+    max_blobs_per_block: Number = Field(..., alias="max")
+    base_fee_update_fraction: Number = Field(...)
 
 
 class FixtureBlobSchedule(EthereumTestRootModel[Dict[str, FixtureForkBlobSchedule]]):

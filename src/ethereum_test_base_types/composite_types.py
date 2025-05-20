@@ -478,26 +478,32 @@ class AccessList(CamelModel, RLPSerializable):
     rlp_fields: ClassVar[List[str]] = ["address", "storage_keys"]
 
 
-class ForkBlobSchedule(CamelModel):
-    """Representation of the blob schedule of a given fork."""
+class BlobParameters(CamelModel):
+    """Parameters for the blob schedule of a given fork."""
 
     target_blobs_per_block: HexNumber = Field(..., alias="target")
     max_blobs_per_block: HexNumber = Field(..., alias="max")
     base_fee_update_fraction: HexNumber = Field(...)
 
 
-class BlobSchedule(EthereumTestRootModel[Dict[str, ForkBlobSchedule]]):
+class TimestampedBlobParameters(BlobParameters):
+    """Representation of the blob schedule of a given fork."""
+
+    timestamp: HexNumber | None = None
+
+
+class BlobSchedule(EthereumTestRootModel[Dict[str, TimestampedBlobParameters]]):
     """Blob schedule configuration dictionary."""
 
-    root: Dict[str, ForkBlobSchedule] = Field(default_factory=dict, validate_default=True)
+    root: Dict[str, TimestampedBlobParameters] = Field(default_factory=dict, validate_default=True)
 
     def append(self, *, fork: str, schedule: Any):
         """Append a new fork schedule."""
-        if not isinstance(schedule, ForkBlobSchedule):
-            schedule = ForkBlobSchedule(**schedule)
+        if not isinstance(schedule, TimestampedBlobParameters):
+            schedule = TimestampedBlobParameters(**schedule)
         self.root[fork] = schedule
 
-    def last(self) -> ForkBlobSchedule | None:
+    def last(self) -> TimestampedBlobParameters | None:
         """Return the last schedule."""
         if len(self.root) == 0:
             return None

@@ -28,6 +28,7 @@ from ethereum_test_base_types import (
     AccessList,
     Account,
     Address,
+    BlobParameters,
     Bloom,
     BLSPublicKey,
     BLSSignature,
@@ -397,6 +398,7 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     block_hashes: Dict[Number, Hash] = Field(default_factory=dict)
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
+    blob_parameters: BlobParameters | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
 
     @computed_field  # type: ignore[misc]

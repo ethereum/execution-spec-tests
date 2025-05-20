@@ -8,7 +8,13 @@ from typing import List, Mapping, Optional, Sized, Tuple
 
 from semver import Version
 
-from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes, ForkBlobSchedule
+from ethereum_test_base_types import (
+    AccessList,
+    Address,
+    BlobSchedule,
+    Bytes,
+    TimestampedBlobParameters,
+)
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
@@ -971,7 +977,7 @@ class Cancun(Shanghai):
         parent_fork = cls.parent()
         assert parent_fork is not None, "Parent fork must be defined"
         blob_schedule = parent_fork.blob_schedule(block_number, timestamp) or BlobSchedule()
-        current_blob_schedule = ForkBlobSchedule(
+        current_blob_schedule = TimestampedBlobParameters(
             target_blobs_per_block=cls.target_blobs_per_block(block_number, timestamp),
             max_blobs_per_block=cls.max_blobs_per_block(block_number, timestamp),
             base_fee_update_fraction=cls.blob_base_fee_update_fraction(block_number, timestamp),

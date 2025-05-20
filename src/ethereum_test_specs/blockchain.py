@@ -10,6 +10,7 @@ from pydantic import ConfigDict, Field, field_validator
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import (
     Address,
+    BlobSchedule,
     Bloom,
     Bytes,
     CamelModel,
