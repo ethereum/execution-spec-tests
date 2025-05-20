@@ -6,6 +6,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
+import random
 from typing import cast
 
 import pytest
@@ -20,7 +21,9 @@ from ethereum_test_tools import (
     Environment,
     Transaction,
 )
+from ethereum_test_tools.code.generators import While
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm.opcode import Opcode
 from tests.prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
 from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 
