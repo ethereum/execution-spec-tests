@@ -2726,6 +2726,46 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_address_state_cold/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_address_state_warm/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_blockhash/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_extcodecopy_warm/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_selfbalance/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_storage_access_cold/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_stateful_opcodes/test_worst_storage_access_warm/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/writing_tests/</loc>
          <lastmod>2025-05-20</lastmod>
          <changefreq>daily</changefreq>
