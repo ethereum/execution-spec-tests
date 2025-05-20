@@ -19463,7 +19463,7 @@
 
 
 <h1 id="test_tstore_reentrancy"><code>test_tstore_reentrancy()</code><a class="headerlink" href="#test_tstore_reentrancy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/147e4d2779ebfdfb8b80569f2ee7465e5f27a35f/tests/cancun/eip1153_tstore/test_tstore_reentrancy.py#L36"><code>tests/cancun/eip1153_tstore/test_tstore_reentrancy.py::test_tstore_reentrancy@147e4d27</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b5f1d95cc6698b74f4238ceee4dd4153b39d4a7f/tests/cancun/eip1153_tstore/test_tstore_reentrancy.py#L36"><code>tests/cancun/eip1153_tstore/test_tstore_reentrancy.py::test_tstore_reentrancy@b5f1d95c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstore_reentrancy.py::test_tstore_reentrancy --fork Prague</span>
@@ -19674,7 +19674,31 @@ Out of gas undoes the transient storage writes from a call.</p>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
-<span class="normal">214</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/06_tstoreInReentrancyCallFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/07_tloadAfterReentrancyStoreFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/08_revertUndoesTransientStoreFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/09_revertUndoesAllFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/11_tstoreDelegateCallFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/13_tloadStaticCallFiller.yml&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/Cancun/stEIP1153-transientStorage/20_oogUndoesTransientStoreInCallFiller.yml&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">pr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/440&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span> <span class="n">Om</span><span class="o">.</span><span class="n">OOG</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_dest_type&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">CallDestType</span><span class="o">.</span><span class="n">REENTRANCY</span><span class="p">,</span> <span class="n">CallDestType</span><span class="o">.</span><span class="n">EXTERNAL_CALL</span><span class="p">])</span>
