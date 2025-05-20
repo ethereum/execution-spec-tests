@@ -14,6 +14,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `fill`
 
+- ✨ Add `ported_from` test marker to track Python test cases that were converted from static fillers in
+  [ethereum/tests](https://github.com/ethereum/tests) repository [#1590](https://github.com/ethereum/execution-spec-tests/pull/1590).
+
 #### `consume`
 
 ### 📋 Misc
