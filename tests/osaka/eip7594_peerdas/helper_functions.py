@@ -325,15 +325,16 @@ class Blob(CamelModel):
         with open(file_name, "w", encoding="utf-8") as f:  # overwrite existing
             f.write(json_str)
 
-    def read_from_file(self) -> "Blob":
-        """Read a .json file and reconstruct object it represents."""
-        # TODO: file_name should match location defined in write_to_file
-        file_name: str = self.name + ".json"
-        with open(file_name, "r", encoding="utf-8") as f:
-            json_str: str = f.read()
 
-        # reconstruct object
-        return Blob.model_validate_json(json_str)
+def LoadBlobFromFile(seed: int) -> Blob:
+    """Read a .json file and reconstruct object it represents."""
+    # TODO: file_name should match location defined in write_to_file
+    file_name: str = "blob_" + str(seed) + ".json"
+    with open(file_name, "r", encoding="utf-8") as f:
+        json_str: str = f.read()
+
+    # reconstruct object
+    return Blob.model_validate_json(json_str)
 
 
 def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
@@ -437,7 +438,7 @@ assert b.fork == restored.fork
 assert b.timestamp == restored.timestamp
 
 b.write_to_file()
-c: Blob = NewBlob("prague", 1337).read_from_file()  # annoying: have to put dummy value for fork
+c: Blob = LoadBlobFromFile(1337)  # annoying: have to put dummy value for fork
 assert b.data == c.data
 assert b.commitment == c.commitment
 assert b.proof == c.proof
