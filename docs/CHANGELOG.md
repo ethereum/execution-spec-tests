@@ -37,6 +37,8 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 
 ### 🧪 Test Cases
 
+- 🔀 Refactored `BLOBHASH` opcode context tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1637](https://github.com/ethereum/execution-spec-tests/pull/1637)).
+
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
 ### 💥 Breaking Change
