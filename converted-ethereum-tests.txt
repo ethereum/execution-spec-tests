@@ -252,7 +252,7 @@ GeneralStateTests/VMTests/vmTests/push.json
 ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
 GeneralStateTests/stPreCompiledContracts/blake2B.json
 
-([#1067](https://github.com/ethereum/execution-spec-tests/pull/1120))
+([#1120](https://github.com/ethereum/execution-spec-tests/pull/1120))
 GeneralStateTests/stPreCompiledContracts/idPrecomps.json
 
 ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244))
