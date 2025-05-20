@@ -317,6 +317,24 @@ class Blob(CamelModel):
                 f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{self.proof[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"
             )  # noqa: E501
 
+    def write_to_file(self):
+        """Take an object, serialize it and write it to disk as json."""
+        # TODO: file_name should hold relative path instead of forcing cwd, e.g. if this is called from types.py where should blob be created?
+        file_name: str = self.name + ".json"
+        json_str: str = self.model_dump_json()
+        with open(file_name, "w", encoding="utf-8") as f:  # overwrite existing
+            f.write(json_str)
+
+    def read_from_file(self) -> "Blob":
+        """Read a .json file and reconstruct object it represents."""
+        # TODO: file_name should match location defined in write_to_file
+        file_name: str = self.name + ".json"
+        with open(file_name, "r", encoding="utf-8") as f:
+            json_str: str = f.read()
+
+        # reconstruct object
+        return Blob.model_validate_json(json_str)
+
 
 def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
     """Construct Blob instances. Fork-specific logic is encapsulated within nested functions."""
@@ -406,10 +424,9 @@ def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
     )
 
 
-b = NewBlob("osaka")
+b = NewBlob("osaka", 1337)
 json_str: str = b.model_dump_json()
 restored: Blob = Blob.model_validate_json(json_str)
-
 assert b.data == restored.data
 assert b.commitment == restored.commitment
 assert b.proof == restored.proof
@@ -418,8 +435,22 @@ assert b.versioned_hash == restored.versioned_hash
 assert b.name == restored.name
 assert b.fork == restored.fork
 assert b.timestamp == restored.timestamp
+
+b.write_to_file()
+c: Blob = NewBlob("prague", 1337).read_from_file()  # annoying: have to put dummy value for fork
+assert b.data == c.data
+assert b.commitment == c.commitment
+assert b.proof == c.proof
+assert b.cells == c.cells
+assert b.versioned_hash == c.versioned_hash
+assert b.name == c.name
+assert b.fork == c.fork
+assert b.timestamp == c.timestamp
+
 print("pydantic model works")
 # TODO: if we move pydantic model Blob and NewBlob into types.py then how do we ensure trusted setup is not loaded when not needed? add it to NewBlob and maybe as field ts in Blob?
+# TODO: remove uv lock and pyproject.toml changes from this PR, then make separate pr for adding czkg dependency
+# TODO: handle all TODO comments ;)
 
 # # for i in range(10):
 # my_seed = 1
@@ -473,10 +504,6 @@ print("Success")
 # - rename constants to match deneb specs
 # - removed two unnecessary wrapper functions
 # - added read/write functions to class
-
-# TODO: make PersistentBlobGenerator use a pydantic model
-# TODO: blobs are in ./static_blobs, not in ".". so update the readFromFile function
-# TODO: uv lock
 
 # ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
 # ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
