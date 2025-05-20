@@ -1116,6 +1116,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/create/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/create/test_create_one_byte/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/create/test_create_one_byte/test_create_one_byte/</loc>
+         <lastmod>2025-05-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/examples/</loc>
          <lastmod>2025-05-20</lastmod>
          <changefreq>daily</changefreq>
