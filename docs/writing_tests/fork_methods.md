@@ -234,7 +234,7 @@ Do not add a new fork method when:
 1. **Use Existing Methods**: Check if there's already a method that provides the information you need
 2. **Name Methods Clearly**: Method names should clearly describe what they return
 3. **Document Behavior**: Include clear docstrings explaining the method's purpose and return value
-4. **Avoid Hardcoding**: Use fork methods in tests instead of hardcoding fork-specific behavior
+4. **Avoid Hard-coding**: Use fork methods in tests instead of hard-coding fork-specific behavior
 5. **Test Transitions**: Ensure your method works correctly with transition forks
 
 ## Example: Complete Test Using Fork Methods
