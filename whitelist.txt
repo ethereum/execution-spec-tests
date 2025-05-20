@@ -999,3 +999,8 @@ codomain
 nametag
 CFI'd
 opcode's
+backticked
+Typecheck
+autoformat
+Typechecking
+zkEVMs

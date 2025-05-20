@@ -7,9 +7,21 @@ Please use `uv>=0.7.0` to ensure `uv` writes `uv.lock` files with consistent fie
 ## Managing Dependencies
 
 We aim to provide specific [version specifiers](https://peps.python.org/pep-0440/#version-specifiers) for each of our direct and extra dependencies.
+
 !!! note "Packages should be managed via `uv`"
 
     Dependencies should be managed using `uv` on the command-line to ensure that version compatibility is ensured across all dependencies and that `uv.lock` is updated as required.
+
+    The docs below cover common operations, see the `uv` [documentation on managing dependencies](https://docs.astral.sh/uv/concepts/projects/dependencies/#multiple-sources) for more information.
+
+!!! info "Separate PRs are preferred when managing dependencies"
+
+    An upgrade of all pinned dependencies in `uv.lock` must be performed in a dedicated PR!
+    
+    For other dependency changes, they can be included in the PR that removed use of the library, for example. But if a version bump is made, without related source code changes, it should be done in a dedicated PR. This makes the change:
+
+    - Easier to track.
+    - Trivial to revert.
 
 ### Adding/modifying direct dependencies
 
@@ -67,3 +79,21 @@ docs = [
     ```
     uv add --optional lint "types-requests>=2.31,<2.33"
     ```
+
+## Upgrading Pinned Dependencies in `uv.lock`
+
+To upgrade all pinned dependencies in `uv.lock` to the latest version permitted by EEST's `project.toml` version specifiers run:
+
+```console
+uv lock --upgrade
+```
+
+Project-wide dependency upgrades must be made via a dedicated PR!
+
+To upgrade a single package run:
+
+```console
+uv lock --upgrade-package <package>
+```
+
+See [Locking and Syncing](https://docs.astral.sh/uv/concepts/projects/sync/#upgrading-locked-package-versions) in the `uv` docs for more information.
