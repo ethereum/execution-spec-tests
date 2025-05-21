@@ -1,66 +1,21 @@
 """Shared pytest definitions for EIP-7883 tests."""
 
-from typing import Dict, Tuple
+from typing import Dict
 
 import pytest
 
+from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import (
-    EOA,
     Account,
     Address,
     Alloc,
-    Bytecode,
-    CodeGasMeasure,
-    Environment,
     Storage,
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import parse_modexp_input
-from .spec import Spec
-
-
-@pytest.fixture
-def env() -> Environment:
-    """Environment fixture."""
-    return Environment()
-
-
-@pytest.fixture
-def parsed_input(input_data: bytes) -> Tuple[bytes, bytes, bytes, int]:
-    """Parse the ModExp input data."""
-    return parse_modexp_input(input_data)
-
-
-@pytest.fixture
-def base(parsed_input: Tuple[bytes, bytes, bytes, int]) -> bytes:
-    """Get the base value from the parsed input."""
-    return parsed_input[0]
-
-
-@pytest.fixture
-def exponent_bytes(parsed_input: Tuple[bytes, bytes, bytes, int]) -> bytes:
-    """Get the exponent bytes from the parsed input."""
-    return parsed_input[1]
-
-
-@pytest.fixture
-def modulus(parsed_input: Tuple[bytes, bytes, bytes, int]) -> bytes:
-    """Get the modulus value from the parsed input."""
-    return parsed_input[2]
-
-
-@pytest.fixture
-def exponent(parsed_input: Tuple[bytes, bytes, bytes, int]) -> int:
-    """Get the exponent value from the parsed input."""
-    return parsed_input[3]
-
-
-@pytest.fixture
-def sender(pre: Alloc) -> EOA:
-    """Create and fund an EOA to be used as the transaction sender."""
-    return pre.fund_eoa()
+from .helpers import Vector
+from .spec import Spec, Spec7883
 
 
 @pytest.fixture
@@ -70,74 +25,74 @@ def call_opcode() -> Op:
 
 
 @pytest.fixture
-def modexp_call_code(call_opcode: Op, input_data: bytes) -> Bytecode:
-    """Create bytecode to call the ModExp precompile."""
+def gas_measure_contract(pre: Alloc, call_opcode: Op, fork: Fork) -> Address:
+    """Deploys a contract that measures ModExp gas consumption."""
     call_code = call_opcode(
         address=Spec.MODEXP_ADDRESS,
         value=0,
         args_offset=0,
         args_size=Op.CALLDATASIZE,
-        ret_offset=0,
-        ret_size=0x80,
     )
-    call_code += Op.SSTORE(0, Op.ISZERO(Op.ISZERO))
-    return call_code
-
-
-@pytest.fixture
-def gas_measure_contract(pre: Alloc, modexp_call_code: Bytecode) -> Address:
-    """Deploys a contract that measures ModExp gas consumption."""
-    calldata_copy = Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
-    measured_code = CodeGasMeasure(
-        code=calldata_copy + modexp_call_code,
-        overhead_cost=12,  # TODO: Calculate overhead cost
-        extra_stack_items=0,
-        sstore_key=1,
-        stop=True,
+    gas_costs = fork.gas_costs()
+    extra_gas = (
+        gas_costs.G_WARM_ACCOUNT_ACCESS
+        + (gas_costs.G_VERY_LOW * (len(call_opcode.kwargs) - 2))
+        + (gas_costs.G_BASE * 3)
     )
-    return pre.deploy_contract(measured_code)
+    measure_code = (
+        Op.CALLDATACOPY(dest_offset=0, offset=0, size=Op.CALLDATASIZE)
+        + Op.GAS  # [gas_start]
+        + call_code  # [gas_start, call_result]
+        + Op.GAS  # [gas_start, call_result, gas_end]
+        + Op.SWAP1  # [gas_start, gas_end, call_result]
+        + Op.PUSH1[0]  # [gas_start, gas_end, call_result, 0]
+        + Op.SSTORE  # [gas_start, gas_end]
+        + Op.PUSH2[extra_gas]  # [gas_start, gas_end, extra_gas]
+        + Op.ADD  # [gas_start, gas_end + extra_gas]
+        + Op.SWAP1  # [gas_end + extra_gas, gas_start]
+        + Op.SUB  # [gas_start - (gas_end + extra_gas)]
+        + Op.PUSH1[1]  # [gas_start - (gas_end + extra_gas), 1]
+        + Op.SSTORE  # []
+        + Op.STOP()  # []
+    )
+    return pre.deploy_contract(measure_code)
 
 
 @pytest.fixture
-def precompile_gas_modifier() -> int:
-    """Modify the gas passed to the precompile, for negative testing purposes."""
-    return 0
-
-
-@pytest.fixture
-def precompile_gas(base: bytes, exponent_bytes: bytes, modulus: bytes, expected_gas: int) -> int:
+def precompile_gas(fork: Fork, vector: Vector) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
-    base_length = len(base)
-    exponent_length = len(exponent_bytes)
-    modulus_length = len(modulus)
-    exponent_value = int.from_bytes(exponent_bytes, byteorder="big")
-    calculated_gas = Spec.calculate_new_gas_cost(
-        base_length, modulus_length, exponent_length, exponent_value
+    spec = Spec if fork < Osaka else Spec7883
+    expected_gas = vector.gas_old if fork < Osaka else vector.gas_new
+    calculated_gas = spec.calculate_gas_cost(
+        len(vector.input.base),
+        len(vector.input.modulus),
+        len(vector.input.exponent),
+        vector.input.exponent_value,
     )
-    assert (
-        calculated_gas == expected_gas
-    ), f"Calculated gas {calculated_gas} != Vector gas {expected_gas}"
+    assert calculated_gas == expected_gas, (
+        f"Calculated gas {calculated_gas} != Vector gas {expected_gas}"
+    )
     return calculated_gas
 
 
 @pytest.fixture
-def modexp_input_data(input_data: bytes) -> bytes:
-    """ModExp input data, directly use the input from the test vector."""
-    return input_data
-
-
-@pytest.fixture
 def tx(
-    sender: EOA,
+    fork: Fork,
+    pre: Alloc,
     gas_measure_contract: Address,
-    modexp_input_data: bytes,
+    vector: Vector,
+    precompile_gas: int,
 ) -> Transaction:
     """Transaction to measure gas consumption of the ModExp precompile."""
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+    intrinsic_gas_cost = intrinsic_gas_cost_calc(calldata=vector.input)
+    memory_expansion_gas_calc = fork.memory_expansion_gas_calculator()
+    memory_expansion_gas = memory_expansion_gas_calc(new_bytes=len(bytes(vector.input)))
     return Transaction(
-        sender=sender,
+        sender=pre.fund_eoa(),
         to=gas_measure_contract,
-        data=modexp_input_data,
-        gas_limit=1_000_000,
+        data=vector.input,
+        gas_limit=intrinsic_gas_cost + precompile_gas + memory_expansion_gas + 100_000,
     )
 
 

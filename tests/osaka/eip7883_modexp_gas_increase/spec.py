@@ -17,39 +17,62 @@ ref_spec_7883 = ReferenceSpec("EIPS/eip-7883.md", "13aa65810336d4f243d4563a828d5
 
 @dataclass(frozen=True)
 class Spec:
-    """Constants and helpers for the ModExp gas cost increase EIP."""
+    """Constants and helpers for the ModExp gas cost calculation."""
 
     MODEXP_ADDRESS = 0x05
-    OLD_MIN_GAS = 200
-    OLD_EXPONENT_BYTE_MULTIPLIER = 8
-    NEW_MIN_GAS = 500
-    NEW_EXPONENT_BYTE_MULTIPLIER = 16
-    NEW_LARGE_BASE_MODULUS_MULTIPLIER = 2
+    MIN_GAS = 200
+
+    LARGE_BASE_MODULUS_MULTIPLIER = 1
+    MAX_LENGTH_THRESHOLD = 32
+    EXPONENT_BYTE_MULTIPLIER = 8
+
     WORD_SIZE = 8
-    BASE_MODULUS_THRESHOLD = 32
     EXPONENT_THRESHOLD = 32
     GAS_DIVISOR = 3
 
-    @staticmethod
-    def calculate_new_gas_cost(
-        base_length: int, modulus_length: int, exponent_length: int, exponent: int
+    @classmethod
+    def calculate_multiplication_complexity(cls, base_length: int, modulus_length: int) -> int:
+        """Calculate the multiplication complexity of the ModExp precompile."""
+        max_length = max(base_length, modulus_length)
+        words = math.ceil(max_length / cls.WORD_SIZE)
+        if max_length <= cls.MAX_LENGTH_THRESHOLD:
+            return words**2
+        return cls.LARGE_BASE_MODULUS_MULTIPLIER * words**2
+
+    @classmethod
+    def calculate_iteration_count(cls, exponent_length: int, exponent: int) -> int:
+        """Calculate the iteration count of the ModExp precompile."""
+        iteration_count = 0
+        if exponent_length <= cls.EXPONENT_THRESHOLD and exponent == 0:
+            iteration_count = 0
+        elif exponent_length <= cls.EXPONENT_THRESHOLD:
+            iteration_count = exponent.bit_length() - 1
+        elif exponent_length > cls.EXPONENT_THRESHOLD:
+            iteration_count = (
+                cls.EXPONENT_BYTE_MULTIPLIER * (exponent_length - cls.EXPONENT_THRESHOLD)
+            ) + ((exponent & (2**256 - 1)).bit_length() - 1)
+        return max(iteration_count, 1)
+
+    @classmethod
+    def calculate_gas_cost(
+        cls, base_length: int, modulus_length: int, exponent_length: int, exponent: int
     ) -> int:
         """Calculate the ModExp gas cost according to EIP-7883 specification."""
-        max_length = max(base_length, modulus_length)
-        words = math.ceil(max_length / Spec.WORD_SIZE)
-        if max_length <= Spec.BASE_MODULUS_THRESHOLD:
-            multiplication_complexity = words**2
-        else:
-            multiplication_complexity = 2 * words**2
-        if exponent_length <= Spec.EXPONENT_THRESHOLD:
-            if exponent == 0:
-                iteration_count = 0
-            else:
-                iteration_count = exponent.bit_length() - 1
-        else:
-            high_bytes = exponent_length - Spec.EXPONENT_THRESHOLD
-            low_bits = (exponent & (2**256 - 1)).bit_length() - 1
-            iteration_count = (Spec.NEW_EXPONENT_BYTE_MULTIPLIER * high_bytes) + low_bits
-        iteration_count = max(iteration_count, 1)
-        gas_cost = (multiplication_complexity * iteration_count) // Spec.GAS_DIVISOR
-        return max(Spec.NEW_MIN_GAS, gas_cost)
+        multiplication_complexity = cls.calculate_multiplication_complexity(
+            base_length, modulus_length
+        )
+        iteration_count = cls.calculate_iteration_count(exponent_length, exponent)
+        return max(
+            cls.MIN_GAS, math.floor(multiplication_complexity * iteration_count / cls.GAS_DIVISOR)
+        )
+
+
+@dataclass(frozen=True)
+class Spec7883(Spec):
+    """Constants and helpers for the ModExp gas cost increase EIP."""
+
+    MODEXP_ADDRESS = 0x05
+    MIN_GAS = 500
+
+    LARGE_BASE_MODULUS_MULTIPLIER = 2
+    EXPONENT_BYTE_MULTIPLIER = 16
