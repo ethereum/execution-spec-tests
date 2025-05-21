@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_worst_unop/">
       
       
-        <link rel="next" href="../../test_worst_stateful_opcodes/">
+        <link rel="next" href="../test_worst_mod/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -18867,6 +18867,8 @@
       
         
       
+        
+      
     
     
       
@@ -19150,6 +19152,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_mod/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_mod</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -19461,7 +19484,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f14624b6ea6f4266f8340763e6791b70be948a45/tests/zkevm/test_worst_compute.py#L722"><code>tests/zkevm/test_worst_compute.py::test_worst_shifts@f14624b6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c3e5fb63df0b030d6e2aff4374c4dec40aef03be/tests/zkevm/test_worst_compute.py#L737"><code>tests/zkevm/test_worst_compute.py::test_worst_shifts@c3e5fb63</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_shifts --fork Prague</span>
@@ -19482,22 +19505,7 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
-<span class="normal">730</span>
-<span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">737</span>
 <span class="normal">738</span>
 <span class="normal">739</span>
 <span class="normal">740</span>
@@ -19568,7 +19576,17 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 <span class="normal">805</span>
 <span class="normal">806</span>
 <span class="normal">807</span>
-<span class="normal">808</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_shifts</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -19607,7 +19625,7 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
     <span class="n">rng</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Use random with a fixed seed.</span>
     <span class="n">initial_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">256</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># The initial value to be shifted; should be negative for SAR.</span>
 
-    <span class="c1"># Create the list of shift amounts if length 15 (max reachable by DUPs instructions).</span>
+    <span class="c1"># Create the list of shift amounts with 15 elements (max reachable by DUPs instructions).</span>
     <span class="c1"># For the worst case keep the values small and omit values divisible by 8.</span>
     <span class="n">shift_amounts</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">)]</span>
 
@@ -19624,18 +19642,13 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
             <span class="k">if</span> <span class="n">new_v</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">new_v</span><span class="p">,</span> <span class="n">index</span>
 
-    <span class="k">def</span> <span class="nf">make_dup</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a DUP instruction to get the i-th shift amount constant from the stack.&quot;&quot;&quot;</span>
-        <span class="c1"># TODO: Create a global helper for this.</span>
-        <span class="k">return</span> <span class="n">Opcode</span><span class="p">(</span><span class="mh">0x80</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shift_amounts</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span>
-
     <span class="n">code_body</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">initial_value</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_body</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">code_body_len</span> <span class="o">-</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">v</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">select_shift_amount</span><span class="p">(</span><span class="n">shl</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-        <span class="n">code_body</span> <span class="o">+=</span> <span class="n">make_dup</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SHL</span>
+        <span class="n">code_body</span> <span class="o">+=</span> <span class="n">make_dup</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shift_amounts</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SHL</span>
         <span class="n">v</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">select_shift_amount</span><span class="p">(</span><span class="n">shift_right_fn</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
-        <span class="n">code_body</span> <span class="o">+=</span> <span class="n">make_dup</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">shift_right</span>
+        <span class="n">code_body</span> <span class="o">+=</span> <span class="n">make_dup</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shift_amounts</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">shift_right</span>
 
     <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">==</span> <span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="mi">2</span>
