@@ -119,6 +119,13 @@ jobs:
           source $GITHUB_ENV
           new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
           files=$(uv run extract_markers $new_sources)
+          if [[ -z "$files" ]]; then
+              echo "No ported fillers found, check updates instead:"
+              echo "converted_skip=true" >> $GITHUB_ENV
+              exit 0
+          else
+              echo "converted_skip=false" >> $GITHUB_ENV
+          fi
 
           echo "----------------"
           echo "Discovered existing json tests that will be BASE files:"
