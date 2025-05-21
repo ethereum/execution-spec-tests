@@ -6,23 +6,14 @@ abstract: Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://ei
 import base64 as b64
 import json
 import random
+from enum import Enum
 from hashlib import sha256
 from os.path import realpath
 from pathlib import Path
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, SupportsBytes, TypeAlias
+from typing import List
 
 import ckzg
-from pydantic import (
-    AliasChoices,
-    BaseModel,
-    ConfigDict,
-    Field,
-    PrivateAttr,
-    computed_field,
-    model_serializer,
-    model_validator,
-)
-from spec import Spec, ref_spec_7594
+from spec import Spec, ref_spec_7594  # TODO: make .spec
 
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
@@ -62,14 +53,14 @@ def eest_blob_to_kzg_commitment(blob: bytes) -> bytes:
     # sanity check
     assert len(blob) == Spec.BYTES_PER_BLOB, (
         f"Expected blob of length {Spec.BYTES_PER_BLOB} but got blob of length {len(blob)}"
-    )  # noqa: E501
+    )
 
     # calculate commitment
     commitment = ckzg.blob_to_kzg_commitment(blob, TRUSTED_SETUP)
 
     assert len(commitment) == Spec.BYTES_PER_COMMITMENT, (
-        f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"
-    )  # noqa: E501
+        f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
+    )
 
     return commitment
 
@@ -80,15 +71,15 @@ def eest_verify_cell_kzg_proof_batch(
     """Check whether all cell proofs are valid and returns True only if that is the case."""
     # sanity check
     assert len(cell_indices) == len(cells), (
-        f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(cells)}) should have same length."
-    )  # noqa: E501
+        f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(cells)}) should have same length."  # noqa: E501
+    )
 
     # each cell refers to the same commitment
     commitments: list[bytes] = [commitment] * len(cell_indices)
 
     is_valid = ckzg.verify_cell_kzg_proof_batch(
         commitments, cell_indices, cells, proofs, TRUSTED_SETUP
-    )  # noqa: E501
+    )
 
     return is_valid
 
@@ -108,12 +99,12 @@ def eest_delete_cells_then_recover_them(
     """  # noqa: E501
     # sanity checks
     assert len(cells) == 128, (
-        f"You are supposed to pass a full cell list with 128 elements to this function, but got list of length {len(cells)}"
-    )  # noqa: E501
+        f"You are supposed to pass a full cell list with 128 elements to this function, but got list of length {len(cells)}"  # noqa: E501
+    )
 
     assert len(deletion_indices) < 129, (
-        f"You can't delete more than every cell (max len of deletion indices list is 128), but you passed a deletion indices list of length {len(deletion_indices)}"
-    )  # noqa: E501
+        f"You can't delete more than every cell (max len of deletion indices list is 128), but you passed a deletion indices list of length {len(deletion_indices)}"  # noqa: E501
+    )
     for i in deletion_indices:
         assert 0 <= i <= 127, f"Expected integers in range [0, 127], but got: {i}"
 
@@ -122,8 +113,6 @@ def eest_delete_cells_then_recover_them(
     remaining_indices: list[int] = [i for i in all_cell_indices if i not in deletion_indices]
     remaining_cells = [c for i, c in enumerate(cells) if i not in deletion_indices]
 
-    # print(f"Cells: {cells}\nDeletion Indices: {deletion_indices}\nRemaining indices: {remaining_indices}\nRemaining cells: {remaining_cells}")  # noqa: E501
-
     # try to reconstruct cells
     recovered_cells, recovered_proofs = ckzg.recover_cells_and_kzg_proofs(
         remaining_indices, remaining_cells, TRUSTED_SETUP
@@ -131,21 +120,19 @@ def eest_delete_cells_then_recover_them(
 
     # determine success/failure
     assert len(recovered_cells) == len(cells), (
-        f"Failed to recover cell list. Original cell list had length {len(cells)} but recovered cell list has length {len(recovered_cells)}"
-    )  # noqa: E501
+        f"Failed to recover cell list. Original cell list had length {len(cells)} but recovered cell list has length {len(recovered_cells)}"  # noqa: E501
+    )
     assert len(recovered_proofs) == len(proofs), (
-        f"Failed to recover proofs list. Original proofs list had length {len(proofs)} but recovered proofs list has length {len(recovered_proofs)}"
-    )  # noqa: E501
+        f"Failed to recover proofs list. Original proofs list had length {len(proofs)} but recovered proofs list has length {len(recovered_proofs)}"  # noqa: E501
+    )
 
     for i in range(len(recovered_cells)):
         assert cells[i] == recovered_cells[i], (
-            f"Failed to correctly restore missing cells. At index {i} original cell was 0x{cells[i].hex()} but reconstructed cell does not match: 0x{recovered_cells[i].hex()}"
-        )  # noqa: E501
+            f"Failed to correctly restore missing cells. At index {i} original cell was 0x{cells[i].hex()} but reconstructed cell does not match: 0x{recovered_cells[i].hex()}"  # noqa: E501
+        )
         assert proofs[i] == recovered_proofs[i], (
-            f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{proofs[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"
-        )  # noqa: E501
-
-    # print("Successful reconstruction")
+            f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{proofs[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"  # noqa: E501
+        )
 
 
 class PersistentBlobGenerator:
@@ -219,8 +206,8 @@ class PersistentBlobGenerator:
 
     def to_file(self):
         """Take an object, serialize it and write it to disk as json."""
-        file_name: str = self.name + ".json"
-        json_str: str = self.to_json()
+        file_name = self.name + ".json"
+        json_str = self.to_json()
         with open(file_name, "w", encoding=self.encoding) as f:  # overwrite existing
             f.write(json_str)
 
@@ -242,12 +229,122 @@ class Blob(CamelModel):
     data: Bytes
     commitment: Bytes
     proof: List[Bytes] | Bytes  # Bytes < Osaka, List[Bytes] >= Osaka
-    cells: List[Bytes] | None  # None  < Osaka, List[Bytes] >= Osaka
+    cells: List[Bytes] | None  # None (in json: null)  < Osaka, List[Bytes] >= Osaka
 
     versioned_hash: Hash
     name: str  # blob_<fork>_<seed>
     fork: str
     timestamp: int
+
+    @staticmethod
+    def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> "Blob":  # noqa: N802
+        """Construct Blob instances. Fork-specific logic is encapsulated within nested functions."""
+        # TODO: if this blob already exists then load from file
+
+        allowed_forks: List[str] = ["cancun", "prague", "osaka"]
+        assert fork in allowed_forks, (
+            f"You tried to generate a blob for fork {fork} but blobs only exists in: {allowed_forks}"  # noqa: E501
+        )
+
+        def generate_blob_data(rng_seed: int = 0) -> Bytes:
+            """Calculate blob data deterministically via provided seed."""
+            # apply RNG seed
+            random.seed(rng_seed)
+
+            # generate blob
+            ints: list[int] = [
+                random.randrange(Spec.BLS_MODULUS) for _ in range(Spec.FIELD_ELEMENTS_PER_BLOB)
+            ]
+            encoded: list[bytes] = [
+                i.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, Spec.KZG_ENDIANNESS) for i in ints
+            ]
+            blob: bytes = b"".join(encoded)  # without 0x
+
+            return Bytes(blob)
+
+        def get_versioned_hash(commitment: Bytes, version: int = 1) -> Hash:
+            """Calculate versioned hash for a given blob."""
+            # TODO: is this in specs or made up by us? do we need it?
+            return Hash(bytes([version]) + sha256(commitment).digest()[1:])
+
+        def get_name(seed: int) -> str:
+            """Derive blob name from the seed that generates its data."""
+            return "blob_" + fork + "_" + str(seed)
+
+        def get_commitment(data: Bytes) -> Bytes:
+            """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
+            # sanity check
+            assert len(data) == Spec.BYTES_PER_BLOB, (
+                f"Expected blob of length {Spec.BYTES_PER_BLOB} but got blob of length {len(data)}"
+            )
+
+            # calculate commitment
+            commitment = ckzg.blob_to_kzg_commitment(data, TRUSTED_SETUP)
+
+            assert len(commitment) == Spec.BYTES_PER_COMMITMENT, (
+                f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
+            )
+
+            return commitment
+
+        def get_proof(data: Bytes) -> List[Bytes] | Bytes:
+            if fork in ["cancun", "prague"]:
+                z = 2  # 2 is one of many possible valid field elements z (https://github.com/ethereum/consensus-specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)
+                z_valid_size: bytes = z.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, byteorder="big")
+                proof, _ = ckzg.compute_kzg_proof(data, z_valid_size, TRUSTED_SETUP)
+                return proof
+
+            if fork in ["osaka"]:
+                _, proofs = ckzg.compute_cells_and_kzg_proofs(
+                    data, TRUSTED_SETUP
+                )  # returns List[byte] of length 128
+                return proofs  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes], do we even care about bytes vs Bytes?  # noqa: E501
+
+            raise AssertionError(f"get_proof() has not been implemented yet for fork: {fork}")
+
+        def get_cells(data: Bytes) -> List[Bytes] | None:
+            if fork in ["cancun", "prague"]:
+                return None
+
+            if fork in ["osaka"]:
+                cells, _ = ckzg.compute_cells_and_kzg_proofs(
+                    data, TRUSTED_SETUP
+                )  # returns List[byte] of length 128
+                return cells  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes]
+
+            raise AssertionError(f"get_cells() has not been implemented yet for fork: {fork}")
+
+        # populate blob fields
+        data: Bytes = generate_blob_data(seed)
+        commitment: Bytes = get_commitment(data)
+        proof: List[Bytes] | Bytes = get_proof(data)
+        cells: List[Bytes] | None = get_cells(data)
+        versioned_hash: Hash = get_versioned_hash(commitment)
+        name: str = get_name(seed)
+
+        return Blob(
+            data=data,
+            commitment=commitment,
+            proof=proof,
+            cells=cells,
+            versioned_hash=versioned_hash,
+            name=name,
+            fork=fork,
+            timestamp=timestamp,
+        )
+
+    @staticmethod
+    def LoadBlobFromFile(file_name: str) -> "Blob":  # noqa: N802
+        """Read a .json file and reconstruct object it represents."""
+        # TODO: file_name should match location defined in write_to_file
+        if ".json" not in file_name:
+            file_name = file_name + ".json"
+
+        with open(file_name, "r", encoding="utf-8") as f:
+            json_str: str = f.read()
+
+        # reconstruct object
+        return Blob.model_validate_json(json_str)
 
     def verify_cell_kzg_proof_batch(self, cell_indices: list) -> bool:  # noqa: E501
         """Check whether all cell proofs are valid and returns True only if that is the case."""
@@ -255,20 +352,22 @@ class Blob(CamelModel):
             f"verify_cell_kzg_proof_batch() is not available for fork: {self.fork}"
         )
 
+        assert self.cells is not None, ""  # TODO: write message
+
         assert len(cell_indices) == len(self.cells), (
-            f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(self.cells)}) should have same length."
-        )  # noqa: E501
+            f"Cell Indices list (detected length {len(cell_indices)}) and Cell list (detected length {len(self.cells)}) should have same length."  # noqa: E501
+        )
 
         # each cell refers to the same commitment
         commitments: list[bytes] = [self.commitment] * len(cell_indices)
 
         is_valid = ckzg.verify_cell_kzg_proof_batch(
             commitments, cell_indices, self.cells, self.proof, TRUSTED_SETUP
-        )  # noqa: E501
+        )
 
         return is_valid
 
-    def delete_cells_then_recover_them(self, deletion_indices: list[int]):  # noqa: E501
+    def delete_cells_then_recover_them(self, deletion_indices: list[int]):
         """
         Simulate the cell recovery process in user-specified scenario.
 
@@ -282,13 +381,19 @@ class Blob(CamelModel):
             f"delete_cells_then_recover_them() is not available for fork: {self.fork}"
         )
 
+        assert self.cells is not None, "..."  # TODO: write text
+
+        assert isinstance(self.proof, list), (
+            "This function only works when self.proof is a list, but it seems to be of type bytes (not a list)"  # noqa: E501
+        )
+
         assert len(self.cells) == 128, (
-            f"You are supposed to pass a full cell list with 128 elements to this function, but got list of length {len(self.cells)}"
-        )  # noqa: E501
+            f"You are supposed to pass a full cell list with 128 elements to this function, but got list of length {len(self.cells)}"  # noqa: E501
+        )
 
         assert len(deletion_indices) < 129, (
-            f"You can't delete more than every cell (max len of deletion indices list is 128), but you passed a deletion indices list of length {len(deletion_indices)}"
-        )  # noqa: E501
+            f"You can't delete more than every cell (max len of deletion indices list is 128), but you passed a deletion indices list of length {len(deletion_indices)}"  # noqa: E501
+        )
         for i in deletion_indices:
             assert 0 <= i <= 127, f"Expected integers in range [0, 127], but got: {i}"
 
@@ -303,133 +408,99 @@ class Blob(CamelModel):
 
         # determine success/failure
         assert len(recovered_cells) == len(self.cells), (
-            f"Failed to recover cell list. Original cell list had length {len(self.cells)} but recovered cell list has length {len(recovered_cells)}"
-        )  # noqa: E501
+            f"Failed to recover cell list. Original cell list had length {len(self.cells)} but recovered cell list has length {len(recovered_cells)}"  # noqa: E501
+        )
         assert len(recovered_proofs) == len(self.proof), (
-            f"Failed to recover proofs list. Original proofs list had length {len(self.proof)} but recovered proofs list has length {len(recovered_proofs)}"
-        )  # noqa: E501
+            f"Failed to recover proofs list. Original proofs list had length {len(self.proof)} but recovered proofs list has length {len(recovered_proofs)}"  # noqa: E501
+        )
 
         for i in range(len(recovered_cells)):
             assert self.cells[i] == recovered_cells[i], (
-                f"Failed to correctly restore missing cells. At index {i} original cell was 0x{self.cells[i].hex()} but reconstructed cell does not match: 0x{recovered_cells[i].hex()}"
-            )  # noqa: E501
+                f"Failed to correctly restore missing cells. At index {i} original cell was 0x{self.cells[i].hex()} but reconstructed cell does not match: 0x{recovered_cells[i].hex()}"  # noqa: E501
+            )
             assert self.proof[i] == recovered_proofs[i], (
-                f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{self.proof[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"
-            )  # noqa: E501
+                f"Failed to correctly restore missing proofs. At index {i} original proof was 0x{self.proof[i].hex()} but reconstructed proof does not match: 0x{recovered_proofs[i].hex()}"  # noqa: E501
+            )
 
     def write_to_file(self):
         """Take an object, serialize it and write it to disk as json."""
-        # TODO: file_name should hold relative path instead of forcing cwd, e.g. if this is called from types.py where should blob be created?
-        file_name: str = self.name + ".json"
-        json_str: str = self.model_dump_json()
+        # TODO: file_name should hold relative path instead of forcing cwd, e.g. if this is called from types.py where should blob be created?  # noqa: E501
+        file_name = self.name + ".json"
+        json_str = self.model_dump_json()
         with open(file_name, "w", encoding="utf-8") as f:  # overwrite existing
             f.write(json_str)
 
+    class ProofCorruptionMode(Enum):
+        """Define what the proof corruption modes do. For Osaka and later each Bytes object in the list is manipulated this way."""  # noqa: E501
 
-def LoadBlobFromFile(file_name: str) -> Blob:
-    """Read a .json file and reconstruct object it represents."""
-    # TODO: file_name should match location defined in write_to_file
-    if ".json" not in file_name:
-        file_name = file_name + ".json"
+        CORRUPT_FIRST_BYTE = 1  # corrupts a single byte (index 0)
+        CORRUPT_LAST_BYTE = 2  # corrupts a single byte (last valid index)
+        CORRUPT_TO_ALL_ZEROES = 3  # sets all proof bytes to 0
+        CORRUPT_ALL_BYTES = 4  # corrupts all bytes
 
-    with open(file_name, "r", encoding="utf-8") as f:
-        json_str: str = f.read()
+    def corrupt_proof(self, mode: ProofCorruptionMode):
+        """Corrupt the proof field, supports different corruption modes."""
 
-    # reconstruct object
-    return Blob.model_validate_json(json_str)
+        def corrupt_byte(b: bytes) -> Bytes:
+            """Bit-flip all bits of provided byte using XOR to guarantee change."""
+            if len(b) != 1:
+                raise ValueError("Input must be a single byte")
+            return Bytes(bytes([b[0] ^ 0xFF]))
 
+        # osaka and later
+        if self.fork in ["osaka"]:
+            assert isinstance(self.proof, list), (
+                "proof was expected to be a list but it isn't"
+            )  # make mypy happy
 
-def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> Blob:
-    """Construct Blob instances. Fork-specific logic is encapsulated within nested functions."""
-    allowed_forks = ["cancun", "prague", "osaka"]
-    assert fork in allowed_forks, (
-        f"You tried to generate a blob for fork {fork} but blobs only exists in: {allowed_forks}"
-    )
+            if mode == self.ProofCorruptionMode.CORRUPT_FIRST_BYTE:
+                for i in range(len(self.proof)):
+                    b: Bytes = self.proof[i]
+                    corrupted: Bytes = Bytes(corrupt_byte(b[:1]) + b[1:])
+                    self.proof[i] = corrupted
+            elif mode == self.ProofCorruptionMode.CORRUPT_LAST_BYTE:
+                for i in range(len(self.proof)):
+                    b = self.proof[i]
+                    corrupted = Bytes(b[:-1] + corrupt_byte(b[-1:]))
+                    self.proof[i] = corrupted
+            elif mode == self.ProofCorruptionMode.CORRUPT_TO_ALL_ZEROES:
+                for i in range(len(self.proof)):
+                    self.proof[i] = Bytes(bytes(len(self.proof[i])))
+            elif mode == self.ProofCorruptionMode.CORRUPT_ALL_BYTES:
+                for i in range(len(self.proof)):
+                    b = self.proof[i]
+                    corrupted_bytes = Bytes(b"".join(corrupt_byte(bytes([byte])) for byte in b))
+                    self.proof[i] = corrupted_bytes
+            return
 
-    def generate_blob_data(rng_seed: int = 0) -> Bytes:
-        """Calculate blob data deterministically via provided seed."""
-        # apply RNG seed
-        random.seed(rng_seed)
-
-        # generate blob
-        ints: list[int] = [
-            random.randrange(Spec.BLS_MODULUS) for _ in range(Spec.FIELD_ELEMENTS_PER_BLOB)
-        ]
-        encoded: list[bytes] = [
-            i.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, Spec.KZG_ENDIANNESS) for i in ints
-        ]
-        blob: bytes = b"".join(encoded)  # without 0x
-
-        return Bytes(blob)
-
-    def get_versioned_hash(commitment: Bytes, version: int = 1) -> Hash:
-        """Calculate versioned hash for a given blob."""
-        return Hash(bytes([version]) + sha256(commitment).digest()[1:])
-
-    def get_name(seed: int) -> str:
-        """Derive blob name from the seed that generates its data."""
-        return "blob_" + fork + "_" + str(seed)
-
-    def get_commitment(data: Bytes) -> Bytes:
-        """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
-        # sanity check
-        assert len(data) == Spec.BYTES_PER_BLOB, (
-            f"Expected blob of length {Spec.BYTES_PER_BLOB} but got blob of length {len(data)}"
+        # pre-osaka (cancun and prague)
+        assert self.fork in ["cancun", "prague"], (
+            f"You need to adjust corrupt_proof to handle fork {self.fork}"
         )
+        assert isinstance(self.proof, Bytes), "proof was expected to be Bytes but it isn't"
 
-        # calculate commitment
-        commitment = ckzg.blob_to_kzg_commitment(data, TRUSTED_SETUP)
-
-        assert len(commitment) == Spec.BYTES_PER_COMMITMENT, (
-            f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
-        )
-
-        return commitment
-
-    def get_proof(data: Bytes) -> List[Bytes] | Bytes:
-        if fork in ["cancun", "prague"]:
-            # TODO: figure out what z is and call sth like ckzg.compute_kzg_proof(blob, z, ts)
-            return Bytes()
-
-        if fork in ["osaka"]:
-            _, proofs = ckzg.compute_cells_and_kzg_proofs(data, TRUSTED_SETUP)
-            return proofs  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes], do we even care about bytes vs Bytes?
-
-        raise AssertionError(f"get_proof() has not been implemented yet for fork: {fork}")
-
-    def get_cells(data: Bytes) -> List[Bytes] | None:
-        if fork in ["cancun", "prague"]:
-            return None
-
-        if fork in ["osaka"]:
-            cells, _ = ckzg.compute_cells_and_kzg_proofs(data, TRUSTED_SETUP)
-            return cells  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes]
-
-        raise AssertionError(f"get_cells() has not been implemented yet for fork: {fork}")
-
-    # populate blob fields
-    data: Bytes = generate_blob_data(seed)
-    commitment: Bytes = get_commitment(data)
-    proof: List[Bytes] | Bytes = get_proof(data)
-    cells: List[Bytes] | None = get_cells(data)
-    versioned_hash: Hash = get_versioned_hash(commitment)
-    name: str = get_name(seed)
-
-    return Blob(
-        data=data,
-        commitment=commitment,
-        proof=proof,
-        cells=cells,
-        versioned_hash=versioned_hash,
-        name=name,
-        fork=fork,
-        timestamp=timestamp,
-    )
+        if mode == self.ProofCorruptionMode.CORRUPT_FIRST_BYTE:
+            self.proof = Bytes(corrupt_byte(self.proof[:1]) + self.proof[1:])
+        elif mode == self.ProofCorruptionMode.CORRUPT_LAST_BYTE:
+            self.proof = Bytes(self.proof[:-1] + corrupt_byte(self.proof[-1:]))
+        elif mode == self.ProofCorruptionMode.CORRUPT_TO_ALL_ZEROES:
+            self.proof = Bytes(bytes(len(self.proof)))
+        elif mode == self.ProofCorruptionMode.CORRUPT_ALL_BYTES:
+            self.proof = Bytes(b"".join(corrupt_byte(bytes([byte])) for byte in self.proof))
 
 
-fork = "osaka"
-seed = 1337  # fork+seed is the unique ID of a blob
-b = NewBlob(fork, seed)
+# TODO: test corrupt_proof() for all modes and forks fusaka and <fusaka
+# TODO: instead of defining fork via string pass fork object and derive string
+# TODO: figure out how to have TRUSTED_LOAD be loaded only once per process but not whenever types is imported (maybe use typing ClassVar)
+# TODO: move code into types folder, import blob in init.py, update filepath references to static blobs
+# TODO: generate 10 static blobs for osaka, and 10 for cancun/prague, location is folder of respective eips
+# TODO: in NewBlob: read existing static blob if fork+seed already blob already exists
+# TODO: remove uv lock and pyproject.toml changes from this PR, then make separate pr for adding czkg dependency
+# TODO: update test_blob_txs_full.py to make use of actual blobs
+
+fork: str = "prague"
+seed: int = 1337  # fork+seed is the unique ID of a blob
+b: Blob = Blob.NewBlob(fork, seed)
 json_str: str = b.model_dump_json()
 restored: Blob = Blob.model_validate_json(json_str)
 assert b.data == restored.data
@@ -440,9 +511,12 @@ assert b.versioned_hash == restored.versioned_hash
 assert b.name == restored.name
 assert b.fork == restored.fork
 assert b.timestamp == restored.timestamp
+print(type(b.proof), len(b.proof))
+print(Spec.BYTES_PER_FIELD_ELEMENT)
+print(len(b.data))
 
 b.write_to_file()
-c: Blob = LoadBlobFromFile(
+c: Blob = Blob.LoadBlobFromFile(
     "blob_" + fork + "_" + str(seed)
 )  # or just put filename blob_osaka_1337
 assert b.data == c.data
@@ -453,38 +527,7 @@ assert b.versioned_hash == c.versioned_hash
 assert b.name == c.name
 assert b.fork == c.fork
 assert b.timestamp == c.timestamp
-
 print("pydantic model works")
-# TODO: if we move pydantic model Blob and NewBlob into types.py then how do we ensure trusted setup is not loaded when not needed? add it to NewBlob and maybe as field ts in Blob?
-# TODO: remove uv lock and pyproject.toml changes from this PR, then make separate pr for adding czkg dependency
-# TODO: handle all TODO comments ;)
-
-# # for i in range(10):
-# my_seed = 1
-# original = PersistentBlobGenerator(my_seed)
-# json_str = original.to_json()
-# restored = PersistentBlobGenerator.from_json(json_str)
-# assert original.name == restored.name
-# assert original.blob == restored.blob
-# assert original.commitments == restored.commitments
-# assert original.cells == restored.cells
-# assert original.proofs == restored.proofs
-
-# # write to file
-# original.to_file()
-
-# # read from file
-# file_to_read = "blob_" + str(my_seed) + ".json"
-# AnotherInstanceOfBlob: PersistentBlobGenerator = PersistentBlobGenerator.from_file(file_to_read)
-# #       ensure object read from file matches original object
-# assert original.name == AnotherInstanceOfBlob.name, (
-#     f"Expected name {original.name} but got name {AnotherInstanceOfBlob.name}"
-# )
-# assert original.blob == AnotherInstanceOfBlob.blob
-# assert original.commitments == AnotherInstanceOfBlob.commitments
-# assert original.cells == AnotherInstanceOfBlob.cells
-# assert original.proofs == AnotherInstanceOfBlob.proofs
-# print("It works")
 
 
 """ Example Usage
@@ -505,12 +548,6 @@ my_cell_indices: list[int] = list(range(128))
 is_valid = eest_verify_cell_kzg_proof_batch(commitment, my_cell_indices, cells, proofs)
 print("Success")
 """
-
-# - blob is now deterministically generated via seed
-# - trusted_setup is only loaded once
-# - rename constants to match deneb specs
-# - removed two unnecessary wrapper functions
-# - added read/write functions to class
 
 # ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
 # ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
