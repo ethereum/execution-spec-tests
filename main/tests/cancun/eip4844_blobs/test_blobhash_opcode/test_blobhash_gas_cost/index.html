@@ -11711,6 +11711,8 @@
       
         
       
+        
+      
     
     
       
@@ -11764,6 +11766,27 @@
   
   <span class="md-ellipsis">
     <code>test_blobhash_opcode_contexts</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_blobhash_opcode_contexts/test_blobhash_opcode_contexts_tx_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_blobhash_opcode_contexts_tx_types</code>
   </span>
   
 
@@ -19532,7 +19555,7 @@
 
 
 <h1 id="test_blobhash_gas_cost"><code>test_blobhash_gas_cost()</code><a class="headerlink" href="#test_blobhash_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/29dece928fd5a7a0c2b773ec43e19dad9d16817d/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L60"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@29dece92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/660bb22393e6b86346b9c74bce2aaec4f140ccc7/tests/cancun/eip4844_blobs/test_blobhash_opcode.py#L151"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost@660bb223</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost --fork Prague</span>
@@ -19554,55 +19577,62 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 60</span>
-<span class="normal"> 61</span>
-<span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
-<span class="normal"> 82</span>
-<span class="normal"> 83</span>
-<span class="normal"> 84</span>
-<span class="normal"> 85</span>
-<span class="normal"> 86</span>
-<span class="normal"> 87</span>
-<span class="normal"> 88</span>
-<span class="normal"> 89</span>
-<span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
-<span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;blobhash_index&quot;</span><span class="p">,</span> <span class="n">blobhash_index_values</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="k">def</span> <span class="nf">test_blobhash_gas_cost</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -19628,21 +19658,28 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
     <span class="n">address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">gas_measure_code</span><span class="p">)</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">ty</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">address</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">3_000_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">access_list</span><span class="o">=</span><span class="p">[]</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_fee_per_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_priority_fee_per_gas</span><span class="o">=</span><span class="mi">10</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">min_base_fee_per_blob_gas</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">random_blob_hashes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">target_blobs_per_block</span><span class="p">]</span>
+    <span class="n">tx_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ty&quot;</span><span class="p">:</span> <span class="n">tx_type</span><span class="p">,</span>
+        <span class="s2">&quot;sender&quot;</span><span class="p">:</span> <span class="n">sender</span><span class="p">,</span>
+        <span class="s2">&quot;to&quot;</span><span class="p">:</span> <span class="n">address</span><span class="p">,</span>
+        <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;gas_limit&quot;</span><span class="p">:</span> <span class="mi">500_000</span><span class="p">,</span>
+        <span class="s2">&quot;max_fee_per_blob_gas&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">min_base_fee_per_blob_gas</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;blob_versioned_hashes&quot;</span><span class="p">:</span> <span class="n">random_blob_hashes</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">target_blobs_per_block</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">3</span>
         <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">tx_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">tx_kwargs</span><span class="p">[</span><span class="s2">&quot;authorization_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">AuthorizationTuple</span><span class="p">(</span>
+                <span class="n">signer</span><span class="o">=</span><span class="n">signer</span><span class="p">,</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+                <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="o">**</span><span class="n">tx_kwargs</span><span class="p">)</span>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span><span class="n">address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">Spec</span><span class="o">.</span><span class="n">HASH_GAS_COST</span><span class="p">})}</span>
 
     <span class="n">state_test</span><span class="p">(</span>
@@ -20269,6 +20306,146 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_0]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_0]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_0
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_1]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_1]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_1
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_2]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_2
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_3]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_3]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_3
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_4]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_4]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_4
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]">
+                    ...fork_Prague-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>72901072107898194510616918724280211781393090952923809435170590639787343028527</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_0]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_0]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_0
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_1]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_1]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_1
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_2]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_2
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_3]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_3]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_3
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_4]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_4]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_4
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]">
+                    ...fork_Prague-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>72901072107898194510616918724280211781393090952923809435170590639787343028527</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_3-state_test-blobhash_index_0]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Prague-tx_type_3-state_test-blobhash_index_0]">
                     ...fork_Prague-tx_type_3-state_test-blobhash_index_0
                 </abbr>
@@ -20824,6 +21001,146 @@ index sizes from the range <code>[0, 2**256-1]</code>, for tx types 2 and 3.</p>
                 </abbr>
             </td>
                         <td>0</td>
+                        <td>72901072107898194510616918724280211781393090952923809435170590639787343028527</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_0]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_0]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_0
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_1]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_1]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_1
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_2]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_2
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_3]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_3]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_3
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_4]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_4]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_4
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]">
+                    ...fork_Osaka-tx_type_4-state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>72901072107898194510616918724280211781393090952923809435170590639787343028527</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_0]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_0]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_0
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_1]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_1]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_1
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_2]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_2
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_3]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_3]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_3
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_4]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_4]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_4
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_115792089237316195423570985008687907853269984665640564039457584007913129639935
+                </abbr>
+            </td>
+                        <td>4</td>
+                        <td>115792089237316195423570985008687907853269984665640564039457584007913129639935</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode.py::test_blobhash_gas_cost[fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527]">
+                    ...fork_Osaka-tx_type_4-blockchain_test_from_state_test-blobhash_index_72901072107898194510616918724280211781393090952923809435170590639787343028527
+                </abbr>
+            </td>
+                        <td>4</td>
                         <td>72901072107898194510616918724280211781393090952923809435170590639787343028527</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">

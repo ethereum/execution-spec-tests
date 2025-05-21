@@ -43,7 +43,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -57,222 +58,78 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>opcode_context</th>
+                        <th>test_case</th>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_top_level_call_stack-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_top_level_call_stack]">
+                    ...fork_Cancun-state_test-on_top_level_call_stack
                 </abbr>
             </td>
                         <td>on_top_level_call_stack</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_top_level_call_stack-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_top_level_call_stack</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_top_level_call_stack-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_top_level_call_stack-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_top_level_call_stack</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_max_value-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_max_value]">
+                    ...fork_Cancun-state_test-on_max_value
                 </abbr>
             </td>
                         <td>on_max_value</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_max_value-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_max_value</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_max_value-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_max_value-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_max_value</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_CALL-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CALL]">
+                    ...fork_Cancun-state_test-on_CALL
                 </abbr>
             </td>
                         <td>on_CALL</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_CALL-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALL-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_CALL-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_DELEGATECALL-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_DELEGATECALL]">
+                    ...fork_Cancun-state_test-on_DELEGATECALL
                 </abbr>
             </td>
                         <td>on_DELEGATECALL</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_DELEGATECALL-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_DELEGATECALL-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_DELEGATECALL-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_STATICCALL-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_STATICCALL]">
+                    ...fork_Cancun-state_test-on_STATICCALL
                 </abbr>
             </td>
                         <td>on_STATICCALL</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_STATICCALL-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_STATICCALL</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_STATICCALL-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_STATICCALL-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_STATICCALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_CALLCODE-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CALLCODE]">
+                    ...fork_Cancun-state_test-on_CALLCODE
                 </abbr>
             </td>
                         <td>on_CALLCODE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_CALLCODE-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CALLCODE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CALLCODE-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_CALLCODE-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_CREATE-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CREATE]">
+                    ...fork_Cancun-state_test-on_CREATE
                 </abbr>
             </td>
                         <td>on_CREATE</td>
                     </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
+                <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_CREATE-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CREATE</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_CREATE-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CREATE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_CREATE2-fork_Cancun-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CREATE2</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_CREATE2-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_CREATE2</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_CREATE2-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_CREATE2-fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-state_test-on_CREATE2]">
+                    ...fork_Cancun-state_test-on_CREATE2
                 </abbr>
             </td>
                         <td>on_CREATE2</td>
@@ -280,83 +137,362 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_type_2_tx-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_top_level_call_stack]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_top_level_call_stack
                 </abbr>
             </td>
-                        <td>on_type_2_tx</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_type_2_tx-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_type_2_tx</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_2_tx-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_type_2_tx-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_type_2_tx</td>
+                        <td>on_top_level_call_stack</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_type_1_tx-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_max_value]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_max_value
                 </abbr>
             </td>
-                        <td>on_type_1_tx</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_type_1_tx-fork_Prague-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_type_1_tx</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_1_tx-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_type_1_tx-fork_Osaka-blockchain_test
-                </abbr>
-            </td>
-                        <td>on_type_1_tx</td>
+                        <td>on_max_value</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Cancun-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Cancun-blockchain_test]">
-                    ...opcode_context_on_type_0_tx-fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_CALL
                 </abbr>
             </td>
-                        <td>on_type_0_tx</td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_DELEGATECALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_STATICCALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_STATICCALL
+                </abbr>
+            </td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CALLCODE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_CALLCODE
+                </abbr>
+            </td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CREATE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_CREATE
+                </abbr>
+            </td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Cancun-blockchain_test_from_state_test-on_CREATE2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-on_CREATE2
+                </abbr>
+            </td>
+                        <td>on_CREATE2</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_top_level_call_stack]">
+                    ...fork_Prague-state_test-on_top_level_call_stack
+                </abbr>
+            </td>
+                        <td>on_top_level_call_stack</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_max_value]">
+                    ...fork_Prague-state_test-on_max_value
+                </abbr>
+            </td>
+                        <td>on_max_value</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CALL]">
+                    ...fork_Prague-state_test-on_CALL
+                </abbr>
+            </td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_DELEGATECALL]">
+                    ...fork_Prague-state_test-on_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_STATICCALL]">
+                    ...fork_Prague-state_test-on_STATICCALL
+                </abbr>
+            </td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CALLCODE]">
+                    ...fork_Prague-state_test-on_CALLCODE
+                </abbr>
+            </td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CREATE]">
+                    ...fork_Prague-state_test-on_CREATE
+                </abbr>
+            </td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-state_test-on_CREATE2]">
+                    ...fork_Prague-state_test-on_CREATE2
+                </abbr>
+            </td>
+                        <td>on_CREATE2</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Prague-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Prague-blockchain_test]">
-                    ...opcode_context_on_type_0_tx-fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_top_level_call_stack]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_top_level_call_stack
                 </abbr>
             </td>
-                        <td>on_type_0_tx</td>
+                        <td>on_top_level_call_stack</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_max_value]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_max_value
+                </abbr>
+            </td>
+                        <td>on_max_value</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_CALL
+                </abbr>
+            </td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_DELEGATECALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_STATICCALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_STATICCALL
+                </abbr>
+            </td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CALLCODE]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_CALLCODE
+                </abbr>
+            </td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CREATE]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_CREATE
+                </abbr>
+            </td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Prague-blockchain_test_from_state_test-on_CREATE2]">
+                    ...fork_Prague-blockchain_test_from_state_test-on_CREATE2
+                </abbr>
+            </td>
+                        <td>on_CREATE2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_top_level_call_stack]">
+                    ...fork_Osaka-state_test-on_top_level_call_stack
+                </abbr>
+            </td>
+                        <td>on_top_level_call_stack</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_max_value]">
+                    ...fork_Osaka-state_test-on_max_value
+                </abbr>
+            </td>
+                        <td>on_max_value</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CALL]">
+                    ...fork_Osaka-state_test-on_CALL
+                </abbr>
+            </td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_DELEGATECALL]">
+                    ...fork_Osaka-state_test-on_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_STATICCALL]">
+                    ...fork_Osaka-state_test-on_STATICCALL
+                </abbr>
+            </td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CALLCODE]">
+                    ...fork_Osaka-state_test-on_CALLCODE
+                </abbr>
+            </td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CREATE]">
+                    ...fork_Osaka-state_test-on_CREATE
+                </abbr>
+            </td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-state_test-on_CREATE2]">
+                    ...fork_Osaka-state_test-on_CREATE2
+                </abbr>
+            </td>
+                        <td>on_CREATE2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Osaka-blockchain_test]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[opcode_context_on_type_0_tx-fork_Osaka-blockchain_test]">
-                    ...opcode_context_on_type_0_tx-fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_top_level_call_stack]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_top_level_call_stack]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_top_level_call_stack
                 </abbr>
             </td>
-                        <td>on_type_0_tx</td>
+                        <td>on_top_level_call_stack</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_max_value]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_max_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_max_value
+                </abbr>
+            </td>
+                        <td>on_max_value</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_CALL
+                </abbr>
+            </td>
+                        <td>on_CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_DELEGATECALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_DELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>on_DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_STATICCALL]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_STATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_STATICCALL
+                </abbr>
+            </td>
+                        <td>on_STATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CALLCODE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CALLCODE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_CALLCODE
+                </abbr>
+            </td>
+                        <td>on_CALLCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CREATE]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CREATE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_CREATE
+                </abbr>
+            </td>
+                        <td>on_CREATE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CREATE2]" title="tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts[fork_Osaka-blockchain_test_from_state_test-on_CREATE2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-on_CREATE2
+                </abbr>
+            </td>
+                        <td>on_CREATE2</td>
                     </tr>
             </tbody>
 </table>    </div>

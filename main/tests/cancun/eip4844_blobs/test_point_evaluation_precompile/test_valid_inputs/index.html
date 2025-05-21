@@ -11651,6 +11651,8 @@
       
         
       
+        
+      
     
     
       
@@ -11704,6 +11706,27 @@
   
   <span class="md-ellipsis">
     <code>test_blobhash_opcode_contexts</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_blobhash_opcode_contexts/test_blobhash_opcode_contexts_tx_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_blobhash_opcode_contexts_tx_types</code>
   </span>
   
 
@@ -19532,7 +19555,7 @@
 
 
 <h1 id="test_valid_inputs"><code>test_valid_inputs()</code><a class="headerlink" href="#test_valid_inputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/29dece928fd5a7a0c2b773ec43e19dad9d16817d/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L273"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs@29dece92</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/660bb22393e6b86346b9c74bce2aaec4f140ccc7/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L273"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs@660bb223</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs --fork Prague</span>
@@ -19580,10 +19603,30 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
 <span class="normal">295</span>
 <span class="normal">296</span>
 <span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;z,y,kzg_commitment,kzg_proof,versioned_hash&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">BLS_MODULUS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="n">INF_POINT</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;in_bounds_z&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="c1"># Example valid input from a Mainnet transaction</span>
+            <span class="c1"># https://etherscan.io/tx/0xcb3dc8f3b14f1cda0c16a619a112102a8ec70dce1b3f1b28272227cf8d5fbb0e</span>
+            <span class="mh">0x019123BCB9D06356701F7BE08B4494625B87A7B02EDC566126FB81F6306E915F</span><span class="p">,</span>
+            <span class="mh">0x6C2EB1E94C2532935B8465351BA1BD88EABE2B3FA1AADFF7D1CD816E8315BD38</span><span class="p">,</span>
+            <span class="mh">0xA9546D41993E10DF2A7429B8490394EA9EE62807BAE6F326D1044A51581306F58D4B9DFD5931E044688855280FF3799E</span><span class="p">,</span>
+            <span class="mh">0xA2EA83D9391E0EE42E0C650ACC7A1F842A7D385189485DDB4FD54ADE3D9FD50D608167DCA6C776AAD4B8AD5C20691BFE</span><span class="p">,</span>
+            <span class="mh">0x018156B94FE9735E573BAB36DAD05D60FEB720D424CCD20AAF719343C31E4246</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mainnet_1&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;result&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Result</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">])</span>
@@ -19611,7 +19654,7 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_valid_inputs.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -19679,6 +19722,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
                     </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Cancun-state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Cancun-state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Cancun-state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -19692,6 +19749,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Cancun-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Cancun-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Cancun-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -19707,6 +19778,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
                     </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Prague-state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Prague-state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Prague-state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
+                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -19720,6 +19805,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Prague-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Prague-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Prague-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -19735,6 +19834,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Osaka-state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Osaka-state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Osaka-state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -19748,6 +19861,20 @@ hence <code>y</code> is tested to be zero, and call to be successful.</li>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td><code>c0000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
                         <td>None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Osaka-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]" title="tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_valid_inputs[fork_Osaka-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-result_Result.SUCCESS-mainnet_1
+                </abbr>
+            </td>
+                        <td>Result.SUCCESS</td>
+                        <td>708752322136743035325904615527746868865504840551727068388104158728481050975</td>
+                        <td>48932290510762567355215018952980625686085234701671636106116239558514631359800</td>
+                        <td>26062240305731257297863486693640305908664292804455274611893778439019420491631461829634095890012226778671624519645598</td>
+                        <td>25075078792916362002763283008209891154342216554215961360183188947087884859618019056361975176283376001508214854720510</td>
+                        <td>680834666131342450585230780566931966477006918939036064738543038916426875462</td>
                     </tr>
             </tbody>
 </table>

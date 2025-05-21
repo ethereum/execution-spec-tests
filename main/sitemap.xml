@@ -756,6 +756,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts/test_blobhash_opcode_contexts_tx_types/</loc>
+         <lastmod>2025-05-21</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/cancun/eip4844_blobs/test_excess_blob_gas/</loc>
          <lastmod>2025-05-21</lastmod>
          <changefreq>daily</changefreq>

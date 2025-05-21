@@ -12621,6 +12621,8 @@
       
         
       
+        
+      
     
     
       
@@ -12674,6 +12676,27 @@
   
   <span class="md-ellipsis">
     <code>test_blobhash_opcode_contexts</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts/test_blobhash_opcode_contexts_tx_types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_blobhash_opcode_contexts_tx_types</code>
   </span>
   
 
@@ -21395,6 +21418,9 @@
 <li>🔀 Updated from pytest 7 to <a href="https://docs.pytest.org/en/stable/changelog.html#features-and-improvements">pytest 8</a>, benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development <a href="https://github.com/ethereum/execution-spec-tests/pull/1433">#1433</a>.</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
+<ul>
+<li>🔀 Refactored <code>BLOBHASH</code> opcode context tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1637">#1637</a>).</li>
+</ul>
 <h2 id="v450-2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0">v4.5.0</a> - 2025-05-14<a class="headerlink" href="#v450-2025-05-14" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
 <h4 id="eof-removed-from-osaka">EOF removed from Osaka<a class="headerlink" href="#eof-removed-from-osaka" title="Permanent link">&para;</a></h4>
