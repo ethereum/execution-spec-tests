@@ -249,6 +249,9 @@ def test_worst_modexp(
         pytest.param(
             0x01,
             [
+                # TODO: below inputs are covering a regular signature. Worth exploring
+                # if there are other inputs that can be used to make the precompile
+                # take longer.
                 "38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E",
                 "000000000000000000000000000000000000000000000000000000000000001B",
                 "38D18ACB67D25C8BB9942764B62F18E17054F66A817BD4295423ADF9ED98873E",
@@ -278,6 +281,10 @@ def test_worst_modexp(
         pytest.param(
             0x08,
             [
+                # TODO: the following are only two inputs, but this can be extended
+                # to more inputs to amortize costs as much as possible. Additionally,
+                # there might be worse pairings that can be used.
+                #
                 # First pairing
                 "1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59",
                 "3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41",
@@ -298,7 +305,7 @@ def test_worst_modexp(
         pytest.param(
             Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
             [
-                Blake2bInput(rounds=0xFFFF, f=True),
+                Blake2bInput(rounds=0xFFFF, f=True).create_blake2b_tx_data(),
             ],
             id="blake2f",
         ),
