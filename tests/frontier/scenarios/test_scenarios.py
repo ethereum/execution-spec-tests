@@ -148,6 +148,7 @@ program_classes = [
         "https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/createDiffPlacesTests.sh",
         "https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/createBadOpcodeTest.sh",
         "https://github.com/ethereum/tests/blob/v13.3/src/Templates/DiffPlaces/createAllBadOpcodeTests.sh",
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stSelfBalance/diffPlacesFiller.yml",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/808"],
 )
