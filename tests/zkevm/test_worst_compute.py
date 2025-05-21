@@ -24,6 +24,9 @@ from ethereum_test_tools import (
 from ethereum_test_tools.code.generators import While
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_vm.opcode import Opcode
+from tests.cancun.eip4844_blobs.spec import Spec as BlobsSpec
+from tests.istanbul.eip152_blake2.common import Blake2bInput
+from tests.istanbul.eip152_blake2.spec import Spec as Blake2bSpec
 from tests.prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
 from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 
@@ -293,18 +296,14 @@ def test_worst_modexp(
             id="bn128_pairing",
         ),
         pytest.param(
-            0x09,
+            Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
             [
-                "0000FFFF",
-                "48C9BDF267E6096A3BA7CA8485AE67BB2BF894FE72F36E3CF1361D5F3AF54FA5D182E6AD7F520E511F6C3E2B8C68059B6BBD41FBABD9831F79217E1319CDE05B",
-                "6162630000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-                "00000000000300000000000000000000",
-                "01",
+                Blake2bInput(rounds=0xFFFF, f=True),
             ],
             id="blake2f",
         ),
         pytest.param(
-            0x0A,
+            BlobsSpec.POINT_EVALUATION_PRECOMPILE_ADDRESS,
             [
                 "01E798154708FE7789429634053CBF9F99B619F9F084048927333FCE637F549B",
                 "564C0A11A0F704F4FC3E8ACFE0F8245F0AD1347B378FBF96E206DA11A5D36306",
@@ -377,7 +376,6 @@ def test_worst_modexp(
 def test_worst_precompile_fixed_cost(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
 ):
