@@ -34,6 +34,10 @@ Users can select any of the artifacts depending on their testing needs for their
 
 #### `consume`
 
+#### `execute`
+
+- ✨ Add `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+
 ### 📋 Misc
 
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
