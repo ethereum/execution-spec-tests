@@ -101,7 +101,7 @@ class TestParameterGroup(BaseModel):
 
     __test__ = False  # explicitly prevent pytest collecting this class
 
-    model_config = ConfigDict(frozen=True, repr=False, validate_default=True)
+    model_config = ConfigDict(frozen=True, validate_default=True)
 
     def __repr__(self):
         """
