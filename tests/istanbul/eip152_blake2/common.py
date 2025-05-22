@@ -28,8 +28,8 @@ class Blake2bInput(TestParameterGroup):
 
     rounds_length: int = Spec.BLAKE2_PRECOMPILE_ROUNDS_LENGTH
     rounds: int = Spec.BLAKE2B_PRECOMPILE_ROUNDS
-    h: Bytes = SpecTestVectors.BLAKE2_STATE_VECTOR
-    m: Bytes = SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR
+    h: Bytes = SpecTestVectors.BLAKE2_STATE_VECTOR  # type: ignore
+    m: Bytes = SpecTestVectors.BLAKE2_MESSAGE_BLOCK_VECTOR  # type: ignore
     t_0: int | Bytes = SpecTestVectors.BLAKE2_OFFSET_COUNTER_0
     t_1: int | Bytes = SpecTestVectors.BLAKE2_OFFSET_COUNTER_1
     f: bool | int = True
