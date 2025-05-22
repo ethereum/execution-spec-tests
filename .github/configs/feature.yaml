@@ -22,3 +22,8 @@ eip7692:
   solc: 0.8.21
   eofwrap: true
   feature_only: true
+osaka-devnet-0:
+  evm-type: develop
+  fill-params: --from=Prague --until=Osaka tests/osaka tests/byzantium/eip198_modexp_precompile
+  solc: 0.8.21
+  feature_only: true
