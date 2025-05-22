@@ -31,6 +31,7 @@ base64
 basefee
 basename
 bb
+BerlinToLondonAt
 besu
 pyspecs
 big0
@@ -145,6 +146,7 @@ EngineAPI
 enum
 env
 envvar
+eoa
 EOA
 EOAs
 eof

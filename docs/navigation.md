@@ -19,6 +19,7 @@
       * [Verifying Changes Locally](writing_tests/verifying_changes.md)
       * [Code Standards](writing_tests/code_standards.md)
       * [Exception Tests](writing_tests/exception_tests.md)
+      * [Using and Extending Fork Methods](writing_tests/fork_methods.md)
       * [Referencing an EIP Spec Version](writing_tests/reference_specification.md)
       * [Testing Checklist Templates](writing_tests/checklist_templates/index.md)
           * [EIP Execution Layer Testing Checklist Template](writing_tests/checklist_templates/eip_testing_checklist_template.md)
