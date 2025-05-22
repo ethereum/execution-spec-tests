@@ -27,6 +27,10 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 
 #### `consume`
 
+#### `execute`
+
+- ✨ Add get-blobs execute test spec, which allows to write tests that send blobs transactions to a running client and verify `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+
 ### 📋 Misc
 
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
