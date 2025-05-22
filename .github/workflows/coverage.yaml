@@ -118,7 +118,7 @@ jobs:
         run: |
           source $GITHUB_ENV
           new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
-          files=$(uv run extract_markers $new_sources)
+          files=$(uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled | grep .json)
           if [[ -z "$files" ]]; then
               echo "No ported fillers found, check updates instead:"
               echo "converted_skip=true" >> $GITHUB_ENV

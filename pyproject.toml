@@ -103,7 +103,6 @@ evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
 fillerconvert = "cli.fillerconvert.fillerconvert:main"
-extract_markers = "cli.extract_markers.extract_markers:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
