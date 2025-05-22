@@ -155,5 +155,7 @@ class PortedFromDisplay:
 
     def pytest_terminal_summary(self, terminalreporter, exitstatus, config):
         """Add a summary line."""
+        if config.getoption("verbose") < 0:
+            return
         mode_desc = "PR URLs" if self.show_mode == "prs" else "static filler paths"
         terminalreporter.write_sep("=", f"ported_from {mode_desc} displayed", bold=True)
