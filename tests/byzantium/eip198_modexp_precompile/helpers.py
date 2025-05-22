@@ -1,5 +1,7 @@
 """Helper functions for the EIP-198 ModExp precompile tests."""
 
+from pydantic import Field
+
 from ethereum_test_tools import Bytes, TestParameterGroup
 
 
@@ -20,22 +22,22 @@ class ModExpInput(TestParameterGroup):
     base: Bytes
     exponent: Bytes
     modulus: Bytes
-    extra_data: Bytes = b""
+    extra_data: Bytes = Field(default_factory=Bytes)
 
     @property
     def length_base(self) -> Bytes:
         """Return the length of the base."""
-        return len(self.base).to_bytes(32, "big")
+        return Bytes(len(self.base).to_bytes(32, "big"))
 
     @property
     def length_exponent(self) -> Bytes:
         """Return the length of the exponent."""
-        return len(self.exponent).to_bytes(32, "big")
+        return Bytes(len(self.exponent).to_bytes(32, "big"))
 
     @property
     def length_modulus(self) -> Bytes:
         """Return the length of the modulus."""
-        return len(self.modulus).to_bytes(32, "big")
+        return Bytes(len(self.modulus).to_bytes(32, "big"))
 
     @property
     def exponent_value(self) -> int:
