@@ -1,6 +1,5 @@
 """Defines EIP-7883 specification constants and functions."""
 
-import math
 from dataclasses import dataclass
 
 
@@ -13,6 +12,14 @@ class ReferenceSpec:
 
 
 ref_spec_7883 = ReferenceSpec("EIPS/eip-7883.md", "13aa65810336d4f243d4563a828d5afe36035d23")
+
+
+def ceiling_division(a: int, b: int) -> int:
+    """
+    Calculate the ceil without using floating point.
+    Used by many of the EVM's formulas.
+    """
+    return -(a // -b)
 
 
 @dataclass(frozen=True)
@@ -34,7 +41,7 @@ class Spec:
     def calculate_multiplication_complexity(cls, base_length: int, modulus_length: int) -> int:
         """Calculate the multiplication complexity of the ModExp precompile."""
         max_length = max(base_length, modulus_length)
-        words = math.ceil(max_length / cls.WORD_SIZE)
+        words = ceiling_division(max_length, cls.WORD_SIZE)
         if max_length <= cls.MAX_LENGTH_THRESHOLD:
             return words**2
         return cls.LARGE_BASE_MODULUS_MULTIPLIER * words**2
@@ -48,9 +55,11 @@ class Spec:
         elif exponent_length <= cls.EXPONENT_THRESHOLD:
             iteration_count = exponent.bit_length() - 1
         elif exponent_length > cls.EXPONENT_THRESHOLD:
-            iteration_count = (
-                cls.EXPONENT_BYTE_MULTIPLIER * (exponent_length - cls.EXPONENT_THRESHOLD)
-            ) + ((exponent & (2**256 - 1)).bit_length() - 1)
+            length_part = cls.EXPONENT_BYTE_MULTIPLIER * (exponent_length - 32)
+            bits_part = exponent.bit_length()
+            if bits_part > 0:
+                bits_part -= 1
+            iteration_count = length_part + bits_part
         return max(iteration_count, 1)
 
     @classmethod
@@ -62,9 +71,7 @@ class Spec:
             base_length, modulus_length
         )
         iteration_count = cls.calculate_iteration_count(exponent_length, exponent)
-        return max(
-            cls.MIN_GAS, math.floor(multiplication_complexity * iteration_count / cls.GAS_DIVISOR)
-        )
+        return max(cls.MIN_GAS, (multiplication_complexity * iteration_count // cls.GAS_DIVISOR))
 
 
 @dataclass(frozen=True)
