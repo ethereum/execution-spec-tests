@@ -15,6 +15,7 @@ import ckzg
 
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
+from ethereum_test_forks import Cancun, Fork, Osaka, Prague
 
 sys.path.insert(0, abspath(join(dirname(__file__), "../../")))  # TODO: find better workaround
 from tests.osaka.eip7594_peerdas.spec import Spec, ref_spec_7594
@@ -55,9 +56,9 @@ class Blob(CamelModel):
     timestamp: int
 
     @staticmethod
-    def get_filepath(fork: str, seed: int):
+    def get_filepath(fork: str, seed: int, timestamp: int):
         """Return the Path to the blob that would be created with these parameters."""
-        would_be_filename: str = "blob_" + fork + "_" + str(seed) + ".json"
+        would_be_filename: str = "blob_" + fork + "_" + str(seed) + "_" + str(timestamp) + ".json"
         assert fork in ["cancun", "prague", "osaka"], f"Fork {fork} not implemented yet"
 
         if fork == "osaka":
@@ -85,10 +86,12 @@ class Blob(CamelModel):
         return would_be_static_blob_path
 
     @staticmethod
-    def NewBlob(fork: str, seed: int = 0, timestamp: int = 0) -> "Blob":  # noqa: N802
+    def NewBlob(fork: Fork, seed: int = 0, timestamp: int = 0) -> "Blob":  # noqa: N802
         """Construct Blob instances. Fork-specific logic is encapsulated within nested functions."""  # noqa: E501
+        fork_str: str = fork.name().lower()
+
         # if this blob already exists then load from file
-        blob_location: Path = Blob.get_filepath(fork, seed)
+        blob_location: Path = Blob.get_filepath(fork_str, seed, timestamp)
         if blob_location.exists():
             print(f"Blob exists already, reading it from file {blob_location}")
             return Blob.LoadBlobFromFile(str(blob_location))
@@ -115,9 +118,9 @@ class Blob(CamelModel):
             # TODO: is this in specs or made up by us? do we need it?
             return Hash(bytes([version]) + sha256(commitment).digest()[1:])
 
-        def get_name(seed: int) -> str:
+        def get_name(fork_str: str, seed: int, timestamp: int) -> str:
             """Derive blob name from the seed that generates its data."""
-            return "blob_" + fork + "_" + str(seed)
+            return "blob_" + fork_str + "_" + str(seed) + "_" + str(timestamp)
 
         def get_commitment(data: Bytes) -> Bytes:
             """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
@@ -136,31 +139,31 @@ class Blob(CamelModel):
             return commitment
 
         def get_proof(data: Bytes) -> List[Bytes] | Bytes:
-            if fork in ["cancun", "prague"]:
+            if fork_str in ["cancun", "prague"]:
                 z = 2  # 2 is one of many possible valid field elements z (https://github.com/ethereum/consensus-specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)
                 z_valid_size: bytes = z.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, byteorder="big")
                 proof, _ = ckzg.compute_kzg_proof(data, z_valid_size, TRUSTED_SETUP)
                 return proof
 
-            if fork in ["osaka"]:
+            if fork_str in ["osaka"]:
                 _, proofs = ckzg.compute_cells_and_kzg_proofs(
                     data, TRUSTED_SETUP
                 )  # returns List[byte] of length 128
                 return proofs  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes], do we even care about bytes vs Bytes?  # noqa: E501
 
-            raise AssertionError(f"get_proof() has not been implemented yet for fork: {fork}")
+            raise AssertionError(f"get_proof() has not been implemented yet for fork: {fork_str}")
 
         def get_cells(data: Bytes) -> List[Bytes] | None:
-            if fork in ["cancun", "prague"]:
+            if fork_str in ["cancun", "prague"]:
                 return None
 
-            if fork in ["osaka"]:
+            if fork_str in ["osaka"]:
                 cells, _ = ckzg.compute_cells_and_kzg_proofs(
                     data, TRUSTED_SETUP
                 )  # returns List[byte] of length 128
                 return cells  # List[bytes] # TODO: how to convert List[bytes] to List[Bytes]
 
-            raise AssertionError(f"get_cells() has not been implemented yet for fork: {fork}")
+            raise AssertionError(f"get_cells() has not been implemented yet for fork: {fork_str}")
 
         # populate blob fields
         data: Bytes = generate_blob_data(seed)
@@ -168,7 +171,7 @@ class Blob(CamelModel):
         proof: List[Bytes] | Bytes = get_proof(data)
         cells: List[Bytes] | None = get_cells(data)
         versioned_hash: Hash = get_versioned_hash(commitment)
-        name: str = get_name(seed)
+        name: str = get_name(fork_str, seed, timestamp)
 
         return Blob(
             data=data,
@@ -177,7 +180,7 @@ class Blob(CamelModel):
             cells=cells,
             versioned_hash=versioned_hash,
             name=name,
-            fork=fork,
+            fork=fork_str,
             seed=seed,
             timestamp=timestamp,
         )
@@ -190,13 +193,23 @@ class Blob(CamelModel):
 
         # determine whether user passed only filename or entire path
         if file_path.startswith("blob_"):
+            print(f"Received file_path: {file_path}")
             parts = file_path.split("_")
+            assert len(parts) == 4, (
+                f"You provided an invalid filename. Each blob is named blob_<fork>_<seed>_<timestamp>.json but you provided: {file_path}"  # noqa: E501
+            )
             detected_fork = parts[1]
-            detected_seed = parts[2].removesuffix(".json")
+            detected_seed = parts[2]
+            detected_timestamp = parts[3].removesuffix(".json")
             assert detected_seed.isdigit(), (
                 f"Failed to extract seed from filename. Ended up with seed {detected_seed} given filename {file_path}"  # noqa: E501
             )
-            file_path = Blob.get_filepath(detected_fork, int(detected_seed))
+            assert detected_timestamp.isdigit(), (
+                f"Failed to extract timestamp from filename. Ended up with timestamp {detected_timestamp} given filename {file_path}"  # noqa: E501
+            )
+            file_path = Blob.get_filepath(
+                detected_fork, int(detected_seed), int(detected_timestamp)
+            )
 
         assert Path(file_path).exists(), (
             f"Tried to load static blob from file but {file_path} does not exist"
@@ -211,7 +224,7 @@ class Blob(CamelModel):
     def write_to_file(self):
         """Take a blob object, serialize it and write it to disk as json."""
         json_str = self.model_dump_json()
-        output_location = Blob.get_filepath(self.fork, self.seed)
+        output_location = Blob.get_filepath(self.fork, self.seed, self.timestamp)
 
         # warn if existing static_blob gets overwritten
         if output_location.exists():
@@ -355,76 +368,94 @@ class Blob(CamelModel):
             self.proof = Bytes(b"".join(corrupt_byte(bytes([byte])) for byte in self.proof))
 
 
-# TODO: instead of defining fork via string pass fork object and derive string
-# TODO: generate 10 static blobs for osaka, and 10 for cancun/prague, location is folder of respective eips
-# TODO: remove uv lock and pyproject.toml changes from this PR, then make separate pr for adding czkg dependency
-# TODO: update test_blob_txs_full.py to make use of actual blobs
+# TODO: currently u can only run this file from ./blob.py but not from eest root, fix it
 
-# fork: str = "prague"
-myseed: int = 1337  # fork+seed is the unique ID of a blob
-b: Blob = Blob.NewBlob("prague", myseed)
-json_str: str = b.model_dump_json()
-restored: Blob = Blob.model_validate_json(json_str)
-assert b.data == restored.data
-assert b.commitment == restored.commitment
-assert b.proof == restored.proof
-assert b.cells == restored.cells
-assert b.versioned_hash == restored.versioned_hash
-assert b.name == restored.name
-assert b.fork == restored.fork
-assert b.timestamp == restored.timestamp
-print(type(b.proof), len(b.proof))
-print(Spec.BYTES_PER_FIELD_ELEMENT)
-print(len(b.data))
+# TODO after merge: update test_blob_txs_full.py to make use of actual blobs
 
-b.write_to_file()
-c: Blob = Blob.LoadBlobFromFile(
-    "blob_" + "prague" + "_" + str(myseed)
-)  # or just put filename blob_osaka_1337
-assert b.data == c.data
-assert b.commitment == c.commitment
-assert b.proof == c.proof
-assert b.cells == c.cells
-assert b.versioned_hash == c.versioned_hash
-assert b.name == c.name
-assert b.fork == c.fork
-assert b.timestamp == c.timestamp
+# --------- generate static blobs ------------
+# fork_list = [Cancun, Prague, Osaka]
+# amount_static_blobs_per_fork = 10
+# for f in fork_list:
+#     for seed in range(amount_static_blobs_per_fork):
+#         if seed < 4:
+#             timestamp = 0
+#         elif seed < 7:
+#             timestamp = 1000000000
+#         else:
+#             timestamp = 1747905411
 
-e: Blob = Blob.NewBlob("prague", myseed)
-print("Line above should say blob already existed and was loaded from file")
-f: Blob = Blob.NewBlob("cancun", myseed)
-f.write_to_file()
-g: Blob = Blob.NewBlob("cancun", myseed)
-print("Line above should say blob already existed and was loaded from file")
-h: Blob = Blob.NewBlob("osaka", myseed)
-h.write_to_file()
-zz: Blob = Blob.NewBlob("osaka", myseed)
-print("Line above should say blob already existed and was loaded from file")
+#         static_blob: Blob = Blob.NewBlob(f, seed, timestamp)
+#         static_blob.write_to_file()
+# --------------------------------------------
 
-# you can load a blob either via just filename or via absolute path or via relative path (cwd is ./src/ethereum_test_types)  # noqa: E501
-yyy: Blob = Blob.LoadBlobFromFile("blob_cancun_1337.json")
-# yyyy: Blob = Blob.LoadBlobFromFile(
-#     "/home/user/Documents/execution-spec-tests/tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"  # noqa: E501
-# )  # you must replace user with ur actual username as $USER not supported here
-yyyyy: Blob = Blob.LoadBlobFromFile(
-    "../../tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"
-)
+# myosaka: Fork = Osaka
+# myprague: Fork = Prague
+# mycancun: Fork = Cancun
+# myseed: int = 1337  # fork+seed is the unique ID of a blob
+# mytimestamp: int = 168123123
+# b: Blob = Blob.NewBlob(myosaka, myseed, mytimestamp)
+# json_str: str = b.model_dump_json()
+# restored: Blob = Blob.model_validate_json(json_str)
+# assert b.data == restored.data
+# assert b.commitment == restored.commitment
+# assert b.proof == restored.proof
+# assert b.cells == restored.cells
+# assert b.versioned_hash == restored.versioned_hash
+# assert b.name == restored.name
+# assert b.fork == restored.fork
+# assert b.timestamp == restored.timestamp
+# print(type(b.proof), len(b.proof))
+# print(Spec.BYTES_PER_FIELD_ELEMENT)
+# print(len(b.data))
+# b.write_to_file()
+# c: Blob = Blob.LoadBlobFromFile(
+#     "blob_" + "osaka" + "_" + str(myseed) + "_" + str(mytimestamp)
+# )
+# assert b.data == c.data
+# assert b.commitment == c.commitment
+# assert b.proof == c.proof
+# assert b.cells == c.cells
+# assert b.versioned_hash == c.versioned_hash
+# assert b.name == c.name
+# assert b.fork == c.fork
+# assert b.timestamp == c.timestamp
+# d: Blob = Blob.NewBlob(myprague, myseed, 123)
+# d.write_to_file()
+# e: Blob = Blob.NewBlob(myprague, myseed, 123)
+# print("Line above should say blob already existed and was loaded from file")
+# ee: Blob = Blob.NewBlob(myprague, myseed, 1234)
+# newtimestamp = 999999
+# f: Blob = Blob.NewBlob(mycancun, 1337, newtimestamp)
+# f.write_to_file()
+# h: Blob = Blob.NewBlob(myosaka, myseed)
+# h.write_to_file()
+# zz: Blob = Blob.NewBlob(myosaka, myseed)
+# print("Line above should say blob already existed and was loaded from file")
+# # you can load a blob either via just filename or via absolute path or via relative path (cwd is ./src/ethereum_test_types)  # noqa: E501
+# yyy: Blob = Blob.LoadBlobFromFile("blob_cancun_1337_999999.json")
+# # yyyy: Blob = Blob.LoadBlobFromFile(
+# #     "/home/user/Documents/execution-spec-tests/tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"  # noqa: E501
+# # )  # you must replace user with ur actual username as $USER not supported here
+# yyyyy: Blob = Blob.LoadBlobFromFile(
+#     "../../tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
+# )
 
 
 # # test proof corruption
 # #   osaka
-# d: Blob = Blob.NewBlob("osaka", seed + 10)
+# testseed = 55
+# d: Blob = Blob.NewBlob(Osaka, testseed + 10)
 # oldValue = d.proof[0][5]
 # for m in Blob.ProofCorruptionMode:
 #     d.corrupt_proof(m)
 # print("proof corruption works (osaka):", oldValue != d.proof[0][5])
 # #   prague
-# e: Blob = Blob.NewBlob("prague", seed + 11)
+# e: Blob = Blob.NewBlob(Prague, testseed + 11)
 # oldValue = e.proof[5]
 # for m in Blob.ProofCorruptionMode:
 #     e.corrupt_proof(m)
 # print("proof corruption works (prague):", oldValue != e.proof[5])
-print("pydantic model works")
+# print("pydantic model works")
 
 # ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
 # ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
