@@ -1,5 +1,5 @@
 """
-A pytest plugin that shows ported_from marker information.
+A pytest plugin that shows `ported_from` marker information.
 
 This plugin extracts and displays information from @pytest.mark.ported_from markers,
 showing either the static filler file paths or associated PR URLs.
@@ -75,6 +75,7 @@ def pytest_addoption(parser: pytest.Parser):
     ported_from_group.addoption(
         "--links-as-filled",
         action="store_true",
+        dest="links_as_filled",
         default=False,
         help=(
             "Convert URLs or paths to filled test file paths for coverage script. "
