@@ -5,13 +5,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import (
-    Account,
-    Address,
-    Alloc,
-    Storage,
-    Transaction,
-)
+from ethereum_test_tools import Account, Address, Alloc, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import Vector
@@ -36,7 +30,7 @@ def gas_measure_contract(pre: Alloc, call_opcode: Op, fork: Fork) -> Address:
     gas_costs = fork.gas_costs()
     extra_gas = (
         gas_costs.G_WARM_ACCOUNT_ACCESS
-        + (gas_costs.G_VERY_LOW * (len(call_opcode.kwargs) - 2))
+        + (gas_costs.G_VERY_LOW * (len(call_opcode.kwargs) - 2))  # type: ignore
         + (gas_costs.G_BASE * 3)
     )
     measure_code = (
@@ -100,7 +94,7 @@ def tx(
 def post(
     gas_measure_contract: Address,
     precompile_gas: int,
-) -> Dict[Address, Dict[str, Storage]]:
+) -> Dict[Address, Account]:
     """Return expected post state with gas consumption check."""
     return {
         gas_measure_contract: Account(
