@@ -1,7 +1,4 @@
-"""
-abstract: Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
-    Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
-"""  # noqa: E501
+"""Blob class and functionality."""
 
 import random
 from enum import Enum
@@ -403,72 +400,72 @@ class Blob(CamelModel):
 #         static_blob.write_to_file()
 # --------------------------------------------
 
-# myosaka: Fork = Osaka
-# myprague: Fork = Prague
-# mycancun: Fork = Cancun
-# myseed: int = 1337  # fork+seed is the unique ID of a blob
-# mytimestamp: int = 168123123
-# b: Blob = Blob.NewBlob(myosaka, myseed, mytimestamp)
-# json_str: str = b.model_dump_json()
-# restored: Blob = Blob.model_validate_json(json_str)
-# assert b.data == restored.data
-# assert b.commitment == restored.commitment
-# assert b.proof == restored.proof
-# assert b.cells == restored.cells
-# assert b.versioned_hash == restored.versioned_hash
-# assert b.name == restored.name
-# assert b.fork == restored.fork
-# assert b.timestamp == restored.timestamp
-# print(type(b.proof), len(b.proof))
-# print(BYTES_PER_FIELD_ELEMENT)
-# print(len(b.data))
-# b.write_to_file()
-# c: Blob = Blob.LoadBlobFromFile("blob_" + "osaka" + "_" + str(myseed) + "_" + str(mytimestamp))
-# assert b.data == c.data
-# assert b.commitment == c.commitment
-# assert b.proof == c.proof
-# assert b.cells == c.cells
-# assert b.versioned_hash == c.versioned_hash
-# assert b.name == c.name
-# assert b.fork == c.fork
-# assert b.timestamp == c.timestamp
-# d: Blob = Blob.NewBlob(myprague, myseed, 123)
-# d.write_to_file()
-# e: Blob = Blob.NewBlob(myprague, myseed, 123)
-# print("Line above should say blob already existed and was loaded from file")
-# ee: Blob = Blob.NewBlob(myprague, myseed, 1234)
-# newtimestamp = 999999
-# f: Blob = Blob.NewBlob(mycancun, 1337, newtimestamp)
-# f.write_to_file()
-# h: Blob = Blob.NewBlob(myosaka, myseed)
-# h.write_to_file()
-# zz: Blob = Blob.NewBlob(myosaka, myseed)
-# print("Line above should say blob already existed and was loaded from file")
-# # you can load a blob either via just filename or via absolute path or via relative path (cwd is ./src/ethereum_test_types)  # noqa: E501
-# yyy: Blob = Blob.LoadBlobFromFile("blob_cancun_1337_999999.json")
-# # yyyy: Blob = Blob.LoadBlobFromFile(
-# #     "/home/user/Documents/execution-spec-tests/tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"  # noqa: E501
-# # )  # you must replace user with ur actual username as $USER not supported here
-# yyyyy: Blob = Blob.LoadBlobFromFile(
-#     "tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
-# )
-# zzzzzzz: Blob = Blob.LoadBlobFromFile(
-#     "./tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
-# )
+myosaka: Fork = Osaka
+myprague: Fork = Prague
+mycancun: Fork = Cancun
+myseed: int = 1337  # fork+seed is the unique ID of a blob
+mytimestamp: int = 168123123
+b: Blob = Blob.NewBlob(myosaka, myseed, mytimestamp)
+json_str: str = b.model_dump_json()
+restored: Blob = Blob.model_validate_json(json_str)
+assert b.data == restored.data
+assert b.commitment == restored.commitment
+assert b.proof == restored.proof
+assert b.cells == restored.cells
+assert b.versioned_hash == restored.versioned_hash
+assert b.name == restored.name
+assert b.fork == restored.fork
+assert b.timestamp == restored.timestamp
+print(type(b.proof), len(b.proof))
+print(BYTES_PER_FIELD_ELEMENT)
+print(len(b.data))
+b.write_to_file()
+c: Blob = Blob.LoadBlobFromFile("blob_" + "osaka" + "_" + str(myseed) + "_" + str(mytimestamp))
+assert b.data == c.data
+assert b.commitment == c.commitment
+assert b.proof == c.proof
+assert b.cells == c.cells
+assert b.versioned_hash == c.versioned_hash
+assert b.name == c.name
+assert b.fork == c.fork
+assert b.timestamp == c.timestamp
+d: Blob = Blob.NewBlob(myprague, myseed, 123)
+d.write_to_file()
+e: Blob = Blob.NewBlob(myprague, myseed, 123)
+print("Line above should say blob already existed and was loaded from file")
+ee: Blob = Blob.NewBlob(myprague, myseed, 1234)
+newtimestamp = 999999
+f: Blob = Blob.NewBlob(mycancun, 1337, newtimestamp)
+f.write_to_file()
+h: Blob = Blob.NewBlob(myosaka, myseed)
+h.write_to_file()
+zz: Blob = Blob.NewBlob(myosaka, myseed)
+print("Line above should say blob already existed and was loaded from file")
+# you can load a blob either via just filename or via absolute path or via relative path (cwd is ./src/ethereum_test_types)  # noqa: E501
+yyy: Blob = Blob.LoadBlobFromFile("blob_cancun_1337_999999.json")
+# yyyy: Blob = Blob.LoadBlobFromFile(
+#     "/home/user/Documents/execution-spec-tests/tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"  # noqa: E501
+# )  # you must replace user with ur actual username as $USER not supported here
+yyyyy: Blob = Blob.LoadBlobFromFile(
+    "tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
+)
+zzzzzzz: Blob = Blob.LoadBlobFromFile(
+    "./tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
+)
 
 
-# # test proof corruption
-# #   osaka
-# testseed = 55
-# ddd: Blob = Blob.NewBlob(Osaka, testseed + 10)
-# oldValue = ddd.proof[0][5]
-# for m in Blob.ProofCorruptionMode:
-#     ddd.corrupt_proof(m)
-# print("proof corruption works (osaka):", oldValue != ddd.proof[0][5])
-# #   prague
-# eeeeeeeeee: Blob = Blob.NewBlob(Prague, testseed + 11)
-# oldValue = eeeeeeeeee.proof[5]
-# for m in Blob.ProofCorruptionMode:
-#     eeeeeeeeee.corrupt_proof(m)
-# print("proof corruption works (prague):", oldValue != eeeeeeeeee.proof[5])
-# print("pydantic model works")
+# test proof corruption
+#   osaka
+testseed = 55
+ddd: Blob = Blob.NewBlob(Osaka, testseed + 10)
+oldValue = ddd.proof[0][5]
+for m in Blob.ProofCorruptionMode:
+    ddd.corrupt_proof(m)
+print("proof corruption works (osaka):", oldValue != ddd.proof[0][5])
+#   prague
+eeeeeeeeee: Blob = Blob.NewBlob(Prague, testseed + 11)
+oldValue = eeeeeeeeee.proof[5]
+for m in Blob.ProofCorruptionMode:
+    eeeeeeeeee.corrupt_proof(m)
+print("proof corruption works (prague):", oldValue != eeeeeeeeee.proof[5])
+print("pydantic model works")

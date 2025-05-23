@@ -1,18 +1,11 @@
 """Common definitions and types."""
 
-from .helpers import (
-    TestParameterGroup,
-    add_kzg_version,
-    ceiling_division,
-    compute_create2_address,
-    compute_create_address,
-    compute_eofcreate_address,
-)
-from .types import (
+from .eest_types import (
     EOA,
     Account,
     Alloc,
     AuthorizationTuple,
+    # Blob,
     CamelModel,
     ConsolidationRequest,
     DepositRequest,
@@ -28,6 +21,14 @@ from .types import (
     Withdrawal,
     WithdrawalRequest,
     keccak256,
+)
+from .helpers import (
+    TestParameterGroup,
+    add_kzg_version,
+    ceiling_division,
+    compute_create2_address,
+    compute_create_address,
+    compute_eofcreate_address,
 )
 
 __all__ = (

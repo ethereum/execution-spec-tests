@@ -33,7 +33,7 @@ from ethereum_test_base_types import (
 )
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
-from ethereum_test_types.types import (
+from ethereum_test_types.eest_types import (
     Transaction,
     TransactionFixtureConverter,
     TransactionGeneric,

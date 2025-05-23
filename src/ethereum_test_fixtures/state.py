@@ -13,7 +13,7 @@ from ethereum_test_base_types import (
     ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
-from ethereum_test_types.types import (
+from ethereum_test_types.eest_types import (
     CamelModel,
     EnvironmentGeneric,
     Transaction,

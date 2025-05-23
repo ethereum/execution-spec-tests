@@ -14,7 +14,7 @@ from ethereum_test_base_types import (
 )
 from ethereum_test_base_types.pydantic import CopyValidateModel
 
-from ..types import (
+from ..eest_types import (
     EOA,
     Account,
     Alloc,

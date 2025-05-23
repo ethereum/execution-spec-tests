@@ -4,7 +4,7 @@ from typing import Tuple
 
 import pytest
 
-from ..types import AccessList, Hash, Transaction
+from ..eest_types import AccessList, Hash, Transaction
 
 
 @pytest.mark.parametrize(
