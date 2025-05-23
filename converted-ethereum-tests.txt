@@ -249,6 +249,7 @@ GeneralStateTests/Cancun/stEIP1153-transientStorage/20_oogUndoesTransientStoreIn
 ([#975](https://github.com/ethereum/execution-spec-tests/pull/975))
 GeneralStateTests/VMTests/vmTests/push.json
 
+
 ([#1067](https://github.com/ethereum/execution-spec-tests/pull/1067))
 GeneralStateTests/stPreCompiledContracts/blake2B.json
 
@@ -259,3 +260,6 @@ GeneralStateTests/stPreCompiledContracts/idPrecomps.json
 GeneralStateTests/stPreCompiledContracts/delegatecall09Undefined.json
 GeneralStateTests/stPreCompiledContracts2/CALLBlake2f.json
 GeneralStateTests/stPreCompiledContracts2/CALLCODEBlake2f.json
+
+([#1163](https://github.com/ethereum/execution-spec-tests/pull/1163))
+GeneralStateTests/VMTests/vmTests/swap.json
