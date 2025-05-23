@@ -169,6 +169,7 @@ class StateTest(BaseTest):
         fork = fork.fork_at(self.env.number, self.env.timestamp)
 
         env = self.env.set_fork_requirements(fork)
+        env.is_state_test = True
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
         if not self.is_tx_gas_heavy_test() and tx.gas_limit >= Environment().gas_limit:
             warnings.warn(
