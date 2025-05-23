@@ -4,10 +4,9 @@ abstract: Tests [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://ei
 """  # noqa: E501
 
 import random
-import sys
 from enum import Enum
 from hashlib import sha256
-from os.path import abspath, dirname, join, realpath
+from os.path import realpath
 from pathlib import Path
 from typing import List
 
@@ -15,18 +14,30 @@ import ckzg
 
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
-from ethereum_test_forks import Cancun, Fork, Osaka, Prague
-
-sys.path.insert(0, abspath(join(dirname(__file__), "../../")))  # TODO: find better workaround
-from tests.osaka.eip7594_peerdas.spec import Spec, ref_spec_7594
+from ethereum_test_forks import (
+    # BLOB_BASE_FEE_UPDATE_FRACTION_PRAGUE,
+    BLS_MODULUS,
+    BYTES_PER_BLOB,
+    BYTES_PER_COMMITMENT,
+    BYTES_PER_FIELD_ELEMENT,
+    # BYTES_PER_PROOF,
+    # CELL_LENGTH,
+    FIELD_ELEMENTS_PER_BLOB,
+    KZG_ENDIANNESS,
+    # MAX_BLOB_GAS_PER_BLOCK,
+    # MAX_BLOBS_PER_BLOCK_ELECTRA,
+    # TARGET_BLOB_GAS_PER_BLOCK,
+    # TARGET_BLOBS_PER_BLOCK_ELECTRA,
+    Cancun,
+    Fork,
+    Osaka,
+    Prague,
+)
 
 TRUSTED_SETUP_FILE_NAME = "blob_trusted_setup.txt"
 TRUSTED_SETUP_PATH = Path(realpath(__file__)).parent / TRUSTED_SETUP_FILE_NAME
 TRUSTED_SETUP = ckzg.load_trusted_setup(str(TRUSTED_SETUP_PATH), 0)
 print(f"{TRUSTED_SETUP_FILE_NAME} has been loaded")
-
-REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
-REFERENCE_SPEC_VERSION = ref_spec_7594.version
 
 
 def get_eest_root_folder(marker_files=("pyproject.toml", ".git", "tests", "src")) -> Path:
@@ -88,6 +99,10 @@ class Blob(CamelModel):
     @staticmethod
     def NewBlob(fork: Fork, seed: int = 0, timestamp: int = 0) -> "Blob":  # noqa: N802
         """Construct Blob instances. Fork-specific logic is encapsulated within nested functions."""  # noqa: E501
+        assert fork.blobs_supported(), (
+            f"You provided fork {fork.name()} but it does not support blobs!"
+        )  # TODO: why does mypy complain? this line works
+
         fork_str: str = fork.name().lower()
 
         # if this blob already exists then load from file
@@ -103,11 +118,11 @@ class Blob(CamelModel):
 
             # generate blob
             ints: list[int] = [
-                random.randrange(Spec.BLS_MODULUS) for _ in range(Spec.FIELD_ELEMENTS_PER_BLOB)
+                random.randrange(BLS_MODULUS) for _ in range(FIELD_ELEMENTS_PER_BLOB)
             ]
 
             encoded: list[bytes] = [
-                i.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, Spec.KZG_ENDIANNESS) for i in ints
+                i.to_bytes(BYTES_PER_FIELD_ELEMENT, KZG_ENDIANNESS) for i in ints
             ]
             blob: bytes = b"".join(encoded)  # without 0x
 
@@ -125,15 +140,15 @@ class Blob(CamelModel):
         def get_commitment(data: Bytes) -> Bytes:
             """Take a blob and returns a cryptographic commitment to it. Note: Each cell seems to hold a copy of this commitment."""  # noqa: E501
             # sanity check
-            assert len(data) == Spec.BYTES_PER_BLOB, (
-                f"Expected blob of length {Spec.BYTES_PER_BLOB} but got blob of length {len(data)}"
+            assert len(data) == BYTES_PER_BLOB, (
+                f"Expected blob of length {BYTES_PER_BLOB} but got blob of length {len(data)}"
             )
 
             # calculate commitment
             commitment = ckzg.blob_to_kzg_commitment(data, TRUSTED_SETUP)
 
-            assert len(commitment) == Spec.BYTES_PER_COMMITMENT, (
-                f"Expected {Spec.BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
+            assert len(commitment) == BYTES_PER_COMMITMENT, (
+                f"Expected {BYTES_PER_COMMITMENT} resulting commitments but got {len(commitment)} commitments"  # noqa: E501
             )
 
             return commitment
@@ -141,7 +156,7 @@ class Blob(CamelModel):
         def get_proof(data: Bytes) -> List[Bytes] | Bytes:
             if fork_str in ["cancun", "prague"]:
                 z = 2  # 2 is one of many possible valid field elements z (https://github.com/ethereum/consensus-specs/blob/ad884507f7a1d5962cd3dfb5f7b3e41aab728c55/tests/core/pyspec/eth2spec/test/utils/kzg_tests.py#L58-L66)
-                z_valid_size: bytes = z.to_bytes(Spec.BYTES_PER_FIELD_ELEMENT, byteorder="big")
+                z_valid_size: bytes = z.to_bytes(BYTES_PER_FIELD_ELEMENT, byteorder="big")
                 proof, _ = ckzg.compute_kzg_proof(data, z_valid_size, TRUSTED_SETUP)
                 return proof
 
@@ -368,7 +383,7 @@ class Blob(CamelModel):
             self.proof = Bytes(b"".join(corrupt_byte(bytes([byte])) for byte in self.proof))
 
 
-# TODO: currently u can only run this file from ./blob.py but not from eest root, fix it
+# TODO: BlobFromFile supports both construction via blob parameters (works fine), and via provided path (here do some where testing which path is cwd if u use it within a test)
 
 # TODO after merge: update test_blob_txs_full.py to make use of actual blobs
 
@@ -405,12 +420,10 @@ class Blob(CamelModel):
 # assert b.fork == restored.fork
 # assert b.timestamp == restored.timestamp
 # print(type(b.proof), len(b.proof))
-# print(Spec.BYTES_PER_FIELD_ELEMENT)
+# print(BYTES_PER_FIELD_ELEMENT)
 # print(len(b.data))
 # b.write_to_file()
-# c: Blob = Blob.LoadBlobFromFile(
-#     "blob_" + "osaka" + "_" + str(myseed) + "_" + str(mytimestamp)
-# )
+# c: Blob = Blob.LoadBlobFromFile("blob_" + "osaka" + "_" + str(myseed) + "_" + str(mytimestamp))
 # assert b.data == c.data
 # assert b.commitment == c.commitment
 # assert b.proof == c.proof
@@ -437,25 +450,25 @@ class Blob(CamelModel):
 # #     "/home/user/Documents/execution-spec-tests/tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337.json"  # noqa: E501
 # # )  # you must replace user with ur actual username as $USER not supported here
 # yyyyy: Blob = Blob.LoadBlobFromFile(
-#     "../../tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
+#     "tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
+# )
+# zzzzzzz: Blob = Blob.LoadBlobFromFile(
+#     "./tests/cancun/eip4844_blobs/static_blobs/blob_cancun_1337_999999.json"
 # )
 
 
 # # test proof corruption
 # #   osaka
 # testseed = 55
-# d: Blob = Blob.NewBlob(Osaka, testseed + 10)
-# oldValue = d.proof[0][5]
+# ddd: Blob = Blob.NewBlob(Osaka, testseed + 10)
+# oldValue = ddd.proof[0][5]
 # for m in Blob.ProofCorruptionMode:
-#     d.corrupt_proof(m)
-# print("proof corruption works (osaka):", oldValue != d.proof[0][5])
+#     ddd.corrupt_proof(m)
+# print("proof corruption works (osaka):", oldValue != ddd.proof[0][5])
 # #   prague
-# e: Blob = Blob.NewBlob(Prague, testseed + 11)
-# oldValue = e.proof[5]
+# eeeeeeeeee: Blob = Blob.NewBlob(Prague, testseed + 11)
+# oldValue = eeeeeeeeee.proof[5]
 # for m in Blob.ProofCorruptionMode:
-#     e.corrupt_proof(m)
-# print("proof corruption works (prague):", oldValue != e.proof[5])
+#     eeeeeeeeee.corrupt_proof(m)
+# print("proof corruption works (prague):", oldValue != eeeeeeeeee.proof[5])
 # print("pydantic model works")
-
-# ckzg.compute_cells(blob, TRUSTED_SETUP) returns a list of length 128
-# ckzg.compute_cells_and_kzg_proofs(blob, TRUSTED_SETUP)
