@@ -19,6 +19,7 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 
 #### `fill`
 
+- ✨ Add `ported_from` test marker to track Python test cases that were converted from static fillers in [ethereum/tests](https://github.com/ethereum/tests) repository [#1590](https://github.com/ethereum/execution-spec-tests/pull/1590).
 - 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471),[#1612](https://github.com/ethereum/execution-spec-tests/pull/1612)).
 - ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
 - 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
@@ -26,13 +27,22 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 
 #### `consume`
 
+#### `execute`
+
+- ✨ Add get-blobs execute test spec, which allows to write tests that send blobs transactions to a running client and verify `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+
 ### 📋 Misc
 
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added a new `eest` sub-command, `eest info`, to easily print a cloned EEST repository's version and the versions of relevant tools, e.g., `python`, `uv` ([#1621](https://github.com/ethereum/execution-spec-tests/pull/1621)).
+- ✨ Add `CONTRIBUTING.md` for execution-spec-tests and improve coding standards documentation ([#1604](https://github.com/ethereum/execution-spec-tests/pull/1604)).
+- 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development [#1433](https://github.com/ethereum/execution-spec-tests/pull/1433).
 
 ### 🧪 Test Cases
+
+- 🔀 Refactored `BLOBHASH` opcode context tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1637](https://github.com/ethereum/execution-spec-tests/pull/1637)).
+- ✨ EIP-7594: Sanity test cases to send blob transactions and verify `engine_getBlobsVX` using the `execute` command ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

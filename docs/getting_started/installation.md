@@ -24,13 +24,15 @@ If installed via `curl`, `uv` will download Python for your target platform if o
 
 ## Installation Commands
 
-Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies.
+Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies. We recommend using Python 3.12, the following uses `uv` to download and configures 3.12 to be the Python version used in execution-spec-tests:
 
 === "All x86-64 platforms and ARM64 macOS"
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
+    uv python install 3.12
+    uv python pin 3.12
     uv sync --all-extras
     uv run solc-select use 0.8.24 --always-install
     ```
@@ -39,6 +41,8 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
+    uv python install 3.12
+    uv python pin 3.12
     cd execution-spec-tests
     uv sync --all-extras
     ```

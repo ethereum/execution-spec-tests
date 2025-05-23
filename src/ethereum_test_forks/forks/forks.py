@@ -332,6 +332,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         return cls.engine_new_payload_version(block_number, timestamp)
 
     @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At genesis, blobs cannot be retrieved through the engine API."""
+        return None
+
+    @classmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         At Genesis the expected reward amount in wei is
@@ -1018,6 +1023,11 @@ class Cancun(Shanghai):
         return 3
 
     @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At Cancun, the engine get blobs version is 1."""
+        return 1
+
+    @classmethod
     def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """From Cancun, payloads must have blob hashes."""
         return True
@@ -1073,6 +1083,11 @@ class Prague(Cancun):
         return [Address(i) for i in range(0xB, 0x11 + 1)] + super(Prague, cls).precompiles(
             block_number, timestamp
         )
+
+    @classmethod
+    def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """At Prague, set-code type transactions are introduced."""
+        return [4] + super(Prague, cls).tx_types(block_number, timestamp)
 
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
@@ -1296,6 +1311,11 @@ class Osaka(Prague, solc_name="cancun"):
     ) -> Optional[int]:
         """From Osaka, get payload calls must use version 5."""
         return 5
+
+    @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At Osaka, the engine get blobs version is 2."""
+        return 2
 
     @classmethod
     def is_deployed(cls) -> bool:
