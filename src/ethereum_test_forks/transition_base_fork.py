@@ -22,6 +22,11 @@ class TransitionBaseClass:
         """Return fork where the transition starts."""
         raise Exception("Not implemented")
 
+    @classmethod
+    def transition_time(cls) -> Fork:
+        """Return the timestamp at which the transition occurs."""
+        raise Exception("Not implemented")
+
 
 def base_fork_abstract_methods() -> List[str]:
     """Return list of all abstract methods that must be implemented by a fork."""
@@ -96,6 +101,7 @@ def transition_fork(to_fork: Fork, at_block: int = 0, at_timestamp: int = 0):
 
         NewTransitionClass.transitions_to = lambda: to_fork  # type: ignore
         NewTransitionClass.transitions_from = lambda: from_fork  # type: ignore
+        NewTransitionClass.transition_time = lambda: at_timestamp  # type: ignore
         NewTransitionClass.fork_at = lambda block_number=0, timestamp=0: (  # type: ignore
             to_fork if block_number >= at_block and timestamp >= at_timestamp else from_fork
         )
