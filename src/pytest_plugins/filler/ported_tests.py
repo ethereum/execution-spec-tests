@@ -49,7 +49,7 @@ def convert_to_filled(file_path: str) -> str | None:
     path = path.replace("TestsFiller", "Tests")
 
     # Replace file extension to .json
-    path = re.sub(r"Filler\.(yml|yaml|json)$", r".json", path)
+    path = re.sub(r"Filler\.(yml|yaml|json)$", ".json", path)
 
     return path
 
@@ -98,6 +98,7 @@ class PortedFromDisplay:
         """Initialize the plugin with the given pytest config."""
         self.config = config
         self.show_mode = config.getoption("show_ported_from")
+        self.links_as_filled = config.getoption("links_as_filled")
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
     def pytest_collection_modifyitems(self, session, config, items):
@@ -136,7 +137,7 @@ class PortedFromDisplay:
         else:  # default to "paths"
             output = sorted(paths)
 
-        if config.getoption("links_as_filled"):
+        if self.links_as_filled:
             all_files: list = []
             for item in output:
                 converted_link = convert_to_filled(item)
