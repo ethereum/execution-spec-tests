@@ -34,6 +34,7 @@ Can be left as follow-up work.
 
 ## Other Questions (than the TBDs above)
 
+0. Related: How does testing look like for EELS after the move? Running fill should be adequate for state tests.
 1. Do we need a new top-level `steel` Github organization? This could host components that don't belong in either repo, e.g.,
    - [marioevz/hive.py](https://github.com/marioevz/hive.py)
    - [petertdavies/ethereum-spec-evm-resolver](https://github.com/petertdavies/ethereum-spec-evm-resolver)
