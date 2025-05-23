@@ -18,16 +18,16 @@ from ethereum_test_tools import (
     Bytecode,
     Environment,
     Hash,
+    StateTestFiller,
     Transaction,
     While,
     compute_create2_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from pytest_plugins.execute.pre_alloc import MAX_BYTECODE_SIZE, MAX_INITCODE_SIZE
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
-
-MAX_CONTRACT_SIZE = 24 * 1024  # TODO: This could be a fork property
 
 XOR_TABLE_SIZE = 256
 XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
@@ -86,13 +86,13 @@ def test_worst_bytecode_single_opcode(
                 )
                 + Op.POP
             ),
-            condition=Op.LT(Op.MSIZE, MAX_CONTRACT_SIZE),
+            condition=Op.LT(Op.MSIZE, MAX_BYTECODE_SIZE),
         )
         # Despite the whole contract has random bytecode, we make the first opcode be a STOP
         # so CALL-like attacks return as soon as possible, while EXTCODE(HASH|SIZE) work as
         # intended.
         + Op.MSTORE8(0, 0x00)
-        + Op.RETURN(0, MAX_CONTRACT_SIZE)
+        + Op.RETURN(0, MAX_BYTECODE_SIZE)
     )
     initcode_address = pre.deploy_contract(code=initcode)
 
@@ -180,11 +180,11 @@ def test_worst_bytecode_single_opcode(
         )
     )
 
-    if len(attack_code) > MAX_CONTRACT_SIZE:
+    if len(attack_code) > MAX_BYTECODE_SIZE:
         # TODO: A workaround could be to split the opcode code into multiple contracts
         # and call them in sequence.
         raise ValueError(
-            f"Code size {len(attack_code)} exceeds maximum code size {MAX_CONTRACT_SIZE}"
+            f"Code size {len(attack_code)} exceeds maximum code size {MAX_BYTECODE_SIZE}"
         )
     opcode_address = pre.deploy_contract(code=attack_code)
     opcode_tx = Transaction(
@@ -203,4 +203,101 @@ def test_worst_bytecode_single_opcode(
             Block(txs=[opcode_tx]),
         ],
         exclude_full_post_state_in_output=True,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("initcode_size", [MAX_INITCODE_SIZE])
+@pytest.mark.parametrize(
+    "pattern",
+    [
+        Op.STOP,
+        Op.JUMPDEST,
+        Op.PUSH1[bytes(Op.JUMPDEST)],
+        Op.PUSH2[bytes(Op.JUMPDEST + Op.JUMPDEST)],
+        Op.PUSH1[bytes(Op.JUMPDEST)] + Op.JUMPDEST,
+        Op.PUSH2[bytes(Op.JUMPDEST + Op.JUMPDEST)] + Op.JUMPDEST,
+    ],
+    ids=lambda x: x.hex(),
+)
+def test_worst_initcode_jumpdest_analysis(
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    initcode_size: int,
+    pattern: Bytecode,
+):
+    """
+    Test the jumpdest analysis performance of the initcode.
+
+    This benchmark places a very long initcode in the memory and then invoke CREATE instructions
+    with this initcode up to the block gas limit. The initcode itself has minimal execution time
+    but forces the EVM to perform the full jumpdest analysis on the parametrized byte pattern.
+    The initicode is modified by mixing-in the returned create address between CREATE invocations
+    to prevent caching.
+    """
+    # Expand the initcode pattern to the transaction data so it can be used in CALLDATACOPY
+    # in the main contract. TODO: tune the tx_data_len param.
+    tx_data_len = 1024
+    tx_data = pattern * (tx_data_len // len(pattern))
+    tx_data += (tx_data_len - len(tx_data)) * bytes(Op.JUMPDEST)
+    assert len(tx_data) == tx_data_len
+    assert initcode_size % len(tx_data) == 0
+
+    # Prepare the initcode in memory.
+    code_prepare_initcode = sum(
+        (
+            Op.CALLDATACOPY(dest_offset=i * len(tx_data), offset=0, size=Op.CALLDATASIZE)
+            for i in range(initcode_size // len(tx_data))
+        ),
+        Bytecode(),
+    )
+
+    # At the start of the initcode execution, jump to the last opcode.
+    # This forces EVM to do the full jumpdest analysis.
+    initcode_prefix = Op.JUMP(initcode_size - 1)
+    code_prepare_initcode += Op.MSTORE(
+        0, Op.PUSH32[bytes(initcode_prefix).ljust(32, bytes(Op.JUMPDEST))]
+    )
+
+    # Make sure the last opcode in the initcode is JUMPDEST.
+    code_prepare_initcode += Op.MSTORE(initcode_size - 32, Op.PUSH32[bytes(Op.JUMPDEST) * 32])
+
+    # We are using the Paris fork where there is no initcode size limit.
+    # This allows us to test the increased initcode limits.
+    # However, Paris doesn't have PUSH0 so simulate it with PUSH1.
+    push0 = Op.PUSH0 if Op.PUSH0 in fork.valid_opcodes() else Op.PUSH1[0]
+
+    code_invoke_create = (
+        Op.PUSH1[len(initcode_prefix)]
+        + Op.MSTORE
+        + Op.CREATE(value=push0, offset=push0, size=Op.MSIZE)
+    )
+
+    initial_random = push0
+    code_prefix = code_prepare_initcode + initial_random
+    code_loop_header = Op.JUMPDEST
+    code_loop_footer = Op.JUMP(len(code_prefix))
+    code_loop_body_len = (
+        MAX_BYTECODE_SIZE - len(code_prefix) - len(code_loop_header) - len(code_loop_footer)
+    )
+
+    code_loop_body = (code_loop_body_len // len(code_invoke_create)) * bytes(code_invoke_create)
+    code = code_prefix + code_loop_header + code_loop_body + code_loop_footer
+    assert (MAX_BYTECODE_SIZE - len(code_invoke_create)) < len(code) <= MAX_BYTECODE_SIZE
+
+    env = Environment()
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        data=tx_data,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
     )
