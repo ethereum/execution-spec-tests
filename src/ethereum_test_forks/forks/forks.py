@@ -370,6 +370,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [EVMCodeType.LEGACY]
 
     @classmethod
+    def max_code_size(cls) -> None:
+        """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
+        return None
+
+    @classmethod
+    def max_initcode_size(cls) -> None:
+        """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
+        return None
+
+    @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
@@ -635,6 +645,12 @@ class Byzantium(Homestead):
         )
 
     @classmethod
+    def max_code_size(cls) -> int:
+        # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
+        """At Spurious Dragon, an upper bound was introduced for max contract code size."""
+        return int(0x6000)
+
+    @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
@@ -859,6 +875,11 @@ class Shanghai(Paris):
     ) -> Optional[int]:
         """From Shanghai, new payload calls must use version 2."""
         return 2
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """From Shanghai, the initcode size is now limited. See EIP-3860."""
+        return int(0xC000)
 
     @classmethod
     def valid_opcodes(
@@ -1316,6 +1337,16 @@ class Osaka(Prague, solc_name="cancun"):
     def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
         """At Osaka, the engine get blobs version is 2."""
         return 2
+
+    @classmethod
+    def max_code_size(cls) -> int:
+        """From Osaka, the max code size is lifted. See EIP-7907."""
+        return int(0x40000)
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
+        return int(0x80000)
 
     @classmethod
     def is_deployed(cls) -> bool:
