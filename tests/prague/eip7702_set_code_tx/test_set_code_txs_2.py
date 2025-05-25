@@ -1750,3 +1750,46 @@ def test_set_code_type_tx_pre_fork(
             ),
         },
     )
+
+
+@pytest.mark.valid_from("Prague")
+def test_delegation_replacement_call_previous_contract(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """
+    Test setting the code of an EOA that already has
+    delegation, calling the previous delegated contract.
+    Previous contract shouldn't be warm when doing the CALL.
+    """
+    pre_set_delegation_code = Op.RETURN(0, 0)
+    pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
+
+    auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
+    sender = pre.fund_eoa()
+
+    set_code = Op.CALL(address=pre_set_delegation_address) + Op.STOP
+    set_code_to_address = pre.deploy_contract(
+        set_code,
+    )
+
+    tx = Transaction(
+        gas_limit=500_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=auth_signer.nonce,
+                signer=auth_signer,
+            ),
+        ],
+        sender=sender,
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={},
+    )
