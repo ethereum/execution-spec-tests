@@ -295,6 +295,30 @@ def test_worst_modexp(
             id="bn128_mul",
         ),
         pytest.param(
+            0x08,
+            [
+                # TODO: the following are only two inputs, but this can be extended
+                # to more inputs to amortize costs as much as possible. Additionally,
+                # there might be worse pairings that can be used.
+                #
+                # First pairing
+                "1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59",
+                "3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41",
+                "209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7",
+                "04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678",
+                "2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D",
+                "120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550",
+                # Second pairing
+                "111E129F1CF1097710D41C4AC70FCDFA5BA2023C6FF1CBEAC322DE49D1B6DF7C",
+                "103188585E2364128FE25C70558F1560F4F9350BAF3959E603CC91486E110936",
+                "198E9393920D483A7260BFB731FB5D25F1AA493335A9E71297E485B7AEF312C2",
+                "1800DEEF121F1E76426A00665E5C4479674322D4F75EDADD46DEBD5CD992F6ED",
+                "090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B",
+                "12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA",
+            ],
+            id="bn128_pairing",
+        ),
+        pytest.param(
             Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
             [
                 Blake2bInput(rounds=0xFFFF, f=True).create_blake2b_tx_data(),
@@ -981,8 +1005,6 @@ def test_worst_bn128_pairings(
         if num_pairings_done > max_pairings:
             max_pairings = num_pairings_done
             optimal_per_call_num_pairings = i
-
-    print(f"{max_pairings=}, {optimal_per_call_num_pairings=}")
 
     calldata = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, 0x08, 0, Op.CALLDATASIZE, 0, 0))
