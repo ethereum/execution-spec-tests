@@ -1055,13 +1055,13 @@ def _generate_bn128_pairs(n: int, seed: int = 0):
         g1_y_bytes = point_x_affine[1].n.to_bytes(32, "big")
         g1_serialized = g1_x_bytes + g1_y_bytes
 
-        g2_x_c1_bytes = point_y_affine[0].coeffs[1].n.to_bytes(32, "big")
-        g2_x_c0_bytes = point_y_affine[0].coeffs[0].n.to_bytes(32, "big")
-        g2_y_c1_bytes = point_y_affine[1].coeffs[1].n.to_bytes(32, "big")
-        g2_y_c0_bytes = point_y_affine[1].coeffs[0].n.to_bytes(32, "big")
+        g2_x_c1_bytes = point_y_affine[0].coeffs[1].n.to_bytes(32, "big")  # type: ignore
+        g2_x_c0_bytes = point_y_affine[0].coeffs[0].n.to_bytes(32, "big")  # type: ignore
+        g2_y_c1_bytes = point_y_affine[1].coeffs[1].n.to_bytes(32, "big")  # type: ignore
+        g2_y_c0_bytes = point_y_affine[1].coeffs[0].n.to_bytes(32, "big")  # type: ignore
         g2_serialized = g2_x_c1_bytes + g2_x_c0_bytes + g2_y_c1_bytes + g2_y_c0_bytes
 
         pair_calldata = g1_serialized + g2_serialized
-        calldata += pair_calldata
+        calldata = Bytes(calldata + pair_calldata)
 
     return calldata
