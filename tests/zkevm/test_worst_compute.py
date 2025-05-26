@@ -297,10 +297,6 @@ def test_worst_modexp(
         pytest.param(
             0x08,
             [
-                # TODO: the following are only two inputs, but this can be extended
-                # to more inputs to amortize costs as much as possible. Additionally,
-                # there might be worse pairings that can be used.
-                #
                 # First pairing
                 "1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59",
                 "3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41",
@@ -316,7 +312,20 @@ def test_worst_modexp(
                 "090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B",
                 "12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA",
             ],
-            id="bn128_pairing",
+            id="bn128_two_pairings",
+        ),
+        pytest.param(
+            0x08,
+            [
+                # First pairing
+                "1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59",
+                "3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41",
+                "209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7",
+                "04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678",
+                "2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D",
+                "120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550",
+            ],
+            id="bn128_one_pairing",
         ),
         pytest.param(
             Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
@@ -961,7 +970,7 @@ def test_empty_block(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow()
-def test_worst_bn128_pairings(
+def test_amortized_bn128_pairings(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
