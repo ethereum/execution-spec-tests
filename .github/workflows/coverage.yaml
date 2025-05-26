@@ -36,8 +36,6 @@ jobs:
               - tests/**/test_*.py
               - '!tests/prague/**'
               - '!tests/unscheduled/**'
-            converted_tests:
-              - converted-ethereum-tests.txt
 
       - name: Exit workflow if there are no changed python files
         if: steps.changed-tests.outputs.tests_any_changed != 'true'
@@ -113,23 +111,22 @@ jobs:
             Cancun/BlockchainTests
 
       # This command diffs the file and filters in new lines
-      - name: Parse converted tests from converted-ethereum-tests.txt
+      - name: Parse ported_from markers from introduced .py tests
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
+        env:
+          CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_changed_files }}
         run: |
-          echo "New lines introduced in converted-ethereum-tests.txt:"
-          lines=$(git diff origin/${{ github.base_ref }} HEAD -- converted-ethereum-tests.txt | grep "^+" | grep -v "^+++" || true)
-          if [ -z "$lines" ]; then
-              echo "No new lines in converted-ethereum-tests.txt, check updates instead:"
+          source $GITHUB_ENV
+          new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
+          files=$(uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled | grep .json)
+          if [[ -z "$files" ]]; then
+              echo "No ported fillers found, check updates instead:"
               echo "converted_skip=true" >> $GITHUB_ENV
               exit 0
           else
               echo "converted_skip=false" >> $GITHUB_ENV
           fi
 
-          files=$(echo "$lines" | grep -oP '(?<=\+).+\.json')
-          for file in $files; do
-              echo $file
-          done
           echo "----------------"
           echo "Discovered existing json tests that will be BASE files:"
 
