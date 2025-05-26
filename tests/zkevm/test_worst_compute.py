@@ -960,6 +960,7 @@ def test_empty_block(
 
 
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.slow()
 def test_worst_bn128_pairings(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
