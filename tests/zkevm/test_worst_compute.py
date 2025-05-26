@@ -1039,12 +1039,12 @@ def test_amortized_bn128_pairings(
 
 
 def _generate_bn128_pairs(n: int, seed: int = 0):
-    random.seed(seed)
+    rng = random.Random(seed)
     calldata = Bytes()
 
     for _ in range(n):
-        priv_key_g1 = random.randint(1, 2**32 - 1)
-        priv_key_g2 = random.randint(1, 2**32 - 1)
+        priv_key_g1 = rng.randint(1, 2**32 - 1)
+        priv_key_g2 = rng.randint(1, 2**32 - 1)
 
         point_x_affine = multiply(G1, priv_key_g1)
         point_y_affine = multiply(G2, priv_key_g2)
