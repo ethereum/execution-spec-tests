@@ -8,12 +8,18 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ### 💥 Breaking Change
 
-### 💥 Important Change for `fill` Users
+#### 💥 Important Change for `fill` Users
 
 The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
 
 - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
 - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
+
+#### Feature `zkevm` expanded to `zkevm_36M`, `zkevm_60M`, `zkevm_90M`, `zkevm_120M`
+
+Renames `zkevm` to `zkevm_36M` and further expands the zkEVM features to run using 60M, 90M and 120M block gas limits in `fixtures_zkevm_36M.tar.gz`, `fixtures_zkevm_60M.tar.gz`, `fixtures_zkevm_90M.tar.gz` and `fixtures_zkevm_120M.tar.gz` respectively.
+
+Users can select any of the artifacts depending on their testing needs for their provers.
 
 ### 🛠️ Framework
 
