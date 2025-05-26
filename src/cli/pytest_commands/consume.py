@@ -1,5 +1,6 @@
 """CLI entry point for the `consume` pytest-based command."""
 
+import functools
 from pathlib import Path
 from typing import Any, Callable, List
 
@@ -83,6 +84,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
             context_settings={"ignore_unknown_options": True},
         )
         @common_pytest_options
+        @functools.wraps(func)
         def command(pytest_args: List[str], **kwargs) -> None:
             consume_cmd = ConsumeCommand(command_paths, is_hive)
             consume_cmd.execute(list(pytest_args))
