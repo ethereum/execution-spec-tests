@@ -18,6 +18,7 @@ def is_help_or_collectonly_mode(config: pytest.Config) -> bool:
         or config.getoption("markers")
         or config.getoption("show_ported_from")
         or config.getoption("links_as_filled")
+        or config.getoption("help")
     )
 
 
