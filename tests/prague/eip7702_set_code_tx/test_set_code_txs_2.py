@@ -1762,7 +1762,7 @@ def test_delegation_replacement_call_previous_contract(
     delegation, calling the previous delegated contract.
     Previous contract shouldn't be warm when doing the CALL.
     """
-    pre_set_delegation_code = Op.RETURN(0, 0)
+    pre_set_delegation_code = Op.STOP
     pre_set_delegation_address = pre.deploy_contract(pre_set_delegation_code)
 
     auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
