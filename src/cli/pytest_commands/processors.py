@@ -3,37 +3,11 @@
 import os
 import sys
 import warnings
-from typing import Dict, List
+from typing import List
 
 import click
 
 from .base import ArgumentProcessor
-
-# Required flags for help display
-REQUIRED_FLAGS: Dict[str, List[str]] = {
-    "check-eip-versions": [],
-    "fill": [],
-    "consume": [],
-    "execute": [
-        "--rpc-endpoint",
-        "x",
-        "--rpc-seed-key",
-        "x",
-        "--rpc-chain-id",
-        "1",
-    ],
-    "execute-hive": [],
-    "execute-recover": [
-        "--rpc-endpoint",
-        "x",
-        "--rpc-chain-id",
-        "1",
-        "--start-eoa-index",
-        "1",
-        "--destination",
-        "0x1234567890123456789012345678901234567890",
-    ],
-}
 
 
 class HelpFlagsProcessor(ArgumentProcessor):
@@ -59,17 +33,11 @@ class HelpFlagsProcessor(ArgumentProcessor):
         ctx = click.get_current_context()
 
         if ctx.params.get("help_flag"):
-            return self._get_command_help_args()
+            return [f"--{self.command_type}-help"]
         elif ctx.params.get("pytest_help_flag"):
             return ["--help"]
 
         return args
-
-    def _get_command_help_args(self) -> List[str]:
-        """Get the help arguments for this specific command type."""
-        if self.command_type in REQUIRED_FLAGS:
-            return [f"--{self.command_type}-help"] + REQUIRED_FLAGS[self.command_type]
-        return []
 
 
 class StdoutFlagsProcessor(ArgumentProcessor):
