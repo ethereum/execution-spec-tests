@@ -40,7 +40,6 @@ class PytestRunner:
         """Run pytest once with the given configuration and arguments."""
         pytest_args = ["-c", config_file] + args
 
-        # Log the actual pytest command if verbose
         if self._is_verbose(args):
             pytest_cmd = f"pytest {' '.join(pytest_args)}"
             click.echo(f"Executing: {pytest_cmd}")
