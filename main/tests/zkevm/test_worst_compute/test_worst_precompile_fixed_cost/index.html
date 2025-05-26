@@ -18963,6 +18963,8 @@
       
         
       
+        
+      
     
     
       
@@ -19293,6 +19295,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_amortized_bn128_pairings/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_amortized_bn128_pairings</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -19599,7 +19622,7 @@
 
 
 <h1 id="test_worst_precompile_fixed_cost"><code>test_worst_precompile_fixed_cost()</code><a class="headerlink" href="#test_worst_precompile_fixed_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3810d22f84f206866f66f4f6bf856187c2893ab1/tests/zkevm/test_worst_compute.py#L260"><code>tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost@3810d22f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/12bcc4bc649312a737c2991bb041dab68bb8f374/tests/zkevm/test_worst_compute.py#L263"><code>tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost@12bcc4bc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost --fork Prague</span>
@@ -19618,10 +19641,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
 <span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
@@ -19806,7 +19826,19 @@
 <span class="normal">445</span>
 <span class="normal">446</span>
 <span class="normal">447</span>
-<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_address,parameters&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -19844,10 +19876,6 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x08</span><span class="p">,</span>
             <span class="p">[</span>
-                <span class="c1"># TODO: the following are only two inputs, but this can be extended</span>
-                <span class="c1"># to more inputs to amortize costs as much as possible. Additionally,</span>
-                <span class="c1"># there might be worse pairings that can be used.</span>
-                <span class="c1">#</span>
                 <span class="c1"># First pairing</span>
                 <span class="s2">&quot;1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41&quot;</span><span class="p">,</span>
@@ -19863,7 +19891,20 @@
                 <span class="s2">&quot;090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA&quot;</span><span class="p">,</span>
             <span class="p">],</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_pairing&quot;</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_two_pairings&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x08</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="c1"># First pairing</span>
+                <span class="s2">&quot;1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_one_pairing&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Blake2bSpec</span><span class="o">.</span><span class="n">BLAKE2_PRECOMPILE_ADDRESS</span><span class="p">,</span>
@@ -20082,12 +20123,22 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_pairing]">
-                    ...fork_Cancun-blockchain_test-bn128_pairing
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_two_pairings]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_two_pairings]">
+                    ...fork_Cancun-blockchain_test-bn128_two_pairings
                 </abbr>
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550', '111E129F1CF1097710D41C4AC70FCDFA5BA2023C6FF1CBEAC322DE49D1B6DF7C', '103188585E2364128FE25C70558F1560F4F9350BAF3959E603CC91486E110936', '198E9393920D483A7260BFB731FB5D25F1AA493335A9E71297E485B7AEF312C2', '1800DEEF121F1E76426A00665E5C4479674322D4F75EDADD46DEBD5CD992F6ED', '090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B', '12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_one_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test-bn128_one_pairing]">
+                    ...fork_Cancun-blockchain_test-bn128_one_pairing
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -20212,12 +20263,22 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_pairing]">
-                    ...fork_Prague-blockchain_test-bn128_pairing
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_two_pairings]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_two_pairings]">
+                    ...fork_Prague-blockchain_test-bn128_two_pairings
                 </abbr>
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550', '111E129F1CF1097710D41C4AC70FCDFA5BA2023C6FF1CBEAC322DE49D1B6DF7C', '103188585E2364128FE25C70558F1560F4F9350BAF3959E603CC91486E110936', '198E9393920D483A7260BFB731FB5D25F1AA493335A9E71297E485B7AEF312C2', '1800DEEF121F1E76426A00665E5C4479674322D4F75EDADD46DEBD5CD992F6ED', '090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B', '12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_one_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test-bn128_one_pairing]">
+                    ...fork_Prague-blockchain_test-bn128_one_pairing
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -20342,12 +20403,22 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_pairing]">
-                    ...fork_Osaka-blockchain_test-bn128_pairing
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_two_pairings]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_two_pairings]">
+                    ...fork_Osaka-blockchain_test-bn128_two_pairings
                 </abbr>
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550', '111E129F1CF1097710D41C4AC70FCDFA5BA2023C6FF1CBEAC322DE49D1B6DF7C', '103188585E2364128FE25C70558F1560F4F9350BAF3959E603CC91486E110936', '198E9393920D483A7260BFB731FB5D25F1AA493335A9E71297E485B7AEF312C2', '1800DEEF121F1E76426A00665E5C4479674322D4F75EDADD46DEBD5CD992F6ED', '090689D0585FF075EC9E99AD690C3395BC4B313370B38EF355ACDADCD122975B', '12C85EA5DB8C6DEB4AAB71808DCB408FE3D1E7690C43D37B4CE6CC0166FA7DAA']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_one_pairing]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test-bn128_one_pairing]">
+                    ...fork_Osaka-blockchain_test-bn128_one_pairing
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
