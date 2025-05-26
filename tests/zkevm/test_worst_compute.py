@@ -1027,7 +1027,6 @@ def test_amortized_bn128_pairings(
         to=code_address,
         gas_limit=env.gas_limit,
         data=_generate_bn128_pairs(optimal_per_call_num_pairings, 42),
-        sender=pre.fund_eoa(),
     )
 
     state_test(
@@ -1066,3 +1065,39 @@ def _generate_bn128_pairs(n: int, seed: int = 0):
         calldata = Bytes(calldata + pair_calldata)
 
     return calldata
+
+
+@pytest.mark.parametrize(
+    "empty_calldata",
+    [False, True],
+)
+def test_worst_calldataload(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    empty_calldata: bool,
+):
+    """Test running a block with as many CALLDATALOAD as possible."""
+    env = Environment()
+
+    code_prefix = Op.JUMPDEST
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_loop_iter = Op.POP(Op.PUSH0 + Op.CALLDATALOAD)
+    code_body = code_loop_iter * (code_body_len // len(code_loop_iter))
+    code = code_prefix + code_body + code_suffix
+    assert len(code) == MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        data=[] if empty_calldata else [0x42] * 32,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
