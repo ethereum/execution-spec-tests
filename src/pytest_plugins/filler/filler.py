@@ -185,6 +185,20 @@ def pytest_addoption(parser: pytest.Parser):
             f"consume an entire block's gas. (Default: {EnvironmentDefaults.gas_limit})"
         ),
     )
+    test_group.addoption(
+        "--generate-shared-alloc",
+        action="store_true",
+        dest="generate_shared_alloc",
+        default=False,
+        help="Generate shared pre-allocation state (phase 1 only).",
+    )
+    test_group.addoption(
+        "--use-shared-alloc",
+        action="store_true",
+        dest="use_shared_alloc",
+        default=False,
+        help="Fill tests using an existing shared pre-allocation state (phase 2 only).",
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -240,8 +254,11 @@ def pytest_configure(config):
     except ValueError as e:
         pytest.exit(str(e), returncode=pytest.ExitCode.USAGE_ERROR)
 
-    if not config.getoption("disable_html") and config.getoption("htmlpath") is None:
-        # generate an html report by default, unless explicitly disabled
+    if (
+        not config.getoption("disable_html")
+        and config.getoption("htmlpath") is None
+        and not config.getoption("generate_shared_alloc")
+    ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
@@ -883,7 +900,9 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         file.unlink()
 
     # Generate index file for all produced fixtures.
-    if session.config.getoption("generate_index"):
+    if session.config.getoption("generate_index") and not session.config.getoption(
+        "generate_shared_alloc"
+    ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
         )
