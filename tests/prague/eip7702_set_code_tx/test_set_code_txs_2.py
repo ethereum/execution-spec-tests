@@ -24,6 +24,7 @@ from ethereum_test_tools import (
     TransactionException,
     compute_create_address,
 )
+from ethereum_test_tools.code.generators import CodeGasMeasure
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_vm import Macros
@@ -1768,7 +1769,13 @@ def test_delegation_replacement_call_previous_contract(
     auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
     sender = pre.fund_eoa()
 
-    set_code = Op.CALL(address=pre_set_delegation_address) + Op.STOP
+    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    set_code = CodeGasMeasure(
+        code=Op.CALL(gas=0, address=pre_set_delegation_address),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+    )
+
     set_code_to_address = pre.deploy_contract(
         set_code,
     )
