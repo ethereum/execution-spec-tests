@@ -21448,7 +21448,8 @@
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
-<li>✨ Add <code>ported_from</code> test marker to track Python test cases that were converted from static fillers in <a href="https://github.com/ethereum/tests">ethereum/tests</a> repository <a href="https://github.com/ethereum/execution-spec-tests/pull/1590">#1590</a>.</li>
+<li>✨ Add the <code>ported_from</code> test marker to track Python test cases that were converted from static fillers in <a href="https://github.com/ethereum/tests">ethereum/tests</a> repository <a href="https://github.com/ethereum/execution-spec-tests/pull/1590">#1590</a>.</li>
+<li>✨ Add a new pytest plugin, <code>ported_tests</code>, that lists the static fillers and PRs from <code>ported_from</code> markers for use in the coverage Github Workflow <a href="https://github.com/ethereum/execution-spec-tests/pull/1634">#1634</a>.</li>
 <li>🔀 Refactor: Encapsulate <code>fill</code>'s fixture output options (<code>--output</code>, <code>--flat-output</code>, <code>--single-fixture-per-file</code>) into a <code>FixtureOutput</code> class (<a href="https://github.com/ethereum/execution-spec-tests/pull/1471">#1471</a>,<a href="https://github.com/ethereum/execution-spec-tests/pull/1612">#1612</a>).</li>
 <li>✨ Don't warn about a "high Transaction gas_limit" for <code>zkevm</code> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1598">#1598</a>).</li>
 <li>🐞 <code>fill</code> no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or <code>--clean</code> must be used to delete it first (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608">#1608</a>).</li>
