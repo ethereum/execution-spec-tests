@@ -11,7 +11,7 @@ static:
   evm-type: static
   fill-params: --until=Prague --fill-static-tests ./tests/static
   solc: 0.8.21
-zkevm:
+zkevm_36M:
   evm-type: zkevm
   fill-params: --from=Cancun --until=Prague --block-gas-limit 36000000 -m zkevm ./tests
   solc: 0.8.21
