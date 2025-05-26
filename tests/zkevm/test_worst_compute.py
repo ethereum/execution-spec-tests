@@ -1048,6 +1048,9 @@ def _generate_bn128_pairs(n: int, seed: int = 0):
         point_x_affine = multiply(G1, priv_key_g1)
         point_y_affine = multiply(G2, priv_key_g2)
 
+        assert point_x_affine is not None, "G1 multiplication resulted in point at infinity"
+        assert point_y_affine is not None, "G2 multiplication resulted in point at infinity"
+
         g1_x_bytes = point_x_affine[0].n.to_bytes(32, "big")
         g1_y_bytes = point_x_affine[1].n.to_bytes(32, "big")
         g1_serialized = g1_x_bytes + g1_y_bytes
