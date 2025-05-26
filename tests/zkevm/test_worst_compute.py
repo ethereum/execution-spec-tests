@@ -1080,17 +1080,17 @@ def test_worst_calldataload(
     """Test running a block with as many CALLDATALOAD as possible."""
     env = Environment()
 
-    code_prefix = Op.JUMPDEST
-    code_suffix = Op.PUSH0 + Op.JUMP
+    code_prefix = Op.PUSH0 + Op.JUMPDEST
+    code_suffix = Op.PUSH1(1) + Op.JUMP
     code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
-    code_loop_iter = Op.POP(Op.PUSH0 + Op.CALLDATALOAD)
+    code_loop_iter = Op.CALLDATALOAD
     code_body = code_loop_iter * (code_body_len // len(code_loop_iter))
     code = code_prefix + code_body + code_suffix
     assert len(code) <= MAX_CODE_SIZE
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        data=[] if empty_calldata else [0x42] * 32,
+        data=[] if empty_calldata else [0x00],
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
