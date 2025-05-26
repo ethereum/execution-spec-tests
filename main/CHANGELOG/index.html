@@ -1916,7 +1916,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#important-change-for-fill-users" class="md-nav__link">
@@ -1924,6 +1925,20 @@
       💥 Important Change for fill Users
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-zkevm-expanded-to-zkevm_36m-zkevm_60m-zkevm_90m-zkevm_120m" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature zkevm expanded to zkevm_36M, zkevm_60M, zkevm_90M, zkevm_120M
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -20494,7 +20509,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="💥 Breaking Change">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#important-change-for-fill-users" class="md-nav__link">
@@ -20502,6 +20518,20 @@
       💥 Important Change for fill Users
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature-zkevm-expanded-to-zkevm_36m-zkevm_60m-zkevm_90m-zkevm_120m" class="md-nav__link">
+    <span class="md-ellipsis">
+      Feature zkevm expanded to zkevm_36M, zkevm_60M, zkevm_90M, zkevm_120M
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -21439,12 +21469,15 @@
 <p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking</p>
 <h2 id="unreleased">🔜 [Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
-<h3 id="important-change-for-fill-users">💥 Important Change for <code>fill</code> Users<a class="headerlink" href="#important-change-for-fill-users" title="Permanent link">&para;</a></h3>
+<h4 id="important-change-for-fill-users">💥 Important Change for <code>fill</code> Users<a class="headerlink" href="#important-change-for-fill-users" title="Permanent link">&para;</a></h4>
 <p>The output behavior of <code>fill</code> has changed (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608">#1608</a>):</p>
 <ul>
 <li>Before: <code>fill</code> wrote fixtures into the directory specified by the <code>--output</code> flag (default: <code>fixtures</code>). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see <a href="https://github.com/ethereum/execution-spec-tests/issues/1030">#1030</a>).</li>
 <li>Now: <code>fill</code> will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the <code>--clean</code> flag, which will first remove the specified directory.</li>
 </ul>
+<h4 id="feature-zkevm-expanded-to-zkevm_36m-zkevm_60m-zkevm_90m-zkevm_120m">Feature <code>zkevm</code> expanded to <code>zkevm_36M</code>, <code>zkevm_60M</code>, <code>zkevm_90M</code>, <code>zkevm_120M</code><a class="headerlink" href="#feature-zkevm-expanded-to-zkevm_36m-zkevm_60m-zkevm_90m-zkevm_120m" title="Permanent link">&para;</a></h4>
+<p>Renames <code>zkevm</code> to <code>zkevm_36M</code> and further expands the zkEVM features to run using 60M, 90M and 120M block gas limits in <code>fixtures_zkevm_36M.tar.gz</code>, <code>fixtures_zkevm_60M.tar.gz</code>, <code>fixtures_zkevm_90M.tar.gz</code> and <code>fixtures_zkevm_120M.tar.gz</code> respectively.</p>
+<p>Users can select any of the artifacts depending on their testing needs for their provers.</p>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
