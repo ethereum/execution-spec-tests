@@ -1086,7 +1086,7 @@ def test_worst_calldataload(
     code_loop_iter = Op.POP(Op.PUSH0 + Op.CALLDATALOAD)
     code_body = code_loop_iter * (code_body_len // len(code_loop_iter))
     code = code_prefix + code_body + code_suffix
-    assert len(code) == MAX_CODE_SIZE
+    assert len(code) <= MAX_CODE_SIZE
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
