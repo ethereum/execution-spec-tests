@@ -21,6 +21,7 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytecode,
     Environment,
+    StateTestFiller,
     Transaction,
 )
 from ethereum_test_tools.code.generators import While
@@ -971,7 +972,7 @@ def test_empty_block(
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow()
 def test_amortized_bn128_pairings(
-    blockchain_test: BlockchainTestFiller,
+    state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
 ):
@@ -1029,11 +1030,11 @@ def test_amortized_bn128_pairings(
         sender=pre.fund_eoa(),
     )
 
-    blockchain_test(
+    state_test(
         env=env,
         pre=pre,
         post={},
-        blocks=[Block(txs=[tx])],
+        tx=tx,
     )
 
 
