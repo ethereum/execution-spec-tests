@@ -1069,14 +1069,18 @@ def _generate_bn128_pairs(n: int, seed: int = 0):
 
 
 @pytest.mark.parametrize(
-    "empty_calldata",
-    [False, True],
+    "calldata",
+    [
+        pytest.param(b"", id="empty"),
+        pytest.param(b"\x00", id="zero-loop"),
+        pytest.param(b"\x00" * 31 + b"\x20", id="one-loop"),
+    ],
 )
 def test_worst_calldataload(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    empty_calldata: bool,
+    calldata: bytes,
 ):
     """Test running a block with as many CALLDATALOAD as possible."""
     env = Environment()
@@ -1091,7 +1095,7 @@ def test_worst_calldataload(
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        data=[] if empty_calldata else [0x00],
+        data=calldata,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
