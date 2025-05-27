@@ -852,7 +852,7 @@ def test_worst_blobhash(
     """Test running a block with as many BLOBHASH instructions as possible."""
     env = Environment()
 
-    code_prefix = Op.PUSH32(blob_index) + Op.JUMPDEST
+    code_prefix = Op.PUSH1(blob_index) + Op.JUMPDEST
     code_suffix = Op.JUMP(len(code_prefix) - 1)
     loop_iter = Op.POP(Op.BLOBHASH(Op.DUP1))
     code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
@@ -867,7 +867,7 @@ def test_worst_blobhash(
         tx_type = TransactionType.BLOB_TRANSACTION
         max_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
         blob_versioned_hashes = add_kzg_version(
-            (i.to_bytes() * 32 for i in range(blobs_present)),
+            [i.to_bytes() * 32 for i in range(blobs_present)],
             BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
         )
 
