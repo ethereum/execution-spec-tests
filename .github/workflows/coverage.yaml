@@ -118,7 +118,12 @@ jobs:
         run: |
           source $GITHUB_ENV
           new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
-          files=$(uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled | grep .json)
+          echo "Changed or new test files: $new_sources"
+
+          # uv run returns an error code if no tests detected in changed files. ignore it by setting || true.
+          files=$(uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled | grep .json || true)
+          echo "Extracted converted tests: $files"
+
           if [[ -z "$files" ]]; then
               echo "No ported fillers found, check updates instead:"
               echo "converted_skip=true" >> $GITHUB_ENV
