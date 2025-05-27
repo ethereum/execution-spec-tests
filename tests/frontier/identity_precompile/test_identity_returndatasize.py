@@ -14,6 +14,13 @@ from ethereum_test_tools import Opcodes as Op
 from tests.frontier.identity_precompile.common import Constants
 
 
+@pytest.mark.ported_from(
+    [
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts/identity_to_bigger.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts/identity_to_smaller.json",
+    ],
+    pr=["https://github.com/ethereum/execution-spec-tests/pull/1344"],
+)
 @pytest.mark.valid_from("Byzantium")
 @pytest.mark.parametrize(
     ["args_size", "output_size", "expected_returndatasize"],

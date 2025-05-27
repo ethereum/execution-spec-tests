@@ -17,6 +17,27 @@ from ethereum_test_tools import Opcodes as Op
 from .common import CallArgs, generate_identity_call_bytecode
 
 
+@pytest.mark.ported_from(
+    [
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentitiy_0.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentitiy_1.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentity_1_nonzeroValue.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentitiy_2.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentitiy_3.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentity_4.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentity_4_gas17.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentity_4_gas18.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_0.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_1.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_1_nonzeroValue.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_2.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_3.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_4.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_4_gas17.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_4_gas18.json",
+    ],
+    pr=["https://github.com/ethereum/execution-spec-tests/pull/1344"],
+)
 @pytest.mark.valid_from("Byzantium")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize(
@@ -108,6 +129,14 @@ def test_call_identity_precompile(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.ported_from(
+    [
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CALLCODEIdentitiy_5.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_5.json",
+        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts2/CallIdentitiy_6.json",
+    ],
+    pr=["https://github.com/ethereum/execution-spec-tests/pull/1344"],
+)
 @pytest.mark.valid_from("Byzantium")
 @pytest.mark.parametrize("call_type", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize(
