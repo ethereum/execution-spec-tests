@@ -407,6 +407,7 @@ class BlockchainFixtureCommon(BaseFixture):
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Alloc | None = Field(None)
+    post_state_hash: Hash | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
 
