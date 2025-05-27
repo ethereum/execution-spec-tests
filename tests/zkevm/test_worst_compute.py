@@ -14,6 +14,7 @@ from py_ecc.bn128 import G1, G2, multiply
 
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
+from ethereum_test_specs.tests.test_fixtures import TransactionType
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -23,6 +24,7 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     Transaction,
+    add_kzg_version,
 )
 from ethereum_test_tools.code.generators import While
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -827,6 +829,61 @@ def test_worst_shifts(
         pre=pre,
         post={},
         blocks=[Block(txs=[tx])],
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "blob_index, blob_present",
+    [
+        (0, True),
+        (1, True),
+        (0, False),
+    ],
+)
+def test_worst_blobhash(
+    fork: Fork,
+    state_test: StateTestFiller,
+    pre: Alloc,
+    blob_index: int,
+    blob_present: bool,
+):
+    """Test running a block with as many BLOBHASH instructions as possible."""
+    env = Environment()
+
+    code_prefix = Op.PUSH1(blob_index) + Op.JUMPDEST
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    loop_iter = Op.POP(Op.BLOBHASH(Op.DUP1))
+    code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body = loop_iter * code_body_len
+    code = code_prefix + code_body + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx_type = TransactionType.LEGACY
+    blob_versioned_hashes = None
+    max_fee_per_blob_gas = None
+    if blob_present:
+        tx_type = TransactionType.BLOB_TRANSACTION
+        max_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
+        blob_versioned_hashes = add_kzg_version(
+            [b"\x00" * 32],
+            BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
+        )
+
+    tx = Transaction(
+        ty=tx_type,
+        to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        max_fee_per_blob_gas=max_fee_per_blob_gas,
+        blob_versioned_hashes=blob_versioned_hashes,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
     )
 
 
