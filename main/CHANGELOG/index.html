@@ -1970,6 +1970,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      execute
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2319,7 +2328,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#execute" class="md-nav__link">
+  <a href="#execute_1" class="md-nav__link">
     <span class="md-ellipsis">
       execute
     </span>
@@ -20586,6 +20595,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#execute" class="md-nav__link">
+    <span class="md-ellipsis">
+      execute
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -20935,7 +20953,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#execute" class="md-nav__link">
+  <a href="#execute_1" class="md-nav__link">
     <span class="md-ellipsis">
       execute
     </span>
@@ -21512,6 +21530,10 @@
 <li>🐞 zkEVM marked tests have been removed from <code>tests-deployed</code> tox environment into its own separate workflow <code>tests-deployed-zkevm</code> and are filled by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1617">#1617</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
+<h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
+<ul>
+<li>✨ Add <code>blob_transaction_test</code> execute test spec, which allows tests that send blob transactions to a running client and verifying its <code>engine_getBlobsVX</code> endpoint behavior (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644">#1644</a>).</li>
+</ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
 <li>✨ Added the <a href="https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/">EIP checklist template</a> that serves as a reference to achieve better coverage when implementing tests for new EIPs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1327">#1327</a>).</li>
@@ -21524,6 +21546,7 @@
 <ul>
 <li>🔀 Refactored <code>BLOBHASH</code> opcode context tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1637">#1637</a>).</li>
 <li>🔀 Refactored <code>SELFDESTRUCT</code> opcode collision tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1643">#1643</a>).</li>
+<li>✨ EIP-7594: Sanity test cases to send blob transactions and verify <code>engine_getBlobsVX</code> using the <code>execute</code> command (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644">#1644</a>).</li>
 </ul>
 <h2 id="v450-2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0">v4.5.0</a> - 2025-05-14<a class="headerlink" href="#v450-2025-05-14" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change_1">💥 Breaking Change<a class="headerlink" href="#breaking-change_1" title="Permanent link">&para;</a></h3>
@@ -21658,7 +21681,7 @@
 <li>🐞 Fix the node id for state tests marked by transition forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1313">#1313</a>).</li>
 <li>✨ Add <code>static_filler</code> plug-in which allows to fill static YAML and JSON tests (from <a href="https://github.com/ethereum/tests">ethereum/tests</a>) by adding flag <code>--fill-static-tests</code> to <code>uv run fill</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1336">#1336</a>).</li>
 </ul>
-<h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
+<h4 id="execute_1"><code>execute</code><a class="headerlink" href="#execute_1" title="Permanent link">&para;</a></h4>
 <ul>
 <li>🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. <code>state_test</code>, <code>blockchain_test</code>, etc) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1367">#1367</a>).</li>
 <li>✨ Markers can now be used to execute only tests from a specific test spec type (e.g. <code>-m state_test</code>, <code>-m blockchain_test</code>, etc) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1367">#1367</a>).</li>
