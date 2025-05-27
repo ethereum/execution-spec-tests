@@ -1151,6 +1151,36 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/test_identity/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/test_identity/test_call_identity_precompile/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/test_identity/test_call_identity_precompile_large_params/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/test_identity_returndatasize/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/identity_precompile/test_identity_returndatasize/test_identity_precompile_returndata/</loc>
+         <lastmod>2025-05-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/</loc>
          <lastmod>2025-05-27</lastmod>
          <changefreq>daily</changefreq>
