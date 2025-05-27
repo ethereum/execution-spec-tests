@@ -21789,6 +21789,7 @@
 <li>✨ Don't warn about a "high Transaction gas_limit" for <code>zkevm</code> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1598">#1598</a>).</li>
 <li>🐞 <code>fill</code> no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or <code>--clean</code> must be used to delete it first (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608">#1608</a>).</li>
 <li>🐞 zkEVM marked tests have been removed from <code>tests-deployed</code> tox environment into its own separate workflow <code>tests-deployed-zkevm</code> and are filled by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1617">#1617</a>).</li>
+<li>✨ Field <code>postStateHash</code> is now added to all <code>blockchain_test</code> and <code>blockchain_test_engine</code> tests that use <code>exclude_full_post_state_in_output</code> in place of <code>postState</code>. Fixes <code>evmone-blockchaintest</code> test consumption and indirectly fixes coverage runs for these tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1667">#1667</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
@@ -21802,6 +21803,7 @@
 <li>✨ Added a new <code>eest</code> sub-command, <code>eest info</code>, to easily print a cloned EEST repository's version and the versions of relevant tools, e.g., <code>python</code>, <code>uv</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1621">#1621</a>).</li>
 <li>✨ Add <code>CONTRIBUTING.md</code> for execution-spec-tests and improve coding standards documentation (<a href="https://github.com/ethereum/execution-spec-tests/pull/1604">#1604</a>).</li>
 <li>🔀 Updated from pytest 7 to <a href="https://docs.pytest.org/en/stable/changelog.html#features-and-improvements">pytest 8</a>, benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development <a href="https://github.com/ethereum/execution-spec-tests/pull/1433">#1433</a>.</li>
+<li>🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1661">#1661</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>

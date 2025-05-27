@@ -37756,7 +37756,9 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -38121,6 +38123,7 @@ This is the case when the test is not run in pytest.</p>
             <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
@@ -38219,6 +38222,7 @@ This is the case when the test is not run in pytest.</p>
             <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
             <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
             <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
@@ -39029,7 +39033,8 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">661</span>
 <span class="normal">662</span>
 <span class="normal">663</span>
-<span class="normal">664</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">664</span>
+<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -39115,6 +39120,7 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
@@ -39147,8 +39153,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">666</span>
-<span class="normal">667</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">667</span>
 <span class="normal">668</span>
 <span class="normal">669</span>
 <span class="normal">670</span>
@@ -39245,7 +39250,9 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">761</span>
 <span class="normal">762</span>
 <span class="normal">763</span>
-<span class="normal">764</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -39336,6 +39343,7 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
         <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
@@ -39370,9 +39378,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">768</span>
 <span class="normal">769</span>
 <span class="normal">770</span>
 <span class="normal">771</span>
@@ -39384,7 +39390,9 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">777</span>
 <span class="normal">778</span>
 <span class="normal">779</span>
-<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -39425,9 +39433,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">782</span>
-<span class="normal">783</span>
-<span class="normal">784</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">784</span>
 <span class="normal">785</span>
 <span class="normal">786</span>
 <span class="normal">787</span>
@@ -39441,7 +39447,9 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">795</span>
 <span class="normal">796</span>
 <span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
