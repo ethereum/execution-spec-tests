@@ -834,11 +834,12 @@ def test_worst_shifts(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "blob_index, blob_present",
+    "blob_index, blobs_present",
     [
-        (0, True),
-        (1, True),
-        (0, False),
+        pytest.param(0, 0, id="no blobs"),
+        pytest.param(0, 1, id="one blob and accessed"),
+        pytest.param(1, 1, id="one blob but access non-existent index"),
+        pytest.param(5, 6, id="six blobs, access latest"),
     ],
 )
 def test_worst_blobhash(
@@ -846,12 +847,12 @@ def test_worst_blobhash(
     state_test: StateTestFiller,
     pre: Alloc,
     blob_index: int,
-    blob_present: bool,
+    blobs_present: bool,
 ):
     """Test running a block with as many BLOBHASH instructions as possible."""
     env = Environment()
 
-    code_prefix = Op.PUSH1(blob_index) + Op.JUMPDEST
+    code_prefix = Op.PUSH32(blob_index) + Op.JUMPDEST
     code_suffix = Op.JUMP(len(code_prefix) - 1)
     loop_iter = Op.POP(Op.BLOBHASH(Op.DUP1))
     code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
@@ -862,11 +863,11 @@ def test_worst_blobhash(
     tx_type = TransactionType.LEGACY
     blob_versioned_hashes = None
     max_fee_per_blob_gas = None
-    if blob_present:
+    if blobs_present > 0:
         tx_type = TransactionType.BLOB_TRANSACTION
         max_fee_per_blob_gas = fork.min_base_fee_per_blob_gas()
         blob_versioned_hashes = add_kzg_version(
-            [b"\x00" * 32],
+            (i.to_bytes() * 32 for i in range(blobs_present)),
             BlobsSpec.BLOB_COMMITMENT_VERSION_KZG,
         )
 
