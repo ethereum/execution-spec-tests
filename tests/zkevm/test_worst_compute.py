@@ -1027,6 +1027,7 @@ def test_amortized_bn128_pairings(
         to=code_address,
         gas_limit=env.gas_limit,
         data=_generate_bn128_pairs(optimal_per_call_num_pairings, 42),
+        sender=pre.fund_eoa(),
     )
 
     state_test(
