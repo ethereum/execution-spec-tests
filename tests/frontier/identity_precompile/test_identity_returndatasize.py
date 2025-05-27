@@ -16,8 +16,8 @@ from tests.frontier.identity_precompile.common import Constants
 
 @pytest.mark.ported_from(
     [
-        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts/identity_to_bigger.json",
-        "https://github.com/ethereum/tests/blob/v17.1/GeneralStateTests/stPreCompiledContracts/identity_to_smaller.json",
+        "https://github.com/ethereum/tests/blob/v17.1/src/GeneralStateTestsFiller/stPreCompiledContracts/identity_to_biggerFiller.json",
+        "https://github.com/ethereum/tests/blob/v17.1/src/GeneralStateTestsFiller/stPreCompiledContracts/identity_to_smallerFiller.json",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1344"],
 )
