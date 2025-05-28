@@ -2776,6 +2776,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_memory_access/</loc>
+         <lastmod>2025-05-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_mod/</loc>
          <lastmod>2025-05-28</lastmod>
          <changefreq>daily</changefreq>

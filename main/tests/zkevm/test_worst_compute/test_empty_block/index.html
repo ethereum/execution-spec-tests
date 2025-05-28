@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_empty_block/">
       
       
-        <link rel="prev" href="../test_worst_mod/">
+        <link rel="prev" href="../test_worst_memory_access/">
       
       
         <link rel="next" href="../test_amortized_bn128_pairings/">
@@ -19228,6 +19228,8 @@
       
         
       
+        
+      
     
     
       
@@ -19491,6 +19493,27 @@
   
   <span class="md-ellipsis">
     <code>test_worst_mod</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_memory_access/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_memory_access</code>
   </span>
   
 
@@ -19906,7 +19929,7 @@
 
 
 <h1 id="test_empty_block"><code>test_empty_block()</code><a class="headerlink" href="#test_empty_block" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b11e439fd27651020247e92086d8751e4c8c13cc/tests/zkevm/test_worst_compute.py#L1006"><code>tests/zkevm/test_worst_compute.py::test_empty_block@b11e439f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/41a30cac5375211ef88c0a41d99212f4fc6aa718/tests/zkevm/test_worst_compute.py#L1049"><code>tests/zkevm/test_worst_compute.py::test_empty_block@41a30cac</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_empty_block --fork Prague</span>
@@ -19925,20 +19948,20 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1006</span>
-<span class="normal">1007</span>
-<span class="normal">1008</span>
-<span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
-<span class="normal">1017</span>
-<span class="normal">1018</span>
-<span class="normal">1019</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_empty_block</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
