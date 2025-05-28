@@ -493,14 +493,14 @@ class BlockchainEngineFixtureCommon(BaseFixture):
     duplicating large pre-allocations when using shared genesis approaches.
     """
 
-    fork: str = Field(..., alias="network")
+    fork: Fork = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     post_state_hash: Hash | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
 
-    def get_fork(self) -> str | None:
-        """Return fork of the fixture as a string."""
+    def get_fork(self) -> Fork | None:
+        """Return fixture's `Fork`."""
         return self.fork
 
     @classmethod
