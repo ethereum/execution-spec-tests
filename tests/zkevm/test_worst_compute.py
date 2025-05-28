@@ -1050,13 +1050,13 @@ def test_worst_tload(
 
     # If `key_mut` is True, we mutate the key on every iteration of the big loop by mutiplying by
     # a constant that should produce a long chain of distinct values.
-    code_key_mut = Op.PUSH32(2**256 - 5) + Op.MUL if key_mut else Bytecode()
+    code_key_mut = Op.PUSH1(3) + Op.MUL if key_mut else Bytecode()
 
     # If `val_mut` is True, we mutate the value that will be returned by the nex iteration of
     # TLOADs.
     code_val_mut = (
         Op.DUP2  # MUL current value
-        + Op.PUSH32(2**256 - 5)  # MUL constant factor
+        + Op.PUSH1(3)  # MUL constant factor
         + Op.MUL  # Calculate new value
         + Op.SWAP2  # Save it
         + Op.POP  # Cleanup
@@ -1106,7 +1106,7 @@ def test_worst_tstore(
 
     # If `key_mut` is True, we mutate the key on every iteration of the big loop by mutiplying by
     # a constant that should produce a long chain of distinct values.
-    code_key_mut = Op.PUSH32(2**256 - 5) + Op.MUL if key_mut else Bytecode()
+    code_key_mut = Op.PUSH1(3) + Op.MUL if key_mut else Bytecode()
     code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
 
     # If `dense_val_mut` is set, we use PC as a cheap way of always storing a different value than
