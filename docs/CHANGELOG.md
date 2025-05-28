@@ -45,8 +45,9 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added a new `eest` sub-command, `eest info`, to easily print a cloned EEST repository's version and the versions of relevant tools, e.g., `python`, `uv` ([#1621](https://github.com/ethereum/execution-spec-tests/pull/1621)).
 - ✨ Add `CONTRIBUTING.md` for execution-spec-tests and improve coding standards documentation ([#1604](https://github.com/ethereum/execution-spec-tests/pull/1604)).
-- 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development [#1433](https://github.com/ethereum/execution-spec-tests/pull/1433).
+- 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development ([#1433](https://github.com/ethereum/execution-spec-tests/pull/1433)).
 - 🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests ([#1661](https://github.com/ethereum/execution-spec-tests/pull/1661)).
+- 🔀 Refactor the `click`-based CLI interface used for pytest-based commands (`fill`, `execute`, `consume`) to make them more extensible ([#1654](https://github.com/ethereum/execution-spec-tests/pull/1654)).
 
 ### 🧪 Test Cases
 
