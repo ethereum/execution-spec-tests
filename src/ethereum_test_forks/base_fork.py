@@ -480,7 +480,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @classmethod
     @abstractmethod
     def max_initcode_size(cls) -> int | None:
-        """Return the maximum initcode size when using a CREATE frame."""
+        """Return the maximum initcode size allowed to be used in a contract creation."""
         pass
 
     @classmethod
