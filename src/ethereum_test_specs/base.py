@@ -1,5 +1,6 @@
 """Base test class and helper functions for Ethereum state and blockchain tests."""
 
+import hashlib
 from abc import abstractmethod
 from functools import reduce
 from os import path
@@ -12,9 +13,15 @@ from pydantic import BaseModel, Field, PrivateAttr
 from ethereum_clis import Result, TransitionTool
 from ethereum_test_base_types import to_hex
 from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
-from ethereum_test_fixtures import BaseFixture, FixtureFormat, LabeledFixtureFormat
+from ethereum_test_fixtures import (
+    BaseFixture,
+    FixtureFormat,
+    LabeledFixtureFormat,
+    SharedPreState,
+    SharedPreStateGroup,
+)
 from ethereum_test_forks import Fork
-from ethereum_test_types import Environment, Withdrawal
+from ethereum_test_types import Alloc, Environment, Withdrawal
 
 
 class HashMismatchExceptionError(Exception):
@@ -199,6 +206,75 @@ class BaseTest(BaseModel):
                     "`exception_test` marker. Remove the `@pytest.mark.exception_test` decorator "
                     "from the test."
                 )
+
+    def get_genesis_environment(self, fork: Fork) -> Environment:
+        """
+        Get the genesis environment for shared pre-allocation.
+
+        Must be implemented by subclasses to provide the appropriate environment.
+        """
+        # BlockchainTest uses self.genesis_environment directly
+        if hasattr(self, "genesis_environment"):
+            return self.genesis_environment
+
+        # StateTest generates it dynamically
+        if hasattr(self, "_generate_blockchain_genesis_environment"):
+            return self._generate_blockchain_genesis_environment(fork=fork)
+
+        raise NotImplementedError(
+            f"{self.__class__.__name__} must implement genesis environment access for shared "
+            "pre-allocation"
+        )
+
+    def update_shared_pre_state(
+        self, shared_pre_state: SharedPreState, fork: Fork, test_id: str
+    ) -> SharedPreState:
+        """Create or update the shared pre-state group with the pre from the current spec."""
+        if not hasattr(self, "pre"):
+            raise AttributeError(
+                f"{self.__class__.__name__} does not have a 'pre' field. Shared pre-allocation "
+                "is only supported for test types that define pre-allocation."
+            )
+        pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+
+        if pre_alloc_hash in shared_pre_state:
+            # Update existing group - just merge pre-allocations
+            group = shared_pre_state[pre_alloc_hash]
+            group.pre = Alloc.merge(
+                group.pre,
+                self.pre,
+                allow_key_collision=True,
+            )
+            group.fork = fork.name()
+            group.test_ids.append(str(test_id))
+            group.test_count = len(group.test_ids)
+            group.pre_account_count = len(group.pre.root)
+            shared_pre_state[pre_alloc_hash] = group
+        else:
+            # Create new group - use Environment instead of expensive genesis generation
+            group = SharedPreStateGroup(
+                test_count=1,
+                pre_account_count=len(self.pre.root),
+                test_ids=[str(test_id)],
+                fork=fork.name(),
+                environment=self.get_genesis_environment(fork),
+                pre=self.pre,
+            )
+            shared_pre_state[pre_alloc_hash] = group
+        return shared_pre_state
+
+    def compute_shared_pre_alloc_hash(self, fork: Fork) -> str:
+        """Hash (fork, env) in order to group tests by shared genesis config."""
+        if not hasattr(self, "pre"):
+            raise AttributeError(
+                f"{self.__class__.__name__} does not have a 'pre' field. Shared pre-allocation "
+                "is only supported for test types that define pre-allocation."
+            )
+        fork_digest = hashlib.sha256(fork.name().encode("utf-8")).digest()
+        fork_hash = int.from_bytes(fork_digest[:8], byteorder="big")
+        genesis_env = self.get_genesis_environment(fork)
+        combined_hash = fork_hash ^ hash(genesis_env)
+        return f"0x{combined_hash:016x}"
 
 
 TestSpec = Callable[[Fork], Generator[BaseTest, None, None]]
