@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_mod"><code>test_worst_mod()</code><a class="headerlink" href="#test_worst_mod" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_compute.py#L833"><code>tests/zkevm/test_worst_compute.py::test_worst_mod@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_compute.py#L826"><code>tests/zkevm/test_worst_compute.py::test_worst_mod@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_mod --fork Prague</span>
@@ -19909,7 +19909,14 @@ as long as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">833</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
 <span class="normal">834</span>
 <span class="normal">835</span>
 <span class="normal">836</span>
@@ -20021,18 +20028,11 @@ as long as possible.</p>
 <span class="normal">942</span>
 <span class="normal">943</span>
 <span class="normal">944</span>
-<span class="normal">945</span>
-<span class="normal">946</span>
-<span class="normal">947</span>
-<span class="normal">948</span>
-<span class="normal">949</span>
-<span class="normal">950</span>
-<span class="normal">951</span>
-<span class="normal">952</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">945</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_mod</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">mod_bits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
@@ -20142,11 +20142,11 @@ as long as possible.</p>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -20183,7 +20183,8 @@ as long as possible.</p>
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -20202,11 +20203,91 @@ as long as possible.</p>
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_255]">
+                    ...fork_Cancun-state_test-op_MOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_191]">
+                    ...fork_Cancun-state_test-op_MOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_127]">
+                    ...fork_Cancun-state_test-op_MOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_MOD-mod_bits_63]">
+                    ...fork_Cancun-state_test-op_MOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>63</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Cancun-state_test-op_SMOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Cancun-state_test-op_SMOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Cancun-state_test-op_SMOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Cancun-state_test-op_SMOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>63</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_255]">
-                    ...fork_Cancun-blockchain_test-op_MOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_255]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_255
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20215,8 +20296,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_191]">
-                    ...fork_Cancun-blockchain_test-op_MOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_191]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_191
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20225,8 +20306,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_127]">
-                    ...fork_Cancun-blockchain_test-op_MOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_127]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_127
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20235,8 +20316,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_MOD-mod_bits_63]">
-                    ...fork_Cancun-blockchain_test-op_MOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_63]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_MOD-mod_bits_63
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20245,8 +20326,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_255]">
-                    ...fork_Cancun-blockchain_test-op_SMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20255,8 +20336,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_191]">
-                    ...fork_Cancun-blockchain_test-op_SMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20265,8 +20346,8 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_127]">
-                    ...fork_Cancun-blockchain_test-op_SMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20275,8 +20356,88 @@ as long as possible.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test-op_SMOD-mod_bits_63]">
-                    ...fork_Cancun-blockchain_test-op_SMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Cancun-blockchain_test_from_state_test-op_SMOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>63</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_255]">
+                    ...fork_Prague-state_test-op_MOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_191]">
+                    ...fork_Prague-state_test-op_MOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_127]">
+                    ...fork_Prague-state_test-op_MOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_MOD-mod_bits_63]">
+                    ...fork_Prague-state_test-op_MOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>63</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Prague-state_test-op_SMOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Prague-state_test-op_SMOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Prague-state_test-op_SMOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Prague-state_test-op_SMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20285,8 +20446,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_255]">
-                    ...fork_Prague-blockchain_test-op_MOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_255]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_255
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20295,8 +20456,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_191]">
-                    ...fork_Prague-blockchain_test-op_MOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_191]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_191
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20305,8 +20466,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_127]">
-                    ...fork_Prague-blockchain_test-op_MOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_127]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_127
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20315,8 +20476,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_MOD-mod_bits_63]">
-                    ...fork_Prague-blockchain_test-op_MOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_63]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_MOD-mod_bits_63
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20325,8 +20486,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_255]">
-                    ...fork_Prague-blockchain_test-op_SMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20335,8 +20496,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_191]">
-                    ...fork_Prague-blockchain_test-op_SMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20345,8 +20506,8 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_127]">
-                    ...fork_Prague-blockchain_test-op_SMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20355,8 +20516,88 @@ as long as possible.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test-op_SMOD-mod_bits_63]">
-                    ...fork_Prague-blockchain_test-op_SMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Prague-blockchain_test_from_state_test-op_SMOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>63</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_255]">
+                    ...fork_Osaka-state_test-op_MOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_191]">
+                    ...fork_Osaka-state_test-op_MOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_127]">
+                    ...fork_Osaka-state_test-op_MOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_MOD-mod_bits_63]">
+                    ...fork_Osaka-state_test-op_MOD-mod_bits_63
+                </abbr>
+            </td>
+                        <td>MOD</td>
+                        <td>63</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Osaka-state_test-op_SMOD-mod_bits_255
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Osaka-state_test-op_SMOD-mod_bits_191
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>191</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Osaka-state_test-op_SMOD-mod_bits_127
+                </abbr>
+            </td>
+                        <td>SMOD</td>
+                        <td>127</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Osaka-state_test-op_SMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20365,8 +20606,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_255]">
-                    ...fork_Osaka-blockchain_test-op_MOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_255
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20375,8 +20616,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_191]">
-                    ...fork_Osaka-blockchain_test-op_MOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_191]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_191
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20385,8 +20626,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_127]">
-                    ...fork_Osaka-blockchain_test-op_MOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_127]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_127
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20395,8 +20636,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_MOD-mod_bits_63]">
-                    ...fork_Osaka-blockchain_test-op_MOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_63]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_MOD-mod_bits_63
                 </abbr>
             </td>
                         <td>MOD</td>
@@ -20405,8 +20646,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_255]">
-                    ...fork_Osaka-blockchain_test-op_SMOD-mod_bits_255
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_255]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_255
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20415,8 +20656,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_191]">
-                    ...fork_Osaka-blockchain_test-op_SMOD-mod_bits_191
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_191]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_191]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_191
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20425,8 +20666,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_127]">
-                    ...fork_Osaka-blockchain_test-op_SMOD-mod_bits_127
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_127]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_127]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_127
                 </abbr>
             </td>
                         <td>SMOD</td>
@@ -20435,8 +20676,8 @@ as long as possible.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test-op_SMOD-mod_bits_63]">
-                    ...fork_Osaka-blockchain_test-op_SMOD-mod_bits_63
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_63]" title="tests/zkevm/test_worst_compute.py::test_worst_mod[fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_63]">
+                    ...fork_Osaka-blockchain_test_from_state_test-op_SMOD-mod_bits_63
                 </abbr>
             </td>
                         <td>SMOD</td>

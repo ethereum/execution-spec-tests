@@ -19825,7 +19825,7 @@
 
 
 <h1 id="test-worst-compute">Test Worst Compute<a class="headerlink" href="#test-worst-compute" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_compute.py#L58"><code>tests/zkevm/test_worst_compute.py@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_compute.py#L58"><code>tests/zkevm/test_worst_compute.py@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py --fork Prague</span>
@@ -19872,61 +19872,61 @@
 <tbody>
 <tr>
 <td><a href="test_worst_keccak/"><code>test_worst_keccak</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>1</td>
 <td>Test running a block with as many KECCAK256 permutations as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_precompile_only_data_input/"><code>test_worst_precompile_only_data_input</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>3</td>
 <td>Test running a block with as many precompile calls which have a single <code>data</code> input.</td>
 </tr>
 <tr>
 <td><a href="test_worst_modexp/"><code>test_worst_modexp</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>1</td>
 <td>Test running a block with as many MODEXP calls as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_precompile_fixed_cost/"><code>test_worst_precompile_fixed_cost</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>14</td>
 <td>Test running a block filled with a precompile with fixed cost.</td>
 </tr>
 <tr>
 <td><a href="test_worst_jumps/"><code>test_worst_jumps</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>1</td>
 <td>Test running a JUMP-intensive contract.</td>
 </tr>
 <tr>
 <td><a href="test_worst_jumpdests/"><code>test_worst_jumpdests</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>1</td>
 <td>Test running a JUMPDEST-intensive contract.</td>
 </tr>
 <tr>
 <td><a href="test_worst_binop_simple/"><code>test_worst_binop_simple</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>21</td>
 <td>Test running a block with as many binary instructions (takes two args, produces one value)</td>
 </tr>
 <tr>
 <td><a href="test_worst_unop/"><code>test_worst_unop</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>2</td>
 <td>Test running a block with as many unary instructions (takes one arg, produces one value)</td>
 </tr>
 <tr>
 <td><a href="test_worst_shifts/"><code>test_worst_shifts</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>2</td>
 <td>Test running a block with as many shift instructions with non-trivial arguments.</td>
 </tr>
 <tr>
 <td><a href="test_worst_mod/"><code>test_worst_mod</code></a></td>
-<td>blockchain_test</td>
+<td>state_test</td>
 <td>8</td>
 <td>Test running a block with as many MOD instructions with arguments of the parametrized range.</td>
 </tr>

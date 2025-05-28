@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_compute.py#L749"><code>tests/zkevm/test_worst_compute.py::test_worst_shifts@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_compute.py#L742"><code>tests/zkevm/test_worst_compute.py::test_worst_shifts@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_shifts --fork Prague</span>
@@ -19904,7 +19904,14 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">749</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
 <span class="normal">750</span>
 <span class="normal">751</span>
 <span class="normal">752</span>
@@ -19978,17 +19985,10 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 <span class="normal">820</span>
 <span class="normal">821</span>
 <span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">823</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_shifts</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">shift_right</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
@@ -20061,11 +20061,11 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -20102,7 +20102,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -20120,11 +20121,29 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SHR]">
+                    ...fork_Cancun-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SAR]">
+                    ...fork_Cancun-state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SHR]">
-                    ...fork_Cancun-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Cancun-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -20132,8 +20151,26 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SAR]">
-                    ...fork_Cancun-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Cancun-blockchain_test_from_state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]">
+                    ...fork_Prague-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]">
+                    ...fork_Prague-state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -20141,8 +20178,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]">
-                    ...fork_Prague-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -20150,8 +20187,26 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]">
-                    ...fork_Prague-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]">
+                    ...fork_Osaka-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]">
+                    ...fork_Osaka-state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -20159,8 +20214,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]">
-                    ...fork_Osaka-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -20168,8 +20223,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]">
-                    ...fork_Osaka-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>

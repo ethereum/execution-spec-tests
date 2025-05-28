@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_storage_access_warm"><code>test_worst_storage_access_warm()</code><a class="headerlink" href="#test_worst_storage_access_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_stateful_opcodes.py#L303"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_stateful_opcodes.py#L303"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_storage_access_warm@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_storage_access_warm --fork Prague</span>
@@ -19973,8 +19973,7 @@
 <span class="normal">371</span>
 <span class="normal">372</span>
 <span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">374</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -19987,7 +19986,6 @@
 <span class="k">def</span> <span class="nf">test_worst_storage_access_warm</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">storage_action</span><span class="p">:</span> <span class="n">StorageAction</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many warm storage slot accesses as possible.&quot;&quot;&quot;</span>

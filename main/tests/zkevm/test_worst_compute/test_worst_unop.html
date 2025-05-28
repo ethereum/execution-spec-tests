@@ -43,7 +43,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -61,11 +62,29 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-state_test-opcode_ISZERO]">
+                    ...fork_Cancun-state_test-opcode_ISZERO
+                </abbr>
+            </td>
+                        <td>ISZERO</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-state_test-opcode_NOT]">
+                    ...fork_Cancun-state_test-opcode_NOT
+                </abbr>
+            </td>
+                        <td>NOT</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test-opcode_ISZERO]">
-                    ...fork_Cancun-blockchain_test-opcode_ISZERO
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test_from_state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test_from_state_test-opcode_ISZERO]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_ISZERO
                 </abbr>
             </td>
                         <td>ISZERO</td>
@@ -73,8 +92,26 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test-opcode_NOT]">
-                    ...fork_Cancun-blockchain_test-opcode_NOT
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test_from_state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Cancun-blockchain_test_from_state_test-opcode_NOT]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_NOT
+                </abbr>
+            </td>
+                        <td>NOT</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_ISZERO]">
+                    ...fork_Prague-state_test-opcode_ISZERO
+                </abbr>
+            </td>
+                        <td>ISZERO</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-state_test-opcode_NOT]">
+                    ...fork_Prague-state_test-opcode_NOT
                 </abbr>
             </td>
                         <td>NOT</td>
@@ -82,8 +119,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_ISZERO]">
-                    ...fork_Prague-blockchain_test-opcode_ISZERO
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_ISZERO]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_ISZERO
                 </abbr>
             </td>
                         <td>ISZERO</td>
@@ -91,8 +128,26 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test-opcode_NOT]">
-                    ...fork_Prague-blockchain_test-opcode_NOT
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Prague-blockchain_test_from_state_test-opcode_NOT]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_NOT
+                </abbr>
+            </td>
+                        <td>NOT</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_ISZERO]">
+                    ...fork_Osaka-state_test-opcode_ISZERO
+                </abbr>
+            </td>
+                        <td>ISZERO</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-state_test-opcode_NOT]">
+                    ...fork_Osaka-state_test-opcode_NOT
                 </abbr>
             </td>
                         <td>NOT</td>
@@ -100,8 +155,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_ISZERO]">
-                    ...fork_Osaka-blockchain_test-opcode_ISZERO
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_ISZERO
                 </abbr>
             </td>
                         <td>ISZERO</td>
@@ -109,8 +164,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test-opcode_NOT]">
-                    ...fork_Osaka-blockchain_test-opcode_NOT
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_NOT]" title="tests/zkevm/test_worst_compute.py::test_worst_unop[fork_Osaka-blockchain_test_from_state_test-opcode_NOT]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_NOT
                 </abbr>
             </td>
                         <td>NOT</td>

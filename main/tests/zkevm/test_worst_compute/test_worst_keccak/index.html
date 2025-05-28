@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_keccak"><code>test_worst_keccak()</code><a class="headerlink" href="#test_worst_keccak" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_compute.py#L58"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_compute.py#L58"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_keccak --fork Prague</span>
@@ -19976,7 +19976,7 @@
 <span class="normal">129</span>
 <span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_keccak</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
@@ -20041,18 +20041,18 @@
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>This test case is only parametrized by fork and fixture format.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -20082,7 +20082,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -20099,27 +20100,51 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-state_test]">
+                    ...fork_Cancun-state_test
+                </abbr>
+            </td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test]">
-                    ...fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Cancun-blockchain_test_from_state_test]">
+                    ...fork_Cancun-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-state_test]">
+                    ...fork_Prague-state_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test]">
-                    ...fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Prague-blockchain_test_from_state_test]">
+                    ...fork_Prague-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-state_test]">
+                    ...fork_Osaka-state_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_keccak[fork_Osaka-blockchain_test_from_state_test]">
+                    ...fork_Osaka-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>

@@ -43,7 +43,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -61,11 +62,29 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SHR]">
+                    ...fork_Cancun-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-state_test-shift_right_SAR]">
+                    ...fork_Cancun-state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SHR]">
-                    ...fork_Cancun-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Cancun-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -73,8 +92,26 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test-shift_right_SAR]">
-                    ...fork_Cancun-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Cancun-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Cancun-blockchain_test_from_state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SHR]">
+                    ...fork_Prague-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-state_test-shift_right_SAR]">
+                    ...fork_Prague-state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -82,8 +119,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SHR]">
-                    ...fork_Prague-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -91,8 +128,26 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test-shift_right_SAR]">
-                    ...fork_Prague-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Prague-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Prague-blockchain_test_from_state_test-shift_right_SAR
+                </abbr>
+            </td>
+                        <td>SAR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SHR]">
+                    ...fork_Osaka-state_test-shift_right_SHR
+                </abbr>
+            </td>
+                        <td>SHR</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-state_test-shift_right_SAR]">
+                    ...fork_Osaka-state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>
@@ -100,8 +155,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SHR]">
-                    ...fork_Osaka-blockchain_test-shift_right_SHR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SHR]">
+                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SHR
                 </abbr>
             </td>
                         <td>SHR</td>
@@ -109,8 +164,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test-shift_right_SAR]">
-                    ...fork_Osaka-blockchain_test-shift_right_SAR
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]" title="tests/zkevm/test_worst_compute.py::test_worst_shifts[fork_Osaka-blockchain_test_from_state_test-shift_right_SAR]">
+                    ...fork_Osaka-blockchain_test_from_state_test-shift_right_SAR
                 </abbr>
             </td>
                         <td>SAR</td>

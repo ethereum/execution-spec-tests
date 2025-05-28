@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_selfbalance"><code>test_worst_selfbalance()</code><a class="headerlink" href="#test_worst_selfbalance" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_stateful_opcodes.py#L411"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_stateful_opcodes.py#L409"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance --fork Prague</span>
@@ -19902,7 +19902,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">411</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
 <span class="normal">412</span>
 <span class="normal">413</span>
 <span class="normal">414</span>
@@ -19924,15 +19926,11 @@
 <span class="normal">430</span>
 <span class="normal">431</span>
 <span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_worst_selfbalance</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many SELFBALANCE opcodes as possible.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
@@ -19941,24 +19939,24 @@
         <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SELFBALANCE</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="n">execution_code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">execution_code</span><span class="p">)</span>
-    <span class="n">op_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">execution_code_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork.</p>
+<p>This test case is only parametrized by fork and fixture format.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -19988,7 +19986,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -20005,27 +20004,51 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-state_test]">
+                    ...fork_Cancun-state_test
+                </abbr>
+            </td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-blockchain_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-blockchain_test]">
-                    ...fork_Cancun-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Cancun-blockchain_test_from_state_test]">
+                    ...fork_Cancun-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-state_test]">
+                    ...fork_Prague-state_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test]">
-                    ...fork_Prague-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Prague-blockchain_test_from_state_test]">
+                    ...fork_Prague-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-state_test]">
+                    ...fork_Osaka-state_test
                 </abbr>
             </td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test]">
-                    ...fork_Osaka-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfbalance[fork_Osaka-blockchain_test_from_state_test]">
+                    ...fork_Osaka-blockchain_test_from_state_test
                 </abbr>
             </td>
                     </tr>

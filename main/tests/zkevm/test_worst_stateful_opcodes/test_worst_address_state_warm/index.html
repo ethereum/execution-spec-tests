@@ -19883,7 +19883,7 @@
 
 
 <h1 id="test_worst_address_state_warm"><code>test_worst_address_state_warm()</code><a class="headerlink" href="#test_worst_address_state_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/4a21fb30bb052080c716fca48fb4632c9da700f0/tests/zkevm/test_worst_stateful_opcodes.py#L115"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@4a21fb30</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_stateful_opcodes.py#L116"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@a1c3984c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm --fork Prague</span>
@@ -19902,8 +19902,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
-<span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
@@ -19988,9 +19987,8 @@
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_worst_address_state_warm</span><span class="p">(</span>
-    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">absent_target</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
@@ -20019,17 +20017,17 @@
         <span class="c1"># Must never happen, but keep it as a sanity check.</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">op_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">MAX_CODE_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">op_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">op_code</span><span class="p">)</span>
-    <span class="n">op_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">op_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">attack_gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
-    <span class="n">blockchain_test</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">(</span>
         <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
-        <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">])],</span>
+        <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -20066,7 +20064,8 @@
             </label>
             <select id="fixture_selector" class="custom_dt_filter" data-criteria="fixture">
                 <option value="all">All Fixture Types</option>
-                                                <option value="blockchain_test" selected>blockchain_test</option>
+                                                <option value="state_test" selected>state_test</option>
+                                <option value="blockchain_test" >blockchain_test</option>
                             </select>
         </div>
     </div>
@@ -20085,11 +20084,151 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_CALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Cancun-state_test-absent_target_True-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_CALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Cancun-state_test-absent_target_False-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>STATICCALL</td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20098,8 +20237,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20108,8 +20247,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>True</td>
@@ -20118,8 +20257,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_CALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20128,8 +20267,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_CALLCODE]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20138,8 +20277,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_DELEGATECALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20148,8 +20287,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_True-opcode_STATICCALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_True-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20158,8 +20297,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20168,8 +20307,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20178,8 +20317,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>False</td>
@@ -20188,8 +20327,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_CALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20198,8 +20337,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_CALLCODE]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20208,8 +20347,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_DELEGATECALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20218,8 +20357,148 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test-absent_target_False-opcode_STATICCALL]">
-                    ...fork_Cancun-blockchain_test-absent_target_False-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_CALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Prague-state_test-absent_target_True-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_CALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Prague-state_test-absent_target_False-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20228,8 +20507,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_BALANCE]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20238,8 +20517,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODESIZE]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20248,8 +20527,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODEHASH]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>True</td>
@@ -20258,8 +20537,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_CALL]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20268,8 +20547,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_CALLCODE]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20278,8 +20557,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_DELEGATECALL]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20288,8 +20567,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_True-opcode_STATICCALL]">
-                    ...fork_Prague-blockchain_test-absent_target_True-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20298,8 +20577,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_BALANCE]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20308,8 +20587,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODESIZE]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20318,8 +20597,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODEHASH]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>False</td>
@@ -20328,8 +20607,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_CALL]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20338,8 +20617,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_CALLCODE]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20348,8 +20627,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_DELEGATECALL]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20358,8 +20637,148 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test-absent_target_False-opcode_STATICCALL]">
-                    ...fork_Prague-blockchain_test-absent_target_False-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Prague-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_CALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Osaka-state_test-absent_target_True-opcode_STATICCALL
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>STATICCALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_BALANCE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>BALANCE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_EXTCODESIZE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODESIZE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_EXTCODEHASH
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>EXTCODEHASH</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_CALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_CALLCODE
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>CALLCODE</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_DELEGATECALL
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>DELEGATECALL</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Osaka-state_test-absent_target_False-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20368,8 +20787,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_BALANCE]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20378,8 +20797,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODESIZE]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20388,8 +20807,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODEHASH]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>True</td>
@@ -20398,8 +20817,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_CALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20408,8 +20827,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_CALLCODE]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>True</td>
@@ -20418,8 +20837,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_DELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20428,8 +20847,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_True-opcode_STATICCALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_True-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>True</td>
@@ -20438,8 +20857,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_BALANCE]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_BALANCE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20448,8 +20867,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODESIZE]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODESIZE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20458,8 +20877,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODEHASH]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_EXTCODEHASH
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH
                 </abbr>
             </td>
                         <td>False</td>
@@ -20468,8 +20887,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_CALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_CALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20478,8 +20897,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_CALLCODE]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_CALLCODE
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE
                 </abbr>
             </td>
                         <td>False</td>
@@ -20488,8 +20907,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_DELEGATECALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_DELEGATECALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL
                 </abbr>
             </td>
                         <td>False</td>
@@ -20498,8 +20917,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test-absent_target_False-opcode_STATICCALL]">
-                    ...fork_Osaka-blockchain_test-absent_target_False-opcode_STATICCALL
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]" title="tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]">
+                    ...fork_Osaka-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL
                 </abbr>
             </td>
                         <td>False</td>
