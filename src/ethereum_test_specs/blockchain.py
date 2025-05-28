@@ -30,6 +30,7 @@ from ethereum_test_execution import (
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
+    BlockchainEngineReorgFixture,
     BlockchainFixture,
     FixtureFormat,
     LabeledFixtureFormat,
@@ -309,6 +310,7 @@ class BlockchainTest(BaseTest):
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
         BlockchainEngineFixture,
+        BlockchainEngineReorgFixture,
     ]
     supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
@@ -668,8 +670,9 @@ class BlockchainTest(BaseTest):
         self,
         t8n: TransitionTool,
         fork: Fork,
+        fixture_format: FixtureFormat = BlockchainEngineFixture,
         eips: Optional[List[int]] = None,
-    ) -> BlockchainEngineFixture:
+    ) -> BlockchainEngineFixture | BlockchainEngineReorgFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
@@ -748,22 +751,46 @@ class BlockchainTest(BaseTest):
             )
 
         network_info = BlockchainTest.network_info(fork, eips)
-        return BlockchainEngineFixture(
-            fork=network_info,
-            genesis=genesis.header,
-            payloads=fixture_payloads,
-            fcu_version=fcu_version,
-            pre=pre,
-            post_state=alloc if not self.exclude_full_post_state_in_output else None,
-            post_state_hash=alloc.state_root() if self.exclude_full_post_state_in_output else None,
-            sync_payload=sync_payload,
-            last_block_hash=head_hash,
-            config=FixtureConfig(
+
+        # Create base fixture data
+        fixture_data = {
+            "fork": network_info,
+            "genesis": genesis.header,
+            "last_block_hash": head_hash,
+            "post_state_hash": alloc.state_root()
+            if self.exclude_full_post_state_in_output
+            else None,
+            "config": FixtureConfig(
                 fork=network_info,
                 chain_id=self.chain_id,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
             ),
-        )
+        }
+
+        # Add format-specific fields
+        if fixture_format == BlockchainEngineReorgFixture:
+            # For reorg format, exclude pre (will be provided via shared state)
+            # and prepare for state diff optimization
+            fixture_data.update(
+                {
+                    "payloads": fixture_payloads,
+                    "sync_payload": sync_payload,
+                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                    "pre_hash": "",  # Will be set by BaseTestWrapper
+                }
+            )
+            return BlockchainEngineReorgFixture(**fixture_data)
+        else:
+            # Standard engine fixture
+            fixture_data.update(
+                {
+                    "payloads": fixture_payloads,
+                    "sync_payload": sync_payload,
+                    "pre": pre,
+                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                }
+            )
+            return BlockchainEngineFixture(**fixture_data)
 
     def generate(
         self,
@@ -775,7 +802,9 @@ class BlockchainTest(BaseTest):
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
         if fixture_format == BlockchainEngineFixture:
-            return self.make_hive_fixture(t8n, fork, eips)
+            return self.make_hive_fixture(t8n, fork, fixture_format, eips)
+        elif fixture_format == BlockchainEngineReorgFixture:
+            return self.make_hive_fixture(t8n, fork, fixture_format, eips)
         elif fixture_format == BlockchainFixture:
             return self.make_fixture(t8n, fork, eips)
 
