@@ -292,12 +292,25 @@ def contract_address_increments(request: pytest.FixtureRequest) -> int:
     return int(request.config.getoption("test_contract_address_increments"), 0)
 
 
-@pytest.fixture(scope="function")
+def get_address_iterator_scope(fixture_name, config):
+    """
+    Return the appropriate scope for address iterators based on shared-alloc flags.
+
+    See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
+    """
+    if config.getoption("generate_shared_alloc", default=False) or config.getoption(
+        "use_shared_alloc", default=False
+    ):
+        return "session"
+    return "function"
+
+
+@pytest.fixture(scope=get_address_iterator_scope)
 def contract_address_iterator(
     contract_start_address: int,
     contract_address_increments: int,
 ) -> Iterator[Address]:
-    """Return iterator over contract addresses."""
+    """Return iterator over contract addresses with dynamic scoping."""
     return iter(
         Address(contract_start_address + (i * contract_address_increments)) for i in count()
     )
@@ -309,9 +322,9 @@ def eoa_by_index(i: int) -> EOA:
     return EOA(key=TestPrivateKey + i if i != 1 else TestPrivateKey2, nonce=0)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope=get_address_iterator_scope)
 def eoa_iterator() -> Iterator[EOA]:
-    """Return iterator over EOAs copies."""
+    """Return iterator over EOAs copies with dynamic scoping."""
     return iter(eoa_by_index(i).copy() for i in count())
 
 
