@@ -1077,40 +1077,46 @@ def test_worst_tload(
     )
 
 
-# @pytest.mark.valid_from("Cancun")
-# @pytest.mark.parametrize("new_val_mut", [True, False])
-# def test_worst_tstore(
-#     state_test: StateTestFiller,
-#     pre: Alloc,
-#     new_val_mut: bool,
-# ):
-#     """Test running a block with as many TSTORE calls as possible."""
-#     env = Environment()
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("key_mut", [True, False])
+@pytest.mark.parametrize("dense_val_mut", [True, False])
+def test_worst_tstore(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    key_mut: bool,
+    dense_val_mut: bool,
+):
+    """Test running a block with as many TSTORE calls as possible."""
+    env = Environment()
 
-#     key = 1
-#     code_prefix = Op.TSTORE(key, 42) + Op.PUSH1(key) + Op.JUMPDEST
+    init_key = 42
+    code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
 
-#     val_mut = Op.TSTORE(Op.DUP1, Op.DUP1) if new_val_mut else Bytecode()
-#     code_suffix = Op.PUSH32(2**256 - 5) + Op.MUL + val_mut + Op.JUMP(len(code_prefix) - 1)
+    # If `key_mut` is True, we mutate the key on every iteration of the big loop by mutiplying by
+    # a constant that should produce a long chain of distinct values.
+    code_key_mut = Op.PUSH32(2**256 - 5) + Op.MUL if key_mut else Bytecode()
+    code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
 
-#     loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+    # If `dense_val_mut` is set, we use PC as a cheap way of always storing a different value than
+    # the previous one.
+    loop_iter = Op.TSTORE(Op.DUP2, Op.PC if dense_val_mut else Op.DUP1)
 
-#     code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
-#     code_body = loop_iter * code_body_len
-#     code = code_prefix + code_body + code_suffix
+    code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body = loop_iter * code_body_len
+    code = code_prefix + code_body + code_suffix
 
-#     tx = Transaction(
-#         to=pre.deploy_contract(code),
-#         gas_limit=env.gas_limit,
-#         sender=pre.fund_eoa(),
-#     )
+    tx = Transaction(
+        to=pre.deploy_contract(code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
 
-#     state_test(
-#         env=env,
-#         pre=pre,
-#         post={},
-#         tx=tx,
-#     )
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
 
 
 @pytest.mark.valid_from("Cancun")
