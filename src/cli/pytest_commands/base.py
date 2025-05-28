@@ -8,6 +8,7 @@ from typing import Any, Callable, Dict, List, Optional
 
 import click
 import pytest
+from rich.console import Console
 
 
 @dataclass
@@ -36,13 +37,16 @@ class ArgumentProcessor(ABC):
 class PytestRunner:
     """Handles execution of pytest commands."""
 
+    def __init__(self):
+        self.console = Console(highlight=False)
+
     def run_single(self, config_file: str, args: List[str]) -> int:
         """Run pytest once with the given configuration and arguments."""
         pytest_args = ["-c", config_file] + args
 
         if self._is_verbose(args):
             pytest_cmd = f"pytest {' '.join(pytest_args)}"
-            click.echo(f"Executing: {pytest_cmd}")
+            self.console.print(f"Executing: [bold]{pytest_cmd}[/bold]")
 
         return pytest.main(pytest_args)
 
@@ -58,7 +62,9 @@ class PytestRunner:
         """
         for i, execution in enumerate(executions):
             if execution.description and len(executions) > 1:
-                click.echo(f"Phase {i + 1}/{len(executions)}: {execution.description}")
+                self.console.print(
+                    f"Phase {i + 1}/{len(executions)}: [italic]{execution.description}[/italic]"
+                )
 
             result = self.run_single(execution.config_file, execution.args)
             if result != 0:
