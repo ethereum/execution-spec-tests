@@ -9,7 +9,7 @@ import math
 import operator
 import random
 from enum import Enum, auto
-from typing import cast
+from typing import Optional, cast
 
 import pytest
 from py_ecc.bn128 import G1, G2, multiply
@@ -1019,6 +1019,43 @@ def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: F
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("curr_val", [None, 42])
+@pytest.mark.parametrize("new_val_mut", [True, False])
+def test_worst_tload(
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    curr_val: Optional[int],
+    new_val_mut: bool,
+):
+    """Test running a block with as many TLOAD calls as possible."""
+    env = Environment()
+
+    init_key = 1
+    set_curr_value = Op.TSTORE(init_key, curr_val) if curr_val is not None else Bytecode()
+    code_prefix = set_curr_value + Op.PUSH1(init_key) + Op.JUMPDEST
+    nn = Op.TSTORE(Op.DUP1, Op.DUP1) if new_val_mut else Bytecode()
+    code_suffix = Op.PUSH32(2**256 - 5) + Op.MUL + nn + Op.JUMP(len(code_prefix) - 1)
+    loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+    code_body_len = (fork.max_code_size() - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body = loop_iter * code_body_len
+    code = code_prefix + code_body + code_suffix
+
+    tx = Transaction(
+        to=pre.deploy_contract(code),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
