@@ -1,9 +1,5 @@
 {
     "000/my_chain_id_test/Cancun/tx_type_0": {
-        "_info": {
-            "hash": "0x82d853aef147345cedd8eb383c3ea00c1d1c4b64222911fd2580806de1f51c15",
-            "fixture_format": "blockchain_test_engine"
-        },
         "network": "Cancun",
         "genesisBlockHeader": {
             "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -27,6 +23,48 @@
             "excessBlobGas": "0x00",
             "parentBeaconBlockRoot": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "hash": "0x28c341ffc393152bd02e8689d8172dd66939ac3be2b91c5841721d1755d13c2b"
+        },
+        "lastblockhash": "0x3cce15f0f21f4ea23499856be01a090f0ea1be6bea4a11777b4d0cc70d105a4b",
+        "config": {
+            "network": "Cancun",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                }
+            }
+        },
+        "postState": {
+            "0x000f3df6d732807ef1319fb7b8bb8522d0beac02": {
+                "nonce": "0x01",
+                "balance": "0x00",
+                "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604d57602036146024575f5ffd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f5260205ff35b5f5ffd5b62001fff42064281555f359062001fff015500",
+                "storage": {
+                    "0x03e8": "0x03e8"
+                }
+            },
+            "0x1000000000000000000000000000000000000000": {
+                "nonce": "0x00",
+                "balance": "0x00",
+                "code": "0x4660015500",
+                "storage": {
+                    "0x01": "0x01"
+                }
+            },
+            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
+                "nonce": "0x00",
+                "balance": "0x01f923",
+                "code": "0x",
+                "storage": {}
+            },
+            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+                "nonce": "0x01",
+                "balance": "0x3635c9adc5de996c36",
+                "code": "0x",
+                "storage": {}
+            }
         },
         "engineNewPayloads": [
             {
@@ -59,67 +97,9 @@
                 "forkchoiceUpdatedVersion": "3"
             }
         ],
-        "lastblockhash": "0x3cce15f0f21f4ea23499856be01a090f0ea1be6bea4a11777b4d0cc70d105a4b",
-        "pre": {
-            "0x000f3df6d732807ef1319fb7b8bb8522d0beac02": {
-                "balance": "0x00",
-                "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604d57602036146024575f5ffd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f5260205ff35b5f5ffd5b62001fff42064281555f359062001fff015500",
-                "nonce": "0x01",
-                "storage": {}
-            },
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x00",
-                "balance": "0x3635c9adc5dea00000",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "postState": {
-            "0x000f3df6d732807ef1319fb7b8bb8522d0beac02": {
-                "balance": "0x00",
-                "code": "0x3373fffffffffffffffffffffffffffffffffffffffe14604d57602036146024575f5ffd5b5f35801560495762001fff810690815414603c575f5ffd5b62001fff01545f5260205ff35b5f5ffd5b62001fff42064281555f359062001fff015500",
-                "nonce": "0x01",
-                "storage": {
-                    "0x03e8": "0x03e8"
-                }
-            },
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {
-                    "0x01": "0x01"
-                }
-            },
-            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
-                "nonce": "0x00",
-                "balance": "0x01f923",
-                "code": "0x",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x01",
-                "balance": "0x3635c9adc5de996c36",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "config": {
-            "network": "Cancun",
-            "chainid": "0x01",
-            "blobSchedule": {
-                "Cancun": {
-                    "max": "0x06",
-                    "target": "0x03",
-                    "baseFeeUpdateFraction": "0x32f0ed"
-                }
-            }
+        "_info": {
+            "hash": "0x4f85f656bc1c097a705a6a9324fc1234c25fb77e283b76f5fa3688c5f189e262",
+            "fixture_format": "blockchain_test_engine"
         }
     }
 }

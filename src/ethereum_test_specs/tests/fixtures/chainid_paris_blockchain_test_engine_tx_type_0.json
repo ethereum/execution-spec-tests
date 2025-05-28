@@ -1,11 +1,6 @@
 {
     "000/my_chain_id_test/Paris/tx_type_0": {
-        "_info": {
-            "hash": "0xf07acbb0efdbea6064fa443f0c8a74de6bb3e9895a7717759deedb99310eec4e",
-            "fixture_format": "blockchain_test_engine"
-        },
         "network": "Paris",
-        "lastblockhash": "0xe92eedff2a0489bd861f528e248994b6791b0f5b845d90b34c68bc8cbc51c369",
         "genesisBlockHeader": {
             "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "uncleHash": "0x1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347",
@@ -24,6 +19,33 @@
             "nonce": "0x0000000000000000",
             "baseFeePerGas": "0x07",
             "hash": "0xb2b30c502e6c7cafc6324b17a6aedebf7bd14a0eec632d5a1b50eede93965a86"
+        },
+        "lastblockhash": "0xe92eedff2a0489bd861f528e248994b6791b0f5b845d90b34c68bc8cbc51c369",
+        "config": {
+            "network": "Paris",
+            "chainid": "0x01"
+        },
+        "postState": {
+            "0x1000000000000000000000000000000000000000": {
+                "nonce": "0x00",
+                "balance": "0x00",
+                "code": "0x4660015500",
+                "storage": {
+                    "0x01": "0x01"
+                }
+            },
+            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
+                "nonce": "0x00",
+                "balance": "0x01f923",
+                "code": "0x",
+                "storage": {}
+            },
+            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+                "nonce": "0x01",
+                "balance": "0x3635c9adc5de996c36",
+                "code": "0x",
+                "storage": {}
+            }
         },
         "engineNewPayloads": [
             {
@@ -51,45 +73,9 @@
                 "forkchoiceUpdatedVersion": "1"
             }
         ],
-        "pre": {
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x00",
-                "balance": "0x3635c9adc5dea00000",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "postState": {
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {
-                    "0x01": "0x01"
-                }
-            },
-            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
-                "nonce": "0x00",
-                "balance": "0x01f923",
-                "code": "0x",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x01",
-                "balance": "0x3635c9adc5de996c36",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "config": {
-            "network": "Paris",
-            "chainid": "0x01"
+        "_info": {
+            "hash": "0xb937aa3eef5431d0c9a7f113dccef03848e3fa06b85151679f09769f1b550a51",
+            "fixture_format": "blockchain_test_engine"
         }
     }
 }

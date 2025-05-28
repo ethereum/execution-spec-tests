@@ -451,16 +451,23 @@ class BlockchainFixture(BlockchainFixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
 
-class BlockchainEngineFixture(BlockchainFixtureCommon):
-    """Engine specific test fixture information."""
+class BlockchainEngineFixtureCommon(BaseFixture):
+    """
+    Base blockchain test fixture model for Engine API based execution.
 
-    format_name: ClassVar[str] = "blockchain_test_engine"
-    description: ClassVar[str] = (
-        "Tests that generate a blockchain test fixture in Engine API format."
-    )
+    Similar to BlockchainFixtureCommon but excludes the 'pre' field to avoid
+    duplicating large pre-allocations when using shared genesis approaches.
+    """
 
-    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    sync_payload: FixtureEngineNewPayload | None = None
+    fork: str = Field(..., alias="network")
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
+    post_state_hash: Hash | None = Field(None)
+    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    config: FixtureConfig
+
+    def get_fork(self) -> str | None:
+        """Return fork of the fixture as a string."""
+        return self.fork
 
     @classmethod
     def supports_fork(cls, fork: Fork) -> bool:
@@ -470,3 +477,43 @@ class BlockchainEngineFixture(BlockchainFixtureCommon):
         The Engine API is available only on Paris and afterwards.
         """
         return fork >= Paris
+
+
+class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
+    """Engine specific test fixture information."""
+
+    format_name: ClassVar[str] = "blockchain_test_engine"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture in Engine API format."
+    )
+
+    post_state: Alloc | None = Field(None)
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    sync_payload: FixtureEngineNewPayload | None = None
+
+
+class BlockchainEngineReorgFixture(BlockchainEngineFixtureCommon):
+    """
+    Engine reorg specific test fixture information.
+
+    Uses shared pre-allocations and blockchain reorganization for efficient
+    test execution without client restarts.
+    """
+
+    format_name: ClassVar[str] = "blockchain_test_engine_reorg"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture for use with a shared pre-state and engine "
+        "reorg execution."
+    )
+
+    pre_hash: str = Field(..., alias="preHash")
+    """Hash of the shared pre-allocation group this test belongs to."""
+
+    post_state_diff: Alloc | None = Field(None)
+    """State difference from genesis after test execution (efficiency optimization)."""
+
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    """Engine API payloads for blockchain execution."""
+
+    sync_payload: FixtureEngineNewPayload | None = None
+    """Optional sync payload for blockchain synchronization."""

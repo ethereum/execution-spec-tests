@@ -1,10 +1,5 @@
 {
     "000/my_chain_id_test/Shanghai/tx_type_0": {
-        "_info": {
-            "hash": "0x361818ee5736a45c10c34ec445bf872d280b2f2ad61c297cceb14772b1393006",
-            "fixture_format": "blockchain_test_engine"
-        },
-        "lastblockhash": "0x9c10141361e180632f7973f4f3a0aed2baa5ebb776bae84caafdcc07a24933e8",
         "network": "Shanghai",
         "genesisBlockHeader": {
             "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -25,6 +20,33 @@
             "baseFeePerGas": "0x07",
             "withdrawalsRoot": "0x56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421",
             "hash": "0x62f038416dbe4a03ea264e084edd9024b3589b49e66f7d5528b72a138a34570f"
+        },
+        "lastblockhash": "0x9c10141361e180632f7973f4f3a0aed2baa5ebb776bae84caafdcc07a24933e8",
+        "config": {
+            "network": "Shanghai",
+            "chainid": "0x01"
+        },
+        "postState": {
+            "0x1000000000000000000000000000000000000000": {
+                "nonce": "0x00",
+                "balance": "0x00",
+                "code": "0x4660015500",
+                "storage": {
+                    "0x01": "0x01"
+                }
+            },
+            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
+                "nonce": "0x00",
+                "balance": "0x01f923",
+                "code": "0x",
+                "storage": {}
+            },
+            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+                "nonce": "0x01",
+                "balance": "0x3635c9adc5de996c36",
+                "code": "0x",
+                "storage": {}
+            }
         },
         "engineNewPayloads": [
             {
@@ -53,45 +75,9 @@
                 "forkchoiceUpdatedVersion": "2"
             }
         ],
-        "pre": {
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x00",
-                "balance": "0x3635c9adc5dea00000",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "postState": {
-            "0x1000000000000000000000000000000000000000": {
-                "nonce": "0x00",
-                "balance": "0x00",
-                "code": "0x4660015500",
-                "storage": {
-                    "0x01": "0x01"
-                }
-            },
-            "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba": {
-                "nonce": "0x00",
-                "balance": "0x01f923",
-                "code": "0x",
-                "storage": {}
-            },
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
-                "nonce": "0x01",
-                "balance": "0x3635c9adc5de996c36",
-                "code": "0x",
-                "storage": {}
-            }
-        },
-        "config": {
-            "network": "Shanghai",
-            "chainid": "0x01"
+        "_info": {
+            "hash": "0xd04678ac3cde46c5ab87b56aa1141272e765d3840b90c15063001051274a73e5",
+            "fixture_format": "blockchain_test_engine"
         }
     }
 }
