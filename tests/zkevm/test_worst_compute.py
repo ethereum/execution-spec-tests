@@ -1044,15 +1044,26 @@ def test_worst_tload(
     """Test running a block with as many TLOAD calls as possible."""
     env = Environment()
 
-    init_key = 42
-    code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
+    start_key = 41
+    start_val = 43
+    code_prefix = Op.PUSH1(start_val) + Op.PUSH1(start_key) + Op.JUMPDEST
 
     # If `key_mut` is True, we mutate the key on every iteration of the big loop by mutiplying by
     # a constant that should produce a long chain of distinct values.
     code_key_mut = Op.PUSH32(2**256 - 5) + Op.MUL if key_mut else Bytecode()
+
     # If `val_mut` is True, we mutate the value that will be returned by the nex iteration of
     # TLOADs.
-    code_val_mut = Op.TSTORE(Op.DUP1, Op.DUP1) if val_mut else Bytecode()
+    code_val_mut = (
+        Op.DUP2  # MUL current value
+        + Op.PUSH32(2**256 - 5)  # MUL constant factor
+        + Op.MUL  # Calculate new value
+        + Op.SWAP2  # Save it
+        + Op.POP  # Cleanup
+        + Op.TSTORE(Op.DUP2, Op.DUP2)
+        if val_mut
+        else Bytecode()
+    )
 
     # Note that both potential `code_key_mut` and `code_value_mut` are done at the end of
     # big-loops to avoid creating too much influence in the benchmark results for measuring TLOADs.
