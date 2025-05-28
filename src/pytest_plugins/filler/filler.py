@@ -39,6 +39,7 @@ from ..shared.helpers import (
     labeled_format_parameter_set,
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
+from . import eip_checklist  # noqa: F401
 from .fixture_output import FixtureOutput
 
 
@@ -796,12 +797,15 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameters = []
+            for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
+                parameter = labeled_format_parameter_set(format_with_or_without_label)
+                if i > 0:
+                    parameter.marks.append(pytest.mark.derived_test)
+                parameters.append(parameter)
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    labeled_format_parameter_set(format_with_or_without_label)
-                    for format_with_or_without_label in test_type.supported_fixture_formats
-                ],
+                parameters,
                 scope="function",
                 indirect=True,
             )
