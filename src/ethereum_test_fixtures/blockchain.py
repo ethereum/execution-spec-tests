@@ -44,6 +44,46 @@ from .base import BaseFixture
 from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
+def post_state_validator(alternate_field: str | None = None, mode: str = "after"):
+    """
+    Create a validator to ensure exactly one post-state field is provided.
+
+    Args:
+        alternate_field: Alternative field name to post_state_hash (e.g., 'post_state_diff').
+        mode: Pydantic validation mode.
+
+    """
+
+    def decorator(cls):
+        @model_validator(mode=mode)
+        def validate_post_state_fields(self):
+            """Ensure exactly one post-state field is provided."""
+            if mode == "after":
+                # Determine which fields to check
+                if alternate_field:
+                    # For reorg fixtures: check post_state vs post_state_diff
+                    field1_name, field2_name = "post_state", alternate_field
+                else:
+                    # For standard fixtures: check post_state vs post_state_hash
+                    field1_name, field2_name = "post_state", "post_state_hash"
+
+                field1_value = getattr(self, field1_name, None)
+                field2_value = getattr(self, field2_name, None)
+
+                if field1_value is None and field2_value is None:
+                    raise ValueError(f"Either {field1_name} or {field2_name} must be provided.")
+                if field1_value is not None and field2_value is not None:
+                    raise ValueError(
+                        f"Only one of {field1_name} or {field2_name} must be provided."
+                    )
+            return self
+
+        # Apply the validator to the class
+        return cls
+
+    return decorator
+
+
 class HeaderForkRequirement(str):
     """
     Fork requirement class that specifies the name of the method that should be called
@@ -399,6 +439,7 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
+@post_state_validator()
 class BlockchainFixtureCommon(BaseFixture):
     """Base blockchain test fixture model."""
 
@@ -409,14 +450,6 @@ class BlockchainFixtureCommon(BaseFixture):
     post_state_hash: Hash | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
-
-    def model_post_init(self, __context):
-        """Model post init method to check mutually exclusive fields."""
-        super().model_post_init(__context)
-        if self.post_state_hash is None and self.post_state is None:
-            raise ValueError("Either post_state_hash or post_state must be provided.")
-        if self.post_state_hash is not None and self.post_state is not None:
-            raise ValueError("Only one of post_state_hash or post_state must be provided.")
 
     @model_validator(mode="before")
     @classmethod
@@ -451,16 +484,24 @@ class BlockchainFixture(BlockchainFixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
 
-class BlockchainEngineFixture(BlockchainFixtureCommon):
-    """Engine specific test fixture information."""
+@post_state_validator()
+class BlockchainEngineFixtureCommon(BaseFixture):
+    """
+    Base blockchain test fixture model for Engine API based execution.
 
-    format_name: ClassVar[str] = "blockchain_test_engine"
-    description: ClassVar[str] = (
-        "Tests that generate a blockchain test fixture in Engine API format."
-    )
+    Similar to BlockchainFixtureCommon but excludes the 'pre' field to avoid
+    duplicating large pre-allocations when using shared genesis approaches.
+    """
 
-    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    sync_payload: FixtureEngineNewPayload | None = None
+    fork: str = Field(..., alias="network")
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
+    post_state_hash: Hash | None = Field(None)
+    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    config: FixtureConfig
+
+    def get_fork(self) -> str | None:
+        """Return fork of the fixture as a string."""
+        return self.fork
 
     @classmethod
     def supports_fork(cls, fork: Fork) -> bool:
@@ -470,3 +511,44 @@ class BlockchainEngineFixture(BlockchainFixtureCommon):
         The Engine API is available only on Paris and afterwards.
         """
         return fork >= Paris
+
+
+class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
+    """Engine specific test fixture information."""
+
+    format_name: ClassVar[str] = "blockchain_test_engine"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture in Engine API format."
+    )
+    pre: Alloc
+    post_state: Alloc | None = Field(None)
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    sync_payload: FixtureEngineNewPayload | None = None
+
+
+@post_state_validator(alternate_field="post_state_diff")
+class BlockchainEngineReorgFixture(BlockchainEngineFixtureCommon):
+    """
+    Engine reorg specific test fixture information.
+
+    Uses shared pre-allocations and blockchain reorganization for efficient
+    test execution without client restarts.
+    """
+
+    format_name: ClassVar[str] = "blockchain_test_engine_reorg"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture for use with a shared pre-state and engine "
+        "reorg execution."
+    )
+
+    pre_hash: str = Field(..., alias="preHash")
+    """Hash of the shared pre-allocation group this test belongs to."""
+
+    post_state_diff: Alloc | None = Field(None)
+    """State difference from genesis after test execution (efficiency optimization)."""
+
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    """Engine API payloads for blockchain execution."""
+
+    sync_payload: FixtureEngineNewPayload | None = None
+    """Optional sync payload for blockchain synchronization."""
