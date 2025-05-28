@@ -19,5 +19,5 @@ zkevm:
 eip7692:
   impl: evmone
   repo: ethereum/evmone
-  ref: master
+  ref: evmc-experimental
   targets: ["evmone-t8n", "evmone-eofparse"]
