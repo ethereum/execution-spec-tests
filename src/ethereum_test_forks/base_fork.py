@@ -474,7 +474,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @classmethod
     @abstractmethod
     def max_code_size(cls) -> int | None:
-        """Return the maximum code size to be deployed in a CREATE-frame."""
+        """Return the maximum code size allowed to be deployed in a contract creation."""
         pass
 
     @classmethod
