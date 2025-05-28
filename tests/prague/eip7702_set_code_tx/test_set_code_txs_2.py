@@ -1757,6 +1757,7 @@ def test_set_code_type_tx_pre_fork(
 def test_delegation_replacement_call_previous_contract(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
 ):
     """
     Test setting the code of an EOA that already has
@@ -1769,7 +1770,8 @@ def test_delegation_replacement_call_previous_contract(
     auth_signer = pre.fund_eoa(delegation=pre_set_delegation_address)
     sender = pre.fund_eoa()
 
-    overhead_cost = 3 * len(Op.CALL.kwargs)  # type: ignore
+    gsc = fork.gas_costs()
+    overhead_cost = gsc.G_VERY_LOW * len(Op.CALL.kwargs)  # type: ignore
     set_code = CodeGasMeasure(
         code=Op.CALL(gas=0, address=pre_set_delegation_address),
         overhead_cost=overhead_cost,
@@ -1798,5 +1800,9 @@ def test_delegation_replacement_call_previous_contract(
         env=Environment(),
         pre=pre,
         tx=tx,
-        post={},
+        post={
+            auth_signer: Account(
+                storage={0: gsc.G_COLD_ACCOUNT_ACCESS},
+            )
+        },
     )
