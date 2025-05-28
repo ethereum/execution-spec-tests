@@ -7,7 +7,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 
 import math
 import random
-from typing import Optional, cast
+from typing import cast
 
 import pytest
 from py_ecc.bn128 import G1, G2, multiply
