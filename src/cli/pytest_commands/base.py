@@ -38,6 +38,7 @@ class PytestRunner:
     """Handles execution of pytest commands."""
 
     def __init__(self):
+        """Initialize the pytest runner with a console for output."""
         self.console = Console(highlight=False)
 
     def run_single(self, config_file: str, args: List[str]) -> int:
