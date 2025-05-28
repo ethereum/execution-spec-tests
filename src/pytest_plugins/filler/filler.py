@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
+import json
 import os
 import warnings
 from pathlib import Path
@@ -23,8 +24,15 @@ from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
 from ethereum_clis.clis.geth import FixtureConsumerTool
-from ethereum_test_base_types import Alloc, ReferenceSpec
-from ethereum_test_fixtures import BaseFixture, FixtureCollector, FixtureConsumer, TestInfo
+from ethereum_test_base_types import Account, Address, Alloc, ReferenceSpec
+from ethereum_test_fixtures import (
+    BaseFixture,
+    BlockchainEngineReorgFixture,
+    FixtureCollector,
+    FixtureConsumer,
+    SharedPreState,
+    TestInfo,
+)
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
 from ethereum_test_tools.utility.versioning import (
@@ -40,6 +48,53 @@ from ..shared.helpers import (
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
+
+
+def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
+    """
+    Calculate the state difference between post_state and genesis_state.
+
+    This function enables significant space savings in reorg fixtures by storing
+    only the accounts that changed during test execution, rather than the full
+    post-state which may contain thousands of unchanged shared accounts.
+
+    Returns an Alloc containing only the accounts that:
+    - Changed between genesis and post state (balance, nonce, storage, code)
+    - Were created during test execution (new accounts)
+    - Were deleted during test execution (represented as None)
+
+    Args:
+        post_state: Final state after test execution
+        genesis_state: Shared genesis pre-allocation state
+
+    Returns:
+        Alloc containing only the state differences for efficient storage
+
+    """
+    diff: Dict[Address, Account | None] = {}
+
+    # Find all addresses that exist in either state
+    all_addresses = set(post_state.root.keys()) | set(genesis_state.root.keys())
+
+    for address in all_addresses:
+        genesis_account = genesis_state.root.get(address)
+        post_account = post_state.root.get(address)
+
+        # Account was deleted (exists in genesis but not in post)
+        if genesis_account is not None and post_account is None:
+            diff[address] = None
+
+        # Account was created (doesn't exist in genesis but exists in post)
+        elif genesis_account is None and post_account is not None:
+            diff[address] = post_account
+
+        # Account was modified (exists in both but different)
+        elif genesis_account != post_account:
+            diff[address] = post_account
+
+        # Account unchanged - don't include in diff
+
+    return Alloc(diff)
 
 
 def default_output_directory() -> str:
@@ -222,6 +277,31 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
+def pytest_sessionstart(session: pytest.Session):
+    """
+    Initialize session-level state.
+
+    Either initialize an empty shared pre-state container for phase 1 or
+    load the shared pre-allocation state for phase 2 execution.
+    """
+    # Initialize empty shared pre-state container for phase 1
+    if session.config.getoption("generate_shared_alloc"):
+        session.config.shared_pre_state = SharedPreState(root={})  # type: ignore[attr-defined]
+
+    # Load the pre-state for phase 2
+    if session.config.getoption("use_shared_alloc"):
+        shared_prealloc_path = session.config.fixture_output.shared_prealloc_path  # type: ignore[attr-defined]
+        if shared_prealloc_path.exists():
+            with open(shared_prealloc_path) as f:
+                session.config.shared_pre_state = SharedPreState.from_raw_dict(json.load(f))  # type: ignore[attr-defined]
+        else:
+            pytest.exit(
+                f"Shared prealloc file not found: {shared_prealloc_path}. "
+                "Run phase 1 with --generate-shared-alloc first.",
+                returncode=pytest.ExitCode.USAGE_ERROR,
+            )
+
+
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     """
@@ -333,17 +413,43 @@ def pytest_terminal_summary(
         return
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
-        # append / to indicate this is a directory
-        output_dir = str(config.fixture_output.directory) + "/"  # type: ignore[attr-defined]
-        terminalreporter.write_sep(
-            "=",
-            (
-                f' No tests executed - the test fixtures in "{output_dir}" may now be executed '
-                "against a client "
-            ),
-            bold=True,
-            yellow=True,
-        )
+        # Custom message for Phase 1 (shared pre-allocation generation)
+        if config.getoption("generate_shared_alloc"):
+            # Generate summary stats
+            shared_pre_state = getattr(config, "shared_pre_state", None)
+            if shared_pre_state:
+                total_groups = len(shared_pre_state.root)
+                total_accounts = sum(
+                    group.pre_account_count for group in shared_pre_state.root.values()
+                )
+
+                terminalreporter.write_sep(
+                    "=",
+                    f" Phase 1 Complete: Generated {total_groups} shared pre-allocation groups "
+                    f"({total_accounts} total accounts) ",
+                    bold=True,
+                    green=True,
+                )
+            else:
+                terminalreporter.write_sep(
+                    "=",
+                    " Phase 1 Complete: Shared pre-allocation analysis completed ",
+                    bold=True,
+                    green=True,
+                )
+        else:
+            # Normal message for fixture generation
+            # append / to indicate this is a directory
+            output_dir = str(config.fixture_output.directory) + "/"  # type: ignore[attr-defined]
+            terminalreporter.write_sep(
+                "=",
+                (
+                    f' No tests executed - the test fixtures in "{output_dir}" may now be '
+                    "executed against a client "
+                ),
+                bold=True,
+                yellow=True,
+            )
 
 
 def pytest_metadata(metadata):
@@ -768,11 +874,65 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
+
+                # Phase 1: Generate shared pre-state
+                if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
+                    "generate_shared_alloc"
+                ):
+                    self.update_shared_pre_state(
+                        request.config.shared_pre_state, fork, request.node.nodeid
+                    )
+                    return  # Skip fixture generation in phase 1
+
+                # Phase 2: Use shared pre-state (only for BlockchainEngineReorgFixture)
+                pre_alloc_hash = None
+                if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
+                    "use_shared_alloc"
+                ):
+                    pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+                    if pre_alloc_hash not in request.config.shared_pre_state:
+                        pre_alloc_path = (
+                            Path(output_dir) / "blockchain_test_engine_reorg" / "pre_alloc.json"
+                        )
+                        raise ValueError(
+                            f"Pre-allocation hash {pre_alloc_hash} not found in shared pre-state. "
+                            f"Please check the shared pre-state file at: {pre_alloc_path}. "
+                            "Make sure phase 1 (--generate-shared-alloc) was run before phase 2."
+                        )
+                    group = request.config.shared_pre_state[pre_alloc_hash]
+                    if group.pre is None:
+                        raise ValueError(
+                            f"Shared pre-state group for hash {pre_alloc_hash} has no "
+                            "pre-allocation. This indicates an error in phase 1 generation."
+                        )
+                    if group.environment is None:
+                        raise ValueError(
+                            f"Shared pre-state group for hash {pre_alloc_hash} has no "
+                            "environment. This indicates an error in phase 1 generation."
+                        )
+                    self.pre = group.pre
+
                 fixture = self.generate(
                     t8n=t8n,
                     fork=fork,
                     fixture_format=fixture_format,
                 )
+
+                # Post-process for reorg format (add pre_hash and state diff)
+                if (
+                    fixture_format is BlockchainEngineReorgFixture
+                    and request.config.getoption("use_shared_alloc")
+                    and pre_alloc_hash is not None
+                ):
+                    fixture.pre_hash = pre_alloc_hash
+
+                    # Calculate state diff for efficiency
+                    if hasattr(fixture, "post_state") and fixture.post_state is not None:
+                        group = request.config.shared_pre_state[pre_alloc_hash]
+                        fixture.post_state_diff = calculate_post_state_diff(
+                            fixture.post_state, group.pre
+                        )
+
                 fixture.fill_info(
                     t8n.version(),
                     test_case_description,
@@ -884,6 +1044,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
     Perform session finish tasks.
 
+    - Save shared pre-allocation state (phase 1)
     - Remove any lock files that may have been created.
     - Generate index file for all produced fixtures.
     - Create tarball of the output directory if the output is a tarball.
@@ -892,6 +1053,16 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         return
 
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
+
+    # Save shared pre-state after phase 1
+    if session.config.getoption("generate_shared_alloc") and hasattr(
+        session.config, "shared_pre_state"
+    ):
+        shared_prealloc_path = fixture_output.shared_prealloc_path
+        shared_prealloc_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(shared_prealloc_path, "w") as f:
+            f.write(session.config.shared_pre_state.model_dump_json(by_alias=True, indent=2))
+
     if fixture_output.is_stdout or is_help_or_collectonly_mode(session.config):
         return
 
