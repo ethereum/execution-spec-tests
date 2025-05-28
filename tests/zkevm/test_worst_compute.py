@@ -1082,6 +1082,7 @@ def test_worst_tload(
 @pytest.mark.parametrize("dense_val_mut", [True, False])
 def test_worst_tstore(
     state_test: StateTestFiller,
+    fork: Fork,
     pre: Alloc,
     key_mut: bool,
     dense_val_mut: bool,
@@ -1101,7 +1102,7 @@ def test_worst_tstore(
     # the previous one.
     loop_iter = Op.TSTORE(Op.DUP2, Op.PC if dense_val_mut else Op.DUP1)
 
-    code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body_len = (fork.max_code_size() - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
 
