@@ -1032,23 +1032,32 @@ def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: F
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("curr_val", [None, 42])
-@pytest.mark.parametrize("new_val_mut", [True, False])
+@pytest.mark.parametrize("key_mut", [True, False])
+@pytest.mark.parametrize("val_mut", [True, False])
 def test_worst_tload(
     state_test: StateTestFiller,
     fork: Fork,
     pre: Alloc,
-    curr_val: Optional[int],
-    new_val_mut: bool,
+    key_mut: bool,
+    val_mut: bool,
 ):
     """Test running a block with as many TLOAD calls as possible."""
     env = Environment()
 
-    init_key = 1
-    set_curr_value = Op.TSTORE(init_key, curr_val) if curr_val is not None else Bytecode()
-    code_prefix = set_curr_value + Op.PUSH1(init_key) + Op.JUMPDEST
-    nn = Op.TSTORE(Op.DUP1, Op.DUP1) if new_val_mut else Bytecode()
-    code_suffix = Op.PUSH32(2**256 - 5) + Op.MUL + nn + Op.JUMP(len(code_prefix) - 1)
+    init_key = 42
+    code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
+
+    # If `key_mut` is True, we mutate the key on every iteration of the big loop by mutiplying by
+    # a constant that should produce a long chain of distinct values.
+    code_key_mut = Op.PUSH32(2**256 - 5) + Op.MUL if key_mut else Bytecode()
+    # If `val_mut` is True, we mutate the value that will be returned by the nex iteration of
+    # TLOADs.
+    code_val_mut = Op.TSTORE(Op.DUP1, Op.DUP1) if val_mut else Bytecode()
+
+    # Note that both potential `code_key_mut` and `code_value_mut` are done at the end of
+    # big-loops to avoid creating too much influence in the benchmark results for measuring TLOADs.
+    code_suffix = code_key_mut + code_val_mut + Op.JUMP(len(code_prefix) - 1)
+
     loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
     code_body_len = (fork.max_code_size() - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
@@ -1066,6 +1075,42 @@ def test_worst_tload(
         post={},
         tx=tx,
     )
+
+
+# @pytest.mark.valid_from("Cancun")
+# @pytest.mark.parametrize("new_val_mut", [True, False])
+# def test_worst_tstore(
+#     state_test: StateTestFiller,
+#     pre: Alloc,
+#     new_val_mut: bool,
+# ):
+#     """Test running a block with as many TSTORE calls as possible."""
+#     env = Environment()
+
+#     key = 1
+#     code_prefix = Op.TSTORE(key, 42) + Op.PUSH1(key) + Op.JUMPDEST
+
+#     val_mut = Op.TSTORE(Op.DUP1, Op.DUP1) if new_val_mut else Bytecode()
+#     code_suffix = Op.PUSH32(2**256 - 5) + Op.MUL + val_mut + Op.JUMP(len(code_prefix) - 1)
+
+#     loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+
+#     code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+#     code_body = loop_iter * code_body_len
+#     code = code_prefix + code_body + code_suffix
+
+#     tx = Transaction(
+#         to=pre.deploy_contract(code),
+#         gas_limit=env.gas_limit,
+#         sender=pre.fund_eoa(),
+#     )
+
+#     state_test(
+#         env=env,
+#         pre=pre,
+#         post={},
+#         tx=tx,
+#     )
 
 
 @pytest.mark.valid_from("Cancun")
