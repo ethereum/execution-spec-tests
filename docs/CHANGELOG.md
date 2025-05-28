@@ -48,6 +48,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development ([#1433](https://github.com/ethereum/execution-spec-tests/pull/1433)).
 - 🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests ([#1661](https://github.com/ethereum/execution-spec-tests/pull/1661)).
 - 🔀 Refactor the `click`-based CLI interface used for pytest-based commands (`fill`, `execute`, `consume`) to make them more extensible ([#1654](https://github.com/ethereum/execution-spec-tests/pull/1654)).
+- 🔀 Split `src/ethereum_test_types/types.py` into several files to improve code organization ([#1665](https://github.com/ethereum/execution-spec-tests/pull/1665)).
 
 ### 🧪 Test Cases
 
@@ -180,7 +181,7 @@ This feature can be disabled by using `--disable-strict-exception-matching` for 
 ### 📋 Misc
 
 - 🐞 Configure `markdownlint` to expect an indent of 4 with unordered lists (otherwise HTML documentation is rendered incorrectly, [#1460](https://github.com/ethereum/execution-spec-tests/pull/1460)).
-- 🔀 Update `eels_resolutions.json` to point to temporary commit `bb0eb750d643ced0ebf5dec732cdd23558d0b7f2`, which is based on `forks/prague` branch, commit `d9a7ee24db359aacecd636349b4f3ac95a4a6e71`, with PRs https://github.com/ethereum/execution-specs/pull/1182, https://github.com/ethereum/execution-specs/pull/1183 and https://github.com/ethereum/execution-specs/pull/1191 merged ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+- 🔀 Update `eels_resolutions.json` to point to temporary commit `bb0eb750d643ced0ebf5dec732cdd23558d0b7f2`, which is based on `forks/prague` branch, commit `d9a7ee24db359aacecd636349b4f3ac95a4a6e71`, with PRs <https://github.com/ethereum/execution-specs/pull/1182>, <https://github.com/ethereum/execution-specs/pull/1183> and <https://github.com/ethereum/execution-specs/pull/1191> merged ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
 
 ## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
 
@@ -571,7 +572,7 @@ The following changes may be potentially breaking (all clients were tested with 
 
 - Cancun is now the latest deployed fork, and the development fork is now Prague ([#489](https://github.com/ethereum/execution-spec-tests/pull/489)).
 - Stable fixtures artifact `fixtures.tar.gz` has been renamed to `fixtures_stable.tar.gz` ([#573](https://github.com/ethereum/execution-spec-tests/pull/573))
-- The "Blockchain Test Hive" fixture format has been renamed to "Blockchain Test Engine" and updated to more closely resemble the `engine_newPayload` format in the `execution-apis` specification (https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request) and now contains a single `"params"` field instead of multiple fields for each parameter ([#687](https://github.com/ethereum/execution-spec-tests/pull/687)).
+- The "Blockchain Test Hive" fixture format has been renamed to "Blockchain Test Engine" and updated to more closely resemble the `engine_newPayload` format in the `execution-apis` specification (<https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request>) and now contains a single `"params"` field instead of multiple fields for each parameter ([#687](https://github.com/ethereum/execution-spec-tests/pull/687)).
 - Output folder for fixtures has been renamed from "blockchain_tests_hive" to "blockchain_tests_engine" ([#687](https://github.com/ethereum/execution-spec-tests/pull/687)).
 
 ## [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
@@ -607,7 +608,7 @@ The following changes may be potentially breaking (all clients were tested with 
 
 ## [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) - 2024-01-29: 🐍🏖️ Cancun
 
-Release [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) primarily fixes a small bug introduced within the previous release where transition forks are used within the new `StateTest` format. This was highlighted by @chfast within #405 (https://github.com/ethereum/execution-spec-tests/issues/405), where the fork name `ShanghaiToCancunAtTime15k` was found within state tests.
+Release [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) primarily fixes a small bug introduced within the previous release where transition forks are used within the new `StateTest` format. This was highlighted by @chfast within #405 (<https://github.com/ethereum/execution-spec-tests/issues/405>), where the fork name `ShanghaiToCancunAtTime15k` was found within state tests.
 
 ### 🧪 Test Cases
 
