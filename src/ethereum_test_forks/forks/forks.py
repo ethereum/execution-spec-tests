@@ -648,7 +648,7 @@ class Byzantium(Homestead):
     def max_code_size(cls) -> int:
         # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
         """At Spurious Dragon, an upper bound was introduced for max contract code size."""
-        return int(0x6000)
+        return 0x6000
 
     @classmethod
     def call_opcodes(
