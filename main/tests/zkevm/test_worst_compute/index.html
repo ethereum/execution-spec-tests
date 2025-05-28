@@ -19226,6 +19226,8 @@
       
         
       
+        
+      
     
     
       
@@ -19447,6 +19449,27 @@
   
   <span class="md-ellipsis">
     <code>test_worst_shifts</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_worst_blobhash/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_blobhash</code>
   </span>
   
 
@@ -19825,7 +19848,7 @@
 
 
 <h1 id="test-worst-compute">Test Worst Compute<a class="headerlink" href="#test-worst-compute" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a1c3984ca1fd5fa56f48cc0c64441ec293c991de/tests/zkevm/test_worst_compute.py#L58"><code>tests/zkevm/test_worst_compute.py@a1c3984c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/08f1629258ff93e769c9bcb9899c27b57dcc1253/tests/zkevm/test_worst_compute.py#L60"><code>tests/zkevm/test_worst_compute.py@08f16292</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py --fork Prague</span>
@@ -19923,6 +19946,12 @@
 <td>state_test</td>
 <td>2</td>
 <td>Test running a block with as many shift instructions with non-trivial arguments.</td>
+</tr>
+<tr>
+<td><a href="test_worst_blobhash/"><code>test_worst_blobhash</code></a></td>
+<td>state_test</td>
+<td>4</td>
+<td>Test running a block with as many BLOBHASH instructions as possible.</td>
 </tr>
 <tr>
 <td><a href="test_worst_mod/"><code>test_worst_mod</code></a></td>
