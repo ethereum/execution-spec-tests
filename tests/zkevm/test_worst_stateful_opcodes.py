@@ -496,7 +496,7 @@ def test_worst_selfdestruct_existing(
     # Create an account that will be used as the beneficiary of the SELFDESTRUCT calls, to avoid
     # account creation costs. All SELFDESTRUCT calls will target the same account to avoid
     # cold costs.
-    selfdestruct_beneficiary = pre.fund_eoa(amount=100)
+    selfdestruct_beneficiary = pre.fund_eoa()
 
     # Template code that will be used to deploy a large number of contracts.
     selfdestructable_contract_addr = pre.deploy_contract(
@@ -563,7 +563,36 @@ def test_worst_selfdestruct_existing(
         sender=pre.fund_eoa(),
     )
 
-    post = {}
+    code = (
+        # Setup memory for later CREATE2 address generation loop.
+        # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
+        Op.MSTORE(0, factory_address)
+        + Op.MSTORE8(32 - 20 - 1, 0xFF)
+        + Op.MSTORE(32, 0)
+        + Op.MSTORE(64, initcode.keccak256())
+        # Main loop
+        + While(
+            body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
+            + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
+            # Stop before we run out of gas for the whole tx execution.
+            # The value was discovered practically rounded to the next 1000 multiple.
+            condition=Op.GT(Op.GAS, 28_000),
+        )
+        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    )
+    assert len(code) <= fork.max_code_size()
+
+    code_addr = pre.deploy_contract(code=code)
+    opcode_tx = Transaction(
+        to=code_addr,
+        gas_limit=attack_gas_limit,
+        gas_price=10**9,
+        sender=pre.fund_eoa(),
+    )
+
+    post = {
+        code_addr: Account(storage={0: 42})  # Check for successful execution.
+    }
     deployed_contract_addresses = []
     for i in range(num_contracts):
         deployed_contract_address = compute_create2_address(
@@ -574,32 +603,6 @@ def test_worst_selfdestruct_existing(
         post[deployed_contract_address] = Account(nonce=1)
         deployed_contract_addresses.append(deployed_contract_address)
 
-    attack_call = Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
-    attack_code = (
-        # Setup memory for later CREATE2 address generation loop.
-        # 0xFF+[Address(20bytes)]+[seed(32bytes)]+[initcode keccak(32bytes)]
-        Op.MSTORE(0, factory_address)
-        + Op.MSTORE8(32 - 20 - 1, 0xFF)
-        + Op.MSTORE(32, 0)
-        + Op.MSTORE(64, initcode.keccak256())
-        # Main loop
-        + While(
-            body=attack_call + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
-            # The condition is having enough gas for at least one more iteration.
-            # 2+2600+5000 is the `attack_call` gas cost, and 2* is a rough safety margin.
-            condition=Op.GT(Op.GAS, 2 * (2 + 2600 + 5000)),
-        )
-    )
-    assert len(attack_code) <= fork.max_code_size()
-
-    attack_code_addr = pre.deploy_contract(code=attack_code)
-    opcode_tx = Transaction(
-        to=attack_code_addr,
-        gas_limit=attack_gas_limit,
-        gas_price=10**9,
-        sender=pre.fund_eoa(),
-    )
-
     blockchain_test(
         genesis_environment=env,
         pre=pre,
@@ -609,4 +612,75 @@ def test_worst_selfdestruct_existing(
             Block(txs=[opcode_tx]),
         ],
         exclude_full_post_state_in_output=True,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("value_bearing", [True, False])
+def test_worst_selfdestruct_created(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    value_bearing: bool,
+):
+    """
+    Test running a block with as SELFDESTRUCT calls as possible for deployed contracts in
+    the same transaction.
+    """
+    env = Environment()
+
+    # Create an account that will be used as the beneficiary of the SELFDESTRUCT calls, to avoid
+    # account creation costs. All SELFDESTRUCT calls will target the same account to avoid
+    # cold costs.
+    selfdestruct_beneficiary = pre.fund_eoa()
+
+    # Template code that will be used to deploy a large number of contracts.
+    selfdestructable_contract_addr = pre.deploy_contract(
+        code=Op.SELFDESTRUCT(selfdestruct_beneficiary)
+    )
+    initcode = Op.EXTCODECOPY(
+        address=selfdestructable_contract_addr,
+        dest_offset=0,
+        offset=0,
+        size=Op.EXTCODESIZE(selfdestructable_contract_addr),
+    ) + Op.RETURN(0, Op.EXTCODESIZE(selfdestructable_contract_addr))
+    initcode_address = pre.deploy_contract(code=initcode)
+
+    code = (
+        Op.EXTCODECOPY(
+            address=initcode_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(initcode_address),
+        )
+        + While(
+            body=Op.POP(
+                Op.CALL(
+                    address=Op.CREATE(
+                        value=1 if value_bearing else 0,
+                        offset=0,
+                        size=Op.EXTCODESIZE(initcode_address),
+                    )
+                )
+            ),
+            # Stop before we run out of gas for the whole tx execution.
+            # The value was discovered practically rounded to the next 1000 multiple.
+            condition=Op.GT(Op.GAS, 40_000),
+        )
+        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    )
+    code_addr = pre.deploy_contract(code=code)
+    code_tx = Transaction(
+        to=code_addr,
+        gas_limit=env.gas_limit,
+        gas_price=10**9,
+        sender=pre.fund_eoa(),
+    )
+
+    post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
+
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=code_tx,
     )
