@@ -617,7 +617,7 @@ def test_worst_selfdestruct_created(
     value_bearing: bool,
 ):
     """
-    Test running a block with as SELFDESTRUCT calls as possible for deployed contracts in
+    Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
     the same transaction.
     """
     env = Environment()
