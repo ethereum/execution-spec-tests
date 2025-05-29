@@ -227,13 +227,19 @@ class EIPChecklistCollector:
 
         return output_dir
 
+    @pytest.hookimpl(tryfirst=True)
+    def pytest_runtestloop(self, session):
+        """Skip test execution, only generate checklists."""
+        session.testscollected = 0
+        return True
+
     def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
         """Collect checklist markers during test collection."""
         for item in items:
             eip, eip_path = self.extract_eip_from_path(Path(item.location[0]))
             if eip_path is not None and eip is not None:
                 self.eip_paths[eip] = eip_path
-            if item.get_closest_marker("derived_test"):
+            if item.get_closest_marker("derived_test") or item.get_closest_marker("skip"):
                 continue
             self.collect_from_item(item, eip)
 
@@ -246,6 +252,9 @@ class EIPChecklistCollector:
         checklist_eips = config.getoption("checklist_eips", [])
 
         checklist_props = {}
+
+        if not self.eip_checklist_items:
+            pytest.exit("\nNo EIPs found with checklist markers.", returncode=pytest.ExitCode.OK)
 
         # Generate a checklist for each EIP
         for eip in sorted(self.eip_checklist_items.keys()):
@@ -267,7 +276,7 @@ class EIPChecklistCollector:
                 )
             else:
                 checklist_path = self.generate_filled_checklist(eip, checklist_output)
-                print(f"Generated EIP-{eip} checklist: {checklist_path}")
+                print(f"\nGenerated EIP-{eip} checklist: {checklist_path}")
 
         if checklist_doc_gen:
             config.checklist_props = checklist_props  # type: ignore

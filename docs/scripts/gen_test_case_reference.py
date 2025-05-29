@@ -45,7 +45,6 @@ args = [
     "pytest_plugins.filler.gen_test_doc.gen_test_doc",
     "-p",
     "pytest_plugins.filler.eip_checklist",
-    "--collect-only",
     "--gen-docs",
     f"--gen-docs-target-fork={TARGET_FORK}",
     f"--until={GENERATE_UNTIL_FORK}",

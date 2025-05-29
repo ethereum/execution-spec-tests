@@ -21,9 +21,6 @@ class ChecklistCommand(PytestCommand):
         processed_args = super().process_arguments(pytest_args)
 
         # Add collect-only flag to avoid running tests
-        if "--collect-only" not in processed_args:
-            processed_args.append("--collect-only")
-
         processed_args.extend(["-p", "pytest_plugins.filler.eip_checklist"])
 
         return processed_args
@@ -66,8 +63,7 @@ def checklist(output: str, eip: tuple, **kwargs) -> None:
 
     """
     # Add output directory to pytest args
-    args = ["-p", "pytest_plugins.filler.eip_checklist"]
-    args.extend(["--checklist-output", output])
+    args = ["--checklist-output", output]
 
     # Add EIP filter if specified
     for eip_num in eip:
