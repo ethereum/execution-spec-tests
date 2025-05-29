@@ -326,7 +326,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_access_list/</loc>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state/</loc>
+         <lastmod>2025-05-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_transaction_intrinsic_gas_cost/</loc>
          <lastmod>2025-05-29</lastmod>
          <changefreq>daily</changefreq>
     </url>

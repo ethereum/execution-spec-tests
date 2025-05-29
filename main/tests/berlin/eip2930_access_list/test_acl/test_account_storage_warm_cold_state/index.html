@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_access_list/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state/">
       
       
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../test_tx_intrinsic_gas/">
+        <link rel="next" href="../test_transaction_intrinsic_gas_cost/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -24,7 +24,7 @@
     
     
       
-        <title>test_access_list - Ethereum Execution Spec Tests</title>
+        <title>test_account_storage_warm_cold_state - Ethereum Execution Spec Tests</title>
       
     
     
@@ -66,11 +66,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="<code>test_access_list</code> - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="<code>test_account_storage_warm_cold_state</code> - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/berlin/eip2930_access_list/test_acl/test_access_list.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,15 +78,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_access_list/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="<code>test_access_list</code> - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="<code>test_account_storage_warm_cold_state</code> - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/berlin/eip2930_access_list/test_acl/test_access_list.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state.png" >
       
     
     
@@ -111,7 +111,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test_access_list" class="md-skip">
+        <a href="#test_account_storage_warm_cold_state" class="md-skip">
           Skip to content
         </a>
       
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>test_access_list</code>
+              <code>test_account_storage_warm_cold_state</code>
             
           </span>
         </div>
@@ -15608,6 +15608,8 @@
       
         
       
+        
+      
     
     
       
@@ -15669,7 +15671,7 @@
           
   
   <span class="md-ellipsis">
-    <code>test_access_list</code>
+    <code>test_account_storage_warm_cold_state</code>
   </span>
   
 
@@ -15680,7 +15682,7 @@
         
   
   <span class="md-ellipsis">
-    <code>test_access_list</code>
+    <code>test_account_storage_warm_cold_state</code>
   </span>
   
 
@@ -15702,9 +15704,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.berlin.eip2930_access_list.test_acl.test_access_list" class="md-nav__link">
+  <a href="#tests.berlin.eip2930_access_list.test_acl.test_account_storage_warm_cold_state" class="md-nav__link">
     <span class="md-ellipsis">
-      test_access_list
+      test_account_storage_warm_cold_state
     </span>
   </a>
   
@@ -15723,6 +15725,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_transaction_intrinsic_gas_cost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_transaction_intrinsic_gas_cost</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -19921,9 +19944,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.berlin.eip2930_access_list.test_acl.test_access_list" class="md-nav__link">
+  <a href="#tests.berlin.eip2930_access_list.test_acl.test_account_storage_warm_cold_state" class="md-nav__link">
     <span class="md-ellipsis">
-      test_access_list
+      test_account_storage_warm_cold_state
     </span>
   </a>
   
@@ -19953,11 +19976,11 @@
                   
 
 
-<h1 id="test_access_list"><code>test_access_list()</code><a class="headerlink" href="#test_access_list" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2c55c5440041cb272b57a97b9ca6fa00d1e320d4/tests/berlin/eip2930_access_list/test_acl.py#L19"><code>tests/berlin/eip2930_access_list/test_acl.py::test_access_list@2c55c544</code></a>.</p>
+<h1 id="test_account_storage_warm_cold_state"><code>test_account_storage_warm_cold_state()</code><a class="headerlink" href="#test_account_storage_warm_cold_state" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b4451efcaeef9c60188475b3f8ca1428db0efcc9/tests/berlin/eip2930_access_list/test_acl.py#L28"><code>tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state@b4451efc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py::test_access_list --fork Prague</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state --fork Prague</span>
 </code></pre></div>
 </div>
 
@@ -19966,95 +19989,187 @@
 
 
 
-<a id="tests.berlin.eip2930_access_list.test_acl.test_access_list"></a>
+<a id="tests.berlin.eip2930_access_list.test_acl.test_account_storage_warm_cold_state"></a>
     <div class="doc doc-contents first">
 
       <p>Test type 1 transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/berlin/eip2930_access_list/test_acl.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_access_list</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;account_warm,storage_key_warm&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="c1"># (False, True),  Not possible</span>
+        <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_account_storage_warm_cold_state</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">account_warm</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">storage_key_warm</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test type 1 transaction.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
 
-    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PC</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">,</span>
-        <span class="n">balance</span><span class="o">=</span><span class="mh">0x03</span><span class="p">,</span>
+    <span class="n">storage_reader_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
+    <span class="n">overhead_cost</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="o">.</span><span class="n">popped_stack_items</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># Call stack items</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># Call gas</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span>  <span class="c1"># SLOAD Push</span>
     <span class="p">)</span>
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="mh">0x300000</span><span class="p">)</span>
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">CodeGasMeasure</span><span class="p">(</span>
+            <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">storage_reader_contract</span><span class="p">),</span>
+            <span class="n">overhead_cost</span><span class="o">=</span><span class="n">overhead_cost</span><span class="p">,</span>
+            <span class="n">extra_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">sstore_key</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">expected_gas_cost</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">access_list_address</span> <span class="o">=</span> <span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">access_list_storage_key</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">account_warm</span><span class="p">:</span>
+        <span class="n">expected_gas_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>
+        <span class="n">access_list_address</span> <span class="o">=</span> <span class="n">storage_reader_contract</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">expected_gas_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>
+    <span class="k">if</span> <span class="n">storage_key_warm</span><span class="p">:</span>
+        <span class="n">expected_gas_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_SLOAD</span>
+        <span class="n">access_list_storage_key</span> <span class="o">=</span> <span class="n">Hash</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">expected_gas_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>
+
+    <span class="n">access_lists</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessList</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">AccessList</span><span class="p">(</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">access_list_address</span><span class="p">,</span>
+            <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span><span class="n">access_list_storage_key</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+
+    <span class="n">contract_creation</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tx_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+
+    <span class="n">intrinsic_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
+
+    <span class="n">tx_gas_limit</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">intrinsic_gas_calculator</span><span class="p">(</span>
+            <span class="n">calldata</span><span class="o">=</span><span class="n">tx_data</span><span class="p">,</span>
+            <span class="n">contract_creation</span><span class="o">=</span><span class="n">contract_creation</span><span class="p">,</span>
+            <span class="n">access_list</span><span class="o">=</span><span class="n">access_lists</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="mi">100_000</span>
+    <span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">tx_data</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">323328</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-        <span class="n">access_list</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">AccessList</span><span class="p">(</span>
-                <span class="n">address</span><span class="o">=</span><span class="s2">&quot;0x0000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
-                <span class="n">storage_keys</span><span class="o">=</span><span class="p">[</span>
-                    <span class="s2">&quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
-                <span class="p">],</span>
-            <span class="p">)</span>
-        <span class="p">],</span>
-        <span class="n">secret_key</span><span class="o">=</span><span class="s2">&quot;0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8&quot;</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas_limit</span><span class="p">,</span>
+        <span class="n">access_list</span><span class="o">=</span><span class="n">access_lists</span><span class="p">,</span>
         <span class="n">protected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">code</span><span class="o">=</span><span class="s2">&quot;0x5854505854&quot;</span><span class="p">,</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">sender</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
-            <span class="n">balance</span><span class="o">=</span><span class="mh">0x2CD931</span><span class="p">,</span>
-            <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">expected_gas_cost</span><span class="p">},</span>
         <span class="p">),</span>
     <span class="p">}</span>
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
@@ -20063,7 +20178,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_account_storage_warm_cold_state.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -20112,120 +20227,430 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>account_warm</th>
+                        <th>storage_key_warm</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Berlin-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Berlin-state_test]">
-                    ...fork_Berlin-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Berlin-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Berlin-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Berlin-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Berlin-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Berlin-blockchain_test_from_state_test]">
-                    ...fork_Berlin-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Berlin-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Berlin-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Berlin-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_London-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_London-state_test]">
-                    ...fork_London-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_London-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_London-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_London-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_London-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_London-blockchain_test_from_state_test]">
-                    ...fork_London-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_London-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_London-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_London-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Paris-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Paris-state_test]">
-                    ...fork_Paris-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Paris-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Paris-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Paris-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Paris-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Paris-blockchain_test_from_state_test]">
-                    ...fork_Paris-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Paris-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Paris-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Paris-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Shanghai-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Shanghai-state_test]">
-                    ...fork_Shanghai-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Shanghai-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Shanghai-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Shanghai-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Shanghai-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Shanghai-blockchain_test_from_state_test]">
-                    ...fork_Shanghai-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Shanghai-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Cancun-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Cancun-state_test]">
-                    ...fork_Cancun-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Cancun-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Cancun-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Cancun-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Cancun-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Cancun-blockchain_test_from_state_test]">
-                    ...fork_Cancun-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Cancun-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Cancun-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Cancun-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Prague-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Prague-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Prague-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Prague-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Prague-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Prague-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Prague-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Prague-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Osaka-state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Osaka-state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Osaka-state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Osaka-state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Osaka-blockchain_test_from_state_test]" title="tests/berlin/eip2930_access_list/test_acl.py::test_access_list[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True]">
+                    ...fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_True
                 </abbr>
             </td>
+                        <td>True</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False]">
+                    ...fork_Osaka-blockchain_test_from_state_test-account_warm_True-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]" title="tests/berlin/eip2930_access_list/test_acl.py::test_account_storage_warm_cold_state[fork_Osaka-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False]">
+                    ...fork_Osaka-blockchain_test_from_state_test-account_warm_False-storage_key_warm_False
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>
