@@ -662,3 +662,52 @@ def test_worst_selfdestruct_created(
         post=post,
         tx=code_tx,
     )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("value_bearing", [True, False])
+def test_worst_selfdestruct_initcode(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    value_bearing: bool,
+):
+    """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
+    env = Environment()
+    pre.fund_address(env.fee_recipient, 1)
+
+    # code = Op.SELFDESTRUCT(Op.COINBASE)
+    initcode = 0x41FF
+    code = (
+        Op.MSTORE(0, initcode)
+        + While(
+            body=Op.POP(
+                Op.CALL(
+                    address=Op.CREATE(
+                        value=1 if value_bearing else 0,
+                        offset=30,
+                        size=2,
+                    )
+                )
+            ),
+            # Stop before we run out of gas for the whole tx execution.
+            # The value was found by trial-error rounded to the next 1000 multiple.
+            condition=Op.GT(Op.GAS, 10_000),
+        )
+        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    )
+    # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
+    code_addr = pre.deploy_contract(code=code, balance=100_000, storage={0: 1})
+    code_tx = Transaction(
+        to=code_addr,
+        gas_limit=env.gas_limit,
+        gas_price=10,
+        sender=pre.fund_eoa(),
+    )
+
+    post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
+    state_test(
+        env=env,
+        pre=pre,
+        post=post,
+        tx=code_tx,
+    )
