@@ -493,15 +493,8 @@ def test_worst_selfdestruct_existing(
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
-    # Create an account that will be used as the beneficiary of the SELFDESTRUCT calls, to avoid
-    # account creation costs. All SELFDESTRUCT calls will target the same account to avoid
-    # cold costs.
-    selfdestruct_beneficiary = pre.fund_eoa()
-
     # Template code that will be used to deploy a large number of contracts.
-    selfdestructable_contract_addr = pre.deploy_contract(
-        code=Op.SELFDESTRUCT(selfdestruct_beneficiary)
-    )
+    selfdestructable_contract_addr = pre.deploy_contract(code=Op.SELFDESTRUCT(Op.COINBASE))
     initcode = Op.EXTCODECOPY(
         address=selfdestructable_contract_addr,
         dest_offset=0,
@@ -629,15 +622,8 @@ def test_worst_selfdestruct_created(
     """
     env = Environment()
 
-    # Create an account that will be used as the beneficiary of the SELFDESTRUCT calls, to avoid
-    # account creation costs. All SELFDESTRUCT calls will target the same account to avoid
-    # cold costs.
-    selfdestruct_beneficiary = pre.fund_eoa()
-
     # Template code that will be used to deploy a large number of contracts.
-    selfdestructable_contract_addr = pre.deploy_contract(
-        code=Op.SELFDESTRUCT(selfdestruct_beneficiary)
-    )
+    selfdestructable_contract_addr = pre.deploy_contract(code=Op.SELFDESTRUCT(Op.COINBASE))
     initcode = Op.EXTCODECOPY(
         address=selfdestructable_contract_addr,
         dest_offset=0,
@@ -665,7 +651,7 @@ def test_worst_selfdestruct_created(
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 33_000),
+            condition=Op.GT(Op.GAS, 42_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
@@ -679,7 +665,6 @@ def test_worst_selfdestruct_created(
     )
 
     post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
-
     state_test(
         env=env,
         pre=pre,
