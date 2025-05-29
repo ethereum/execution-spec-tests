@@ -15,6 +15,7 @@ from ..forks.forks import (
     Homestead,
     Istanbul,
     London,
+    Osaka,
     Paris,
     Prague,
     Shanghai,
@@ -23,6 +24,7 @@ from ..forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,
     ParisToShanghaiAtTime15k,
+    PragueToOsakaAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from ..helpers import (
@@ -194,6 +196,7 @@ def test_transition_fork_comparison():
 
     assert sorted(
         {
+            PragueToOsakaAtTime15k,
             CancunToPragueAtTime15k,
             ParisToShanghaiAtTime15k,
             ShanghaiToCancunAtTime15k,
@@ -204,6 +207,7 @@ def test_transition_fork_comparison():
         ParisToShanghaiAtTime15k,
         ShanghaiToCancunAtTime15k,
         CancunToPragueAtTime15k,
+        PragueToOsakaAtTime15k,
     ]
 
 
@@ -320,7 +324,7 @@ def test_tx_intrinsic_gas_functions(fork: Fork, calldata: bytes, create_tx: bool
     )
 
 
-class FutureFork(Prague):
+class FutureFork(Osaka):
     """
     Dummy fork used for testing.
 
@@ -363,6 +367,27 @@ class FutureFork(Prague):
             id="Prague",
         ),
         pytest.param(
+            Osaka,
+            {
+                "Cancun": {
+                    "target_blobs_per_block": 3,
+                    "max_blobs_per_block": 6,
+                    "baseFeeUpdateFraction": 3338477,
+                },
+                "Prague": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+                "Osaka": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+            },
+            id="Osaka",
+        ),
+        pytest.param(
             CancunToPragueAtTime15k,
             {
                 "Cancun": {
@@ -379,6 +404,27 @@ class FutureFork(Prague):
             id="CancunToPragueAtTime15k",
         ),
         pytest.param(
+            PragueToOsakaAtTime15k,
+            {
+                "Cancun": {
+                    "target_blobs_per_block": 3,
+                    "max_blobs_per_block": 6,
+                    "baseFeeUpdateFraction": 3338477,
+                },
+                "Prague": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+                "Osaka": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+            },
+            id="PragueToOsakaAtTime15k",
+        ),
+        pytest.param(
             FutureFork,
             {
                 "Cancun": {
@@ -387,6 +433,11 @@ class FutureFork(Prague):
                     "baseFeeUpdateFraction": 3338477,
                 },
                 "Prague": {
+                    "target_blobs_per_block": 6,
+                    "max_blobs_per_block": 9,
+                    "baseFeeUpdateFraction": 5007716,
+                },
+                "Osaka": {
                     "target_blobs_per_block": 6,
                     "max_blobs_per_block": 9,
                     "baseFeeUpdateFraction": 5007716,
