@@ -1032,7 +1032,9 @@ def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: F
 
 
 @pytest.mark.valid_from("Cancun")
+# `key_mut` indicates that at the end of each big-loop, the target key changes.
 @pytest.mark.parametrize("key_mut", [True, False])
+# `val_mut` indicates that at the end of each big-loop, the value of the target key changes.
 @pytest.mark.parametrize("val_mut", [True, False])
 def test_worst_tload(
     state_test: StateTestFiller,
@@ -1050,16 +1052,16 @@ def test_worst_tload(
     code_val_mut = Bytecode()
     if key_mut and val_mut:
         code_prefix = Op.PUSH1(start_key) + Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
         code_key_mut = Op.POP + Op.GAS
         code_val_mut = Op.TSTORE(Op.DUP2, Op.GAS)
-        loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
     if key_mut and not val_mut:
         code_prefix = Op.JUMPDEST
         loop_iter = Op.POP(Op.TLOAD(Op.GAS))
     if not key_mut and val_mut:
         code_prefix = Op.JUMPDEST
-        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
         loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
+        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
     if not key_mut and not val_mut:
         code_prefix = Op.JUMPDEST
         loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
