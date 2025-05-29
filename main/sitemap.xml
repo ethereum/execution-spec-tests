@@ -2481,6 +2481,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs_2/test_delegation_replacement_call_previous_contract/</loc>
+         <lastmod>2025-05-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip7702_set_code_tx/test_set_code_txs_2/test_double_auth/</loc>
          <lastmod>2025-05-29</lastmod>
          <changefreq>daily</changefreq>

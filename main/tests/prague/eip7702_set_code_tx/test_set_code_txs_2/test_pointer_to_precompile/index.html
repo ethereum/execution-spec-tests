@@ -8705,6 +8705,8 @@
       
         
       
+        
+      
     
     
       
@@ -9194,6 +9196,27 @@
   
   <span class="md-ellipsis">
     <code>test_set_code_type_tx_pre_fork</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_delegation_replacement_call_previous_contract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_delegation_replacement_call_previous_contract</code>
   </span>
   
 
@@ -19977,7 +20000,7 @@
 
 
 <h1 id="test_pointer_to_precompile"><code>test_pointer_to_precompile()</code><a class="headerlink" href="#test_pointer_to_precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b4451efcaeef9c60188475b3f8ca1428db0efcc9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L396"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_to_precompile@b4451efc</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1109bfbe62efe52e13996265ecc0e246268028bc/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L397"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_to_precompile@1109bfbe</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_to_precompile --fork Prague</span>
@@ -20000,8 +20023,7 @@ execute empty code, i.e. succeed with no execution given enough gas.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">396</span>
-<span class="normal">397</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">397</span>
 <span class="normal">398</span>
 <span class="normal">399</span>
 <span class="normal">400</span>
@@ -20071,7 +20093,8 @@ execute empty code, i.e. succeed with no execution given enough gas.</p>
 <span class="normal">464</span>
 <span class="normal">465</span>
 <span class="normal">466</span>
-<span class="normal">467</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
+<span class="normal">467</span>
+<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_pointer_to_precompile</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">precompile</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>

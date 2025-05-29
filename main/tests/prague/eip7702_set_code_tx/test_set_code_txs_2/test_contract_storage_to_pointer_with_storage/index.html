@@ -8705,6 +8705,8 @@
       
         
       
+        
+      
     
     
       
@@ -9194,6 +9196,27 @@
   
   <span class="md-ellipsis">
     <code>test_set_code_type_tx_pre_fork</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_delegation_replacement_call_previous_contract/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_delegation_replacement_call_previous_contract</code>
   </span>
   
 
@@ -19977,7 +20000,7 @@
 
 
 <h1 id="test_contract_storage_to_pointer_with_storage"><code>test_contract_storage_to_pointer_with_storage()</code><a class="headerlink" href="#test_contract_storage_to_pointer_with_storage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b4451efcaeef9c60188475b3f8ca1428db0efcc9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1006"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_contract_storage_to_pointer_with_storage@b4451efc</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1109bfbe62efe52e13996265ecc0e246268028bc/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1007"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_contract_storage_to_pointer_with_storage@1109bfbe</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_contract_storage_to_pointer_with_storage --fork Prague</span>
@@ -19997,8 +20020,7 @@ Check storage/tstorage modifications when interacting with pointers.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1006</span>
-<span class="normal">1007</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1007</span>
 <span class="normal">1008</span>
 <span class="normal">1009</span>
 <span class="normal">1010</span>
@@ -20092,7 +20114,8 @@ Check storage/tstorage modifications when interacting with pointers.</p>
 <span class="normal">1098</span>
 <span class="normal">1099</span>
 <span class="normal">1100</span>
-<span class="normal">1101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_type&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">],</span>
