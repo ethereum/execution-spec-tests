@@ -231,7 +231,7 @@ class EIPChecklistCollector:
         """Collect checklist markers during test collection."""
         for item in items:
             eip, eip_path = self.extract_eip_from_path(Path(item.location[0]))
-            if eip_path is not None:
+            if eip_path is not None and eip is not None:
                 self.eip_paths[eip] = eip_path
             if item.get_closest_marker("derived_test"):
                 continue
