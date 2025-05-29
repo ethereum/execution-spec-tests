@@ -1032,7 +1032,7 @@ def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: F
 
 
 @pytest.mark.valid_from("Cancun")
-# `key_mut` indicates that at the end of each big-loop, the target key changes.
+# `key_mut` indicates the key isn't fixed.
 @pytest.mark.parametrize("key_mut", [True, False])
 # `val_mut` indicates that at the end of each big-loop, the value of the target key changes.
 @pytest.mark.parametrize("val_mut", [True, False])
