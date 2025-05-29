@@ -22,6 +22,8 @@ from ethereum_test_tools import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-2930.md"
 REFERENCE_SPEC_VERSION = "c9db53a936c5c9cbe2db32ba0d1b86c4c6e73534"
 
+pytestmark = pytest.mark.valid_from("Berlin")
+
 
 @pytest.mark.parametrize(
     "account_warm,storage_key_warm",
@@ -45,7 +47,7 @@ def test_account_storage_warm_cold_state(
 
     storage_reader_contract = pre.deploy_contract(Op.SLOAD(1) + Op.STOP)
     overhead_cost = (
-        gas_costs.G_VERY_LOW * (Op.CALL.pushed_stack_items - 1)  # Call stack items
+        gas_costs.G_VERY_LOW * (Op.CALL.popped_stack_items - 1)  # Call stack items
         + gas_costs.G_BASE  # Call gas
         + gas_costs.G_VERY_LOW  # SLOAD Push
     )
@@ -198,7 +200,6 @@ def test_account_storage_warm_cold_state(
         pytest.param(False, id="not_enough_gas", marks=pytest.mark.exception_test),
     ],
 )
-@pytest.mark.valid_from("Berlin")
 def test_transaction_intrinsic_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
