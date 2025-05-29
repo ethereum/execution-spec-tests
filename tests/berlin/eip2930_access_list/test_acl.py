@@ -4,6 +4,7 @@ from typing import List
 
 import pytest
 
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -16,7 +17,6 @@ from ethereum_test_tools import (
     TransactionException,
 )
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_types.types import Fork
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-2930.md"
 REFERENCE_SPEC_VERSION = "c9db53a936c5c9cbe2db32ba0d1b86c4c6e73534"
