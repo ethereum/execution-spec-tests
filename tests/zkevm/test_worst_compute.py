@@ -1110,7 +1110,7 @@ def test_worst_tstore(
     code_key_mut = Op.POP + Op.GAS if key_mut else Bytecode()
     code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
 
-    # If `dense_val_mut` is set, we use PC as a cheap way of always storing a different value than
+    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a different value than
     # the previous one.
     loop_iter = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
 
