@@ -1043,31 +1043,40 @@ def test_worst_tload(
 ):
     """Test running a block with as many TLOAD calls as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     start_key = 41
-    code_prefix = Op.PUSH1(start_key) + Op.JUMPDEST
+    code_key_mut = Bytecode()
+    code_val_mut = Bytecode()
+    if key_mut and val_mut:
+        code_prefix = Op.PUSH1(start_key) + Op.JUMPDEST
+        code_key_mut = Op.POP + Op.GAS
+        code_val_mut = Op.TSTORE(Op.DUP2, Op.GAS)
+        loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+    if key_mut and not val_mut:
+        code_prefix = Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.GAS))
+    if not key_mut and val_mut:
+        code_prefix = Op.JUMPDEST
+        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
+        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
+    if not key_mut and not val_mut:
+        code_prefix = Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
 
-    # If `key_mut` is True, we mutate the key on every iteration of the big loop.
-    code_key_mut = Op.POP + Op.GAS if key_mut else Bytecode()
-
-    # If `val_mut` is True, we mutate the value that will be returned by the nex iteration of
-    # TLOADs.
-    code_val_mut = Op.TSTORE(Op.DUP2, Op.GAS) if val_mut else Bytecode()
-
-    # Note that both potential `code_key_mut` and `code_value_mut` are done at the end of
-    # big-loops to avoid creating too much influence in the benchmark results for measuring TLOADs.
     code_suffix = code_key_mut + code_val_mut + Op.JUMP(len(code_prefix) - 1)
 
     loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
-    code_body_len = (fork.max_code_size() - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
+        value=start_key if not key_mut and val_mut else 0,
     )
 
     state_test(
@@ -1090,6 +1099,7 @@ def test_worst_tstore(
 ):
     """Test running a block with as many TSTORE calls as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     init_key = 42
     code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
@@ -1102,10 +1112,10 @@ def test_worst_tstore(
     # the previous one.
     loop_iter = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
 
-    code_body_len = (fork.max_code_size() - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code),
