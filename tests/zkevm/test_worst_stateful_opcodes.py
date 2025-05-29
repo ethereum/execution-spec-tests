@@ -489,7 +489,7 @@ def test_worst_selfdestruct_existing(
     pre: Alloc,
     value_bearing: bool,
 ):
-    """Test running a block with as SELFDESTRUCT calls as possible for existing contracts."""
+    """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
 
