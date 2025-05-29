@@ -801,7 +801,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
                 parameter = labeled_format_parameter_set(format_with_or_without_label)
                 if i > 0:
-                    parameter.marks.append(pytest.mark.derived_test)
+                    parameter.marks.append(pytest.mark.derived_test)  # type: ignore
                 parameters.append(parameter)
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],

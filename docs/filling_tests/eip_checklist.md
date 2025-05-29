@@ -75,7 +75,8 @@ checklist --eip 7702 --eip 2930
 ## Output Format
 
 The generated checklist will show:
-- ✓ for completed items
+
+- ✅ for completed items
 - Test names that implement each item (up to 3, with "..." if more)
 - Empty cells for uncompleted items
 - A percentage of covered checklist items

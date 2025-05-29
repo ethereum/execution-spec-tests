@@ -131,6 +131,11 @@ class EipChecklistPageProps(PagePropsBase):
     lines: List[str]
 
     @property
+    def template(self) -> str:
+        """Get the jinja2 template used to render this page."""
+        raise Exception("EipChecklistPageProps does not have a template")
+
+    @property
     def target_output_file(self) -> Path:
         """Get the target output file for this page."""
         return self.path

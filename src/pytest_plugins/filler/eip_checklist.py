@@ -6,6 +6,7 @@ for each EIP based on the template at
 docs/writing_tests/checklist_templates/eip_testing_checklist_template.md
 """
 
+import logging
 import re
 from collections import defaultdict
 from dataclasses import dataclass
@@ -15,6 +16,8 @@ from typing import Dict, List, Optional, Set, Tuple
 import pytest
 
 from .gen_test_doc.page_props import EipChecklistPageProps
+
+logger = logging.getLogger("mkdocs")
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -95,7 +98,7 @@ class EIPItem:
 class EIPChecklistCollector:
     """Collects and manages EIP checklist items from test markers."""
 
-    def __init__(self):
+    def __init__(self: "EIPChecklistCollector"):
         """Initialize the EIP checklist collector."""
         self.eip_checklist_items: Dict[int, Dict[str, Set[Tuple[str, str]]]] = defaultdict(
             lambda: defaultdict(set)
@@ -107,16 +110,14 @@ class EIPChecklistCollector:
             / "checklist_templates"
             / "eip_testing_checklist_template.md"
         )
-        self.template_content: Optional[str] = None
-        self.template_items: Dict[str, Tuple[EIPItem, int]] = {}  # ID -> (item, line_number)
         self.eip_paths: Dict[int, Path] = {}
 
-    def load_template(self) -> None:
-        """Load and parse the checklist template."""
         if not self.template_path.exists():
             pytest.fail(f"EIP checklist template not found at {self.template_path}")
 
         self.template_content = self.template_path.read_text()
+        self.template_items: Dict[str, Tuple[EIPItem, int]] = {}  # ID -> (item, line_number)
+        self.all_ids: Set[str] = set()
 
         # Parse the template to extract checklist item IDs and descriptions
         lines = self.template_content.splitlines()
@@ -125,20 +126,20 @@ class EIPChecklistCollector:
             item = EIPItem.from_checklist_line(line)
             if item:
                 self.template_items[item.id] = (item, i + 1)
+                self.all_ids.add(item.id)
 
-    def extract_eip_from_path(self, test_path: Path) -> Optional[int]:
+    def extract_eip_from_path(self, test_path: Path) -> Tuple[Optional[int], Optional[Path]]:
         """Extract EIP number from test file path."""
         # Look for patterns like eip1234_ or eip1234/ in the path
         for part_idx, part in enumerate(test_path.parts):
             match = re.match(r"eip(\d+)", part)
             if match:
                 eip = int(match.group(1))
-                if eip not in self.eip_paths:
-                    self.eip_paths[eip] = test_path.parents[len(test_path.parents) - part_idx - 2]
-                return eip
-        return None
+                eip_path = test_path.parents[len(test_path.parents) - part_idx - 2]
+                return eip, eip_path
+        return None, None
 
-    def collect_from_item(self, item: pytest.Item) -> None:
+    def collect_from_item(self, item: pytest.Item, primary_eip: Optional[int]) -> None:
         """Collect checklist markers from a test item."""
         for marker in item.iter_markers("eip_checklist"):
             if not marker.args:
@@ -151,7 +152,6 @@ class EIPChecklistCollector:
                 additional_eips = [additional_eips]
 
             # Get the primary EIP from the test path
-            primary_eip = self.extract_eip_from_path(Path(item.location[0]))
             if primary_eip is None:
                 if not additional_eips:
                     pytest.fail(
@@ -170,14 +170,18 @@ class EIPChecklistCollector:
                 )
 
             for item_id in marker.args:
+                if item_id not in self.all_ids:
+                    # TODO: If we decide to do the starts-with matching, we have to change this.
+                    logger.warning(
+                        f"Item ID {item_id} not found in the checklist template, "
+                        f"for test {item.nodeid}"
+                    )
+                    continue
                 for eip in eips:
                     self.eip_checklist_items[eip][item_id].add((item.nodeid, item.name))
 
     def generate_filled_checklist_lines(self, eip: int) -> List[str]:
         """Generate the filled checklist lines for a specific EIP."""
-        if not self.template_content or not self.template_items:
-            self.load_template()
-
         # Get all checklist items for this EIP
         eip_items = self.eip_checklist_items.get(eip, {})
 
@@ -200,7 +204,7 @@ class EIPChecklistCollector:
                 lines[line_idx] = str(checklist_item)
                 covered_items += 1
 
-        percentage = round(covered_items / total_items * 100)
+        percentage = covered_items / total_items * 100
         completness_emoji = "🟢" if percentage == 100 else "🟡" if percentage > 50 else "🔴"
         lines[lines.index(PERCENTAGE_LINE)] = (
             f"| {total_items} | {covered_items} | {completness_emoji} {percentage:.2f}% |"
@@ -226,9 +230,12 @@ class EIPChecklistCollector:
     def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
         """Collect checklist markers during test collection."""
         for item in items:
+            eip, eip_path = self.extract_eip_from_path(Path(item.location[0]))
+            if eip_path is not None:
+                self.eip_paths[eip] = eip_path
             if item.get_closest_marker("derived_test"):
                 continue
-            self.collect_from_item(item)
+            self.collect_from_item(item, eip)
 
         if not self.eip_checklist_items:
             return
@@ -238,8 +245,7 @@ class EIPChecklistCollector:
         checklist_output = config.getoption("checklist_output", Path("checklists"))
         checklist_eips = config.getoption("checklist_eips", [])
 
-        if checklist_doc_gen:
-            config.checklist_props = {}
+        checklist_props = {}
 
         # Generate a checklist for each EIP
         for eip in sorted(self.eip_checklist_items.keys()):
@@ -248,10 +254,8 @@ class EIPChecklistCollector:
                 continue
 
             if checklist_doc_gen:
-                if eip not in self.eip_paths:
-                    continue
                 eip_path = self.eip_paths[eip]
-                config.checklist_props[eip_path / "checklist.md"] = EipChecklistPageProps(
+                checklist_props[eip_path / "checklist.md"] = EipChecklistPageProps(
                     title=f"EIP-{eip} Test Checklist",
                     source_code_url="",
                     target_or_valid_fork="mainnet",
@@ -264,3 +268,6 @@ class EIPChecklistCollector:
             else:
                 checklist_path = self.generate_filled_checklist(eip, checklist_output)
                 print(f"Generated EIP-{eip} checklist: {checklist_path}")
+
+        if checklist_doc_gen:
+            config.checklist_props = checklist_props  # type: ignore
