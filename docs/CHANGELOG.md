@@ -23,6 +23,10 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 🛠️ Framework
 
+#### 🔀 Refactoring
+
+- 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
+
 #### `fill`
 
 - ✨ Add the `ported_from` test marker to track Python test cases that were converted from static fillers in [ethereum/tests](https://github.com/ethereum/tests) repository [#1590](https://github.com/ethereum/execution-spec-tests/pull/1590).
