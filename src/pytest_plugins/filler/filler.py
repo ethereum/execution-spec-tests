@@ -30,6 +30,7 @@ from ethereum_test_fixtures import (
     BlockchainEngineReorgFixture,
     FixtureCollector,
     FixtureConsumer,
+    LabeledFixtureFormat,
     SharedPreState,
     TestInfo,
 )
@@ -971,8 +972,38 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            generate_shared_alloc = metafunc.config.getoption("generate_shared_alloc", False)
+            use_shared_alloc = metafunc.config.getoption("use_shared_alloc", False)
+
+            if generate_shared_alloc or use_shared_alloc:
+                # When shared alloc flags are set, only generate BlockchainEngineReorgFixture
+                supported_formats = [
+                    format_item
+                    for format_item in test_type.supported_fixture_formats
+                    if (
+                        format_item is BlockchainEngineReorgFixture
+                        or (
+                            isinstance(format_item, LabeledFixtureFormat)
+                            and format_item.format is BlockchainEngineReorgFixture
+                        )
+                    )
+                ]
+            else:
+                # Filter out BlockchainEngineReorgFixture if shared alloc flags not set
+                supported_formats = [
+                    format_item
+                    for format_item in test_type.supported_fixture_formats
+                    if not (
+                        format_item is BlockchainEngineReorgFixture
+                        or (
+                            isinstance(format_item, LabeledFixtureFormat)
+                            and format_item.format is BlockchainEngineReorgFixture
+                        )
+                    )
+                ]
+
             parameters = []
-            for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
+            for i, format_with_or_without_label in enumerate(supported_formats):
                 parameter = labeled_format_parameter_set(format_with_or_without_label)
                 if i > 0:
                     parameter.marks.append(pytest.mark.derived_test)  # type: ignore
