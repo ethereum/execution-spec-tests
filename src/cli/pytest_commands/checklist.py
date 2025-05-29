@@ -4,8 +4,7 @@ from typing import List
 
 import click
 
-from .base import PytestCommand, common_pytest_options
-from .processors import HelpFlagsProcessor
+from .base import PytestCommand
 
 
 class ChecklistCommand(PytestCommand):
@@ -15,9 +14,6 @@ class ChecklistCommand(PytestCommand):
         """Initialize checklist command with processors."""
         super().__init__(
             config_file="pytest.ini",
-            argument_processors=[
-                HelpFlagsProcessor("checklist"),
-            ],
         )
 
     def process_arguments(self, pytest_args: List[str]) -> List[str]:
@@ -33,12 +29,7 @@ class ChecklistCommand(PytestCommand):
         return processed_args
 
 
-@click.command(
-    context_settings={
-        "ignore_unknown_options": True,
-    }
-)
-@common_pytest_options
+@click.command()
 @click.option(
     "--output",
     "-o",
@@ -53,7 +44,7 @@ class ChecklistCommand(PytestCommand):
     multiple=True,
     help="Generate checklist only for specific EIP(s)",
 )
-def checklist(pytest_args: List[str], output: str, eip: tuple, **kwargs) -> None:
+def checklist(output: str, eip: tuple, **kwargs) -> None:
     """
     Generate EIP test checklists based on pytest.mark.eip_checklist markers.
 
@@ -75,12 +66,16 @@ def checklist(pytest_args: List[str], output: str, eip: tuple, **kwargs) -> None
 
     """
     # Add output directory to pytest args
-    extended_args = list(pytest_args)
-    extended_args.extend(["--checklist-output", output])
+    args = ["-p", "pytest_plugins.filler.eip_checklist"]
+    args.extend(["--checklist-output", output])
 
     # Add EIP filter if specified
     for eip_num in eip:
-        extended_args.extend(["--checklist-eip", str(eip_num)])
+        args.extend(["--checklist-eip", str(eip_num)])
 
     command = ChecklistCommand()
-    command.execute(extended_args)
+    command.execute(args)
+
+
+if __name__ == "__main__":
+    checklist()
