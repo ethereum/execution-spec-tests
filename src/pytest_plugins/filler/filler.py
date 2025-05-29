@@ -30,6 +30,7 @@ from ethereum_test_fixtures import (
     BlockchainEngineReorgFixture,
     FixtureCollector,
     FixtureConsumer,
+    LabeledFixtureFormat,
     SharedPreState,
     TestInfo,
 )
@@ -971,11 +972,43 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            supported_formats = test_type.supported_fixture_formats
+
+            generate_shared_alloc = metafunc.config.getoption("generate_shared_alloc", False)
+            use_shared_alloc = metafunc.config.getoption("use_shared_alloc", False)
+
+            if generate_shared_alloc or use_shared_alloc:
+                # When shared alloc flags are set, only generate BlockchainEngineReorgFixture
+                supported_formats = [
+                    format_item
+                    for format_item in supported_formats
+                    if (
+                        format_item is BlockchainEngineReorgFixture
+                        or (
+                            isinstance(format_item, LabeledFixtureFormat)
+                            and format_item.format is BlockchainEngineReorgFixture
+                        )
+                    )
+                ]
+            else:
+                # Filter out BlockchainEngineReorgFixture if shared alloc flags not set
+                supported_formats = [
+                    format_item
+                    for format_item in supported_formats
+                    if not (
+                        format_item is BlockchainEngineReorgFixture
+                        or (
+                            isinstance(format_item, LabeledFixtureFormat)
+                            and format_item.format is BlockchainEngineReorgFixture
+                        )
+                    )
+                ]
+
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
                 [
                     labeled_format_parameter_set(format_with_or_without_label)
-                    for format_with_or_without_label in test_type.supported_fixture_formats
+                    for format_with_or_without_label in supported_formats
                 ],
                 scope="function",
                 indirect=True,
