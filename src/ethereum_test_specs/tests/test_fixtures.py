@@ -2,7 +2,6 @@
 
 import json
 import os
-from enum import IntEnum
 from typing import Any, List, Mapping
 
 import pytest
