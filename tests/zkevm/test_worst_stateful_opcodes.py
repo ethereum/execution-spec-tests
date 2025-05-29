@@ -623,13 +623,11 @@ def test_worst_selfdestruct_created(
     env = Environment()
 
     # Template code that will be used to deploy a large number of contracts.
-    selfdestructable_contract_addr = pre.deploy_contract(code=Op.SELFDESTRUCT(Op.COINBASE))
-    initcode = Op.EXTCODECOPY(
-        address=selfdestructable_contract_addr,
-        dest_offset=0,
-        offset=0,
-        size=Op.EXTCODESIZE(selfdestructable_contract_addr),
-    ) + Op.RETURN(0, Op.EXTCODESIZE(selfdestructable_contract_addr))
+    initcode = (
+        Op.MSTORE8(0, 0x41)  # COINBASE
+        + Op.MSTORE8(1, 0xFF)  # SELFDESTRUCT
+        + Op.RETURN(0, 2)
+    )
     initcode_address = pre.deploy_contract(code=initcode)
 
     code = (
@@ -651,7 +649,7 @@ def test_worst_selfdestruct_created(
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 42_000),
+            condition=Op.GT(Op.GAS, 24_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
