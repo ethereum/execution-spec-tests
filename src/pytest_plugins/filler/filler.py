@@ -39,7 +39,6 @@ from ..shared.helpers import (
     labeled_format_parameter_set,
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
-from . import eip_checklist  # noqa: F401
 from .fixture_output import FixtureOutput
 
 
