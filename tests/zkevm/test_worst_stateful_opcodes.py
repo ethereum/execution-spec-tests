@@ -492,6 +492,7 @@ def test_worst_selfdestruct_existing(
     """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
     env = Environment(gas_limit=100_000_000_000)
     attack_gas_limit = Environment().gas_limit
+    pre.fund_address(env.fee_recipient, 1)
 
     # Template code that will be used to deploy a large number of contracts.
     selfdestructable_contract_addr = pre.deploy_contract(code=Op.SELFDESTRUCT(Op.COINBASE))
@@ -621,6 +622,7 @@ def test_worst_selfdestruct_created(
     the same transaction.
     """
     env = Environment()
+    pre.fund_address(env.fee_recipient, 1)
 
     # SELFDESTRUCT(COINBASE) contract deployment
     # code = Op.MSTORE8(0, 0x41) + Op.MSTORE8(1, 0xFF) + Op.RETURN(0, 2)
@@ -640,12 +642,12 @@ def test_worst_selfdestruct_created(
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 25_000),
+            condition=Op.GT(Op.GAS, 10_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
-    code_addr = pre.deploy_contract(code=code, storage={0: 1})
+    code_addr = pre.deploy_contract(code=code, balance=100_000, storage={0: 1})
     code_tx = Transaction(
         to=code_addr,
         gas_limit=env.gas_limit,
