@@ -31,23 +31,28 @@ runs:
       id: evm-builder
       with:
         type: ${{ steps.properties.outputs.evm-type }}
+    - name: Generate fixtures using fill
+      shell: bash
+      run: |
+        uv run fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} --solc-version=${{ steps.properties.outputs.solc }} --skip-evm-dump ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
     - name: Wrap ethereum/tests fixtures with eofwrap tool
       shell: bash
       if: ${{ steps.properties.outputs.eofwrap }}
       run: |
         curl -L ${tests_url}${tests_version}.tar.gz | tar -xz
         ls -l
-        uv run eofwrap tests-${tests_version}/BlockchainTests/GeneralStateTests/ fixtures_${{ inputs.release_name }}/${output_path}
-        mkdir -p ./fixtures_${{ inputs.release_name }}/.meta/
-        mv fixtures_${{ inputs.release_name }}/${output_path}/metrics.json ./fixtures_${{ inputs.release_name }}/.meta/eofwrap_metrics.json
+        uv run eofwrap tests-${tests_version}/BlockchainTests/GeneralStateTests/ fixtures/${output_path}
+        rm -rf fixtures_${{ inputs.release_name }}
+        mkdir -p ./fixtures/.meta
+        mv fixtures/${output_path}/metrics.json ./fixtures/.meta/eofwrap_metrics.json
+        gunzip fixtures_${{ inputs.release_name }}.tar.gz
+        tar rf fixtures_${{ inputs.release_name }}.tar fixtures
+        gzip fixtures_${{ inputs.release_name }}.tar
+        rm -rf fixtures
       env:
         tests_url: https://github.com/ethereum/tests/archive/refs/tags/v
         tests_version: 14.1
         output_path: blockchain_tests/unscheduled/eofwrap
-    - name: Generate fixtures using fill
-      shell: bash
-      run: |
-        uv run fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} --solc-version=${{ steps.properties.outputs.solc }} --skip-evm-dump ${{ steps.properties.outputs.fill-params }} --output=fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: fixtures_${{ inputs.release_name }}
