@@ -26,7 +26,7 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
 - **First positional parameter** (required): The checklist item ID from the template
 - **`eip` keyword parameter** (optional): List of additional EIPs covered by the test
 
-Example with multiple EIPs:
+Example with multiple EIPs covered by the same test:
 
 ```python
 @pytest.mark.eip_checklist("new_transaction_type/test/signature/invalid/v/0", eip=[7702, 2930])
@@ -36,20 +36,6 @@ def test_invalid_signature(state_test: StateTestFiller):
 ```
 
 ## Generating Checklists
-
-### During Normal Test Filling
-
-When running the `fill` command, checklists are automatically generated alongside fixtures:
-
-```bash
-fill tests/prague/eip7702_set_code_tx
-```
-
-The checklist will be created in the output directory: `fixtures/eip7702/eip7702_checklist.md`
-
-### Automatic Generation in Documentation
-
-When building the documentation with `mkdocs`, checklists are automatically generated for all EIPs that have tests with checklist markers. The checklists appear in the test documentation alongside the test modules.
 
 ### Using the Dedicated `checklist` Command
 
@@ -62,15 +48,16 @@ checklist
 # Generate checklist for specific EIP
 checklist --eip 7702
 
-# Generate checklists for specific test path
-checklist tests/prague/eip7702*
-
 # Specify output directory
 checklist --output ./my-checklists
 
 # Multiple EIPs
 checklist --eip 7702 --eip 2930
 ```
+
+### Automatic Generation in Documentation
+
+When building the documentation with `mkdocs`, checklists are automatically generated for all EIPs that have tests with checklist markers. The checklists appear in the test documentation alongside the test modules.
 
 ## Output Format
 
