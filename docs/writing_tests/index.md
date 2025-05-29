@@ -16,7 +16,7 @@ and modify the generated test module to suit your needs.
 
 For help deciding which test format to select, see [Types of Tests](./types_of_tests.md), in particular [Deciding on a Test Type](./types_of_tests.md#deciding-on-a-test-type). Otherwise, some simple test case examples to get started with are:
 
-- [tests.berlin.eip2930_access_list.test_acl.test_access_list](../tests/berlin/eip2930_access_list/test_acl/test_access_list.md).
+- [tests.berlin.eip2930_access_list.test_acl.test_account_storage_warm_cold_state](../tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state.md).
 - [tests.istanbul.eip1344_chainid.test_chainid.test_chainid](../tests/istanbul/eip1344_chainid/test_chainid/test_chainid.md).
 
 ## Key Resources
