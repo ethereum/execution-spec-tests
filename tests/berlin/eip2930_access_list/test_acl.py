@@ -45,7 +45,7 @@ def test_account_storage_warm_cold_state(
 
     storage_reader_contract = pre.deploy_contract(Op.SLOAD(1) + Op.STOP)
     overhead_cost = (
-        gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 1)  # Call stack items
+        gas_costs.G_VERY_LOW * (Op.CALL.pushed_stack_items - 1)  # Call stack items
         + gas_costs.G_BASE  # Call gas
         + gas_costs.G_VERY_LOW  # SLOAD Push
     )
