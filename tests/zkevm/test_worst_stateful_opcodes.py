@@ -580,7 +580,7 @@ def test_worst_selfdestruct_existing(
     opcode_tx = Transaction(
         to=code_addr,
         gas_limit=attack_gas_limit,
-        gas_price=10**9,
+        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
@@ -660,7 +660,7 @@ def test_worst_selfdestruct_created(
     code_tx = Transaction(
         to=code_addr,
         gas_limit=env.gas_limit,
-        gas_price=10**9,
+        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
