@@ -575,14 +575,15 @@ def test_worst_selfdestruct_existing(
             body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
             + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
             # Stop before we run out of gas for the whole tx execution.
-            # The value was discovered practically rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 28_000),
+            # The value was found by trial-error rounded to the next 1000 multiple.
+            condition=Op.GT(Op.GAS, 12_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
     assert len(code) <= fork.max_code_size()
 
-    code_addr = pre.deploy_contract(code=code)
+    # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
+    code_addr = pre.deploy_contract(code=code, storage={0: 1})
     opcode_tx = Transaction(
         to=code_addr,
         gas_limit=attack_gas_limit,
@@ -663,12 +664,13 @@ def test_worst_selfdestruct_created(
                 )
             ),
             # Stop before we run out of gas for the whole tx execution.
-            # The value was discovered practically rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 40_000),
+            # The value was found by trial-error rounded to the next 1000 multiple.
+            condition=Op.GT(Op.GAS, 33_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
-    code_addr = pre.deploy_contract(code=code)
+    # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
+    code_addr = pre.deploy_contract(code=code, storage={0: 1})
     code_tx = Transaction(
         to=code_addr,
         gas_limit=env.gas_limit,
