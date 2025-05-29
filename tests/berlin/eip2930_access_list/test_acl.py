@@ -10,6 +10,7 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    CodeGasMeasure,
     Environment,
     Hash,
     StateTestFiller,
@@ -20,6 +21,97 @@ from ethereum_test_tools import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-2930.md"
 REFERENCE_SPEC_VERSION = "c9db53a936c5c9cbe2db32ba0d1b86c4c6e73534"
+
+
+@pytest.mark.parametrize(
+    "account_warm,storage_key_warm",
+    [
+        (True, True),
+        (True, False),
+        # (False, True),  Not possible
+        (False, False),
+    ],
+)
+def test_account_storage_warm_cold_state(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    account_warm: bool,
+    storage_key_warm: bool,
+):
+    """Test type 1 transaction."""
+    env = Environment()
+    gas_costs = fork.gas_costs()
+
+    storage_reader_contract = pre.deploy_contract(Op.SLOAD(1) + Op.STOP)
+    overhead_cost = (
+        gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 1)  # Call stack items
+        + gas_costs.G_BASE  # Call gas
+        + gas_costs.G_VERY_LOW  # SLOAD Push
+    )
+    contract_address = pre.deploy_contract(
+        CodeGasMeasure(
+            code=Op.CALL(address=storage_reader_contract),
+            overhead_cost=overhead_cost,
+            extra_stack_items=1,
+            sstore_key=0,
+        )
+    )
+    expected_gas_cost = 0
+    access_list_address = Address(0)
+    access_list_storage_key = Hash(0)
+    if account_warm:
+        expected_gas_cost += gas_costs.G_WARM_ACCOUNT_ACCESS
+        access_list_address = storage_reader_contract
+    else:
+        expected_gas_cost += gas_costs.G_COLD_ACCOUNT_ACCESS
+    if storage_key_warm:
+        expected_gas_cost += gas_costs.G_WARM_SLOAD
+        access_list_storage_key = Hash(1)
+    else:
+        expected_gas_cost += gas_costs.G_COLD_SLOAD
+
+    access_lists: List[AccessList] = [
+        AccessList(
+            address=access_list_address,
+            storage_keys=[access_list_storage_key],
+        ),
+    ]
+
+    sender = pre.fund_eoa()
+
+    contract_creation = False
+    tx_data = b""
+
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+
+    tx_gas_limit = (
+        intrinsic_gas_calculator(
+            calldata=tx_data,
+            contract_creation=contract_creation,
+            access_list=access_lists,
+        )
+        + 100_000
+    )
+
+    tx = Transaction(
+        ty=1,
+        chain_id=0x01,
+        data=tx_data,
+        to=contract_address,
+        gas_limit=tx_gas_limit,
+        access_list=access_lists,
+        protected=True,
+        sender=sender,
+    )
+
+    post = {
+        contract_address: Account(
+            nonce=1,
+            storage={0: expected_gas_cost},
+        ),
+    }
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -107,7 +199,7 @@ REFERENCE_SPEC_VERSION = "c9db53a936c5c9cbe2db32ba0d1b86c4c6e73534"
     ],
 )
 @pytest.mark.valid_from("Berlin")
-def test_access_list(
+def test_transaction_intrinsic_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
