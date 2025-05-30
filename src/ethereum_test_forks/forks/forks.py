@@ -818,7 +818,6 @@ class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
 class Paris(
     London,
     transition_tool_name="Merge",
-    blockchain_test_network_name="Paris",
 ):
     """Paris (Merge) fork."""
 
