@@ -153,7 +153,13 @@ def test_worst_tx_callvalue(
     non_zero_value: bool,
     from_origin: bool,
 ):
-    """Test running a block with as many CALLVALUE as possible."""
+    """
+    Test running a block with as many CALLVALUE opcodes as possible.
+
+    The `non_zero_value` parameter controls whether opcode must return non-zero value.
+    The `from_origin` parameter controls whether the call frame is the immediate from the
+    transaction or a previous CALL.
+    """
     env = Environment()
 
     code_prefix = Op.JUMPDEST
