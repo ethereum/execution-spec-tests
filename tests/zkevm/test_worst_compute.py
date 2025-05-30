@@ -140,14 +140,13 @@ def test_worst_calldatasize(
 
 
 # TODO:
-#   Op.RETURNDATASIZE
 #   Op.MSIZE,
 
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("non_zero_value", [True, False])
 @pytest.mark.parametrize("from_origin", [True, False])
-def test_worst_tx_callvalue(
+def test_worst_callvalue(
     state_test: StateTestFiller,
     pre: Alloc,
     non_zero_value: bool,
@@ -182,6 +181,46 @@ def test_worst_tx_callvalue(
         to=tx_to,
         gas_limit=env.gas_limit,
         value=1 if non_zero_value and from_origin else 0,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("non_zero_size", [True, False])
+def test_worst_returndatasize(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    non_zero_size: bool,
+):
+    """
+    Test running a block with as many RETURNDATASIZE opcodes as possible.
+
+    The `non_zero_size` parameter controls whether opcode must return non-zero value.
+    """
+    env = Environment()
+
+    dummy_contract_call = (
+        Op.STATICCALL(address=pre.deploy_contract(code=Op.RETURN(0, 1)))
+        if non_zero_size
+        else Bytecode()
+    )
+    code_prefix = dummy_contract_call + Op.JUMPDEST
+    iter_loop = Op.POP(Op.RETURNDATASIZE)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
 
