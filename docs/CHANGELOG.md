@@ -59,6 +59,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Refactored `BLOBHASH` opcode context tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1637](https://github.com/ethereum/execution-spec-tests/pull/1637)).
 - 🔀 Refactored `SELFDESTRUCT` opcode collision tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1643](https://github.com/ethereum/execution-spec-tests/pull/1643)).
 - ✨ EIP-7594: Sanity test cases to send blob transactions and verify `engine_getBlobsVX` using the `execute` command ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+- 🔀 Refactored EIP-145 static tests into python ([#1683](https://github.com/ethereum/execution-spec-tests/pull/1683)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
