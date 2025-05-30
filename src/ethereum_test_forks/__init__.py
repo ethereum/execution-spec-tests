@@ -24,6 +24,7 @@ from .forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,
     ParisToShanghaiAtTime15k,
+    PragueToOsakaAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from .gas_costs import GasCosts
@@ -76,6 +77,7 @@ __all__ = [
     "Cancun",
     "CancunToPragueAtTime15k",
     "Prague",
+    "PragueToOsakaAtTime15k",
     "Osaka",
     "get_transition_forks",
     "forks_from",
