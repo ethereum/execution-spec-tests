@@ -196,9 +196,9 @@ class Frontier(BaseFork, solc_name="homestead"):
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
             assert access_list is None, f"Access list is not supported in {cls.name()}"
-            assert authorization_list_or_count is None, (
-                f"Authorizations are not supported in {cls.name()}"
-            )
+            assert (
+                authorization_list_or_count is None
+            ), f"Authorizations are not supported in {cls.name()}"
 
             intrinsic_cost: int = gas_costs.G_TRANSACTION
 
@@ -923,6 +923,7 @@ class Cancun(Shanghai):
             parent_excess_blobs: int | None = None,
             parent_blob_gas_used: int | None = None,
             parent_blob_count: int | None = None,
+            parent_base_fee_per_gas: int | None = None,  # Required for Osaka as using this as base
         ) -> int:
             if parent_excess_blob_gas is None:
                 assert parent_excess_blobs is not None, "Parent excess blobs are required"
@@ -1329,6 +1330,51 @@ class Osaka(Prague, solc_name="cancun"):
     def solc_min_version(cls) -> Version:
         """Return minimum version of solc that supports this fork."""
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+    @classmethod
+    def excess_blob_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> ExcessBlobGasCalculator:
+        """Return a callable that calculates the excess blob gas for a block."""
+        target_blobs_per_block = cls.target_blobs_per_block(block_number, timestamp)
+        blob_gas_per_blob = cls.blob_gas_per_blob(block_number, timestamp)
+        target_blob_gas_per_block = target_blobs_per_block * blob_gas_per_blob
+        max_blobs_per_block = cls.max_blobs_per_block(block_number, timestamp)
+        blob_base_cost = 2**14  # EIP-7918 new parameter
+
+        def fn(
+            *,
+            parent_excess_blob_gas: int | None = None,
+            parent_excess_blobs: int | None = None,
+            parent_blob_gas_used: int | None = None,
+            parent_blob_count: int | None = None,
+            parent_base_fee_per_gas: int | None = None,  # EIP-7918 additonal parameter
+        ) -> int:
+            if parent_excess_blob_gas is None:
+                assert parent_excess_blobs is not None, "Parent excess blobs are required"
+                parent_excess_blob_gas = parent_excess_blobs * blob_gas_per_blob
+            if parent_blob_gas_used is None:
+                assert parent_blob_count is not None, "Parent blob count is required"
+                parent_blob_gas_used = parent_blob_count * blob_gas_per_blob
+            if parent_excess_blob_gas + parent_blob_gas_used < target_blob_gas_per_block:
+                return 0
+
+            # EIP-7918 - check if reserve price is active
+            if parent_base_fee_per_gas is not None:
+                reserve_price = (blob_base_cost * parent_base_fee_per_gas) // blob_gas_per_blob
+                if reserve_price > 1:
+                    parent_blob_count_val = parent_blob_gas_used // blob_gas_per_blob
+                    return (
+                        parent_excess_blob_gas
+                        + parent_blob_count_val
+                        * (max_blobs_per_block - target_blobs_per_block)
+                        // max_blobs_per_block
+                    )
+
+            # Original EIP-4844 calculation
+            return parent_excess_blob_gas + parent_blob_gas_used - target_blob_gas_per_block
+
+        return fn
 
 
 class EOFv1(Prague, solc_name="cancun"):
