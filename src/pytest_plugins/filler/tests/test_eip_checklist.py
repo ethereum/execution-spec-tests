@@ -37,6 +37,16 @@ def test_eip_checklist_collection(testdir):
             """
         )
     )
+    eip_7702_external_coverage_file = eip_7702_tests_dir.join(
+        "eip_checklist_external_coverage.txt"
+    )
+    eip_7702_external_coverage_file.write(
+        textwrap.dedent(
+            """
+            general/code_coverage/eels = DEBUG EXTERNAL COVERAGE REASON
+            """
+        )
+    )
 
     berlin_tests_dir = tests_dir.mkdir("berlin")
     eip_2930_tests_dir = berlin_tests_dir.mkdir("eip2930_set_code_tx")
@@ -53,6 +63,14 @@ def test_eip_checklist_collection(testdir):
             @pytest.mark.valid_at("Berlin")
             def test_berlin_one(state_test: StateTestFiller):
                 pass
+            """
+        )
+    )
+    test_2930_n_a_file = eip_2930_tests_dir.join("eip_checklist_not_applicable.txt")
+    test_2930_n_a_file.write(
+        textwrap.dedent(
+            """
+            new_system_contract = DEBUG NOT APPLICABLE REASON
             """
         )
     )
@@ -84,9 +102,12 @@ def test_eip_checklist_collection(testdir):
     assert "✅" in content
     assert "test_exact_gas" in content
     assert "test_invalid_v" in content
+    assert "DEBUG EXTERNAL COVERAGE REASON" in content
 
     checklist_file = checklist_dir / "eip2930_checklist.md"
     assert checklist_file.exists()
     content = checklist_file.read()
     assert "✅" in content
     assert "test_invalid_v" in content
+    assert "N/A" in content
+    assert "DEBUG NOT APPLICABLE REASON" in content
