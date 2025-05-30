@@ -374,6 +374,7 @@ def block(
     "blobs_per_tx",
     SpecHelpers.all_valid_blob_combinations,
 )
+@pytest.mark.parametrize("base_fee_per_gas", [7, 23, 100])
 @pytest.mark.valid_from("Cancun")
 def test_valid_blob_tx_combinations(
     blockchain_test: BlockchainTestFiller,
