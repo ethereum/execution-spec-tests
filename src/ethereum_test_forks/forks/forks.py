@@ -370,12 +370,12 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [EVMCodeType.LEGACY]
 
     @classmethod
-    def max_code_size(cls) -> None:
+    def max_code_size(cls) -> int | None:
         """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
         return None
 
     @classmethod
-    def max_initcode_size(cls) -> None:
+    def max_initcode_size(cls) -> int | None:
         """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
         return None
 
@@ -645,7 +645,7 @@ class Byzantium(Homestead):
         )
 
     @classmethod
-    def max_code_size(cls) -> int:
+    def max_code_size(cls) -> int | None:
         # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
         """At Spurious Dragon, an upper bound was introduced for max contract code size."""
         return 0x6000
@@ -877,7 +877,7 @@ class Shanghai(Paris):
         return 2
 
     @classmethod
-    def max_initcode_size(cls) -> int:
+    def max_initcode_size(cls) -> int | None:
         """From Shanghai, the initcode size is now limited. See EIP-3860."""
         return int(0xC000)
 
@@ -1339,12 +1339,12 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
-    def max_code_size(cls) -> int:
+    def max_code_size(cls) -> int | None:
         """From Osaka, the max code size is lifted. See EIP-7907."""
         return int(0x40000)
 
     @classmethod
-    def max_initcode_size(cls) -> int:
+    def max_initcode_size(cls) -> int | None:
         """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
         return int(0x80000)
 
