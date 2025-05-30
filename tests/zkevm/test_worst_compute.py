@@ -15,6 +15,7 @@ from py_ecc.bn128 import G1, G2, multiply
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
+    Account,
     Address,
     Alloc,
     Block,
@@ -64,11 +65,8 @@ def make_dup(index: int) -> Opcode:
         Op.ADDRESS,
         Op.ORIGIN,
         Op.CALLER,
-        # Op.CALLVALUE,
-        # Op.CALLDATASIZE,
         Op.CODESIZE,
         Op.GASPRICE,
-        # Op.RETURNDATASIZE
         Op.COINBASE,
         Op.TIMESTAMP,
         Op.NUMBER,
@@ -77,7 +75,6 @@ def make_dup(index: int) -> Opcode:
         Op.CHAINID,
         Op.BASEFEE,
         Op.BLOBBASEFEE,
-        # Op.MSIZE,
         Op.GAS,
     ],
 )
@@ -99,6 +96,86 @@ def test_worst_zero_param(
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
         gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("calldata_length", [0, 1_000, 10_000])
+def test_worst_calldatasize(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    calldata_length: int,
+):
+    """Test running a block with as many CALLDATASIZE as possible."""
+    env = Environment()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(Op.CALLDATASIZE)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+        data=b"\x00" * calldata_length,
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+# TODO:
+#   Op.RETURNDATASIZE
+#   Op.MSIZE,
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("non_zero_value", [True, False])
+@pytest.mark.parametrize("from_origin", [True, False])
+def test_worst_tx_callvalue(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    non_zero_value: bool,
+    from_origin: bool,
+):
+    """Test running a block with as many CALLVALUE as possible."""
+    env = Environment()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(Op.CALLVALUE)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+    code_address = pre.deploy_contract(code=bytes(code))
+
+    tx_to = (
+        code_address
+        if from_origin
+        else pre.deploy_contract(
+            code=Op.CALL(address=code_address, value=1 if non_zero_value else 0), balance=10
+        )
+    )
+
+    tx = Transaction(
+        to=tx_to,
+        gas_limit=env.gas_limit,
+        value=1 if non_zero_value and from_origin else 0,
         sender=pre.fund_eoa(),
     )
 
