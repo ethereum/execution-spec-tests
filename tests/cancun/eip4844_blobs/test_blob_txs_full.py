@@ -8,6 +8,7 @@ from typing import List, Optional
 
 import pytest
 
+from ethereum_test_base_types.base_types import Hash
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
@@ -22,6 +23,8 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
 )
+from ethereum_test_types import Blob
+from tests.cancun.eip4844_blobs.common import blobs_to_transaction_input
 
 from .common import INF_POINT
 from .spec import Spec, SpecHelpers, ref_spec_4844
@@ -91,9 +94,12 @@ def tx_max_priority_fee_per_gas() -> int:
 
 
 @pytest.fixture
-def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
+def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[Hash]]:
     """List of blob versioned hashes derived from the blobs."""
-    return [[blob.versioned_hash() for blob in blob_tx] for blob_tx in txs_blobs]
+    version_hashes: List[List[Hash]] = [
+        [blob.versioned_hash for blob in blob_tx] for blob_tx in txs_blobs
+    ]
+    return version_hashes
 
 
 @pytest.fixture(autouse=True)
@@ -150,7 +156,7 @@ def txs(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_max_priority_fee_per_gas: int,
-    txs_versioned_hashes: List[List[bytes]],
+    txs_versioned_hashes: List[List[Hash]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     txs_wrapped_blobs: List[bool],
@@ -237,17 +243,13 @@ def generate_full_blob_tests(
     Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
-    blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
     return [
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    ),
+                    # you can provide the blob via file name
+                    Blob.from_file("blob_cancun_0_0"),
                 ]
             ],
             [True],
@@ -256,11 +258,10 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_file(
+                        # you can provide the blob also via relative path from eest root folder
+                        "./tests/cancun/eip4844_blobs/static_blobs/blob_cancun_0_0"
+                    ),
                 ]
                 for _ in range(max_blobs)
             ],
@@ -270,11 +271,8 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_file("blob_cancun_0_0"),
+                    # Blob.from_fork(fork), # this is how you could dynamically generate a blob
                 ]
                 for _ in range(max_blobs)
             ],
