@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import Alloc, Block, Environment, Hash, Transaction, add_kzg_version
 
 from .spec import Spec
@@ -70,6 +70,7 @@ def excess_blob_gas(
     fork: Fork,
     parent_excess_blobs: int | None,
     parent_blobs: int | None,
+    block_base_fee_per_gas: int,
 ) -> int | None:
     """
     Calculate the excess blob gas of the block under test from the parent block.
@@ -78,10 +79,10 @@ def excess_blob_gas(
     """
     if parent_excess_blobs is None or parent_blobs is None:
         return None
-    excess_blob_gas = fork.excess_blob_gas_calculator()
-    return excess_blob_gas(
+    return fork.excess_blob_gas_calculator()(
         parent_excess_blobs=parent_excess_blobs,
         parent_blob_count=parent_blobs,
+        parent_base_fee_per_gas=block_base_fee_per_gas,
     )
 
 
@@ -90,6 +91,7 @@ def correct_excess_blob_gas(
     fork: Fork,
     parent_excess_blobs: int | None,
     parent_blobs: int | None,
+    block_base_fee_per_gas: int,
 ) -> int:
     """
     Calculate the correct excess blob gas of the block under test from the parent block.
@@ -98,10 +100,10 @@ def correct_excess_blob_gas(
     """
     if parent_excess_blobs is None or parent_blobs is None:
         return 0
-    excess_blob_gas = fork.excess_blob_gas_calculator()
-    return excess_blob_gas(
+    return fork.excess_blob_gas_calculator()(
         parent_excess_blobs=parent_excess_blobs,
         parent_blob_count=parent_blobs,
+        parent_base_fee_per_gas=block_base_fee_per_gas,
     )
 
 
