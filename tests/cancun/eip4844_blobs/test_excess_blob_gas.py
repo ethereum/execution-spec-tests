@@ -259,7 +259,7 @@ def blocks(  # noqa: D103
     "parent_excess_blobs",
     lambda fork: range(0, fork.target_blobs_per_block() + 1),
 )
-@pytest.mark.parametrize("base_fee_per_gas", [7, 23, 100])
+@pytest.mark.parametrize("base_fee_per_gas", [7, 15, 16, 23, 100])
 @pytest.mark.parametrize("new_blobs", [1])
 def test_correct_excess_blob_gas_calculation(
     blockchain_test: BlockchainTestFiller,
@@ -358,7 +358,7 @@ def test_correct_increasing_blob_gas_costs(
     "parent_blobs",
     lambda fork: [fork.target_blobs_per_block() - 1],
 )
-@pytest.mark.parametrize("base_fee_per_gas", [7, 23, 100])
+@pytest.mark.parametrize("base_fee_per_gas", [7, 15, 16, 23, 100])
 @pytest.mark.parametrize("new_blobs", [1])
 def test_correct_decreasing_blob_gas_costs(
     blockchain_test: BlockchainTestFiller,
