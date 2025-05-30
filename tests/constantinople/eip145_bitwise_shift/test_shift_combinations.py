@@ -1,6 +1,7 @@
 """Test bitwise shift opcodes in different combinations."""
 
 import itertools
+from typing import Callable
 
 import pytest
 
@@ -43,6 +44,14 @@ list_of_args = [
 combinations = list(itertools.product(list_of_args, repeat=2))
 
 
+@pytest.mark.parametrize(
+    "opcode,operation",
+    [
+        pytest.param(Op.SAR, Spec.sar, id="sar"),
+        pytest.param(Op.SHL, Spec.shl, id="shl"),
+        pytest.param(Op.SHR, Spec.shr, id="shr"),
+    ],
+)
 @pytest.mark.valid_from("Constantinople")
 @pytest.mark.ported_from(
     [
@@ -51,13 +60,14 @@ combinations = list(itertools.product(list_of_args, repeat=2))
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1683"],
 )
-def test_sar_combinations(state_test: StateTestFiller, pre: Alloc):
+def test_combinations(state_test: StateTestFiller, pre: Alloc, opcode: Op, operation: Callable):
     """Test bitwise shift combinations."""
     result = Storage()
     address_to = pre.deploy_contract(
         code=sum(
             Op.SSTORE(
-                result.store_next(Spec.sar(shift=a, value=b), f"sar({a}, {b})"), Op.SAR(a, b)
+                result.store_next(operation(shift=a, value=b), f"{str(opcode).lower()}({a}, {b})"),
+                opcode(a, b),
             )
             for a, b in combinations
         )
@@ -68,78 +78,7 @@ def test_sar_combinations(state_test: StateTestFiller, pre: Alloc):
     tx = Transaction(
         sender=pre.fund_eoa(),
         to=address_to,
-        protected=False,
-        data=b"",
         gas_limit=5_000_000,
-        value=0,
-    )
-
-    state_test(pre=pre, post={address_to: Account(storage=result)}, tx=tx)
-
-
-@pytest.mark.valid_from("Constantinople")
-@pytest.mark.ported_from(
-    [
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stShift/shiftCombinationsFiller.yml",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stShift/shiftSignedCombinationsFiller.yml",
-    ],
-    pr=["https://github.com/ethereum/execution-spec-tests/pull/1683"],
-)
-def test_shl_combinations(state_test: StateTestFiller, pre: Alloc):
-    """Test bitwise shift combinations."""
-    result = Storage()
-    address_to = pre.deploy_contract(
-        code=sum(
-            Op.SSTORE(
-                result.store_next(Spec.shl(shift=a, value=b), f"shl({a}, {b})"), Op.SHL(a, b)
-            )
-            for a, b in combinations
-        )
-        + Op.SSTORE(result.store_next(1, "code_finished"), 1)
-        + Op.STOP,
-    )
-
-    tx = Transaction(
-        sender=pre.fund_eoa(),
-        to=address_to,
-        protected=False,
-        data=b"",
-        gas_limit=5_000_000,
-        value=0,
-    )
-
-    state_test(pre=pre, post={address_to: Account(storage=result)}, tx=tx)
-
-
-@pytest.mark.valid_from("Constantinople")
-@pytest.mark.ported_from(
-    [
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stShift/shiftCombinationsFiller.yml",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stShift/shiftSignedCombinationsFiller.yml",
-    ],
-    pr=["https://github.com/ethereum/execution-spec-tests/pull/1683"],
-)
-def test_shr_combinations(state_test: StateTestFiller, pre: Alloc):
-    """Test bitwise shift combinations."""
-    result = Storage()
-    address_to = pre.deploy_contract(
-        code=sum(
-            Op.SSTORE(
-                result.store_next(Spec.shr(shift=a, value=b), f"shr({a}, {b})"), Op.SHR(a, b)
-            )
-            for a, b in combinations
-        )
-        + Op.SSTORE(result.store_next(1, "code_finished"), 1)
-        + Op.STOP,
-    )
-
-    tx = Transaction(
-        sender=pre.fund_eoa(),
-        to=address_to,
-        protected=False,
-        data=b"",
-        gas_limit=5_000_000,
-        value=0,
     )
 
     state_test(pre=pre, post={address_to: Account(storage=result)}, tx=tx)
