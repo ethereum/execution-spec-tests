@@ -657,18 +657,15 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     @property
     def blob_kzg_commitments(self) -> Sequence[Bytes]:
         """Return a list of kzg commitments."""
-        return [blob.kzg_commitment for blob in self.blobs]
+        return [blob.commitment for blob in self.blobs]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_proofs(self) -> Sequence[Bytes]:
+    def blob_kzg_proofs(self) -> Sequence[Sequence[Bytes]] | Sequence[Bytes]:
         """Return a list of kzg proofs."""
-        proofs: List[Bytes] = []
+        proofs: List[List[Bytes]] | List[Bytes] = []
         for blob in self.blobs:
-            if blob.kzg_proof is not None:
-                proofs.append(blob.kzg_proof)
-            elif blob.kzg_cell_proofs is not None:
-                proofs.extend(blob.kzg_cell_proofs)
+            proofs.append(blob.proof)  # type: ignore[arg-type]
         return proofs
 
     def get_rlp_fields(self) -> List[str]:

@@ -871,7 +871,7 @@ class Shanghai(Paris):
 class Cancun(Shanghai):
     """Cancun fork."""
 
-    BLOB_CONSTANTS: Dict[str, Union[int, Literal["big"]]] = {  # every value is an int or a Literal
+    BLOB_CONSTANTS = {  # every value is an int or a Literal
         "FIELD_ELEMENTS_PER_BLOB": 4096,
         "BYTES_PER_FIELD_ELEMENT": 32,
         "CELL_LENGTH": 2048,
@@ -1076,7 +1076,7 @@ class Prague(Cancun):
     """Prague fork."""
 
     # update some blob constants
-    BLOB_CONSTANTS: Dict[str, Union[int, Literal["big"]]] = {
+    BLOB_CONSTANTS = {
         **Cancun.BLOB_CONSTANTS,  # same base constants as cancun
         "MAX_BLOBS_PER_BLOCK": 9,  # but overwrite or add these
         "TARGET_BLOBS_PER_BLOCK": 6,
@@ -1337,7 +1337,7 @@ class Osaka(Prague, solc_name="cancun"):
     """Osaka fork."""
 
     # update some blob constants
-    BLOB_CONSTANTS: Dict[str, Union[int, Literal["big"]]] = {
+    BLOB_CONSTANTS = {
         **Prague.BLOB_CONSTANTS,  # same base constants as prague
         "AMOUNT_CELL_PROOFS": 128,
     }

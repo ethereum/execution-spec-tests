@@ -1,7 +1,20 @@
 """Abstract base class for Ethereum forks."""
 
 from abc import ABC, ABCMeta, abstractmethod
-from typing import Any, ClassVar, List, Literal, Mapping, Optional, Protocol, Sized, Tuple, Type
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Protocol,
+    Sized,
+    Tuple,
+    Type,
+    Union,
+)
 
 from semver import Version
 
@@ -156,7 +169,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     _ignore: ClassVar[bool] = False
 
     # make mypy happy
-    BLOB_CONSTANTS: ClassVar[dict[str, int | Literal["big"]]] = {}
+    BLOB_CONSTANTS: ClassVar[Dict[str, Union[int, Literal["big"]]]] = {}
 
     @classmethod
     def get_blob_constant(cls, name: str) -> int | Literal["big"]:
