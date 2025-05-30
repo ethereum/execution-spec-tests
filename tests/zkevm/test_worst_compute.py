@@ -88,8 +88,8 @@ def test_worst_zero_param(
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(opcode)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
     code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
     assert len(code) <= MAX_CODE_SIZE
 
@@ -119,8 +119,8 @@ def test_worst_calldatasize(
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(Op.CALLDATASIZE)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
     code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
     assert len(code) <= MAX_CODE_SIZE
 
@@ -137,10 +137,6 @@ def test_worst_calldatasize(
         post={},
         tx=tx,
     )
-
-
-# TODO:
-#   Op.MSIZE,
 
 
 @pytest.mark.valid_from("Cancun")
@@ -163,8 +159,8 @@ def test_worst_callvalue(
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(Op.CALLVALUE)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
     code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
     assert len(code) <= MAX_CODE_SIZE
     code_address = pre.deploy_contract(code=bytes(code))
@@ -213,8 +209,8 @@ def test_worst_returndatasize(
     )
     code_prefix = dummy_contract_call + Op.JUMPDEST
     iter_loop = Op.POP(Op.RETURNDATASIZE)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
-    code_suffix = Op.PUSH0 + Op.JUMP
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
     assert len(code) <= MAX_CODE_SIZE
 
@@ -227,6 +223,43 @@ def test_worst_returndatasize(
     state_test(
         env=env,
         pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("mem_size", [0, 10, 10_000, 100_000])
+def test_worst_msize(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    mem_size: bool,
+):
+    """
+    Test running a block with as many MSIZE opcodes as possible.
+
+    The `mem_size` parameter indicates by how much the memory is expanded before MSIZE calls.
+    """
+    env = Environment()
+
+    # We use CALLVALUE for the parameter since is 1 gas cheaper than PUSHX.
+    code_prefix = Op.MLOAD(Op.CALLVALUE) + Op.JUMPDEST
+    iter_loop = Op.POP(Op.MSIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        value=mem_size,
         post={},
         tx=tx,
     )
