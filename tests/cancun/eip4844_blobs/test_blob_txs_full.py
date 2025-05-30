@@ -94,12 +94,11 @@ def tx_max_priority_fee_per_gas() -> int:
 
 
 @pytest.fixture
-def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
+def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[Hash]]:
     """List of blob versioned hashes derived from the blobs."""
     version_hashes: List[List[Hash]] = [
         [blob.versioned_hash for blob in blob_tx] for blob_tx in txs_blobs
     ]
-    # TODO: how to convert Hash to bytes?
     return version_hashes
 
 
@@ -157,7 +156,7 @@ def txs(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_max_priority_fee_per_gas: int,
-    txs_versioned_hashes: List[List[bytes]],
+    txs_versioned_hashes: List[List[Hash]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     txs_wrapped_blobs: List[bool],
