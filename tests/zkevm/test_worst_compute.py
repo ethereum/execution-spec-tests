@@ -58,6 +58,59 @@ def make_dup(index: int) -> Opcode:
 
 
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.ADDRESS,
+        Op.ORIGIN,
+        Op.CALLER,
+        # Op.CALLVALUE,
+        # Op.CALLDATASIZE,
+        Op.CODESIZE,
+        Op.GASPRICE,
+        # Op.RETURNDATASIZE
+        Op.COINBASE,
+        Op.TIMESTAMP,
+        Op.NUMBER,
+        Op.PREVRANDAO,
+        Op.GASLIMIT,
+        Op.CHAINID,
+        Op.BASEFEE,
+        Op.BLOBBASEFEE,
+        # Op.MSIZE,
+        Op.GAS,
+    ],
+)
+def test_worst_zero_param(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    opcode: Op,
+):
+    """Test running a block with as many zero-parameter precompile as possible."""
+    env = Environment()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(opcode)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(iter_loop)) // len(iter_loop)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
 def test_worst_keccak(
     state_test: StateTestFiller,
     pre: Alloc,
