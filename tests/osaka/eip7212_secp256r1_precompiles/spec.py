@@ -3,6 +3,8 @@
 from dataclasses import dataclass
 from typing import Sized, SupportsBytes
 
+from ethereum_test_tools import Address, Bytes
+
 
 @dataclass(frozen=True)
 class ReferenceSpec:
@@ -94,6 +96,7 @@ class Spec:
     # Other constants
     SUCCESS_RETURN_VALUE = b"\x01".rjust(32, b"\x00")
     INVALID_RETURN_VALUE = b""
+    DELEGATION_DESIGNATION = Bytes("ef0100")
 
     # Test constants (from https://github.com/C2SP/wycheproof/blob/4a6c2bf5dc4c0b67c770233ad33961ee653996a0/testvectors/ecdsa_secp256r1_sha256_test.json#L35)
     H0 = H(0xBB5A52F42F9C9261ED4361F59422A1E30036E7C32B270C8807A419FECA605023)
@@ -101,3 +104,8 @@ class Spec:
     S0 = S(0x4CD60B855D442F5B3C7B11EB6C4E0AE7525FE710FAB9AA7C77A67F79E6FADD76)
     X0 = X(0x2927B10512BAE3EDDCFE467828128BAD2903269919F7086069C8C4DF6C732838)
     Y0 = Y(0xC7787964EAAC00E5921FB1498A60F4606766B3D9685001558D1A974E7341513E)
+
+    @staticmethod
+    def delegation_designation(address: Address) -> Bytes:
+        """Return delegation designation for the given address."""
+        return Bytes(Spec.DELEGATION_DESIGNATION + bytes(address))
