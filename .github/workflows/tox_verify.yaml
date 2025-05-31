@@ -82,6 +82,22 @@ jobs:
       - name: Build html documentation with mkdocs via tox
         run: uvx --with=tox-uv tox -e mkdocs
 
+  changelog:
+    name: Validate changelog formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check bullet points end with periods
+        run: |
+          if grep -P "^-.*[^\.]$" docs/CHANGELOG.md; then
+            echo "❌ Found bullet points without periods (see above)"
+            echo "💡 All bullet points should end with a period"
+            exit 1
+          else
+            echo "✅ All bullet points properly end with periods"
+          fi
+
   pytest_framework:
     name: Run unit tests, ${{ matrix.os }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
