@@ -42,6 +42,10 @@ from .spec import Spec, ref_spec_4788
 REFERENCE_SPEC_GIT_PATH = ref_spec_4788.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4788.version
 
+pytestmark = pytest.mark.prealloc_group(
+    "beacon_root_tests", reason="Tests beacon root contract functionality using system contract"
+)
+
 
 @pytest.mark.parametrize(
     "call_gas, valid_call",
@@ -334,6 +338,7 @@ def test_beacon_root_selfdestruct(
     ],
 )
 @pytest.mark.parametrize("block_count", [10])  # All tests use 10 blocks
+@pytest.mark.prealloc_group("separate")
 @pytest.mark.valid_from("Cancun")
 def test_multi_block_beacon_root_timestamp_calls(
     blockchain_test: BlockchainTestFiller,
