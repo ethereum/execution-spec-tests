@@ -42,6 +42,10 @@ from .spec import Spec, ref_spec_4788
 REFERENCE_SPEC_GIT_PATH = ref_spec_4788.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4788.version
 
+pytestmark = pytest.mark.prealloc_group(
+    "beacon_root_tests", reason="Tests beacon root contract functionality using system contract"
+)
+
 
 @pytest.mark.parametrize(
     "call_gas, valid_call",
