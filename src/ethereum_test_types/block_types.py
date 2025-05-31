@@ -177,9 +177,7 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     def __hash__(self) -> int:
         """Hashes the environment object."""
         hash_dict = self.model_dump(exclude_none=True, by_alias=True)
-        hash_dict["extra_data"] = self.extra_data.hex()
 
-        # Sort keys for deterministic hash
         sorted_items = sorted(hash_dict.items())
         hash_string = str(sorted_items)
 
