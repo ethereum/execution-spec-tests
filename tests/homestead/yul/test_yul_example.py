@@ -37,7 +37,7 @@ def test_yul(state_test: StateTestFiller, pre: Alloc, yul: YulCompiler, fork: Fo
 
     tx = Transaction(
         ty=0x0,
-        chain_id=0x01,
+        chain_id=0xB4C,
         sender=sender,
         to=contract_address,
         gas_limit=500000,
