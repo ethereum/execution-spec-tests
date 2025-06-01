@@ -236,7 +236,7 @@ def test_transaction_intrinsic_gas_cost(
 
     tx = Transaction(
         ty=1,
-        chain_id=0x01,
+        chain_id=0xB4C,
         data=tx_data,
         to=contract_address,
         value=tx_value,

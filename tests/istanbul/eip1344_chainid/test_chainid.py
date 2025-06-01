@@ -28,15 +28,15 @@ def test_chainid(state_test: StateTestFiller, pre: Alloc):
 
     tx = Transaction(
         ty=0x0,
-        chain_id=0x01,
+        chain_id=0xB4C,
         to=contract_address,
-        gas_limit=100000000,
+        gas_limit=10000000,
         gas_price=10,
         sender=sender,
     )
 
     post = {
-        contract_address: Account(storage={"0x01": "0x01"}),
+        contract_address: Account(storage={"0x01": "0xB4C"}),
     }
 
     state_test(env=env, pre=pre, post=post, tx=tx)
