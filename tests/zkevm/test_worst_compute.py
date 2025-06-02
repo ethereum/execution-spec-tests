@@ -228,7 +228,7 @@ def test_worst_returndatasize(
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("mem_size", [100_000])
+@pytest.mark.parametrize("mem_size", [0, 1_000, 100_000, 1_000_000])
 def test_worst_msize(
     state_test: StateTestFiller,
     pre: Alloc,
