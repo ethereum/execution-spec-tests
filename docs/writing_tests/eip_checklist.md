@@ -203,4 +203,4 @@ Example output snippet:
 
 ## See Also
 
-- [EIP Testing Checklist Template](../writing_tests/checklist_templates/eip_testing_checklist_template.md) - The full checklist template
+- [EIP Testing Checklist Template](./checklist_templates/eip_testing_checklist_template.md) - The full checklist template
