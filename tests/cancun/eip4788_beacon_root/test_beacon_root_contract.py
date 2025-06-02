@@ -18,7 +18,7 @@ note: Adding a new test
 """  # noqa: E501
 
 from itertools import count
-from typing import Dict, Iterator, List
+from typing import Callable, Dict, Iterator, List
 
 import pytest
 
@@ -41,6 +41,12 @@ from .spec import Spec, ref_spec_4788
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4788.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4788.version
+
+
+def count_factory(start: int, step: int = 1) -> Callable[[], Iterator[int]]:
+    """Create a factory that returns fresh count iterators to avoid state persistence."""
+    return lambda: count(start, step)
+
 
 pytestmark = pytest.mark.prealloc_group(
     "beacon_root_tests", reason="Tests beacon root contract functionality using system contract"
@@ -298,38 +304,38 @@ def test_beacon_root_selfdestruct(
 
 
 @pytest.mark.parametrize(
-    "timestamps",
+    "timestamps_factory",
     [
         pytest.param(
-            count(
+            count_factory(
                 start=Spec.HISTORY_BUFFER_LENGTH - 5,
                 step=1,
             ),
             id="buffer_wraparound",
         ),
         pytest.param(
-            count(
+            count_factory(
                 start=12,
                 step=Spec.HISTORY_BUFFER_LENGTH,
             ),
             id="buffer_wraparound_overwrite",
         ),
         pytest.param(
-            count(
+            count_factory(
                 start=2**32,
                 step=Spec.HISTORY_BUFFER_LENGTH,
             ),
             id="buffer_wraparound_overwrite_high_timestamp",
         ),
         pytest.param(
-            count(
+            count_factory(
                 start=5,
                 step=Spec.HISTORY_BUFFER_LENGTH - 1,
             ),
             id="buffer_wraparound_no_overwrite",
         ),
         pytest.param(
-            count(
+            count_factory(
                 start=Spec.HISTORY_BUFFER_LENGTH - 3,
                 step=Spec.HISTORY_BUFFER_LENGTH + 1,
             ),
@@ -342,7 +348,7 @@ def test_beacon_root_selfdestruct(
 def test_multi_block_beacon_root_timestamp_calls(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    timestamps: Iterator[int],
+    timestamps_factory: Callable[[], Iterator[int]],
     beacon_roots: Iterator[bytes],
     block_count: int,
     call_gas: int,
@@ -361,6 +367,9 @@ def test_multi_block_beacon_root_timestamp_calls(
     that the beacon root is correct for all of them if the timestamp is supposed to be in the
     buffer, which might have been overwritten by a later block.
     """
+    # Create fresh iterator to avoid state persistence between test phases
+    timestamps = timestamps_factory()
+
     blocks: List[Block] = []
     post = {}
 
@@ -460,15 +469,15 @@ def test_multi_block_beacon_root_timestamp_calls(
 
 
 @pytest.mark.parametrize(
-    "timestamps",
-    [pytest.param(count(start=1000, step=1000), id="fork_transition")],
+    "timestamps_factory",
+    [pytest.param(count_factory(start=1000, step=1000), id="fork_transition")],
 )
 @pytest.mark.parametrize("block_count", [20])
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_beacon_root_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    timestamps: Iterator[int],
+    timestamps_factory: Callable[[], Iterator[int]],
     beacon_roots: Iterator[bytes],
     block_count: int,
     call_gas: int,
@@ -479,6 +488,9 @@ def test_beacon_root_transition(
     Tests the fork transition to cancun and verifies that blocks with timestamp lower than the
     transition timestamp do not contain beacon roots in the pre-deployed contract.
     """
+    # Create fresh iterator to avoid state persistence between test phases
+    timestamps = timestamps_factory()
+
     blocks: List[Block] = []
     post = {}
 
