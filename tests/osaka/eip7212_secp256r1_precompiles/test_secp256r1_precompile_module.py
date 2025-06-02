@@ -29,6 +29,7 @@ pytestmark = [
     vectors_from_file("secp256r1_test.json"),
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/normal")
 def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
@@ -54,6 +55,8 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("new_precompile/test/value_transfer/fee/over")
+@pytest.mark.eip_checklist("new_precompile/test/value_transfer/fee/under")
 def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile gas requirements."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
@@ -78,6 +81,9 @@ def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transactio
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/delegate")
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/static")
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/callcode")
 def test_call_types(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -99,6 +105,7 @@ def test_call_types(
         ),
     ],
 )
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/tx_entry")
 def test_precompile_as_tx_entry_point(
     state_test: StateTestFiller,
     pre: Alloc,
