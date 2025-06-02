@@ -123,7 +123,7 @@ def caller_tx(sender: EOA, caller_address: Address) -> Transaction:
         to=caller_address,
         value=1,
         gas_limit=500000,
-        gas_price=7,
+        gas_price=700,
         sender=sender,
     )
 
