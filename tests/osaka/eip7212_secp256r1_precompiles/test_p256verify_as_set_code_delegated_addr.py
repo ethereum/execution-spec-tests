@@ -31,6 +31,7 @@ auth_account_start_balance = 0
 
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.with_all_precompiles
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/set_code")
 def test_p256verify_as_set_code_delegated_addr(
     state_test: StateTestFiller,
     pre: Alloc,
