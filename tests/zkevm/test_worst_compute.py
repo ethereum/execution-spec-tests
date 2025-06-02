@@ -237,25 +237,25 @@ def test_worst_returndatasize(
                 args_size=1,
             )
 
-        code_prefix = dummy_contract_call + Op.JUMPDEST
-        iter_loop = Op.POP(Op.RETURNDATASIZE)
-        code_suffix = Op.JUMP(len(code_prefix) - 1)
-        code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-        code = code_prefix + iter_loop * code_iter_len + code_suffix
-        assert len(code) <= MAX_CODE_SIZE
+    code_prefix = dummy_contract_call + Op.JUMPDEST
+    iter_loop = Op.POP(Op.RETURNDATASIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
 
-        tx = Transaction(
-            to=pre.deploy_contract(code=bytes(code)),
-            gas_limit=env.gas_limit,
-            sender=pre.fund_eoa(),
-        )
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
 
-        state_test(
-            env=env,
-            pre=pre,
-            post={},
-            tx=tx,
-        )
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
 
 
 @pytest.mark.valid_from("Cancun")
