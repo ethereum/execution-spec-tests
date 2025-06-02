@@ -82,7 +82,7 @@ def test_worst_zero_param(
     pre: Alloc,
     opcode: Op,
 ):
-    """Test running a block with as many zero-parameter precompile as possible."""
+    """Test running a block with as many zero-parameter opcodes as possible."""
     env = Environment()
 
     code_prefix = Op.JUMPDEST
