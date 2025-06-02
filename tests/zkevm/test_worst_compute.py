@@ -198,7 +198,6 @@ class ReturnDataStyle(Enum):
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("non_zero_size", [True, False])
 @pytest.mark.parametrize(
     "return_data_style",
     [
@@ -207,35 +206,67 @@ class ReturnDataStyle(Enum):
         ReturnDataStyle.IDENTITY,
     ],
 )
-def test_worst_returndatasize(
+@pytest.mark.parametrize("returned_size", [True, False])
+def test_worst_returndatasize_nonzero(
     state_test: StateTestFiller,
     pre: Alloc,
-    non_zero_size: bool,
+    returned_size: bool,
     return_data_style: ReturnDataStyle,
 ):
     """
-    Test running a block with as many RETURNDATASIZE opcodes as possible.
+    Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero
+    buffer as possible.
 
-    The `non_zero_size` parameter controls whether opcode must return non-zero value.
+    The `returned_size` parameter indicates the size of the returned data buffer.
     The `return_data_style` indicates how returned data is produced for the opcode caller.
     """
     env = Environment()
 
     dummy_contract_call = Bytecode()
-    if non_zero_size:
-        if return_data_style != ReturnDataStyle.IDENTITY:
-            dummy_contract_call = Op.STATICCALL(
-                address=pre.deploy_contract(
-                    code=Op.REVERT(0, 1)
-                    if return_data_style == ReturnDataStyle.REVERT
-                    else Op.RETURN(0, 1)
-                )
+    if return_data_style != ReturnDataStyle.IDENTITY:
+        dummy_contract_call = Op.STATICCALL(
+            address=pre.deploy_contract(
+                code=Op.REVERT(0, returned_size)
+                if return_data_style == ReturnDataStyle.REVERT
+                else Op.RETURN(0, returned_size)
             )
-        else:
-            dummy_contract_call = Op.MSTORE8(0, 1) + Op.STATICCALL(
-                address=0x04,  # Identity precompile
-                args_size=1,
-            )
+        )
+    else:
+        dummy_contract_call = Op.MSTORE8(0, 1) + Op.STATICCALL(
+            address=0x04,  # Identity precompile
+            args_size=returned_size,
+        )
+
+    code_prefix = dummy_contract_call + Op.JUMPDEST
+    iter_loop = Op.POP(Op.RETURNDATASIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= MAX_CODE_SIZE
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_returndatasize_zero(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    env = Environment()
+
+    dummy_contract_call = Bytecode()
 
     code_prefix = dummy_contract_call + Op.JUMPDEST
     iter_loop = Op.POP(Op.RETURNDATASIZE)
