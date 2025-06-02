@@ -98,7 +98,7 @@ def test_account_storage_warm_cold_state(
 
     tx = Transaction(
         ty=1,
-        chain_id=0x01,
+        chain_id=0xB4C,
         data=tx_data,
         to=contract_address,
         gas_limit=tx_gas_limit,
