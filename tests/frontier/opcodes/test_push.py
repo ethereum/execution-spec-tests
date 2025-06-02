@@ -79,9 +79,10 @@ def test_push(state_test: StateTestFiller, fork: Fork, pre: Alloc, push_opcode: 
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/975"],
 )
+# push_opcode is sanitized: https://github.com/ethereum/execution-spec-tests/issues/1699
 @pytest.mark.parametrize(
     "push_opcode",
-    [getattr(Op, f"PUSH{i}") for i in range(1, 33)],
+    [getattr(Op, f"PUSH{i}") for i in range(1, 23)],
     ids=lambda op: str(op),
 )
 @pytest.mark.parametrize("stack_height", range(1024, 1026))
