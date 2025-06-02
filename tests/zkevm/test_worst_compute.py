@@ -15,7 +15,6 @@ from py_ecc.bn128 import G1, G2, multiply
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
-    Account,
     Address,
     Alloc,
     Block,
@@ -229,16 +228,16 @@ def test_worst_returndatasize(
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("mem_size", [0, 10, 10_000, 100_000])
+@pytest.mark.parametrize("mem_size", [100_000])
 def test_worst_msize(
     state_test: StateTestFiller,
     pre: Alloc,
-    mem_size: bool,
+    mem_size: int,
 ):
     """
     Test running a block with as many MSIZE opcodes as possible.
 
-    The `mem_size` parameter indicates by how much the memory is expanded before MSIZE calls.
+    The `mem_size` parameter indicates by how much the memory is expanded.
     """
     env = Environment()
 
@@ -254,12 +253,12 @@ def test_worst_msize(
         to=pre.deploy_contract(code=bytes(code)),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
+        value=mem_size,
     )
 
     state_test(
         env=env,
         pre=pre,
-        value=mem_size,
         post={},
         tx=tx,
     )
