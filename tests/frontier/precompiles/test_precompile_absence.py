@@ -27,6 +27,7 @@ RETURNDATASIZE_OFFSET = 0x10000000000000000  # Must be greater than UPPER_BOUND
     ],
 )
 @pytest.mark.valid_from("Byzantium")
+@pytest.mark.skip(reason="https://github.com/ethereum/execution-spec-tests/issues/1700")
 def test_precompile_absence(
     state_test: StateTestFiller,
     pre: Alloc,
