@@ -366,15 +366,15 @@ class EIPChecklistCollector:
                 continue
 
             if checklist_doc_gen:
-                path = eip.path
-                assert path is not None
-                checklist_props[path] = EipChecklistPageProps(
+                assert eip.path is not None
+                checklist_path = eip.path / "checklist.md"
+                checklist_props[checklist_path] = EipChecklistPageProps(
                     title=f"EIP-{eip.number} Test Checklist",
                     source_code_url="",
                     target_or_valid_fork="mainnet",
-                    path=path,
+                    path=checklist_path,
                     pytest_node_id="",
-                    package_name="eip_checklist",
+                    package_name="checklist",
                     eip=eip.number,
                     lines=eip.generate_filled_checklist_lines(),
                 )
