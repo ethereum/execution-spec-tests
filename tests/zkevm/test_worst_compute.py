@@ -39,6 +39,7 @@ REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 MAX_CODE_SIZE = 24 * 1024
+MAX_STACK_SIZE = 1024
 KECCAK_RATE = 136
 
 
@@ -1193,6 +1194,66 @@ def test_worst_calldataload(
         sender=pre.fund_eoa(),
     )
 
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.slow()
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        # Environment Opcodes
+        pytest.param(Op.ADDRESS, id="ADDRESS"),
+        pytest.param(Op.ORIGIN, id="ORIGIN"),
+        pytest.param(Op.CALLER, id="CALLER"),
+        pytest.param(Op.CALLVALUE, id="CALLVALUE"),
+        pytest.param(Op.CALLDATASIZE, id="CALLDATASIZE"),
+        pytest.param(Op.CALLDATACOPY, id="CALLDATACOPY"),
+        pytest.param(Op.CALLDATALOAD, id="CALLDATALOAD"),
+        pytest.param(Op.CALLDATALOAD, id="CALLDATALOAD"),
+        # Block & Chain Info
+        pytest.param(Op.COINBASE, id="COINBASE"),
+        pytest.param(Op.TIMESTAMP, id="TIMESTAMP"),
+        pytest.param(Op.NUMBER, id="NUMBER"),
+        pytest.param(Op.PREVRANDAO, id="PREVRANDAO"),
+        pytest.param(Op.GASLIMIT, id="GASLIMIT"),
+        pytest.param(Op.CHAINID, id="CHAINID"),
+        pytest.param(Op.BASEFEE, id="BASEFEE"),
+        # Blob Opcodes
+        pytest.param(Op.BLOBBASEFEE, id="BLOBBASEFEE"),
+        # Stack & Memory Opcodes
+        pytest.param(Op.MSIZE, id="MSIZE"),
+        pytest.param(Op.GAS, id="GAS"),
+        pytest.param(Op.PUSH0, id="PUSH0"),
+        # Control Flow Opcodes
+        pytest.param(Op.PC, id="PC"),
+    ],
+)
+def test_worst_opcode_in_loop(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    opcode: Op,
+):
+    """Test running a loop of a single opcode."""
+    env = Environment()
+
+    code_prefix = sum([opcode]) * MAX_STACK_SIZE
+
+    code_seq = Op.POP + opcode
+    code_body = code_seq * ((MAX_CODE_SIZE - MAX_STACK_SIZE) // len(code_seq))
+    code = code_prefix + code_body
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
     state_test(
         env=env,
         pre=pre,
