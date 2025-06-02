@@ -7,6 +7,7 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 
 import math
 import random
+from enum import Enum, auto
 from typing import cast
 
 import pytest
@@ -188,44 +189,73 @@ def test_worst_callvalue(
     )
 
 
+class ReturnDataStyle(Enum):
+    """Helper enum to specify return data is returned to the caller."""
+
+    RETURN = auto()
+    REVERT = auto()
+    IDENTITY = auto()
+
+
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("non_zero_size", [True, False])
+@pytest.mark.parametrize(
+    "return_data_style",
+    [
+        ReturnDataStyle.RETURN,
+        ReturnDataStyle.REVERT,
+        ReturnDataStyle.IDENTITY,
+    ],
+)
 def test_worst_returndatasize(
     state_test: StateTestFiller,
     pre: Alloc,
     non_zero_size: bool,
+    return_data_style: ReturnDataStyle,
 ):
     """
     Test running a block with as many RETURNDATASIZE opcodes as possible.
 
     The `non_zero_size` parameter controls whether opcode must return non-zero value.
+    The `return_data_style` indicates how returned data is produced for the opcode caller.
     """
     env = Environment()
 
-    dummy_contract_call = (
-        Op.STATICCALL(address=pre.deploy_contract(code=Op.RETURN(0, 1)))
-        if non_zero_size
-        else Bytecode()
-    )
-    code_prefix = dummy_contract_call + Op.JUMPDEST
-    iter_loop = Op.POP(Op.RETURNDATASIZE)
-    code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    dummy_contract_call = Bytecode()
+    if non_zero_size:
+        if return_data_style == ReturnDataStyle.IDENTITY:
+            dummy_contract_call = Op.STATICCALL(
+                address=pre.deploy_contract(
+                    code=Op.REVERT(0, 1)
+                    if return_data_style == ReturnDataStyle.REVERT
+                    else Op.RETURN(0, 1)
+                )
+            )
+        else:
+            dummy_contract_call = Op.MSTORE8(0, 1) + Op.STATICCALL(
+                address=0x04,  # Identity precompile
+                args_size=1,
+            )
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=bytes(code)),
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+        code_prefix = dummy_contract_call + Op.JUMPDEST
+        iter_loop = Op.POP(Op.RETURNDATASIZE)
+        code_suffix = Op.JUMP(len(code_prefix) - 1)
+        code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+        code = code_prefix + iter_loop * code_iter_len + code_suffix
+        assert len(code) <= MAX_CODE_SIZE
 
-    state_test(
-        env=env,
-        pre=pre,
-        post={},
-        tx=tx,
-    )
+        tx = Transaction(
+            to=pre.deploy_contract(code=bytes(code)),
+            gas_limit=env.gas_limit,
+            sender=pre.fund_eoa(),
+        )
+
+        state_test(
+            env=env,
+            pre=pre,
+            post={},
+            tx=tx,
+        )
 
 
 @pytest.mark.valid_from("Cancun")
