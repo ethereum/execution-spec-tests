@@ -39,11 +39,6 @@ class ModExpInput(TestParameterGroup):
         """Return the length of the modulus."""
         return Bytes(len(self.modulus).to_bytes(32, "big"))
 
-    @property
-    def exponent_value(self) -> int:
-        """Return the value of the exponent."""
-        return int.from_bytes(self.exponent, byteorder="big")
-
     def __bytes__(self):
         """Generate input for the MODEXP precompile."""
         return (

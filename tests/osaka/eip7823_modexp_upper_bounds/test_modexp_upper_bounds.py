@@ -26,7 +26,7 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
         len(mod_exp_input.base),
         len(mod_exp_input.modulus),
         len(mod_exp_input.exponent),
-        mod_exp_input.exponent_value,
+        mod_exp_input.exponent,
     )
     return calculated_gas
 

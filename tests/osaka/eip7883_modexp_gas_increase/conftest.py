@@ -61,7 +61,7 @@ def precompile_gas(fork: Fork, vector: Vector) -> int:
         len(vector.input.base),
         len(vector.input.modulus),
         len(vector.input.exponent),
-        vector.input.exponent_value,
+        vector.input.exponent,
     )
     assert calculated_gas == expected_gas, (
         f"Calculated gas {calculated_gas} != Vector gas {expected_gas}"
