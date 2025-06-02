@@ -223,7 +223,7 @@ def test_worst_returndatasize(
 
     dummy_contract_call = Bytecode()
     if non_zero_size:
-        if return_data_style == ReturnDataStyle.IDENTITY:
+        if return_data_style != ReturnDataStyle.IDENTITY:
             dummy_contract_call = Op.STATICCALL(
                 address=pre.deploy_contract(
                     code=Op.REVERT(0, 1)
