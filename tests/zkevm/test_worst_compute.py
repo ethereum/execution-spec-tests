@@ -75,6 +75,7 @@ def make_dup(index: int) -> Opcode:
         Op.BASEFEE,
         Op.BLOBBASEFEE,
         Op.GAS,
+        # Note that other 0-param opcodes are covered in separate tests.
     ],
 )
 def test_worst_zero_param(
