@@ -99,9 +99,7 @@ def test_worst_bytecode_single_opcode(
 
     # Set the block gas limit to a relative high value to ensure the code deposit tx
     # fits in the block (there is enough gas available in the block to execute this)
-    # TODO: verify this, I think we can just do `code_deposit_gas_minimum * 2 * num_contracts`?
-    # and then take the max of this and the attack gas limit
-    env = Environment(gas_limit=attack_gas_limit * 2 * (code_deposit_gas_minimum // loop_cost + 1))
+    env = Environment(gas_limit=code_deposit_gas_minimum * 2 * num_contracts)
 
     # The initcode will take its address as a starting point to the input to the keccak
     # hash function.
