@@ -206,11 +206,11 @@ class ReturnDataStyle(Enum):
         ReturnDataStyle.IDENTITY,
     ],
 )
-@pytest.mark.parametrize("returned_size", [True, False])
+@pytest.mark.parametrize("returned_size", [1, 0])
 def test_worst_returndatasize_nonzero(
     state_test: StateTestFiller,
     pre: Alloc,
-    returned_size: bool,
+    returned_size: int,
     return_data_style: ReturnDataStyle,
 ):
     """
