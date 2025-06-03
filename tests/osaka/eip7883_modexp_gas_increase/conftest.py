@@ -5,7 +5,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Address, Alloc, Transaction
+from ethereum_test_tools import Account, Address, Alloc, Storage, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import Vector
@@ -19,7 +19,7 @@ def call_opcode() -> Op:
 
 
 @pytest.fixture
-def gas_measure_contract(pre: Alloc, call_opcode: Op, fork: Fork) -> Address:
+def gas_measure_contract(pre: Alloc, call_opcode: Op, fork: Fork, vector: Vector) -> Address:
     """Deploys a contract that measures ModExp gas consumption."""
     call_code = call_opcode(
         address=Spec.MODEXP_ADDRESS,
@@ -47,8 +47,12 @@ def gas_measure_contract(pre: Alloc, call_opcode: Op, fork: Fork) -> Address:
         + Op.SUB  # [gas_start - (gas_end + extra_gas)]
         + Op.PUSH1[1]  # [gas_start - (gas_end + extra_gas), 1]
         + Op.SSTORE  # []
-        + Op.STOP()  # []
     )
+    measure_code += Op.SSTORE(2, Op.RETURNDATASIZE())
+    for i in range(len(vector.expected) // 32):
+        measure_code += Op.RETURNDATACOPY(0, i * 32, 32)
+        measure_code += Op.SSTORE(i + 3, Op.MLOAD(0))
+    measure_code += Op.STOP()
     return pre.deploy_contract(measure_code)
 
 
@@ -82,11 +86,16 @@ def tx(
     intrinsic_gas_cost = intrinsic_gas_cost_calc(calldata=vector.input)
     memory_expansion_gas_calc = fork.memory_expansion_gas_calculator()
     memory_expansion_gas = memory_expansion_gas_calc(new_bytes=len(bytes(vector.input)))
+    sstore_gas = fork.gas_costs().G_STORAGE_SET * (len(vector.expected) // 32)
     return Transaction(
         sender=pre.fund_eoa(),
         to=gas_measure_contract,
         data=vector.input,
-        gas_limit=intrinsic_gas_cost + precompile_gas + memory_expansion_gas + 100_000,
+        gas_limit=intrinsic_gas_cost
+        + precompile_gas
+        + memory_expansion_gas
+        + sstore_gas
+        + 100_000,
     )
 
 
@@ -94,13 +103,13 @@ def tx(
 def post(
     gas_measure_contract: Address,
     precompile_gas: int,
+    vector: Vector,
 ) -> Dict[Address, Account]:
     """Return expected post state with gas consumption check."""
-    return {
-        gas_measure_contract: Account(
-            storage={
-                0: 1,  # Call should succeed
-                1: precompile_gas,
-            }
-        )
-    }
+    storage = Storage()
+    storage[0] = 1
+    storage[1] = precompile_gas
+    storage[2] = len(vector.expected)
+    for i in range(len(vector.expected) // 32):
+        storage[i + 3] = vector.expected[i * 32 : (i + 1) * 32]
+    return {gas_measure_contract: Account(storage=storage)}
