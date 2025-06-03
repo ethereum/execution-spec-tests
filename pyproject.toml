@@ -101,6 +101,7 @@ evm_bytes = "cli.evm_bytes:evm_bytes"
 hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
 fillerconvert = "cli.fillerconvert.fillerconvert:main"
+groupstats = "cli.show_pre_alloc_group_stats:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
