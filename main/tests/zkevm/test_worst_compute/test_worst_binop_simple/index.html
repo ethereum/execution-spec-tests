@@ -20335,7 +20335,7 @@
 
 
 <h1 id="test_worst_binop_simple"><code>test_worst_binop_simple()</code><a class="headerlink" href="#test_worst_binop_simple" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/72df3f5bc2b35e94f8e23b1293a3fb01b7cfabe4/tests/zkevm/test_worst_compute.py#L826"><code>tests/zkevm/test_worst_compute.py::test_worst_binop_simple@72df3f5b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/351c4a1fd10a4b241e4ea1c7301d91783ebc4553/tests/zkevm/test_worst_compute.py#L826"><code>tests/zkevm/test_worst_compute.py::test_worst_binop_simple@351c4a1f</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_binop_simple --fork Prague</span>
@@ -20507,7 +20507,27 @@ balanced by the DUP2 instruction.</p>
 <span class="normal">974</span>
 <span class="normal">975</span>
 <span class="normal">976</span>
-<span class="normal">977</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">977</span>
+<span class="normal">978</span>
+<span class="normal">979</span>
+<span class="normal">980</span>
+<span class="normal">981</span>
+<span class="normal">982</span>
+<span class="normal">983</span>
+<span class="normal">984</span>
+<span class="normal">985</span>
+<span class="normal">986</span>
+<span class="normal">987</span>
+<span class="normal">988</span>
+<span class="normal">989</span>
+<span class="normal">990</span>
+<span class="normal">991</span>
+<span class="normal">992</span>
+<span class="normal">993</span>
+<span class="normal">994</span>
+<span class="normal">995</span>
+<span class="normal">996</span>
+<span class="normal">997</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,opcode_args&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -20533,16 +20553,36 @@ balanced by the DUP2 instruction.</p>
             <span class="p">(</span>
                 <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
                 <span class="c1"># We want the first divisor to be slightly bigger than 2**128:</span>
-                <span class="c1"># this is the worst case for the division algorithm.</span>
+                <span class="c1"># this is the worst case for the division algorithm with optimized paths</span>
+                <span class="c1"># for division by 1 and 2 words.</span>
                 <span class="mh">0x100000000000000000000000000000033</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">),</span>
         <span class="p">(</span>
-            <span class="c1"># Same as DIV, but the numerator made positive, and the divisor made negative.</span>
+            <span class="c1"># This has the cycle of 2, see above.</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">DIV</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
+                <span class="c1"># We want the first divisor to be slightly bigger than 2**64:</span>
+                <span class="c1"># this is the worst case for the division algorithm with an optimized path</span>
+                <span class="c1"># for division by 1 word.</span>
+                <span class="mh">0x10000000000000033</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="c1"># Same as DIV-0, but the numerator made positive, and the divisor made negative.</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">SDIV</span><span class="p">,</span>
             <span class="p">(</span>
                 <span class="mh">0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
                 <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCD</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="c1"># Same as DIV-1, but the numerator made positive, and the divisor made negative.</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">SDIV</span><span class="p">,</span>
+            <span class="p">(</span>
+                <span class="mh">0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><span class="p">,</span>
+                <span class="mh">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFCD</span><span class="p">,</span>
             <span class="p">),</span>
         <span class="p">),</span>
         <span class="p">(</span>
@@ -20747,8 +20787,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-]">
-                    ...fork_Cancun-state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-0]">
+                    ...fork_Cancun-state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -20757,12 +20797,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-]">
-                    ...fork_Cancun-state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-1]">
+                    ...fork_Cancun-state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-0]">
+                    ...fork_Cancun-state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-1]">
+                    ...fork_Cancun-state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -20957,8 +21017,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -20967,12 +21027,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1]">
+                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -21167,8 +21247,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-]">
-                    ...fork_Prague-state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-0]">
+                    ...fork_Prague-state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -21177,12 +21257,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-]">
-                    ...fork_Prague-state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_DIV-1]">
+                    ...fork_Prague-state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-0]">
+                    ...fork_Prague-state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-state_test-opcode_SDIV-1]">
+                    ...fork_Prague-state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -21377,8 +21477,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-0]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -21387,12 +21487,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-]">
-                    ...fork_Prague-blockchain_test_from_state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_DIV-1]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1]">
+                    ...fork_Prague-blockchain_test_from_state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -21587,8 +21707,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-]">
-                    ...fork_Osaka-state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-0]">
+                    ...fork_Osaka-state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -21597,12 +21717,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-]">
-                    ...fork_Osaka-state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_DIV-1]">
+                    ...fork_Osaka-state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-0]">
+                    ...fork_Osaka-state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-state_test-opcode_SDIV-1]">
+                    ...fork_Osaka-state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -21797,8 +21937,8 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DIV-0
                 </abbr>
             </td>
                         <td>DIV</td>
@@ -21807,12 +21947,32 @@ balanced by the DUP2 instruction.</p>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-]">
-                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_DIV-1
+                </abbr>
+            </td>
+                        <td>DIV</td>
+                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-0
                 </abbr>
             </td>
                         <td>SDIV</td>
                         <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/zkevm/test_worst_compute.py::test_worst_binop_simple[fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-opcode_SDIV-1
+                </abbr>
+            </td>
+                        <td>SDIV</td>
+                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
