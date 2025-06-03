@@ -1162,11 +1162,11 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
-def test_worst_jumpi_fallthough(
+def test_worst_jumpi_fallthrough(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Test running a JUMPI-intensive contract."""
+    """Test running a JUMPI-intensive contract with fallthrough."""
     env = Environment()
 
     def jumpi_seq():
@@ -1175,7 +1175,7 @@ def test_worst_jumpi_fallthough(
     bytes_per_seq = len(jumpi_seq())
     seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
 
-    # Create and deploy the jump-intensive contract
+    # Create and deploy the jumpi-intensive contract
     jumpis_code = jumpi_seq() * seqs_per_call
     jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
 
