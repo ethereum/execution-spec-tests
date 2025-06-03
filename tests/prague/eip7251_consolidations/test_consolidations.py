@@ -656,7 +656,7 @@ pytestmark = pytest.mark.valid_from("Prague")
         ),
     ],
 )
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "consolidation_requests", reason="Tests standard consolidation request functionality"
 )
 def test_consolidation_requests(
@@ -854,7 +854,7 @@ def test_consolidation_requests(
     ],
 )
 @pytest.mark.exception_test
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "consolidation_requests", reason="Tests standard consolidation request functionality"
 )
 def test_consolidation_requests_negative(

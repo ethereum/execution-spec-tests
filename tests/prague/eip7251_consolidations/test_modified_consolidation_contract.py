@@ -85,7 +85,7 @@ def consolidation_list_with_custom_fee(n: int) -> List[ConsolidationRequest]:  #
         ),
     ],
 )
-@pytest.mark.prealloc_group("separate", reason="Deploys custom consolidation contract bytecode")
+@pytest.mark.pre_alloc_group("separate", reason="Deploys custom consolidation contract bytecode")
 def test_extra_consolidations(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -138,7 +138,7 @@ def test_extra_consolidations(
 @pytest.mark.parametrize(
     "system_contract", [Address(Spec_EIP7251.CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS)]
 )
-@pytest.mark.prealloc_group("separate", reason="Deploys custom consolidation contract bytecode")
+@pytest.mark.pre_alloc_group("separate", reason="Deploys custom consolidation contract bytecode")
 @generate_system_contract_error_test(
     max_gas_limit=Spec_EIP7251.SYSTEM_CALL_GAS_LIMIT,
 )

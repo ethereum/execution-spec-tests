@@ -53,7 +53,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7702.version
 
 pytestmark = [
     pytest.mark.valid_from("Prague"),
-    pytest.mark.prealloc_group(
+    pytest.mark.pre_alloc_group(
         "set_code_tests", reason="Tests EIP-7702 set code transactions with system contracts"
     ),
 ]

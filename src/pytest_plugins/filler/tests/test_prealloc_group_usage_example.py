@@ -1,5 +1,5 @@
 """
-Example usage of the prealloc_group marker.
+Example usage of the pre_alloc_group marker.
 
 This file demonstrates how tests would use the marker in practice.
 Note: This is just documentation, not executable tests.
@@ -9,7 +9,7 @@ import pytest
 
 
 # Example 1: Test that deploys beacon root contract with hardcoded deployer
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "separate", reason="Deploys beacon root contract using actual hardcoded deployer address"
 )
 def test_beacon_root_contract_deployment():
@@ -20,7 +20,7 @@ def test_beacon_root_contract_deployment():
 
 
 # Example 2: Test with custom consolidation contract
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "custom_consolidation", reason="Deploys custom consolidation contract with different bytecode"
 )
 def test_custom_consolidation_contract():
@@ -31,7 +31,7 @@ def test_custom_consolidation_contract():
 
 
 # Example 3: Group related tests that need custom contracts
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "custom_consolidation", reason="Uses same custom consolidation contract setup"
 )
 def test_custom_consolidation_edge_cases():

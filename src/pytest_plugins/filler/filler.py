@@ -242,16 +242,16 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
     test_group.addoption(
-        "--generate-shared-alloc",
+        "--generate-shared-pre",
         action="store_true",
-        dest="generate_shared_alloc",
+        dest="generate_shared_pre",
         default=False,
         help="Generate shared pre-allocation state (phase 1 only).",
     )
     test_group.addoption(
-        "--use-shared-alloc",
+        "--use-shared-pre",
         action="store_true",
-        dest="use_shared_alloc",
+        dest="use_shared_pre",
         default=False,
         help="Fill tests using an existing shared pre-allocation state (phase 2 only).",
     )
@@ -286,18 +286,18 @@ def pytest_sessionstart(session: pytest.Session):
     load the shared pre-allocation state for phase 2 execution.
     """
     # Initialize empty shared pre-state container for phase 1
-    if session.config.getoption("generate_shared_alloc"):
+    if session.config.getoption("generate_shared_pre"):
         session.config.shared_pre_state = SharedPreState(root={})  # type: ignore[attr-defined]
 
     # Load the pre-state for phase 2
-    if session.config.getoption("use_shared_alloc"):
-        shared_prealloc_path = session.config.fixture_output.shared_prealloc_path  # type: ignore[attr-defined]
-        if shared_prealloc_path.exists():
-            with open(shared_prealloc_path) as f:
+    if session.config.getoption("use_shared_pre"):
+        shared_pre_alloc_path = session.config.fixture_output.shared_pre_alloc_path  # type: ignore[attr-defined]
+        if shared_pre_alloc_path.exists():
+            with open(shared_pre_alloc_path) as f:
                 session.config.shared_pre_state = SharedPreState.from_raw_dict(json.load(f))  # type: ignore[attr-defined]
         else:
             pytest.exit(
-                f"Shared prealloc file not found: {shared_prealloc_path}. "
+                f"Shared pre-alloc file not found: {shared_pre_alloc_path}. "
                 "Run phase 1 with --generate-shared-alloc first.",
                 returncode=pytest.ExitCode.USAGE_ERROR,
             )
@@ -338,7 +338,7 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and not config.getoption("generate_shared_alloc")
+        and not config.getoption("generate_shared_pre")
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
@@ -415,7 +415,7 @@ def pytest_terminal_summary(
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (shared pre-allocation generation)
-        if config.getoption("generate_shared_alloc"):
+        if config.getoption("generate_shared_pre"):
             # Generate summary stats
             shared_pre_state = getattr(config, "shared_pre_state", None)
             if shared_pre_state:
@@ -878,7 +878,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # Phase 1: Generate shared pre-state
                 if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
-                    "generate_shared_alloc"
+                    "generate_shared_pre"
                 ):
                     self.update_shared_pre_state(
                         request.config.shared_pre_state, fork, request.node.nodeid
@@ -888,7 +888,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 # Phase 2: Use shared pre-state (only for BlockchainEngineReorgFixture)
                 pre_alloc_hash = None
                 if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
-                    "use_shared_alloc"
+                    "use_shared_pre"
                 ):
                     pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
                     if pre_alloc_hash not in request.config.shared_pre_state:
@@ -898,7 +898,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                         raise ValueError(
                             f"Pre-allocation hash {pre_alloc_hash} not found in shared pre-state. "
                             f"Please check the shared pre-state file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-shared-alloc) was run before phase 2."
+                            "Make sure phase 1 (--generate-shared-pre) was run before phase 2."
                         )
                     group = request.config.shared_pre_state[pre_alloc_hash]
                     if group.pre is None:
@@ -922,7 +922,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 # Post-process for reorg format (add pre_hash and state diff)
                 if (
                     fixture_format is BlockchainEngineReorgFixture
-                    and request.config.getoption("use_shared_alloc")
+                    and request.config.getoption("use_shared_pre")
                     and pre_alloc_hash is not None
                 ):
                     fixture.pre_hash = pre_alloc_hash
@@ -972,10 +972,10 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
-            generate_shared_alloc = metafunc.config.getoption("generate_shared_alloc", False)
-            use_shared_alloc = metafunc.config.getoption("use_shared_alloc", False)
+            generate_shared_pre = metafunc.config.getoption("generate_shared_pre", False)
+            use_shared_pre = metafunc.config.getoption("use_shared_pre", False)
 
-            if generate_shared_alloc or use_shared_alloc:
+            if generate_shared_pre or use_shared_pre:
                 # When shared alloc flags are set, only generate BlockchainEngineReorgFixture
                 supported_formats = [
                     format_item
@@ -1086,12 +1086,12 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
 
     # Save shared pre-state after phase 1
-    if session.config.getoption("generate_shared_alloc") and hasattr(
+    if session.config.getoption("generate_shared_pre") and hasattr(
         session.config, "shared_pre_state"
     ):
-        shared_prealloc_path = fixture_output.shared_prealloc_path
-        shared_prealloc_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(shared_prealloc_path, "w") as f:
+        shared_pre_alloc_path = fixture_output.shared_pre_alloc_path
+        shared_pre_alloc_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(shared_pre_alloc_path, "w") as f:
             f.write(session.config.shared_pre_state.model_dump_json(by_alias=True, indent=2))
 
     if fixture_output.is_stdout or is_help_or_collectonly_mode(session.config):
@@ -1103,7 +1103,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
 
     # Generate index file for all produced fixtures.
     if session.config.getoption("generate_index") and not session.config.getoption(
-        "generate_shared_alloc"
+        "generate_shared_pre"
     ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
