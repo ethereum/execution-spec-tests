@@ -757,14 +757,14 @@ def test_worst_jumps(
     """Test running a JUMP-intensive contract."""
     env = Environment()
 
-    def jump_seq():
-        return Op.JUMP(Op.ADD(Op.PC, 1)) + Op.JUMPDEST
+    def jump_seq(dest: int):
+        return Op.JUMP(Op.PUSH2(dest)) + Op.JUMPDEST
 
-    bytes_per_seq = len(jump_seq())
+    bytes_per_seq = len(jump_seq(0))
     seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
 
     # Create and deploy the jump-intensive contract
-    jumps_code = sum([jump_seq() for _ in range(seqs_per_call)])
+    jumps_code = sum([jump_seq(4 + 5 * i) for i in range(seqs_per_call)])
     jumps_address = pre.deploy_contract(code=bytes(jumps_code))
 
     # Call the contract repeatedly until gas runs out.
