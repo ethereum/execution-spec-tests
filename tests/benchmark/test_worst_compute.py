@@ -1162,7 +1162,7 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
-def test_worst_jumpis(
+def test_worst_jumpi_fallthough(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
@@ -1170,13 +1170,13 @@ def test_worst_jumpis(
     env = Environment()
 
     def jumpi_seq():
-        return Op.JUMPI(Op.ADD(Op.PC, 1), Op.PUSH0)
+        return Op.JUMPI(Op.PUSH0, Op.PUSH0)
 
     bytes_per_seq = len(jumpi_seq())
     seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
 
     # Create and deploy the jump-intensive contract
-    jumpis_code = sum([jumpi_seq() for _ in range(seqs_per_call)])
+    jumpis_code = jumpi_seq() * seqs_per_call
     jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
 
     # Call the contract repeatedly until gas runs out.
