@@ -466,7 +466,7 @@ def test_worst_precompile_only_data_input(
 
     calldata = Op.CODECOPY(0, 0, optimal_input_length)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, address, 0, optimal_input_length, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -485,10 +485,7 @@ def test_worst_precompile_only_data_input(
 
 
 @pytest.mark.valid_from("Cancun")
-def test_worst_modexp(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+def test_worst_modexp(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test running a block with as many MODEXP calls as possible."""
     env = Environment()
 
@@ -514,7 +511,7 @@ def test_worst_modexp(
     iter_complexity = exp.bit_length() - 1
     gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
     attack_block = Op.POP(Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -681,6 +678,7 @@ def test_worst_modexp(
 def test_worst_precompile_fixed_cost(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
 ):
@@ -715,7 +713,7 @@ def test_worst_precompile_fixed_cost(
     attack_block = Op.POP(
         Op.STATICCALL(Op.GAS, precompile_address, 0, len(concatenated_bytes), 0, 0)
     )
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
     code_address = pre.deploy_contract(code=bytes(code))
 
     tx = Transaction(
@@ -1507,7 +1505,7 @@ def test_amortized_bn128_pairings(
 
     calldata = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, 0x08, 0, Op.CALLDATASIZE, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
