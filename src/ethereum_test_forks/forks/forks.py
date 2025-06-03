@@ -370,14 +370,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [EVMCodeType.LEGACY]
 
     @classmethod
-    def max_code_size(cls) -> int | None:
+    def max_code_size(cls) -> int:
         """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
-        return None
+        """However, the default is set to the limit of EIP-170 (Spurious Dragon)"""
+        return 0x6000
 
     @classmethod
-    def max_initcode_size(cls) -> int | None:
-        """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
-        return None
+    def max_initcode_size(cls) -> int:
+        """At genesis, there is no upper bound for initcode size."""
+        """However, the default is set to the limit of EIP-3860 (Shanghai)"""
+        return 0xC000
 
     @classmethod
     def call_opcodes(
@@ -645,7 +647,7 @@ class Byzantium(Homestead):
         )
 
     @classmethod
-    def max_code_size(cls) -> int | None:
+    def max_code_size(cls) -> int:
         # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
         """At Spurious Dragon, an upper bound was introduced for max contract code size."""
         return 0x6000
@@ -877,9 +879,9 @@ class Shanghai(Paris):
         return 2
 
     @classmethod
-    def max_initcode_size(cls) -> int | None:
+    def max_initcode_size(cls) -> int:
         """From Shanghai, the initcode size is now limited. See EIP-3860."""
-        return int(0xC000)
+        return 0xC000
 
     @classmethod
     def valid_opcodes(
@@ -1339,13 +1341,13 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
-    def max_code_size(cls) -> int | None:
+    def max_code_size(cls) -> int:
         """From Osaka, the max code size is lifted. See EIP-7907."""
         return int(0x40000)
 
     @classmethod
-    def max_initcode_size(cls) -> int | None:
-        """At genesis, there is no upper bound for initcode size (bounded by block gas limit)."""
+    def max_initcode_size(cls) -> int:
+        """From Osaka, the max initcode size is lifted. See EIP-7907."""
         return int(0x80000)
 
     @classmethod
