@@ -495,7 +495,7 @@ def main(pre_alloc_file: Path, verbose: int):
     - Number of groups and tests per test module (tabulated)
 
     The pre_alloc.json file is generated when running tests with the
-    --generate-shared-alloc and --use-shared-alloc flags to optimize
+    --generate-shared-pre and --use-shared-pre flags to optimize
     test execution by sharing pre-allocation state across tests.
 
     """

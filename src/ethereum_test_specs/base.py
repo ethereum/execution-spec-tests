@@ -275,13 +275,13 @@ class BaseTest(BaseModel):
         genesis_env = self.get_genesis_environment(fork)
         combined_hash = fork_hash ^ hash(genesis_env)
 
-        # Check if test has prealloc_group marker
+        # Check if test has pre_alloc_group marker
         if self._request is not None and hasattr(self._request, "node"):
-            prealloc_group_marker = self._request.node.get_closest_marker("prealloc_group")
-            if prealloc_group_marker:
+            pre_alloc_group_marker = self._request.node.get_closest_marker("pre_alloc_group")
+            if pre_alloc_group_marker:
                 # Get the group name/salt from marker args
-                if prealloc_group_marker.args:
-                    group_salt = str(prealloc_group_marker.args[0])
+                if pre_alloc_group_marker.args:
+                    group_salt = str(pre_alloc_group_marker.args[0])
                     if group_salt == "separate":
                         # Use nodeid for unique group per test
                         group_salt = self._request.node.nodeid

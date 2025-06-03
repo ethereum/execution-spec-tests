@@ -48,7 +48,7 @@ def count_factory(start: int, step: int = 1) -> Callable[[], Iterator[int]]:
     return lambda: count(start, step)
 
 
-pytestmark = pytest.mark.prealloc_group(
+pytestmark = pytest.mark.pre_alloc_group(
     "beacon_root_tests", reason="Tests beacon root contract functionality using system contract"
 )
 
@@ -594,7 +594,9 @@ def test_beacon_root_transition(
 
 @pytest.mark.parametrize("timestamp", [15_000])
 @pytest.mark.valid_at_transition_to("Cancun")
-@pytest.mark.prealloc_group("separate", reason="This test removes the beacon root system contract")
+@pytest.mark.pre_alloc_group(
+    "separate", reason="This test removes the beacon root system contract"
+)
 def test_no_beacon_root_contract_at_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -667,7 +669,7 @@ def test_no_beacon_root_contract_at_transition(
     ],
 )
 @pytest.mark.valid_at_transition_to("Cancun")
-@pytest.mark.prealloc_group(
+@pytest.mark.pre_alloc_group(
     "separate",
     reason=(
         "This test is parametrized with a hard-coded address (the beacon root contract deployer "

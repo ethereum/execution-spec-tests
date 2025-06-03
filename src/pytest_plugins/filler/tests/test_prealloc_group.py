@@ -1,4 +1,4 @@
-"""Test the prealloc_group marker functionality."""
+"""Test the pre_alloc_group marker functionality."""
 
 from unittest.mock import Mock
 
@@ -27,8 +27,8 @@ class MockTest(BaseTest):
         return self.genesis_environment
 
 
-def test_prealloc_group_separate():
-    """Test that prealloc_group("separate") forces unique grouping."""
+def test_pre_alloc_group_separate():
+    """Test that pre_alloc_group("separate") forces unique grouping."""
     # Create mock environment and pre-allocation
     env = Environment()
     pre = Alloc()
@@ -59,7 +59,7 @@ def test_prealloc_group_separate():
     assert hash1 == hash3
 
 
-def test_prealloc_group_custom_salt():
+def test_pre_alloc_group_custom_salt():
     """Test that custom group names create consistent grouping."""
     env = Environment()
     pre = Alloc()
@@ -106,7 +106,7 @@ def test_prealloc_group_custom_salt():
     assert hash2 != hash3
 
 
-def test_prealloc_group_separate_different_nodeids():
+def test_pre_alloc_group_separate_different_nodeids():
     """Test that different tests with "separate" get different hashes."""
     env = Environment()
     pre = Alloc()
@@ -138,8 +138,8 @@ def test_prealloc_group_separate_different_nodeids():
     assert hash1 != hash2
 
 
-def test_no_prealloc_group_marker():
-    """Test normal grouping without prealloc_group marker."""
+def test_no_pre_alloc_group_marker():
+    """Test normal grouping without pre_alloc_group marker."""
     env = Environment()
     pre = Alloc()
     fork = Prague
@@ -161,7 +161,7 @@ def test_no_prealloc_group_marker():
     assert hash1 == hash2
 
 
-def test_prealloc_group_with_reason():
+def test_pre_alloc_group_with_reason():
     """Test that reason kwarg is accepted but doesn't affect grouping."""
     env = Environment()
     pre = Alloc()

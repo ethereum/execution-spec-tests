@@ -29,11 +29,11 @@ class FixtureOutput(BaseModel):
         default=False,
         description="Clean (remove) the output directory before filling fixtures.",
     )
-    generate_shared_alloc: bool = Field(
+    generate_shared_pre: bool = Field(
         default=False,
         description="Generate shared pre-allocation state (phase 1).",
     )
-    use_shared_alloc: bool = Field(
+    use_shared_pre: bool = Field(
         default=False,
         description="Use existing shared pre-allocation state (phase 2).",
     )
@@ -62,7 +62,7 @@ class FixtureOutput(BaseModel):
         return self.directory.name == "stdout"
 
     @property
-    def shared_prealloc_path(self) -> Path:
+    def shared_pre_alloc_path(self) -> Path:
         """Return the path for shared pre-allocation state file."""
         reorg_dir = BlockchainEngineReorgFixture.output_base_dir_name()
         return self.directory / reorg_dir / "pre_alloc.json"
@@ -86,16 +86,16 @@ class FixtureOutput(BaseModel):
         if not self.directory.exists():
             return True
 
-        if self.generate_shared_alloc:
+        if self.generate_shared_pre:
             # Phase 1: Directory must be completely empty
             return self.is_directory_empty()
-        elif self.use_shared_alloc:
+        elif self.use_shared_pre:
             # Phase 2: Only shared alloc file must exist, no other files allowed
-            if not self.shared_prealloc_path.exists():
+            if not self.shared_pre_alloc_path.exists():
                 return False
             # Check that only the shared prealloc file exists
             existing_files = {f for f in self.directory.rglob("*") if f.is_file()}
-            allowed_files = {self.shared_prealloc_path}
+            allowed_files = {self.shared_pre_alloc_path}
             return existing_files == allowed_files
         else:
             # Normal filling: Directory must be empty
@@ -160,17 +160,17 @@ class FixtureOutput(BaseModel):
         if self.directory.exists() and not self.is_directory_usable_for_phase():
             summary = self.get_directory_summary()
 
-            if self.generate_shared_alloc:
+            if self.generate_shared_pre:
                 raise ValueError(
                     f"Output directory '{self.directory}' must be completely empty for "
                     f"shared allocation generation (phase 1). Contains: {summary}. "
                     "Use --clean to remove all existing files."
                 )
-            elif self.use_shared_alloc:
-                if not self.shared_prealloc_path.exists():
+            elif self.use_shared_pre:
+                if not self.shared_pre_alloc_path.exists():
                     raise ValueError(
-                        f"Shared pre-allocation file not found at '{self.shared_prealloc_path}'. "
-                        "Run phase 1 with --generate-shared-alloc first."
+                        f"Shared pre-allocation file not found at '{self.shared_pre_alloc_path}'. "
+                        "Run phase 1 with --generate-shared-pre first."
                     )
             else:
                 raise ValueError(
@@ -184,8 +184,8 @@ class FixtureOutput(BaseModel):
         self.metadata_dir.mkdir(parents=True, exist_ok=True)
 
         # Create shared allocation directory for phase 1
-        if self.generate_shared_alloc:
-            self.shared_prealloc_path.parent.mkdir(parents=True, exist_ok=True)
+        if self.generate_shared_pre:
+            self.shared_pre_alloc_path.parent.mkdir(parents=True, exist_ok=True)
 
     def create_tarball(self) -> None:
         """Create tarball of the output directory if configured to do so."""
@@ -206,6 +206,6 @@ class FixtureOutput(BaseModel):
             flat_output=config.getoption("flat_output"),
             single_fixture_per_file=config.getoption("single_fixture_per_file"),
             clean=config.getoption("clean"),
-            generate_shared_alloc=config.getoption("generate_shared_alloc"),
-            use_shared_alloc=config.getoption("use_shared_alloc"),
+            generate_shared_pre=config.getoption("generate_shared_pre"),
+            use_shared_pre=config.getoption("use_shared_pre"),
         )

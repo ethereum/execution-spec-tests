@@ -31,9 +31,9 @@ class FillCommand(PytestCommand):
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
-        if "--generate-shared-alloc" in processed_args:
+        if "--generate-shared-pre" in processed_args:
             return self._create_two_phase_executions(processed_args)
-        elif "--use-shared-alloc" in processed_args:
+        elif "--use-shared-pre" in processed_args:
             # Only phase 2: using existing shared pre-allocation state
             return self._create_single_phase_with_shared_alloc(processed_args)
         else:
@@ -82,7 +82,7 @@ class FillCommand(PytestCommand):
 
         # Add required phase 1 flags (with quiet output by default)
         phase1_args = [
-            "--generate-shared-alloc",
+            "--generate-shared-pre",
             "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can override)
         ] + filtered_args
 
@@ -90,10 +90,10 @@ class FillCommand(PytestCommand):
 
     def _create_phase2_args(self, args: List[str]) -> List[str]:
         """Create arguments for phase 2 (fixture filling)."""
-        # Remove --generate-shared-alloc and --clean, then add --use-shared-alloc
-        phase2_args = self._remove_generate_shared_alloc_flag(args)
+        # Remove --generate-shared-pre and --clean, then add --use-shared-pre
+        phase2_args = self._remove_generate_shared_pre_flag(args)
         phase2_args = self._remove_clean_flag(phase2_args)
-        phase2_args = self._add_use_shared_alloc_flag(phase2_args)
+        phase2_args = self._add_use_shared_pre_flag(phase2_args)
         return phase2_args
 
     def _remove_unwanted_phase1_args(self, args: List[str]) -> List[str]:
@@ -109,8 +109,8 @@ class FillCommand(PytestCommand):
             # Parallel execution (single-process for shared pre-allocation)
             "-n",
             # Shared allocation flags (we'll add our own)
-            "--generate-shared-alloc",
-            "--use-shared-alloc",
+            "--generate-shared-pre",
+            "--use-shared-pre",
         }
 
         filtered_args = []
@@ -134,17 +134,17 @@ class FillCommand(PytestCommand):
 
         return filtered_args
 
-    def _remove_generate_shared_alloc_flag(self, args: List[str]) -> List[str]:
-        """Remove --generate-shared-alloc flag from argument list."""
-        return [arg for arg in args if arg != "--generate-shared-alloc"]
+    def _remove_generate_shared_pre_flag(self, args: List[str]) -> List[str]:
+        """Remove --generate-shared-pre flag from argument list."""
+        return [arg for arg in args if arg != "--generate-shared-pre"]
 
     def _remove_clean_flag(self, args: List[str]) -> List[str]:
         """Remove --clean flag from argument list."""
         return [arg for arg in args if arg != "--clean"]
 
-    def _add_use_shared_alloc_flag(self, args: List[str]) -> List[str]:
-        """Add --use-shared-alloc flag to argument list."""
-        return args + ["--use-shared-alloc"]
+    def _add_use_shared_pre_flag(self, args: List[str]) -> List[str]:
+        """Add --use-shared-pre flag to argument list."""
+        return args + ["--use-shared-pre"]
 
 
 class PhilCommand(FillCommand):

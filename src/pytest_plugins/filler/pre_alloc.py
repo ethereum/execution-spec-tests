@@ -298,8 +298,8 @@ def get_address_iterator_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
-    if config.getoption("generate_shared_alloc", default=False) or config.getoption(
-        "use_shared_alloc", default=False
+    if config.getoption("generate_shared_pre", default=False) or config.getoption(
+        "use_shared_pre", default=False
     ):
         return "session"
     return "function"
