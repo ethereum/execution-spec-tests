@@ -1341,16 +1341,6 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
-    def max_code_size(cls) -> int:
-        """From Osaka, the max code size is lifted. See EIP-7907."""
-        return int(0x40000)
-
-    @classmethod
-    def max_initcode_size(cls) -> int:
-        """From Osaka, the max initcode size is lifted. See EIP-7907."""
-        return int(0x80000)
-
-    @classmethod
     def is_deployed(cls) -> bool:
         """
         Flag that the fork has not been deployed to mainnet; it is under active
