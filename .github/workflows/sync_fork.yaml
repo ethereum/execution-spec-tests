@@ -2,42 +2,26 @@ name: Sync Fork
 
 on:
   schedule:
-    - cron: '0 3 * * *'  # Runs daily at 03:00 UTC
-  workflow_dispatch:      # Manual trigger option
+    - cron: '0 3 * * 0'  # Weekly: Sunday 03:00 UTC
+  workflow_dispatch:      # Manual trigger (on demand)
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          persist-credentials: false
-          fetch-depth: 0
-          ref: main
+          fetch-depth: 0  # Full history required for sync
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Add Upstream Remote
-        run: |
-          git remote add upstream https://github.com/ethereum/execution-spec-tests.git
-          git fetch upstream main
-
-      - name: Rebase onto upstream/main
-        run: |
-          git checkout main
-          git rebase upstream/main
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+      - name: Sync upstream to fork
+        uses: repo-sync/github-sync@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Sync with upstream main"
-          title: "Sync Fork with Upstream"
-          body: "This PR updates the fork with the latest changes from upstream."
-          branch: sync-upstream-{{ date }}
-          base: main
+          source_repo: 'ethereum/execution-spec-tests'
+          source_branch: 'main'
+          destination_branch: 'main'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          sync_tags: false
+          pull_request: true
+          pull_request_title: 'Sync fork with EST upstream'
+          pull_request_body: 'Updates the fork with the latest changes from EST upstream.'
+          pull_request_branch_name: 'sync-upstream-${{ github.run_number }}'
