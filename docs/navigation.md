@@ -36,6 +36,7 @@
       * [State Tests](consuming_tests/state_test.md)
       * [Blockchain Tests](consuming_tests/blockchain_test.md)
       * [Blockchain Engine Tests](consuming_tests/blockchain_test_engine.md)
+      * [Blockchain Engine Reorg Tests](consuming_tests/blockchain_test_engine_reorg.md)
       * [EOF Tests](consuming_tests/eof_test.md)
       * [Transaction Tests](consuming_tests/transaction_test.md)
       * [Common Types](consuming_tests/common_types.md)
