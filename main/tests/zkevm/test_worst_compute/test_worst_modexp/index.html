@@ -19454,6 +19454,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -19493,6 +19505,132 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_zero_param/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_zero_param</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_calldatasize/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_calldatasize</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_callvalue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_callvalue</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_returndatasize_nonzero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_returndatasize_nonzero</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_returndatasize_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_returndatasize_zero</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_msize/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_msize</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -20174,7 +20312,7 @@
 
 
 <h1 id="test_worst_modexp"><code>test_worst_modexp()</code><a class="headerlink" href="#test_worst_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e5e3ebec5771e63fe4ac132a21d865353cbce784/tests/zkevm/test_worst_compute.py#L216"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@e5e3ebec</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/031fb2fbd874de79aad2cd1d7a5a6c0691b941bc/tests/zkevm/test_worst_compute.py#L485"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@031fb2fb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_modexp --fork Prague</span>
@@ -20193,52 +20331,52 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
-<span class="normal">227</span>
-<span class="normal">228</span>
-<span class="normal">229</span>
-<span class="normal">230</span>
-<span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_modexp</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

@@ -19454,6 +19454,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -19493,6 +19505,132 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_zero_param/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_zero_param</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_calldatasize/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_calldatasize</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_callvalue/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_callvalue</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_returndatasize_nonzero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_returndatasize_nonzero</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_returndatasize_zero/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_returndatasize_zero</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_msize/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_msize</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -20174,7 +20312,7 @@
 
 
 <h1 id="test_amortized_bn128_pairings"><code>test_amortized_bn128_pairings()</code><a class="headerlink" href="#test_amortized_bn128_pairings" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e5e3ebec5771e63fe4ac132a21d865353cbce784/tests/zkevm/test_worst_compute.py#L1065"><code>tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings@e5e3ebec</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/031fb2fbd874de79aad2cd1d7a5a6c0691b941bc/tests/zkevm/test_worst_compute.py#L1334"><code>tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings@031fb2fb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings --fork Prague</span>
@@ -20193,73 +20331,73 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1065</span>
-<span class="normal">1066</span>
-<span class="normal">1067</span>
-<span class="normal">1068</span>
-<span class="normal">1069</span>
-<span class="normal">1070</span>
-<span class="normal">1071</span>
-<span class="normal">1072</span>
-<span class="normal">1073</span>
-<span class="normal">1074</span>
-<span class="normal">1075</span>
-<span class="normal">1076</span>
-<span class="normal">1077</span>
-<span class="normal">1078</span>
-<span class="normal">1079</span>
-<span class="normal">1080</span>
-<span class="normal">1081</span>
-<span class="normal">1082</span>
-<span class="normal">1083</span>
-<span class="normal">1084</span>
-<span class="normal">1085</span>
-<span class="normal">1086</span>
-<span class="normal">1087</span>
-<span class="normal">1088</span>
-<span class="normal">1089</span>
-<span class="normal">1090</span>
-<span class="normal">1091</span>
-<span class="normal">1092</span>
-<span class="normal">1093</span>
-<span class="normal">1094</span>
-<span class="normal">1095</span>
-<span class="normal">1096</span>
-<span class="normal">1097</span>
-<span class="normal">1098</span>
-<span class="normal">1099</span>
-<span class="normal">1100</span>
-<span class="normal">1101</span>
-<span class="normal">1102</span>
-<span class="normal">1103</span>
-<span class="normal">1104</span>
-<span class="normal">1105</span>
-<span class="normal">1106</span>
-<span class="normal">1107</span>
-<span class="normal">1108</span>
-<span class="normal">1109</span>
-<span class="normal">1110</span>
-<span class="normal">1111</span>
-<span class="normal">1112</span>
-<span class="normal">1113</span>
-<span class="normal">1114</span>
-<span class="normal">1115</span>
-<span class="normal">1116</span>
-<span class="normal">1117</span>
-<span class="normal">1118</span>
-<span class="normal">1119</span>
-<span class="normal">1120</span>
-<span class="normal">1121</span>
-<span class="normal">1122</span>
-<span class="normal">1123</span>
-<span class="normal">1124</span>
-<span class="normal">1125</span>
-<span class="normal">1126</span>
-<span class="normal">1127</span>
-<span class="normal">1128</span>
-<span class="normal">1129</span>
-<span class="normal">1130</span>
-<span class="normal">1131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1334</span>
+<span class="normal">1335</span>
+<span class="normal">1336</span>
+<span class="normal">1337</span>
+<span class="normal">1338</span>
+<span class="normal">1339</span>
+<span class="normal">1340</span>
+<span class="normal">1341</span>
+<span class="normal">1342</span>
+<span class="normal">1343</span>
+<span class="normal">1344</span>
+<span class="normal">1345</span>
+<span class="normal">1346</span>
+<span class="normal">1347</span>
+<span class="normal">1348</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span>
+<span class="normal">1355</span>
+<span class="normal">1356</span>
+<span class="normal">1357</span>
+<span class="normal">1358</span>
+<span class="normal">1359</span>
+<span class="normal">1360</span>
+<span class="normal">1361</span>
+<span class="normal">1362</span>
+<span class="normal">1363</span>
+<span class="normal">1364</span>
+<span class="normal">1365</span>
+<span class="normal">1366</span>
+<span class="normal">1367</span>
+<span class="normal">1368</span>
+<span class="normal">1369</span>
+<span class="normal">1370</span>
+<span class="normal">1371</span>
+<span class="normal">1372</span>
+<span class="normal">1373</span>
+<span class="normal">1374</span>
+<span class="normal">1375</span>
+<span class="normal">1376</span>
+<span class="normal">1377</span>
+<span class="normal">1378</span>
+<span class="normal">1379</span>
+<span class="normal">1380</span>
+<span class="normal">1381</span>
+<span class="normal">1382</span>
+<span class="normal">1383</span>
+<span class="normal">1384</span>
+<span class="normal">1385</span>
+<span class="normal">1386</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span>
+<span class="normal">1394</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
