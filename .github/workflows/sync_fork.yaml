@@ -23,7 +23,7 @@ jobs:
       - name: Add Upstream Remote
         run: |
           git remote add upstream https://github.com/ethereum/execution-spec-tests.git
-          git fetch upstream
+          git fetch upstream main
 
       - name: Rebase onto upstream/main
         run: |
