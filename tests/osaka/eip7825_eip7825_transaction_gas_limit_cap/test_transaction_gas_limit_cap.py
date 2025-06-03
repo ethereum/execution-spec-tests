@@ -10,12 +10,15 @@ import pytest
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
+    AuthorizationTuple,
     Environment,
     StateTestFiller,
     Storage,
     Transaction,
     TransactionException,
+    add_kzg_version,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -23,6 +26,7 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7825.md"
 REFERENCE_SPEC_VERSION = "47cbfed315988c0bd4d10002c110ae402504cd94"
 
 TX_GAS_LIMIT = 30_000_000
+BLOB_COMMITMENT_VERSION_KZG = 1
 
 
 def tx_gas_limit_cap_tests(fork: Fork) -> List[Tuple[int, TransactionException | None]]:
@@ -34,12 +38,17 @@ def tx_gas_limit_cap_tests(fork: Fork) -> List[Tuple[int, TransactionException |
     if fork_tx_gas_limit_cap is None:
         # Use a default value for forks that don't have a transaction gas limit cap
         return [
-            (TX_GAS_LIMIT + 1, None),
+            pytest.param(TX_GAS_LIMIT + 1, None, id="tx_gas_limit_cap_none"),
         ]
 
     return [
-        (fork_tx_gas_limit_cap + 1, TransactionException.GASLIMIT_EXCEEDS_MAXIMUM),
-        (fork_tx_gas_limit_cap, None),
+        pytest.param(
+            fork_tx_gas_limit_cap + 1,
+            TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM,
+            id="tx_gas_limit_cap_exceeds_maximum",
+            marks=pytest.mark.exception_test,
+        ),
+        pytest.param(fork_tx_gas_limit_cap, None, id="tx_gas_limit_cap_none"),
     ]
 
 
@@ -49,6 +58,7 @@ def tx_gas_limit_cap_tests(fork: Fork) -> List[Tuple[int, TransactionException |
 def test_transaction_gas_limit_cap(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     tx_gas_limit: int,
     error: TransactionException | None,
     tx_type: int,
@@ -76,6 +86,30 @@ def test_transaction_gas_limit_cap(
         "sender": sender,
         "error": error,
     }
+
+    # Add extra required fields based on transaction type
+    if tx_type >= 1:
+        # Type 1: EIP-2930 Access List Transaction
+        tx_kwargs["access_list"] = [
+            {
+                "address": contract_address,
+                "storage_keys": [0],
+            }
+        ]
+    if tx_type == 3:
+        # Type 3: EIP-4844 Blob Transaction
+        tx_kwargs["max_fee_per_blob_gas"] = fork.min_base_fee_per_blob_gas()
+        tx_kwargs["blob_versioned_hashes"] = add_kzg_version([0], BLOB_COMMITMENT_VERSION_KZG)
+    elif tx_type == 4:
+        # Type 4: EIP-7702 Set Code Transaction
+        signer = pre.fund_eoa(amount=0)
+        tx_kwargs["authorization_list"] = [
+            AuthorizationTuple(
+                signer=signer,
+                address=Address(0),
+                nonce=0,
+            )
+        ]
 
     tx = Transaction(**tx_kwargs)
     post = {contract_address: Account(storage=storage if error is None else {})}
