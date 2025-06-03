@@ -69,7 +69,7 @@ def test_worst_bytecode_single_opcode(
     # but also the quadratic memory expansion costs which have to be paid each time the
     # memory is being setup
     attack_gas_limit = 100_000_000
-    max_contract_size = fork.max_code_size() or 24 * 1024  # Uses Spurious Dragon limit by default
+    max_contract_size = fork.max_code_size()
 
     gas_costs = fork.gas_costs()
 
