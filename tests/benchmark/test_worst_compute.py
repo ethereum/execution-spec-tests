@@ -1197,6 +1197,48 @@ def test_worst_jumpi_fallthough(
     )
 
 
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+def test_worst_jumpis(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test running a JUMPI-intensive contract."""
+    env = Environment()
+
+    def jumpi_seq(dest: int):
+        return Op.JUMPI(Op.PUSH2(dest), Op.DUP1) + Op.JUMPDEST
+
+    code_prefix = Op.PUSH1(1)
+    bytes_per_seq = len(jumpi_seq(0))
+    seqs_per_call = (MAX_CODE_SIZE - len(code_prefix)) // bytes_per_seq
+
+    # The code body is a sequence of JUMPIs that jump to different destinations.
+    # The first jumpi jumps to destination 7, and each repeated sequence takes 6 bytes.
+    # As a result, the jump dest is 7 + 6 * i, where i is iteration number.
+    code_body = sum([jumpi_seq(7 + 6 * i) for i in range(seqs_per_call)])
+    jumpis_code = code_prefix + code_body
+    jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
+
+    # Call the contract repeatedly until gas runs out.
+    caller_code = While(body=Op.POP(Op.CALL(address=jumpis_address)))
+    caller_address = pre.deploy_contract(caller_code)
+
+    tx = Transaction(
+        to=caller_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):
