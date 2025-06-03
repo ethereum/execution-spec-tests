@@ -82,17 +82,19 @@ def make_dup(index: int) -> Opcode:
 def test_worst_zero_param(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     opcode: Op,
 ):
     """Test running a block with as many zero-parameter opcodes as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(opcode)
     code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
@@ -113,17 +115,19 @@ def test_worst_zero_param(
 def test_worst_calldatasize(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     calldata_length: int,
 ):
     """Test running a block with as many CALLDATASIZE as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(Op.CALLDATASIZE)
     code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
@@ -146,6 +150,7 @@ def test_worst_calldatasize(
 def test_worst_callvalue(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     non_zero_value: bool,
     from_origin: bool,
 ):
@@ -157,13 +162,14 @@ def test_worst_callvalue(
     transaction or a previous CALL.
     """
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST
     iter_loop = Op.POP(Op.CALLVALUE)
     code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
     code_address = pre.deploy_contract(code=bytes(code))
 
     tx_to = (
@@ -210,6 +216,7 @@ class ReturnDataStyle(Enum):
 def test_worst_returndatasize_nonzero(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     returned_size: int,
     return_data_style: ReturnDataStyle,
 ):
@@ -221,6 +228,7 @@ def test_worst_returndatasize_nonzero(
     The `return_data_style` indicates how returned data is produced for the opcode caller.
     """
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     dummy_contract_call = Bytecode()
     if return_data_style != ReturnDataStyle.IDENTITY:
@@ -240,9 +248,9 @@ def test_worst_returndatasize_nonzero(
     code_prefix = dummy_contract_call + Op.JUMPDEST
     iter_loop = Op.POP(Op.RETURNDATASIZE)
     code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
@@ -259,21 +267,19 @@ def test_worst_returndatasize_nonzero(
 
 
 @pytest.mark.valid_from("Cancun")
-def test_worst_returndatasize_zero(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+def test_worst_returndatasize_zero(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     dummy_contract_call = Bytecode()
 
     code_prefix = dummy_contract_call + Op.JUMPDEST
     iter_loop = Op.POP(Op.RETURNDATASIZE)
     code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
@@ -294,6 +300,7 @@ def test_worst_returndatasize_zero(
 def test_worst_msize(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     mem_size: int,
 ):
     """
@@ -302,14 +309,15 @@ def test_worst_msize(
     The `mem_size` parameter indicates by how much the memory is expanded.
     """
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     # We use CALLVALUE for the parameter since is 1 gas cheaper than PUSHX.
     code_prefix = Op.MLOAD(Op.CALLVALUE) + Op.JUMPDEST
     iter_loop = Op.POP(Op.MSIZE)
     code_suffix = Op.JUMP(len(code_prefix) - 1)
-    code_iter_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
     code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=bytes(code)),
