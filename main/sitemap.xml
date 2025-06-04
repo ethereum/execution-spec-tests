@@ -1441,6 +1441,46 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7823_modexp_upper_bounds/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7823_modexp_upper_bounds/test_modexp_upper_bounds/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7823_modexp_upper_bounds/test_modexp_upper_bounds/test_modexp_upper_bounds/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/spec/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_vectors_from_file/</loc>
+         <lastmod>2025-06-04</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/paris/</loc>
          <lastmod>2025-06-04</lastmod>
          <changefreq>daily</changefreq>
