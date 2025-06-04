@@ -1,4 +1,4 @@
-"""Defines EIP-7212 specification constants and functions."""
+"""Defines EIP-7951 specification constants and functions."""
 
 from dataclasses import dataclass
 from typing import Sized, SupportsBytes
@@ -14,7 +14,7 @@ class ReferenceSpec:
     version: str
 
 
-ref_spec_7212 = ReferenceSpec("EIPS/eip-7212.md", "06aadd458ee04ede80498db55927b052eb5bef38")
+ref_spec_7951 = ReferenceSpec("EIPS/eip-7951.md", "06aadd458ee04ede80498db55927b052eb5bef38")
 
 
 class BytesConcatenation(SupportsBytes, Sized):
@@ -83,8 +83,8 @@ class H(FieldElement):
 @dataclass(frozen=True)
 class Spec:
     """
-    Parameters from the EIP-7212 specifications as defined at
-    https://eips.ethereum.org/EIPS/eip-7212.
+    Parameters from the EIP-7951 specifications as defined at
+    https://eips.ethereum.org/EIPS/eip-7951.
     """
 
     # Address

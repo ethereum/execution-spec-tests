@@ -1,6 +1,6 @@
 """
 abstract: Tests P256VERIFY precompile as a set code delegated address
-    Tests P256VERIFY precompile of [RIP-7212: Precompile for secp256r1 Curve Support](https://github.com/ethereum/RIPs/blob/master/RIPS/rip-7212.md)
+    Tests P256VERIFY precompile of [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)
     when used as a set code delegated address.
 """
 
@@ -19,10 +19,10 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools import Opcodes as Op
 
-from .spec import Spec, ref_spec_7212
+from .spec import Spec, ref_spec_7951
 
-REFERENCE_SPEC_GIT_PATH = ref_spec_7212.git_path
-REFERENCE_SPEC_VERSION = ref_spec_7212.version
+REFERENCE_SPEC_GIT_PATH = ref_spec_7951.git_path
+REFERENCE_SPEC_VERSION = ref_spec_7951.version
 
 pytestmark = pytest.mark.valid_from("Osaka")
 

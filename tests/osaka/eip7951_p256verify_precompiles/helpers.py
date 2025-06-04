@@ -1,4 +1,4 @@
-"""Helper functions for the EIP-7212 P256VERIFY precompiles tests."""
+"""Helper functions for the EIP-7951 P256VERIFY precompiles tests."""
 
 import os
 from typing import Annotated, List
