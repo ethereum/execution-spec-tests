@@ -162,44 +162,44 @@ Example output snippet:
 
 1. **Create test directory structure**:
 
-   ```bash
-   tests/prague/eip9999_new_feature/
-   ├── __init__.py
-   ├── spec.py
-   ├── test_basic.py
-   ├── eip_checklist_external_coverage.txt
-   └── eip_checklist_not_applicable.txt
-   ```
+      ```bash
+      tests/prague/eip9999_new_feature/
+      ├── __init__.py
+      ├── spec.py
+      ├── test_basic.py
+      ├── eip_checklist_external_coverage.txt
+      └── eip_checklist_not_applicable.txt
+      ```
 
 2. **Mark tests as you implement them**:
 
-   ```python
-   @pytest.mark.eip_checklist("new_opcode/test/gas_usage/normal")
-   def test_opcode_gas_consumption(state_test: StateTestFiller):
-       """Test normal gas consumption of the new opcode."""
-       pass
-   ```
+      ```python
+      @pytest.mark.eip_checklist("new_opcode/test/gas_usage/normal")
+      def test_opcode_gas_consumption(state_test: StateTestFiller):
+         """Test normal gas consumption of the new opcode."""
+         pass
+      ```
 
 3. **Document external coverage**:
 
-   ```text
-   # eip_checklist_external_coverage.txt
-   general/code_coverage/eels = Covered by ethereum/execution-specs PR #1234
-   ```
+      ```text
+      # eip_checklist_external_coverage.txt
+      general/code_coverage/eels = Covered by ethereum/execution-specs PR #1234
+      ```
 
 4. **Mark non-applicable items**:
 
-   ```text
-   # eip_checklist_not_applicable.txt
-   new_precompile/ = EIP-9999 introduces an opcode, not a precompile
-   ```
+      ```text
+      # eip_checklist_not_applicable.txt
+      new_precompile/ = EIP-9999 introduces an opcode, not a precompile
+      ```
 
 5. **Generate and review checklist**:
 
-   ```bash
-   checklist --eip 9999
-   # Review the generated checklist for completeness
-   ```
+      ```bash
+      checklist --eip 9999
+      # Review the generated checklist for completeness
+      ```
 
 ## See Also
 
