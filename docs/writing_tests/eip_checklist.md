@@ -55,16 +55,16 @@ To generate only checklists without filling fixtures:
 
 ```bash
 # Generate checklists for all EIPs
-checklist
+uv run checklist
 
 # Generate checklist for specific EIP
-checklist --eip 7702
+uv run checklist --eip 7702
 
 # Specify output directory
-checklist --output ./my-checklists
+uv run checklist --output ./my-checklists
 
 # Multiple EIPs
-checklist --eip 7702 --eip 2930
+uv run checklist --eip 7702 --eip 2930
 ```
 
 ### Automatic Generation in Documentation
