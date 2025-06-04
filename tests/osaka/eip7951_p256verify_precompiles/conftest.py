@@ -1,4 +1,4 @@
-"""Shared pytest definitions local to EIP-7212 tests."""
+"""Shared pytest definitions local to EIP-7951 tests."""
 
 from typing import SupportsBytes
 
@@ -121,7 +121,7 @@ def call_contract_address(pre: Alloc, call_contract_code: Bytecode) -> Address:
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender of the transaction."""
-    return pre.fund_eoa(1_000_000_000_000_000_000)
+    return pre.fund_eoa()
 
 
 @pytest.fixture

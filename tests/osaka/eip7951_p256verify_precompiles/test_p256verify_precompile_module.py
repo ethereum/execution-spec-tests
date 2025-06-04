@@ -1,6 +1,6 @@
 """
-abstract: Tests [EIP-7212 EIP-7212: Precompiled for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7212)
-    Test cases for [EIP-7212 EIP-7212: Precompiled for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7212)].
+abstract: Tests [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)
+    Test cases for [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.ethereum.org/EIPS/eip-7951)].
 """
 
 import pytest
@@ -14,10 +14,10 @@ from ethereum_test_tools import (
 from ethereum_test_tools import Opcodes as Op
 
 from .helpers import vectors_from_file
-from .spec import Spec, ref_spec_7212
+from .spec import Spec, ref_spec_7951
 
-REFERENCE_SPEC_GIT_PATH = ref_spec_7212.git_path
-REFERENCE_SPEC_VERSION = ref_spec_7212.version
+REFERENCE_SPEC_GIT_PATH = ref_spec_7951.git_path
+REFERENCE_SPEC_VERSION = ref_spec_7951.version
 
 pytestmark = [
     pytest.mark.valid_from("Osaka"),
@@ -55,8 +55,8 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
-@pytest.mark.eip_checklist("new_precompile/test/value_transfer/fee/over")
-@pytest.mark.eip_checklist("new_precompile/test/value_transfer/fee/under")
+@pytest.mark.eip_checklist("new_precompile/test/gas_usage/constant/exact")
+@pytest.mark.eip_checklist("new_precompile/test/gas_usage/constant/oog")
 def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile gas requirements."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
