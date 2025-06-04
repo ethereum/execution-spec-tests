@@ -9,7 +9,7 @@ import math
 import operator
 import random
 from enum import Enum, auto
-from typing import Optional, cast
+from typing import cast
 
 import pytest
 from py_ecc.bn128 import G1, G2, multiply
