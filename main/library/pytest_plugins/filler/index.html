@@ -24250,9 +24250,7 @@ leakage between tests.</p>
 <span class="normal">778</span>
 <span class="normal">779</span>
 <span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span>
-<span class="normal">783</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
+<span class="normal">781</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate pytest.fixture for a given BaseTest subclass.</span>
 
@@ -24269,7 +24267,6 @@ leakage between tests.</p>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">reference_spec</span><span class="p">:</span> <span class="n">ReferenceSpec</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
         <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
         <span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
         <span class="n">dump_dir_parameter_level</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
@@ -24307,7 +24304,6 @@ leakage between tests.</p>
                     <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span>
                     <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
                     <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span>
-                    <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">fixture</span><span class="o">.</span><span class="n">fill_info</span><span class="p">(</span>
                     <span class="n">t8n</span><span class="o">.</span><span class="n">version</span><span class="p">(),</span>
@@ -24359,7 +24355,9 @@ test spec supports.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">792</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
 <span class="normal">793</span>
 <span class="normal">794</span>
 <span class="normal">795</span>
@@ -24372,9 +24370,7 @@ test spec supports.</p>
 <span class="normal">802</span>
 <span class="normal">803</span>
 <span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
+<span class="normal">805</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook used to dynamically generate test cases for each fixture format a given</span>
 <span class="sd">    test spec supports.</span>
@@ -24420,7 +24416,9 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">810</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
 <span class="normal">811</span>
 <span class="normal">812</span>
 <span class="normal">813</span>
@@ -24470,9 +24468,7 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">857</span>
 <span class="normal">858</span>
 <span class="normal">859</span>
-<span class="normal">860</span>
-<span class="normal">861</span>
-<span class="normal">862</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
+<span class="normal">860</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span> <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Function</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -24556,7 +24552,9 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">865</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">863</span>
+<span class="normal">864</span>
+<span class="normal">865</span>
 <span class="normal">866</span>
 <span class="normal">867</span>
 <span class="normal">868</span>
@@ -24580,9 +24578,7 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">886</span>
 <span class="normal">887</span>
 <span class="normal">888</span>
-<span class="normal">889</span>
-<span class="normal">890</span>
-<span class="normal">891</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">889</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 

@@ -2372,15 +2372,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BlockchainTest.network_info" class="md-nav__link">
-    <span class="md-ellipsis">
-      network_info
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ethereum_test_specs.BlockchainTest.verify_post_state" class="md-nav__link">
     <span class="md-ellipsis">
       verify_post_state
@@ -21644,15 +21635,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BlockchainTest.network_info" class="md-nav__link">
-    <span class="md-ellipsis">
-      network_info
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#ethereum_test_specs.BlockchainTest.verify_post_state" class="md-nav__link">
     <span class="md-ellipsis">
       verify_post_state
@@ -22350,9 +22332,7 @@
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test which must return a single test fixture.&quot;&quot;&quot;</span>
 
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -22423,7 +22403,6 @@
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">pass</span>
@@ -22433,7 +22412,6 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -22727,7 +22705,7 @@ as possible fixture formats.</p>
 
 
 <h3 id="ethereum_test_specs.BaseTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
@@ -22751,15 +22729,13 @@ as possible fixture formats.</p>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
+<span class="normal">120</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@abstractmethod</span>
 <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
@@ -22778,7 +22754,7 @@ as possible fixture formats.</p>
 
 
 <h3 id="ethereum_test_specs.BaseTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BaseTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -22789,20 +22765,18 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
+<span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">129</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -22838,7 +22812,9 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">133</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
 <span class="normal">136</span>
@@ -22846,9 +22822,7 @@ spec type as filler for the test.</p>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Must return the name of the parameter used in pytest to select this</span>
@@ -22885,16 +22859,16 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_next_transition_tool_output_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return path to the next transition tool output file.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">t8n_dump_dir</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span>
@@ -22930,14 +22904,14 @@ spec type as filler for the test.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">156</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_tx_gas_heavy_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal">161</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_tx_gas_heavy_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the test is gas-heavy for transaction execution.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">):</span>
         <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span>
@@ -22973,16 +22947,16 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_exception_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">172</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_exception_test</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if the test is an exception test (invalid block, invalid transaction).</span>
 
@@ -23018,11 +22992,11 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">176</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
 <span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the node ID of the test.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="p">,</span> <span class="s2">&quot;node&quot;</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span>
@@ -23053,7 +23027,9 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
@@ -23072,9 +23048,7 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_exception_test</span><span class="p">(</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">check_exception_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">exception</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -23841,9 +23815,7 @@ return test_state_filler
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlobsTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlobsTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test specification for blob tests.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -23863,7 +23835,6 @@ return test_state_filler
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -23873,7 +23844,6 @@ return test_state_filler
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">BlobTransaction</span><span class="p">:</span>
@@ -23898,7 +23868,7 @@ return test_state_filler
 
 
 <h3 id="ethereum_test_specs.BlobsTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlobsTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -23917,14 +23887,12 @@ return test_state_filler
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -23943,7 +23911,7 @@ return test_state_filler
 
 
 <h3 id="ethereum_test_specs.BlobsTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlobsTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -23954,7 +23922,8 @@ return test_state_filler
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blobs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">43</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
+<span class="normal">43</span>
 <span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
@@ -23964,14 +23933,11 @@ return test_state_filler
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">BlobTransaction</span><span class="p">:</span>
@@ -24505,27 +24471,7 @@ return test_state_filler
 <span class="normal">777</span>
 <span class="normal">778</span>
 <span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span>
-<span class="normal">783</span>
-<span class="normal">784</span>
-<span class="normal">785</span>
-<span class="normal">786</span>
-<span class="normal">787</span>
-<span class="normal">788</span>
-<span class="normal">789</span>
-<span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -24635,7 +24581,6 @@ return test_state_filler
         <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
         <span class="n">previous_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
         <span class="n">previous_alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">Environment</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate common block data for both make_fixture and make_hive_fixture.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -24677,7 +24622,6 @@ return test_state_filler
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
-            <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
         <span class="p">)</span>
@@ -24784,15 +24728,6 @@ return test_state_filler
             <span class="n">env</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return fixture network information for the fork &amp; EIP/s.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">eips</span>
-            <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
-        <span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -24808,7 +24743,6 @@ return test_state_filler
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a fixture from the blockchain test definition.&quot;&quot;&quot;</span>
         <span class="n">fixture_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span> <span class="o">|</span> <span class="n">InvalidFixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -24830,7 +24764,6 @@ return test_state_filler
                     <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
                     <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                     <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-                    <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">fixture_block</span> <span class="o">=</span> <span class="n">FixtureBlockBase</span><span class="p">(</span>
                     <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
@@ -24881,9 +24814,8 @@ return test_state_filler
                 <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">invalid_blocks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="o">=</span><span class="n">alloc</span><span class="p">)</span>
-        <span class="n">network_info</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BlockchainFixture</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
             <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
             <span class="n">blocks</span><span class="o">=</span><span class="n">fixture_blocks</span><span class="p">,</span>
@@ -24892,7 +24824,7 @@ return test_state_filler
             <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
                 <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="p">),</span>
@@ -24902,7 +24834,6 @@ return test_state_filler
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
         <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -24919,7 +24850,6 @@ return test_state_filler
                 <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
                 <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-                <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">fixture_payloads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -24969,7 +24899,6 @@ return test_state_filler
                 <span class="n">block</span><span class="o">=</span><span class="n">Block</span><span class="p">(),</span>
                 <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-                <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">sync_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
@@ -24981,9 +24910,8 @@ return test_state_filler
                 <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="n">network_info</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">BlockchainEngineFixture</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
             <span class="n">payloads</span><span class="o">=</span><span class="n">fixture_payloads</span><span class="p">,</span>
             <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
@@ -24993,7 +24921,7 @@ return test_state_filler
             <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
             <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
             <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
                 <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
             <span class="p">),</span>
@@ -25004,14 +24932,13 @@ return test_state_filler
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
         <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -25020,7 +24947,6 @@ return test_state_filler
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
@@ -25273,7 +25199,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.generate_block_data" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate_block_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">previous_env</span><span class="p">,</span> <span class="n">previous_alloc</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate_block_data</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">block</span><span class="p">,</span> <span class="n">previous_env</span><span class="p">,</span> <span class="n">previous_alloc</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.generate_block_data" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -25436,16 +25362,13 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">546</span>
 <span class="normal">547</span>
 <span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">549</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">block</span><span class="p">:</span> <span class="n">Block</span><span class="p">,</span>
     <span class="n">previous_env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">previous_alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FixtureHeader</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Transaction</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">Bytes</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">Environment</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate common block data for both make_fixture and make_hive_fixture.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">and</span> <span class="n">block</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -25487,7 +25410,6 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">get_reward</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">),</span>
         <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
-        <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
         <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
     <span class="p">)</span>
@@ -25607,51 +25529,6 @@ In this case, the state verification is only performed based on the state root.<
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BlockchainTest.network_info" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
-  </span>
-
-<a href="#ethereum_test_specs.BlockchainTest.network_info" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Return fixture network information for the fork &amp; EIP/s.</p>
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span> <span class="nf">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fixture network information for the fork &amp; EIP/s.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span>
-        <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">eips</span>
-        <span class="k">else</span> <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">()</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
 <h3 id="ethereum_test_specs.BlockchainTest.verify_post_state" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">,</span> <span class="n">expected_state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
@@ -25664,16 +25541,16 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -25698,7 +25575,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.make_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.make_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -25709,7 +25586,18 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
 <span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
@@ -25787,25 +25675,10 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">651</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a fixture from the blockchain test definition.&quot;&quot;&quot;</span>
     <span class="n">fixture_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span> <span class="o">|</span> <span class="n">InvalidFixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -25827,7 +25700,6 @@ In this case, the state verification is only performed based on the state root.<
                 <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
                 <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
                 <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-                <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">fixture_block</span> <span class="o">=</span> <span class="n">FixtureBlockBase</span><span class="p">(</span>
                 <span class="n">header</span><span class="o">=</span><span class="n">header</span><span class="p">,</span>
@@ -25878,9 +25750,8 @@ In this case, the state verification is only performed based on the state root.<
             <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="n">invalid_blocks</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">verify_post_state</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="o">=</span><span class="n">alloc</span><span class="p">)</span>
-    <span class="n">network_info</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">BlockchainFixture</span><span class="p">(</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
         <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
         <span class="n">genesis_rlp</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">rlp</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="n">fixture_blocks</span><span class="p">,</span>
@@ -25889,7 +25760,7 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">post_state</span><span class="o">=</span><span class="n">alloc</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">post_state_hash</span><span class="o">=</span><span class="n">alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_full_post_state_in_output</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="p">),</span>
@@ -25909,7 +25780,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.make_hive_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.make_hive_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -25920,7 +25791,21 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">667</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
 <span class="normal">668</span>
 <span class="normal">669</span>
 <span class="normal">670</span>
@@ -26001,29 +25886,10 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">745</span>
 <span class="normal">746</span>
 <span class="normal">747</span>
-<span class="normal">748</span>
-<span class="normal">749</span>
-<span class="normal">750</span>
-<span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
-<span class="normal">761</span>
-<span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
     <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -26040,7 +25906,6 @@ In this case, the state verification is only performed based on the state root.<
             <span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span>
             <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-            <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">rlp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fixture_payloads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -26090,7 +25955,6 @@ In this case, the state verification is only performed based on the state root.<
             <span class="n">block</span><span class="o">=</span><span class="n">Block</span><span class="p">(),</span>
             <span class="n">previous_env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
             <span class="n">previous_alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
-            <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">sync_payload</span> <span class="o">=</span> <span class="n">FixtureEngineNewPayload</span><span class="o">.</span><span class="n">from_fixture_header</span><span class="p">(</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
@@ -26102,9 +25966,8 @@ In this case, the state verification is only performed based on the state root.<
             <span class="n">error_code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="n">network_info</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">network_info</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">BlockchainEngineFixture</span><span class="p">(</span>
-        <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
         <span class="n">genesis</span><span class="o">=</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">,</span>
         <span class="n">payloads</span><span class="o">=</span><span class="n">fixture_payloads</span><span class="p">,</span>
         <span class="n">fcu_version</span><span class="o">=</span><span class="n">fcu_version</span><span class="p">,</span>
@@ -26114,7 +25977,7 @@ In this case, the state verification is only performed based on the state root.<
         <span class="n">sync_payload</span><span class="o">=</span><span class="n">sync_payload</span><span class="p">,</span>
         <span class="n">last_block_hash</span><span class="o">=</span><span class="n">head_hash</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">FixtureConfig</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">network_info</span><span class="p">,</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">FixtureBlobSchedule</span><span class="o">.</span><span class="n">from_blob_schedule</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">()),</span>
         <span class="p">),</span>
@@ -26134,7 +25997,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -26145,33 +26008,31 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
-<span class="normal">773</span>
-<span class="normal">774</span>
-<span class="normal">775</span>
-<span class="normal">776</span>
-<span class="normal">777</span>
-<span class="normal">778</span>
-<span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
     <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -26189,7 +26050,7 @@ In this case, the state verification is only performed based on the state root.<
 
 
 <h3 id="ethereum_test_specs.BlockchainTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -26200,28 +26061,26 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">784</span>
-<span class="normal">785</span>
-<span class="normal">786</span>
-<span class="normal">787</span>
-<span class="normal">788</span>
-<span class="normal">789</span>
-<span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
@@ -26279,7 +26138,12 @@ under test is an initcode container.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">511</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
 <span class="normal">512</span>
 <span class="normal">513</span>
 <span class="normal">514</span>
@@ -26414,13 +26278,7 @@ under test is an initcode container.</p>
 <span class="normal">643</span>
 <span class="normal">644</span>
 <span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">):</span>
+<span class="normal">646</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFStateTest</span><span class="p">(</span><span class="n">EOFTest</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that generates an EOF test for container validation, and also tests the container</span>
 <span class="sd">    during runtime using a state test (and blockchain test).</span>
@@ -26545,7 +26403,6 @@ under test is an initcode container.</p>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
         <span class="o">**</span><span class="n">_</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
@@ -26555,10 +26412,10 @@ under test is an initcode container.</p>
                 <span class="c1"># Gracefully skip duplicate tests because one EOFStateTest can generate multiple</span>
                 <span class="c1"># state fixtures with the same data.</span>
                 <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate EOF container on EOFStateTest: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">StateTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
             <span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -26702,10 +26559,10 @@ under test is an initcode container.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span> <span class="nf">pytest_parameter_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Workaround for pytest parameter name.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s2">&quot;eof_state_test&quot;</span>
@@ -26735,7 +26592,12 @@ under test is an initcode container.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">567</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
 <span class="normal">568</span>
 <span class="normal">569</span>
 <span class="normal">570</span>
@@ -26779,12 +26641,7 @@ under test is an initcode container.</p>
 <span class="normal">608</span>
 <span class="normal">609</span>
 <span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
+<span class="normal">611</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Prepare the transaction parameters required to fill the test.&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;pre must be set to generate a StateTest.&quot;</span>
 
@@ -26860,18 +26717,18 @@ under test is an initcode container.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">618</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
 <span class="normal">619</span>
 <span class="normal">620</span>
 <span class="normal">621</span>
 <span class="normal">622</span>
 <span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
+<span class="normal">624</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the StateTest filler.&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;pre must be set to generate a StateTest.&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;post must be set to generate a StateTest.&quot;</span>
@@ -26898,7 +26755,7 @@ under test is an initcode container.</p>
 
 
 <h3 id="ethereum_test_specs.EOFStateTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="o">**</span><span class="n">_</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="o">**</span><span class="n">_</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.EOFStateTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -26909,7 +26766,12 @@ under test is an initcode container.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">631</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
 <span class="normal">632</span>
 <span class="normal">633</span>
 <span class="normal">634</span>
@@ -26924,18 +26786,11 @@ under test is an initcode container.</p>
 <span class="normal">643</span>
 <span class="normal">644</span>
 <span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">646</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="o">**</span><span class="n">_</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
@@ -26945,10 +26800,10 @@ under test is an initcode container.</p>
             <span class="c1"># Gracefully skip duplicate tests because one EOFStateTest can generate multiple</span>
             <span class="c1"># state fixtures with the same data.</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate EOF container on EOFStateTest: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_id</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">StateTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
         <span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -27328,12 +27183,7 @@ contract-creating transaction to test deployment/validation on the instantiated 
 <span class="normal">496</span>
 <span class="normal">497</span>
 <span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EOFTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Filler type that generates a test for EOF container validation.</span>
 
@@ -27497,7 +27347,6 @@ contract-creating transaction to test deployment/validation on the instantiated 
         <span class="bp">self</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOFFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the EOF test fixture.&quot;&quot;&quot;</span>
         <span class="n">container_bytes</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
@@ -27512,7 +27361,7 @@ contract-creating transaction to test deployment/validation on the instantiated 
                 <span class="n">code</span><span class="o">=</span><span class="n">container_bytes</span><span class="p">,</span>
                 <span class="n">container_kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">container_kind</span><span class="p">,</span>
                 <span class="n">results</span><span class="o">=</span><span class="p">{</span>
-                    <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">Result</span><span class="p">(</span>
+                    <span class="n">fork</span><span class="p">:</span> <span class="n">Result</span><span class="p">(</span>
                         <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
                         <span class="n">valid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="p">),</span>
@@ -27529,7 +27378,7 @@ contract-creating transaction to test deployment/validation on the instantiated 
             <span class="k">return</span> <span class="n">fixture</span>
 
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
+            <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
@@ -27647,16 +27496,15 @@ contract-creating transaction to test deployment/validation on the instantiated 
         <span class="o">*</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
         <span class="o">**</span><span class="n">_</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">EOFFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">StateTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -27665,13 +27513,10 @@ contract-creating transaction to test deployment/validation on the instantiated 
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-                <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="o">=</span><span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
-            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="o">=</span><span class="n">execute_format</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -28093,7 +27938,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.EOFTest.make_eof_test_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.EOFTest.make_eof_test_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28148,12 +27993,10 @@ unset.</p>
 <span class="normal">366</span>
 <span class="normal">367</span>
 <span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
+<span class="normal">369</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_eof_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EOFFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the EOF test fixture.&quot;&quot;&quot;</span>
     <span class="n">container_bytes</span> <span class="o">=</span> <span class="n">Bytes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
@@ -28168,7 +28011,7 @@ unset.</p>
             <span class="n">code</span><span class="o">=</span><span class="n">container_bytes</span><span class="p">,</span>
             <span class="n">container_kind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">container_kind</span><span class="p">,</span>
             <span class="n">results</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">Result</span><span class="p">(</span>
+                <span class="n">fork</span><span class="p">:</span> <span class="n">Result</span><span class="p">(</span>
                     <span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span><span class="p">,</span>
                     <span class="n">valid</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">expect_exception</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="p">),</span>
@@ -28185,7 +28028,7 @@ unset.</p>
         <span class="k">return</span> <span class="n">fixture</span>
 
     <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">vector</span> <span class="ow">in</span> <span class="n">fixture</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">())</span>
+        <span class="n">expected_result</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">expected_result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;EOF Fixture missing vector result for fork: </span><span class="si">{</span><span class="n">fork</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
@@ -28221,7 +28064,8 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">372</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">371</span>
+<span class="normal">372</span>
 <span class="normal">373</span>
 <span class="normal">374</span>
 <span class="normal">375</span>
@@ -28248,8 +28092,7 @@ unset.</p>
 <span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
+<span class="normal">399</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">verify_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">CompletedProcess</span><span class="p">,</span> <span class="n">expected_result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="n">Bytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the reported exception string matches the expected error.&quot;&quot;&quot;</span>
     <span class="n">evmone_exception_mapper</span> <span class="o">=</span> <span class="n">EvmoneExceptionMapper</span><span class="p">()</span>
     <span class="n">actual_exception_str</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
@@ -28304,7 +28147,8 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">402</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">401</span>
+<span class="normal">402</span>
 <span class="normal">403</span>
 <span class="normal">404</span>
 <span class="normal">405</span>
@@ -28363,8 +28207,7 @@ unset.</p>
 <span class="normal">458</span>
 <span class="normal">459</span>
 <span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_eof_contract_create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transaction</span><span class="p">:</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_eof_contract_create_transaction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transaction</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a transaction that creates a contract.&quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;sender must be set to generate a StateTest.&quot;</span>
     <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;post must be set to generate a StateTest.&quot;</span>
@@ -28451,15 +28294,15 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">463</span>
+<span class="normal">464</span>
 <span class="normal">465</span>
 <span class="normal">466</span>
 <span class="normal">467</span>
 <span class="normal">468</span>
 <span class="normal">469</span>
 <span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
+<span class="normal">471</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate_state_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the StateTest filler.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">StateTest</span><span class="o">.</span><span class="n">from_test</span><span class="p">(</span>
         <span class="n">base_test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -28483,7 +28326,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.EOFTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="o">**</span><span class="n">_</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="o">**</span><span class="n">_</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.EOFTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28494,7 +28337,8 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">474</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">473</span>
+<span class="normal">474</span>
 <span class="normal">475</span>
 <span class="normal">476</span>
 <span class="normal">477</span>
@@ -28508,23 +28352,20 @@ unset.</p>
 <span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">488</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="o">**</span><span class="n">_</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">EOFFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_eof_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">StateTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -28542,7 +28383,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.EOFTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.EOFTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28553,30 +28394,24 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/eof.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">492</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
 <span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
 <span class="normal">497</span>
 <span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">499</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="o">=</span><span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_state_test</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="o">=</span><span class="n">execute_format</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -28842,11 +28677,7 @@ unset.</p>
 <span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests transactions over the period of a single block.&quot;&quot;&quot;</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Environment</span><span class="p">)</span>
@@ -28969,7 +28800,6 @@ unset.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a fixture from the state test definition.&quot;&quot;&quot;</span>
         <span class="c1"># We can&#39;t generate a state test fixture that names a transition fork,</span>
@@ -28998,7 +28828,6 @@ unset.</p>
             <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
             <span class="n">reward</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Reward on state tests is always zero</span>
             <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
-            <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
             <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
             <span class="n">state_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
@@ -29026,7 +28855,7 @@ unset.</p>
             <span class="n">env</span><span class="o">=</span><span class="n">FixtureEnvironment</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
             <span class="n">pre</span><span class="o">=</span><span class="n">pre_alloc</span><span class="p">,</span>
             <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="p">[</span>
+                <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
                     <span class="n">FixtureForkPost</span><span class="p">(</span>
                         <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                         <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
@@ -29048,16 +28877,15 @@ unset.</p>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_blockchain_test</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+                <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -29066,7 +28894,6 @@ unset.</p>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
@@ -29186,7 +29013,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.StateTest.make_state_test_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.StateTest.make_state_test_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -29271,13 +29098,10 @@ unset.</p>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_state_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StateFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a fixture from the state test definition.&quot;&quot;&quot;</span>
     <span class="c1"># We can&#39;t generate a state test fixture that names a transition fork,</span>
@@ -29306,7 +29130,6 @@ unset.</p>
         <span class="n">chain_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">reward</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Reward on state tests is always zero</span>
         <span class="n">blob_schedule</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">blob_schedule</span><span class="p">(),</span>
-        <span class="n">eips</span><span class="o">=</span><span class="n">eips</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_next_transition_tool_output_path</span><span class="p">(),</span>
         <span class="n">state_test</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">slow_request</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">is_tx_gas_heavy_test</span><span class="p">(),</span>
@@ -29334,7 +29157,7 @@ unset.</p>
         <span class="n">env</span><span class="o">=</span><span class="n">FixtureEnvironment</span><span class="p">(</span><span class="o">**</span><span class="n">env</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre_alloc</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="p">[</span>
+            <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
                 <span class="n">FixtureForkPost</span><span class="p">(</span>
                     <span class="n">state_root</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">state_root</span><span class="p">,</span>
                     <span class="n">logs_hash</span><span class="o">=</span><span class="n">transition_tool_output</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">logs_hash</span><span class="p">,</span>
@@ -29365,7 +29188,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.StateTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.StateTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -29376,7 +29199,9 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
@@ -29389,24 +29214,20 @@ unset.</p>
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">supported_fixture_formats</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_blockchain_test</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
-            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="n">eips</span>
+            <span class="n">t8n</span><span class="o">=</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span>
         <span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">StateFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_state_test_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -29424,7 +29245,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.StateTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.StateTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -29435,7 +29256,10 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
@@ -29444,16 +29268,11 @@ unset.</p>
 <span class="normal">262</span>
 <span class="normal">263</span>
 <span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">265</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
@@ -30158,10 +29977,7 @@ unset.</p>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransactionTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransactionTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests the transaction over the period of a single block.&quot;&quot;&quot;</span>
 
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span>
@@ -30181,7 +29997,6 @@ unset.</p>
     <span class="k">def</span> <span class="nf">make_transaction_test_fixture</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransactionFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a fixture from the transaction test definition.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -30208,7 +30023,7 @@ unset.</p>
 
         <span class="k">return</span> <span class="n">TransactionFixture</span><span class="p">(</span>
             <span class="n">result</span><span class="o">=</span><span class="p">{</span>
-                <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
+                <span class="n">fork</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
         <span class="p">)</span>
@@ -30218,12 +30033,11 @@ unset.</p>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the TransactionTest fixture.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">TransactionFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -30232,7 +30046,6 @@ unset.</p>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the transaction test by sending it to the live network.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>
@@ -30258,7 +30071,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.TransactionTest.make_transaction_test_fixture" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.TransactionTest.make_transaction_test_fixture" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -30301,11 +30114,9 @@ unset.</p>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_transaction_test_fixture</span><span class="p">(</span>
+<span class="normal">74</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">make_transaction_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TransactionFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a fixture from the transaction test definition.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -30332,7 +30143,7 @@ unset.</p>
 
     <span class="k">return</span> <span class="n">TransactionFixture</span><span class="p">(</span>
         <span class="n">result</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">fork</span><span class="o">.</span><span class="n">blockchain_test_network_name</span><span class="p">():</span> <span class="n">result</span><span class="p">,</span>
+            <span class="n">fork</span><span class="p">:</span> <span class="n">result</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="n">transaction</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">with_signature_and_sender</span><span class="p">()</span><span class="o">.</span><span class="n">rlp</span><span class="p">(),</span>
     <span class="p">)</span>
@@ -30351,7 +30162,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.TransactionTest.generate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.TransactionTest.generate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -30362,7 +30173,8 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/transaction.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">77</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
+<span class="normal">77</span>
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
@@ -30372,19 +30184,16 @@ unset.</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the TransactionTest fixture.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">check_exception_test</span><span class="p">(</span><span class="n">exception</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tx</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">TransactionFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">eips</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_transaction_test_fixture</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
 
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown fixture format: </span><span class="si">{</span><span class="n">fixture_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -30402,7 +30211,7 @@ unset.</p>
 
 
 <h3 id="ethereum_test_specs.TransactionTest.execute" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">execute</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">execute_format</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.TransactionTest.execute" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -30413,7 +30222,9 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/transaction.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 91</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
 <span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
@@ -30423,15 +30234,11 @@ unset.</p>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
+<span class="normal">101</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">execute_format</span><span class="p">:</span> <span class="n">ExecuteFormat</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseExecute</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the transaction test by sending it to the live network.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">TransactionPost</span><span class="p">:</span>

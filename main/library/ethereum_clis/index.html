@@ -22257,10 +22257,7 @@
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">BesuTransitionTool</span><span class="p">(</span><span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Besu EvmTool Transition tool frontend wrapper class.&quot;&quot;&quot;</span>
 
     <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;evm&quot;</span><span class="p">)</span>
@@ -22340,7 +22337,6 @@
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">blob_schedule</span><span class="p">:</span> <span class="n">BlobSchedule</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">state_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">slow_request</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -22353,8 +22349,6 @@
             <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fork_name</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
 
         <span class="n">input_json</span> <span class="o">=</span> <span class="n">TransitionToolInput</span><span class="p">(</span>
             <span class="n">alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
@@ -22644,7 +22638,7 @@ for future re-use.</p>
 
 
 <h3 id="ethereum_clis.BesuTransitionTool.evaluate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">blob_schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">state_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slow_request</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">blob_schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">state_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slow_request</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 <a href="#ethereum_clis.BesuTransitionTool.evaluate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -22758,10 +22752,7 @@ for future re-use.</p>
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -22771,7 +22762,6 @@ for future re-use.</p>
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">blob_schedule</span><span class="p">:</span> <span class="n">BlobSchedule</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">slow_request</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -22784,8 +22774,6 @@ for future re-use.</p>
         <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
         <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fork_name</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
 
     <span class="n">input_json</span> <span class="o">=</span> <span class="n">TransitionToolInput</span><span class="p">(</span>
         <span class="n">alloc</span><span class="o">=</span><span class="n">alloc</span><span class="p">,</span>
@@ -22894,9 +22882,9 @@ for future re-use.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/besu.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the fork is supported by the tool.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fork</span><span class="o">.</span><span class="n">transition_tool_name</span><span class="p">()</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">help_string</span>
 </code></pre></div></td></tr></table></div>
@@ -27292,10 +27280,7 @@ implementations.</p>
 <span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">):</span>
+<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransitionTool</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transition tool abstract base class which should be inherited by all transition tool</span>
 <span class="sd">    implementations.</span>
@@ -27757,7 +27742,6 @@ implementations.</p>
         <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">blob_schedule</span><span class="p">:</span> <span class="n">BlobSchedule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">state_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">slow_request</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -27772,8 +27756,6 @@ implementations.</p>
             <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">fork_name</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="n">t8n_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransitionToolData</span><span class="p">(</span>
@@ -28549,7 +28531,7 @@ for future re-use.</p>
 
 
 <h3 id="ethereum_clis.TransitionTool.evaluate" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">blob_schedule</span><span class="p">,</span> <span class="n">eips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">state_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slow_request</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">evaluate</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">alloc</span><span class="p">,</span> <span class="n">txs</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">chain_id</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">blob_schedule</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">state_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">slow_request</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 <a href="#ethereum_clis.TransitionTool.evaluate" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28614,10 +28596,7 @@ can be overridden.</p>
 <span class="normal">542</span>
 <span class="normal">543</span>
 <span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">alloc</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -28627,7 +28606,6 @@ can be overridden.</p>
     <span class="n">chain_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">reward</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">blob_schedule</span><span class="p">:</span> <span class="n">BlobSchedule</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">eips</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">debug_output_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">slow_request</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -28642,8 +28620,6 @@ can be overridden.</p>
         <span class="n">block_number</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
         <span class="n">timestamp</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">eips</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">fork_name</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">fork_name</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eip</span><span class="p">)</span> <span class="k">for</span> <span class="n">eip</span> <span class="ow">in</span> <span class="n">eips</span><span class="p">])</span>
     <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">reward</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">t8n_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TransitionToolData</span><span class="p">(</span>
