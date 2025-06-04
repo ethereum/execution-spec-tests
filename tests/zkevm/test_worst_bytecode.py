@@ -68,7 +68,7 @@ def test_worst_bytecode_single_opcode(
     # able to pay for the contract deposit. This has to take into account the 200 gas per byte,
     # but also the quadratic memory expansion costs which have to be paid each time the
     # memory is being setup
-    attack_gas_limit = 100_000_000
+    attack_gas_limit = Environment().gas_limit
     max_contract_size = fork.max_code_size()
 
     gas_costs = fork.gas_costs()
