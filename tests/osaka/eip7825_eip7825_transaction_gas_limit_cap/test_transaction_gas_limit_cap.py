@@ -3,7 +3,7 @@ abstract: Tests [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/E
     Test cases for [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/EIPS/eip-7825)].
 """
 
-from typing import List, Tuple
+from typing import List
 
 import pytest
 
@@ -22,6 +22,7 @@ from ethereum_test_tools import (
     TransactionException,
     add_kzg_version,
 )
+from ethereum_test_tools.utility.pytest import ParameterSet
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7825.md"
@@ -31,7 +32,7 @@ TX_GAS_LIMIT = 30_000_000
 BLOB_COMMITMENT_VERSION_KZG = 1
 
 
-def tx_gas_limit_cap_tests(fork: Fork) -> List[Tuple[int, TransactionException | None]]:
+def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
     """
     Return a list of tests for transaction gas limit cap parametrized for each different
     fork.
@@ -154,6 +155,7 @@ def test_transaction_gas_limit_cap_at_transition(
     post_cap = fork.transaction_gas_limit_cap(timestamp=15_000)
     post_cap_tx_error = TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
 
+    assert post_cap is not None, "Post cap should not be None"
     assert post_cap <= pre_cap, (
         "Post cap should be less than or equal to pre cap, test needs update"
     )
