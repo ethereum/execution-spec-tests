@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Union
 
 import ethereum_rlp as eth_rlp
 from coincurve.keys import PrivateKey, PublicKey
@@ -655,8 +655,26 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
 
     tx: Transaction
-    wrapper_version: Literal[1] | None = None
+    wrapper_version: Union[Bytes | None] = None
     blobs: Sequence[Blob]
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def blob_wrapper_version(self) -> bytes | None:
+        """Return the wrapper version (byte 1 for Osaka, None pre-Osaka)."""
+        # TODO: it could be a mix of blobs from different forks, then what would be the wrapper version?
+        if len(self.blobs) == 0:
+            return None
+
+        fork = self.blobs[0].fork
+        amount_cell_proofs = fork.get_blob_constant("AMOUNT_CELL_PROOFS")
+        assert isinstance(amount_cell_proofs, int), (
+            f"Expected AMOUNT_CELL_PROOFS of fork {fork} to be an int but this is not the case!"
+        )
+        if amount_cell_proofs > 0:
+            return bytes([1])
+
+        return None
 
     @computed_field  # type: ignore[prop-decorator]
     @property
@@ -672,12 +690,23 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_proofs(self) -> Sequence[Sequence[Bytes]] | Sequence[Bytes]:
+    def blob_kzg_proofs(self) -> Sequence[Bytes | Sequence[Bytes]]:
         """Return a list of kzg proofs."""
-        proofs: List[List[Bytes]] | List[Bytes] = []
+        proofs: list[Bytes | list[Bytes]] = []
         for blob in self.blobs:
-            proofs.append(blob.proof)  # type: ignore[arg-type]
+            proofs.append(blob.proof)
+
         return proofs
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def blob_cells(self) -> Sequence[Sequence[Bytes] | None]:
+        """Return a list of cells."""
+        cells: list[list[Bytes] | None] = []
+        for blob in self.blobs:
+            cells.append(blob.cells)
+
+        return cells
 
     def get_rlp_fields(self) -> List[str]:
         """
@@ -689,10 +718,14 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         The list can be nested list up to one extra level to represent nested fields.
         """
-        wrapper = []
-        if self.wrapper_version is not None:
-            wrapper = ["wrapper_version"]
-        return ["tx", *wrapper, "blob_data", "blob_kzg_commitments", "blob_kzg_proofs"]
+        return [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
+            "tx",  # tx_payload_body
+            "blob_wrapper_version",  # wrapper_version, which is always 1 for osaka (was it non-existing before?)
+            "blob_data",  # blobs
+            "blob_kzg_commitments",  # commitments
+            "blob_kzg_proofs",  # cell_proofs
+            "blob_cells",
+        ]
 
     def get_rlp_prefix(self) -> bytes:
         """

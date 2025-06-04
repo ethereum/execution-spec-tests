@@ -19,7 +19,6 @@ from ethereum_test_tools import (
     TransactionException,
 )
 
-from ...cancun.eip4844_blobs.spec import Spec as Spec4844
 from .spec import ref_spec_7594
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
@@ -170,7 +169,7 @@ def txs(  # noqa: D103
     txs: List[NetworkWrappedTransaction | Transaction] = []
     for tx_blobs, tx_versioned_hashes in zip(txs_blobs, txs_versioned_hashes, strict=False):
         tx = Transaction(
-            ty=Spec4844.BLOB_TX_TYPE,
+            # type=3,
             sender=pre.fund_eoa(),
             to=destination_account,
             value=tx_value,
