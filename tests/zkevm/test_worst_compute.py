@@ -1068,7 +1068,6 @@ def test_worst_tload(
 
     code_suffix = code_key_mut + code_val_mut + Op.JUMP(len(code_prefix) - 1)
 
-    loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
     code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
