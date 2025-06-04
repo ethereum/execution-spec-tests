@@ -20335,7 +20335,7 @@
 
 
 <h1 id="test_worst_address_state_warm"><code>test_worst_address_state_warm()</code><a class="headerlink" href="#test_worst_address_state_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/351c4a1fd10a4b241e4ea1c7301d91783ebc4553/tests/zkevm/test_worst_stateful_opcodes.py#L116"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@351c4a1f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ee9b84d9b03de5711242edb26b774c69cbcde769/tests/zkevm/test_worst_stateful_opcodes.py#L114"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@ee9b84d9</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm --fork Prague</span>
@@ -20354,7 +20354,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">116</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
 <span class="normal">119</span>
@@ -20441,11 +20443,13 @@
 <span class="k">def</span> <span class="nf">test_worst_address_state_warm</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">absent_target</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many stateful opcodes doing warm access for an account.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000_000</span><span class="p">)</span>
+    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span>
 
     <span class="c1"># Setup</span>
@@ -20461,13 +20465,13 @@
     <span class="n">jumpdest</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
     <span class="n">jump_back</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prep</span><span class="p">))</span>
     <span class="n">iter_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">opcode</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span>
-    <span class="n">max_iters_loop</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">prep</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jumpdest</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jump_back</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span>
+    <span class="n">max_iters_loop</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">prep</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jumpdest</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">jump_back</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span>
         <span class="n">iter_block</span>
     <span class="p">)</span>
     <span class="n">op_code</span> <span class="o">=</span> <span class="n">prep</span> <span class="o">+</span> <span class="n">jumpdest</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">iter_block</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_iters_loop</span><span class="p">)</span> <span class="o">+</span> <span class="n">jump_back</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">op_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_CODE_SIZE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">op_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_code_size</span><span class="p">:</span>
         <span class="c1"># Must never happen, but keep it as a sanity check.</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">op_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">MAX_CODE_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">op_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">max_code_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">op_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">op_code</span><span class="p">)</span>
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">op_address</span><span class="p">,</span>

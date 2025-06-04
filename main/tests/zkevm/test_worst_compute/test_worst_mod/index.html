@@ -20335,7 +20335,7 @@
 
 
 <h1 id="test_worst_mod"><code>test_worst_mod()</code><a class="headerlink" href="#test_worst_mod" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/351c4a1fd10a4b241e4ea1c7301d91783ebc4553/tests/zkevm/test_worst_compute.py#L1174"><code>tests/zkevm/test_worst_compute.py::test_worst_mod@351c4a1f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ee9b84d9b03de5711242edb26b774c69cbcde769/tests/zkevm/test_worst_compute.py#L1177"><code>tests/zkevm/test_worst_compute.py::test_worst_mod@ee9b84d9</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_mod --fork Prague</span>
@@ -20361,10 +20361,7 @@ as long as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1174</span>
-<span class="normal">1175</span>
-<span class="normal">1176</span>
-<span class="normal">1177</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1177</span>
 <span class="normal">1178</span>
 <span class="normal">1179</span>
 <span class="normal">1180</span>
@@ -20480,12 +20477,19 @@ as long as possible.</p>
 <span class="normal">1290</span>
 <span class="normal">1291</span>
 <span class="normal">1292</span>
-<span class="normal">1293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;mod_bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">191</span><span class="p">,</span> <span class="mi">127</span><span class="p">,</span> <span class="mi">63</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;op&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MOD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SMOD</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_mod</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">mod_bits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">op</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
 <span class="p">):</span>
@@ -20499,6 +20503,8 @@ as long as possible.</p>
 <span class="sd">    The order of accessing the numerators is selected in a way the mod value remains in the range</span>
 <span class="sd">    as long as possible.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
+
     <span class="c1"># For SMOD we negate both numerator and modulus. The underlying computation is the same,</span>
     <span class="c1"># just the SMOD implementation will have to additionally handle the sign bits.</span>
     <span class="c1"># The result stays negative.</span>
@@ -20572,7 +20578,7 @@ as long as possible.</p>
     <span class="n">code_constant_pool</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">numerators</span><span class="p">),</span> <span class="n">Bytecode</span><span class="p">())</span>
     <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">code_constant_pool</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
     <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_constant_pool</span><span class="p">))</span>
-    <span class="n">code_body_len</span> <span class="o">=</span> <span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">)</span>
+    <span class="n">code_body_len</span> <span class="o">=</span> <span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">)</span>
     <span class="n">code_segment</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">make_dup</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numerators</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="n">op</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indexes</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
     <span class="p">)</span>
@@ -20582,7 +20588,7 @@ as long as possible.</p>
         <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">code_segment</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">code_body_len</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_segment</span><span class="p">)))</span>
         <span class="o">+</span> <span class="n">code_suffix</span>
     <span class="p">)</span>
-    <span class="k">assert</span> <span class="p">(</span><span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_segment</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">MAX_CODE_SIZE</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_segment</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
 
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 

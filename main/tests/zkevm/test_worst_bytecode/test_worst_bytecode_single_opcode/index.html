@@ -20335,7 +20335,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/351c4a1fd10a4b241e4ea1c7301d91783ebc4553/tests/zkevm/test_worst_bytecode.py#L36"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@351c4a1f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ee9b84d9b03de5711242edb26b774c69cbcde769/tests/zkevm/test_worst_bytecode.py#L34"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@ee9b84d9</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode --fork Prague</span>
@@ -20360,7 +20360,9 @@ consumed by repeated opcode executions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 36</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
 <span class="normal"> 39</span>
@@ -20530,7 +20532,24 @@ consumed by repeated opcode executions.</p>
 <span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
-<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">,</span>
@@ -20562,10 +20581,43 @@ consumed by repeated opcode executions.</p>
 <span class="sd">    The test is performed in the last block of the test, and the entire block gas limit is</span>
 <span class="sd">    consumed by repeated opcode executions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># We use 100G gas limit to be able to deploy a large number of contracts in a single block,</span>
-    <span class="c1"># avoiding bloating the number of preparing blocks in the test.</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000_000</span><span class="p">)</span>
+    <span class="c1"># The attack gas limit is the gas limit which the target tx will use</span>
+    <span class="c1"># The test will scale the block gas limit to setup the contracts accordingly to be</span>
+    <span class="c1"># able to pay for the contract deposit. This has to take into account the 200 gas per byte,</span>
+    <span class="c1"># but also the quadratic memory expansion costs which have to be paid each time the</span>
+    <span class="c1"># memory is being setup</span>
     <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span>
+    <span class="n">max_contract_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
+
+    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+
+    <span class="c1"># Calculate the absolute minimum gas costs to deploy the contract</span>
+    <span class="c1"># This does not take into account setting up the actual memory (using KECCAK256 and XOR)</span>
+    <span class="c1"># so the actual costs of deploying the contract is higher</span>
+    <span class="n">memory_expansion_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
+    <span class="n">memory_gas_minimum</span> <span class="o">=</span> <span class="n">memory_expansion_gas_calculator</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">max_contract_size</span><span class="p">)))</span>
+    <span class="n">code_deposit_gas_minimum</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span><span class="o">.</span><span class="n">G_CODE_DEPOSIT_BYTE</span> <span class="o">*</span> <span class="n">max_contract_size</span> <span class="o">+</span> <span class="n">memory_gas_minimum</span>
+    <span class="p">)</span>
+
+    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
+    <span class="c1"># Calculate the loop cost of the attacker to query one address</span>
+    <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
+        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Opcode cost</span>
+        <span class="o">+</span> <span class="mi">30</span>  <span class="c1"># ~Gluing opcodes</span>
+    <span class="p">)</span>
+    <span class="c1"># Calculate the number of contracts to be targeted</span>
+    <span class="n">num_contracts</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="c1"># Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)</span>
+        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
+
+    <span class="c1"># Set the block gas limit to a relative high value to ensure the code deposit tx</span>
+    <span class="c1"># fits in the block (there is enough gas available in the block to execute this)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">code_deposit_gas_minimum</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">num_contracts</span><span class="p">)</span>
 
     <span class="c1"># The initcode will take its address as a starting point to the input to the keccak</span>
     <span class="c1"># hash function.</span>
@@ -20583,13 +20635,13 @@ consumed by repeated opcode executions.</p>
                 <span class="p">)</span>
                 <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span>
             <span class="p">),</span>
-            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">LT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">,</span> <span class="n">MAX_CONTRACT_SIZE</span><span class="p">),</span>
+            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">LT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MSIZE</span><span class="p">,</span> <span class="n">max_contract_size</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="c1"># Despite the whole contract has random bytecode, we make the first opcode be a STOP</span>
         <span class="c1"># so CALL-like attacks return as soon as possible, while EXTCODE(HASH|SIZE) work as</span>
         <span class="c1"># intended.</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">MAX_CONTRACT_SIZE</span><span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_contract_size</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">initcode_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">initcode</span><span class="p">)</span>
 
@@ -20624,24 +20676,10 @@ consumed by repeated opcode executions.</p>
     <span class="p">)</span>
     <span class="n">factory_caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_caller_code</span><span class="p">)</span>
 
-    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
-        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># Opcode cost</span>
-        <span class="o">+</span> <span class="mi">30</span>  <span class="c1"># ~Gluing opcodes</span>
-    <span class="p">)</span>
-    <span class="n">num_contracts</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="c1"># Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)</span>
-        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
-    <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
-
     <span class="n">contracts_deployment_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">factory_caller_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span>
+        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">Hash</span><span class="p">(</span><span class="n">num_contracts</span><span class="p">),</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
@@ -20677,11 +20715,11 @@ consumed by repeated opcode executions.</p>
         <span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_CONTRACT_SIZE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_contract_size</span><span class="p">:</span>
         <span class="c1"># TODO: A workaround could be to split the opcode code into multiple contracts</span>
         <span class="c1"># and call them in sequence.</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">MAX_CONTRACT_SIZE</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">attack_code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">max_contract_size</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
     <span class="n">opcode_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">attack_code</span><span class="p">)</span>
     <span class="n">opcode_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>

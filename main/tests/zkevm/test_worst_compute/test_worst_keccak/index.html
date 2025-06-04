@@ -20335,7 +20335,7 @@
 
 
 <h1 id="test_worst_keccak"><code>test_worst_keccak()</code><a class="headerlink" href="#test_worst_keccak" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/351c4a1fd10a4b241e4ea1c7301d91783ebc4553/tests/zkevm/test_worst_compute.py#L330"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@351c4a1f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ee9b84d9b03de5711242edb26b774c69cbcde769/tests/zkevm/test_worst_compute.py#L337"><code>tests/zkevm/test_worst_compute.py::test_worst_keccak@ee9b84d9</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_keccak --fork Prague</span>
@@ -20354,14 +20354,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">337</span>
 <span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
@@ -20426,7 +20419,16 @@
 <span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_worst_keccak</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -20441,6 +20443,8 @@
 
     <span class="n">gsc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">mem_exp_gas_calculator</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
+
+    <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
     <span class="c1"># Discover the optimal input size to maximize keccak-permutations, not keccak calls.</span>
     <span class="c1"># The complication of the discovery arises from the non-linear gas cost of memory expansion.</span>
@@ -20472,18 +20476,18 @@
     <span class="c1"># The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP</span>
     <span class="c1">#</span>
     <span class="c1"># Now calculate available gas for [attack iteration]:</span>
-    <span class="c1">#   Numerator = MAX_CODE_SIZE-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.</span>
+    <span class="c1">#   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.</span>
     <span class="c1">#   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA</span>
     <span class="c1"># TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the</span>
     <span class="c1"># attack, whenever this is fixed adjust accordingly.</span>
     <span class="n">start_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH20</span><span class="p">[</span><span class="n">optimal_input_length</span><span class="p">]</span>
     <span class="n">loop_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span>
     <span class="n">end_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>
-    <span class="n">max_iters_loop</span> <span class="o">=</span> <span class="p">(</span><span class="n">MAX_CODE_SIZE</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_code</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_code</span><span class="p">)))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_code</span><span class="p">)</span>
+    <span class="n">max_iters_loop</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">start_code</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">end_code</span><span class="p">)))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_code</span><span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">start_code</span> <span class="o">+</span> <span class="p">(</span><span class="n">loop_code</span> <span class="o">*</span> <span class="n">max_iters_loop</span><span class="p">)</span> <span class="o">+</span> <span class="n">end_code</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_CODE_SIZE</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_code_size</span><span class="p">:</span>
         <span class="c1"># Must never happen, but keep it as a sanity check.</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">MAX_CODE_SIZE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Code size </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span><span class="si">}</span><span class="s2"> exceeds maximum code size </span><span class="si">{</span><span class="n">max_code_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
 
