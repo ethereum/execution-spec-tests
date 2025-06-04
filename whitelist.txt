@@ -796,6 +796,7 @@ precompiles
 deployer
 0x
 modexp
+ModExp
 0x00
 0x01
 0x10
