@@ -1350,6 +1350,7 @@ def test_worst_memory_access(
 def test_worst_modarith(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     mod_bits: int,
     op: Op,
 ):
@@ -1367,6 +1368,8 @@ def test_worst_modarith(
     """
     fixed_arg = 2**256 - 1
     num_args = 15
+
+    max_code_size = fork.max_code_size()
 
     # Pick the modulus min value so that it is _unlikely_ to drop to the lower word count.
     assert mod_bits >= 63
@@ -1428,7 +1431,7 @@ def test_worst_modarith(
     # Construct the final code. Because of the usage of PUSH32 the code segment is very long,
     # so don't try to include multiple of these.
     code = code_constant_pool + Op.JUMPDEST + code_segment + Op.JUMP(len(code_constant_pool))
-    assert (MAX_CODE_SIZE - len(code_segment)) < len(code) <= MAX_CODE_SIZE
+    assert (max_code_size - len(code_segment)) < len(code) <= max_code_size
 
     env = Environment()
 
