@@ -50,16 +50,16 @@ def checklist(output: str, eip: tuple, **kwargs) -> None:
 
     Examples:
         # Generate checklists for all EIPs
-        eest checklist
+        uv run checklist
 
         # Generate checklist for specific EIP
-        eest checklist --eip 7702
+        uv run checklist --eip 7702
 
         # Generate checklists for specific test path
-        eest checklist tests/prague/eip7702*
+        uv run checklist tests/prague/eip7702*
 
         # Specify output directory
-        eest checklist --output ./my-checklists
+        uv run checklist --output ./my-checklists
 
     """
     # Add output directory to pytest args
