@@ -10,7 +10,6 @@ import pytest
 
 from ethereum_test_base_types.base_types import Hash
 from ethereum_test_forks import Fork
-from ethereum_test_forks.forks.forks import Cancun
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -246,7 +245,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob.from_fork(Cancun),
+                    Blob.from_fork(fork),
                 ]
             ],
             [True],
@@ -255,7 +254,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob.from_fork(Cancun),
+                    Blob.from_fork(fork),
                 ]
                 for _ in range(max_blobs)
             ],
@@ -265,7 +264,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob.from_fork(Cancun),
+                    Blob.from_fork(fork),
                 ]
                 for _ in range(max_blobs)
             ],
