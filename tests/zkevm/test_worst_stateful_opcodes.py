@@ -625,18 +625,16 @@ def test_worst_selfdestruct_created(
     pre.fund_address(env.fee_recipient, 1)
 
     # SELFDESTRUCT(COINBASE) contract deployment
-    # code = Op.MSTORE8(0, 0x41) + Op.MSTORE8(1, 0xFF) + Op.RETURN(0, 2)
-    initcode = 0x604160005360FF60015360026000F3
-    initcode_length = (initcode.bit_length() + 7) // 8
+    initcode = Op.MSTORE8(0, 0x41) + Op.MSTORE8(1, 0xFF) + Op.RETURN(0, 2)
     code = (
-        Op.MSTORE(0, initcode)
+        Op.MSTORE(0, initcode.hex())
         + While(
             body=Op.POP(
                 Op.CALL(
                     address=Op.CREATE(
                         value=1 if value_bearing else 0,
-                        offset=32 - initcode_length,
-                        size=initcode_length,
+                        offset=32 - len(initcode),
+                        size=len(initcode),
                     )
                 )
             ),
@@ -675,23 +673,20 @@ def test_worst_selfdestruct_initcode(
     env = Environment()
     pre.fund_address(env.fee_recipient, 1)
 
-    # code = Op.SELFDESTRUCT(Op.COINBASE)
-    initcode = 0x41FF
+    initcode = Op.SELFDESTRUCT(Op.COINBASE)
     code = (
-        Op.MSTORE(0, initcode)
+        Op.MSTORE(0, initcode.hex())
         + While(
             body=Op.POP(
-                Op.CALL(
-                    address=Op.CREATE(
-                        value=1 if value_bearing else 0,
-                        offset=30,
-                        size=2,
-                    )
+                Op.CREATE(
+                    value=1 if value_bearing else 0,
+                    offset=32 - len(initcode),
+                    size=len(initcode),
                 )
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 10_000),
+            condition=Op.GT(Op.GAS, 12_000),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
