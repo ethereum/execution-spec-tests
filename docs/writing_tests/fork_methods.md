@@ -153,7 +153,6 @@ fork.name()  # Returns the name of the fork
 fork.transition_tool_name(block_number=0, timestamp=0)  # Returns name for transition tools
 fork.solc_name()  # Returns name for the solc compiler
 fork.solc_min_version()  # Returns minimum solc version supporting this fork
-fork.blockchain_test_network_name()  # Returns network name for blockchain tests
 fork.is_deployed()  # Returns whether the fork is deployed to mainnet
 ```
 
