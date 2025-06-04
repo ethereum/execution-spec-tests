@@ -345,7 +345,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @classmethod
     @abstractmethod
     def calldata_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
+        cls, *, block_number: int = 0, timestamp: int = 0
     ) -> CalldataGasCalculator:
         """
         Return callable that calculates the transaction gas cost for its

@@ -293,7 +293,7 @@ class Alloc(BaseAlloc):
             f"initcode too large {len(initcode)} > {MAX_INITCODE_SIZE}"
         )
 
-        calldata_gas_calculator = self._fork.calldata_gas_calculator()
+        calldata_gas_calculator = self._fork.calldata_gas_calculator(block_number=0, timestamp=0)
         deploy_gas_limit += calldata_gas_calculator(data=initcode)
 
         # Limit the gas limit

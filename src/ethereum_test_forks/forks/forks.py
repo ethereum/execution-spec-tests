@@ -152,7 +152,7 @@ class Frontier(BaseFork, solc_name="homestead"):
 
     @classmethod
     def calldata_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
+        cls, *, block_number: int = 0, timestamp: int = 0
     ) -> CalldataGasCalculator:
         """
         Return callable that calculates the transaction gas cost for its
@@ -227,7 +227,9 @@ class Frontier(BaseFork, solc_name="homestead"):
         for the fork.
         """
         gas_costs = cls.gas_costs(block_number, timestamp)
-        calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
+        calldata_gas_calculator = cls.calldata_gas_calculator(
+            block_number=block_number, timestamp=timestamp
+        )
 
         def fn(
             *,
@@ -1512,7 +1514,7 @@ class Prague(Cancun):
 
     @classmethod
     def calldata_gas_calculator(
-        cls, block_number: int = 0, timestamp: int = 0
+        cls, *, block_number: int = 0, timestamp: int = 0
     ) -> CalldataGasCalculator:
         """
         Return a callable that calculates the transaction gas cost for its
@@ -1541,7 +1543,9 @@ class Prague(Cancun):
         On Prague, due to EIP-7623, the transaction data floor cost is
         introduced.
         """
-        calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
+        calldata_gas_calculator = cls.calldata_gas_calculator(
+            block_number=block_number, timestamp=timestamp
+        )
         gas_costs = cls.gas_costs(block_number, timestamp)
 
         def fn(*, data: BytesConvertible) -> int:
