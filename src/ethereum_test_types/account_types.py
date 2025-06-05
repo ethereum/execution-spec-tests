@@ -109,8 +109,15 @@ class Alloc(BaseAlloc):
             return f"Account missing from allocation {self.address}"
 
     @classmethod
-    def merge(cls, alloc_1: "Alloc", alloc_2: "Alloc") -> "Alloc":
+    def merge(
+        cls, alloc_1: "Alloc", alloc_2: "Alloc", allow_key_collision: bool = True
+    ) -> "Alloc":
         """Return merged allocation of two sources."""
+        overlapping_keys = alloc_1.root.keys() & alloc_2.root.keys()
+        if overlapping_keys and not allow_key_collision:
+            raise Exception(
+                f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
+            )
         merged = alloc_1.model_dump()
 
         for address, other_account in alloc_2.root.items():
