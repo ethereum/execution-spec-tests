@@ -33,11 +33,14 @@ from ethereum_test_base_types import (
     TestPrivateKey,
 )
 from ethereum_test_exceptions import TransactionException
+from pytest_plugins.logging import get_logger
 
 from .account_types import EOA
 from .blob_types import Blob
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
+
+logger = get_logger(__name__)
 
 
 class TransactionType(IntEnum):
@@ -719,13 +722,13 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         if self.wrapper_version is not None:
             wrapper = ["wrapper_version"]
 
-        proofs: list[str] = []
-        if len(proofs) > 0:
-            proofs = ["proofs"]
+        rlp_proofs: list[str] = []
+        if self.proofs is not None:
+            rlp_proofs = ["proofs"]
 
-        cell_proofs: list[str] = []
-        if len(cell_proofs) > 0:
-            cell_proofs = ["cell_proofs"]
+        rlp_cell_proofs: list[str] = []
+        if self.cell_proofs is not None:
+            rlp_cell_proofs = ["cell_proofs"]
 
         # GETH FUSAKA_DEVNET_0 EXPECTS:
         #   type blobTxWithBlobs struct {
@@ -743,18 +746,33 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         #       Proofs      []kzg4844.Proof
         #   }
 
-        return [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
+        rlp_fields: List[
+            str
+        ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
             "tx",  # tx_payload_body, in geth: BlobTx, https://github.com/ethereum/go-ethereum/blob/e17f97a8242c55b6fba66317d3720b9728a12f78/core/types/tx_blob.go#L122
             *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before), in geth: Version  # noqa: E501
             "blobs",  # Blob.data, in geth: Blobs
             "commitments",  # in geth: Commitments
-            *proofs,  # only included < osaka, in geth: Proofs
-            *cell_proofs,  # only included >=osaka, in geth this does not exist(always uses Proofs)
+            *rlp_proofs,  # only included < osaka, in geth: Proofs
+            *rlp_cell_proofs,  # only included >=osaka, in geth this does not exist(always uses Proofs)
         ]
 
-    # PROBLEM:
+        assert ("proofs" in rlp_fields) or ("cell_proofs" in rlp_fields), (
+            "Neither proofs nor cell_proofs are in rlp_fields. Critical error!"
+        )
+
+        logger.warning(f"Ended up with this rlp field list: {rlp_fields}")
+        # print("with this")
+
+        return rlp_fields
+
+    # GETH PROBLEM:
     # osaka without wrapper: too few elements for types.blobTxWithBlobs
-    # osaka with rapper: it tries to deserialize into blobTxWithBlobs instead of versionedBlobTxWithBlobs, so it complains about unexpectedtly seeing wrapper instead of blob data  # noqa: E501
+    # osaka with wrapper: it tries to deserialize into blobTxWithBlobs instead of versionedBlobTxWithBlobs, so it complains about unexpectedly seeing wrapper instead of blob data  # noqa: E501
+
+    # NETHERMIND PROBLEM:
+    # osaka without wrapper: code=-32602, message=Specified argument was out of the range of valid values.
+    # osaka with wrapper: code=-32602, message=Specified argument was out of the range of valid values
 
     def get_rlp_prefix(self) -> bytes:
         """
