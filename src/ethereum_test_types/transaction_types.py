@@ -727,14 +727,34 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         if len(cell_proofs) > 0:
             cell_proofs = ["cell_proofs"]
 
+        # GETH FUSAKA_DEVNET_0 EXPECTS:
+        #   type blobTxWithBlobs struct {
+        #       BlobTx      *BlobTx
+        #       Blobs       []kzg4844.Blob
+        #       Commitments []kzg4844.Commitment
+        #       Proofs      []kzg4844.Proof
+        #   }
+
+        #   type versionedBlobTxWithBlobs struct {
+        #       BlobTx      *BlobTx
+        #       Version     byte
+        #       Blobs       []kzg4844.Blob
+        #       Commitments []kzg4844.Commitment
+        #       Proofs      []kzg4844.Proof
+        #   }
+
         return [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
-            "tx",  # tx_payload_body
-            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before)
-            "blobs",  # Blob.data
-            "commitments",
-            *proofs,  # only included < osaka
-            *cell_proofs,  # only included >= osaka
+            "tx",  # tx_payload_body, in geth: BlobTx, https://github.com/ethereum/go-ethereum/blob/e17f97a8242c55b6fba66317d3720b9728a12f78/core/types/tx_blob.go#L122
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before), in geth: Version  # noqa: E501
+            "blobs",  # Blob.data, in geth: Blobs
+            "commitments",  # in geth: Commitments
+            *proofs,  # only included < osaka, in geth: Proofs
+            *cell_proofs,  # only included >=osaka, in geth this does not exist(always uses Proofs)
         ]
+
+    # PROBLEM:
+    # osaka without wrapper: too few elements for types.blobTxWithBlobs
+    # osaka with rapper: it tries to deserialize into blobTxWithBlobs instead of versionedBlobTxWithBlobs, so it complains about unexpectedtly seeing wrapper instead of blob data  # noqa: E501
 
     def get_rlp_prefix(self) -> bytes:
         """
