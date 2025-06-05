@@ -15,7 +15,7 @@ from ethereum_test_tools import (
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.valid_until("Homestead")
 def test_block_intermidiate_state(blockchain_test: BlockchainTestFiller, pre: Alloc):
-    """Verify intermidiate block states."""
+    """Verify intermediate block states."""
     env = Environment()
     sender = pre.fund_eoa()
 

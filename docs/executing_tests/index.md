@@ -106,7 +106,7 @@ uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc
 
 ## `execute` Command Test Execution
 
-After executing wither `execute hive` or `execute remote`, the command will first create a random sender account from which all required test accounts will be deployed and funded, and this account is funded by sweeping (by default) the seed account.
+After executing `execute hive` or `execute remote` the command will first create a random sender account from which all required test accounts will be deployed and funded, and this account is funded by sweeping (by default) the seed account.
 
 The sweep amount can be configured by setting the `--seed-account-sweep-amount` flag:
 

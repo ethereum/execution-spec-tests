@@ -43,7 +43,7 @@ jobs:
           echo "No python files were changed in ./tests/ - no action necessary"
           exit 0
 
-      - name: Report changed python test moudules
+      - name: Report changed python test modules
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         run: |
           echo "${{ toJson(steps.changed-tests.outputs) }}"
