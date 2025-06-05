@@ -182,8 +182,8 @@ def txs(  # noqa: D103
         )
         network_wrapped_tx = NetworkWrappedTransaction(
             tx=tx,
-            blobs=tx_blobs,
             wrapper_version=tx_wrapper_version,
+            blob_objects=tx_blobs,
         )
         txs.append(network_wrapped_tx)
     return txs

@@ -19,7 +19,7 @@ def versioned_hashes_with_blobs_and_proofs(
     proofs.
     """
     versioned_hashes: Dict[Hash, BlobAndProofV1 | BlobAndProofV2] = {}
-    for blob in tx.blobs:
+    for blob in tx.blob_objects:
         if isinstance(blob.proof, Bytes):
             versioned_hashes[blob.versioned_hash] = BlobAndProofV1(
                 blob=blob.data, proof=blob.proof

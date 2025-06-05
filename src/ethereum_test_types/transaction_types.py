@@ -652,58 +652,54 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
     Network wrapped transaction as defined in
     [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
+
+    < Osaka:
+        rlp([tx_payload_body,                   blobs, commitments, proofs])
+
+    >= Osaka:
+        rlp([tx_payload_body, wrapper_version,  blobs, commitments, cell_proofs])
     """
 
     tx: Transaction
-    wrapper_version: Union[Bytes | None] = None
-    blobs: Sequence[Blob]
+    blob_objects: Sequence[Blob]
+    wrapper_version: Union[Bytes | None] = None  # only exists in >= osaka
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_wrapper_version(self) -> bytes | None:
-        """Return the wrapper version (byte 1 for Osaka, None pre-Osaka)."""
-        # TODO: it could be a mix of blobs from different forks, then what would be the wrapper version?
-        if len(self.blobs) == 0:
+    def blobs(self) -> Sequence[Bytes]:
+        """Return a list of blob data as bytes."""
+        return [blob.data for blob in self.blob_objects]
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def commitments(self) -> Sequence[Bytes]:
+        """Return a list of kzg commitments."""
+        return [blob.commitment for blob in self.blob_objects]
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def proofs(self) -> Sequence[Bytes] | None:
+        """Return a list of kzg proofs (returns None >= Osaka)."""
+        if self.wrapper_version is not None:
             return None
 
-        fork = self.blobs[0].fork
-        amount_cell_proofs = fork.get_blob_constant("AMOUNT_CELL_PROOFS")
-        assert isinstance(amount_cell_proofs, int), (
-            f"Expected AMOUNT_CELL_PROOFS of fork {fork} to be an int but this is not the case!"
-        )
-        if amount_cell_proofs > 0:
-            return bytes([1])
-
-        return None
-
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def blob_data(self) -> Sequence[Bytes]:
-        """Return a list of blobs as bytes."""
-        return [blob.data for blob in self.blobs]
-
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def blob_kzg_commitments(self) -> Sequence[Bytes]:
-        """Return a list of kzg commitments."""
-        return [blob.commitment for blob in self.blobs]
-
-    @computed_field  # type: ignore[prop-decorator]
-    @property
-    def blob_kzg_proofs(self) -> Sequence[Bytes | Sequence[Bytes]]:
-        """Return a list of kzg proofs."""
-        proofs: list[Bytes | list[Bytes]] = []
-        for blob in self.blobs:
+        proofs: list[Bytes] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.proof, Bytes)
             proofs.append(blob.proof)
 
         return proofs
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_cells(self) -> Sequence[Sequence[Bytes] | None]:
-        """Return a list of cells."""
-        cells: list[list[Bytes] | None] = []
-        for blob in self.blobs:
+    def cell_proofs(self) -> Sequence[Sequence[Bytes]] | None:
+        """Return a list of cells (returns None < Osaka)."""
+        if self.wrapper_version is None:
+            return None
+
+        cells: list[list[Bytes]] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.cells, list)
             cells.append(blob.cells)
 
         return cells
@@ -718,13 +714,26 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         The list can be nested list up to one extra level to represent nested fields.
         """
+        # only put a wrapper_version field for >=osaka (value 1), otherwise omit field
+        wrapper = []
+        if self.wrapper_version is not None:
+            wrapper = ["wrapper_version"]
+
+        proofs: list[str] = []
+        if len(proofs) > 0:
+            proofs = ["proofs"]
+
+        cell_proofs: list[str] = []
+        if len(cell_proofs) > 0:
+            cell_proofs = ["cell_proofs"]
+
         return [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
             "tx",  # tx_payload_body
-            "blob_wrapper_version",  # wrapper_version, which is always 1 for osaka (was it non-existing before?)
-            "blob_data",  # blobs
-            "blob_kzg_commitments",  # commitments
-            "blob_kzg_proofs",  # cell_proofs
-            "blob_cells",
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before)
+            "blobs",  # Blob.data
+            "commitments",
+            *proofs,  # only included < osaka
+            *cell_proofs,  # only included >= osaka
         ]
 
     def get_rlp_prefix(self) -> bytes:

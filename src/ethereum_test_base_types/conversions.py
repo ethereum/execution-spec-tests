@@ -7,6 +7,10 @@ BytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int]
 FixedSizeBytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int] | int
 NumberConvertible: TypeAlias = str | bytes | SupportsBytes | int
 
+from pytest_plugins.logging import get_logger
+
+logger = get_logger(__name__)
+
 
 def int_or_none(input_value: Any, default: Optional[int] = None) -> int | None:
     """Convert a value to int or returns a default (None)."""
@@ -46,6 +50,16 @@ def to_bytes(input_bytes: BytesConvertible) -> bytes:
         if len(input_bytes) % 2 == 1:
             input_bytes = "0" + input_bytes
         return bytes.fromhex(input_bytes)
+
+    # handle wrapper_version field for >= osaka
+    if isinstance(input_bytes, int):
+        assert input_bytes < 256, f"Expected int that fits into one byte, but got {input_bytes}"
+        return input_bytes.to_bytes(1, "big")
+
+    logger.error(
+        f"This type of input_bytes is not yet supported: {type(input_bytes)}\n\n"
+        f"input_bytes: {input_bytes}"
+    )
 
     raise Exception("invalid type for `bytes`")
 

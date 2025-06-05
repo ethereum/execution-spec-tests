@@ -182,7 +182,7 @@ def txs(  # noqa: D103
             wrapped_blob_transaction=tx_wrapped_blobs,
         )
         if tx_wrapped_blobs:
-            network_wrapped_tx = NetworkWrappedTransaction(tx=tx, blobs=tx_blobs)
+            network_wrapped_tx = NetworkWrappedTransaction(tx=tx, blob_objects=tx_blobs)
             tx.rlp_override = network_wrapped_tx.rlp()
         txs.append(tx)
     return txs
