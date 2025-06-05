@@ -23,8 +23,7 @@ pytestmark = pytest.mark.valid_from("Prague")
 
 
 @pytest.mark.parametrize("vector", Vector.from_file("vectors.json"), ids=lambda v: v.name)
-def test_vectors_from_file(
-    vector: Vector,
+def test_modexp_gas_increase_vectors(
     state_test: StateTestFiller,
     pre: Alloc,
     tx: Transaction,

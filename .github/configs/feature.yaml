@@ -37,3 +37,9 @@ eip7692:
   solc: 0.8.21
   eofwrap: true
   feature_only: true
+fusaka-devnet-1:
+  evm-type: develop
+  fill-params: --from=Prague --until=Osaka tests/osaka tests/byzantium/eip198_modexp_precompile ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_
+valid_blob_tx_combinations
+  solc: 0.8.21
+  feature_only: true
