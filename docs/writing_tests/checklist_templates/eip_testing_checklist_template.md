@@ -3,6 +3,12 @@
 
 Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features.
 
+## Checklist Progress Tracker
+
+| Total Checklist Items | Covered Checklist Items | Percentage |
+| --------------------- | ----------------------- | ---------- |
+| TOTAL_CHECKLIST_ITEMS | COVERED_CHECKLIST_ITEMS | PERCENTAGE |
+
 ## General
 
 #### Code coverage
