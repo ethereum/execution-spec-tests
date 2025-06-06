@@ -199,9 +199,9 @@ class NethtestFixtureConsumer(
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"
-            assert test_result[0]["pass"], (
-                f"State test '{fixture_name}' failed, available stderr:\n {stderr}"
-            )
+            assert test_result[0][
+                "pass"
+            ], f"State test '{fixture_name}' failed, available stderr:\n {stderr}"
         else:
             if any(not test_result["pass"] for test_result in file_results):
                 exception_text = "State test failed: \n" + "\n".join(
@@ -276,9 +276,9 @@ class NethtestFixtureConsumer(
             available_stderr = f"Available stderr:\n{stderr}"
         else:
             available_stderr = "(No output available.)"
-        assert file_results[modified_fixture_name], (
-            f"EOF test '{fixture_name}' failed. {available_stderr}"
-        )
+        assert file_results[
+            modified_fixture_name
+        ], f"EOF test '{fixture_name}' failed. {available_stderr}"
 
     def consume_fixture(
         self,
@@ -376,6 +376,9 @@ class NethermindExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
             r"BlockBlobGasExceeded: A block cannot have more than \d+ blob gas, blobs count \d+, "
             r"blobs gas used: \d+"
+        ),
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            r"TxGasLimitCapExceeded: Gas limit \d+ exceeed cap of \d+\.?"
         ),
         BlockException.INCORRECT_EXCESS_BLOB_GAS: (
             r"HeaderExcessBlobGasMismatch: Excess blob gas in header does not match calculated"
