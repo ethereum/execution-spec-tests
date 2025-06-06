@@ -185,7 +185,10 @@ class Frontier(BaseFork, solc_name="homestead"):
     ) -> TransactionIntrinsicCostCalculator:
         """Return callable that calculates the intrinsic gas cost of a transaction for the fork."""
         gas_costs = cls.gas_costs(block_number, timestamp)
-        calldata_gas_calculator = cls.calldata_gas_calculator(block_number=block_number, timestamp=timestamp)
+        calldata_gas_calculator = cls.calldata_gas_calculator(
+            block_number=block_number,
+            timestamp=timestamp
+        )
 
         def fn(
             *,
@@ -1168,7 +1171,10 @@ class Prague(Cancun):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionDataFloorCostCalculator:
         """On Prague, due to EIP-7623, the transaction data floor cost is introduced."""
-        calldata_gas_calculator = cls.calldata_gas_calculator(block_number=block_number, timestamp=timestamp)
+        calldata_gas_calculator = cls.calldata_gas_calculator(
+            block_number=block_number, 
+            timestamp=timestamp
+        )
         gas_costs = cls.gas_costs(block_number, timestamp)
 
         def fn(*, data: BytesConvertible) -> int:
