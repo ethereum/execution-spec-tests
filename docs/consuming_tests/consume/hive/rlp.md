@@ -22,23 +22,7 @@ This method simulates how clients import blocks during historical sync, testing 
 uv run consume rlp [OPTIONS]
 ```
 
-### Common Options
-
-| Option | Description | Example |
-|--------|-------------|---------|
-| `--input INPUT` | Source of test fixtures | `./fixtures`, `stable@latest` |
-| `--fork FORK` | Only run tests for specific fork | `--fork shanghai` |
-| `--timing-data` | Log detailed timing information | `--timing-data` |
-| `--no-html` | Disable HTML report generation | `--no-html` |
-| `--sim.limit PATTERN` | Filter tests by pattern or ID | `--sim.limit ".*eip1559.*"` |
-
-### Advanced Options
-
-| Option | Description | Example |
-|--------|-------------|---------|
-| `--disable-strict-exception-matching` | Disable exception validation | `--disable-strict-exception-matching=nimbus` |
-| `-k PATTERN` | Pytest-style test filtering (dev mode) | `-k "eip4844 and fork_Cancun"` |
-| `--collect-only` | Show matching tests without running | `--collect-only -q` |
+See [Common Options](./common_options.md) for options shared with all simulators.
 
 ## Usage Examples
 
@@ -429,11 +413,3 @@ uv run consume rlp --input ./cached_fixtures/
    # ... make changes ...
    uv run consume rlp --timing-data --input ./fixtures > timing_after.log
    ```
-
-## See Also
-
-- [Engine Method Documentation](./engine.md)
-- [Hive Simulator Guide](./hive.md)
-- [Development Mode Guide](./dev_mode.md)
-- [Troubleshooting Guide](./troubleshooting.md)
-- [Consume Command Overview](./index.md)
