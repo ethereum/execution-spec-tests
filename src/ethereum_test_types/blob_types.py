@@ -14,10 +14,12 @@ from pydantic import field_serializer, field_validator
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
 from ethereum_test_forks import Cancun, Fork, Osaka, Prague
+from pytest_plugins.logging import get_logger
 
 CACHED_BLOBS_DIRECTORY: Path = (
     Path(platformdirs.user_cache_dir("ethereum-execution-spec-tests")) / "cached_blobs"
 )
+logger = get_logger(__name__)
 
 
 def clear_blob_cache(cached_blobs_folder_path: Path):
@@ -220,7 +222,7 @@ class Blob(CamelModel):
         # if this blob already exists then load from file
         blob_location: Path = Blob.get_filepath(fork, seed)
         if blob_location.exists():
-            print(f"Blob exists already, reading it from file {blob_location}")
+            logger.debug(f"Blob exists already, reading it from file {blob_location}")
             return Blob.from_file(Blob.get_filename(fork, seed))
 
         assert fork.supports_blobs(), f"Provided fork {fork.name()} does not support blobs!"
@@ -289,7 +291,7 @@ class Blob(CamelModel):
 
         # warn if existing static_blob gets overwritten
         if output_location.exists():
-            print(f"Blob {output_location} already exists. It will be overwritten.")
+            logger.debug(f"Blob {output_location} already exists. It will be overwritten.")
 
         with open(output_location, "w", encoding="utf-8") as f:  # overwrite existing
             f.write(json_str)

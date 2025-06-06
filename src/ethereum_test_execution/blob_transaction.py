@@ -26,12 +26,12 @@ def versioned_hashes_with_blobs_and_proofs(
             )
         elif isinstance(blob.proof, list):
             versioned_hashes[blob.versioned_hash] = BlobAndProofV2(
-                blob=blob.data, proofs=blob.proof
+                blob=blob.data, proofs=blob.cells
             )
         else:
             raise ValueError(
-                f"Blob with versioned hash {blob.versioned_hash.hex()} requires either kzg_proof "
-                "or kzg_cell_proofs, but both are None"
+                f"Blob with versioned hash {blob.versioned_hash.hex()} requires either proof "
+                "or cells, but both are None"
             )
 
     return versioned_hashes

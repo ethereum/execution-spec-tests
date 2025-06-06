@@ -761,8 +761,7 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
             "Neither proofs nor cell_proofs are in rlp_fields. Critical error!"
         )
 
-        logger.warning(f"Ended up with this rlp field list: {rlp_fields}")
-        # print("with this")
+        logger.debug(f"Ended up with this rlp field list: {rlp_fields}")
 
         return rlp_fields
 

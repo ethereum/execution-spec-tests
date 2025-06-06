@@ -43,7 +43,10 @@ class SendTransactionExceptionError(Exception):
         if self.tx is not None:
             f"{super().__str__()} Transaction={self.tx.model_dump_json()}"
         elif self.tx_rlp is not None:
-            return f"{super().__str__()} Transaction RLP={self.tx_rlp.hex()}"
+            tx_rlp_hex = self.tx_rlp.hex()
+            if len(tx_rlp_hex) > 1000:
+                tx_rlp_hex = tx_rlp_hex[:50]  # if it's very long just print first few chars
+            return f"{super().__str__()} Transaction RLP={tx_rlp_hex}"
         return super().__str__()
 
 
@@ -182,7 +185,10 @@ class EthRPC(BaseRPC):
             assert result_hash is not None
             return result_hash
         except Exception as e:
-            raise SendTransactionExceptionError(str(e), tx_rlp=transaction_rlp) from e
+            shortened_rlp_error_message = str(e)  # signal in console that you don't see full rlp
+            raise SendTransactionExceptionError(
+                shortened_rlp_error_message, tx_rlp=transaction_rlp
+            ) from e
 
     def send_transaction(self, transaction: Transaction) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
