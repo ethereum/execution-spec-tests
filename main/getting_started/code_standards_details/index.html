@@ -19106,11 +19106,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tests/frontier/examples/test_block_intermediate_state/test_block_intermidiate_state/" class="md-nav__link">
+      <a href="../../tests/frontier/examples/test_block_intermediate_state/test_block_intermediate_state/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_block_intermidiate_state</code>
+    <code>test_block_intermediate_state</code>
   </span>
   
 
@@ -22036,8 +22036,14 @@
 <h3 id="additional-dependencies">Additional Dependencies<a class="headerlink" href="#additional-dependencies" title="Permanent link">&para;</a></h3>
 <p>Some checks require external (non-Python) packages:</p>
 <h4 id="for-spellcheck">For <code>spellcheck</code><a class="headerlink" href="#for-spellcheck" title="Permanent link">&para;</a></h4>
-<div class="highlight"><pre><span></span><code><span class="go">sudo apt-get install aspell aspell-en</span>
+<p>The spellcheck environment uses <strong>codespell</strong>, which is automatically installed via Python dependencies and checks for common spelling mistakes in code and documentation.</p>
+<p>To fix spelling errors found by codespell:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run codespell *.md *.ini .github/ src/ tests/ docs/ --write-changes</span>
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">VS Code Integration</p>
+<p>The <code>whitelist.txt</code> file is still maintained for the VS Code cSpell extension, which provides real-time spell checking in the editor.</p>
+</div>
 <h4 id="for-markdownlint">For <code>markdownlint</code><a class="headerlink" href="#for-markdownlint" title="Permanent link">&para;</a></h4>
 <div class="highlight"><pre><span></span><code><span class="go">sudo apt install nodejs</span>
 <span class="go">sudo npm install markdownlint-cli2 --global</span>

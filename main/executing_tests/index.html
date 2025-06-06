@@ -18990,11 +18990,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../tests/frontier/examples/test_block_intermediate_state/test_block_intermidiate_state/" class="md-nav__link">
+      <a href="../tests/frontier/examples/test_block_intermediate_state/test_block_intermediate_state/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_block_intermidiate_state</code>
+    <code>test_block_intermediate_state</code>
   </span>
   
 
@@ -21830,7 +21830,7 @@
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 </code></pre></div>
 <h2 id="execute-command-test-execution"><code>execute</code> Command Test Execution<a class="headerlink" href="#execute-command-test-execution" title="Permanent link">&para;</a></h2>
-<p>After executing wither <code>execute hive</code> or <code>execute remote</code>, the command will first create a random sender account from which all required test accounts will be deployed and funded, and this account is funded by sweeping (by default) the seed account.</p>
+<p>After executing <code>execute hive</code> or <code>execute remote</code> the command will first create a random sender account from which all required test accounts will be deployed and funded, and this account is funded by sweeping (by default) the seed account.</p>
 <p>The sweep amount can be configured by setting the <code>--seed-account-sweep-amount</code> flag:</p>
 <div class="highlight"><pre><span></span><code>--seed-account-sweep-amount<span class="w"> </span><span class="s2">&quot;1000 ether&quot;</span>
 </code></pre></div>
@@ -21859,12 +21859,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:marioevz@gmail.com">Mario Vega</a>
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
     </nav>
   </span>
 
