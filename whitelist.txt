@@ -258,7 +258,6 @@ isort
 isort's
 ispkg
 itemName
-intermidiate
 javascripts
 jimporter
 joinpath
@@ -1011,6 +1010,9 @@ autoformat
 Typechecking
 zkEVMs
 qube
+aspell
+codespell
 nagydani
 guido
 marcin
+codespell
