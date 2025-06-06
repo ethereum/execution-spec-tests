@@ -134,3 +134,4 @@ Please include the following details in your report:
 
 1. The command that triggered the issue.
 2. Any relevant error messages or screenshots.
+3. Relevant version information from the output of `uv run eest info` (if running consume from within `eest`).
