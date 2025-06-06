@@ -17,20 +17,23 @@ def test_eip_checklist_collection(testdir):
             import pytest
             from ethereum_test_tools import StateTestFiller
 
+            from ethereum_test_checklists import EIPChecklist
+
             REFERENCE_SPEC_GIT_PATH = "N/A"
             REFERENCE_SPEC_VERSION = "N/A"
 
             @pytest.mark.valid_at("Prague")
             @pytest.mark.eip_checklist(
-                "new_transaction_type/test/intrinsic_validity/gas_limit/exact"
+                EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact,
+                # eip=[7702],
             )
             def test_exact_gas(state_test: StateTestFiller):
                 pass
 
             @pytest.mark.valid_at("Prague")
             @pytest.mark.eip_checklist(
-                "new_transaction_type/test/signature/invalid/v/2",
-                eip=[7702, 2930]
+                EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two,
+                eip=[7702, 2930],
             )
             def test_invalid_v(state_test: StateTestFiller):
                 pass
@@ -94,6 +97,15 @@ def test_eip_checklist_collection(testdir):
     # Check that checklists were generated
     checklist_dir = testdir.tmpdir / "checklists"
     assert checklist_dir.exists()
+
+    checklist_file = checklist_dir / "eip2930_checklist.md"
+    assert checklist_file.exists()
+    content = checklist_file.read()
+    assert "✅" in content
+    assert "test_invalid_v" in content
+    assert "N/A" in content
+    assert "DEBUG NOT APPLICABLE REASON" in content
+
     checklist_file = checklist_dir / "eip7702_checklist.md"
     assert checklist_file.exists()
 
@@ -103,11 +115,3 @@ def test_eip_checklist_collection(testdir):
     assert "test_exact_gas" in content
     assert "test_invalid_v" in content
     assert "DEBUG EXTERNAL COVERAGE REASON" in content
-
-    checklist_file = checklist_dir / "eip2930_checklist.md"
-    assert checklist_file.exists()
-    content = checklist_file.read()
-    assert "✅" in content
-    assert "test_invalid_v" in content
-    assert "N/A" in content
-    assert "DEBUG NOT APPLICABLE REASON" in content
