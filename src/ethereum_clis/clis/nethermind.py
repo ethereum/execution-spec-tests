@@ -199,9 +199,9 @@ class NethtestFixtureConsumer(
             ]
             assert len(test_result) < 2, f"Multiple test results for {fixture_name}"
             assert len(test_result) == 1, f"Test result for {fixture_name} missing"
-            assert test_result[0]["pass"], (
-                f"State test '{fixture_name}' failed, available stderr:\n {stderr}"
-            )
+            assert test_result[0][
+                "pass"
+            ], f"State test '{fixture_name}' failed, available stderr:\n {stderr}"
         else:
             if any(not test_result["pass"] for test_result in file_results):
                 exception_text = "State test failed: \n" + "\n".join(
@@ -276,9 +276,9 @@ class NethtestFixtureConsumer(
             available_stderr = f"Available stderr:\n{stderr}"
         else:
             available_stderr = "(No output available.)"
-        assert file_results[modified_fixture_name], (
-            f"EOF test '{fixture_name}' failed. {available_stderr}"
-        )
+        assert file_results[
+            modified_fixture_name
+        ], f"EOF test '{fixture_name}' failed. {available_stderr}"
 
     def consume_fixture(
         self,
