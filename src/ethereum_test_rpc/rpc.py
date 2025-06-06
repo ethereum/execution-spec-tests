@@ -99,8 +99,12 @@ class BaseRPC:
 
         # debugging, estimate payload size
         payload_json = json.dumps(payload)  # pydantic.json
-        payload_size_mb = len(payload_json.encode("utf-8")) / (1024 * 1024)
-        logger.info(f"I am about to send an RPC of approximated size: {payload_size_mb:.2f} MB")
+        payload_size_bytes = len(payload_json.encode("utf-8"))
+        payload_size_mb = payload_size_bytes / (1024 * 1024)
+        logger.info(
+            f"I am about to send an RPC of approximated size: {payload_size_mb:.2f} MB "
+            f"({payload_size_bytes} bytes)"
+        )
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
