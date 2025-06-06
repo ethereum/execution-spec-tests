@@ -23,7 +23,6 @@ abstract: Tests the nested CALL/CALLCODE opcode gas consumption with a positive 
        verify whether the provided gas was sufficient or insufficient.
 """
 
-import random
 from typing import Dict
 
 import pytest
@@ -64,7 +63,7 @@ CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS
 
 
 @pytest.fixture
-def callee_code(callee_opcode: Op) -> Bytecode:
+def callee_code(pre: Alloc, callee_opcode: Op) -> Bytecode:
     """
     Code called by the caller contract:
         PUSH1 0x00 * 4
@@ -73,10 +72,9 @@ def callee_code(callee_opcode: Op) -> Bytecode:
         GAS <- value doesn't matter
         CALL/CALLCODE.
     """
-    # The address needs to be random,
+    # The address needs to be empty and different for each execution of the fixture,
     # otherwise the calculations (empty_account_cost) are incorrect.
-    address = f"0x{random.getrandbits(160):040x}"
-    return callee_opcode(Op.GAS(), address, 1, 0, 0, 0, 0)
+    return callee_opcode(Op.GAS(), pre.empty_account(), 1, 0, 0, 0, 0)
 
 
 @pytest.fixture
