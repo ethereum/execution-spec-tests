@@ -134,7 +134,11 @@ ALL_IDS = set(TEMPLATE_ITEMS.keys())
 
 def resolve_id(item_id: str) -> Set[str]:
     """Resolve an item ID to a set of checklist IDs."""
-    covered_ids = {checklist_id for checklist_id in ALL_IDS if checklist_id.startswith(item_id)}
+    covered_ids = {
+        checklist_id
+        for checklist_id in ALL_IDS
+        if checklist_id == item_id or checklist_id.startswith(item_id + "/")
+    }
     return covered_ids
 
 
@@ -328,6 +332,7 @@ class EIPChecklistCollector:
                 eips += [self.get_eip(eip) for eip in additional_eips]
 
             for item_id in marker.args:
+                item_id = str(item_id)
                 covered_ids = resolve_id(item_id.strip())
                 if not covered_ids:
                     logger.warning(
