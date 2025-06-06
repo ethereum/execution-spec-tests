@@ -21283,6 +21283,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -21529,6 +21535,69 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_selfdestruct_existing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_selfdestruct_existing</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_selfdestruct_created/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_selfdestruct_created</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_selfdestruct_initcode/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_selfdestruct_initcode</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -21612,7 +21681,7 @@
 
 
 <h1 id="test_worst_address_state_warm"><code>test_worst_address_state_warm()</code><a class="headerlink" href="#test_worst_address_state_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d71dcc07c0bc6d5cd567171ac1c38a74044d684f/tests/zkevm/test_worst_stateful_opcodes.py#L114"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@d71dcc07</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d6252aafec3553afe978432672971d7eadbeb8fe/tests/zkevm/test_worst_stateful_opcodes.py#L118"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm@d6252aaf</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_address_state_warm --fork Prague</span>
@@ -21631,11 +21700,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
 <span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
@@ -21696,7 +21761,11 @@
 <span class="normal">176</span>
 <span class="normal">177</span>
 <span class="normal">178</span>
-<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
