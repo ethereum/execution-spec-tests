@@ -1,5 +1,6 @@
 """JSON-RPC methods and helper functions for EEST consume based hive simulators."""
 
+import json
 import time
 from itertools import count
 from pprint import pprint
@@ -11,6 +12,7 @@ from pydantic import ValidationError
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
+from pytest_plugins.logging import get_logger
 
 from .types import (
     ForkchoiceState,
@@ -24,6 +26,7 @@ from .types import (
 )
 
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+logger = get_logger(__name__)
 
 
 class SendTransactionExceptionError(Exception):
@@ -93,6 +96,11 @@ class BaseRPC:
             "Content-Type": "application/json",
         }
         headers = base_header | self.extra_headers | extra_headers
+
+        # debugging, estimate payload size
+        payload_json = json.dumps(payload)  # pydantic.json
+        payload_size_mb = len(payload_json.encode("utf-8")) / (1024 * 1024)
+        logger.info(f"I am about to send an RPC of approximated size: {payload_size_mb:.2f} MB")
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
@@ -181,8 +189,9 @@ class EthRPC(BaseRPC):
     def send_raw_transaction(self, transaction_rlp: Bytes) -> Hash:
         """`eth_sendRawTransaction`: Send a transaction to the client."""
         try:
-            result_hash = Hash(self.post_request("sendRawTransaction", f"{transaction_rlp.hex()}"))
-            assert result_hash is not None
+            tx_rlp_hex = transaction_rlp.hex()
+            result_hash = Hash(self.post_request("sendRawTransaction", f"{tx_rlp_hex}"))
+            assert result_hash is not None, "result_hash seems to be None, critical error!"
             return result_hash
         except Exception as e:
             shortened_rlp_error_message = str(e)  # signal in console that you don't see full rlp

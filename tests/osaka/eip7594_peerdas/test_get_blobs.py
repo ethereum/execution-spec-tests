@@ -18,11 +18,14 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
 )
+from pytest_plugins.logging import get_logger
 
 from .spec import ref_spec_7594
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7594.version
+
+logger = get_logger(__name__)
 
 
 @pytest.fixture
@@ -197,6 +200,8 @@ def generate_full_blob_tests(
     parametrized for each different fork.
     """
     max_blobs = fork.max_blobs_per_block()
+    logger.info(f"MAX_BLOBS value for fork {fork}: {max_blobs}")
+
     return [
         pytest.param(
             [  # Txs
