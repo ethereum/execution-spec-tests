@@ -85,7 +85,7 @@ def block_base_fee_per_gas(
     parent_excess_blobs: int | None,
     block_base_fee_per_gas_delta: int,
 ) -> int:
-    """Block base fee per gas. Default is 7 unless a delta is provided."""
+    """Block base fee per gas. Default is 7 unless a delta is provided or overloaded."""
     if block_base_fee_per_gas_delta != 0:
         if parent_excess_blobs is None:
             blob_base_fee = 1
