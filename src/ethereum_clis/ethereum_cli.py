@@ -41,7 +41,7 @@ class EthereumCLI:
     binary: Path
     default_binary: Path
     detect_binary_pattern: Pattern
-    version_flag: str = "-v"
+    version_flag: str = "--version"  # geth's evm supports both -v and --version but nethtest only supports --version  # noqa: E501
     cached_version: Optional[str] = None
 
     def __init__(self, *, binary: Optional[Path] = None):
