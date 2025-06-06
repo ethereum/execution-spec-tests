@@ -23,24 +23,7 @@ This method replicates the real-world interaction between consensus clients (lik
 uv run consume engine [OPTIONS]
 ```
 
-### Common Options
-
-| Option | Description | Example |
-|--------|-------------|---------|
-| `--input INPUT` | Source of test fixtures | `./fixtures`, `develop@latest` |
-| `--fork FORK` | Only run tests for specific fork | `--fork cancun` |
-| `--timing-data` | Log detailed timing information | `--timing-data` |
-| `--no-html` | Disable HTML report generation | `--no-html` |
-| `--sim.limit PATTERN` | Filter tests by pattern or ID | `--sim.limit ".*eip4844.*"` |
-
-### Advanced Options
-
-| Option | Description | Example |
-|--------|-------------|---------|
-| `--disable-strict-exception-matching` | Disable exception validation | `--disable-strict-exception-matching=nimbus` |
-| `-k PATTERN` | Pytest-style test filtering (dev mode) | `-k "blob_txs and fork_Cancun"` |
-| `--collect-only` | Show matching tests without running | `--collect-only -q` |
-| `-v` | Verbose output with detailed logs | `-v` |
+See [Common Options](./common_options.md) for options shared with all simulators.
 
 ## Usage Examples
 
@@ -528,9 +511,9 @@ The Engine method will continue to evolve with new Ethereum forks:
 ## See Also
 
 - [RLP Method Documentation](./rlp.md)
-- [Hive Simulator Guide](./hive.md)
+- [Hive Simulator Guide](./index.md)
 - [Development Mode Guide](./dev_mode.md)
 - [Client Configuration Guide](./client_config.md)
-- [Troubleshooting Guide](./troubleshooting.md)
-- [Consume Command Overview](./index.md)
+- [Troubleshooting Guide](../troubleshooting.md)
+- [Consume Command Overview](../index.md)
 - [Engine API Specification](https://github.com/ethereum/execution-apis/tree/main/src/engine)

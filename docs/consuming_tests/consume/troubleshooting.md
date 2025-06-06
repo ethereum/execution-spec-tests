@@ -536,8 +536,7 @@ This guide covers common issues encountered when running EEST consume commands a
 
     3. **EEST consume logs:**
        ```bash
-       # EEST-specific logging
-       uv run consume engine -v --log-cli-level=DEBUG
+       uv run consume engine -v --eest-log-level=DEBUG
        ```
 
 ### Container Inspection
@@ -561,57 +560,14 @@ This guide covers common issues encountered when running EEST consume commands a
     docker exec <container-id> ls -la /blocks/
     ```
 
-## Getting Help
+## Other Issues Not Listed?
 
-### Community Resources
+If you're facing an issue that's not listed here, you can easily report it on GitHub for resolution.
 
-!!! info "Where to find help"
-    1. **GitHub Issues:**
-       - [EEST Issues](https://github.com/ethereum/execution-spec-tests/issues)
-       - [Hive Issues](https://github.com/ethereum/hive/issues)
+[Click here to report a consume-related bug](https://github.com/ethereum/execution-spec-tests/issues/new?title=bug(consume):%20...&labels=scope:consume,type:bug&body=%3Ccopy-paste%20command%20that%20triggered%20the%20issue%20here%3E%0A%3Ccopy-paste%20output%20or%20attach%20screenshot%20here%3E)
 
-    2. **Discord Channels:**
-       - Ethereum R&D Discord
-       - Client team specific channels
+Please include the following details in your report:
 
-    3. **Documentation:**
-       - [Hive Documentation](https://github.com/ethereum/hive/tree/master/docs)
-       - [EEST Documentation](https://ethereum.github.io/execution-spec-tests/)
-
-### Reporting Issues
-
-!!! tip "Include these details when reporting issues"
-    1. **Environment information:**
-       ```bash
-       # System info
-       uname -a
-       docker --version
-       go version
-       # EEST version
-       git rev-parse HEAD
-       ```
-
-    2. **Complete command that failed:**
-       ```bash
-       # Full command with all flags
-       ./hive --sim ethereum/eest/consume-engine --client go-ethereum --docker.output
-       ```
-
-    3. **Error output:**
-       ```bash
-       # Complete error output with logs
-       ./hive ... 2>&1 | tee error.log
-       ```
-
-    4. **Configuration files:**
-       ```yaml
-       # Include client configuration YAML
-       cat clients.yaml
-       ```
-
-## See Also
-
-- [Hive Simulator Guide](./hive.md)
-- [Development Mode Guide](./dev_mode.md)
-- [Client Configuration Guide](./client_config.md)
-- [Consume Command Overview](./index.md)
+1. The command that triggered the issue.
+2. Any relevant error messages or screenshots.
+3. Relevant version information from the output of `uv run eest info`.
