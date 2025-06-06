@@ -249,6 +249,9 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "transaction invalid Transaction type DELEGATE_CODE is invalid"
         ),
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            "transaction invalid Transaction gas limit must be at most 30000000"
+        ),
         BlockException.RLP_STRUCTURES_ENCODING: (
             "Failed to decode transactions from block parameter"
         ),
