@@ -66,14 +66,9 @@ def test_transaction_gas_limit_cap(
     error: TransactionException | None,
     tx_type: int,
 ):
-    """
-    TODO: Enter a one-line test summary here.
-
-    TODO: (Optional) Enter a more detailed test function description here.
-    """
+    """Test the transaction gas limit cap behavior for all transaction types."""
     env = Environment()
 
-    # TODO: Modify pre-state allocations here.
     sender = pre.fund_eoa()
     storage = Storage()
     contract_address = pre.deploy_contract(
