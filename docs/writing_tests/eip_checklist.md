@@ -8,7 +8,9 @@ When implementing tests for an EIP, you can mark specific tests as covering chec
 
 ## Using the `pytest.mark.eip_checklist` Marker
 
-To mark a test as implementing a specific checklist item:
+To mark a test as implementing a specific checklist item, you can use either string IDs or the structured EIPChecklist class:
+
+### Using String IDs
 
 ```python
 import pytest
@@ -21,15 +23,34 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
     pass
 ```
 
+### Using EIPChecklist Class (Recommended)
+
+```python
+import pytest
+from ethereum_test_tools import StateTestFiller
+from ethereum_test_checklists import EIPChecklist
+
+@pytest.mark.eip_checklist(EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact)
+def test_exact_intrinsic_gas(state_test: StateTestFiller):
+    """Test transaction with exact intrinsic gas limit."""
+    # Test implementation
+    pass
+```
+
+The EIPChecklist class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
+
 ### Marker Parameters
 
-- **First positional parameter** (required): The checklist item ID from the template
+- **First positional parameter** (required): The checklist item ID (string or EIPChecklist reference)
 - **`eip` keyword parameter** (optional): List of additional EIPs covered by the test
 
 Example with multiple EIPs covered by the same test:
 
 ```python
-@pytest.mark.eip_checklist("new_transaction_type/test/signature/invalid/v/0", eip=[7702, 2930])
+@pytest.mark.eip_checklist(
+    EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two, 
+    eip=[7702, 2930]
+)
 def test_invalid_signature(state_test: StateTestFiller):
     """Test invalid signature that affects multiple EIPs."""
     pass
@@ -40,9 +61,15 @@ def test_invalid_signature(state_test: StateTestFiller):
 You can use partial IDs that will match all checklist items starting with that prefix:
 
 ```python
-# This will mark all items under "new_transaction_type/test/signature/invalid/" as covered
+# Using string notation
 @pytest.mark.eip_checklist("new_transaction_type/test/signature/invalid/")
-def test_all_invalid_signatures(state_test: StateTestFiller):
+def test_all_invalid_signatures_string(state_test: StateTestFiller):
+    """Test covering all invalid signature scenarios."""
+    pass
+
+# Using EIPChecklist class notation
+@pytest.mark.eip_checklist(EIPChecklist.NewTransactionType.Test.Signature.Invalid)
+def test_all_invalid_signatures_class(state_test: StateTestFiller):
     """Test covering all invalid signature scenarios."""
     pass
 ```
@@ -83,6 +110,14 @@ general/code_coverage/eels = Covered by EELS test suite
 general/code_coverage/second_client = Covered by Nethermind tests
 ```
 
+You can also use EIPChecklist references for better maintainability:
+
+```python
+# In your test file, you can reference the exact paths:
+# str(EIPChecklist.General.CodeCoverage.Eels) = "general/code_coverage/eels"
+# str(EIPChecklist.General.CodeCoverage.SecondClient) = "general/code_coverage/second_client"
+```
+
 Format: `checklist_item_id = reason`
 
 ### Not Applicable Items
@@ -93,6 +128,14 @@ For checklist items that are not applicable to a specific EIP, create a file nam
 # tests/prague/eip7702_set_code_tx/eip_checklist_not_applicable.txt
 new_system_contract = EIP-7702 does not introduce a system contract
 new_precompile = EIP-7702 does not introduce a precompile
+```
+
+You can also use EIPChecklist references to ensure accuracy:
+
+```python
+# Use these in your configuration:
+# str(EIPChecklist.NewSystemContract) = "new_system_contract"
+# str(EIPChecklist.NewPrecompile) = "new_precompile"
 ```
 
 Format: `checklist_item_id = reason`
@@ -152,11 +195,13 @@ Example output snippet:
 ## Best Practices
 
 1. **Start with the checklist**: Review the checklist template before writing tests to ensure comprehensive coverage
-2. **Use descriptive test names**: The test name will appear in the checklist, so make it clear what the test covers
-3. **Mark items as you go**: Add `eip_checklist` markers while writing tests, not as an afterthought
-4. **Document external coverage**: If items are covered by external tools/tests, document this in `eip_checklist_external_coverage.txt`
-5. **Be explicit about N/A items**: Document why items are not applicable in `eip_checklist_not_applicable.txt`
-6. **Use partial IDs wisely**: When a test covers multiple related items, use partial IDs to mark them all
+2. **Use the EIPChecklist class**: Prefer `EIPChecklist.NewOpcode.Test.GasUsage.Normal` over string IDs for type safety and IDE autocompletion
+3. **Use descriptive test names**: The test name will appear in the checklist, so make it clear what the test covers
+4. **Mark items as you go**: Add `eip_checklist` markers while writing tests, not as an afterthought
+5. **Document external coverage**: If items are covered by external tools/tests, document this in `eip_checklist_external_coverage.txt`
+6. **Be explicit about N/A items**: Document why items are not applicable in `eip_checklist_not_applicable.txt`
+7. **Use partial IDs wisely**: When a test covers multiple related items, use partial IDs to mark them all
+8. **Verify IDs before using**: Use `str(EIPChecklist.Section.Subsection)` to verify the exact string ID when needed
 
 ## Workflow Example
 
@@ -174,8 +219,17 @@ Example output snippet:
 2. **Mark tests as you implement them**:
 
       ```python
-      @pytest.mark.eip_checklist("new_opcode/test/gas_usage/normal")
+      from ethereum_test_checklists import EIPChecklist
+      
+      # Recommended: Using EIPChecklist for type safety
+      @pytest.mark.eip_checklist(EIPChecklist.NewOpcode.Test.GasUsage.Normal)
       def test_opcode_gas_consumption(state_test: StateTestFiller):
+         """Test normal gas consumption of the new opcode."""
+         pass
+      
+      # Alternative: Using string notation
+      @pytest.mark.eip_checklist("new_opcode/test/gas_usage/normal")
+      def test_opcode_gas_consumption_alt(state_test: StateTestFiller):
          """Test normal gas consumption of the new opcode."""
          pass
       ```
@@ -186,12 +240,22 @@ Example output snippet:
       # eip_checklist_external_coverage.txt
       general/code_coverage/eels = Covered by ethereum/execution-specs PR #1234
       ```
+      
+      You can verify the correct ID using:
+      ```python
+      # str(EIPChecklist.General.CodeCoverage.Eels) = "general/code_coverage/eels"
+      ```
 
 4. **Mark non-applicable items**:
 
       ```text
       # eip_checklist_not_applicable.txt
       new_precompile/ = EIP-9999 introduces an opcode, not a precompile
+      ```
+      
+      You can verify the correct ID using:
+      ```python
+      # str(EIPChecklist.NewPrecompile) = "new_precompile"
       ```
 
 5. **Generate and review checklist**:
