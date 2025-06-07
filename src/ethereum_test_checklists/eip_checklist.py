@@ -94,7 +94,7 @@ class EIPChecklist:
 
                 pass
 
-    class NewOpcode(ChecklistItem):
+    class Opcode(ChecklistItem):
         """New opcode checklist items."""
 
         class Test(ChecklistItem):
@@ -491,7 +491,7 @@ class EIPChecklist:
 
                     pass
 
-    class NewPrecompile(ChecklistItem):
+    class Precompile(ChecklistItem):
         """New precompile checklist items."""
 
         class Test(ChecklistItem):
@@ -758,7 +758,7 @@ class EIPChecklist:
 
                         pass
 
-    class NewSystemContract(ChecklistItem):
+    class SystemContract(ChecklistItem):
         """New system contract checklist items."""
 
         class Test(ChecklistItem):
@@ -1033,7 +1033,7 @@ class EIPChecklist:
 
                     pass
 
-    class NewTransactionType(ChecklistItem):
+    class TransactionType(ChecklistItem):
         """New transaction type checklist items."""
 
         class Test(ChecklistItem):
@@ -1440,7 +1440,7 @@ class EIPChecklist:
 
                     pass
 
-    class NewBlockHeaderField(ChecklistItem):
+    class BlockHeaderField(ChecklistItem):
         """New block header field checklist items."""
 
         class Test(ChecklistItem):
@@ -1482,7 +1482,7 @@ class EIPChecklist:
 
                     pass
 
-    class NewBlockBodyField(ChecklistItem):
+    class BlockBodyField(ChecklistItem):
         """New block body field checklist items."""
 
         class Test(ChecklistItem):
@@ -1630,7 +1630,7 @@ class EIPChecklist:
 
                 pass
 
-    class NewExecutionLayerRequest(ChecklistItem):
+    class ExecutionLayerRequest(ChecklistItem):
         """New execution layer request checklist items."""
 
         class Test(ChecklistItem):

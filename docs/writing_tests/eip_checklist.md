@@ -18,7 +18,7 @@ import pytest
 from ethereum_test_tools import StateTestFiller
 from ethereum_test_checklists import EIPChecklist
 
-@EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact()
+@EIPChecklist.TransactionType.Test.IntrinsicValidity.GasLimit.Exact()
 def test_exact_intrinsic_gas(state_test: StateTestFiller):
     """Test transaction with exact intrinsic gas limit."""
     # Test implementation
@@ -48,7 +48,7 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
 Example with multiple EIPs covered by the same test:
 
 ```python
-@EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two(
+@EIPChecklist.TransactionType.Test.Signature.Invalid.V.Two(
     eip=[7702, 2930]
 )
 def test_invalid_signature(state_test: StateTestFiller):
@@ -68,7 +68,7 @@ def test_all_invalid_signatures_string(state_test: StateTestFiller):
     pass
 
 # Using EIPChecklist class notation
-@EIPChecklist.NewTransactionType.Test.Signature.Invalid()
+@EIPChecklist.TransactionType.Test.Signature.Invalid()
 def test_all_invalid_signatures_class(state_test: StateTestFiller):
     """Test covering all invalid signature scenarios."""
     pass
@@ -179,7 +179,7 @@ Example output snippet:
 ## Best Practices
 
 1. **Start with the checklist**: Review the checklist template before writing tests to ensure comprehensive coverage
-2. **Use the EIPChecklist class**: Prefer `EIPChecklist.NewOpcode.Test.GasUsage.Normal` over string IDs for type safety and IDE autocompletion
+2. **Use the EIPChecklist class**: Prefer `EIPChecklist.Opcode.Test.GasUsage.Normal` over string IDs for type safety and IDE autocompletion
 3. **Use descriptive test names**: The test name will appear in the checklist, so make it clear what the test covers
 4. **Mark items as you go**: Add `eip_checklist` markers while writing tests, not as an afterthought
 5. **Document external coverage**: If items are covered by external tools/tests, document this in `eip_checklist_external_coverage.txt`
@@ -206,7 +206,7 @@ Example output snippet:
       from ethereum_test_checklists import EIPChecklist
       
       # Recommended: Using EIPChecklist for type safety
-      @EIPChecklist.NewOpcode.Test.GasUsage.Normal()
+      @EIPChecklist.Opcode.Test.GasUsage.Normal()
       def test_opcode_gas_consumption(state_test: StateTestFiller):
          """Test normal gas consumption of the new opcode."""
          pass
@@ -239,7 +239,7 @@ Example output snippet:
       
       You can verify the correct ID using:
       ```python
-      # str(EIPChecklist.NewPrecompile) = "new_precompile"
+      # str(EIPChecklist.Precompile) = "new_precompile"
       ```
 
 5. **Generate and review checklist**:
