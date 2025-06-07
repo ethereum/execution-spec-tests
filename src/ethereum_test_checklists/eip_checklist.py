@@ -1432,14 +1432,6 @@ class EIPChecklist:
 
                     pass
 
-            class Rpc(ChecklistItem):
-                """RPC tests."""
-
-                class SendRaw(ChecklistItem):
-                    """eth_sendRawTransaction."""
-
-                    pass
-
     class BlockHeaderField(ChecklistItem):
         """New block header field checklist items."""
 
