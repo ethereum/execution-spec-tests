@@ -16,6 +16,9 @@ def camel_to_snake(name: str) -> str:
 class ChecklistItemMeta(type):
     """Metaclass for checklist items that provides string representation."""
 
+    _path: str = ""
+    _override_name: str = ""
+
     def __new__(mcs, name: str, bases: tuple, namespace: dict, **kwargs):
         """Create a new class with the parent path set."""
         parent_path = kwargs.get("parent_path", "")
@@ -39,6 +42,7 @@ class ChecklistItemMeta(type):
         for attr_name, attr_value in namespace.items():
             if isinstance(attr_value, type) and not attr_name.startswith("_"):
                 # Create a new class with the parent path set
+                assert isinstance(attr_value, ChecklistItemMeta)
                 nested_cls = ChecklistItemMeta(
                     attr_value.__name__,
                     attr_value.__bases__,
@@ -62,10 +66,7 @@ class ChecklistItemMeta(type):
 class ChecklistItem(metaclass=ChecklistItemMeta):
     """Base class for checklist items."""
 
-    _path: str = ""
-    _override_name: str = ""
-
-    def __new__(cls, *args, **kwargs) -> pytest.MarkDecorator:
+    def __new__(cls, *args, **kwargs) -> pytest.MarkDecorator:  # type: ignore
         """Return a pytest mark decorator for the checklist item."""
         return pytest.mark.eip_checklist(cls._path, *args, **kwargs)
 
