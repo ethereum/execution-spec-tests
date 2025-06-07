@@ -167,7 +167,7 @@ class EIP:
 
     @property
     def completness_emoji(self) -> str:
-        """Return the completness emoji."""
+        """Return the completeness emoji."""
         return "🟢" if self.percentage == 100 else "🟡" if self.percentage > 50 else "🔴"
 
     def mark_not_applicable(self):
