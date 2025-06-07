@@ -129,6 +129,20 @@ for i, line in enumerate(TEMPLATE_CONTENT.splitlines()):
     if item := EIPItem.from_checklist_line(line=line, line_number=i + 1):
         TEMPLATE_ITEMS[item.id] = item
 
+
+def template_items() -> Dict[str, EIPItem]:
+    """Return a copy of the template items."""
+    new_items = {}
+    for test_id, item in TEMPLATE_ITEMS.items():
+        new_items[test_id] = EIPItem(
+            id=item.id,
+            line_number=item.line_number,
+            description=item.description,
+            tests=set(),
+        )
+    return new_items
+
+
 ALL_IDS = set(TEMPLATE_ITEMS.keys())
 
 
@@ -147,7 +161,7 @@ class EIP:
     """Represents an EIP and its checklist."""
 
     number: int
-    items: Dict[str, EIPItem] = field(default_factory=TEMPLATE_ITEMS.copy)
+    items: Dict[str, EIPItem] = field(default_factory=template_items)
     path: Path | None = None
 
     def add_covered_test(self, checklist_id: str, node_id: str) -> None:
