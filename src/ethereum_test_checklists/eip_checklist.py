@@ -2,6 +2,8 @@
 
 import re
 
+import pytest
+
 
 def camel_to_snake(name: str) -> str:
     """Convert CamelCase to snake_case."""
@@ -63,9 +65,9 @@ class ChecklistItem(metaclass=ChecklistItemMeta):
     _path: str = ""
     _override_name: str = ""
 
-    def __new__(cls, *args, **kwargs) -> str:
-        """Utilized by pytest when the class is passed as a marker argument."""
-        return cls._path
+    def __new__(cls, *args, **kwargs) -> pytest.MarkDecorator:
+        """Return a pytest mark decorator for the checklist item."""
+        return pytest.mark.eip_checklist(cls._path, *args, **kwargs)
 
 
 class EIPChecklist:
