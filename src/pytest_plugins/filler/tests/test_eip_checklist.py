@@ -24,12 +24,12 @@ def test_eip_checklist_collection(testdir):
             REFERENCE_SPEC_VERSION = "N/A"
 
             @pytest.mark.valid_at("Prague")
-            @EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact()
+            @EIPChecklist.TransactionType.Test.IntrinsicValidity.GasLimit.Exact()
             def test_exact_gas(state_test: StateTestFiller):
                 pass
 
             @pytest.mark.valid_at("Prague")
-            @EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two(eip=[2930])
+            @EIPChecklist.TransactionType.Test.Signature.Invalid.V.Two(eip=[2930])
             def test_invalid_v(state_test: StateTestFiller):
                 pass
             """
@@ -68,7 +68,7 @@ def test_eip_checklist_collection(testdir):
     test_2930_n_a_file.write(
         textwrap.dedent(
             """
-            new_system_contract = DEBUG NOT APPLICABLE REASON
+            system_contract = DEBUG NOT APPLICABLE REASON
             """
         )
     )

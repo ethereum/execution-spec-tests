@@ -110,7 +110,7 @@ def test_eip_checklist_class_structure():
     # Test that the metaclass is working correctly
     assert str(EIPChecklist.General.CodeCoverage.Eels) == "general/code_coverage/eels"
     assert (
-        str(EIPChecklist.NewOpcode.Test.MemExp.ZeroBytesZeroOffset)
+        str(EIPChecklist.Opcode.Test.MemExp.ZeroBytesZeroOffset)
         == "new_opcode/test/mem_exp/zero_bytes_zero_offset"
     )
 
