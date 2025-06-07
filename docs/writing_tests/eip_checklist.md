@@ -10,7 +10,6 @@ When implementing tests for an EIP, you can mark specific tests as covering chec
 
 To mark a test as implementing a specific checklist item, you can use either string IDs or the structured EIPChecklist class:
 
-
 ### Using EIPChecklist Class (Recommended)
 
 ```python
@@ -224,8 +223,9 @@ Example output snippet:
       # eip_checklist_external_coverage.txt
       general/code_coverage/eels = Covered by ethereum/execution-specs PR #1234
       ```
-      
+
       You can verify the correct ID using:
+
       ```python
       # str(EIPChecklist.General.CodeCoverage.Eels) = "general/code_coverage/eels"
       ```
@@ -236,8 +236,9 @@ Example output snippet:
       # eip_checklist_not_applicable.txt
       new_precompile/ = EIP-9999 introduces an opcode, not a precompile
       ```
-      
+
       You can verify the correct ID using:
+
       ```python
       # str(EIPChecklist.Precompile) = "new_precompile"
       ```

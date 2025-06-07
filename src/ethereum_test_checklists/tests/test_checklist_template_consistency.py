@@ -84,7 +84,7 @@ def test_checklist_template_consistency():
 
     if missing_in_markdown:
         for id_ in missing_in_markdown:
-            if any(id_.startswith(item + "/") for item in checklist_ids):
+            if any(item.startswith(id_ + "/") for item in checklist_ids):
                 continue
 
             errors.append(f"ID `{id_}` not found in markdown template")
@@ -104,14 +104,14 @@ def test_checklist_template_exists():
 def test_eip_checklist_class_structure():
     """Test that the EIPChecklist class has expected structure."""
     assert hasattr(EIPChecklist, "General"), "EIPChecklist should have General class"
-    assert hasattr(EIPChecklist, "NewOpcode"), "EIPChecklist should have NewOpcode class"
-    assert hasattr(EIPChecklist, "NewPrecompile"), "EIPChecklist should have NewPrecompile class"
+    assert hasattr(EIPChecklist, "Opcode"), "EIPChecklist should have Opcode class"
+    assert hasattr(EIPChecklist, "Precompile"), "EIPChecklist should have Precompile class"
 
     # Test that the metaclass is working correctly
     assert str(EIPChecklist.General.CodeCoverage.Eels) == "general/code_coverage/eels"
     assert (
         str(EIPChecklist.Opcode.Test.MemExp.ZeroBytesZeroOffset)
-        == "new_opcode/test/mem_exp/zero_bytes_zero_offset"
+        == "opcode/test/mem_exp/zero_bytes_zero_offset"
     )
 
 
