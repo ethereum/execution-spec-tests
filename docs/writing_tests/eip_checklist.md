@@ -10,6 +10,23 @@ When implementing tests for an EIP, you can mark specific tests as covering chec
 
 To mark a test as implementing a specific checklist item, you can use either string IDs or the structured EIPChecklist class:
 
+
+### Using EIPChecklist Class (Recommended)
+
+```python
+import pytest
+from ethereum_test_tools import StateTestFiller
+from ethereum_test_checklists import EIPChecklist
+
+@EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact()
+def test_exact_intrinsic_gas(state_test: StateTestFiller):
+    """Test transaction with exact intrinsic gas limit."""
+    # Test implementation
+    pass
+```
+
+The EIPChecklist class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
+
 ### Using String IDs
 
 ```python
@@ -23,22 +40,6 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
     pass
 ```
 
-### Using EIPChecklist Class (Recommended)
-
-```python
-import pytest
-from ethereum_test_tools import StateTestFiller
-from ethereum_test_checklists import EIPChecklist
-
-@pytest.mark.eip_checklist(EIPChecklist.NewTransactionType.Test.IntrinsicValidity.GasLimit.Exact)
-def test_exact_intrinsic_gas(state_test: StateTestFiller):
-    """Test transaction with exact intrinsic gas limit."""
-    # Test implementation
-    pass
-```
-
-The EIPChecklist class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
-
 ### Marker Parameters
 
 - **First positional parameter** (required): The checklist item ID (string or EIPChecklist reference)
@@ -47,8 +48,7 @@ The EIPChecklist class provides type safety and IDE autocompletion, making it ea
 Example with multiple EIPs covered by the same test:
 
 ```python
-@pytest.mark.eip_checklist(
-    EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two, 
+@EIPChecklist.NewTransactionType.Test.Signature.Invalid.V.Two(
     eip=[7702, 2930]
 )
 def test_invalid_signature(state_test: StateTestFiller):
@@ -68,7 +68,7 @@ def test_all_invalid_signatures_string(state_test: StateTestFiller):
     pass
 
 # Using EIPChecklist class notation
-@pytest.mark.eip_checklist(EIPChecklist.NewTransactionType.Test.Signature.Invalid)
+@EIPChecklist.NewTransactionType.Test.Signature.Invalid()
 def test_all_invalid_signatures_class(state_test: StateTestFiller):
     """Test covering all invalid signature scenarios."""
     pass
@@ -110,14 +110,6 @@ general/code_coverage/eels = Covered by EELS test suite
 general/code_coverage/second_client = Covered by Nethermind tests
 ```
 
-You can also use EIPChecklist references for better maintainability:
-
-```python
-# In your test file, you can reference the exact paths:
-# str(EIPChecklist.General.CodeCoverage.Eels) = "general/code_coverage/eels"
-# str(EIPChecklist.General.CodeCoverage.SecondClient) = "general/code_coverage/second_client"
-```
-
 Format: `checklist_item_id = reason`
 
 ### Not Applicable Items
@@ -128,14 +120,6 @@ For checklist items that are not applicable to a specific EIP, create a file nam
 # tests/prague/eip7702_set_code_tx/eip_checklist_not_applicable.txt
 new_system_contract = EIP-7702 does not introduce a system contract
 new_precompile = EIP-7702 does not introduce a precompile
-```
-
-You can also use EIPChecklist references to ensure accuracy:
-
-```python
-# Use these in your configuration:
-# str(EIPChecklist.NewSystemContract) = "new_system_contract"
-# str(EIPChecklist.NewPrecompile) = "new_precompile"
 ```
 
 Format: `checklist_item_id = reason`
@@ -222,7 +206,7 @@ Example output snippet:
       from ethereum_test_checklists import EIPChecklist
       
       # Recommended: Using EIPChecklist for type safety
-      @pytest.mark.eip_checklist(EIPChecklist.NewOpcode.Test.GasUsage.Normal)
+      @EIPChecklist.NewOpcode.Test.GasUsage.Normal()
       def test_opcode_gas_consumption(state_test: StateTestFiller):
          """Test normal gas consumption of the new opcode."""
          pass
