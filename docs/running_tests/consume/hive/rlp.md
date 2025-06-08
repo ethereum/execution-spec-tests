@@ -22,7 +22,7 @@ This method simulates how clients import blocks during historical sync, testing 
 uv run consume rlp [OPTIONS]
 ```
 
-See [Common Options](./common_options.md) for options shared with all simulators.
+See [Common Options](../../hive/common_options.md) for options shared with all simulators.
 
 ## Usage Examples
 

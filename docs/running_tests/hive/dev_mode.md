@@ -11,8 +11,8 @@ Running EEST simulators against Hive in dev mode avoids running the simulator in
 
 ### Prerequisites
 
-- EEST is installed, see [Installation](./../../../getting_started/installation.md)
-- Hive is built, see [Hive](./index.md).
+- EEST is installed, see [Installation](../../getting_started/installation.md)
+- Hive is built, see [Hive](../consume/hive/index.md).
 
 ## Hive Dev Setup
 

@@ -2,7 +2,7 @@
 
 ## Formats and Release Layout
 
-@ethereum/execution-spec-tests releases contain JSON test fixtures in the following formats, note that transaction type tests are executed directly from Python source using the [`execute`](../executing_tests/index.md) command.
+@ethereum/execution-spec-tests releases contain JSON test fixtures in the following formats, note that transaction type tests are executed directly from Python source using the [`execute`](./execute/index.md) command.
 
 | Format                                                               | Consumed by the client                                                                                                                                                                                                                                                                    | Location in `.tar.gz` release                                       |
 | -------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |

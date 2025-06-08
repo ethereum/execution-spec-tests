@@ -165,5 +165,5 @@ BESU_EXCEPTIONS = {
 ## See Also
 
 - [Engine Simulator Documentation](./engine.md)
-- [Common Options](./common_options.md)
-- [Troubleshooting Guide](../troubleshooting.md)
+- [Common Options](../../hive/common_options.md)
+- [Troubleshooting Guide](../../hive/troubleshooting.md)

@@ -6,19 +6,11 @@ The EEST `consume` command implements different methods to run EEST-generated te
 uv run consume [OPTIONS] SUBCOMMAND [ARGS]...
 ```
 
-`consume` supports three distinct subcommands for running test fixtures:
-
-| Subcommand                   | Description                                               | Use Case                                  | Scope       |
-| ---------------------------- | --------------------------------------------------------- | ----------------------------------------- | ----------- |
-| [`direct`](./direct.md)      | Executes tests via a `statetest` or `blocktest` interface | Quick module testing with fast feedback   | Module test |
-| [`rlp`](./hive/rlp.md)       | Client imports RLP-encoded blocks upon start-up           | Testing block processing and import logic | System test |
-| [`engine`](./hive/engine.md) | Client imports blocks via Engine API `EngineNewPayload`   | Testing post-merge functionality          | System test |
-
 !!! tip "What's difference between `consume engine` and `./hive --sim eest/consume-engine`"
 
     These commands run the same EEST simulator code, just through different interfaces:
 
-    1. `consume engine` requires the user to [install EEST](../../getting_started/installation.md) and start a Hive server in [development mode](./hive/dev_mode.md). In this case, the simulator is not dockerized. This is particularly useful during test development as fixtures on the local disk can be specified via `--input=fixtures/`.
+    1. `consume engine` requires the user to [install EEST](../../getting_started/installation.md) and start a Hive server in [development mode](../hive/dev_mode.md). In this case, the simulator is not dockerized. This is particularly useful during test development as fixtures on the local disk can be specified via `--input=fixtures/`.
     2. `./hive --sim eest/consume-engine` is a standalone command that installs the `consume` command in a dockerized container managed by Hive. This is the defacto method for executing EEST [fixture releases](../releases.md) against clients in CI environments. It is cumbersome to execute fixtures on the local disk with this method.
 
 ## Available Consumption Methods

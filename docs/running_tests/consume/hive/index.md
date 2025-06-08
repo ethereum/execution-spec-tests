@@ -7,7 +7,7 @@ Hive provides containerized testing infrastructure for Ethereum clients. EEST of
 - **`ethereum/eest/consume-rlp`**: Tests block import via RLP-encoded blocks (all forks)
 - **`ethereum/eest/consume-engine`**: Tests via Engine API (post-merge forks only)
 
-See [Simulator Comparison](./comparison.md) for detailed differences.
+See [Simulator Comparison](../../running.md#rlp-vs-engine-simulator) for detailed differences.
 
 ## Quick Start
 
@@ -61,7 +61,7 @@ export HIVE_SIMULATOR=http://127.0.0.1:3000
 uv run consume engine -k "test_chainid"
 ```
 
-See [Development Mode Guide](./dev_mode.md) for details.
+See [Development Mode Guide](../../hive/dev_mode.md) for details.
 
 ### Viewing Results
 
@@ -77,8 +77,8 @@ Access at http://127.0.0.1:8080
 
 ## Documentation
 
-- [Common Options](./common_options.md) - Options shared by all simulators
-- [Client Configuration](./client_config.md) - Setting up client builds
-- [Development Mode](./dev_mode.md) - Interactive testing workflow
+- [Common Options](../../hive/common_options.md) - Options shared by all simulators
+- [Client Configuration](../../hive/client_config.md) - Setting up client builds
+- [Development Mode](../../hive/dev_mode.md) - Interactive testing workflow
 - [Exception Tests](./exceptions.md) - Understanding exception validation
-- [Troubleshooting](../troubleshooting.md) - Common issues and solutions
+- [Troubleshooting](../../hive/troubleshooting.md) - Common issues and solutions

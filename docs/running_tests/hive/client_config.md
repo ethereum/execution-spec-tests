@@ -2,10 +2,10 @@
 
 Clients ran in Hive are configured via the following `./hive` options:
 
-1. `--client-file=client_config.yaml` to specify how and which versions of clients can be built and ran.
-2. `--client=client1,client2` to select a subset of clients from `client_config.yaml`.
+1. `--client-file=client_config.yaml`: Specifies a YAML file defining which and how clients are built.
+2. `--client=client1,client2`: Selects a subset of clients to run from the YAML via `nametag`.
 
-## Configuration File Format
+## Client YAML File Format
 
 Multiple client configurations can be defined as a list in a client YAML file with the following structure:
 
@@ -30,7 +30,7 @@ Hive runs client images in Docker containers. There are three different ways to 
 | `Dockerfile.git` | Clone from Github and build from source | `dockerfile: git` |
 | `Dockerfile.local` | Build from local source | `dockerfile: local` |
 
-These 3 Dockerfiles are maintained for each supported client in @ethereum/hive in the [`./clients/`](https://github.com/ethereum/hive/tree/master/clients) subfolder.
+These Dockerfiles are maintained for each supported client in @ethereum/hive in the [`./clients/`](https://github.com/ethereum/hive/tree/master/clients) subfolder.
 
 ### Production Image
 

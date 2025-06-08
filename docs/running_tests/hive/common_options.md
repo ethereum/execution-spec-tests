@@ -16,7 +16,7 @@ uv run consume engine --input ./fixtures
 
 ### Specifying the Fixture Input
 
-See [`consume cache` and Fixture Inputs](../cache.md#consume-command-inputs). Here's some brief examples:
+See [`consume cache` and Fixture Inputs](../consume/cache.md#consume-command-inputs). Here's some brief examples:
 
 ```bash
 # Local directory

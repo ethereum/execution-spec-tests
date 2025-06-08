@@ -23,7 +23,7 @@ This method replicates the real-world interaction between consensus clients (lik
 uv run consume engine [OPTIONS]
 ```
 
-See [Common Options](./common_options.md) for options shared with all simulators.
+See [Common Options](../../hive/common_options.md) for options shared with all simulators.
 
 ## Usage Examples
 
@@ -512,8 +512,8 @@ The Engine method will continue to evolve with new Ethereum forks:
 
 - [RLP Method Documentation](./rlp.md)
 - [Hive Simulator Guide](./index.md)
-- [Development Mode Guide](./dev_mode.md)
-- [Client Configuration Guide](./client_config.md)
-- [Troubleshooting Guide](../troubleshooting.md)
+- [Development Mode Guide](../../hive/dev_mode.md)
+- [Client Configuration Guide](../../hive/client_config.md)
+- [Troubleshooting Guide](../../hive/troubleshooting.md)
 - [Consume Command Overview](../index.md)
 - [Engine API Specification](https://github.com/ethereum/execution-apis/tree/main/src/engine)

@@ -9,7 +9,7 @@ The process of generating fixtures is often referred to as "filling" the tests.
 
 !!! note "The `execute` command"
 
-    The `execute` command directly executes Python test cases against a client via its RPC without using generated JSON fixtures. For all other methods of testing clients, the JSON fixtures are required. For more information, see [Executing Tests](../executing_tests/index.md).
+    The `execute` command directly executes Python test cases against a client via its RPC without using generated JSON fixtures. For all other methods of testing clients, the JSON fixtures are required. For more information, see [Executing Tests](../running_tests/execute/index.md).
 
 ## Transition Tools (`t8n`)
 

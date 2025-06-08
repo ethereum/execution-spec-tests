@@ -13,7 +13,8 @@ Releases can be downloaded using EEST tooling without (manually) cloning and ins
 2. Run EEST's `consume cache` command via `uv` and request the latest ["stable" fixture release](../releases.md):
 
     ```console
-    uvx --from git+https://github.com/ethereum/execution-spec-tests consume cache --input=stable@latest
+    uvx --from git+https://github.com/ethereum/execution-spec-tests \
+        consume cache --input=stable@latest
     ```
 
     Expected output, as of `v4.5.0`:
@@ -72,7 +73,7 @@ uv run consume rlp --input develop@latest
 uv run consume engine --input stable@v4.1.0
 uv run consume rlp --input develop@v4.2.1
 
-# Pre-release names
+# Pre-release tags
 uv run consume cache --input pectra-devnet-6@v1.0.0
 uv run consume direct --input eip7692@latest --bin ../go-ethereum/build/bin/evm
 ```
