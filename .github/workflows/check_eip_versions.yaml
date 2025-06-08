@@ -39,11 +39,6 @@ jobs:
           # Always return success to GitHub Actions
           exit 0
 
-      - name: Generate report file
-        if: steps.check-eip.outputs.exit_code != 0
-        run: |
-          uv run python .github/scripts/generate_eip_report.py ./reports/eip_check_output.txt ./reports/outdated_eips.md
-
       - name: Create Issue From File
         if: steps.check-eip.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@e8ef132d6df98ed982188e460ebb3b5d4ef3a9cd
