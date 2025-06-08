@@ -41,6 +41,8 @@ Users can select any of the artifacts depending on their testing needs for their
 
 #### `execute`
 
+- 🔀 Update hive execute blob tests to be client agnostic with respect to max blobs per transaction ([#1720](https://github.com/ethereum/execution-spec-tests/pull/1720)).
+
 - ✨ Add `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 
 ### 📋 Misc

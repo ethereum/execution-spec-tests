@@ -1,14 +1,15 @@
 """
-abstract: Tests get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
+abstract: Tests get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
+    Test get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
 
 """  # noqa: E501
 
 from typing import List, Optional
 
 import pytest
+from hive.client import ClientType
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -16,7 +17,6 @@ from ethereum_test_tools import (
     BlobsTestFiller,
     NetworkWrappedTransaction,
     Transaction,
-    TransactionException,
 )
 
 from ...cancun.eip4844_blobs.common import INF_POINT
@@ -138,24 +138,19 @@ def tx_max_fee_per_blob_gas(  # noqa: D103
 
 
 @pytest.fixture
-def tx_error() -> Optional[TransactionException]:
-    """
-    Even though the final block we are producing in each of these tests is invalid, and some of the
-    transactions will be invalid due to the format in the final block, none of the transactions
-    should be rejected by the transition tool because they are being sent to it with the correct
-    format.
-    """
-    return None
-
-
-@pytest.fixture
 def tx_wrapper_version() -> int | None:
     """Return wrapper version used for the transactions sent during test."""
     return 1
 
 
+@pytest.fixture
+def txs_blobs(id_matcher) -> List[List[Blob]]:
+    """Extract blobs from the resolved test case."""
+    return id_matcher.values[0]
+
+
 @pytest.fixture(autouse=True)
-def txs(  # noqa: D103
+def txs(
     pre: Alloc,
     destination_account: Optional[Address],
     tx_gas: int,
@@ -163,7 +158,6 @@ def txs(  # noqa: D103
     tx_calldata: bytes,
     tx_max_fee_per_blob_gas: int,
     txs_versioned_hashes: List[List[bytes]],
-    tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     tx_wrapper_version: int | None,
 ) -> List[NetworkWrappedTransaction | Transaction]:
@@ -182,7 +176,6 @@ def txs(  # noqa: D103
             max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
             access_list=[],
             blob_versioned_hashes=tx_versioned_hashes,
-            error=tx_error,
         )
         network_wrapped_tx = NetworkWrappedTransaction(
             tx=tx,
@@ -193,15 +186,26 @@ def txs(  # noqa: D103
     return txs
 
 
+def get_max_blobs_per_tx(fork: Fork, client_type: Optional[ClientType] = None) -> int:
+    """Get max blobs per tx considering both fork and client."""
+    # https://github.com/ethereum/go-ethereum/issues/31792
+    # https://github.com/ethereum/go-ethereum/pull/31837
+    if client_type and "go-ethereum" in client_type.name and fork >= Osaka:
+        return 7
+    return fork.max_blobs_per_block()
+
+
 def generate_full_blob_tests(
     fork: Fork,
+    client_type: Optional[ClientType] = None,
 ) -> List:
     """
     Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
     blob_size = Spec4844.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
-    max_blobs = fork.max_blobs_per_block()
+    max_blobs_per_block = fork.max_blobs_per_block()
+    max_blobs_per_tx = get_max_blobs_per_tx(fork, client_type)
     return [
         pytest.param(
             [  # Txs
@@ -223,7 +227,7 @@ def generate_full_blob_tests(
                         kzg_commitment=INF_POINT,
                         kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
                     )
-                    for _ in range(max_blobs)
+                    for _ in range(max_blobs_per_tx)
                 ]
             ],
             id="max_blobs_transaction",
@@ -237,18 +241,36 @@ def generate_full_blob_tests(
                         kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
                     )
                 ]
-                for _ in range(max_blobs)
+                for _ in range(max_blobs_per_block)
             ],
             id="single_blob_max_txs",
         ),
     ]
 
 
-@pytest.mark.parametrize_by_fork(
-    "txs_blobs",
-    generate_full_blob_tests,
+@pytest.fixture(scope="module")
+def id_matcher(request, fork: Fork, client_type: ClientType):
+    """
+    Match test case ID to actual test case for client aware test execution.
+    This runs at test execution time when we have access to both the fork and client type.
+    """
+    requested_id = request.param
+    all_test_cases = generate_full_blob_tests(fork, client_type)
+    for test_case in all_test_cases:
+        if test_case.id == requested_id:
+            return test_case
+    raise ValueError(f"Test case {requested_id} not found")
+
+
+@pytest.mark.parametrize(
+    "id_matcher",
+    [
+        "single_blob_transaction",
+        "max_blobs_transaction",
+        "single_blob_max_txs",
+    ],
+    indirect=True,
 )
-@pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
 def test_get_blobs(
     blobs_test: BlobsTestFiller,
@@ -259,7 +281,4 @@ def test_get_blobs(
     Test valid blob combinations where one or more txs in the block
     serialized version contain a full blob (network version) tx.
     """
-    blobs_test(
-        pre=pre,
-        txs=txs,
-    )
+    blobs_test(pre=pre, txs=txs)
