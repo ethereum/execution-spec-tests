@@ -4,7 +4,7 @@ Tests can be executed on a local hive-controlled single-client network by runnin
 
 ## The `eest/execute-blobs` Simulator
 
-The `blob_transaction_test` execute test spec sends blob transactions to a running client in order to verify its `engine_getBlobsVX` endpoint behavior. These tests can be ran using:
+The `blob_transaction_test` execute test spec sends blob transactions to a running client in order to verify its `engine_getBlobsVX` endpoint behavior. These tests can be run using:
 
 ```bash
 ./hive --client besu --client-file ./configs/osaka.yaml --sim ethereum/eest/execute-blobs

@@ -48,7 +48,7 @@ Test transactions are not sent from the main sender account though, they are sen
 
 ### Use with Parallel Execution
 
-If the `execute` is ran using the `-n=N` flag (respectively `--sim-parallelism=N`), n>1, the tests will be executed in parallel, and each process will have its own separate sender account, so the amount that is swept from the seed account is divided by the number of processes, and this has to be taken into account when setting the sweep amount and also when funding the seed account.
+If the `execute` is run using the `-n=N` flag (respectively `--sim-parallelism=N`), n>1, the tests will be executed in parallel, and each process will have its own separate sender account, so the amount that is swept from the seed account is divided by the number of processes, and this has to be taken into account when setting the sweep amount and also when funding the seed account.
 
 After finishing each test the command will check the remaining balance of all accounts and will attempt to recover the funds back to the sender account, and at the end of all tests, the remaining balance of the sender account will be swept back to the seed account.
 

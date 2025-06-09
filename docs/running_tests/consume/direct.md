@@ -6,7 +6,7 @@ The `direct` method provides the fastest way to test EVM functionality by execut
 uv run consume direct --bin=<evm-binary> [OPTIONS]
 ```
 
-- `--bin EVM_BIN`: Path to an evm executable that can process `StateTestFixture and/or`BlockTestFixture` formats.
+- `--bin EVM_BIN`: Path to an evm executable that can process `StateTestFixture` and/or `BlockTestFixture` formats.
 - `--traces`: Collect execution traces from the evm executable.
 
 !!! warning "Limited Client Support"

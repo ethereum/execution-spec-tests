@@ -10,7 +10,7 @@ For help with installation, see [Installation](../../getting_started/installatio
 
 This section provides help for running the EEST commands directly (against a [`./hive --dev` backend](../hive/dev_mode.md), where applicable), see:
 
-1. [Consume Cache & Fixture Inputs](./cache.md) for how to specifying `consume` fixture input.
+1. [Consume Cache & Fixture Inputs](./cache.md) for how to specify `consume` fixture input.
 
 2. [Consume Direct](./direct.md) to run test fixtures against direct client interfaces.
 
