@@ -27,6 +27,8 @@ pytestmark = [
 @pytest.mark.parametrize(
     "input_data,expected_output,vector_gas_value",
     vectors_from_file("secp256r1_test.json"),
+    # Test vectors generated from Wycheproof's ECDSA secp256r1 SHA-256 test suite
+    # Source: https://github.com/C2SP/wycheproof/blob/main/testvectors/ecdsa_secp256r1_sha256_test.json
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.eip_checklist("new_precompile/test/call_contexts/normal")
