@@ -30,7 +30,7 @@ uv run consume direct --bin=<evm-binary> [OPTIONS]
 
 ## Example Usage
 
-Only run state tests (by using a mark filter, `-m`) from a local `fixtures` folder with go-ethereum
+Only run state tests (by using a mark filter, `-m`) from a local `fixtures` folder with go-ethereum:
 
 ```bash
 uv run consume direct --input ./fixtures -m state_test --bin=evm

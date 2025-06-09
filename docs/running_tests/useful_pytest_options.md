@@ -92,7 +92,7 @@ uv run consume direct --input=<fixture_input> -n 4
 
 ## Dropping in the Python Debugger
 
-Dropping into the Python debugger can be helpful to inspects EEST simulator state or ssh to a client container. Adding the `--pdb` option will drop into Python debugger upon test failure, `-x` tells pytest to exit after the first fail:
+Dropping into the Python debugger can be helpful to inspect EEST simulator state or ssh to a client container. Adding the `--pdb` option will drop into Python debugger upon test failure, `-x` tells pytest to exit after the first fail:
 
 ```bash
 uv run consume engine --pdb -x ...

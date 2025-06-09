@@ -1,5 +1,7 @@
 # Consume Simulators
 
+The `engine` and `rlp` simulators test clients by importing blocks through different interfaces. These simulators run within the Hive testing framework to provide containerized, isolated testing environments.
+
 ## Command Syntax
 
 ```bash

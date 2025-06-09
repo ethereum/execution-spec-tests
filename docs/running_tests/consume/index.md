@@ -8,7 +8,7 @@ uv run consume [OPTIONS] SUBCOMMAND [ARGS]...
 
 For help with installation, see [Installation](../../getting_started/installation.md).
 
-This section provides help for running the EEST commands directly (against a [`./hive --dev` backend](../hive/dev_mode.md), where applicable), see:
+This section provides help for running the EEST commands directly (as apposed to running as a `./hive` [standalone command](../hive/index.md), where applicable) see:
 
 1. [Consume Cache & Fixture Inputs](./cache.md) for how to specify `consume` fixture input.
 
