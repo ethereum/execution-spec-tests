@@ -201,21 +201,24 @@ class EIPChecklist:
 
                         pass
 
-                class VariableN(ChecklistItem):
-                    """Variable N tests for stack manipulation."""
+                class DataPortionVariables(ChecklistItem, override_name="data_portion_variables"):
+                    """
+                    If the opcode contains variables in its data portion, for each variable `n`
+                    of the opcode that accesses the nth stack item, test `n` being.
+                    """
 
                     class Top(ChecklistItem):
-                        """Top stack item."""
+                        """`n` is the top stack item."""
 
                         pass
 
                     class Bottom(ChecklistItem):
-                        """Bottom stack item."""
+                        """`n` is the bottom stack item."""
 
                         pass
 
                     class Middle(ChecklistItem):
-                        """Middle stack item."""
+                        """`n` is the middle stack item."""
 
                         pass
 

@@ -84,9 +84,9 @@ If the opcode contains variables in its data portion, for each variable `n` of t
 
 | ID                                                           | Description        | Status | Tests |
 | ------------------------------------------------------------ | ------------------ | ------ | ----- |
-| `opcode/test/stack_complex_operations/variable_n/top`    | Top stack item.    |        |       |
-| `opcode/test/stack_complex_operations/variable_n/bottom` | Bottom stack item. |        |       |
-| `opcode/test/stack_complex_operations/variable_n/middle` | Middle stack item. |        |       |
+| `opcode/test/stack_complex_operations/data_portion_variables/top`    | Top stack item.    |        |       |
+| `opcode/test/stack_complex_operations/data_portion_variables/bottom` | Bottom stack item. |        |       |
+| `opcode/test/stack_complex_operations/data_portion_variables/middle` | Middle stack item. |        |       |
 
 #### Execution context
 
