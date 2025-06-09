@@ -224,7 +224,16 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    # Modify the block gas limit if specified.
+    # Add eip checklist marker
+    config.addinivalue_line(
+        "markers",
+        (
+            "eip_checklist(item: str): specifies the item in the eip checklist that this test "
+            "checks off."
+        ),
+    )
+
+    # Modify the block gas limit if specified
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
 
