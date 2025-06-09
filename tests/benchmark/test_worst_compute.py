@@ -1172,19 +1172,17 @@ def test_worst_jumpi_fallthrough(
     def jumpi_seq():
         return Op.JUMPI(Op.PUSH0, Op.PUSH0)
 
+    prefix_seq = Op.JUMPDEST
+    suffix_seq = Op.JUMP(Op.PUSH0)
     bytes_per_seq = len(jumpi_seq())
-    seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
+    seqs_per_call = (MAX_CODE_SIZE - len(prefix_seq) - len(suffix_seq)) // bytes_per_seq
 
     # Create and deploy the jumpi-intensive contract
-    jumpis_code = jumpi_seq() * seqs_per_call
+    jumpis_code = prefix_seq + jumpi_seq() * seqs_per_call + suffix_seq
     jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
 
-    # Call the contract repeatedly until gas runs out.
-    caller_code = While(body=Op.POP(Op.CALL(address=jumpis_address)))
-    caller_address = pre.deploy_contract(caller_code)
-
     tx = Transaction(
-        to=caller_address,
+        to=jumpis_address,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
@@ -1207,26 +1205,11 @@ def test_worst_jumpis(
     """Test running a JUMPI-intensive contract."""
     env = Environment()
 
-    def jumpi_seq(dest: int):
-        return Op.JUMPI(Op.PUSH2(dest), Op.DUP1) + Op.JUMPDEST
-
-    code_prefix = Op.PUSH1(1)
-    bytes_per_seq = len(jumpi_seq(0))
-    seqs_per_call = (MAX_CODE_SIZE - len(code_prefix)) // bytes_per_seq
-
-    # The code body is a sequence of JUMPIs that jump to different destinations.
-    # The first jumpi jumps to destination 7, and each repeated sequence takes 6 bytes.
-    # As a result, the jump dest is 7 + 6 * i, where i is iteration number.
-    code_body = sum([jumpi_seq(7 + 6 * i) for i in range(seqs_per_call)])
-    jumpis_code = code_prefix + code_body
-    jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
-
-    # Call the contract repeatedly until gas runs out.
-    caller_code = While(body=Op.POP(Op.CALL(address=jumpis_address)))
-    caller_address = pre.deploy_contract(caller_code)
+    jumpi_code = Op.JUMPDEST + Op.JUMPI(Op.PUSH0, Op.NUMBER)
+    jumpi_address = pre.deploy_contract(jumpi_code)
 
     tx = Transaction(
-        to=caller_address,
+        to=jumpi_address,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
