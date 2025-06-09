@@ -1536,6 +1536,31 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/</loc>
+         <lastmod>2025-06-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/checklist/</loc>
+         <lastmod>2025-06-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/</loc>
+         <lastmod>2025-06-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_transaction_gas_limit_cap/</loc>
+         <lastmod>2025-06-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_transaction_gas_limit_cap_at_transition/</loc>
+         <lastmod>2025-06-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/</loc>
          <lastmod>2025-06-09</lastmod>
          <changefreq>daily</changefreq>
