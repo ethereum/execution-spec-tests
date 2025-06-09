@@ -6,7 +6,9 @@ Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
 """
 
 import math
+import operator
 import random
+from enum import Enum, auto
 from typing import cast
 
 import pytest
@@ -58,6 +60,282 @@ def make_dup(index: int) -> Opcode:
 
 
 @pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.ADDRESS,
+        Op.ORIGIN,
+        Op.CALLER,
+        Op.CODESIZE,
+        Op.GASPRICE,
+        Op.COINBASE,
+        Op.TIMESTAMP,
+        Op.NUMBER,
+        Op.PREVRANDAO,
+        Op.GASLIMIT,
+        Op.CHAINID,
+        Op.BASEFEE,
+        Op.BLOBBASEFEE,
+        Op.GAS,
+        # Note that other 0-param opcodes are covered in separate tests.
+    ],
+)
+def test_worst_zero_param(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Op,
+):
+    """Test running a block with as many zero-parameter opcodes as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(opcode)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("calldata_length", [0, 1_000, 10_000])
+def test_worst_calldatasize(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    calldata_length: int,
+):
+    """Test running a block with as many CALLDATASIZE as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(Op.CALLDATASIZE)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+        data=b"\x00" * calldata_length,
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("non_zero_value", [True, False])
+@pytest.mark.parametrize("from_origin", [True, False])
+def test_worst_callvalue(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    non_zero_value: bool,
+    from_origin: bool,
+):
+    """
+    Test running a block with as many CALLVALUE opcodes as possible.
+
+    The `non_zero_value` parameter controls whether opcode must return non-zero value.
+    The `from_origin` parameter controls whether the call frame is the immediate from the
+    transaction or a previous CALL.
+    """
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    iter_loop = Op.POP(Op.CALLVALUE)
+    code_suffix = Op.PUSH0 + Op.JUMP
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+    code_address = pre.deploy_contract(code=bytes(code))
+
+    tx_to = (
+        code_address
+        if from_origin
+        else pre.deploy_contract(
+            code=Op.CALL(address=code_address, value=1 if non_zero_value else 0), balance=10
+        )
+    )
+
+    tx = Transaction(
+        to=tx_to,
+        gas_limit=env.gas_limit,
+        value=1 if non_zero_value and from_origin else 0,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+class ReturnDataStyle(Enum):
+    """Helper enum to specify return data is returned to the caller."""
+
+    RETURN = auto()
+    REVERT = auto()
+    IDENTITY = auto()
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "return_data_style",
+    [
+        ReturnDataStyle.RETURN,
+        ReturnDataStyle.REVERT,
+        ReturnDataStyle.IDENTITY,
+    ],
+)
+@pytest.mark.parametrize("returned_size", [1, 0])
+def test_worst_returndatasize_nonzero(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    returned_size: int,
+    return_data_style: ReturnDataStyle,
+):
+    """
+    Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero
+    buffer as possible.
+
+    The `returned_size` parameter indicates the size of the returned data buffer.
+    The `return_data_style` indicates how returned data is produced for the opcode caller.
+    """
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    dummy_contract_call = Bytecode()
+    if return_data_style != ReturnDataStyle.IDENTITY:
+        dummy_contract_call = Op.STATICCALL(
+            address=pre.deploy_contract(
+                code=Op.REVERT(0, returned_size)
+                if return_data_style == ReturnDataStyle.REVERT
+                else Op.RETURN(0, returned_size)
+            )
+        )
+    else:
+        dummy_contract_call = Op.MSTORE8(0, 1) + Op.STATICCALL(
+            address=0x04,  # Identity precompile
+            args_size=returned_size,
+        )
+
+    code_prefix = dummy_contract_call + Op.JUMPDEST
+    iter_loop = Op.POP(Op.RETURNDATASIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_returndatasize_zero(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    dummy_contract_call = Bytecode()
+
+    code_prefix = dummy_contract_call + Op.JUMPDEST
+    iter_loop = Op.POP(Op.RETURNDATASIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("mem_size", [0, 1, 1_000, 100_000, 1_000_000])
+def test_worst_msize(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    mem_size: int,
+):
+    """
+    Test running a block with as many MSIZE opcodes as possible.
+
+    The `mem_size` parameter indicates by how much the memory is expanded.
+    """
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    # We use CALLVALUE for the parameter since is 1 gas cheaper than PUSHX.
+    code_prefix = Op.MLOAD(Op.CALLVALUE) + Op.JUMPDEST
+    iter_loop = Op.POP(Op.MSIZE)
+    code_suffix = Op.JUMP(len(code_prefix) - 1)
+    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
+    code = code_prefix + iter_loop * code_iter_len + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=bytes(code)),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+        value=mem_size,
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
 def test_worst_keccak(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -73,6 +351,8 @@ def test_worst_keccak(
     gsc = fork.gas_costs()
     mem_exp_gas_calculator = fork.memory_expansion_gas_calculator()
 
+    max_code_size = fork.max_code_size()
+
     # Discover the optimal input size to maximize keccak-permutations, not keccak calls.
     # The complication of the discovery arises from the non-linear gas cost of memory expansion.
     max_keccak_perm_per_block = 0
@@ -84,7 +364,7 @@ def test_worst_keccak(
             + math.ceil(i / 32) * gsc.G_KECCAK_256_WORD  # KECCAK256 dynamic cost
             + gsc.G_BASE  # POP
         )
-        # From the available gas, we substract the mem expansion costs considering we know the
+        # From the available gas, we subtract the mem expansion costs considering we know the
         # current input size length i.
         available_gas_after_expansion = max(0, available_gas - mem_exp_gas_calculator(new_bytes=i))
         # Calculate how many calls we can do.
@@ -103,18 +383,18 @@ def test_worst_keccak(
     # The loop structure is: JUMPDEST + [attack iteration] + PUSH0 + JUMP
     #
     # Now calculate available gas for [attack iteration]:
-    #   Numerator = MAX_CODE_SIZE-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
+    #   Numerator = max_code_size-3. The -3 is for the JUMPDEST, PUSH0 and JUMP.
     #   Denominator = (PUSHN + PUSH1 + KECCAK256 + POP) + PUSH1_DATA + PUSHN_DATA
     # TODO: the testing framework uses PUSH1(0) instead of PUSH0 which is suboptimal for the
     # attack, whenever this is fixed adjust accordingly.
     start_code = Op.JUMPDEST + Op.PUSH20[optimal_input_length]
     loop_code = Op.POP(Op.SHA3(Op.PUSH0, Op.DUP1))
     end_code = Op.POP + Op.JUMP(Op.PUSH0)
-    max_iters_loop = (MAX_CODE_SIZE - (len(start_code) + len(end_code))) // len(loop_code)
+    max_iters_loop = (max_code_size - (len(start_code) + len(end_code))) // len(loop_code)
     code = start_code + (loop_code * max_iters_loop) + end_code
-    if len(code) > MAX_CODE_SIZE:
+    if len(code) > max_code_size:
         # Must never happen, but keep it as a sanity check.
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
+        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
 
     code_address = pre.deploy_contract(code=bytes(code))
 
@@ -179,7 +459,7 @@ def test_worst_precompile_only_data_input(
             + math.ceil(input_length / 32) * per_word_dynamic_cost  # Precompile dynamic cost
             + gsc.G_BASE  # POP
         )
-        # From the available gas, we substract the mem expansion costs considering we know the
+        # From the available gas, we subtract the mem expansion costs considering we know the
         # current input size length.
         available_gas_after_expansion = max(
             0, available_gas - mem_exp_gas_calculator(new_bytes=input_length)
@@ -195,7 +475,7 @@ def test_worst_precompile_only_data_input(
 
     calldata = Op.CODECOPY(0, 0, optimal_input_length)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, address, 0, optimal_input_length, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -214,10 +494,7 @@ def test_worst_precompile_only_data_input(
 
 
 @pytest.mark.valid_from("Cancun")
-def test_worst_modexp(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+def test_worst_modexp(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test running a block with as many MODEXP calls as possible."""
     env = Environment()
 
@@ -243,7 +520,7 @@ def test_worst_modexp(
     iter_complexity = exp.bit_length() - 1
     gas_cost = math.floor((mul_complexity * iter_complexity) / 3)
     attack_block = Op.POP(Op.STATICCALL(gas_cost, 0x5, 0, 32 * 6, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -376,7 +653,7 @@ def test_worst_modexp(
             [
                 # TODO: the //2 is required due to a limitation of the max contract size limit.
                 # In a further iteration we can insert the inputs as calldata or storage and avoid
-                # having to do PUSHes which has this limtiation. This also applies to G1MSM.
+                # having to do PUSHes which has this limitation. This also applies to G1MSM.
                 (bls12381_spec.Spec.P2 + bls12381_spec.Scalar(bls12381_spec.Spec.Q))
                 * (len(bls12381_spec.Spec.G2MSM_DISCOUNT_TABLE) // 2),
             ],
@@ -410,6 +687,7 @@ def test_worst_modexp(
 def test_worst_precompile_fixed_cost(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
 ):
@@ -444,7 +722,7 @@ def test_worst_precompile_fixed_cost(
     attack_block = Op.POP(
         Op.STATICCALL(Op.GAS, precompile_address, 0, len(concatenated_bytes), 0, 0)
     )
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
     code_address = pre.deploy_contract(code=bytes(code))
 
     tx = Transaction(
@@ -461,18 +739,20 @@ def test_worst_precompile_fixed_cost(
     )
 
 
-def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode):
+def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: Fork):
     """Create a code loop that calls a precompile with the given calldata."""
+    max_code_size = fork.max_code_size()
+
     # The attack contract is: CALLDATA_PREP + #JUMPDEST + [attack_block]* + JUMP(#)
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(calldata))
-    max_iters_loop = (MAX_CODE_SIZE - len(calldata) - len(jumpdest) - len(jump_back)) // len(
+    max_iters_loop = (max_code_size - len(calldata) - len(jumpdest) - len(jump_back)) // len(
         attack_block
     )
     code = calldata + jumpdest + sum([attack_block] * max_iters_loop) + jump_back
-    if len(code) > MAX_CODE_SIZE:
+    if len(code) > max_code_size:
         # Must never happen, but keep it as a sanity check.
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {MAX_CODE_SIZE}")
+        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
 
     return code
 
@@ -480,18 +760,16 @@ def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode):
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
-def test_worst_jumps(
-    state_test: StateTestFiller,
-    pre: Alloc,
-):
+def test_worst_jumps(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test running a JUMP-intensive contract."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     def jump_seq():
         return Op.JUMP(Op.ADD(Op.PC, 1)) + Op.JUMPDEST
 
     bytes_per_seq = len(jump_seq())
-    seqs_per_call = MAX_CODE_SIZE // bytes_per_seq
+    seqs_per_call = max_code_size // bytes_per_seq
 
     # Create and deploy the jump-intensive contract
     jumps_code = sum([jump_seq() for _ in range(seqs_per_call)])
@@ -604,9 +882,10 @@ def test_worst_jumpdests(
 ):
     """Test running a JUMPDEST-intensive contract."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     # Create and deploy a contract with many JUMPDESTs
-    jumpdests_code = sum([Op.JUMPDEST] * MAX_CODE_SIZE)
+    jumpdests_code = sum([Op.JUMPDEST] * max_code_size)
     jumpdests_address = pre.deploy_contract(code=bytes(jumpdests_code))
 
     # Call the contract repeatedly until gas runs out.
@@ -659,16 +938,36 @@ DEFAULT_BINOP_ARGS = (
             (
                 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
                 # We want the first divisor to be slightly bigger than 2**128:
-                # this is the worst case for the division algorithm.
+                # this is the worst case for the division algorithm with optimized paths
+                # for division by 1 and 2 words.
                 0x100000000000000000000000000000033,
             ),
         ),
         (
-            # Same as DIV, but the numerator made positive, and the divisor made negative.
+            # This has the cycle of 2, see above.
+            Op.DIV,
+            (
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+                # We want the first divisor to be slightly bigger than 2**64:
+                # this is the worst case for the division algorithm with an optimized path
+                # for division by 1 word.
+                0x10000000000000033,
+            ),
+        ),
+        (
+            # Same as DIV-0, but the numerator made positive, and the divisor made negative.
             Op.SDIV,
             (
                 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
                 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCD,
+            ),
+        ),
+        (
+            # Same as DIV-1, but the numerator made positive, and the divisor made negative.
+            Op.SDIV,
+            (
+                0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFCD,
             ),
         ),
         (
@@ -751,10 +1050,7 @@ DEFAULT_BINOP_ARGS = (
     ids=lambda param: "" if isinstance(param, tuple) else param,
 )
 def test_worst_binop_simple(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    opcode: Op,
-    opcode_args: tuple[int, int],
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: Fork, opcode_args: tuple[int, int]
 ):
     """
     Test running a block with as many binary instructions (takes two args, produces one value)
@@ -762,15 +1058,16 @@ def test_worst_binop_simple(
     balanced by the DUP2 instruction.
     """
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     tx_data = b"".join(arg.to_bytes(32, byteorder="big") for arg in opcode_args)
 
     code_prefix = Op.JUMPDEST + Op.CALLDATALOAD(0) + Op.CALLDATALOAD(32)
     code_suffix = Op.POP + Op.POP + Op.PUSH0 + Op.JUMP
-    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
     code_body = (Op.DUP2 + opcode) * (code_body_len // 2)
     code = code_prefix + code_body + code_suffix
-    assert len(code) == MAX_CODE_SIZE - 1
+    assert len(code) == max_code_size - 1
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
@@ -789,26 +1086,124 @@ def test_worst_binop_simple(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
-def test_worst_unop(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    opcode: Op,
-):
+def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: Fork):
     """
     Test running a block with as many unary instructions (takes one arg, produces one value)
     as possible.
     """
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST + Op.PUSH0  # Start with the arg 0.
     code_suffix = Op.POP + Op.PUSH0 + Op.JUMP
-    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
     code_body = opcode * code_body_len
     code = code_prefix + code_body + code_suffix
-    assert len(code) == MAX_CODE_SIZE
+    assert len(code) == max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+# `key_mut` indicates the key isn't fixed.
+@pytest.mark.parametrize("key_mut", [True, False])
+# `val_mut` indicates that at the end of each big-loop, the value of the target key changes.
+@pytest.mark.parametrize("val_mut", [True, False])
+def test_worst_tload(
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    key_mut: bool,
+    val_mut: bool,
+):
+    """Test running a block with as many TLOAD calls as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    start_key = 41
+    code_key_mut = Bytecode()
+    code_val_mut = Bytecode()
+    if key_mut and val_mut:
+        code_prefix = Op.PUSH1(start_key) + Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.DUP1))
+        code_key_mut = Op.POP + Op.GAS
+        code_val_mut = Op.TSTORE(Op.DUP2, Op.GAS)
+    if key_mut and not val_mut:
+        code_prefix = Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.GAS))
+    if not key_mut and val_mut:
+        code_prefix = Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
+        code_val_mut = Op.TSTORE(Op.CALLVALUE, Op.GAS)  # CALLVALUE configured in the tx
+    if not key_mut and not val_mut:
+        code_prefix = Op.JUMPDEST
+        loop_iter = Op.POP(Op.TLOAD(Op.CALLVALUE))
+
+    code_suffix = code_key_mut + code_val_mut + Op.JUMP(len(code_prefix) - 1)
+
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body = loop_iter * code_body_len
+    code = code_prefix + code_body + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+        value=start_key if not key_mut and val_mut else 0,
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("key_mut", [True, False])
+@pytest.mark.parametrize("dense_val_mut", [True, False])
+def test_worst_tstore(
+    state_test: StateTestFiller,
+    fork: Fork,
+    pre: Alloc,
+    key_mut: bool,
+    dense_val_mut: bool,
+):
+    """Test running a block with as many TSTORE calls as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    init_key = 42
+    code_prefix = Op.PUSH1(init_key) + Op.JUMPDEST
+
+    # If `key_mut` is True, we mutate the key on every iteration of the big loop.
+    code_key_mut = Op.POP + Op.GAS if key_mut else Bytecode()
+    code_suffix = code_key_mut + Op.JUMP(len(code_prefix) - 1)
+
+    # If `dense_val_mut` is set, we use GAS as a cheap way of always storing a different value than
+    # the previous one.
+    loop_iter = Op.TSTORE(Op.DUP2, Op.GAS if dense_val_mut else Op.DUP1)
+
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body = loop_iter * code_body_len
+    code = code_prefix + code_body + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
@@ -826,6 +1221,7 @@ def test_worst_unop(
 def test_worst_shifts(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     shift_right: Op,
 ):
     """
@@ -833,6 +1229,7 @@ def test_worst_shifts(
     This test generates left-right pairs of shifts to avoid zeroing the argument.
     The shift amounts are randomly pre-selected from the constant pool of 15 values on the stack.
     """
+    max_code_size = fork.max_code_size()
 
     def to_signed(x):
         return x if x < 2**255 else x - 2**256
@@ -866,7 +1263,7 @@ def test_worst_shifts(
 
     code_prefix = sum(Op.PUSH1[sh] for sh in shift_amounts) + Op.JUMPDEST + Op.CALLDATALOAD(0)
     code_suffix = Op.POP + Op.JUMP(len(shift_amounts) * 2)
-    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
 
     def select_shift_amount(shift_fn, v):
         """Select a shift amount that will produce a non-zero result."""
@@ -886,7 +1283,7 @@ def test_worst_shifts(
         code_body += make_dup(len(shift_amounts) - i) + shift_right
 
     code = code_prefix + code_body + code_suffix
-    assert len(code) == MAX_CODE_SIZE - 2
+    assert len(code) == max_code_size - 2
 
     env = Environment()
 
@@ -924,14 +1321,15 @@ def test_worst_blobhash(
 ):
     """Test running a block with as many BLOBHASH instructions as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.PUSH1(blob_index) + Op.JUMPDEST
     code_suffix = Op.JUMP(len(code_prefix) - 1)
     loop_iter = Op.POP(Op.BLOBHASH(Op.DUP1))
-    code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx_type = TransactionType.LEGACY
     blob_versioned_hashes = None
@@ -967,6 +1365,7 @@ def test_worst_blobhash(
 def test_worst_mod(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     mod_bits: int,
     op: Op,
 ):
@@ -980,6 +1379,8 @@ def test_worst_mod(
     The order of accessing the numerators is selected in a way the mod value remains in the range
     as long as possible.
     """
+    max_code_size = fork.max_code_size()
+
     # For SMOD we negate both numerator and modulus. The underlying computation is the same,
     # just the SMOD implementation will have to additionally handle the sign bits.
     # The result stays negative.
@@ -1053,7 +1454,7 @@ def test_worst_mod(
     code_constant_pool = sum((Op.PUSH32[n] for n in numerators), Bytecode())
     code_prefix = code_constant_pool + Op.JUMPDEST
     code_suffix = Op.JUMP(len(code_constant_pool))
-    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
     code_segment = (
         Op.CALLDATALOAD(0) + sum(make_dup(len(numerators) - i) + op for i in indexes) + Op.POP
     )
@@ -1063,7 +1464,7 @@ def test_worst_mod(
         + sum(code_segment for _ in range(code_body_len // len(code_segment)))
         + code_suffix
     )
-    assert (MAX_CODE_SIZE - len(code_segment)) < len(code) <= MAX_CODE_SIZE
+    assert (max_code_size - len(code_segment)) < len(code) <= max_code_size
 
     env = Environment()
 
@@ -1091,6 +1492,7 @@ def test_worst_mod(
 def test_worst_memory_access(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
     opcode: Op,
     offset: int,
     offset_initialized: bool,
@@ -1098,6 +1500,7 @@ def test_worst_memory_access(
 ):
     """Test running a block with as many memory access instructions as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     mem_exp_code = Op.MSTORE8(10 * 1024, 1) if big_memory_expansion else Bytecode()
     offset_set_code = Op.MSTORE(offset, 43) if offset_initialized else Bytecode()
@@ -1107,13 +1510,119 @@ def test_worst_memory_access(
 
     loop_iter = Op.POP(Op.MLOAD(Op.DUP1)) if opcode == Op.MLOAD else opcode(Op.DUP2, Op.DUP2)
 
-    code_body_len = (MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)) // len(loop_iter)
+    code_body_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(loop_iter)
     code_body = loop_iter * code_body_len
     code = code_prefix + code_body + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("mod_bits", [255, 191, 127, 63])
+@pytest.mark.parametrize("op", [Op.ADDMOD, Op.MULMOD])
+def test_worst_modarith(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    mod_bits: int,
+    op: Op,
+):
+    """
+    Test running a block with as many "op" instructions with arguments of the parametrized range.
+    The test program consists of code segments evaluating the "op chain":
+    mod[0] = calldataload(0)
+    mod[1] = (fixed_arg op args[indexes[0]]) % mod[0]
+    mod[2] = (fixed_arg op args[indexes[1]]) % mod[1]
+    The "args" is a pool of 15 constants pushed to the EVM stack at the program start.
+    The "fixed_arg" is the 0xFF...FF constant added to the EVM stack by PUSH32
+    just before executing the "op".
+    The order of accessing the numerators is selected in a way the mod value remains in the range
+    as long as possible.
+    """
+    fixed_arg = 2**256 - 1
+    num_args = 15
+
+    max_code_size = fork.max_code_size()
+
+    # Pick the modulus min value so that it is _unlikely_ to drop to the lower word count.
+    assert mod_bits >= 63
+    mod_min = 2 ** (mod_bits - 63)
+
+    # Select the random seed giving the longest found op chain.
+    # You can look for a longer one by increasing the op_chain_len. This will activate
+    # the while loop below.
+    op_chain_len = 666
+    match op, mod_bits:
+        case Op.ADDMOD, 255:
+            seed = 4
+        case Op.ADDMOD, 191:
+            seed = 2
+        case Op.ADDMOD, 127:
+            seed = 2
+        case Op.ADDMOD, 63:
+            seed = 64
+        case Op.MULMOD, 255:
+            seed = 5
+        case Op.MULMOD, 191:
+            seed = 389
+        case Op.MULMOD, 127:
+            seed = 5
+        case Op.MULMOD, 63:
+            # For this setup we were not able to find an op-chain longer than 600.
+            seed = 4193
+            op_chain_len = 600
+        case _:
+            raise ValueError(f"{mod_bits}-bit {op} not supported.")
+
+    while True:
+        rng = random.Random(seed)
+        args = [rng.randint(2**255, 2**256 - 1) for _ in range(num_args)]
+        initial_mod = rng.randint(2 ** (mod_bits - 1), 2**mod_bits - 1)
+
+        # Evaluate the op chain and collect the order of accessing numerators.
+        op_fn = operator.add if op == Op.ADDMOD else operator.mul
+        mod = initial_mod
+        indexes: list[int] = []
+        while mod >= mod_min and len(indexes) < op_chain_len:
+            results = [op_fn(a, fixed_arg) % mod for a in args]
+            i = max(range(len(results)), key=results.__getitem__)  # And pick the best one.
+            mod = results[i]
+            indexes.append(i)
+
+        assert len(indexes) == op_chain_len  # Disable if you want to find longer op chains.
+        if len(indexes) == op_chain_len:
+            break
+        seed += 1
+        print(f"{seed=}")
+
+    code_constant_pool = sum((Op.PUSH32[n] for n in args), Bytecode())
+    code_segment = (
+        Op.CALLDATALOAD(0)
+        + sum(make_dup(len(args) - i) + Op.PUSH32[fixed_arg] + op for i in indexes)
+        + Op.POP
+    )
+    # Construct the final code. Because of the usage of PUSH32 the code segment is very long,
+    # so don't try to include multiple of these.
+    code = code_constant_pool + Op.JUMPDEST + code_segment + Op.JUMP(len(code_constant_pool))
+    assert (max_code_size - len(code_segment)) < len(code) <= max_code_size
+
+    env = Environment()
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        data=initial_mod.to_bytes(32, byteorder="big"),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
@@ -1192,7 +1701,7 @@ def test_amortized_bn128_pairings(
 
     calldata = Op.CALLDATACOPY(size=Op.CALLDATASIZE)
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, 0x08, 0, Op.CALLDATASIZE, 0, 0))
-    code = code_loop_precompile_call(calldata, attack_block)
+    code = code_loop_precompile_call(calldata, attack_block, fork)
 
     code_address = pre.deploy_contract(code=code)
 
@@ -1257,14 +1766,15 @@ def test_worst_calldataload(
 ):
     """Test running a block with as many CALLDATALOAD as possible."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     code_prefix = Op.PUSH0 + Op.JUMPDEST
     code_suffix = Op.PUSH1(1) + Op.JUMP
-    code_body_len = MAX_CODE_SIZE - len(code_prefix) - len(code_suffix)
+    code_body_len = max_code_size - len(code_prefix) - len(code_suffix)
     code_loop_iter = Op.CALLDATALOAD
     code_body = code_loop_iter * (code_body_len // len(code_loop_iter))
     code = code_prefix + code_body + code_suffix
-    assert len(code) <= MAX_CODE_SIZE
+    assert len(code) <= max_code_size
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),

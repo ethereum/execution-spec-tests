@@ -4,7 +4,7 @@ import pytest
 
 from ethereum_test_base_types import Bytes
 from ethereum_test_base_types.base_types import Address, Hash
-from ethereum_test_forks.base_fork import Fork
+from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -384,7 +384,7 @@ def test_txcreate_insufficient_stipend(
 
 @pytest.mark.with_all_evm_code_types
 def test_insufficient_initcode_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
-    """Excercises an TXCREATE when there is not enough gas for the constant charge."""
+    """Exercises an TXCREATE when there is not enough gas for the constant charge."""
     env = Environment()
 
     initcode_container = Container(

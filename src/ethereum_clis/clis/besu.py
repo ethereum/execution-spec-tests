@@ -61,7 +61,7 @@ class BesuTransitionTool(TransitionTool):
     def start_server(self):
         """
         Start the t8n-server process, extract the port, and leave it running
-        for future re-use.
+        for future reuse.
         """
         args = [
             str(self.binary),
@@ -106,7 +106,6 @@ class BesuTransitionTool(TransitionTool):
         chain_id: int,
         reward: int,
         blob_schedule: BlobSchedule | None = None,
-        eips: Optional[List[int]] = None,
         debug_output_path: str = "",
         state_test: bool = False,
         slow_request: bool = False,
@@ -119,8 +118,6 @@ class BesuTransitionTool(TransitionTool):
             block_number=env.number,
             timestamp=env.timestamp,
         )
-        if eips is not None:
-            fork_name = "+".join([fork_name] + [str(eip) for eip in eips])
 
         input_json = TransitionToolInput(
             alloc=alloc,

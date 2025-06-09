@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: tox
         name: tox
-        entry: uvx --with=tox-uv tox --parallel -e lint,typecheck
+        entry: uvx --with=tox-uv tox --parallel -e lint,typecheck,spellcheck
         language: system
         types: [python]
         pass_filenames: false

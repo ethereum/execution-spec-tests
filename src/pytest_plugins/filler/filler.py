@@ -718,7 +718,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         t8n: TransitionTool,
         fork: Fork,
         reference_spec: ReferenceSpec,
-        eips: List[int],
         pre: Alloc,
         output_dir: Path,
         dump_dir_parameter_level: Path | None,
@@ -756,7 +755,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     t8n=t8n,
                     fork=fork,
                     fixture_format=fixture_format,
-                    eips=eips,
                 )
                 fixture.fill_info(
                     t8n.version(),
@@ -796,12 +794,15 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
+            parameters = []
+            for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
+                parameter = labeled_format_parameter_set(format_with_or_without_label)
+                if i > 0:
+                    parameter.marks.append(pytest.mark.derived_test)  # type: ignore
+                parameters.append(parameter)
             metafunc.parametrize(
                 [test_type.pytest_parameter_name()],
-                [
-                    labeled_format_parameter_set(format_with_or_without_label)
-                    for format_with_or_without_label in test_type.supported_fixture_formats
-                ],
+                parameters,
                 scope="function",
                 indirect=True,
             )
