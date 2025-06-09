@@ -68,6 +68,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Add test cases for the transaction gas limit of 30M gas ([#1711](https://github.com/ethereum/execution-spec-tests/pull/1711)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
 - ✨ [EIP-7951](https://eips.ethereum.org/EIPS/eip-7951): add test cases for `P256VERIFY` precompile to support secp256r1 curve [#1670](https://github.com/ethereum/execution-spec-tests/pull/1670)
+- ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
