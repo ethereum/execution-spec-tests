@@ -1,6 +1,14 @@
 # Consume Cache and Fixture Inputs
 
-## Quick Start: Downloading the Latest Fixture Release
+The `consume cache` command can be used to resolve, download and cache fixture releases:
+
+```console
+consume cache --input=stable@v4.5.0
+```
+
+All `consume` subcommands have an `--input` argument, which implements the same functionality as `consume cache` to download and cache fixtures, respectively obtain downloaded fixtures from the cache.
+
+## Example: Two-liner to Download the Latest Fixture Release
 
 Releases can be downloaded using EEST tooling without (manually) cloning and installing the @ethereum/execution-spec-tests tools as following:
 
@@ -33,11 +41,9 @@ Releases can be downloaded using EEST tooling without (manually) cloning and ins
 
     **Explanation:** `uv` creates a local Python virtual environment in `~/.cache/uv/`, installs EEST and executes the `consume cache` command to resolve and download the release, which gets cached at `~/.cache/ethereum-execution-spec-tests`. Subsequent commands will use the cached version of the fixtures.
 
-While `consume cache` was used in the example above, all `consume` commands obtain download and cache EEST releases in the same way.
+## The `--input` Flag to Specify Fixtures
 
-## Consume Command Inputs
-
-All `consume` sub-commands take an `--input=<fixtures>` flag, which specifies which fixtures should be used for the command, `<fixtures>` may be:
+All `consume` sub-commands take an `--input=<fixture_path>|<release_spec>|<url>` flag to specify which fixtures should be used for the command, `<fixtures>` may be:
 
 1. **A local directory**: Fixtures from your local file system.
 2. **A release specification**: An EEST release tag or "release specification" `stable@latest`, `fusaka-devnet-1@v1.0.0`, etc.
@@ -49,14 +55,14 @@ A release specification has the format `<release_name>@<version>`.
 
 **Supported release names:**
 
-- `stable`: Latest stable fork release
-- `develop`: Latest development fork release
-- Custom release names: e.g., `pectra-devnet-4`, `eip7692`
+- `stable`: Latest stable fork release.
+- `develop`: Latest development fork release.
+- Custom release names: e.g., `pectra-devnet-4`, `eip7692`.
 
 **Supported version formats:**
 
-- `latest`: Most recent release for the specified name
-- `v1.2.3`: Specific semantic version
+- `latest`: Most recent release for the specified name.
+- `v1.2.3`: Specific semantic version.
 
 ### Examples
 
@@ -86,18 +92,6 @@ uv run consume engine --input https://github.com/ethereum/execution-spec-tests/r
 
 # Direct archive URL
 uv run consume rlp --input https://example.com/custom-fixtures.tar.gz
-```
-
-### Standard Input (stdin)
-
-**Use case:** Streaming fixtures from another process
-
-```bash
-# Pipe fixtures from another source
-cat fixtures.json | uv run consume engine --input stdin
-
-# From file
-uv run consume rlp --input stdin < fixtures.json
 ```
 
 ## Caching System
@@ -140,17 +134,6 @@ All remote fixture sources are automatically cached to avoid repeated downloads:
 └── release_information.json
 ```
 
-## Specifying Release Versions via Hive Simulators
+## The Fixture Index File
 
-When using Hive simulators, fixtures are specified via build arguments.
-
-### Critical Best Practice: Matching EEST Branch with Fixture Version
-
-**Best Practice:** Specify the EEST branch that matches your fixture version to avoid potential incompatibilities between fixture JSON format and internal data structures:
-
-```bash
-./hive --sim ethereum/eest/consume-engine \
-  --sim.buildarg fixtures=stable@v4.3.0 \
-  --sim.buildarg branch=v4.3.0 \
-  --client go-ethereum
-```
+The [`fill` command](../../filling_tests/index.md) generates a JSON file `<fixture_path>/.meta/index.json` that indexes the fixtures its generated. This index file is used by `consume` commands to allow fast collection of test subsets specified on the command-line, for example, via the `--sim.limit` flag. For help with `--sim.limit` when running `./hive`, see [Hive Common Options](../hive/common_options.md), for an overview of other available test selection flags when running `consume` directly, see [Useful Pytest Options](../useful_pytest_options.md).

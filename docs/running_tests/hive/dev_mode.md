@@ -1,18 +1,20 @@
 # Hive Development Mode
 
-Running EEST simulators against Hive in dev mode avoids running the simulator in a dockerized environment. This has several advantages:
+This section explains how to run EEST simulators using their EEST commands, e.g., `uv run consume engine`, against a Hive "development" server as apposed to using the standalone `./hive` command.
 
-1. A local directory path containing fixtures can be easily specified.
-2. Allows dropping into a Python debugger (via `--pdb`) upon a fail to inspect the response or ssh to the client container.
-3. Access to all the simulator's command-line options;
-4. It's slightly faster, the client container continues to run in between `consume` executions.
+This avoids running the simulator in a dockerized environment and has several advantages:
+
+1. A local directory containing fixtures can be specified (`--input=./fixtures/`).
+2. Allows dropping into a Python debugger (via `--pdb`) upon test failure to inspect the response or ssh to the client container.
+3. Provides access to a larger set of the simulator's command-line options,
+4. Runs are faster; there are no docker image rebuilds in between runs. In particular, modifications to the simulator do not require a an image rebuild.
 
 ## Quick Start
 
 ### Prerequisites
 
 - EEST is installed, see [Installation](../../getting_started/installation.md)
-- Hive is built, see [Hive](../consume/hive/index.md).
+- Hive is built, see [Hive](../hive/index.md#quick-start).
 
 ## Hive Dev Setup
 
@@ -40,36 +42,23 @@ Running EEST simulators against Hive in dev mode avoids running the simulator in
 
     ```bash
     uv run consume engine --input ./fixtures -k "test_chainid"
-    uv run consume rlp --input latest-stable --fork shanghai
+    uv run consume rlp --input stable@latest
     ```
 
 ## How Development Mode Works
 
 When Hive runs in dev mode:
 
-1. Starts the Hive API server (default: `http://127.0.0.1:3000`)
-2. Builds and maintains client containers  
-3. Keeps containers running between test executions
-4. Waits for external simulator connections via the API
+1. Starts the Hive API server (default: `http://127.0.0.1:3000`).
+2. Builds and maintains client containers.
+3. Keeps the Hive Proxy container running between test executions.
+4. Waits for external simulator connections via the API.
 
 This allows EEST's consume commands to connect to the running Hive instance and execute tests interactively.
 
-## Other Useful Options
+## More Options Available
 
-### Using pytest-style Filtering
-
-In addition to Hive's regex-based `--sim.limit` option, running in dev mode supports pytest's `-k` syntax:
-
-```bash
-uv run consume engine -k "test_chainid and fork_London"
-uv run consume rlp -k "eip1559 or eip4844" -m cancun
-```
-
-Use `--collect-only` to see which tests would run without executing them:
-
-```bash
-uv run consume engine --collect-only -q -k "fork_Prague"
-```
+There are many useful native pytest options available in dev mode, see [Useful Options](../useful_pytest_options.md).
 
 ### Custom API Endpoint
 

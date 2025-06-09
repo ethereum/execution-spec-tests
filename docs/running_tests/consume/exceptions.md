@@ -95,16 +95,6 @@ uv run consume engine --disable-strict-exception-matching=nimbus,besu
 !!! warning "Production Testing"
     Always enable strict exception matching for production test runs to ensure clients properly validate consensus rules.
 
-## Common Exception Types
-
-| Exception | Description | Example Scenarios |
-|-----------|-------------|-------------------|
-| `GAS_LIMIT_EXCEEDED` | Block gas exceeds limit | Block with too many transactions |
-| `INSUFFICIENT_BALANCE` | Account lacks funds | Transfer exceeding balance |
-| `INVALID_NONCE` | Wrong transaction nonce | Nonce gaps or duplicates |
-| `INTRINSIC_GAS_TOO_LOW` | Insufficient gas for transaction | Gas below base cost |
-| `INVALID_BLOCK_HASH` | Incorrect block hash | Modified block data |
-
 ## Debugging Exception Test Failures
 
 ### Check Client Logs
@@ -161,9 +151,3 @@ BESU_EXCEPTIONS = {
     r"block gas limit \(\d+\) exceeded by transaction": ExceptionType.GAS_LIMIT_EXCEEDED,
 }
 ```
-
-## See Also
-
-- [Engine Simulator Documentation](./engine.md)
-- [Common Options](../../hive/common_options.md)
-- [Troubleshooting Guide](../../hive/troubleshooting.md)

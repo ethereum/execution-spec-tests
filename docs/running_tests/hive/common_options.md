@@ -1,127 +1,66 @@
 # Common Simulator Options
 
-All EEST Hive simulators (`eest/consume-engine` and `eest/consume-rlp`) share common command-line options and patterns.
+All EEST Hive simulators share common command-line options and patterns.
 
 ## Basic Usage
 
-```bash
-# Via Hive directly
-./hive --sim ethereum/eest/consume-engine --client go-ethereum
+While they may be omitted, it's recommended to specify the `fixtures` and `branch` simulator build arguments when running EEST simulators.
 
-# Via consume command in development mode
-uv run consume engine --input ./fixtures
-```
-
-## Common Options
-
-### Specifying the Fixture Input
-
-See [`consume cache` and Fixture Inputs](../consume/cache.md#consume-command-inputs). Here's some brief examples:
+For example, this runs "stable" fixtures from the v4.3.0 [latest stable release](../releases.md#standard-releases) and builds the simulator at the v4.3.0 tag:
 
 ```bash
-# Local directory
---input ./fixtures
-
-# Release versions
---input stable@latest
---input develop@v4.1.0
-
-# Direct URL
---input https://github.com/ethereum/execution-spec-tests/releases/download/v4.1.0/fixtures_develop.tar.gz
-```
-
-### Test Selection
-
-**Pattern matching with `--sim.limit`:**
-
-```bash
-# Regex pattern
-./hive --sim ethereum/eest/consume-engine --sim.limit ".*eip4844.*"
-
-# Exact test ID
-./hive --sim ethereum/eest/consume-rlp --sim.limit "id:tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx"
-```
-
-**Development mode with `-k` (pytest-style):**
-
-```bash
-# Keyword matching
-uv run consume engine -k "eip4844"
-
-# Complex conditions
-uv run consume rlp -k "eip4844 and fork_Cancun and not invalid"
-```
-
-### Fork Filtering
-
-```bash
-# Run only specific fork tests
---fork cancun
---fork shanghai
-```
-
-### Performance Options
-
-**Parallelism:**
-
-```bash
-# Simulator parallelism
-./hive --sim ethereum/eest/consume-rlp --sim.parallelism 4
-
-# Multi-client parallel execution
 ./hive --sim ethereum/eest/consume-engine \
-  --client go-ethereum,besu,nethermind,reth \
-  --sim.parallelism 2
+  --sim.buildarg fixtures=stable@v4.3.0 \
+  --sim.buildarg branch=v4.3.0 \
+  --client go-ethereum
 ```
 
-**Timing data:**
+## Test Selection
+
+Run a subset of tests by filtering tests using `--sim.limit=<regex>` to perform a regular expression match against test IDs:
 
 ```bash
-# Enable detailed timing logs
---timing-data
+./hive --sim ethereum/eest/consume-engine --sim.limit ".*eip4844.*"
+```
+
+### Collect Only/Dry-Run
+
+The `collectonly:` prefix can be used to inspect which tests would match an expression (dry-run), `--docker.output` must be specified to see the simulator's collection result:
+
+```bash
+./hive --sim ethereum/eest/consume-engine \
+     --sim.buildarg fixtures=stable@v4.3.0 \
+     --sim.buildarg branch=v4.3.0 \
+     --docker.output \
+     --sim.limit="collectonly:.*eip4844.*"
+```
+
+### Exact test ID Match
+
+The `id:` prefix can be used to select a single test via its ID (this will automatically escape any special characters in the test case ID):
+
+```console
+./hive --sim ethereum/eest/consume-engine \
+     --sim.buildarg fixtures=stable@v4.3.0 \
+     --sim.buildarg branch=v4.3.0 \
+     --docker.output \
+     --sim.limit "id:tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx"
+```
+
+### Parallelism
+
+To run multiple tests in parallel, use `--sim.parallelism`:
+
+```bash
+./hive --sim ethereum/eest/consume-rlp --sim.parallelism 4
 ```
 
 ### Output Options
 
+See hive log output in the console:
+
 ```bash
-# Disable HTML report generation
---no-html
-
-# Verbose logging (development mode)
--v
-
-# Hive simulator logging
 ./hive --sim ethereum/eest/consume-engine --sim.loglevel 5
-```
-
-## Client Configuration
-
-See [Client Configuration Guide](./client_config.md) for details on:
-
-- Client YAML file format
-- Building from different sources (binary, git, local)
-- Multiple client configurations
-
-Basic example:
-
-```bash
-./hive --sim ethereum/eest/consume-engine \
-  --client-file clients.yaml \
-  --client go-ethereum
-```
-
-### Multiple Clients
-
-```bash
-./hive --sim ethereum/eest/consume-engine \
-  --client-file multi-client.yaml \
-  --client go-ethereum,besu,nethermind,reth
-```
-
-### Parallel testing
-
-```bash
-./hive --sim.parallelism 4 --sim ethereum/eest/consume-engine
 ```
 
 ### Container Issues
@@ -129,5 +68,5 @@ Basic example:
 Increase client timeout:
 
 ```bash
-./hive --client.checktimelimit=60s --sim ethereum/eest/consume-engine
+./hive --client.checktimelimit=180s --sim ethereum/eest/consume-engine
 ```
