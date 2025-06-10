@@ -22,6 +22,13 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
     """Test transaction with exact intrinsic gas limit."""
     # Test implementation
     pass
+
+# You can also use the marker without parentheses
+@EIPChecklist.TransactionType.Test.IntrinsicValidity.GasLimit.Insufficient
+def test_insufficient_intrinsic_gas(state_test: StateTestFiller):
+    """Test transaction with insufficient intrinsic gas limit."""
+    # Test implementation
+    pass
 ```
 
 The `EIPChecklist` class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
@@ -104,6 +111,33 @@ precompile = EIP-7702 does not introduce a precompile
 Format: `checklist_item_id = reason`
 
 Both files support partial ID matching, so you can mark entire sections as not applicable:
+
+## MyPy Type Checking Support
+
+The `EIPChecklist` classes are made callable through a companion `.pyi` stub file that provides proper type hints for mypy. This allows you to use both decorator patterns without type checking errors:
+
+```python
+# Both of these work with proper mypy support
+@EIPChecklist.Opcode.Test.StackComplexOperations()  # With parentheses
+@EIPChecklist.Opcode.Test.StackComplexOperations   # Without parentheses
+```
+
+### Regenerating Type Stubs
+
+If you modify the `EIPChecklist` class structure in `src/ethereum_test_checklists/eip_checklist.py`, you need to regenerate the type stub file:
+
+```bash
+# Generate the stub file (for maintainers):
+uv run generate_checklist_stubs
+
+# Preview what would be generated without writing the file
+uv run generate_checklist_stubs --dry-run
+
+# Generate to a custom location
+uv run generate_checklist_stubs --output path/to/custom/stubs.pyi
+```
+
+The generated stub file (`eip_checklist.pyi`) should be committed to the repository to ensure proper type checking for all developers.
 
 ```text
 # Mark all system contract items as not applicable
