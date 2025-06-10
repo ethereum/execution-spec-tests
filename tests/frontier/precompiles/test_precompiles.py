@@ -14,7 +14,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-UPPER_BOUND = 0xFF
+UPPER_BOUND = 0x100
 NUM_UNSUPPORTED_PRECOMPILES = 1
 
 
