@@ -62,13 +62,22 @@ class ChecklistItemMeta(type):
         """Return a representation of this checklist item."""
         return f"<ChecklistItem: {cls._path}>"
 
+    def __call__(cls, *args, **kwargs):
+        """Return a pytest mark decorator for the checklist item."""
+        # If called with a function as the first argument (direct decorator usage)
+        # and no other arguments, apply the decorator to the function
+        if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
+            func = args[0]
+            marker = pytest.mark.eip_checklist(cls._path)
+            return marker(func)
+        # Otherwise, return a pytest mark decorator
+        return pytest.mark.eip_checklist(cls._path, *args, **kwargs)
+
 
 class ChecklistItem(metaclass=ChecklistItemMeta):
     """Base class for checklist items."""
 
-    def __new__(cls, *args, **kwargs) -> pytest.MarkDecorator:  # type: ignore
-        """Return a pytest mark decorator for the checklist item."""
-        return pytest.mark.eip_checklist(cls._path, *args, **kwargs)
+    pass
 
 
 class EIPChecklist:
