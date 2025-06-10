@@ -132,3 +132,30 @@ def test_id_extraction_functions():
     checklist_ids = get_all_checklist_ids(EIPChecklist)
     assert len(checklist_ids) > 0
     assert "general/code_coverage/eels" in checklist_ids
+
+
+def test_eip_checklist_decorator_usage():
+    """Test EIPChecklist items work correctly as decorators both with and without parentheses."""
+
+    # Test decorator with parentheses
+    @EIPChecklist.Opcode.Test.StackComplexOperations()
+    def test_function_with_parens():
+        pass
+
+    # Verify the marker was applied
+    markers = list(test_function_with_parens.pytestmark)
+    assert len(markers) >= 1
+    eip_markers = [m for m in markers if m.name == "eip_checklist"]
+    assert len(eip_markers) == 1
+    assert eip_markers[0].args == ("opcode/test/stack_complex_operations",)
+
+    # Test decorator without parentheses (direct usage - this is the key fix for issue #1)
+    @EIPChecklist.Opcode.Test.StackOverflow
+    def test_function_no_parens():
+        pass
+
+    # Verify the marker was applied
+    markers = list(test_function_no_parens.pytestmark)
+    eip_markers = [m for m in markers if m.name == "eip_checklist"]
+    assert len(eip_markers) == 1
+    assert eip_markers[0].args == ("opcode/test/stack_overflow",)
