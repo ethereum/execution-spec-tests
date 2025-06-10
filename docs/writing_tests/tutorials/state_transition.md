@@ -91,7 +91,7 @@ This line specifies that `env` is an [`Environment`](https://github.com/ethereum
 If necessary we can modify the environment to have different block gas limits, block numbers, etc.
 In most tests the defaults are good enough.
 
-For more information, [see the static test documentation](../../consuming_tests/state_test.md).
+For more information, [see the static test documentation](../../running_tests/test_formats/state_test.md).
 
 #### Pre State
 
@@ -207,7 +207,7 @@ The `nonce` field of the `sender` variable is automatically incremented for us b
 
 The `to` field specifies the address of the contract we want to call and, in this case, it is the address of the contract we deployed earlier.
 
-For more information, [see the static test documentation](../../consuming_tests/state_test.md)
+For more information, [see the static test documentation](../../running_tests/test_formats/state_test.md)
 
 #### Post State
 
