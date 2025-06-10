@@ -574,7 +574,7 @@ requires-dist = [
     { name = "eth-abi", specifier = ">=5.2.0" },
     { name = "ethereum-execution", specifier = "==1.17.0rc6.dev1" },
     { name = "ethereum-rlp", specifier = ">=0.1.3,<0.2" },
-    { name = "ethereum-spec-evm-resolver", git = "https://github.com/petertdavies/ethereum-spec-evm-resolver?rev=623ac4565025e72b65f45b926da2a3552041b469" },
+    { name = "ethereum-spec-evm-resolver", git = "https://github.com/petertdavies/ethereum-spec-evm-resolver?rev=0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" },
     { name = "ethereum-types", specifier = ">=0.2.1,<0.3" },
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "gitpython", specifier = ">=3.1.31,<4" },
@@ -637,7 +637,7 @@ wheels = [
 [[package]]
 name = "ethereum-spec-evm-resolver"
 version = "0.0.5"
-source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver?rev=623ac4565025e72b65f45b926da2a3552041b469#623ac4565025e72b65f45b926da2a3552041b469" }
+source = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver?rev=0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2#0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" }
 dependencies = [
     { name = "coincurve" },
     { name = "filelock" },

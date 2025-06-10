@@ -131,4 +131,4 @@ check-filenames = true
 ignore-words-list = "ingenuous"
 
 [tool.uv.sources]
-ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "623ac4565025e72b65f45b926da2a3552041b469" }
+ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" }
