@@ -8,9 +8,9 @@ When implementing tests for an EIP, you can mark specific tests as covering chec
 
 ## Using the `pytest.mark.eip_checklist` Marker
 
-To mark a test as implementing a specific checklist item, use the structured EIPChecklist class:
+To mark a test as implementing a specific checklist item, use the structured `EIPChecklist` class:
 
-### Using EIPChecklist Class
+### Using the `EIPChecklist` Class
 
 ```python
 import pytest
@@ -24,11 +24,11 @@ def test_exact_intrinsic_gas(state_test: StateTestFiller):
     pass
 ```
 
-The EIPChecklist class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
+The `EIPChecklist` class provides type safety and IDE autocompletion, making it easier to find and reference checklist items correctly.
 
 ### Marker Parameters
 
-- **First positional parameter** (required): The checklist item ID (EIPChecklist reference)
+- **First positional parameter** (required): The checklist item ID (`EIPChecklist` reference)
 - **`eip` keyword parameter** (optional): List of additional EIPs covered by the test
 
 Example with multiple EIPs covered by the same test:
@@ -158,7 +158,7 @@ Example output snippet:
 ## Best Practices
 
 1. **Start with the checklist**: Review the checklist template before writing tests to ensure comprehensive coverage
-2. **Use the EIPChecklist class**: Use `EIPChecklist.Opcode.Test.GasUsage.Normal` for type safety and IDE autocompletion
+2. **Use the `EIPChecklist` class**: Use `EIPChecklist.Opcode.Test.GasUsage.Normal` for type safety and IDE autocompletion
 3. **Use descriptive test names**: The test name will appear in the checklist, so make it clear what the test covers
 4. **Mark items as you go**: Add `eip_checklist` markers while writing tests, not as an afterthought
 5. **Document external coverage**: If items are covered by external tools/tests, document this in `eip_checklist_external_coverage.txt`
