@@ -41,7 +41,7 @@
     },
     "Osaka": {
         "git_url": "https://github.com/spencer-tb/execution-specs.git",
-        "branch": "forks/osaka-devnet-2",
-        "commit": "a3c0dbe621095ab9628007c8bfce5c656555cda8"
+        "branch": "forks/osaka-devnet-berlininterop",
+        "commit": "62fc54ca54c4d37448295876b160aa4fc8dd62e3"
     }
 }
