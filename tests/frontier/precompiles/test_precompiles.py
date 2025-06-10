@@ -16,7 +16,7 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
-def precompile_addresses(fork: Fork) -> Iterator[Tuple[str, bool]]:
+def precompile_addresses(fork: Fork) -> Iterator[Tuple[Address, bool]]:
     """
     Yield the addresses of precompiled contracts and their support status for a given fork.
 
