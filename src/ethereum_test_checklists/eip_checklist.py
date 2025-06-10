@@ -1,4 +1,13 @@
-"""EIP Testing Checklist Enum definitions."""
+"""
+EIP Testing Checklist Enum definitions.
+
+Note: This module includes a companion .pyi stub file that provides mypy type hints
+for making EIPChecklist classes callable. The stub file is auto-generated using:
+    uv run generate_checklist_stubs
+
+If you modify the EIPChecklist class structure, regenerate the stub file to maintain
+proper type checking support.
+"""
 
 import re
 
@@ -81,7 +90,25 @@ class ChecklistItem(metaclass=ChecklistItemMeta):
 
 
 class EIPChecklist:
-    """Main namespace for EIP testing checklist items."""
+    """
+    Main namespace for EIP testing checklist items.
+
+    This class provides a structured way to reference checklist items for EIP testing.
+    The class structure is automatically converted to callable pytest markers.
+
+    Note: If you modify this class structure, regenerate the type stub file using:
+        uv run generate_checklist_stubs
+
+    Examples:
+        @EIPChecklist.Opcode.Test.GasUsage.Normal()
+        def test_normal_gas():
+            pass
+
+        @EIPChecklist.Opcode.Test.StackOverflow
+        def test_stack_overflow():
+            pass
+
+    """
 
     class General(ChecklistItem):
         """General checklist items."""
