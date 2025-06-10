@@ -36,7 +36,7 @@ jobs:
         run: uvx --with=tox-uv tox -e typecheck
 
   spellcheck:
-    name: Spellcheck sources with pyspelling
+    name: Spellcheck sources with codespell
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ethereum/execution-spec-tests
@@ -48,11 +48,10 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
-      - name: Install dependencies (aspell, aspell-en)
-        run: |
-          sudo apt-get update && sudo apt-get install -y aspell aspell-en
-      - name: Run spellcheck with pyspelling via tox
+      - name: Run spellcheck with codespell via tox
         run: uvx --with=tox-uv tox -e spellcheck
+        env:
+          GITHUB_STEP_SUMMARY: ${{ env.GITHUB_STEP_SUMMARY }}
 
   markdownlint:
     name: Lint markdown files with markdownlint

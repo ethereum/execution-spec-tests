@@ -258,7 +258,6 @@ isort
 isort's
 ispkg
 itemName
-intermidiate
 javascripts
 jimporter
 joinpath
@@ -796,6 +795,7 @@ precompiles
 deployer
 0x
 modexp
+ModExp
 0x00
 0x01
 0x10
@@ -1009,3 +1009,10 @@ Typecheck
 autoformat
 Typechecking
 zkEVMs
+qube
+aspell
+codespell
+nagydani
+guido
+marcin
+codespell

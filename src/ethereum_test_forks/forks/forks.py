@@ -355,6 +355,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [0]
 
     @classmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Genesis, no transaction gas limit cap is imposed."""
+        return None
+
+    @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """At Genesis, no pre-compiles are present."""
         return []
@@ -368,6 +373,18 @@ class Frontier(BaseFork, solc_name="homestead"):
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """At Genesis, only legacy EVM code is supported."""
         return [EVMCodeType.LEGACY]
+
+    @classmethod
+    def max_code_size(cls) -> int:
+        """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
+        """However, the default is set to the limit of EIP-170 (Spurious Dragon)"""
+        return 0x6000
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """At genesis, there is no upper bound for initcode size."""
+        """However, the default is set to the limit of EIP-3860 (Shanghai)"""
+        return 0xC000
 
     @classmethod
     def call_opcodes(
@@ -635,6 +652,12 @@ class Byzantium(Homestead):
         )
 
     @classmethod
+    def max_code_size(cls) -> int:
+        # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
+        """At Spurious Dragon, an upper bound was introduced for max contract code size."""
+        return 0x6000
+
+    @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
@@ -818,7 +841,6 @@ class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
 class Paris(
     London,
     transition_tool_name="Merge",
-    blockchain_test_network_name="Paris",
 ):
     """Paris (Merge) fork."""
 
@@ -859,6 +881,11 @@ class Shanghai(Paris):
     ) -> Optional[int]:
         """From Shanghai, new payload calls must use version 2."""
         return 2
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """From Shanghai, the initcode size is now limited. See EIP-3860."""
+        return 0xC000
 
     @classmethod
     def valid_opcodes(
@@ -1316,6 +1343,11 @@ class Osaka(Prague, solc_name="cancun"):
     def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
         """At Osaka, the engine get blobs version is 2."""
         return 2
+
+    @classmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Osaka, transaction gas limit is capped at 30 million."""
+        return 30_000_000
 
     @classmethod
     def is_deployed(cls) -> bool:
