@@ -6,11 +6,11 @@ The EIP checklist feature helps track test coverage for EIP implementations by a
 
 When implementing tests for an EIP, you can mark specific tests as covering checklist items from the [EIP testing checklist template](../writing_tests/checklist_templates/eip_testing_checklist_template.md). The framework will then generate a filled checklist showing which items have been implemented.
 
-## Using the `pytest.mark.eip_checklist` Marker
+## Marking Tests as implementing EIP Checklist Items
 
 To mark a test as implementing a specific checklist item, use the structured `EIPChecklist` class:
 
-### Using the `EIPChecklist` Class
+### The `EIPChecklist` Class
 
 ```python
 import pytest
