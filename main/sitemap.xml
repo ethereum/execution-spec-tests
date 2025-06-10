@@ -21,46 +21,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/blockchain_test/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/blockchain_test_engine/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/common_types/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/eof_test/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/exceptions/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/state_test/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://eest.ethereum.org/main/consuming_tests/transaction_test/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/dev/</loc>
          <lastmod>2025-06-10</lastmod>
          <changefreq>daily</changefreq>
@@ -116,11 +76,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/executing_tests/</loc>
-         <lastmod>2025-06-10</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/filling_tests/</loc>
          <lastmod>2025-06-10</lastmod>
          <changefreq>daily</changefreq>
@@ -147,6 +102,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/filling_tests/getting_started/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/filling_tests/test_ids/</loc>
          <lastmod>2025-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -282,6 +242,136 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/library/pytest_plugins/spec_version_checker/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/releases/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/running/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/useful_pytest_options/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/consume/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/consume/cache/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/consume/direct/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/consume/exceptions/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/consume/simulators/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/execute/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/execute/hive/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/execute/remote/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/ci_integration/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/client_config/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/common_options/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/dev_mode/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/hive/hiveview/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/common_types/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/eof_test/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/exceptions/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/state_test/</loc>
+         <lastmod>2025-06-10</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/transaction_test/</loc>
          <lastmod>2025-06-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
