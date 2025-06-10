@@ -1068,3 +1068,4 @@ nagydani
 guido
 marcin
 codespell
+CLZ
