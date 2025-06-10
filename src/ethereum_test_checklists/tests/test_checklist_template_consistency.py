@@ -159,3 +159,39 @@ def test_eip_checklist_decorator_usage():
     eip_markers = [m for m in markers if m.name == "eip_checklist"]
     assert len(eip_markers) == 1
     assert eip_markers[0].args == ("opcode/test/stack_overflow",)
+
+
+def test_eip_checklist_pytest_param_usage():
+    """Test that EIPChecklist works correctly in pytest.param marks."""
+    # Test that parentheses form works in pytest.param
+    param_with_parens = pytest.param(
+        "test_value", marks=EIPChecklist.Opcode.Test.GasUsage.Normal(), id="gas_test"
+    )
+
+    # Verify the parameter was created successfully
+    assert param_with_parens.values == ("test_value",)
+    assert param_with_parens.id == "gas_test"
+    assert len(param_with_parens.marks) == 1
+    assert param_with_parens.marks[0].name == "eip_checklist"
+    assert param_with_parens.marks[0].args == ("opcode/test/gas_usage/normal",)
+
+    # Test that multiple marks work
+    param_multiple_marks = pytest.param(
+        "test_value",
+        marks=[EIPChecklist.Opcode.Test.StackComplexOperations(), pytest.mark.slow],
+        id="complex_test",
+    )
+
+    # Verify multiple marks
+    assert len(param_multiple_marks.marks) == 2
+    eip_mark = next(m for m in param_multiple_marks.marks if m.name == "eip_checklist")
+    assert eip_mark.args == ("opcode/test/stack_complex_operations",)
+
+    # Test that non-parentheses form fails gracefully with pytest.param
+    # (This documents the expected behavior - parentheses are required)
+    with pytest.raises((TypeError, AssertionError)):
+        pytest.param(
+            "test_value",
+            marks=EIPChecklist.Opcode.Test.StackOverflow,  # Without () should fail
+            id="should_fail",
+        )
