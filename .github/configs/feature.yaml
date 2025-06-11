@@ -11,6 +11,11 @@ static:
   evm-type: static
   fill-params: --until=Prague --fill-static-tests ./tests/static
   solc: 0.8.21
+benchmark:
+  evm-type: benchmark
+  fill-params: --fork Prague --block-gas-limit 36000000 -m zkevm ./tests --generate-shared-pre
+  solc: 0.8.21
+  feature_only: true
 zkevm_36M:
   evm-type: zkevm
   fill-params: --from=Cancun --until=Prague --block-gas-limit 36000000 -m zkevm ./tests
