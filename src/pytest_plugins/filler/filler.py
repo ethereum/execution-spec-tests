@@ -416,33 +416,29 @@ def pytest_terminal_summary(
         # Custom message for Phase 1 (shared pre-allocation generation)
         if config.getoption("generate_shared_pre"):
             # Generate summary stats
+            shared_pre_state: SharedPreState
             if config.pluginmanager.hasplugin("xdist"):
                 # Load shared pre-state from disk
                 shared_pre_state = SharedPreState.from_folder(
-                    config.fixture_output.shared_pre_alloc_folder_path
-                )  # type: ignore[attr-defined]
-            else:
-                shared_pre_state = getattr(config, "shared_pre_state", None)
-            if shared_pre_state:
-                total_groups = len(shared_pre_state.root)
-                total_accounts = sum(
-                    group.pre_account_count for group in shared_pre_state.root.values()
+                    config.fixture_output.shared_pre_alloc_folder_path  # type: ignore[attr-defined]
                 )
+            else:
+                assert hasattr(config, "shared_pre_state")
+                shared_pre_state = config.shared_pre_state  # type: ignore[attr-defined]
 
-                terminalreporter.write_sep(
-                    "=",
-                    f" Phase 1 Complete: Generated {total_groups} shared pre-allocation groups "
-                    f"({total_accounts} total accounts) ",
-                    bold=True,
-                    green=True,
-                )
-            else:
-                terminalreporter.write_sep(
-                    "=",
-                    " Phase 1 Complete: Shared pre-allocation analysis completed ",
-                    bold=True,
-                    green=True,
-                )
+            total_groups = len(shared_pre_state.root)
+            total_accounts = sum(
+                group.pre_account_count for group in shared_pre_state.root.values()
+            )
+
+            terminalreporter.write_sep(
+                "=",
+                f" Phase 1 Complete: Generated {total_groups} shared pre-allocation groups "
+                f"({total_accounts} total accounts) ",
+                bold=True,
+                green=True,
+            )
+
         else:
             # Normal message for fixture generation
             # append / to indicate this is a directory

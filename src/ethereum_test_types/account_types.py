@@ -171,7 +171,7 @@ class Alloc(BaseAlloc):
         """Return list of addresses of empty accounts."""
         return [address for address, account in self.root.items() if not account]
 
-    def state_root(self) -> bytes:
+    def state_root(self) -> Hash:
         """Return state root of the allocation."""
         state = State()
         for address, account in self.root.items():
@@ -194,7 +194,7 @@ class Alloc(BaseAlloc):
                         key=Bytes32(Hash(key)),
                         value=U256(value),
                     )
-        return state_root(state)
+        return Hash(state_root(state))
 
     def verify_post_alloc(self, got_alloc: "Alloc"):
         """

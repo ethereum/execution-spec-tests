@@ -51,7 +51,7 @@ Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shar
 For each [`ReorgFixture`](#reorgfixture) test object in the JSON fixture file, perform the following steps:
 
 1. **Load Shared Pre-Allocation**:
-   - Read the approriate file from the `pre_alloc` folder in the same directory
+   - Read the appropriate file from the `pre_alloc` folder in the same directory
    - Locate the shared state group using [`preHash`](#-prehash-string)
    - Extract the `pre` allocation and `environment` from the shared group
 
