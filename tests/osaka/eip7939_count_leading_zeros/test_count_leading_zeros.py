@@ -70,7 +70,7 @@ def clz_parameters():
 @pytest.mark.parametrize(
     "test_id,value,expected_clz",
     clz_parameters(),
-    ids=lambda test_data: f"{test_data[0]}-expected_clz_{test_data[2]}",
+    ids=[f"{test_data[0]}-expected_clz_{test_data[2]}" for test_data in clz_parameters()],
 )
 def test_clz_opcode_scenarios(
     state_test: StateTestFiller,
