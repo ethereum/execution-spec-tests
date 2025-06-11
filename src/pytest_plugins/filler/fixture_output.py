@@ -62,10 +62,10 @@ class FixtureOutput(BaseModel):
         return self.directory.name == "stdout"
 
     @property
-    def shared_pre_alloc_path(self) -> Path:
+    def shared_pre_alloc_folder_path(self) -> Path:
         """Return the path for shared pre-allocation state file."""
         reorg_dir = BlockchainEngineReorgFixture.output_base_dir_name()
-        return self.directory / reorg_dir / "pre_alloc.json"
+        return self.directory / reorg_dir / "pre_alloc"
 
     @staticmethod
     def strip_tarball_suffix(path: Path) -> Path:
@@ -91,11 +91,11 @@ class FixtureOutput(BaseModel):
             return self.is_directory_empty()
         elif self.use_shared_pre:
             # Phase 2: Only shared alloc file must exist, no other files allowed
-            if not self.shared_pre_alloc_path.exists():
+            if not self.shared_pre_alloc_folder_path.exists():
                 return False
             # Check that only the shared prealloc file exists
             existing_files = {f for f in self.directory.rglob("*") if f.is_file()}
-            allowed_files = {self.shared_pre_alloc_path}
+            allowed_files = {f for f in self.shared_pre_alloc_folder_path.rglob("*.json")}
             return existing_files == allowed_files
         else:
             # Normal filling: Directory must be empty
@@ -167,9 +167,9 @@ class FixtureOutput(BaseModel):
                     "Use --clean to remove all existing files."
                 )
             elif self.use_shared_pre:
-                if not self.shared_pre_alloc_path.exists():
+                if not self.shared_pre_alloc_folder_path.exists():
                     raise ValueError(
-                        f"Shared pre-allocation file not found at '{self.shared_pre_alloc_path}'. "
+                        f"Shared pre-allocation file not found at '{self.shared_pre_alloc_folder_path}'. "
                         "Run phase 1 with --generate-shared-pre first."
                     )
             else:
@@ -185,7 +185,7 @@ class FixtureOutput(BaseModel):
 
         # Create shared allocation directory for phase 1
         if self.generate_shared_pre:
-            self.shared_pre_alloc_path.parent.mkdir(parents=True, exist_ok=True)
+            self.shared_pre_alloc_folder_path.parent.mkdir(parents=True, exist_ok=True)
 
     def create_tarball(self) -> None:
         """Create tarball of the output directory if configured to do so."""

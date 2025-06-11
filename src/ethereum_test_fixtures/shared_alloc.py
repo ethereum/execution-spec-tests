@@ -1,5 +1,6 @@
 """Shared pre-allocation models for test fixture generation."""
 
+from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from pydantic import Field
@@ -36,9 +37,19 @@ class SharedPreState(EthereumTestRootModel):
         self.root[key] = value
 
     @classmethod
-    def from_raw_dict(cls, data: Dict[str, Any]) -> "SharedPreState":
-        """Create SharedPreState from raw dict (keys already strings)."""
+    def from_folder(cls, folder: Path) -> "SharedPreState":
+        """Create SharedPreState from a folder of pre-allocation files."""
+        data = {}
+        for file in folder.glob("*.json"):
+            with open(file) as f:
+                data[file.stem] = SharedPreStateGroup.model_validate_json(f.read())
         return cls(root=data)
+
+    def to_folder(self, folder: Path) -> None:
+        """Save SharedPreState to a folder of pre-allocation files."""
+        for key, value in self.root.items():
+            with open(folder / f"{key}.json", "w") as f:
+                f.write(value.model_dump_json(by_alias=True, exclude_none=True, indent=2))
 
     def __getitem__(self, item):
         """Get item from root dict."""

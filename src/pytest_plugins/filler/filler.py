@@ -8,7 +8,6 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
-import json
 import os
 import warnings
 from pathlib import Path
@@ -32,6 +31,7 @@ from ethereum_test_fixtures import (
     FixtureConsumer,
     LabeledFixtureFormat,
     SharedPreState,
+    SharedPreStateGroup,
     TestInfo,
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
@@ -291,13 +291,12 @@ def pytest_sessionstart(session: pytest.Session):
 
     # Load the pre-state for phase 2
     if session.config.getoption("use_shared_pre"):
-        shared_pre_alloc_path = session.config.fixture_output.shared_pre_alloc_path  # type: ignore[attr-defined]
-        if shared_pre_alloc_path.exists():
-            with open(shared_pre_alloc_path) as f:
-                session.config.shared_pre_state = SharedPreState.model_validate_json(f.read())  # type: ignore[attr-defined]
+        shared_pre_alloc_folder = session.config.fixture_output.shared_pre_alloc_folder_path  # type: ignore[attr-defined]
+        if shared_pre_alloc_folder.exists():
+            session.config.shared_pre_state = SharedPreState.from_folder(shared_pre_alloc_folder)  # type: ignore[attr-defined]
         else:
             pytest.exit(
-                f"Shared pre-alloc file not found: {shared_pre_alloc_path}. "
+                f"Shared pre-alloc file not found: {shared_pre_alloc_folder}. "
                 "Run phase 1 with --generate-shared-alloc first.",
                 returncode=pytest.ExitCode.USAGE_ERROR,
             )
@@ -893,14 +892,15 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
                     if pre_alloc_hash not in request.config.shared_pre_state:
                         pre_alloc_path = (
-                            Path(output_dir) / "blockchain_test_engine_reorg" / "pre_alloc.json"
+                            request.config.fixture_output.shared_pre_alloc_folder_path
+                            / pre_alloc_hash
                         )
                         raise ValueError(
                             f"Pre-allocation hash {pre_alloc_hash} not found in shared pre-state. "
                             f"Please check the shared pre-state file at: {pre_alloc_path}. "
                             "Make sure phase 1 (--generate-shared-pre) was run before phase 2."
                         )
-                    group = request.config.shared_pre_state[pre_alloc_hash]
+                    group: SharedPreStateGroup = request.config.shared_pre_state[pre_alloc_hash]
                     if group.pre is None:
                         raise ValueError(
                             f"Shared pre-state group for hash {pre_alloc_hash} has no "
@@ -1089,14 +1089,9 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     if session.config.getoption("generate_shared_pre") and hasattr(
         session.config, "shared_pre_state"
     ):
-        shared_pre_alloc_path = fixture_output.shared_pre_alloc_path
-        shared_pre_alloc_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(shared_pre_alloc_path, "w") as f:
-            f.write(
-                session.config.shared_pre_state.model_dump_json(
-                    by_alias=True, exclude_none=True, indent=2
-                )
-            )
+        shared_pre_alloc_folder = fixture_output.shared_pre_alloc_folder_path
+        shared_pre_alloc_folder.mkdir(parents=True, exist_ok=True)
+        session.config.shared_pre_state.to_folder(shared_pre_alloc_folder)
 
     if fixture_output.is_stdout or is_help_or_collectonly_mode(session.config):
         return

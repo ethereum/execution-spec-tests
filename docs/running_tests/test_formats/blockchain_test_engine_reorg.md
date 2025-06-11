@@ -12,7 +12,7 @@ It uses the Engine API to test block validation and consensus rules while levera
 
 The key optimization is that **clients need only be started once per group** instead of once per test (as in the original engine fixture format), dramatically improving execution performance for large test suites.
 
-Instead of including large pre-allocation state in each test fixture, this format references a shared pre-allocation file (`pre_alloc.json`) and includes only the state differences after test execution.
+Instead of including large pre-allocation state in each test fixture, this format references a shared pre-allocation folder (`pre_alloc`) which includes all different pre-allocation combinations used for any test fixture group.
 
 A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`ReorgFixture`](#reorgfixture) test object, with the key string representing the test name.
 
@@ -20,22 +20,20 @@ The JSON file path plus the test name are used as the unique test identifier.
 
 ## Shared Pre-Allocation File
 
-The `blockchain_tests_engine_reorg` directory contains a special file `pre_alloc.json` that stores shared pre-allocation state used by all tests in this format. This file is essential for test execution and must be present alongside the test fixtures.
+The `blockchain_tests_engine_reorg` directory contains a special directory `pre_alloc` that stores shared pre-allocation state file used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.
 
 ### Pre-Allocation File Structure
 
-The `pre_alloc.json` file contains a mapping of pre-allocation hashes to shared state groups:
+Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shared state groups:
 
 ```json
 {
-  "0x479393be6619d67f": {
-    "test_count": 88,
-    "pre_account_count": 174,
-    "testIds": ["test1", "test2", ...],
-    "network": "Prague",
-    "environment": { ... },
-    "pre": { ... }
-  }
+   "test_count": 88,
+   "pre_account_count": 174,
+   "testIds": ["test1", "test2", ...],
+   "network": "Prague",
+   "environment": { ... },
+   "pre": { ... }
 }
 ```
 
@@ -53,7 +51,7 @@ The `pre_alloc.json` file contains a mapping of pre-allocation hashes to shared 
 For each [`ReorgFixture`](#reorgfixture) test object in the JSON fixture file, perform the following steps:
 
 1. **Load Shared Pre-Allocation**:
-   - Read the `pre_alloc.json` file from the same directory
+   - Read the approriate file from the `pre_alloc` folder in the same directory
    - Locate the shared state group using [`preHash`](#-prehash-string)
    - Extract the `pre` allocation and `environment` from the shared group
 
@@ -90,7 +88,7 @@ This field is going to be replaced by the value contained in `config.network`.
 
 #### - `preHash`: `string`
 
-Hash identifier referencing a shared pre-allocation group in the `pre_alloc.json` file. This hash uniquely identifies the combination of fork, environment, and pre-allocation state shared by multiple tests.
+Hash identifier referencing a shared pre-allocation group in the `pre_alloc` folder. This hash uniquely identifies the combination of fork, environment, and pre-allocation state shared by multiple tests.
 
 #### - `genesisBlockHeader`: [`FixtureHeader`](./blockchain_test.md#fixtureheader)
 
@@ -114,7 +112,7 @@ State differences from the shared pre-allocation state after test execution. Thi
 
 To reconstruct the final state:
 
-1. Start with the shared pre-allocation from the `pre_alloc.json` file
+1. Start with the shared pre-allocation from the `pre_alloc` folder
 2. Apply the changes in `postStateDiff`:
    - **Modified accounts**: Replace existing accounts with new values
    - **New accounts**: Add accounts not present in pre-allocation  
@@ -141,7 +139,7 @@ Engine API payload structure identical to the one defined in [Blockchain Engine 
 ## Usage Notes
 
 - This format is only generated when using `--generate-shared-pre` and `--use-shared-pre` flags
-- The `pre_alloc.json` file is essential and must be distributed with the test fixtures
+- The `pre_alloc` folder is essential and must be distributed with the test fixtures
 - Tests are grouped by identical (fork + environment + pre-allocation) combinations
 - The format is optimized for Engine API testing (post-Paris forks)
 - Reorganization scenarios are supported through the `forkChoiceUpdate` mechanism

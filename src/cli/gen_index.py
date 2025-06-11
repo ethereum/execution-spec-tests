@@ -24,8 +24,8 @@ from ethereum_test_fixtures.file import Fixtures
 from .hasher import HashableItem
 
 # Files and directories to exclude from index generation
-INDEX_EXCLUDED_FILES = frozenset({"index.json", "pre_alloc.json"})
-INDEX_EXCLUDED_PATH_PARTS = frozenset({".meta"})
+INDEX_EXCLUDED_FILES = frozenset({"index.json"})
+INDEX_EXCLUDED_PATH_PARTS = frozenset({".meta", "pre_alloc"})
 
 
 def count_json_files_exclude_index(start_path: Path) -> int:
