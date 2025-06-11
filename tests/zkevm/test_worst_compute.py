@@ -40,6 +40,7 @@ from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
+MAX_STACK_HEIGHT = 1024
 KECCAK_RATE = 136
 
 
@@ -82,22 +83,19 @@ def make_dup(index: int) -> Opcode:
 def test_worst_zero_param(
     state_test: StateTestFiller,
     pre: Alloc,
-    fork: Fork,
     opcode: Op,
 ):
     """Test running a block with as many zero-parameter opcodes as possible."""
     env = Environment()
-    max_code_size = fork.max_code_size()
 
-    code_prefix = Op.JUMPDEST
-    iter_loop = Op.POP(opcode)
-    code_suffix = Op.PUSH0 + Op.JUMP
-    code_iter_len = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_loop)
-    code = code_prefix + iter_loop * code_iter_len + code_suffix
-    assert len(code) <= max_code_size
+    opcode_sequence = opcode * MAX_STACK_HEIGHT
+    target_contract_address = pre.deploy_contract(code=opcode_sequence)
+
+    caller_contract_code = While(Op.POP(Op.STATICCALL(address=target_contract_address)))
+    caller_contract_address = pre.deploy_contract(code=caller_contract_code)
 
     tx = Transaction(
-        to=pre.deploy_contract(code=bytes(code)),
+        to=caller_contract_address,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
