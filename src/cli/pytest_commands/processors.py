@@ -74,6 +74,16 @@ class StdoutFlagsProcessor(ArgumentProcessor):
 class HiveEnvironmentProcessor(ArgumentProcessor):
     """Processes Hive environment variables for consume commands."""
 
+    def __init__(self, command_name: str = ""):
+        """
+        Initialize the processor with command name to determine plugin.
+
+        Args:
+            command_name: The command name to determine which plugin to load.
+
+        """
+        self.command_name = command_name
+
     def process_args(self, args: List[str]) -> List[str]:
         """Convert hive environment variables into pytest flags."""
         modified_args = args[:]
@@ -94,6 +104,12 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
         modified_args.extend(["-p", "pytest_plugins.pytest_hive.pytest_hive"])
 
+        if self.command_name == "engine_reorg":
+            plugin_path = "pytest_plugins.consume.hive_simulators.engine.reorg.conftest"
+        else:
+            plugin_path = "pytest_plugins.consume.hive_simulators.engine.restart.conftest"
+
+        modified_args.extend(["-p", plugin_path])
         return modified_args
 
     def _has_regex_or_sim_limit(self, args: List[str]) -> bool:
