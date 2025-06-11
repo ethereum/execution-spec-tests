@@ -294,7 +294,7 @@ def pytest_sessionstart(session: pytest.Session):
         shared_pre_alloc_path = session.config.fixture_output.shared_pre_alloc_path  # type: ignore[attr-defined]
         if shared_pre_alloc_path.exists():
             with open(shared_pre_alloc_path) as f:
-                session.config.shared_pre_state = SharedPreState.from_raw_dict(json.load(f))  # type: ignore[attr-defined]
+                session.config.shared_pre_state = SharedPreState.model_validate_json(f.read())  # type: ignore[attr-defined]
         else:
             pytest.exit(
                 f"Shared pre-alloc file not found: {shared_pre_alloc_path}. "
@@ -1092,7 +1092,11 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         shared_pre_alloc_path = fixture_output.shared_pre_alloc_path
         shared_pre_alloc_path.parent.mkdir(parents=True, exist_ok=True)
         with open(shared_pre_alloc_path, "w") as f:
-            f.write(session.config.shared_pre_state.model_dump_json(by_alias=True, indent=2))
+            f.write(
+                session.config.shared_pre_state.model_dump_json(
+                    by_alias=True, exclude_none=True, indent=2
+                )
+            )
 
     if fixture_output.is_stdout or is_help_or_collectonly_mode(session.config):
         return

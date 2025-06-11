@@ -541,10 +541,10 @@ class BlockchainEngineReorgFixture(BlockchainEngineFixtureCommon):
         "reorg execution."
     )
 
-    pre_hash: str = Field(..., alias="preHash")
+    pre_hash: str
     """Hash of the shared pre-allocation group this test belongs to."""
 
-    post_state_diff: Alloc | None = Field(None)
+    post_state_diff: Alloc | None = None
     """State difference from genesis after test execution (efficiency optimization)."""
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")

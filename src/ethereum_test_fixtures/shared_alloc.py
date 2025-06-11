@@ -2,13 +2,13 @@
 
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import Field
 
-from ethereum_test_base_types import EthereumTestRootModel
+from ethereum_test_base_types import CamelModel, EthereumTestRootModel
 from ethereum_test_types import Alloc, Environment
 
 
-class SharedPreStateGroup(BaseModel):
+class SharedPreStateGroup(CamelModel):
     """
     Shared pre-state group for tests with identical Environment and fork values.
 
