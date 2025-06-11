@@ -91,7 +91,7 @@ def test_worst_zero_param(
     opcode_sequence = opcode * MAX_STACK_HEIGHT
     target_contract_address = pre.deploy_contract(code=opcode_sequence)
 
-    caller_contract_code = While(Op.POP(Op.STATICCALL(address=target_contract_address)))
+    caller_contract_code = While(body=Op.POP(Op.STATICCALL(address=target_contract_address)))
     caller_contract_address = pre.deploy_contract(code=caller_contract_code)
 
     tx = Transaction(
