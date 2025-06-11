@@ -13,8 +13,6 @@ from ethereum_test_base_types import (
     Bloom,
     Bytes,
     CamelModel,
-    EmptyOmmersRoot,
-    EmptyTrieRoot,
     Hash,
     HeaderNonce,
     HexNumber,
@@ -361,32 +359,7 @@ class BlockchainTest(BaseTest):
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
         state_root = pre_alloc.state_root()
-        genesis = FixtureHeader(
-            parent_hash=0,
-            ommers_hash=EmptyOmmersRoot,
-            fee_recipient=0,
-            state_root=state_root,
-            transactions_trie=EmptyTrieRoot,
-            receipts_root=EmptyTrieRoot,
-            logs_bloom=0,
-            difficulty=0x20000 if env.difficulty is None else env.difficulty,
-            number=0,
-            gas_limit=env.gas_limit,
-            gas_used=0,
-            timestamp=0,
-            extra_data=b"\x00",
-            prev_randao=0,
-            nonce=0,
-            base_fee_per_gas=env.base_fee_per_gas,
-            blob_gas_used=env.blob_gas_used,
-            excess_blob_gas=env.excess_blob_gas,
-            withdrawals_root=(
-                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
-            ),
-            parent_beacon_block_root=env.parent_beacon_block_root,
-            requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
-            fork=fork,
-        )
+        genesis = FixtureHeader.genesis(fork, env, state_root)
 
         return (
             pre_alloc,
@@ -772,6 +745,10 @@ class BlockchainTest(BaseTest):
                 }
             )
             return BlockchainEngineFixture(**fixture_data)
+
+    def get_genesis_environment(self, fork: Fork) -> Environment:
+        """Get the genesis environment for shared pre-allocation."""
+        return self.genesis_environment
 
     def generate(
         self,

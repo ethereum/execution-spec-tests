@@ -112,8 +112,8 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
     # Group by fork
     fork_stats: Dict[str, Dict] = defaultdict(lambda: {"groups": 0, "tests": 0})
     for group in pre_state.values():
-        fork_stats[group.fork]["groups"] += 1
-        fork_stats[group.fork]["tests"] += group.test_count
+        fork_stats[group.fork.name()]["groups"] += 1
+        fork_stats[group.fork.name()]["tests"] += group.test_count
 
     # Group by test module
     module_stats: Dict[str, Dict] = defaultdict(lambda: {"groups": set(), "tests": 0})
@@ -141,7 +141,7 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
                 "hash": hash_key[:8] + "...",  # Shortened hash for display
                 "tests": group.test_count,
                 "accounts": group.pre_account_count,
-                "fork": group.fork,
+                "fork": group.fork.name(),
             }
         )
 
@@ -162,7 +162,7 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
         if group_data.test_count == 1:  # Size-1 group
             test_id = group_data.test_ids[0]
             test_function = extract_test_function(test_id)
-            fork = group_data.fork
+            fork = group_data.fork.name()
 
             split_test_functions[test_function].groups += 1
             split_test_functions[test_function].forks.add(fork)

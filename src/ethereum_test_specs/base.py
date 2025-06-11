@@ -213,14 +213,6 @@ class BaseTest(BaseModel):
 
         Must be implemented by subclasses to provide the appropriate environment.
         """
-        # BlockchainTest uses self.genesis_environment directly
-        if hasattr(self, "genesis_environment"):
-            return self.genesis_environment
-
-        # StateTest generates it dynamically
-        if hasattr(self, "_generate_blockchain_genesis_environment"):
-            return self._generate_blockchain_genesis_environment(fork=fork)
-
         raise NotImplementedError(
             f"{self.__class__.__name__} must implement genesis environment access for shared "
             "pre-allocation"
@@ -245,7 +237,7 @@ class BaseTest(BaseModel):
                 self.pre,
                 allow_key_collision=True,
             )
-            group.fork = fork.name()
+            group.fork = fork
             group.test_ids.append(str(test_id))
             group.test_count = len(group.test_ids)
             group.pre_account_count = len(group.pre.root)
@@ -256,7 +248,7 @@ class BaseTest(BaseModel):
                 test_count=1,
                 pre_account_count=len(self.pre.root),
                 test_ids=[str(test_id)],
-                fork=fork.name(),
+                fork=fork,
                 environment=self.get_genesis_environment(fork),
                 pre=self.pre,
             )

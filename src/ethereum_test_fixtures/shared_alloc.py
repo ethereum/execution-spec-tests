@@ -4,10 +4,13 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from filelock import FileLock
-from pydantic import Field
+from pydantic import Field, computed_field
 
 from ethereum_test_base_types import CamelModel, EthereumTestRootModel
+from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment
+
+from .blockchain import FixtureHeader
 
 
 class SharedPreStateGroup(CamelModel):
@@ -23,9 +26,26 @@ class SharedPreStateGroup(CamelModel):
     test_count: int = Field(0, description="Number of tests in this group")
     pre_account_count: int = Field(0, description="Number of accounts in the pre-allocation")
     test_ids: List[str] = Field(default_factory=list, alias="testIds")
-    fork: str = Field(..., alias="network")
     environment: Environment = Field(..., description="Grouping environment for this test group")
+    fork: Fork = Field(..., alias="network")
+
     pre: Optional[Alloc] = Field(None)
+
+    def __model_post_init__(self) -> None:
+        """Post-init hook to ensure pre is not None."""
+        self.pre = Alloc.merge(
+            Alloc.model_validate(self.fork.pre_allocation_blockchain()),
+            self.pre,
+        )
+
+    @computed_field  # type: ignore[misc]
+    def genesis(self) -> FixtureHeader:
+        """Get the genesis header for this group."""
+        return FixtureHeader.genesis(
+            self.fork,
+            self.environment.set_fork_requirements(self.fork),
+            self.pre.state_root(),
+        )
 
     def to_file(self, file: Path) -> None:
         """Save SharedPreStateGroup to a file."""

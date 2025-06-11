@@ -907,16 +907,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                             "Make sure phase 1 (--generate-shared-pre) was run before phase 2."
                         )
                     group: SharedPreStateGroup = request.config.shared_pre_state[pre_alloc_hash]
-                    if group.pre is None:
-                        raise ValueError(
-                            f"Shared pre-state group for hash {pre_alloc_hash} has no "
-                            "pre-allocation. This indicates an error in phase 1 generation."
-                        )
-                    if group.environment is None:
-                        raise ValueError(
-                            f"Shared pre-state group for hash {pre_alloc_hash} has no "
-                            "environment. This indicates an error in phase 1 generation."
-                        )
                     self.pre = group.pre
 
                 fixture = self.generate(

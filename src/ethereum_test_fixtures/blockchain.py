@@ -25,6 +25,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     EmptyOmmersRoot,
+    EmptyTrieRoot,
     Hash,
     HeaderNonce,
     HexNumber,
@@ -34,6 +35,8 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import (
+    Environment,
+    Requests,
     Transaction,
     Withdrawal,
 )
@@ -212,6 +215,36 @@ class FixtureHeader(CamelModel):
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
         return self.rlp.keccak256()
+
+    @classmethod
+    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> "FixtureHeader":
+        """Get the genesis header for the given fork."""
+        return FixtureHeader(
+            parent_hash=0,
+            ommers_hash=EmptyOmmersRoot,
+            fee_recipient=0,
+            state_root=state_root,
+            transactions_trie=EmptyTrieRoot,
+            receipts_root=EmptyTrieRoot,
+            logs_bloom=0,
+            difficulty=0x20000 if env.difficulty is None else env.difficulty,
+            number=0,
+            gas_limit=env.gas_limit,
+            gas_used=0,
+            timestamp=0,
+            extra_data=b"\x00",
+            prev_randao=0,
+            nonce=0,
+            base_fee_per_gas=env.base_fee_per_gas,
+            blob_gas_used=env.blob_gas_used,
+            excess_blob_gas=env.excess_blob_gas,
+            withdrawals_root=(
+                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
+            ),
+            parent_beacon_block_root=env.parent_beacon_block_root,
+            requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
+            fork=fork,
+        )
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -494,7 +527,6 @@ class BlockchainEngineFixtureCommon(BaseFixture):
     """
 
     fork: Fork = Field(..., alias="network")
-    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     post_state_hash: Hash | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
@@ -521,6 +553,7 @@ class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
         "Tests that generate a blockchain test fixture in Engine API format."
     )
     pre: Alloc
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     post_state: Alloc | None = Field(None)
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     sync_payload: FixtureEngineNewPayload | None = None
