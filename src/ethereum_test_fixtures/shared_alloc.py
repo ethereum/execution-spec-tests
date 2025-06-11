@@ -3,6 +3,7 @@
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from filelock import FileLock
 from pydantic import Field
 
 from ethereum_test_base_types import CamelModel, EthereumTestRootModel
@@ -26,6 +27,28 @@ class SharedPreStateGroup(CamelModel):
     environment: Environment = Field(..., description="Grouping environment for this test group")
     pre: Optional[Alloc] = Field(None)
 
+    def to_file(self, file: Path) -> None:
+        """Save SharedPreStateGroup to a file."""
+        lock_file_path = file.with_suffix(".lock")
+        with FileLock(lock_file_path):
+            if file.exists():
+                with open(file, "r") as f:
+                    previous_shared_pre_state_group = SharedPreStateGroup.model_validate_json(
+                        f.read()
+                    )
+                    for account in previous_shared_pre_state_group.pre:
+                        if account in self.pre:
+                            raise ValueError(
+                                f"Account {account} already exists in shared pre-allocation"
+                            )
+                        self.pre[account] = previous_shared_pre_state_group.pre[account]
+                        self.pre_account_count += 1
+                    self.test_count += previous_shared_pre_state_group.test_count
+                    self.test_ids.extend(previous_shared_pre_state_group.test_ids)
+
+            with open(file, "w") as f:
+                f.write(self.model_dump_json(by_alias=True, exclude_none=True, indent=2))
+
 
 class SharedPreState(EthereumTestRootModel):
     """Root model mapping pre-state hashes to test groups."""
@@ -48,8 +71,7 @@ class SharedPreState(EthereumTestRootModel):
     def to_folder(self, folder: Path) -> None:
         """Save SharedPreState to a folder of pre-allocation files."""
         for key, value in self.root.items():
-            with open(folder / f"{key}.json", "w") as f:
-                f.write(value.model_dump_json(by_alias=True, exclude_none=True, indent=2))
+            value.to_file(folder / f"{key}.json")
 
     def __getitem__(self, item):
         """Get item from root dict."""

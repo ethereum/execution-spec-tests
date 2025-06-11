@@ -409,14 +409,20 @@ def pytest_terminal_summary(
     actually run the tests.
     """
     yield
-    if config.fixture_output.is_stdout:  # type: ignore[attr-defined]
+    if config.fixture_output.is_stdout or hasattr(config, "workerinput"):  # type: ignore[attr-defined]
         return
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (shared pre-allocation generation)
         if config.getoption("generate_shared_pre"):
             # Generate summary stats
-            shared_pre_state = getattr(config, "shared_pre_state", None)
+            if config.pluginmanager.hasplugin("xdist"):
+                # Load shared pre-state from disk
+                shared_pre_state = SharedPreState.from_folder(
+                    config.fixture_output.shared_pre_alloc_folder_path
+                )  # type: ignore[attr-defined]
+            else:
+                shared_pre_state = getattr(config, "shared_pre_state", None)
             if shared_pre_state:
                 total_groups = len(shared_pre_state.root)
                 total_accounts = sum(
@@ -1080,18 +1086,18 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     - Generate index file for all produced fixtures.
     - Create tarball of the output directory if the output is a tarball.
     """
-    if xdist.is_xdist_worker(session):
-        return
-
-    fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-
     # Save shared pre-state after phase 1
+    fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
     if session.config.getoption("generate_shared_pre") and hasattr(
         session.config, "shared_pre_state"
     ):
         shared_pre_alloc_folder = fixture_output.shared_pre_alloc_folder_path
         shared_pre_alloc_folder.mkdir(parents=True, exist_ok=True)
         session.config.shared_pre_state.to_folder(shared_pre_alloc_folder)
+        return
+
+    if xdist.is_xdist_worker(session):
+        return
 
     if fixture_output.is_stdout or is_help_or_collectonly_mode(session.config):
         return

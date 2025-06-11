@@ -106,8 +106,6 @@ class FillCommand(PytestCommand):
             "--quiet",
             "-qq",
             "--tb",
-            # Parallel execution (single-process for shared pre-allocation)
-            "-n",
             # Shared allocation flags (we'll add our own)
             "--generate-shared-pre",
             "--use-shared-pre",
