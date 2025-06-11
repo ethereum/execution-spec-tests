@@ -102,36 +102,7 @@ def calculate_size_distribution(
 
 def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
     """Analyze pre-allocation folder and return statistics."""
-    data = SharedPreState.from_folder(folder)
-
-    # Parse data more flexibly to handle missing fields
-    groups = {}
-    skipped_count = 0
-    for hash_key, group_data in data.items():
-        # Handle different field names for environment
-        if "genesis_environment" not in group_data:
-            if "environment" in group_data:
-                group_data["genesis_environment"] = group_data["environment"]
-            elif "env" in group_data:
-                group_data["genesis_environment"] = group_data["env"]
-            else:
-                # Skip groups without environment data
-                if verbose >= 1:
-                    print(f"Warning: Skipping group {hash_key}: No environment field found")
-                skipped_count += 1
-                continue
-
-        # Create group with validated data
-        try:
-            groups[hash_key] = SharedPreStateGroup(**group_data)
-        except Exception as e:
-            # Skip invalid groups
-            if verbose >= 1:
-                print(f"Warning: Skipping invalid group {hash_key}: {e}")
-            skipped_count += 1
-            continue
-
-    pre_state = SharedPreState(root=groups)
+    pre_state = SharedPreState.from_folder(folder)
 
     # Basic stats
     total_groups = len(pre_state)
@@ -221,7 +192,6 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
         "group_details": group_details,
         "group_distribution": group_distribution,
         "test_distribution": test_distribution,
-        "skipped_count": skipped_count,
         "split_functions": split_functions,
     }
 
@@ -482,7 +452,7 @@ def display_stats(stats: Dict, console: Console, verbose: int = 0):
 @click.argument(
     "pre_alloc_folder",
     type=click.Path(exists=True, path_type=Path),
-    default="fixtures/blockchain_test_engine_reorg/pre_alloc",
+    default="fixtures/blockchain_tests_engine_reorg/pre_alloc",
 )
 @click.option(
     "--verbose",
