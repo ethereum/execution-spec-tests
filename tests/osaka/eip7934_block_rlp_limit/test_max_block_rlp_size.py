@@ -57,7 +57,7 @@ def block_errors() -> List[BlockException]:
 
 def create_test_header(gas_used: int) -> FixtureHeader:
     """Create a standard test header for RLP size calculations."""
-    return FixtureHeader(
+    return FixtureHeader(  # type: ignore
         difficulty="0x0",
         number="0x1",
         gas_limit=hex(BLOCK_GAS_LIMIT),
@@ -85,11 +85,9 @@ def create_test_header(gas_used: int) -> FixtureHeader:
 def get_block_rlp_size(transactions: List[Transaction], gas_used: int) -> int:
     """Calculate the RLP size of a block with given transactions."""
     header = create_test_header(gas_used)
-
     total_gas = sum((tx.gas_limit or 21000) for tx in transactions)
     header.gas_used = ZeroPaddedHexNumber(total_gas)
-
-    test_block = FixtureBlockBase(blockHeader=header, withdrawals=[])
+    test_block = FixtureBlockBase(blockHeader=header, withdrawals=[])  # type: ignore
     return len(test_block.with_rlp(txs=transactions).rlp)
 
 

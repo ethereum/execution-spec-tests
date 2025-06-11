@@ -19,6 +19,7 @@ def post() -> Alloc:
 
 @pytest.fixture
 def env() -> Environment:
+    """Environment fixture with a specified gas limit."""
     return Environment(gas_limit=100_000_000)
 
 
