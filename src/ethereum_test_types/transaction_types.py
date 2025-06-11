@@ -707,8 +707,8 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         cells: list[list[Bytes]] = []
         for blob in self.blob_objects:
-            assert isinstance(blob.cells, list)
-            cells.append(blob.cells)
+            assert isinstance(blob.proof, list)
+            cells.append(blob.proof)
 
         # if you remove below you instead get error: Invalid RLP. (which means getting what we have to work NWT that hold many blobs will be even more work)  # noqa: E501
         if len(cells) == 1:
