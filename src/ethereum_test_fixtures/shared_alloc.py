@@ -23,12 +23,12 @@ class SharedPreStateGroup(CamelModel):
 
     model_config = {"populate_by_name": True}  # Allow both field names and aliases
 
-    pre: Alloc
     test_count: int = Field(0, description="Number of tests in this group")
     pre_account_count: int = Field(0, description="Number of accounts in the pre-allocation")
     test_ids: List[str] = Field(default_factory=list, alias="testIds")
     environment: Environment = Field(..., description="Grouping environment for this test group")
     fork: Fork = Field(..., alias="network")
+    pre: Alloc
 
     def __model_post_init__(self) -> None:
         """Post-init hook to ensure pre is not None."""
