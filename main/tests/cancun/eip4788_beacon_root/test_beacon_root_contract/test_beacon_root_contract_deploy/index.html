@@ -1503,6 +1503,8 @@
       
         
       
+        
+      
     
     
       
@@ -1598,6 +1600,27 @@
   
   <span class="md-ellipsis">
     Blockchain Engine Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain Engine Reorg Tests
   </span>
   
 
@@ -22822,7 +22845,7 @@
 
 
 <h1 id="test_beacon_root_contract_deploy"><code>test_beacon_root_contract_deploy()</code><a class="headerlink" href="#test_beacon_root_contract_deploy" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc8dc53809411b516e743c3b7fe286ee6d4dfaa3/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L645"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@dc8dc538</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/971214c0832f656b7250eb71cf0b7bcba96c3f49/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L664"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy@971214c0</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_contract_deploy --fork Prague</span>
@@ -22842,26 +22865,7 @@ code deployed and its functionality after Cancun.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">664</span>
 <span class="normal">665</span>
 <span class="normal">666</span>
 <span class="normal">667</span>
@@ -22984,7 +22988,33 @@ code deployed and its functionality after Cancun.</p>
 <span class="normal">784</span>
 <span class="normal">785</span>
 <span class="normal">786</span>
-<span class="normal">787</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">15_000</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deploy_on_shanghai&quot;</span><span class="p">),</span>
@@ -22992,6 +23022,13 @@ code deployed and its functionality after Cancun.</p>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+    <span class="s2">&quot;separate&quot;</span><span class="p">,</span>
+    <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;This test is parametrized with a hard-coded address (the beacon root contract deployer &quot;</span>
+        <span class="s2">&quot;address); they can&#39;t be in the same pre alloc group.&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_beacon_root_contract_deploy</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

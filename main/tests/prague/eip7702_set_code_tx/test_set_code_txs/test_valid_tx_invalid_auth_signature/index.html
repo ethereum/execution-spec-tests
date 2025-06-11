@@ -1503,6 +1503,8 @@
       
         
       
+        
+      
     
     
       
@@ -1598,6 +1600,27 @@
   
   <span class="md-ellipsis">
     Blockchain Engine Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain Engine Reorg Tests
   </span>
   
 
@@ -22822,7 +22845,7 @@
 
 
 <h1 id="test_valid_tx_invalid_auth_signature"><code>test_valid_tx_invalid_auth_signature()</code><a class="headerlink" href="#test_valid_tx_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc8dc53809411b516e743c3b7fe286ee6d4dfaa3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2117"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@dc8dc538</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/971214c0832f656b7250eb71cf0b7bcba96c3f49/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2122"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature@971214c0</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_valid_tx_invalid_auth_signature --fork Prague</span>
@@ -22842,12 +22865,7 @@ the transaction is valid but the authorization should not go through.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2117</span>
-<span class="normal">2118</span>
-<span class="normal">2119</span>
-<span class="normal">2120</span>
-<span class="normal">2121</span>
-<span class="normal">2122</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2122</span>
 <span class="normal">2123</span>
 <span class="normal">2124</span>
 <span class="normal">2125</span>
@@ -22914,7 +22932,12 @@ the transaction is valid but the authorization should not go through.</p>
 <span class="normal">2186</span>
 <span class="normal">2187</span>
 <span class="normal">2188</span>
-<span class="normal">2189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2189</span>
+<span class="normal">2190</span>
+<span class="normal">2191</span>
+<span class="normal">2192</span>
+<span class="normal">2193</span>
+<span class="normal">2194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># V</span>

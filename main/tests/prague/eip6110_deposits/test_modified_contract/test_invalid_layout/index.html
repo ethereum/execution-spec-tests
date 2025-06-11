@@ -1503,6 +1503,8 @@
       
         
       
+        
+      
     
     
       
@@ -1598,6 +1600,27 @@
   
   <span class="md-ellipsis">
     Blockchain Engine Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain Engine Reorg Tests
   </span>
   
 
@@ -22822,7 +22845,7 @@
 
 
 <h1 id="test_invalid_layout"><code>test_invalid_layout()</code><a class="headerlink" href="#test_invalid_layout" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc8dc53809411b516e743c3b7fe286ee6d4dfaa3/tests/prague/eip6110_deposits/test_modified_contract.py#L143"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@dc8dc538</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/971214c0832f656b7250eb71cf0b7bcba96c3f49/tests/prague/eip6110_deposits/test_modified_contract.py#L146"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@971214c0</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout --fork Prague</span>
@@ -22841,10 +22864,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip6110_deposits/test_modified_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
 <span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
@@ -22882,11 +22902,20 @@
 <span class="normal">181</span>
 <span class="normal">182</span>
 <span class="normal">183</span>
-<span class="normal">184</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;log_argument,value&quot;</span><span class="p">,</span>
     <span class="p">[(</span><span class="n">log_argument</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">log_argument</span> <span class="ow">in</span> <span class="n">EVENT_ARGUMENTS</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">EVENT_ARGUMENT_VALUES</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+    <span class="s2">&quot;modified_deposit_contract&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deploys custom deposit contract with different bytecode&quot;</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_invalid_layout</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">log_argument</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">):</span>

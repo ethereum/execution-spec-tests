@@ -1503,6 +1503,8 @@
       
         
       
+        
+      
     
     
       
@@ -1598,6 +1600,27 @@
   
   <span class="md-ellipsis">
     Blockchain Engine Tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blockchain Engine Reorg Tests
   </span>
   
 
@@ -22822,7 +22845,7 @@
 
 
 <h1 id="test_set_code_to_system_contract"><code>test_set_code_to_system_contract()</code><a class="headerlink" href="#test_set_code_to_system_contract" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dc8dc53809411b516e743c3b7fe286ee6d4dfaa3/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2631"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@dc8dc538</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/971214c0832f656b7250eb71cf0b7bcba96c3f49/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2636"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract@971214c0</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_system_contract --fork Prague</span>
@@ -22841,12 +22864,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2631</span>
-<span class="normal">2632</span>
-<span class="normal">2633</span>
-<span class="normal">2634</span>
-<span class="normal">2635</span>
-<span class="normal">2636</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2636</span>
 <span class="normal">2637</span>
 <span class="normal">2638</span>
 <span class="normal">2639</span>
@@ -22985,7 +23003,12 @@
 <span class="normal">2772</span>
 <span class="normal">2773</span>
 <span class="normal">2774</span>
-<span class="normal">2775</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
+<span class="normal">2775</span>
+<span class="normal">2776</span>
+<span class="normal">2777</span>
+<span class="normal">2778</span>
+<span class="normal">2779</span>
+<span class="normal">2780</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span><span class="p">(</span>
     <span class="n">selector</span><span class="o">=</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">opcode</span>
         <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTDELEGATECALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTSTATICCALL</span><span class="p">]</span>
