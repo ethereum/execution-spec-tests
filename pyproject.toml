@@ -19,15 +19,15 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1.0,<9",
-    "ethereum-execution==1.17.0rc6.dev1",
     "hive.py @ git+https://github.com/marioevz/hive.py",
-    "ethereum-spec-evm-resolver",
     "gitpython>=3.1.31,<4",
     "PyJWT>=2.3.0,<3",
     "tenacity>8.2.0,<9",
     "requests>=2.31.0,<3",
     "requests_unixsocket2>=0.4.0",
     "colorlog>=6.7.0,<7",
+    "platformdirs>=4.2,<5",
+    "py-ecc>=8.0.0b2,<9",
     "pytest>=8,<9",
     "pytest-custom-report>=1.0.1,<2",
     "pytest-html>=4.1.0,<5",
@@ -145,6 +145,3 @@ plugins = ["pydantic.mypy"]
 skip = ".venv,__pycache__,.git,build,dist,*.pyc,*.lock"
 check-filenames = true
 ignore-words-list = "ingenuous"
-
-[tool.uv.sources]
-ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" }
