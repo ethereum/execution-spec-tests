@@ -95,7 +95,7 @@ class FixtureOutput(BaseModel):
                 return False
             # Check that only the shared prealloc file exists
             existing_files = {f for f in self.directory.rglob("*") if f.is_file()}
-            allowed_files = {f for f in self.shared_pre_alloc_folder_path.rglob("*.json")}
+            allowed_files = set(self.shared_pre_alloc_folder_path.rglob("*.json"))
             return existing_files == allowed_files
         else:
             # Normal filling: Directory must be empty
@@ -169,7 +169,8 @@ class FixtureOutput(BaseModel):
             elif self.use_shared_pre:
                 if not self.shared_pre_alloc_folder_path.exists():
                     raise ValueError(
-                        f"Shared pre-allocation file not found at '{self.shared_pre_alloc_folder_path}'. "
+                        "Shared pre-allocation file not found at "
+                        f"'{self.shared_pre_alloc_folder_path}'. "
                         "Run phase 1 with --generate-shared-pre first."
                     )
             else:

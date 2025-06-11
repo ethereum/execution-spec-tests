@@ -10,7 +10,7 @@ from rich.console import Console
 from rich.table import Table
 
 from ethereum_test_base_types import CamelModel
-from ethereum_test_fixtures import SharedPreState, SharedPreStateGroup
+from ethereum_test_fixtures import SharedPreState
 
 
 def extract_test_module(test_id: str) -> str:
