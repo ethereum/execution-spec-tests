@@ -193,7 +193,8 @@ def pytest_addoption(parser: pytest.Parser):
         action="store_true",
         dest="flat_output",
         default=False,
-        help="Output each test case in the directory without the folder structure.",
+        help="[DEPRECATED] Output each test case in the directory without the folder structure. "
+        "This flag will be removed in a future version.",
     )
     test_group.addoption(
         "--single-fixture-per-file",
@@ -321,6 +322,16 @@ def pytest_configure(config):
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
+    if config.option.collectonly:
+        return
+
+    # Show a deprecation warning for the flat-output flag
+    if config.getoption("flat_output"):
+        warnings.warn(
+            "The --flat-output flag is deprecated and will be removed in a future version.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
