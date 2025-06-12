@@ -58,11 +58,8 @@ class SharedPreStateGroup(CamelModel):
                         f.read()
                     )
                     for account in previous_shared_pre_state_group.pre:
-                        if account in self.pre:
-                            raise ValueError(
-                                f"Account {account} already exists in shared pre-allocation"
-                            )
-                        self.pre[account] = previous_shared_pre_state_group.pre[account]
+                        if account not in self.pre:
+                            self.pre[account] = previous_shared_pre_state_group.pre[account]
                     self.pre_account_count += previous_shared_pre_state_group.pre_account_count
                     self.test_count += previous_shared_pre_state_group.test_count
                     self.test_ids.extend(previous_shared_pre_state_group.test_ids)
