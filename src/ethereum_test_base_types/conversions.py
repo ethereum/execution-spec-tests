@@ -3,11 +3,12 @@
 from re import sub
 from typing import Any, List, Optional, SupportsBytes, TypeAlias
 
+from pytest_plugins.logging import get_logger
+
 BytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int]
 FixedSizeBytesConvertible: TypeAlias = str | bytes | SupportsBytes | List[int] | int
 NumberConvertible: TypeAlias = str | bytes | SupportsBytes | int
 
-from pytest_plugins.logging import get_logger
 
 logger = get_logger(__name__)
 

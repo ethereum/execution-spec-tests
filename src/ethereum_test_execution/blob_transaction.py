@@ -31,8 +31,8 @@ def versioned_hashes_with_blobs_and_proofs(
             )
         else:
             raise ValueError(
-                f"Blob with versioned hash {blob.versioned_hash.hex()} requires either proof "
-                "or cells, but both are None"
+                f"Blob with versioned hash {blob.versioned_hash.hex()} requires a proof "
+                "that is not None"
             )
 
     return versioned_hashes

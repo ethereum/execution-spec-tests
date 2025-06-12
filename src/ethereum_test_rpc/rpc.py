@@ -136,7 +136,7 @@ class BaseRPC:
         payload_json = json.dumps(payload)  # pydantic.json
         payload_size_bytes = len(payload_json.encode("utf-8"))
         payload_size_mb = payload_size_bytes / (1024 * 1024)
-        logger.info(
+        logger.debug(
             f"I am about to send a POST request of approximated size: {payload_size_mb:.2f} MB "
             f"({payload_size_bytes} bytes)"
         )
@@ -231,12 +231,11 @@ class EthRPC(BaseRPC):
             tx_rlp_hex = transaction_rlp.hex()
             result_hash = Hash(self.post_request("sendRawTransaction", f"{tx_rlp_hex}"))
             assert result_hash is not None, "result_hash seems to be None, critical error!"
-            # debug: also log successful rpc calls
-            print(
-                SendTransactionExceptionError(
-                    str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=True
-                )
-            )  # print triggers __str__ which triggers logging
+
+            # if you wrap SendTransactionExceptionError in print() it will get logged to file
+            SendTransactionExceptionError(
+                str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=False
+            )
 
             return result_hash
         except Exception as e:
@@ -253,12 +252,10 @@ class EthRPC(BaseRPC):
             assert result_hash == transaction.hash
             assert result_hash is not None
 
-            # debug: also log successful rpc calls
-            print(
-                SendTransactionExceptionError(
-                    str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=True
-                )
-            )  # print triggers __str__ which triggers logging
+            # if you wrap SendTransactionExceptionError in print() it will get logged to file
+            SendTransactionExceptionError(
+                str("no error"), tx_rlp=transaction_rlp, shorten_errors=True, log_rlp_data=False
+            )
 
             return transaction.hash
         except Exception as e:

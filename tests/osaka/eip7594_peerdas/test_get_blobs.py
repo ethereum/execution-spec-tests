@@ -189,7 +189,6 @@ def txs(  # noqa: D103
             blob_objects=tx_blobs,
         )
         txs.append(network_wrapped_tx)
-        break  # TODO: remove this
     return txs
 
 
@@ -201,7 +200,7 @@ def generate_full_blob_tests(
     parametrized for each different fork.
     """
     max_blobs = fork.max_blobs_per_block()
-    logger.info(f"MAX_BLOBS value for fork {fork}: {max_blobs}")
+    logger.debug(f"MAX_BLOBS value for fork {fork}: {max_blobs}")
 
     return [
         pytest.param(
@@ -212,24 +211,23 @@ def generate_full_blob_tests(
             ],
             id="single_blob_transaction",
         ),
-        # pytest.param(
-        #     [  # Txs
-        #         [  # Blobs per transaction
-        #             Blob.from_fork(fork) for _ in range(max_blobs)
-        #         ]
-        #     ],
-        #     id="max_blobs_transaction",
-        # ),
-        # pytest.param(
-        #     [  # Txs
-        #         [  # Blobs per transaction
-        #             Blob.from_fork(fork),
-        #         ]
-        #         for _ in range(max_blobs)
-        #     ],
-        #     id="single_blob_max_txs",
-        # ),
-        # TODO: uncomment above
+        pytest.param(
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob.from_fork(fork) for _ in range(max_blobs)
+                ]
+            ],
+            id="max_blobs_transaction",
+        ),
+        pytest.param(
+            [  # Txs
+                [  # Blobs per transaction
+                    Blob.from_fork(fork),
+                ]
+                for _ in range(max_blobs)
+            ],
+            id="single_blob_max_txs",
+        ),
     ]
 
 
