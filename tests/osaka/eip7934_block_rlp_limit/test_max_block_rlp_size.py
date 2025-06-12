@@ -3,6 +3,7 @@ abstract: Test [EIP-7934: RLP Execution Block Size Limit](https://eips.ethereum.
     Tests for [EIP-7934: RLP Execution Block Size Limit](https://eips.ethereum.org/EIPS/eip-7934).
 """
 
+from functools import lru_cache
 from typing import List, Tuple
 
 import pytest
@@ -21,7 +22,7 @@ from ethereum_test_tools import (
     Bytes,
     Transaction,
 )
-from ethereum_test_types import Environment
+from ethereum_test_types import EOA, Environment
 
 from .spec import Spec, ref_spec_7934
 
@@ -93,12 +94,38 @@ def get_block_rlp_size(transactions: List[Transaction], gas_used: int) -> int:
 
 @pytest.fixture
 def exact_size_transactions(
-    sender, block_size_limit: int, fork: Fork
+    sender: EOA, block_size_limit: int, fork: Fork
+) -> Tuple[List[Transaction], int]:
+    """
+    Generate transactions that fill a block to exactly the RLP size limit.
+
+    The calculation uses caching to avoid recalculating the same block rlp for each
+    fork. Calculate the block and fill with real sender for testing.
+    """
+    stubbed_transactions, gas_used = _exact_size_transactions_calculation(block_size_limit, fork)
+    test_transactions = [
+        Transaction(
+            sender=sender,
+            nonce=tx.nonce,
+            max_fee_per_gas=tx.max_fee_per_gas,
+            max_priority_fee_per_gas=tx.max_priority_fee_per_gas,
+            gas_limit=tx.gas_limit,
+            data=tx.data,
+        )
+        for tx in stubbed_transactions
+    ]
+    return test_transactions, gas_used
+
+
+@lru_cache(maxsize=128)
+def _exact_size_transactions_calculation(
+    block_size_limit: int, fork: Fork
 ) -> Tuple[List[Transaction], int]:
     """Generate transactions that fill a block to exactly the RLP size limit."""
     transactions = []
     target_size = block_size_limit
 
+    sender = EOA("0x" + "00" * 20, key=123)  # stub account to fill the block
     nonce = 0
     total_gas_used = 0
     max_block_gas = 100_000_000
@@ -127,12 +154,9 @@ def exact_size_transactions(
     remaining_bytes = target_size - current_size
     remaining_gas = max_block_gas - total_gas_used
 
-    # TODO: This maybe does not need to be so dynamic and can be more deterministic. We
-    #  should look into the rlp encoding for an empty transaction compared with one
-    #  where only the calldata grows enough to fit the exact rlp, do the calculation,
-    #  and use that transaction here instead of searching for the answer.
     if remaining_bytes > 0 and remaining_gas > 50_000:
-        base_tx = Transaction(
+        # create and empty transaction to measure base contribution
+        empty_tx = Transaction(
             sender=sender,
             nonce=nonce,
             max_fee_per_gas=10**11,
@@ -141,95 +165,85 @@ def exact_size_transactions(
             data=b"",
         )
 
-        test_block_with_empty = get_block_rlp_size(
-            transactions + [base_tx], gas_used=total_gas_used
+        empty_block_size = get_block_rlp_size(
+            transactions + [empty_tx], gas_used=total_gas_used + empty_tx.gas_limit
         )
-        empty_tx_contribution = test_block_with_empty - current_size
-        available_for_calldata = target_size - current_size - empty_tx_contribution
+        empty_contribution = empty_block_size - current_size
 
-        if available_for_calldata > 0:
-            # RLP encoding overhead for calldata:
-            # - If length < 56: 1 byte prefix
-            # - If length >= 56: 1 + length_bytes + data
-            def calldata_rlp_overhead(size):
-                if size < 56:
-                    return 1
-                else:
-                    if size < 256:
-                        return 2  # 0x81 + 1 length byte
-                    elif size < 65536:
-                        return 3  # 0x82 + 2 length bytes
-                    else:
-                        return 4  # 0x83 + 3 length bytes
+        calldata_bytes_needed = remaining_bytes - empty_contribution
+        estimated_calldata = max(0, calldata_bytes_needed - 5)
 
-            target_calldata_size = available_for_calldata - calldata_rlp_overhead(
-                available_for_calldata
+        target_calldata = b"\x00" * estimated_calldata
+        target_gas = calculator(calldata=target_calldata)
+
+        if target_gas <= remaining_gas:
+            test_tx = Transaction(
+                sender=sender,
+                nonce=nonce,
+                max_fee_per_gas=10**11,
+                max_priority_fee_per_gas=10**11,
+                gas_limit=target_gas,
+                data=target_calldata,
             )
 
-            target_calldata = b"\x00" * target_calldata_size
-            target_gas = calculator(calldata=target_calldata)
+            test_size = get_block_rlp_size(
+                transactions + [test_tx], gas_used=total_gas_used + target_gas
+            )
 
-            if target_gas <= remaining_gas:
-                final_tx = Transaction(
-                    sender=sender,
-                    nonce=nonce,
-                    max_fee_per_gas=10**11,
-                    max_priority_fee_per_gas=10**11,
-                    gas_limit=target_gas,
-                    data=target_calldata,
-                )
-
-                test_size = get_block_rlp_size(
-                    transactions + [final_tx], gas_used=total_gas_used + target_gas
-                )
+            if test_size == target_size:
+                # if exact match, use the transaction
+                transactions.append(test_tx)
+            else:
+                # search for the best adjustment
                 diff = target_size - test_size
+                best_diff = abs(diff)
 
-                if test_size == target_size:
-                    transactions.append(final_tx)
+                search_range = min(abs(diff) + 50, 1000)
+
+                for adjustment in range(-search_range, search_range + 1):
+                    adjusted_size = estimated_calldata + adjustment
+                    if adjusted_size < 0:
+                        continue
+
+                    adjusted_calldata = b"\x00" * adjusted_size
+                    adjusted_gas = calculator(calldata=adjusted_calldata)
+
+                    if adjusted_gas <= remaining_gas:
+                        adjusted_tx = Transaction(
+                            sender=sender,
+                            nonce=nonce,
+                            max_fee_per_gas=10**11,
+                            max_priority_fee_per_gas=10**11,
+                            gas_limit=adjusted_gas,
+                            data=adjusted_calldata,
+                        )
+
+                        adjusted_test_size = get_block_rlp_size(
+                            transactions + [adjusted_tx],
+                            gas_used=total_gas_used + adjusted_gas,
+                        )
+
+                        if adjusted_test_size == target_size:
+                            # exact match
+                            transactions.append(adjusted_tx)
+                            break
+
+                        adjusted_diff = abs(target_size - adjusted_test_size)
+                        if adjusted_diff < best_diff:
+                            best_diff = adjusted_diff
                 else:
-                    # fine-tune until exact match
-                    best_diff = abs(diff)
-                    best_tx = final_tx
+                    raise RuntimeError(
+                        "Failed to find a transaction that matches the target size."
+                    )
+        else:
+            transactions.append(empty_tx)
 
-                    search_range = min(abs(diff) + 50, 200)
-                    for adjustment in range(-search_range, search_range + 1):
-                        if target_calldata_size + adjustment < 0:
-                            continue
-
-                        adjusted_calldata = b"\x00" * (target_calldata_size + adjustment)
-                        adjusted_gas = calculator(calldata=adjusted_calldata)
-
-                        if adjusted_gas <= remaining_gas:
-                            adjusted_tx = Transaction(
-                                sender=sender,
-                                nonce=nonce,
-                                max_fee_per_gas=10**11,
-                                max_priority_fee_per_gas=10**11,
-                                gas_limit=adjusted_gas,
-                                data=adjusted_calldata,
-                            )
-
-                            adjusted_test_size = get_block_rlp_size(
-                                transactions + [adjusted_tx],
-                                gas_used=total_gas_used + adjusted_gas,
-                            )
-                            adjusted_diff = abs(target_size - adjusted_test_size)
-
-                            if adjusted_test_size == target_size:
-                                transactions.append(adjusted_tx)
-                                break
-                            elif adjusted_diff < best_diff:
-                                best_diff = adjusted_diff
-                                best_tx = adjusted_tx
-
-                    else:
-                        transactions.append(best_tx)
-
-    final_size = get_block_rlp_size(transactions, gas_used=total_gas_used)
+    final_size = get_block_rlp_size(
+        transactions, gas_used=sum(tx.gas_limit for tx in transactions)
+    )
     final_gas = sum(tx.gas_limit for tx in transactions)
 
-    assert final_size == target_size, "could not calculate exact block size"
-
+    assert final_size == target_size, f"Size mismatch: got {final_size}, expected {target_size}"
     return transactions, final_gas
 
 
@@ -248,9 +262,9 @@ def test_block_at_rlp_size_limit_boundary(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     post: Alloc,
-    exact_size_transactions: Tuple[List[Transaction], int],
     block_size_limit: int,
     env: Environment,
+    exact_size_transactions,
     from_limit: int,
 ):
     """
@@ -266,11 +280,12 @@ def test_block_at_rlp_size_limit_boundary(
         f"Block RLP size {block_rlp_size} does not exactly match limit {block_size_limit}, "
         f"difference: {block_rlp_size - block_size_limit} bytes"
     )
-    exception = BlockException.RLP_BLOCK_LIMIT_EXCEEDED if from_limit == 1 else None
+
     block = Block(
         txs=transactions,
-        exception=exception,
+        exception=BlockException.RLP_BLOCK_LIMIT_EXCEEDED if from_limit == 1 else None,
     )
+
     if from_limit == -1:
         # remove last byte
         block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT[:-1])
@@ -279,13 +294,14 @@ def test_block_at_rlp_size_limit_boundary(
     elif from_limit == 1:
         block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT + b"\x00")
     else:
-        raise ValueError(f"Invalid from_limit value: {from_limit}")
+        raise ValueError(f"Invalid `from_limit` value: {from_limit}")
     block.timestamp = ZeroPaddedHexNumber(HEADER_TIMESTAMP)
     blockchain_test(
         genesis_environment=env,
         pre=pre,
         post=post,
         blocks=[block],
+        verify_sync=False if from_limit == 1 else True,
     )
 
 
@@ -294,10 +310,9 @@ def test_block_slightly_over_rlp_size_limit(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     post: Alloc,
-    exact_size_transactions: Tuple[List[Transaction], int],
-    block_size_limit: int,
-    sender,
     env: Environment,
+    exact_size_transactions,
+    block_size_limit: int,
 ):
     """Test that a block at exactly the MAX_RLP_BLOCK_SIZE is accepted."""
     transactions, gas_used = exact_size_transactions
@@ -307,7 +322,7 @@ def test_block_slightly_over_rlp_size_limit(
         f"difference: {block_rlp_size - block_size_limit} bytes"
     )
     extra_tx = Transaction(
-        sender=sender,
+        sender=transactions[0].sender,
         nonce=len(transactions),
         max_fee_per_gas=10**9,
         max_priority_fee_per_gas=10**9,
