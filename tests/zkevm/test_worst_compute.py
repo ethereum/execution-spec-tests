@@ -801,10 +801,9 @@ def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     max_code_size = fork.max_code_size()
 
     # Create and deploy a contract with many JUMPDESTs
-    code_prefix = Op.JUMPDEST
     code_suffix = Op.JUMP(Op.PUSH0)
-    code_body = Op.JUMPDEST * (max_code_size - len(code_prefix) - len(code_suffix))
-    code = code_prefix + code_body + code_suffix
+    code_body = Op.JUMPDEST * (max_code_size - len(code_suffix))
+    code = code_body + code_suffix
     jumpdests_address = pre.deploy_contract(code=bytes(code))
 
     tx = Transaction(
