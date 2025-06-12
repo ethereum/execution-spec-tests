@@ -69,7 +69,11 @@ def extract_client_files(
                     if not output_folder.exists():
                         output_folder.mkdir(parents=True)
                     output_path = output_folder / output_filename
-                    output_path.write_text(result.stdout)
+                    output = result.stdout
+                    if output_filename == "genesis.json":
+                        # Indent the json
+                        output = json.dumps(json.loads(output), indent=4)
+                    output_path.write_text(output)
                     extracted_files[container_path] = output_path
                     click.echo(f"✓ Extracted {container_path} to {output_path}")
                 else:
@@ -188,11 +192,31 @@ def extract_config(
     # Create output directory
     output.mkdir(parents=True, exist_ok=True)
 
+    # Initialize Hive test
+    simulation = Simulation(url=hive_url)
+    suite = simulation.start_suite(
+        name="extract-config",
+        description="Extract client configuration files",
+    )
+    hive_test = suite.start_test(
+        name="extract-config",
+        description="Extract client configuration files",
+    )
+
+    client_types = []
+    for client_type in simulation.client_types():
+        if client and client not in client_type.name:
+            continue
+        client_types.append(client_type)
+
+    if not client_types:
+        raise click.UsageError(f"No client types found for {client}")
+
     for fixture_path in fixture_files:
         # Prepare client files and environment
-        client_files = {}
 
         click.echo(f"Using fixture: {fixture_path}")
+
         # Load fixture and create genesis
         genesis, alloc, chain_id = create_genesis_from_fixture(fixture_path)
         fork = genesis.fork
@@ -206,25 +230,11 @@ def extract_config(
         genesis_json_str = json.dumps(genesis_json)
         genesis_bytes = genesis_json_str.encode("utf-8")
 
-        client_files["/genesis.json"] = io.BufferedReader(
-            cast(io.RawIOBase, io.BytesIO(genesis_bytes))
-        )
-
-        # Initialize Hive test
-        simulation = Simulation(url=hive_url)
-        suite = simulation.start_suite(
-            name="extract-config",
-            description="Extract client configuration files",
-        )
-        hive_test = suite.start_test(
-            name="extract-config",
-            description="Extract client configuration files",
-        )
-
-        for client_type in simulation.client_types():
-            if client and client not in client_type.name:
-                continue
-
+        for client_type in client_types:
+            client_files = {}
+            client_files["/genesis.json"] = io.BufferedReader(
+                cast(io.RawIOBase, io.BytesIO(genesis_bytes))
+            )
             # Get containers before starting client
             containers_before = get_docker_containers()
 
@@ -278,11 +288,11 @@ def extract_config(
                 # Clean up
                 click.echo("\nStopping client...")
                 client_instance.stop()
-                hive_test.end(result=HiveTestResult(test_pass=True, details=""))
 
             click.echo()
 
-        suite.end()
+    hive_test.end(result=HiveTestResult(test_pass=True, details=""))
+    suite.end()
 
 
 if __name__ == "__main__":
