@@ -5,6 +5,7 @@ The `extract_config` command extracts configuration files from Ethereum clients 
 ## Purpose
 
 When Ethereum clients start up with a genesis configuration, they generate various configuration files such as:
+
 - `/chainspec/test.json` - Chain specification file
 - `/configs/test.cfg` - Configuration file
 - `/genesis.json` - Genesis block configuration
@@ -29,21 +30,25 @@ uv run extract_config --fixture <FIXTURE_PATH> [OPTIONS]
 ### Examples
 
 Extract configuration from all clients using a specific fixture:
+
 ```bash
 uv run extract_config --fixture fixtures/blockchain_tests/paris/security/test_selfdestruct_balance_bug.json
 ```
 
 Extract configuration from a specific client:
+
 ```bash
 uv run extract_config --fixture fixtures/blockchain_tests/paris/security/test_selfdestruct_balance_bug.json --client besu
 ```
 
 Extract configurations from all fixtures in a directory:
+
 ```bash
 uv run extract_config --fixture fixtures/blockchain_tests/paris/security/
 ```
 
 Extract to a specific directory and list container files:
+
 ```bash
 uv run extract_config --fixture my_fixture.json --output ./my_configs --list-files
 ```
@@ -51,6 +56,7 @@ uv run extract_config --fixture my_fixture.json --output ./my_configs --list-fil
 ## Prerequisites
 
 1. Hive must be running in the background:
+
    ```bash
    ./hive --dev
    ```
@@ -60,7 +66,8 @@ uv run extract_config --fixture my_fixture.json --output ./my_configs --list-fil
 ## Output
 
 The tool creates a hierarchical directory structure:
-```
+
+```console
 <output_dir>/
   <fixture_name>/
     <client_name>/
@@ -70,7 +77,8 @@ The tool creates a hierarchical directory structure:
 ```
 
 For example:
-```
+
+```console
 extracted_configs/
   test_selfdestruct_balance_bug/
     go-ethereum/
@@ -101,6 +109,7 @@ Only files that exist in the client container will be extracted.
 ## Container ID Detection
 
 Since Hive doesn't directly expose container IDs, the tool uses a detection mechanism:
+
 1. Lists all Docker container IDs before starting the client
 2. Starts the client through Hive
 3. Lists all Docker container IDs after starting the client
@@ -109,6 +118,7 @@ Since Hive doesn't directly expose container IDs, the tool uses a detection mech
 ## Supported Fixture Formats
 
 The tool supports:
+
 - Individual fixture JSON files (BlockchainFixture format)
 - SharedPreStateGroup JSON files
 - Directories containing multiple fixture files
