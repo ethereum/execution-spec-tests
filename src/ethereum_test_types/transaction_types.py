@@ -599,8 +599,6 @@ class Transaction(
         Return the transaction type as bytes to be appended at the beginning of the
         serialized transaction if type is not 0.
         """
-        # if self.ty == 3:  # dont add 0x03 to the rlp
-        #     return b""
         if self.ty > 0:
             return bytes([self.ty])
         return b""
@@ -695,64 +693,19 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         return proofs
 
-    # original cell proofs with length 4098
-    # error: InvalidBlobDataSize: Blob data fields are of incorrect size.
-    #   -> i think its cuz each cell_proof has length 4098, but for some reason it wants length 98 (but ofc if we just shorten it it will expect a different proof)
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def cell_proofs(self) -> Sequence[Sequence[Bytes]] | Sequence[Bytes] | None:
+    def cell_proofs(self) -> Sequence[Bytes] | None:
         """Return a list of cells (returns None < Osaka)."""
         if self.wrapper_version is None:
             return None
 
-        cells: list[list[Bytes]] = []
+        cells: list[Bytes] = []
         for blob in self.blob_objects:
             assert isinstance(blob.proof, list)
-            cells.append(blob.proof)
-
-        # if you remove below you instead get error: Invalid RLP. (which means getting what we have to work NWT that hold many blobs will be even more work)  # noqa: E501
-        if len(cells) == 1:
-            return cells[0]
+            cells.extend(blob.proof)
 
         return cells
-
-    # shortened cell proofs of length 98 ( 48*2 + len(0x00) + len(0x03) )
-    # unlocks new error: proofs dont match cells
-    # @computed_field  # type: ignore[prop-decorator]
-    # @property
-    # def cell_proofs(self) -> Sequence[Bytes] | None:
-    #     """Return a list of cells (returns None < Osaka)."""
-    #     if self.wrapper_version is None:
-    #         return None
-
-    #     cells: list[Bytes] = []
-    #     for blob in self.blob_objects:
-    #         assert isinstance(blob.cells, list)
-    #         # code below gives: InvalidBlobDataSize: Blob data fields are of incorrect size:
-    #         # cells.extend(
-    #         #     Bytes(cell)
-    #         #     for cell in blob.cells  # Bytes(cell[:48])
-    #         # )  # extend unpacks the elements instead of adding it as list
-
-    #         # code below gives: InvalidBlobProof: Proofs do not match the blobs.
-    #         cells.extend(
-    #             Bytes(cell[:48]) for cell in blob.cells
-    #         )  # extend unpacks the elements instead of adding it as list
-
-    #     return cells
-
-    # just trying to match the 'before.txt' even more closely
-    # # unlocks new error: proofs dont match cells
-    # @computed_field  # type: ignore[prop-decorator]
-    # @property
-    # def cell_proofs(self) -> Sequence[Bytes] | None:
-    #     """Return a list of cells (returns None < Osaka)."""
-    #     if self.wrapper_version is None:
-    #         return None
-
-    #     cells: list[Bytes] = [self.commitments[0]] * 128
-
-    #     return cells
 
     def get_rlp_fields(self) -> List[str]:
         """
@@ -777,7 +730,7 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         if self.cell_proofs is not None:
             rlp_cell_proofs = ["cell_proofs"]
 
-        # GETH FUSAKA_DEVNET_0 EXPECTS:
+        # Geth expects:
         #   type blobTxWithBlobs struct {
         #       BlobTx      *BlobTx
         #       Blobs       []kzg4844.Blob
@@ -796,12 +749,12 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         rlp_fields: List[
             str
         ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
-            "tx",  # tx_payload_body, in geth: BlobTx, https://github.com/ethereum/go-ethereum/blob/e17f97a8242c55b6fba66317d3720b9728a12f78/core/types/tx_blob.go#L122
-            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before), in geth: Version  # noqa: E501
-            "blobs",  # Blob.data, in geth: Blobs
-            "commitments",  # in geth: Commitments
-            *rlp_proofs,  # only included < osaka, in geth: Proofs
-            *rlp_cell_proofs,  # only included >=osaka, in geth this does not exist(always uses Proofs)
+            "tx",  # tx_payload_body
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before)
+            "blobs",  # Blob.data
+            "commitments",
+            *rlp_proofs,
+            *rlp_cell_proofs,
         ]
 
         assert ("proofs" in rlp_fields) or ("cell_proofs" in rlp_fields), (
@@ -812,21 +765,11 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         return rlp_fields
 
-    # GETH PROBLEM:
-    # osaka without wrapper: too few elements for types.blobTxWithBlobs
-    # osaka with wrapper: it tries to deserialize into blobTxWithBlobs instead of versionedBlobTxWithBlobs, so it complains about unexpectedly seeing wrapper instead of blob data  # noqa: E501
-
-    # NETHERMIND PROBLEM:
-    # osaka without wrapper: code=-32602, message=Specified argument was out of the range of valid values.
-    # osaka with wrapper: code=-32602, message=Specified argument was out of the range of valid values
-
     def get_rlp_prefix(self) -> bytes:
         """
         Return the transaction type as bytes to be appended at the beginning of the
         serialized transaction if type is not 0.
         """
-        # if self.tx.ty == 3:  # don't add 0x03 to the rlp
-        #     return b""
         if self.tx.ty > 0:
             return bytes([self.tx.ty])
         return b""

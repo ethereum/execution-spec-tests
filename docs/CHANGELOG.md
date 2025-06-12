@@ -66,6 +66,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added automatic checklist generation for every EIP inside of the `tests` folder. The checklist is appended to each EIP in the documentation in the "Test Case Reference" section ([#1679](https://github.com/ethereum/execution-spec-tests/pull/1679), [#1718](https://github.com/ethereum/execution-spec-tests/pull/1718)).
 - 🔀 Add macOS hive development mode workaround to the docs [#1786](https://github.com/ethereum/execution-spec-tests/pull/1786).
 - 🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers [#1803](https://github.com/ethereum/execution-spec-tests/pull/1803).
+- ✨ Improved RLP logging in rpc.py. Errors shown in console are shortened and full RLP data is logged to file if an exception occurs ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
 
 ### 🧪 Test Cases
 
