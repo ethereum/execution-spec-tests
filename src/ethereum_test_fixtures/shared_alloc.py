@@ -30,8 +30,10 @@ class SharedPreStateGroup(CamelModel):
     fork: Fork = Field(..., alias="network")
     pre: Alloc
 
-    def __model_post_init__(self) -> None:
+    def model_post_init(self, __context):
         """Post-init hook to ensure pre is not None."""
+        super().model_post_init(__context)
+
         self.pre = Alloc.merge(
             Alloc.model_validate(self.fork.pre_allocation_blockchain()),
             self.pre,
@@ -61,7 +63,7 @@ class SharedPreStateGroup(CamelModel):
                                 f"Account {account} already exists in shared pre-allocation"
                             )
                         self.pre[account] = previous_shared_pre_state_group.pre[account]
-                        self.pre_account_count += 1
+                    self.pre_account_count += previous_shared_pre_state_group.pre_account_count
                     self.test_count += previous_shared_pre_state_group.test_count
                     self.test_ids.extend(previous_shared_pre_state_group.test_ids)
 
