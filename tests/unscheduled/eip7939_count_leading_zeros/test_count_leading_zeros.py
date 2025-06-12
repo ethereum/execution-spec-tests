@@ -14,6 +14,7 @@ from ethereum_test_tools import (
     CodeGasMeasure,
     StateTestFiller,
     Transaction,
+    TransactionReceipt,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -131,17 +132,25 @@ def test_clz_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
 def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
     """Test CLZ opcode with empty stack (should revert due to stack underflow)."""
     sender = pre.fund_eoa()
-    contract_address = pre.deploy_contract(
-        code=Op.CLZ,
+    callee_address = pre.deploy_contract(
+        code=Op.CLZ + Op.STOP,  # No stack items, should underflow
+        storage={"0x00": "0xdeadbeef"},
+    )
+    caller_address = pre.deploy_contract(
+        code=Op.SSTORE(0, Op.CALL(gas=0xFFFF, address=callee_address)),
         storage={"0x00": "0xdeadbeef"},
     )
     tx = Transaction(
-        to=contract_address,
+        to=caller_address,
         sender=sender,
         gas_limit=200_000,
+        expected_receipt=TransactionReceipt(status=0),
     )
     post = {
-        contract_address: Account(
+        caller_address: Account(
+            storage={"0x00": 0}  # Call failed due to stack underflow
+        ),
+        callee_address: Account(
             storage={"0x00": "0xdeadbeef"}  # Storage unchanged due to revert
         ),
     }
@@ -152,23 +161,69 @@ def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
 def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """Test CLZ opcode behavior at fork transition."""
     sender = pre.fund_eoa()
-    code = Op.SSTORE(0, Op.CLZ(1 << 100))
-    contract_before = pre.deploy_contract(code)
-    contract_after = pre.deploy_contract(code)
+    callee_address = pre.deploy_contract(
+        code=Op.SSTORE(Op.NUMBER, Op.CLZ(1 << 100)) + Op.STOP,
+        storage={"0x00": "0xdeadbeef"},
+    )
+    caller_address = pre.deploy_contract(
+        code=Op.SSTORE(Op.NUMBER, Op.CALL(gas=0xFFFF, address=callee_address)),
+        storage={"0x00": "0xdeadbeef"},
+    )
+    blocks = [
+        Block(
+            timestamp=14_999,
+            txs=[
+                Transaction(
+                    to=caller_address,
+                    sender=sender,
+                    nonce=0,
+                    gas_limit=200_000,
+                    expected_receipt=TransactionReceipt(status=0),
+                )
+            ],
+        ),
+        Block(
+            timestamp=15_000,
+            txs=[
+                Transaction(
+                    to=caller_address,
+                    sender=sender,
+                    nonce=1,
+                    gas_limit=200_000,
+                    expected_receipt=TransactionReceipt(status=1),
+                )
+            ],
+        ),
+        Block(
+            timestamp=15_001,
+            txs=[
+                Transaction(
+                    to=caller_address,
+                    sender=sender,
+                    nonce=2,
+                    gas_limit=200_000,
+                    expected_receipt=TransactionReceipt(status=1),
+                )
+            ],
+        ),
+    ]
     blockchain_test(
         pre=pre,
-        blocks=[
-            Block(
-                timestamp=14_999,
-                txs=[Transaction(to=contract_before, sender=sender, gas_limit=200_000)],
-            ),
-            Block(
-                timestamp=15_000,
-                txs=[Transaction(to=contract_after, sender=sender, gas_limit=200_000)],
-            ),
-        ],
+        blocks=blocks,
         post={
-            contract_before: Account(storage={"0x00": 0}),
-            contract_after: Account(storage={"0x00": 155}),
+            caller_address: Account(
+                storage={
+                    14_999: 0,
+                    15_000: 1,
+                    15_001: 1,
+                }
+            ),
+            callee_address: Account(
+                storage={
+                    14_999: 155,
+                    15_000: 155,
+                    15_001: 155,
+                }
+            ),
         },
     )
