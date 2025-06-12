@@ -235,10 +235,19 @@ def total_timing_data(request) -> Generator[TimingData, None, None]:
 
 
 @pytest.fixture(scope="function")
-def client_genesis(fixture: BlockchainFixtureCommon) -> dict:
-    """Convert the fixture genesis block header and pre-state to a client genesis state."""
-    genesis = to_json(fixture.genesis)
-    alloc = to_json(fixture.pre)
+def client_genesis(fixture: BlockchainFixtureCommon, request) -> dict:
+    """Convert fixture genesis to client genesis state."""
+    # For reorg fixtures, delegate to the shared_pre_state_group
+    if hasattr(fixture, 'pre_hash'):
+        # This is a BlockchainEngineReorgFixture - get the shared pre-state group
+        shared_pre_state_group = request.getfixturevalue('shared_pre_state_group')
+        genesis = to_json(shared_pre_state_group.genesis)
+        alloc = to_json(shared_pre_state_group.pre)
+    else:
+        # This is a regular fixture
+        genesis = to_json(fixture.genesis)
+        alloc = to_json(fixture.pre)
+
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
     return genesis
@@ -249,7 +258,7 @@ def check_live_port(test_suite_name: str) -> Literal[8545, 8551]:
     """Port used by hive to check for liveness of the client."""
     if test_suite_name == "eest/consume-rlp":
         return 8545
-    elif test_suite_name == "eest/consume-engine":
+    elif test_suite_name in ["eest/consume-engine", "eest/consume-engine-reorg"]:
         return 8551
     raise ValueError(
         f"Unexpected test suite name '{test_suite_name}' while setting HIVE_CHECK_LIVE_PORT."
@@ -343,29 +352,39 @@ def strict_exception_matching(
 
 @pytest.fixture(scope="function")
 def client(
-    hive_test: HiveTest,
-    client_files: dict,  # configured within: rlp/conftest.py & engine/conftest.py
-    environment: dict,
-    client_type: ClientType,
-    total_timing_data: TimingData,
+    fixture: BlockchainFixtureCommon,
+    request,
 ) -> Generator[Client, None, None]:
-    """Initialize the client with the appropriate files and environment variables."""
-    logger.info(f"Starting client ({client_type.name})...")
-    with total_timing_data.time("Start client"):
-        client = hive_test.start_client(
-            client_type=client_type, environment=environment, files=client_files
+    """Initialize the client - delegates to reorg_client for reorg fixtures, regular otherwise."""
+    if hasattr(fixture, 'pre_hash'):
+        # This is a BlockchainEngineReorgFixture - use shared client
+        logger.info("🔥 DELEGATING TO REORG CLIENT for shared client architecture!")
+        client = request.getfixturevalue('reorg_client')
+        yield client
+    else:
+        # This is a regular fixture - use individual client
+        hive_test = request.getfixturevalue('hive_test')
+        client_files = request.getfixturevalue('client_files')
+        environment = request.getfixturevalue('environment')
+        client_type = request.getfixturevalue('client_type')
+        total_timing_data = request.getfixturevalue('total_timing_data')
+
+        logger.info(f"Starting client ({client_type.name})...")
+        with total_timing_data.time("Start client"):
+            client = hive_test.start_client(
+                client_type=client_type, environment=environment, files=client_files
+            )
+        error_message = (
+            f"Unable to connect to the client container ({client_type.name}) via Hive during test "
+            "setup. Check the client or Hive server logs for more information."
         )
-    error_message = (
-        f"Unable to connect to the client container ({client_type.name}) via Hive during test "
-        "setup. Check the client or Hive server logs for more information."
-    )
-    assert client is not None, error_message
-    logger.info(f"Client ({client_type.name}) ready!")
-    yield client
-    logger.info(f"Stopping client ({client_type.name})...")
-    with total_timing_data.time("Stop client"):
-        client.stop()
-    logger.info(f"Client ({client_type.name}) stopped!")
+        assert client is not None, error_message
+        logger.info(f"Client ({client_type.name}) ready!")
+        yield client
+        logger.info(f"Stopping client ({client_type.name})...")
+        with total_timing_data.time("Stop client"):
+            client.stop()
+        logger.info(f"Client ({client_type.name}) stopped!")
 
 
 @pytest.fixture(scope="function", autouse=True)

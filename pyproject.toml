@@ -20,7 +20,7 @@ classifiers = [
 dependencies = [
     "click>=8.1.0,<9",
     "ethereum-execution==1.17.0rc6.dev1",
-    "hive.py @ git+https://github.com/marioevz/hive.py",
+    "hive-py",
     "ethereum-spec-evm-resolver",
     "gitpython>=3.1.31,<4",
     "PyJWT>=2.3.0,<3",
@@ -133,3 +133,4 @@ ignore-words-list = "ingenuous"
 
 [tool.uv.sources]
 ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" }
+hive-py = { git = "https://github.com/marioevz/hive.py", rev = "582703e2f94b4d5e61ae495d90d684852c87a580" }

@@ -54,16 +54,23 @@ def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
     base_path = Path("src/pytest_plugins/consume")
     if command_name == "hive":
         commands = ["rlp", "engine"]
-    elif command_name in ["engine", "engine-reorg"]:
-        # Both engine and engine-reorg use the same test file
-        commands = ["engine"]
+        command_paths = [
+            base_path / ("hive_simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
+            for cmd in commands
+        ]
+    elif command_name in ["engine", "engine-reorg", "engine_reorg"]:
+        # Both engine and engine-reorg use the same test file in the shared directory
+        command_paths = [
+            base_path / ("hive_simulators" if is_hive else "") / "shared" / "test_via_engine.py"
+        ]
     else:
-        commands = [command_name]
-
-    command_paths = [
-        base_path / ("hive_simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
-        for cmd in commands
-    ]
+        # Other commands like 'rlp' use their own test files
+        command_paths = [
+            base_path
+            / ("hive_simulators" if is_hive else "")
+            / command_name
+            / f"test_via_{command_name}.py"
+        ]
     return command_paths
 
 

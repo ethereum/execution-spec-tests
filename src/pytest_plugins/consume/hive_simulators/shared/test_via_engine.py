@@ -6,7 +6,8 @@ Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID res
 """
 
 from ethereum_test_exceptions import UndefinedException
-from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_fixtures import BlockchainEngineFixture, BlockchainEngineReorgFixture
+from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import ForkchoiceState, JSONRPCError, PayloadStatusEnum
 from pytest_plugins.consume.hive_simulators.exceptions import GenesisBlockMismatchExceptionError
@@ -30,11 +31,12 @@ def test_blockchain_via_engine(
     timing_data: TimingData,
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
-    fixture: BlockchainEngineFixture,
+    fixture: BlockchainEngineFixture | BlockchainEngineReorgFixture,
+    genesis_header: FixtureHeader,
     strict_exception_matching: bool,
 ):
     """
-    1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
+    1. Check the client genesis block hash matches the genesis header.
     2. Execute the test case fixture blocks against the client under test using the
     `engine_newPayloadVX` method from the Engine API.
     3. For valid payloads a forkchoice update is performed to finalize the chain.
@@ -44,7 +46,7 @@ def test_blockchain_via_engine(
         logger.info("Sending initial forkchoice update to genesis block...")
         forkchoice_response = engine_rpc.forkchoice_updated(
             forkchoice_state=ForkchoiceState(
-                head_block_hash=fixture.genesis.block_hash,
+                head_block_hash=genesis_header.block_hash,
             ),
             payload_attributes=None,
             version=fixture.payloads[0].forkchoice_updated_version,
@@ -58,14 +60,14 @@ def test_blockchain_via_engine(
 
     with timing_data.time("Get genesis block"):
         logger.info("Calling getBlockByNumber to get genesis block...")
-        genesis_block = eth_rpc.get_block_by_number(0)
-        if genesis_block["hash"] != str(fixture.genesis.block_hash):
-            expected = fixture.genesis.block_hash
-            got = genesis_block["hash"]
+        client_genesis_response = eth_rpc.get_block_by_number(0)
+        if client_genesis_response["hash"] != str(genesis_header.block_hash):
+            expected = genesis_header.block_hash
+            got = client_genesis_response["hash"]
             logger.fail(f"Genesis block hash mismatch. Expected: {expected}, Got: {got}")
             raise GenesisBlockMismatchExceptionError(
-                expected_header=fixture.genesis,
-                got_genesis_block=genesis_block,
+                expected_header=genesis_header,
+                got_genesis_block=client_genesis_response,
             )
 
     with timing_data.time("Payloads execution") as total_payload_timing:

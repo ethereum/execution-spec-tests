@@ -105,11 +105,17 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
         modified_args.extend(["-p", "pytest_plugins.pytest_hive.pytest_hive"])
 
         if self.command_name == "engine_reorg":
-            plugin_path = "pytest_plugins.consume.hive_simulators.engine.reorg.conftest"
-        else:
-            plugin_path = "pytest_plugins.consume.hive_simulators.engine.restart.conftest"
-
-        modified_args.extend(["-p", plugin_path])
+            # Load both engine conftest (for shared fixtures like engine_rpc) and reorg conftest
+            # Note: Load reorg conftest first since pytest_configure hooks run in reverse order
+            modified_args.extend(["-p", "pytest_plugins.consume.hive_simulators.engine.reorg.conftest"])
+            modified_args.extend(["-p", "pytest_plugins.consume.hive_simulators.engine.conftest"])
+        elif self.command_name == "rlp":
+            # RLP plugin is auto-registered, no need to manually add it
+            pass
+        else:  # engine (restart)
+            # Load both engine conftest (for shared fixtures like engine_rpc) and restart conftest
+            modified_args.extend(["-p", "pytest_plugins.consume.hive_simulators.engine.conftest"])
+            modified_args.extend(["-p", "pytest_plugins.consume.hive_simulators.engine.restart.conftest"])
         return modified_args
 
     def _has_regex_or_sim_limit(self, args: List[str]) -> bool:
