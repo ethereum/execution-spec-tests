@@ -39,7 +39,7 @@ from ethereum_test_tools import (
     Withdrawal,
 )
 from ethereum_test_types import Requests
-from pytest_plugins.consume.simulators.ruleset import ruleset
+from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
 
 class HashList(RootModel[List[Hash]]):

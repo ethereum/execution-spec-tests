@@ -23,7 +23,7 @@ from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_fixtures.shared_alloc import SharedPreStateGroup
 from ethereum_test_forks import Fork
-from pytest_plugins.consume.hive_simulators.ruleset import ruleset
+from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
 
 def get_docker_containers() -> set[str]:
