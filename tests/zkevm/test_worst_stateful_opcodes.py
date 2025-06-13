@@ -616,6 +616,7 @@ def test_worst_selfdestruct_created(
     state_test: StateTestFiller,
     pre: Alloc,
     value_bearing: bool,
+    fork: Fork,
 ):
     """
     Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
@@ -625,7 +626,11 @@ def test_worst_selfdestruct_created(
     pre.fund_address(env.fee_recipient, 1)
 
     # SELFDESTRUCT(COINBASE) contract deployment
-    initcode = Op.MSTORE8(0, 0x41) + Op.MSTORE8(1, 0xFF) + Op.RETURN(0, 2)
+    initcode = (
+        Op.MSTORE8(0, Op.COINBASE.int()) + Op.MSTORE8(1, Op.SELFDESTRUCT.int()) + Op.RETURN(0, 2)
+    )
+    gas_costs = fork.gas_costs()
+    create_gas = gas_costs.G_CREATE + 20_000
     code = (
         Op.MSTORE(0, initcode.hex())
         + While(
@@ -640,7 +645,7 @@ def test_worst_selfdestruct_created(
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 10_000),
+            condition=Op.GT(Op.GAS, create_gas),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
@@ -668,12 +673,15 @@ def test_worst_selfdestruct_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
     value_bearing: bool,
+    fork: Fork,
 ):
     """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
     env = Environment()
     pre.fund_address(env.fee_recipient, 1)
 
     initcode = Op.SELFDESTRUCT(Op.COINBASE)
+    gas_costs = fork.gas_costs()
+    create_gas = gas_costs.G_CREATE + 20_000
     code = (
         Op.MSTORE(0, initcode.hex())
         + While(
@@ -686,7 +694,7 @@ def test_worst_selfdestruct_initcode(
             ),
             # Stop before we run out of gas for the whole tx execution.
             # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 12_000),
+            condition=Op.GT(Op.GAS, create_gas),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
