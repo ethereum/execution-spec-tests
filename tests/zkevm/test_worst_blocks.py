@@ -22,13 +22,13 @@ from ethereum_test_tools import (
 def iteration_count(fork: Fork):
     """Calculate the number of iterations based on the gas limit and intrinsic cost."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    return min(5, Environment().gas_limit // intrinsic_cost())
+    return Environment().gas_limit // intrinsic_cost()
 
 
 @pytest.fixture
 def transfer_amount():
     """Ether to transfer in each transaction."""
-    return 0
+    return 1
 
 
 @pytest.fixture
