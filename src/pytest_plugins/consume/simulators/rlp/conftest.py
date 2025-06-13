@@ -11,7 +11,12 @@ from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 
 TestCase = TestCaseIndexFile | TestCaseStream
 
-pytest_plugins = "pytest_plugins.consume.simulators.single_test_client"
+pytest_plugins = (
+    "pytest_plugins.consume.simulators.single_test_client",
+    "pytest_plugins.consume.simulators.test_case_description",
+    "pytest_plugins.consume.simulators.timing_data",
+    "pytest_plugins.consume.simulators.exceptions",
+)
 
 
 def pytest_configure(config):
