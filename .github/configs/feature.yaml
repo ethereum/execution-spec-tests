@@ -11,9 +11,29 @@ static:
   evm-type: static
   fill-params: --until=Prague --fill-static-tests ./tests/static
   solc: 0.8.21
-benchmark:
+benchmark_30M:
   evm-type: benchmark
-  fill-params: --fork Prague --block-gas-limit 36000000 -m zkevm ./tests --generate-shared-pre
+  fill-params: --fork Prague --block-gas-limit 30000000 -m zkevm ./tests --generate-shared-pre
+  solc: 0.8.21
+  feature_only: true
+benchmark_60M:
+  evm-type: benchmark
+  fill-params: --fork Prague --block-gas-limit 60000000 -m zkevm ./tests --generate-shared-pre
+  solc: 0.8.21
+  feature_only: true
+benchmark_80M:
+  evm-type: benchmark
+  fill-params: --fork Prague --block-gas-limit 80000000 -m zkevm ./tests --generate-shared-pre
+  solc: 0.8.21
+  feature_only: true
+benchmark_100M:
+  evm-type: benchmark
+  fill-params: --fork Prague --block-gas-limit 100000000 -m zkevm ./tests --generate-shared-pre
+  solc: 0.8.21
+  feature_only: true
+benchmark_150M:
+  evm-type: benchmark
+  fill-params: --fork Prague --block-gas-limit 150000000 -m zkevm ./tests --generate-shared-pre
   solc: 0.8.21
   feature_only: true
 zkevm_36M:
