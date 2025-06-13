@@ -14,7 +14,12 @@ from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_rpc import EngineRPC
 
-pytest_plugins = "pytest_plugins.consume.simulators.single_test_client"
+pytest_plugins = (
+    "pytest_plugins.consume.simulators.single_test_client",
+    "pytest_plugins.consume.simulators.test_case_description",
+    "pytest_plugins.consume.simulators.timing_data",
+    "pytest_plugins.consume.simulators.exceptions",
+)
 
 
 def pytest_configure(config):
