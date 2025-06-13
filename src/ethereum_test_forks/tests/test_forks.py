@@ -266,7 +266,7 @@ class PrePreAllocFork(Shanghai):
     """Dummy fork used for testing."""
 
     @classmethod
-    def pre_allocation(cls) -> Dict:
+    def pre_allocation(cls, *, block_number: int = 0, timestamp: int = 0) -> Dict:
         """Return some starting point for allocation."""
         return {"test": "test"}
 
@@ -275,7 +275,7 @@ class PreAllocFork(PrePreAllocFork):
     """Dummy fork used for testing."""
 
     @classmethod
-    def pre_allocation(cls) -> Dict:
+    def pre_allocation(cls, *, block_number: int = 0, timestamp: int = 0) -> Dict:
         """Add allocation to the pre-existing one from previous fork."""
         return {"test2": "test2"} | super(PreAllocFork, cls).pre_allocation()
 
