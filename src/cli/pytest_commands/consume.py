@@ -58,7 +58,7 @@ def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
         commands = [command_name]
 
     command_paths = [
-        base_path / ("hive_simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
+        base_path / ("simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
         for cmd in commands
     ]
     return command_paths

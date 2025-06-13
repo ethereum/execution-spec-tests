@@ -24,7 +24,7 @@ from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 from ethereum_test_fixtures.file import Fixtures
 from ethereum_test_rpc import EthRPC
 from pytest_plugins.consume.consume import FixturesSource
-from pytest_plugins.consume.hive_simulators.ruleset import ruleset  # TODO: generate dynamically
+from pytest_plugins.consume.simulators.ruleset import ruleset  # TODO: generate dynamically
 from pytest_plugins.pytest_hive.hive_info import ClientFile, HiveInfo
 
 from .exceptions import EXCEPTION_MAPPERS
