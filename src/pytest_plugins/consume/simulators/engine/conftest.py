@@ -15,6 +15,7 @@ from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_rpc import EngineRPC
 
 pytest_plugins = (
+    "pytest_plugins.consume.simulators.base",
     "pytest_plugins.consume.simulators.single_test_client",
     "pytest_plugins.consume.simulators.test_case_description",
     "pytest_plugins.consume.simulators.timing_data",
