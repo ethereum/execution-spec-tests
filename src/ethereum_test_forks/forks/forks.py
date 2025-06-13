@@ -358,7 +358,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [0]
 
     @classmethod
+
     def precompiles(cls, *, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Genesis, no transaction gas limit cap is imposed."""
+        return None
+
+    @classmethod
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+
         """At Genesis, no pre-compiles are present."""
         return []
 
@@ -1346,6 +1355,11 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Osaka, transaction gas limit is capped at 30 million."""
+        return 30_000_000
+
+    @classmethod
     def is_deployed(cls) -> bool:
         """
         Flag that the fork has not been deployed to mainnet; it is under active
@@ -1357,6 +1371,15 @@ class Osaka(Prague, solc_name="cancun"):
     def solc_min_version(cls) -> Version:
         """Return minimum version of solc that supports this fork."""
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+    @classmethod
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        At Osaka, pre-compile for p256verify operation is added.
+
+        P256VERIFY = 0x100
+        """
+        return [Address(0x100)] + super(Osaka, cls).precompiles(block_number, timestamp)
 
 
 class EOFv1(Prague, solc_name="cancun"):

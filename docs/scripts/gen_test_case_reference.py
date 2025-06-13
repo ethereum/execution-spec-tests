@@ -43,9 +43,12 @@ args = [
     "filterwarnings=ignore::pytest.PytestAssertRewriteWarning",  # suppress warnings due to reload
     "-p",
     "pytest_plugins.filler.gen_test_doc.gen_test_doc",
+    "-p",
+    "pytest_plugins.filler.eip_checklist",
     "--gen-docs",
     f"--gen-docs-target-fork={TARGET_FORK}",
     f"--until={GENERATE_UNTIL_FORK}",
+    "--checklist-doc-gen",
     "--skip-index",
     "-m",
     "not blockchain_test_engine",

@@ -161,7 +161,7 @@ By default, JSON test fixtures are generated from this repository's Python test 
 
 ## Usage
 
-More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://eest.ethereum.org/main/consuming_tests/).
+More information on how to obtain and consume the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found in the [documentation](https://eest.ethereum.org/main/running_tests/).
 
 For further help with working with this codebase, see the [online documentation](https://eest.ethereum.org/main/):
 

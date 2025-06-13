@@ -31,6 +31,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 - ✨ Add the `ported_from` test marker to track Python test cases that were converted from static fillers in [ethereum/tests](https://github.com/ethereum/tests) repository [#1590](https://github.com/ethereum/execution-spec-tests/pull/1590).
 - ✨ Add a new pytest plugin, `ported_tests`, that lists the static fillers and PRs from `ported_from` markers for use in the coverage Github Workflow [#1634](https://github.com/ethereum/execution-spec-tests/pull/1634).
+- ✨ Enable two-phase filling of fixtures with shared pre-allocation groups and add a `BlockchainEngineReorgFixture` format [#1606](https://github.com/ethereum/execution-spec-tests/pull/1706).
 - 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471),[#1612](https://github.com/ethereum/execution-spec-tests/pull/1612)).
 - ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
 - 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
@@ -47,12 +48,15 @@ Users can select any of the artifacts depending on their testing needs for their
 
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
+- ✨ Add documentation "Running Tests" that explains the different methods available to run EEST tests and reference guides for running `consume` and `hive`: ([#1172](https://github.com/ethereum/execution-spec-tests/pull/1172)).
 - ✨ Added a new `eest` sub-command, `eest info`, to easily print a cloned EEST repository's version and the versions of relevant tools, e.g., `python`, `uv` ([#1621](https://github.com/ethereum/execution-spec-tests/pull/1621)).
 - ✨ Add `CONTRIBUTING.md` for execution-spec-tests and improve coding standards documentation ([#1604](https://github.com/ethereum/execution-spec-tests/pull/1604)).
+- ✨ Use `codespell` instead of `pyspelling` to spell-check python and markdown sources ([#1715](https://github.com/ethereum/execution-spec-tests/pull/1715)).
 - 🔀 Updated from pytest 7 to [pytest 8](https://docs.pytest.org/en/stable/changelog.html#features-and-improvements), benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development ([#1433](https://github.com/ethereum/execution-spec-tests/pull/1433)).
 - 🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests ([#1661](https://github.com/ethereum/execution-spec-tests/pull/1661)).
 - 🔀 Refactor the `click`-based CLI interface used for pytest-based commands (`fill`, `execute`, `consume`) to make them more extensible ([#1654](https://github.com/ethereum/execution-spec-tests/pull/1654)).
 - 🔀 Split `src/ethereum_test_types/types.py` into several files to improve code organization ([#1665](https://github.com/ethereum/execution-spec-tests/pull/1665)).
+- ✨ Added automatic checklist generation for every EIP inside of the `tests` folder. The checklist is appended to each EIP in the documentation in the "Test Case Reference" section ([#1679](https://github.com/ethereum/execution-spec-tests/pull/1679)).
 
 ### 🧪 Test Cases
 
@@ -60,7 +64,9 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Refactored `SELFDESTRUCT` opcode collision tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1643](https://github.com/ethereum/execution-spec-tests/pull/1643)).
 - ✨ EIP-7594: Sanity test cases to send blob transactions and verify `engine_getBlobsVX` using the `execute` command ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 - 🔀 Refactored EIP-145 static tests into python ([#1683](https://github.com/ethereum/execution-spec-tests/pull/1683)).
-- ✨ EIP-7823, EIP-7883: Add test cases for ModExp precompile gas-cost updates and input limits on Osaka ([#1579](https://github.com/ethereum/execution-spec-tests/pull/1579)).
+- ✨ EIP-7823, EIP-7883: Add test cases for ModExp precompile gas-cost updates and input limits on Osaka ([#1579](https://github.com/ethereum/execution-spec-tests/pull/1579), [#1729](https://github.com/ethereum/execution-spec-tests/pull/1729)).
+- ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Add test cases for the transaction gas limit of 30M gas ([#1711](https://github.com/ethereum/execution-spec-tests/pull/1711)).
+- ✨ [EIP-7951](https://eips.ethereum.org/EIPS/eip-7951): add test cases for `P256VERIFY` precompile to support secp256r1 curve [#1670](https://github.com/ethereum/execution-spec-tests/pull/1670)
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

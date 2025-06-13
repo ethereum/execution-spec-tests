@@ -51,7 +51,12 @@ from .spec import Spec, ref_spec_7702
 REFERENCE_SPEC_GIT_PATH = ref_spec_7702.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7702.version
 
-pytestmark = pytest.mark.valid_from("Prague")
+pytestmark = [
+    pytest.mark.valid_from("Prague"),
+    pytest.mark.pre_alloc_group(
+        "set_code_tests", reason="Tests EIP-7702 set code transactions with system contracts"
+    ),
+]
 
 auth_account_start_balance = 0
 
@@ -1186,7 +1191,7 @@ def test_set_code_address_and_authority_warm_state(
 ):
     """
     Test set to code address and authority warm status after a call to
-    authority address, or viceversa.
+    authority address, or vice-versa.
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
@@ -1275,7 +1280,7 @@ def test_set_code_address_and_authority_warm_state_call_types(
 ):
     """
     Test set to code address and authority warm status after a call to
-    authority address, or viceversa, using all available call opcodes
+    authority address, or vice-versa, using all available call opcodes
     without using `GAS` opcode (unavailable in EOF).
     """
     auth_signer = pre.fund_eoa(auth_account_start_balance)
@@ -2517,6 +2522,7 @@ def test_set_code_to_log(
 
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.with_all_precompiles
+@pytest.mark.eip_checklist("new_precompile/test/call_contexts/set_code", eips=[7951])
 def test_set_code_to_precompile(
     state_test: StateTestFiller,
     pre: Alloc,

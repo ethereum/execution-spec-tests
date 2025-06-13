@@ -61,7 +61,7 @@ class BesuTransitionTool(TransitionTool):
     def start_server(self):
         """
         Start the t8n-server process, extract the port, and leave it running
-        for future re-use.
+        for future reuse.
         """
         args = [
             str(self.binary),
@@ -341,5 +341,8 @@ class BesuExceptionMapper(ExceptionMapper):
             r"Invalid (amount|index|pubKey|signature|withdrawalCred) (offset|size): "
             r"expected (\d+), but got (-?\d+)|"
             r"Invalid deposit log length\. Must be \d+ bytes, but is \d+ bytes"
+        ),
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            r"transaction invalid Transaction gas limit must be at most \d+"
         ),
     }
