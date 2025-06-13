@@ -14,6 +14,8 @@ from ethereum_test_exceptions import ExceptionMapper
 from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_rpc import EngineRPC
 
+pytest_plugins = "pytest_plugins.consume.simulators.single_test_client"
+
 
 def pytest_configure(config):
     """Set the supported fixture formats for the engine simulator."""
