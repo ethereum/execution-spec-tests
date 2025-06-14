@@ -6,6 +6,8 @@ modules matches that of https://github.com/ethereum/EIPs.
 import os
 import re
 import textwrap
+from dataclasses import dataclass
+from pathlib import Path
 from types import ModuleType
 from typing import Any, List, Optional, Set
 
@@ -20,6 +22,17 @@ GITHUB_TOKEN_HELP = textwrap.dedent(
     "The Github CLI can be used: `--github-token $(gh auth token)` (https://cli.github.com/) "
     "or a PAT can be generated at https://github.com/settings/personal-access-tokens/new."
 )
+
+
+@dataclass
+class EIPVersionFailure:
+    """Represents a failure in EIP version check."""
+
+    file_path: str
+    eip_spec_name: str
+    eip_spec_url: str
+    referenced_version: str
+    latest_version: str
 
 
 def pytest_addoption(parser):
@@ -51,6 +64,8 @@ def pytest_configure(config):
         "markers",
         "eip_version_check: a test that tests the reference spec defined in an EIP test module.",
     )
+
+    config._eip_version_failures = []
 
     github_token = config.getoption("github_token") or os.environ.get("GITHUB_TOKEN")
 
@@ -113,7 +128,11 @@ def is_test_for_an_eip(input_string: str) -> bool:
     return False
 
 
-def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None):
+def test_eip_spec_version(
+    module: ModuleType,
+    github_token: Optional[str] = None,
+    config: Optional[pytest.Config] = None,
+):
     """
     Test that the ReferenceSpec object as defined in the test module
     is not outdated when compared to the remote hash from
@@ -122,8 +141,18 @@ def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None
     Args:
         module: Module to test
         github_token: Optional GitHub token for API authentication
+        config: Pytest config object, which must be provided.
 
     """
+    # Ensure config is available
+    if config is None:
+        # This case should ideally not happen if called via EIPSpecTestItem.runtest
+        # or if pytest passes config correctly in other scenarios.
+        # Fallback or error if essential. For now, assume it's provided.
+        pytest.fail(
+            "pytest.Config not available in test_eip_spec_version. "
+            "This is an issue with the plugin itself."
+        )
     ref_spec = get_ref_spec_from_module(module, github_token=github_token)
     assert ref_spec, "No reference spec object defined"
 
@@ -142,6 +171,24 @@ def test_eip_spec_version(module: ModuleType, github_token: Optional[str] = None
             f"Error in spec_version_checker: {e} (this test is generated). "
             f"Reference spec URL: {ref_spec.api_url()}."
         ) from e
+
+    if not is_up_to_date:
+        failure_data = EIPVersionFailure(
+            file_path=str(module.__file__),
+            eip_spec_name=ref_spec.name(),
+            eip_spec_url=ref_spec.api_url(),
+            referenced_version=ref_spec.known_version(),
+            latest_version=ref_spec.latest_version(),
+        )
+        # Ensure _eip_version_failures list exists, though it should by pytest_configure
+        if hasattr(config, "_eip_version_failures"):
+            config._eip_version_failures.append(failure_data)
+        else:
+            # This case should not happen if pytest_configure runs as expected.
+            # Log an error or handle as appropriate.
+            print(
+                "Warning: config._eip_version_failures not found. Failure data cannot be recorded."
+            )
 
     assert is_up_to_date, message
 
@@ -189,7 +236,9 @@ class EIPSpecTestItem(Item):
 
     def runtest(self) -> None:
         """Define the test to execute for this item."""
-        test_eip_spec_version(self.module, github_token=self.github_token)
+        test_eip_spec_version(
+            self.module, github_token=self.github_token, config=self.session.config
+        )
 
     def reportinfo(self) -> tuple[str, int, str]:
         """
@@ -217,3 +266,84 @@ def pytest_collection_modifyitems(
     for item in new_test_eip_spec_version_items:
         item.add_marker("eip_version_check", append=True)
     items.extend(new_test_eip_spec_version_items)
+
+
+def generate_eip_report_markdown(failures: List[EIPVersionFailure], run_id: str) -> str:
+    """Generate a markdown report for EIP version check failures."""
+    summary_table_header = (
+        "| File Path | EIP | Referenced Version | Latest Version |\n"
+        "|-----------|-----|--------------------|----------------|\n"
+    )
+    summary_table_rows = []
+    for failure in failures:
+        eip_match = re.search(r"eip-?(\d+)", failure.eip_spec_name, re.IGNORECASE)
+        if not eip_match:
+            eip_match = re.search(r"eip-?(\d+)", failure.file_path, re.IGNORECASE)
+        eip_number_str = f"EIP-{eip_match.group(1)}" if eip_match else "Unknown"
+
+        # Ensure the URL points to the commit history for better context
+        eip_link_url = failure.eip_spec_url.replace("blob/", "commits/")
+
+        row = (
+            f"| {failure.file_path} | [{eip_number_str}]({eip_link_url}) | "
+            f"`{failure.referenced_version}` | `{failure.latest_version}` |"
+        )
+        summary_table_rows.append(row)
+
+    fail_details_parts = []
+    for failure in failures:
+        detail = (
+            f"File: `{failure.file_path}`\n"
+            f"Spec Name: `{failure.eip_spec_name}`\n"
+            f"Spec URL: {failure.eip_spec_url}\n"
+            f"Referenced Version: `{failure.referenced_version}`\n"
+            f"Latest Version: `{failure.latest_version}`\n"
+            "---\n"
+        )
+        fail_details_parts.append(detail)
+
+    report_template = textwrap.dedent(
+        """\
+        # EIP Version Check Report (Run ID: {run_id})
+
+        ## Summary of Outdated EIP References
+
+        {summary_table_header}{summary_table_rows_str}
+
+        ## Outdated EIP References Details
+
+        {fail_details_str}
+        """
+    )
+
+    return report_template.format(
+        run_id=run_id,
+        summary_table_header=summary_table_header,
+        summary_table_rows_str="\n".join(summary_table_rows),
+        fail_details_str="\n".join(fail_details_parts),
+    )
+
+
+def pytest_sessionfinish(session):
+    """
+    Call after the whole test session finishes.
+    Generate a report if there are any EIP version failures.
+    """
+    failures = session.config._eip_version_failures
+    if failures:
+        run_id = os.environ.get("GITHUB_RUN_ID", "local-run")
+        report_content = generate_eip_report_markdown(failures, run_id)
+        report_file_path_str = "./reports/outdated_eips.md"
+
+        report_file_path = Path(report_file_path_str)
+        report_file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(report_file_path, "w") as f:
+            f.write(report_content)
+
+        print(
+            f"\nEIP Version Check: {len(failures)} outdated EIP references found. "
+            f"Report generated at {report_file_path_str}"
+        )
+    else:
+        print("\nEIP Version Check: No outdated EIP references found.")
