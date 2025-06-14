@@ -102,7 +102,7 @@ class ScenariosCallCombinations:
                     ret_size=32,
                     value=balance.first_call_value,
                 )
-                if first_call != Op.DELEGATECALL
+                if first_call not in [Op.DELEGATECALL, Op.STATICCALL]
                 else first_call(
                     gas=Op.SUB(Op.GAS, self.keep_gas),
                     address=operation_contract,
@@ -249,7 +249,7 @@ class ScenariosCallCombinations:
                     ret_size=32,
                     value=second_call_value,
                 )
-                if second_call != Op.DELEGATECALL
+                if second_call not in [Op.DELEGATECALL, Op.STATICCALL]
                 else second_call(
                     gas=Op.SUB(Op.GAS, self.keep_gas),
                     address=operation_contract,
@@ -269,7 +269,7 @@ class ScenariosCallCombinations:
                     ret_size=32,
                     value=balance.first_call_value,
                 )
-                if first_call != Op.DELEGATECALL
+                if first_call not in [Op.DELEGATECALL, Op.STATICCALL]
                 else first_call(
                     gas=Op.SUB(Op.GAS, self.keep_gas),
                     address=sub_contract,

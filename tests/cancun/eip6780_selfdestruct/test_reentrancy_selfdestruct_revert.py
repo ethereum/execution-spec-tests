@@ -53,11 +53,14 @@ def executor_contract_bytecode(
 ) -> Bytecode:
     """Contract code that performs a selfdestruct call then revert."""
     return (
-        Op.SSTORE(1, (
-            first_suicide(address=selfdestruct_contract_address, value=0)
-            if first_suicide in [Op.CALL, Op.CALLCODE]
-            else first_suicide(address=selfdestruct_contract_address)
-        ))
+        Op.SSTORE(
+            1,
+            (
+                first_suicide(address=selfdestruct_contract_address, value=0)
+                if first_suicide in [Op.CALL, Op.CALLCODE]
+                else first_suicide(address=selfdestruct_contract_address)
+            ),
+        )
         + Op.SSTORE(2, Op.CALL(address=revert_contract_address))
         + Op.RETURNDATACOPY(0, 0, Op.RETURNDATASIZE())
         + Op.SSTORE(3, Op.MLOAD(0))

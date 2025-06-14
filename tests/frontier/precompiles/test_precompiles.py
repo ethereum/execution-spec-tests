@@ -70,26 +70,28 @@ def test_precompiles(
     env = Environment()
 
     account = pre.deploy_contract(
-        Op.MSTORE(0, 0)  # Pre-expand the memory so the gas costs are exactly the same
+        Op.MSTORE(1, 32)  # Pre-expand the memory so the gas costs are exactly the same
         + Op.GAS
         + Op.CALL(
+            gas=1,
             address=address,
             value=0,
             args_offset=0,
             args_size=32,
-            output_offset=32,
-            output_size=32,
+            ret_offset=32,
+            ret_size=32,
         )
         + Op.POP
         + Op.SUB(Op.SWAP1, Op.GAS)
         + Op.GAS
         + Op.CALL(
+            gas=1,
             address=pre.fund_eoa(amount=0),
             value=0,
             args_offset=0,
             args_size=32,
-            output_offset=32,
-            output_size=32,
+            ret_offset=32,
+            ret_size=32,
         )
         + Op.POP
         + Op.SUB(Op.SWAP1, Op.GAS)
@@ -109,6 +111,6 @@ def test_precompiles(
 
     # A high gas cost will result from calling a precompile
     # Expect 0x00 when a precompile exists at the address, 0x01 otherwise
-    post = {account: Account(storage={0: "0x00" if precompile_exists else "0x01"})}
+    post = {account: Account(storage={0: 0 if precompile_exists else 1})}
 
     state_test(env=env, pre=pre, post=post, tx=tx)

@@ -119,7 +119,7 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
                         ret_size=32,
                         value=balance.call_value,
                     )
-                    if call != Op.DELEGATECALL
+                    if call not in [Op.DELEGATECALL, Op.STATICCALL]
                     else call(
                         gas=Op.SUB(Op.GAS, keep_gas),
                         address=Op.MLOAD(32),
