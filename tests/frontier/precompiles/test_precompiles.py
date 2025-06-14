@@ -73,7 +73,6 @@ def test_precompiles(
         Op.MSTORE(1, 32)  # Pre-expand the memory so the gas costs are exactly the same
         + Op.GAS
         + Op.CALL(
-            gas=1,
             address=address,
             value=0,
             args_offset=0,
@@ -85,7 +84,6 @@ def test_precompiles(
         + Op.SUB(Op.SWAP1, Op.GAS)
         + Op.GAS
         + Op.CALL(
-            gas=1,
             address=pre.fund_eoa(amount=0),
             value=0,
             args_offset=0,
