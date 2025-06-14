@@ -504,6 +504,24 @@ def test_worst_selfdestruct_existing(
     ) + Op.RETURN(0, Op.EXTCODESIZE(selfdestructable_contract_addr))
     initcode_address = pre.deploy_contract(code=initcode)
 
+    # Calculate the number of contracts that can be deployed with the available gas.
+    gas_costs = fork.gas_costs()
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+    loop_cost = (
+        gas_costs.G_KECCAK_256  # KECCAK static cost
+        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
+        + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
+        + gas_costs.G_COLD_ACCOUNT_ACCESS  # CALL to self-destructing contract
+        + gas_costs.G_SELF_DESTRUCT
+        + 63  # ~Gluing opcodes
+    )
+    assert loop_cost == 7720
+    final_storage_gas = (
+        gas_costs.G_STORAGE_RESET + gas_costs.G_COLD_SLOAD + (gas_costs.G_VERY_LOW * 2)
+    )
+    base_costs = intrinsic_gas_cost_calc() + (gas_costs.G_VERY_LOW * 4) + final_storage_gas
+    num_contracts = (attack_gas_limit - base_costs) // loop_cost
+
     # Create a factory that deployes a new SELFDESTRUCT contract instance pre-funded depending on
     # the value_bearing parameter. We use CREATE2 so the caller contract can easily reproduce
     # the addresses in a loop for CALLs.
@@ -526,28 +544,15 @@ def test_worst_selfdestruct_existing(
         + Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1))
         + Op.RETURN(0, 32)
     )
-    factory_address = pre.deploy_contract(code=factory_code, balance=10**18)
+
+    required_balance = num_contracts if value_bearing else 0  # 1 wei per contract
+    factory_address = pre.deploy_contract(code=factory_code, balance=required_balance)
 
     factory_caller_code = Op.CALLDATALOAD(0) + While(
         body=Op.POP(Op.CALL(address=factory_address)),
         condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
     )
     factory_caller_address = pre.deploy_contract(code=factory_caller_code)
-
-    gas_costs = fork.gas_costs()
-    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    loop_cost = (
-        gas_costs.G_KECCAK_256  # KECCAK static cost
-        + math.ceil(85 / 32) * gas_costs.G_KECCAK_256_WORD  # KECCAK dynamic cost for CREATE2
-        + gas_costs.G_VERY_LOW * 3  # ~MSTOREs+ADDs
-        + gas_costs.G_COLD_ACCOUNT_ACCESS  # CALL to self-destructing contract
-        + gas_costs.G_SELF_DESTRUCT
-        + 30  # ~Gluing opcodes
-    )
-    num_contracts = (
-        # Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)
-        attack_gas_limit - intrinsic_gas_cost_calc() - gas_costs.G_VERY_LOW * 4
-    ) // loop_cost
 
     contracts_deployment_tx = Transaction(
         to=factory_caller_address,
@@ -568,9 +573,9 @@ def test_worst_selfdestruct_existing(
         + While(
             body=Op.POP(Op.CALL(address=Op.SHA3(32 - 20 - 1, 85)))
             + Op.MSTORE(32, Op.ADD(Op.MLOAD(32), 1)),
-            # Stop before we run out of gas for the whole tx execution.
-            # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, 12_000),
+            # Only loop if we have enough gas to cover another iteration plus the
+            # final storage gas.
+            condition=Op.GT(Op.GAS, final_storage_gas + loop_cost),
         )
         + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
     )
@@ -581,12 +586,12 @@ def test_worst_selfdestruct_existing(
     opcode_tx = Transaction(
         to=code_addr,
         gas_limit=attack_gas_limit,
-        gas_price=10,
         sender=pre.fund_eoa(),
     )
 
     post = {
-        code_addr: Account(storage={0: 42})  # Check for successful execution.
+        factory_address: Account(storage={0: num_contracts}),
+        code_addr: Account(storage={0: 42}),  # Check for successful execution.
     }
     deployed_contract_addresses = []
     for i in range(num_contracts):
