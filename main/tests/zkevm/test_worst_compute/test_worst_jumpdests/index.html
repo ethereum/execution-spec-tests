@@ -22843,7 +22843,7 @@
 
 
 <h1 id="test_worst_jumpdests"><code>test_worst_jumpdests()</code><a class="headerlink" href="#test_worst_jumpdests" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c75235581a4af8c3e12174b98c83cd9acc8df89/tests/zkevm/test_worst_compute.py#L795"><code>tests/zkevm/test_worst_compute.py::test_worst_jumpdests@9c752355</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/43e710c34e40c9ac6ce3e22a8206571bfed2cdd7/tests/zkevm/test_worst_compute.py#L795"><code>tests/zkevm/test_worst_compute.py::test_worst_jumpdests@43e710c3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_jumpdests --fork Prague</span>
@@ -22887,9 +22887,7 @@
 <span class="normal">817</span>
 <span class="normal">818</span>
 <span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
+<span class="normal">820</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">zkevm</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span>
 <span class="k">def</span> <span class="nf">test_worst_jumpdests</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
@@ -22898,15 +22896,13 @@
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
 
     <span class="c1"># Create and deploy a contract with many JUMPDESTs</span>
-    <span class="n">jumpdests_code</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span><span class="p">]</span> <span class="o">*</span> <span class="n">max_code_size</span><span class="p">)</span>
-    <span class="n">jumpdests_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="nb">bytes</span><span class="p">(</span><span class="n">jumpdests_code</span><span class="p">))</span>
-
-    <span class="c1"># Call the contract repeatedly until gas runs out.</span>
-    <span class="n">caller_code</span> <span class="o">=</span> <span class="n">While</span><span class="p">(</span><span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">jumpdests_address</span><span class="p">)))</span>
-    <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">caller_code</span><span class="p">)</span>
+    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)</span>
+    <span class="n">code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">))</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
+    <span class="n">jumpdests_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">caller_address</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">jumpdests_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>

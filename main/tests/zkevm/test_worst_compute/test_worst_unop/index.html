@@ -22843,7 +22843,7 @@
 
 
 <h1 id="test_worst_unop"><code>test_worst_unop()</code><a class="headerlink" href="#test_worst_unop" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c75235581a4af8c3e12174b98c83cd9acc8df89/tests/zkevm/test_worst_compute.py#L1003"><code>tests/zkevm/test_worst_compute.py::test_worst_unop@9c752355</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/43e710c34e40c9ac6ce3e22a8206571bfed2cdd7/tests/zkevm/test_worst_compute.py#L1001"><code>tests/zkevm/test_worst_compute.py::test_worst_unop@43e710c3</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_unop --fork Prague</span>
@@ -22863,7 +22863,9 @@ as possible.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1003</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
 <span class="normal">1004</span>
 <span class="normal">1005</span>
 <span class="normal">1006</span>
@@ -22889,9 +22891,7 @@ as possible.</p>
 <span class="normal">1026</span>
 <span class="normal">1027</span>
 <span class="normal">1028</span>
-<span class="normal">1029</span>
-<span class="normal">1030</span>
-<span class="normal">1031</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1029</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_unop</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
