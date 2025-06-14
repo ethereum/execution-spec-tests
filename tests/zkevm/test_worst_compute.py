@@ -804,7 +804,7 @@ def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     code_suffix = Op.JUMP(Op.PUSH0)
     code_body = Op.JUMPDEST * (max_code_size - len(code_suffix))
     code = code_body + code_suffix
-    jumpdests_address = pre.deploy_contract(code=bytes(code))
+    jumpdests_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
         to=jumpdests_address,
