@@ -40,6 +40,7 @@ from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
+MAX_CODE_SIZE = 24 * 1024
 KECCAK_RATE = 136
 
 
@@ -780,6 +781,69 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc, fork: Fork):
 
     tx = Transaction(
         to=caller_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+def test_worst_jumpi_fallthrough(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test running a JUMPI-intensive contract with fallthrough."""
+    env = Environment()
+
+    def jumpi_seq():
+        return Op.JUMPI(Op.PUSH0, Op.PUSH0)
+
+    prefix_seq = Op.JUMPDEST
+    suffix_seq = Op.JUMP(Op.PUSH0)
+    bytes_per_seq = len(jumpi_seq())
+    seqs_per_call = (MAX_CODE_SIZE - len(prefix_seq) - len(suffix_seq)) // bytes_per_seq
+
+    # Create and deploy the jumpi-intensive contract
+    jumpis_code = prefix_seq + jumpi_seq() * seqs_per_call + suffix_seq
+    jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
+
+    tx = Transaction(
+        to=jumpis_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.zkevm
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.slow
+def test_worst_jumpis(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test running a JUMPI-intensive contract."""
+    env = Environment()
+
+    jumpi_code = Op.JUMPDEST + Op.JUMPI(Op.PUSH0, Op.NUMBER)
+    jumpi_address = pre.deploy_contract(jumpi_code)
+
+    tx = Transaction(
+        to=jumpi_address,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
