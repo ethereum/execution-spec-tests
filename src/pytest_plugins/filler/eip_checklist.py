@@ -166,7 +166,7 @@ class EIP:
         return self.covered_items / self.total_items * 100 if self.total_items else 0
 
     @property
-    def completeness_emoji(self) -> str:
+    def completness_emoji(self) -> str:
         """Return the completeness emoji."""
         return "🟢" if self.percentage == 100 else "🟡" if self.percentage > 50 else "🔴"
 
