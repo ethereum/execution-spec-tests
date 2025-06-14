@@ -22843,7 +22843,7 @@
 
 
 <h1 id="test_worst_selfdestruct_created"><code>test_worst_selfdestruct_created()</code><a class="headerlink" href="#test_worst_selfdestruct_created" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0c70094034175c9d253c71f3548d680d64ace818/tests/zkevm/test_worst_stateful_opcodes.py#L613"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created@0c700940</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c75235581a4af8c3e12174b98c83cd9acc8df89/tests/zkevm/test_worst_stateful_opcodes.py#L617"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created@9c752355</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created --fork Prague</span>
@@ -22863,11 +22863,7 @@ the same transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">617</span>
 <span class="normal">618</span>
 <span class="normal">619</span>
 <span class="normal">620</span>
@@ -22912,12 +22908,22 @@ the same transaction.</p>
 <span class="normal">659</span>
 <span class="normal">660</span>
 <span class="normal">661</span>
-<span class="normal">662</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value_bearing&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_selfdestruct_created</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">value_bearing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in</span>
@@ -22927,7 +22933,11 @@ the same transaction.</p>
     <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">fee_recipient</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># SELFDESTRUCT(COINBASE) contract deployment</span>
-    <span class="n">initcode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">initcode</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">COINBASE</span><span class="o">.</span><span class="n">int</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SELFDESTRUCT</span><span class="o">.</span><span class="n">int</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+    <span class="n">create_gas</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_CREATE</span> <span class="o">+</span> <span class="mi">20_000</span>
     <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">initcode</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
         <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
@@ -22942,7 +22952,7 @@ the same transaction.</p>
             <span class="p">),</span>
             <span class="c1"># Stop before we run out of gas for the whole tx execution.</span>
             <span class="c1"># The value was found by trial-error rounded to the next 1000 multiple.</span>
-            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">),</span>
+            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">create_gas</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>  <span class="c1"># Done for successful tx execution assertion below.</span>
     <span class="p">)</span>

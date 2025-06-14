@@ -22843,7 +22843,7 @@
 
 
 <h1 id="test_worst_selfdestruct_existing"><code>test_worst_selfdestruct_existing()</code><a class="headerlink" href="#test_worst_selfdestruct_existing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0c70094034175c9d253c71f3548d680d64ace818/tests/zkevm/test_worst_stateful_opcodes.py#L484"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_existing@0c700940</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9c75235581a4af8c3e12174b98c83cd9acc8df89/tests/zkevm/test_worst_stateful_opcodes.py#L484"><code>tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_existing@9c752355</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_stateful_opcodes.py::test_worst_selfdestruct_existing --fork Prague</span>
@@ -22988,7 +22988,11 @@
 <span class="normal">607</span>
 <span class="normal">608</span>
 <span class="normal">609</span>
-<span class="normal">610</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value_bearing&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_worst_selfdestruct_existing</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
@@ -23010,6 +23014,23 @@
         <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestructable_contract_addr</span><span class="p">),</span>
     <span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">(</span><span class="n">selfdestructable_contract_addr</span><span class="p">))</span>
     <span class="n">initcode_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">initcode</span><span class="p">)</span>
+
+    <span class="c1"># Calculate the number of contracts that can be deployed with the available gas.</span>
+    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
+    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
+    <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
+        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># CALL to self-destructing contract</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_SELF_DESTRUCT</span>
+        <span class="o">+</span> <span class="mi">63</span>  <span class="c1"># ~Gluing opcodes</span>
+    <span class="p">)</span>
+    <span class="n">final_storage_gas</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_RESET</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span> <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">base_costs</span> <span class="o">=</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">final_storage_gas</span>
+    <span class="n">num_contracts</span> <span class="o">=</span> <span class="p">(</span><span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">base_costs</span><span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
 
     <span class="c1"># Create a factory that deployes a new SELFDESTRUCT contract instance pre-funded depending on</span>
     <span class="c1"># the value_bearing parameter. We use CREATE2 so the caller contract can easily reproduce</span>
@@ -23033,28 +23054,15 @@
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">factory_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">)</span>
+
+    <span class="n">required_balance</span> <span class="o">=</span> <span class="n">num_contracts</span> <span class="k">if</span> <span class="n">value_bearing</span> <span class="k">else</span> <span class="mi">0</span>  <span class="c1"># 1 wei per contract</span>
+    <span class="n">factory_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="n">required_balance</span><span class="p">)</span>
 
     <span class="n">factory_caller_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
         <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">factory_address</span><span class="p">)),</span>
         <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">factory_caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">factory_caller_code</span><span class="p">)</span>
-
-    <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">loop_cost</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256</span>  <span class="c1"># KECCAK static cost</span>
-        <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="mi">85</span> <span class="o">/</span> <span class="mi">32</span><span class="p">)</span> <span class="o">*</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_KECCAK_256_WORD</span>  <span class="c1"># KECCAK dynamic cost for CREATE2</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># ~MSTOREs+ADDs</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_ACCOUNT_ACCESS</span>  <span class="c1"># CALL to self-destructing contract</span>
-        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_SELF_DESTRUCT</span>
-        <span class="o">+</span> <span class="mi">30</span>  <span class="c1"># ~Gluing opcodes</span>
-    <span class="p">)</span>
-    <span class="n">num_contracts</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="c1"># Base available gas = GAS_LIMIT - intrinsic - (out of loop MSTOREs)</span>
-        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">4</span>
-    <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
 
     <span class="n">contracts_deployment_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">factory_caller_address</span><span class="p">,</span>
@@ -23075,9 +23083,9 @@
         <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
             <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">20</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">85</span><span class="p">)))</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">(</span><span class="mi">32</span><span class="p">),</span> <span class="mi">1</span><span class="p">)),</span>
-            <span class="c1"># Stop before we run out of gas for the whole tx execution.</span>
-            <span class="c1"># The value was found by trial-error rounded to the next 1000 multiple.</span>
-            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mi">12_000</span><span class="p">),</span>
+            <span class="c1"># Only loop if we have enough gas to cover another iteration plus the</span>
+            <span class="c1"># final storage gas.</span>
+            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">final_storage_gas</span> <span class="o">+</span> <span class="n">loop_cost</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>  <span class="c1"># Done for successful tx execution assertion below.</span>
     <span class="p">)</span>
@@ -23088,12 +23096,12 @@
     <span class="n">opcode_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_addr</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">attack_gas_limit</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">code_addr</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">42</span><span class="p">})</span>  <span class="c1"># Check for successful execution.</span>
+        <span class="n">factory_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="n">num_contracts</span><span class="p">}),</span>
+        <span class="n">code_addr</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">42</span><span class="p">}),</span>  <span class="c1"># Check for successful execution.</span>
     <span class="p">}</span>
     <span class="n">deployed_contract_addresses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_contracts</span><span class="p">):</span>
