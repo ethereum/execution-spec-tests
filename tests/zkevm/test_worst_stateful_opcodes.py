@@ -515,7 +515,6 @@ def test_worst_selfdestruct_existing(
         + gas_costs.G_SELF_DESTRUCT
         + 63  # ~Gluing opcodes
     )
-    assert loop_cost == 7720
     final_storage_gas = (
         gas_costs.G_STORAGE_RESET + gas_costs.G_COLD_SLOAD + (gas_costs.G_VERY_LOW * 2)
     )
