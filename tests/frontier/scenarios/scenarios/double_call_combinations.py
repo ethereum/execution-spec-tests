@@ -20,14 +20,14 @@ def scenarios_double_call_combinations(scenario_input: ScenarioGeneratorInput) -
     """
     scenarios_list: List[Scenario] = []
     keep_gas = 300000
-    revert_types: List[Opcode | Macro] = [Op.STOP, Om.OOG, Op.RETURN]
+    revert_types: List[Opcode | Macro] = [Op.STOP, Om.OOG(), Op.RETURN(offset=0, size=32)]
     if Op.REVERT in scenario_input.fork.valid_opcodes():
-        revert_types.append(Op.REVERT)
+        revert_types.append(Op.REVERT(offset=0, size=32))
     for revert in revert_types:
         operation_contract = scenario_input.pre.deploy_contract(code=scenario_input.operation_code)
         subcall_contract = scenario_input.pre.deploy_contract(
             code=Op.MSTORE(0, 0x1122334455667788991011121314151617181920212223242526272829303132)
-            + revert(offset=0, size=32)
+            + revert
         )
         scenario_contract = scenario_input.pre.deploy_contract(
             code=Op.CALL(gas=Op.SUB(Op.GAS, keep_gas), address=operation_contract, ret_size=32)
