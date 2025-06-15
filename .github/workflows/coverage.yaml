@@ -121,7 +121,7 @@ jobs:
           new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
           echo "Changed or new test files: $new_sources"
 
-          uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled --ported-from-output-file ported_from_files.txt
+          uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled --skip-coverage-missed-reason --ported-from-output-file ported_from_files.txt
           files=$(cat ported_from_files.txt)
           echo "Extracted converted tests: $files"
           if [[ -z "$files" ]]; then
