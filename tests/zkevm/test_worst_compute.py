@@ -1703,3 +1703,47 @@ def test_worst_calldataload(
         post={},
         tx=tx,
     )
+
+
+@pytest.mark.parametrize(
+    "opcode,topic_count",
+    [
+        pytest.param(Op.LOG0, 0, id="log0"),
+        pytest.param(Op.LOG1, 1, id="log1"),
+        pytest.param(Op.LOG2, 2, id="log2"),
+        pytest.param(Op.LOG3, 3, id="log3"),
+        pytest.param(Op.LOG4, 4, id="log4"),
+    ],
+)
+def test_worst_log_opcodes(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Opcode,
+    topic_count: int,
+):
+    """Test running a block with as many LOG opcodes as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    iter_code = Op.PUSH0 * (2 + topic_count) + opcode
+    code_prefix = Op.JUMPDEST
+    code_suffix = Op.PUSH0 + Op.JUMP
+
+    iter_count = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_code)
+
+    code = code_prefix + iter_code * iter_count + code_suffix
+    assert len(code) <= max_code_size
+
+    tx = Transaction(
+        to=pre.deploy_contract(code=code),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
