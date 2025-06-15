@@ -38,7 +38,7 @@ class EthereumCLI:
 
     registered_tools: List[Type[Any]] = []
     default_tool: Optional[Type[Any]] = None
-    binary: Path
+    binary: Optional[Path]
     default_binary: Path
     detect_binary_pattern: Pattern
     version_flag: str = "-v"
@@ -46,16 +46,15 @@ class EthereumCLI:
 
     def __init__(self, *, binary: Optional[Path] = None):
         """Abstract initialization method that all subclasses must implement."""
+        # If an evm_bin is not specified, use the eels native t8n
         if binary is None:
-            binary = self.default_binary
-        else:
-            # improve behavior of which by resolving the path: ~/relative paths don't work
-            resolved_path = Path(os.path.expanduser(binary)).resolve()
-            if resolved_path.exists():
-                binary = resolved_path
+            return
+
+        # improve behavior of which by resolving the path: ~/relative paths don't work
+        resolved_path = Path(os.path.expanduser(binary)).resolve()
+        if resolved_path.exists():
+            binary = resolved_path
         binary = shutil.which(binary)  # type: ignore
-        if not binary:
-            raise CLINotFoundInPathError(binary=binary)
         self.binary = Path(binary)
 
     @classmethod
@@ -76,10 +75,9 @@ class EthereumCLI:
         This method will attempt to detect the CLI version and instantiate the appropriate
         subclass based on the version output by running the CLI with the version flag.
         """
-        assert cls.default_tool is not None, "default CLI implementation was never set"
-
         if binary_path is None:
-            return cls.default_tool(binary=binary_path, **kwargs)
+            assert cls.default_tool is not None
+            return cls.default_tool(**kwargs)
 
         resolved_path = Path(os.path.expanduser(binary_path)).resolve()
         if resolved_path.exists():

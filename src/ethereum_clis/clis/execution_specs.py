@@ -1,8 +1,4 @@
-"""
-Ethereum Specs EVM Resolver Transition Tool Interface.
-
-https://github.com/petertdavies/ethereum-spec-evm-resolver
-"""
+"""Ethereum Specs EVM Transition Tool Interface."""
 
 import os
 import re
@@ -28,23 +24,21 @@ DAEMON_STARTUP_TIMEOUT_SECONDS = 5
 
 class ExecutionSpecsTransitionTool(TransitionTool):
     """
-    Ethereum Specs EVM Resolver `ethereum-spec-evm-resolver` Transition Tool wrapper class.
+    Ethereum Specs EVM `ethereum-spec-evm` Transition Tool wrapper class.
 
-    `ethereum-spec-evm-resolver` is installed by default for `execution-spec-tests`:
+    `ethereum-spec-evm` is installed by default for `execution-spec-tests`:
     ```console
-    uv run fill --evm-bin=ethereum-spec-evm-resolver
+    uv run fill --evm-bin=ethereum-spec-evm
     ```
 
-    To use a specific version of the `ethereum-spec-evm-resolver` tool, update it to the
+    To use a specific version of the `ethereum-spec-evm` tool, update it to the
     desired version in `pyproject.toml`.
 
-    The `ethereum-spec-evm-resolver` tool essentially wraps around the EELS evm daemon. It can
-    handle requests for different EVM forks, even when those forks are implemented by different
-    versions of EELS hosted in different places.
+    The `ethereum-spec-evm` tool is the EELS evm daemon.
     """
 
-    default_binary = Path("ethereum-spec-evm-resolver")
-    detect_binary_pattern = re.compile(r"^ethereum-spec-evm-resolver\b")
+    default_binary = Path("ethereum-spec-evm")
+    detect_binary_pattern = re.compile(r"^ethereum-spec-evm\b")
     t8n_use_server: bool = True
     server_dir: Optional[TemporaryDirectory] = None
 
@@ -64,13 +58,10 @@ class ExecutionSpecsTransitionTool(TransitionTool):
             result = subprocess.run(args, capture_output=True, text=True)
         except subprocess.CalledProcessError as e:
             raise Exception(
-                "ethereum-spec-evm-resolver process unexpectedly returned a non-zero status code: "
-                f"{e}."
+                f"ethereum-spec-evm process unexpectedly returned a non-zero status code: {e}."
             ) from e
         except Exception as e:
-            raise Exception(
-                f"Unexpected exception calling ethereum-spec-evm-resolver: {e}."
-            ) from e
+            raise Exception(f"Unexpected exception calling ethereum-spec-evm: {e}.") from e
         self.help_string = result.stdout
 
     def start_server(self):

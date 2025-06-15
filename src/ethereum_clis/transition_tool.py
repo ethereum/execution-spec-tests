@@ -55,6 +55,7 @@ class TransitionTool(EthereumCLI):
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
     t8n_use_server: bool = False
+    t8n_use_eels: bool = False
     server_url: str
     process: Optional[subprocess.Popen] = None
 
@@ -424,6 +425,31 @@ class TransitionTool(EthereumCLI):
 
         return output
 
+    def _evaluate_custom_t8n(
+        self,
+        *,
+        t8n_data: TransitionToolData,
+        debug_output_path: str = "",
+    ) -> TransitionToolOutput:
+        """
+        Execute a custom transition tool implementation.
+
+        This method can be overridden by subclasses to provide custom transition tool
+        implementations. The default implementation raises NotImplementedError.
+
+        Args:
+            t8n_data: The transition tool data to process
+            debug_output_path: Optional path to write debug output
+
+        Returns:
+            The transition tool output
+
+        Raises:
+            NotImplementedError: If not implemented by the subclass
+
+        """
+        raise NotImplementedError("Custom transition tool implementation not provided")
+
     def construct_args_stream(
         self, t8n_data: TransitionToolData, temp_dir: tempfile.TemporaryDirectory
     ) -> List[str]:
@@ -526,6 +552,11 @@ class TransitionTool(EthereumCLI):
             blob_schedule=blob_schedule,
             state_test=state_test,
         )
+
+        if self.t8n_use_eels:
+            return self._evaluate_custom_t8n(
+                t8n_data=t8n_data, debug_output_path=debug_output_path
+            )
 
         if self.t8n_use_server:
             if not self.process:
