@@ -16,6 +16,17 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 | HTML doc build         | `uvx --with=tox-uv tox -e mkdocs`               | Documentation generated without warnings.                                                                   |
 | Spellcheck             | `uvx --with=tox-uv tox -e spellcheck`           | Code and documentation spell-check using codespell. |
 | Markdown lint          | `uvx --with=tox-uv tox -e markdownlint`         | Markdown lint (requires [additional dependency](code_standards_details.md#additional-dependencies)).        |
+| Changelog validation   | `uvx --with=tox-uv tox -e changelog`            | Validates changelog entries format and structure in `docs/CHANGELOG.md`.                                    |
+
+!!! important "Avoid CI surprises - Use pre-commit hooks!"
+    **We strongly encourage all contributors to install and use pre-commit hooks!** This will run fast checks (lint, typecheck, spellcheck) automatically before each commit, helping you catch issues early and avoid frustrating CI failures after pushing your changes.
+
+    Install with one simple command:
+    ```console
+    uvx pre-commit install
+    ```
+    
+    This saves you time by catching formatting issues, type errors, and spelling mistakes before they reach CI.
 
 !!! tip "Running checks easily"
 
@@ -41,12 +52,6 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 
     ```console
     uvx --with=tox-uv tox -e lint,typecheck
-    ```
-
-    Use [pre-commit hooks](./code_standards_details.md#pre-commit-hooks) that perform the fastest checks:
-
-    ```
-    uvx pre-commit install
     ```
 
 !!! tip "Lint & code formatting: Using `ruff` and VS Code to help autoformat and fix module imports"
