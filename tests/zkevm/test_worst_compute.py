@@ -84,6 +84,7 @@ def test_worst_zero_param(
     state_test: StateTestFiller,
     pre: Alloc,
     opcode: Op,
+    fork: Fork,
 ):
     """Test running a block with as many zero-parameter opcodes as possible."""
     env = Environment()
@@ -91,11 +92,13 @@ def test_worst_zero_param(
     opcode_sequence = opcode * MAX_STACK_HEIGHT
     target_contract_address = pre.deploy_contract(code=opcode_sequence)
 
-    caller_contract_code = While(body=Op.POP(Op.STATICCALL(address=target_contract_address)))
-    caller_contract_address = pre.deploy_contract(code=caller_contract_code)
+    calldata = Bytecode()
+    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
-        to=caller_contract_address,
+        to=code_address,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
