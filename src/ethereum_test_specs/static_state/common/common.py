@@ -4,11 +4,13 @@ import re
 import subprocess
 import tempfile
 from functools import cached_property
-from typing import Any
+from typing import Any, List, Union
 
 from eth_abi import encode
 from eth_utils import function_signature_to_4byte_selector
+from pydantic import BaseModel, Field, field_validator
 from pydantic.functional_validators import BeforeValidator
+from pydantic_core import core_schema
 from typing_extensions import Annotated
 
 from ethereum_test_base_types import Address, Hash, HexNumber
@@ -28,6 +30,22 @@ def parse_hex_number(i: str | int) -> int:
     if i.startswith("0x") or any(char in "abcdef" for char in i.lower()):
         return int(i, 16)
     return int(i, 10)
+
+
+def parse_value_or_address_tag(value: Union[HexNumber, str]) -> Union[HexNumber, str]:
+    """Parse either a hex number or an address tag for storage values."""
+    if not isinstance(value, str):
+        # Non-string values should be converted to HexNumber normally
+        return HexNumber(parse_hex_number(value))
+
+    # Check if it matches address tag pattern: <type:name:0xaddress> or <type:0xaddress>
+    tag_pattern = r"^<(eoa|contract):.+>$"
+    if re.match(tag_pattern, value.strip()):
+        # Return the tag string as-is for later resolution
+        return value.strip()
+    else:
+        # Parse as hex number
+        return HexNumber(parse_hex_number(value))
 
 
 def parse_args_from_string_into_array(stream: str, pos: int, delim: str = " "):
@@ -103,7 +121,7 @@ class CodeInFillerSource:
                     else:
                         options.append(arg)
 
-            with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
+            with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".yul") as tmp:
                 tmp.write(native_yul_options + self.code_raw[source_start:])
                 tmp_path = tmp.name
             compiled_code = compile_yul(
@@ -186,7 +204,137 @@ def parse_code_label(code) -> CodeInFillerSource:
     return CodeInFillerSource(code, label)
 
 
+class AddressTag:
+    """
+    Represents an address tag like:
+        - <eoa:sender:0x...>.
+        - <contract:target:0x...>.
+        - <coinbase:0x...>.
+    """
+
+    def __init__(self, tag_type: str, tag_name: str, original_string: str):
+        """Initialize address tag."""
+        self.tag_type = tag_type  # "eoa", "contract", or "coinbase"
+        self.tag_name = tag_name  # e.g., "sender", "target", or address for 2-part tags
+        self.original_string = original_string
+
+    def __str__(self) -> str:
+        """Return original tag string."""
+        return self.original_string
+
+    def __repr__(self) -> str:
+        """Return debug representation."""
+        return f"AddressTag(type={self.tag_type}, name={self.tag_name})"
+
+    def __eq__(self, other) -> bool:
+        """Check equality based on original string."""
+        if isinstance(other, AddressTag):
+            return self.original_string == other.original_string
+        return False
+
+    def __hash__(self) -> int:
+        """Hash based on original string for use as dict key."""
+        return hash(self.original_string)
+
+    @classmethod
+    def __get_pydantic_core_schema__(cls, source_type: Any, handler) -> core_schema.CoreSchema:
+        """Pydantic core schema for AddressTag."""
+        return core_schema.str_schema()
+
+
+def parse_address_or_tag(value: Any) -> Union[Address, AddressTag]:
+    """Parse either a regular address or an address tag."""
+    if not isinstance(value, str):
+        # Non-string values should be converted to Address normally
+        return Address(value, left_padding=True)
+
+    # Check if it matches tag pattern:
+    # - <eoa:0x...>, <contract:0x...>, <coinbase:0x...>
+    # - <eoa:name:0x...>, <contract:name:0x...>
+
+    # Try 3-part pattern first (type:name:address)
+    tag_pattern_3_part = r"^<(eoa|contract|coinbase):([^:]+):(.+)>$"
+    match = re.match(tag_pattern_3_part, value.strip())
+
+    if match:
+        tag_type = match.group(1)
+        tag_name = match.group(2)
+        address_part = match.group(3)
+        # For 3-part tags, the tag_name is the middle part
+        return AddressTag(tag_type, tag_name, value.strip())
+
+    # Try 2-part pattern (type:address)
+    tag_pattern_2_part = r"^<(eoa|contract|coinbase):(.+)>$"
+    match = re.match(tag_pattern_2_part, value.strip())
+
+    if match:
+        tag_type = match.group(1)
+        address_part = match.group(2)
+        # For 2-part tags, use the address as the tag_name
+        return AddressTag(tag_type, address_part, value.strip())
+
+    # Regular address string
+    return Address(value, left_padding=True)
+
+
+def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
+    """
+    Parse either a regular address or an address tag, keeping tags as strings for later
+    resolution.
+    """
+    if not isinstance(value, str):
+        # Non-string values should be converted to Address normally
+        return Address(value, left_padding=True)
+
+    # Check if it matches a tag pattern
+    tag_pattern = r"^<(eoa|contract|coinbase):.+>$"
+    if re.match(tag_pattern, value.strip()):
+        # Return the tag string as-is for later resolution
+        return value.strip()
+    else:
+        # Regular address string
+        return Address(value, left_padding=True)
+
+
+def validate_address_or_tag_string(value: Union[Address, str]) -> Union[Address, str]:
+    """Validate and normalize address or tag as string for later resolution."""
+    if isinstance(value, str):
+        return value.strip()
+    else:
+        return Address(value, left_padding=True)
+
+
+def parse_hash32_or_sender_key_tag(value: Any) -> Union[Hash, str]:
+    """Parse either a regular hash or a sender key tag for later resolution."""
+    if isinstance(value, str) and value.strip().startswith("<sender:key:"):
+        return value.strip()
+    return Hash(value, left_padding=True)
+
+
 AddressInFiller = Annotated[Address, BeforeValidator(lambda a: Address(a, left_padding=True))]
+AddressOrTagInFiller = Annotated[
+    Union[Address, str], BeforeValidator(validate_address_or_tag_string)
+]
+ValueOrTagInFiller = Annotated[Union[HexNumber, str], BeforeValidator(parse_value_or_address_tag)]
+Hash32OrTagInFiller = Annotated[Union[Hash, str], BeforeValidator(parse_hash32_or_sender_key_tag)]
 ValueInFiller = Annotated[HexNumber, BeforeValidator(parse_hex_number)]
 CodeInFiller = Annotated[CodeInFillerSource, BeforeValidator(parse_code_label)]
 Hash32InFiller = Annotated[Hash, BeforeValidator(lambda h: Hash(h, left_padding=True))]
+
+
+class AccessListInFiller(BaseModel):
+    """Access List for transactions in fillers that can contain address tags."""
+
+    address: Union[Address, str]  # Can be an address or a tag string
+    storage_keys: List[Hash] = Field([], alias="storageKeys")
+
+    @field_validator("address", mode="before")
+    @classmethod
+    def validate_address(cls, v):
+        """Allow both addresses and tags."""
+        return parse_address_or_tag_for_access_list(v)
+
+    class Config:
+        """Model config."""
+
+        populate_by_name = True

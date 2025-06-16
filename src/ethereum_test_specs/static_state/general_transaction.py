@@ -4,16 +4,23 @@ from typing import Any, List
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from ethereum_test_base_types import AccessList, Hash
+from ethereum_test_base_types import Hash
 
-from .common import AddressInFiller, CodeInFiller, Hash32InFiller, ValueInFiller
+from .common import (
+    AccessListInFiller,
+    AddressOrTagInFiller,
+    CodeInFiller,
+    Hash32InFiller,
+    Hash32OrTagInFiller,
+    ValueInFiller,
+)
 
 
 class DataWithAccessList(BaseModel):
     """Class that represents data with access list."""
 
     data: CodeInFiller
-    access_list: List[AccessList] | None = Field(None, alias="accessList")
+    access_list: List[AccessListInFiller] | None = Field(None, alias="accessList")
 
     class Config:
         """Model Config."""
@@ -47,9 +54,9 @@ class GeneralTransactionInFiller(BaseModel):
     gas_limit: List[ValueInFiller] = Field(..., alias="gasLimit")
     gas_price: ValueInFiller | None = Field(None, alias="gasPrice")
     nonce: ValueInFiller
-    to: AddressInFiller | None
+    to: AddressOrTagInFiller | None
     value: List[ValueInFiller]
-    secret_key: Hash32InFiller = Field(..., alias="secretKey")
+    secret_key: Hash32OrTagInFiller = Field(..., alias="secretKey")
 
     max_fee_per_gas: ValueInFiller | None = Field(None, alias="maxFeePerGas")
     max_priority_fee_per_gas: ValueInFiller | None = Field(None, alias="maxPriorityFeePerGas")

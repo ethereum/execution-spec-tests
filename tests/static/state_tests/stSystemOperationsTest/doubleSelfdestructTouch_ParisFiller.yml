@@ -13,14 +13,14 @@ doubleSelfdestructTouch_Paris:
 
   pre:
     # Tx sender
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       nonce: 0
       balance: 100000002
       storage: {}
       code: ''
 
     # Tx target contract
-    000000000000000000000000000000000000c0de:
+    <contract:target:0x000000000000000000000000000000000000c0de>:
       nonce: 0
       balance: 0
       storage: {}
@@ -29,13 +29,13 @@ doubleSelfdestructTouch_Paris:
         {
           let v0 := callvalue()
           let v1 := shr(1, v0)
-          let r1 := call(70000, 0xdead, v1, 0, 0, 0, 0)
+          let r1 := call(70000, <contract:0x000000000000000000000000000000000000dead>, v1, 0, 0, 0, 0)
           let v2 := sub(v0, v1)
-          let r2 := call(70000, 0xdead, v2, 0, 0, 0, 0)
+          let r2 := call(70000, <contract:0x000000000000000000000000000000000000dead>, v2, 0, 0, 0, 0)
         }
 
     # Selfdestruct
-    000000000000000000000000000000000000dead:
+    <contract:0x000000000000000000000000000000000000dead>:
       nonce: 0
       balance: 0
       storage: {}
@@ -68,8 +68,8 @@ doubleSelfdestructTouch_Paris:
       - 10000000
     gasPrice: 10
     nonce: 0
-    to: 000000000000000000000000000000000000c0de
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
+    to: <contract:target:0x000000000000000000000000000000000000c0de>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
       - 0  # Sends no value
       - 1  # Sends 1 value to the second empty account 0xe49702
@@ -83,9 +83,9 @@ doubleSelfdestructTouch_Paris:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           nonce: 0
           balance: 0
           storage: {}
@@ -101,9 +101,9 @@ doubleSelfdestructTouch_Paris:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           nonce: 0
           balance: 0
           storage: {}
@@ -120,9 +120,9 @@ doubleSelfdestructTouch_Paris:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           nonce: 0
           balance: 0
           storage: {}
