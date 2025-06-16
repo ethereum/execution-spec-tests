@@ -112,6 +112,7 @@ tx_gas_limit = intrinsic_gas_calculator(
 src/
 ├── ethereum_test_tools/     # Core framework
 ├── ethereum_test_types/     # Type definitions
+├── ethereum_test_fixtures/  # Pydantic models for test fixtures
 ├── pytest_plugins/         # Plugin system
 tests/                       # Test cases by fork
 fixtures/                    # Generated test vectors (default output directory)
@@ -156,9 +157,10 @@ jq -r '.opName' debug_output/**/*.jsonl
 
 ### Common Issues
 
-- **Fill failures**: Check gas limits (try increasing if problems, use `transaction_intrinsic_cost_calculator` for the tx)
-- **Address conflicts**: Always use `pre` fixture
+- **Fill failures**: Check gas limits (increase if needed, use `transaction_intrinsic_cost_calculator`)
+- **Address conflicts**: Always use `pre` fixture for dynamic allocation
 - **Test collection**: Functions must start with `test_`
+- **Import errors**: Check dependencies in `pyproject.toml`, run `uv sync --all-extras`
 
 ## 📝 Code Standards
 
