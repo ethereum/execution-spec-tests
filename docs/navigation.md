@@ -29,6 +29,7 @@
   * [Filling Tests](filling_tests/index.md)
       * [Getting Started](filling_tests/getting_started.md)
       * [Filling Tests at a Prompt](filling_tests/filling_tests_command_line.md)
+      * [Fill Command-Line Options](filling_tests/filling_tests_command_line_options.md)
       * [Filling Tests in VS Code](filling_tests/filling_tests_vs_code.md)
       * [Filling Tests for Features Under Development](filling_tests/filling_tests_dev_fork.md)
       * [An Explanation of Test IDs](filling_tests/test_ids.md)
