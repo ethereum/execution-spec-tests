@@ -20,7 +20,7 @@ Humans are faster when they use LLMs correctly.
 2. **ripgrep**: `rg` for fast code searching.
 3. **jq**: For JSON analysis and EVM trace debugging.
 4. **markdownlint-cli**: To verify markdown files (CI enforced).
-5. **VS Code**: With recommended extensions (see docs/getting_started/setup_vs_code.md). Run `claude` in VS Code for the best results.
+5. **VS Code**: With recommended extensions (see [setup guide](docs/getting_started/setup_vs_code.md)). Run `claude` in VS Code for the best results.
 
 ## 🎯 Getting the Best Results from Claude
 
