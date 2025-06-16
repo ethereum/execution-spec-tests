@@ -57,6 +57,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests ([#1661](https://github.com/ethereum/execution-spec-tests/pull/1661)).
 - 🔀 Refactor the `click`-based CLI interface used for pytest-based commands (`fill`, `execute`, `consume`) to make them more extensible ([#1654](https://github.com/ethereum/execution-spec-tests/pull/1654)).
 - 🔀 Split `src/ethereum_test_types/types.py` into several files to improve code organization ([#1665](https://github.com/ethereum/execution-spec-tests/pull/1665)).
+- ✨ Added `extract_config` command to extract genesis files used to launch clients in hive ([#1740](https://github.com/ethereum/execution-spec-tests/pull/1740)).
 - ✨ Added automatic checklist generation for every EIP inside of the `tests` folder. The checklist is appended to each EIP in the documentation in the "Test Case Reference" section ([#1679](https://github.com/ethereum/execution-spec-tests/pull/1679), [#1718](https://github.com/ethereum/execution-spec-tests/pull/1718)).
 
 ### 🧪 Test Cases
