@@ -758,7 +758,7 @@ def code_loop_precompile_call(calldata: Bytecode, attack_block: Bytecode, fork: 
 @pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
-def test_worst_jumps(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
     """Test running a JUMP-intensive contract."""
     env = Environment()
 
