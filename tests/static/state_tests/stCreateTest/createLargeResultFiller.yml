@@ -17,7 +17,7 @@ createLargeResult:
 
   pre:
     # Constructor code
-    000000000000000000000000000000000000C0DE:    
+    <contract:0x000000000000000000000000000000000000c0de>:    
       balance: 0
       nonce: 1
       storage: {}
@@ -36,7 +36,7 @@ createLargeResult:
 
 
     # The contract we call
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul london
@@ -88,7 +88,7 @@ createLargeResult:
 
 
     # User account
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: 0x
       nonce: 1
@@ -128,8 +128,8 @@ createLargeResult:
     - 80000000
     gasPrice: 10
     nonce: 1
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -140,7 +140,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x553e6c30af61e7a3576f31311ea8a620f80d047e 
@@ -156,7 +156,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x0595c5d0c272757cff0b3dca4ed60d60cd6e9f58
@@ -172,7 +172,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x00
@@ -188,7 +188,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x00
@@ -206,7 +206,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x553e6c30af61e7a3576f31311ea8a620f80d047e 
@@ -222,7 +222,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0xa5dc71d47d0d8dcf5990e81c74e981baf24a8fa2
@@ -238,7 +238,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x00
@@ -254,7 +254,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address
             0: 0x00
@@ -271,7 +271,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -288,7 +288,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -304,7 +304,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -321,7 +321,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -338,7 +338,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -355,7 +355,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -373,7 +373,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0
@@ -390,7 +390,7 @@ createLargeResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Address (REVERT, so nothing)
             0: 0

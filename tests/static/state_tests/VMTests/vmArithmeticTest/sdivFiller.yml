@@ -15,7 +15,7 @@ sdiv:
 
   pre:
 
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (0 - (-1)) / (-1) = 1/(-1) = -1
@@ -30,7 +30,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001001:
+    <contract:0x0000000000000000000000000000000000001001>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-1) / (0 - (-1)) = (-1)/1 = -1
@@ -45,7 +45,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001002:
+    <contract:0x0000000000000000000000000000000000001002>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-2) / (-4) = 0
@@ -57,7 +57,7 @@ sdiv:
       storage: {}
 
 
-    0000000000000000000000000000000000001003:
+    <contract:0x0000000000000000000000000000000000001003>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; 4 / (-2) = -2
@@ -70,7 +70,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001004:
+    <contract:0x0000000000000000000000000000000000001004>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; 5 / (-4) = -1
@@ -85,7 +85,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001005:
+    <contract:0x0000000000000000000000000000000000001005>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-2^255) / (-1) = 2^255
@@ -99,7 +99,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001006:
+    <contract:0x0000000000000000000000000000000000001006>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-2^255) / 0 = 0
@@ -115,7 +115,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001007:
+    <contract:0x0000000000000000000000000000000000001007>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-1)/25 = 0 (no fractions in evm)
@@ -127,7 +127,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001008:
+    <contract:0x0000000000000000000000000000000000001008>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-1)/(-1) = 1
@@ -139,7 +139,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000001009:
+    <contract:0x0000000000000000000000000000000000001009>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-1)/1 = -1
@@ -151,7 +151,7 @@ sdiv:
 
 
 
-    000000000000000000000000000000000000100a:
+    <contract:0x000000000000000000000000000000000000100a>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (-3)/0 = 0
@@ -164,7 +164,7 @@ sdiv:
 
 
 
-    000000000000000000000000000000000000100b:
+    <contract:0x000000000000000000000000000000000000100b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (0-(-1))/0 = 0
@@ -180,7 +180,7 @@ sdiv:
 
 
 
-    000000000000000000000000000000000000100c:
+    <contract:0x000000000000000000000000000000000000100c>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; (0-(-1))/0 + 1 = 1
@@ -195,7 +195,7 @@ sdiv:
 
 
 
-    000000000000000000000000000000000000100d:
+    <contract:0x000000000000000000000000000000000000100d>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # 00 PUSH1 05
       # 02 PUSH1 09
@@ -210,7 +210,7 @@ sdiv:
       storage: {}
 
 
-    000000000000000000000000000000000000100e:
+    <contract:0x000000000000000000000000000000000000100e>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -224,7 +224,7 @@ sdiv:
 
 
 
-    000000000000000000000000000000000000100f:
+    <contract:0x000000000000000000000000000000000000100f>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -238,7 +238,7 @@ sdiv:
 
 
 
-    0000000000000000000000000000000000000110:
+    <contract:0x0000000000000000000000000000000000000110>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -255,7 +255,7 @@ sdiv:
 
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -265,7 +265,7 @@ sdiv:
       storage: {}
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -300,10 +300,10 @@ sdiv:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -321,27 +321,27 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001002:
+        <contract:0x0000000000000000000000000000000000001002>:
           storage:
             # evm doesn't do fractions, so this is zero
             0: 0x00
-        0000000000000000000000000000000000001006:
+        <contract:0x0000000000000000000000000000000000001006>:
           storage:
             # anything / 0x00 in evm
             0: 0x00
-        0000000000000000000000000000000000001007:
+        <contract:0x0000000000000000000000000000000000001007>:
           storage:
             # evm doesn't do fractions, so this is zero
             0: 0x00
-        000000000000000000000000000000000000100A:
+        <contract:0x000000000000000000000000000000000000100a>:
           storage:
             # anything / 0x00 in evm
             0: 0x00
-        000000000000000000000000000000000000100B:
+        <contract:0x000000000000000000000000000000000000100b>:
           storage:
             # anything / 0x00 in evm
             0: 0x00
-        0000000000000000000000000000000000000110:
+        <contract:0x0000000000000000000000000000000000000110>:
           storage:
             0: 0x00
 
@@ -354,7 +354,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001000:
+        <contract:0x0000000000000000000000000000000000001000>:
           storage:
             # -1
             0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -368,7 +368,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001001:
+        <contract:0x0000000000000000000000000000000000001001>:
           storage:
             # -1
             0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -386,7 +386,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001003:
+        <contract:0x0000000000000000000000000000000000001003>:
           storage:
             # -2
             0: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe
@@ -400,7 +400,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001004:
+        <contract:0x0000000000000000000000000000000000001004>:
           storage:
             # -1
             0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -414,7 +414,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001005:
+        <contract:0x0000000000000000000000000000000000001005>:
           storage:
             # 2^255 = -2^255
             0: 0x8000000000000000000000000000000000000000000000000000000000000000
@@ -428,7 +428,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001008:
+        <contract:0x0000000000000000000000000000000000001008>:
           storage:
             0: 0x01
 
@@ -441,7 +441,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001009:
+        <contract:0x0000000000000000000000000000000000001009>:
           storage:
             # -1
             0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -455,7 +455,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000100C:
+        <contract:0x000000000000000000000000000000000000100c>:
           storage:
             # 1/0 + 1
             0: 1
@@ -470,7 +470,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000100d:
+        <contract:0x000000000000000000000000000000000000100d>:
           storage:
             # -9/5 = -1, no fractions
             0: 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -485,7 +485,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000100e:
+        <contract:0x000000000000000000000000000000000000100e>:
           storage:
             # minint is -0x8000...0001, which
             # turns into 0x7fff...ffff
@@ -500,7 +500,7 @@ sdiv:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000100f:
+        <contract:0x000000000000000000000000000000000000100f>:
           storage:
             # 2^255 = -2^255 in evm arithmetic
             0: 0x8000000000000000000000000000000000000000000000000000000000000000

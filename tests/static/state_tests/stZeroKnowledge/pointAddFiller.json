@@ -16,7 +16,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
     			        "storage" : {
     			            "0x00" : "0x01",
                             "0x01" : "0x030644e72e131a029b85045b68181585d97816a916871ca8d3c208c16d87cfd3",
@@ -33,7 +33,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
     			        "storage" : {
     			            "0x00" : "0x01",
                             "0x01" : "0x00",
@@ -50,7 +50,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-	                "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+	                "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			            "storage" : {
 			                "0x00" : "0x00",
                             "0x01" : "0x00",
@@ -67,7 +67,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+        		    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
             			"storage" : {
             			    "0x00" : "0x01",
                             "0x01" : "0x0f25929bcb43d5a57391564615c9e70a992b10eafa4db109709649cf48c50dd2",
@@ -84,7 +84,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+        		    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
             			"storage" : {
             			    "0x00" : "0x01",
                             "0x01" : "0x1de49a4b0233273bba8146af82042d004f2085ec982397db0d97da17204cc286",
@@ -101,7 +101,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			            "storage" : {
 			                "0x00" : "0x01",
                             "0x01" : "0x1f4d1d80177b1377743d1901f70d7389be7f7a35a35bfd234a8aaee615b88c49",
@@ -118,7 +118,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
     			        "storage" : {
     			            "0x00" : "0x01",
                             "0x01" : "0x059a381fec09e29448a58ae8905f41d1eb8ff0ed755aa0f827821aefde02ec7d",
@@ -135,7 +135,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-            		    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            		    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			                "storage" : {
 				                "0x00" : "0x01",
 				                "0x01" : "0x059a381fec09e29448a58ae8905f41d1eb8ff0ed755aa0f827821aefde02ec7d",
@@ -152,7 +152,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+        		    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
             			"storage" : {
 				            "0x00" : "0x01",
 				            "0x01" : "0x1de49a4b0233273bba8146af82042d004f2085ec982397db0d97da17204cc286",
@@ -169,7 +169,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			            "storage" : {
 				            "0x00" : "0x01",
 				            "0x01" : "0x1f4d1d80177b1377743d1901f70d7389be7f7a35a35bfd234a8aaee615b88c49",
@@ -187,7 +187,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			            "storage" : {
 			            }
 		            }
@@ -195,14 +195,14 @@
             }
         ],
         "pre" : {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000000000",
                 "code" : "",
                 "nonce" : "1",
                 "storage" : {
                 }
             },
-	    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+	    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "",
                 "code" : "{(MSTORE 0 (CALLDATALOAD 0)) (MSTORE 32 (CALLDATALOAD 32)) (MSTORE 64 (CALLDATALOAD 64)) (MSTORE 96 (CALLDATALOAD 96)) [[0]](CALLCODE 500000 6 0 0 128 200 64)  [[1]] (MLOAD 200)  [[2]] (MLOAD 232) }",
                 "nonce" : "0",
@@ -240,8 +240,8 @@
             ],
             "gasPrice" : "10",
             "nonce" : "1",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
-            "to" : "b94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
+            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0"
             ]

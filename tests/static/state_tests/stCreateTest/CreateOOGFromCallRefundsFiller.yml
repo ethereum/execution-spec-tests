@@ -9,7 +9,7 @@ CreateOOGFromCallRefunds:
 
   pre:
     #### MAIN CALLER
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x3d0900'
       code: '0x'
       nonce: '1'
@@ -17,7 +17,7 @@ CreateOOGFromCallRefunds:
     
     ### MAIN ENTRY CONTRACT: Code that extcode-copies and creates a contract
     # Switches init code based on the first parameter's value
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:
+    <contract:target:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa>:
       balance: '0'
       code: |
         :yul berlin
@@ -36,7 +36,7 @@ CreateOOGFromCallRefunds:
     
     ### INIT CODES: Used to create contracts with a variety of OOG init codes.
     # Init codes: Sstore refund
-    000000000000000000000000000000000000001a:
+    <contract:0x000000000000000000000000000000000000001a>:
       balance: '0'
       code: |
         :yul berlin
@@ -49,7 +49,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000001b:
+    <contract:0x000000000000000000000000000000000000001b>:
       balance: '0'
       code: |
         :yul berlin
@@ -62,7 +62,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000001c:
+    <contract:0x000000000000000000000000000000000000001c>:
       balance: '0'
       code: |
         :yul berlin
@@ -76,198 +76,198 @@ CreateOOGFromCallRefunds:
       storage: {}
 
     # Init codes: Sstore refund, call
-    000000000000000000000000000000000000002a:
+    <contract:0x000000000000000000000000000000000000002a>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 1)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000002b:
+    <contract:0x000000000000000000000000000000000000002b>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000002c:
+    <contract:0x000000000000000000000000000000000000002c>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
 
     # Init codes: Sstore refund, delegatecall
-    000000000000000000000000000000000000003a:
+    <contract:0x000000000000000000000000000000000000003a>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           return(0, 1)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000003b:
+    <contract:0x000000000000000000000000000000000000003b>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000003c:
+    <contract:0x000000000000000000000000000000000000003c>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Sstore refund, callcode
-    000000000000000000000000000000000000004a:
+    <contract:0x000000000000000000000000000000000000004a>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 1)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000004b:
+    <contract:0x000000000000000000000000000000000000004b>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000004c:
+    <contract:0x000000000000000000000000000000000000004c>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Call self-destruct
-    000000000000000000000000000000000000005a:
+    <contract:0x000000000000000000000000000000000000005a>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           return(0, 1)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000005b:
+    <contract:0x000000000000000000000000000000000000005b>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000005c:
+    <contract:0x000000000000000000000000000000000000005c>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Log operations
-    000000000000000000000000000000000000006a:
+    <contract:0x000000000000000000000000000000000000006a>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           return(0, 1)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000006b:
+    <contract:0x000000000000000000000000000000000000006b>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000006c:
+    <contract:0x000000000000000000000000000000000000006c>:
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Create, refund
-    000000000000000000000000000000000000007a:
+    <contract:0x000000000000000000000000000000000000007a>:
       balance: '0'
       code: |
         :yul berlin
@@ -275,7 +275,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -284,7 +284,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000007b:
+    <contract:0x000000000000000000000000000000000000007b>:
       balance: '0'
       code: |
         :yul berlin
@@ -292,7 +292,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -301,7 +301,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000007c:
+    <contract:0x000000000000000000000000000000000000007c>:
       balance: '0'
       code: |
         :yul berlin
@@ -309,7 +309,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -319,7 +319,7 @@ CreateOOGFromCallRefunds:
       storage: {}
     
     # Init codes: Create2, refund
-    000000000000000000000000000000000000008a:
+    <contract:0x000000000000000000000000000000000000008a>:
       balance: '0'
       code: |
         :yul berlin 
@@ -327,7 +327,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           //let initcodelength := extcodesize(initcodeaddr)
           //extcodecopy(initcodeaddr, 0, 0, initcodelength)
 
@@ -341,7 +341,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000008b:
+    <contract:0x000000000000000000000000000000000000008b>:
       balance: '0'
       code: |
         :yul berlin
@@ -349,7 +349,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create2(0, 0, initcodelength, 0))
@@ -358,7 +358,7 @@ CreateOOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000008c:
+    <contract:0x000000000000000000000000000000000000008c>:
       balance: '0'
       code: |
         :yul berlin
@@ -366,7 +366,7 @@ CreateOOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create2(0, 0, initcodelength, 0))
@@ -377,7 +377,7 @@ CreateOOGFromCallRefunds:
     
     ### HELPER CONTRACTS
     # Simple contract to reset sstore and refund
-    00000000000000000000000000000000000c0deA:
+    <contract:0x00000000000000000000000000000000000c0dea>:
       balance: '0'
       code: |
         :yul berlin
@@ -391,7 +391,7 @@ CreateOOGFromCallRefunds:
       }
 
     # Simple contract that self-destructs to refund
-    00000000000000000000000000000000000c0deD:
+    <contract:0x00000000000000000000000000000000000c0ded>:
       balance: '0'
       code: |
         :yul berlin
@@ -404,7 +404,7 @@ CreateOOGFromCallRefunds:
       }
     
     # Simple contract that performs log operations
-    00000000000000000000000000000000000c0de0:
+    <contract:0x00000000000000000000000000000000000c0de0>:
       balance: '0'
       code: |
         :yul berlin
@@ -422,7 +422,7 @@ CreateOOGFromCallRefunds:
       }
 
     # Init code that successfully creates contract but contains a refund
-    00000000000000000000000000000000000c0de1:
+    <contract:0x00000000000000000000000000000000000c0de1>:
       balance: '0'
       code: |
         :yul berlin
@@ -513,8 +513,8 @@ CreateOOGFromCallRefunds:
     - 0x61a80
     gasPrice: '10'
     nonce: '1'
-    to: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: "<contract:target:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa>"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -527,7 +527,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
@@ -543,7 +543,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -559,7 +559,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
@@ -568,7 +568,7 @@ CreateOOGFromCallRefunds:
           storage: {
             '0': 1
           }
-        00000000000000000000000000000000000c0deD:
+        <contract:0x00000000000000000000000000000000000c0ded>:
           balance: 0
           nonce: 1
 
@@ -579,7 +579,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -587,7 +587,7 @@ CreateOOGFromCallRefunds:
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
           shouldnotexist: 1
 
-        00000000000000000000000000000000000c0deD:
+        <contract:0x00000000000000000000000000000000000c0ded>:
           code: '0x32FF'
           nonce: '1'
           storage: {
@@ -601,7 +601,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
@@ -617,7 +617,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -632,7 +632,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
@@ -653,7 +653,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -670,7 +670,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         4501f8fa1e67827ebfb1f6d5510c606871c5a599:
@@ -691,7 +691,7 @@ CreateOOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2

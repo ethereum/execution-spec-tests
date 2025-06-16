@@ -9,13 +9,13 @@ push0Gas2:
     currentTimestamp: '1000'
 
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 10000000
       code: ''
       nonce: '0'
       storage: {}
 
-    b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 0
       code: |
         :yul berlin
@@ -26,7 +26,7 @@ push0Gas2:
       nonce: 0
       storage: {}
 
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: 0
       # Calculates the difference between initial gas and gas after using
       # PUSH0, stores the result in storage key 0x00
@@ -35,7 +35,7 @@ push0Gas2:
       nonce: '0'
       storage: {}
 
-    0000000000000000000000000000000000000200:
+    <contract:0x0000000000000000000000000000000000000200>:
       balance: 0
       # Calculates the difference between initial gas and gas after using
       # PUSH1(0), stores the result in storage key 0x00
@@ -52,8 +52,8 @@ push0Gas2:
       - 300000
     gasPrice: 10
     nonce: 0
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: 'b94f5374fce5edbc8e2a8697c15331677e6ebf0b'
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: '<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
     value:
     - 0
 
@@ -63,11 +63,11 @@ push0Gas2:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001000:
+        <contract:0x0000000000000000000000000000000000001000>:
           balance: 0
           storage:  # GAS PUSH0
             0x00: 4 #  2 + 2
-        b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           storage:
             0x00: 1  #Subcall successful
             0x01: 1
@@ -77,11 +77,11 @@ push0Gas2:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000000200:
+        <contract:0x0000000000000000000000000000000000000200>:
           balance: 0
           storage:  # GAS   PUSH1(0)
             0x00: 5 # 2   +   3
-        b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           storage:
             0x00: 1  #Subcall successful
             0x01: 1

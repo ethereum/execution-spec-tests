@@ -14,39 +14,39 @@ extCodeHashSubcallSuicideCancun:
     currentNumber: "1"
     currentTimestamp: "1000"
   pre:
-    b000000000000000000000000000000000000000:
+    <contract:target:0xb000000000000000000000000000000000000000>:
       balance: '1000000000000000000'
       code: |
         {
           ;; create 0x3e180b1862f9d158abb5e519a6d8605540c23682 (Account A)
           (CREATE 1000000000000000000 0 (lll 
                 {
-                    (CALL 100000 0xd000000000000000000000000000000000000000 0 0 0 0 0) 
+                    (CALL 100000 <contract:0xd000000000000000000000000000000000000000> 0 0 0 0 0) 
                     (RETURN 0 (lll
                         {
-                          (SELFDESTRUCT 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b)
+                          (SELFDESTRUCT <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>)
                         }
                     0))
                 }
           0))
 
-          (SSTORE 1 (EXTCODEHASH 0xa000000000000000000000000000000000000000))
-          (SSTORE 2 (EXTCODESIZE 0xa000000000000000000000000000000000000000))
-          (EXTCODECOPY 0xa000000000000000000000000000000000000000 0 0 32)
+          (SSTORE 1 (EXTCODEHASH <contract:0xa000000000000000000000000000000000000000>))
+          (SSTORE 2 (EXTCODESIZE <contract:0xa000000000000000000000000000000000000000>))
+          (EXTCODECOPY <contract:0xa000000000000000000000000000000000000000> 0 0 32)
           (SSTORE 3 (MLOAD 0))
  
-          (CALL 350000 0xa000000000000000000000000000000000000000 0 0 0 0 32)
+          (CALL 350000 <contract:0xa000000000000000000000000000000000000000> 0 0 0 0 32)
 
-          (SSTORE 4 (EXTCODEHASH 0xa000000000000000000000000000000000000000))
-          (SSTORE 5 (EXTCODESIZE 0xa000000000000000000000000000000000000000))
-          (EXTCODECOPY 0xa000000000000000000000000000000000000000 0 0 32)
+          (SSTORE 4 (EXTCODEHASH <contract:0xa000000000000000000000000000000000000000>))
+          (SSTORE 5 (EXTCODESIZE <contract:0xa000000000000000000000000000000000000000>))
+          (EXTCODECOPY <contract:0xa000000000000000000000000000000000000000> 0 0 32)
           (SSTORE 6 (MLOAD 0))
 
-          [[7]] (CALL 350000 0xa000000000000000000000000000000000000000 0 0 0 0 32)
+          [[7]] (CALL 350000 <contract:0xa000000000000000000000000000000000000000> 0 0 0 0 32)
         }
       nonce: '0'
       storage: {}
-    a000000000000000000000000000000000000000:
+    <contract:0xa000000000000000000000000000000000000000>:
       balance: '1000000000000000000'
       code: |
         {
@@ -54,7 +54,7 @@ extCodeHashSubcallSuicideCancun:
         }
       nonce: '0'
       storage: {}
-    d000000000000000000000000000000000000000:
+    <contract:0xd000000000000000000000000000000000000000>:
       balance: '1000000000000000000'
       code: |
         { 
@@ -62,7 +62,7 @@ extCodeHashSubcallSuicideCancun:
         }
       nonce: '0'
       storage: {}
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '1000000000000000000'
       code: ''
       nonce: '0'
@@ -75,7 +75,7 @@ extCodeHashSubcallSuicideCancun:
       network:
         - '>=Cancun'
       result:
-        b000000000000000000000000000000000000000:
+        <contract:target:0xb000000000000000000000000000000000000000>:
           storage: {
              "0x01": '0x807d478bd0d0173122f5531d4c43781631444232a0816dd35578747c7d67af0d',
              "0x02": '0x25',
@@ -86,12 +86,12 @@ extCodeHashSubcallSuicideCancun:
              "0x07": '0x01'
           }
         #CALLCODE to a contract that suicide in Cancun does not delete the caller. even if contract that has suicide is dynamically created
-        a000000000000000000000000000000000000000:
+        <contract:0xa000000000000000000000000000000000000000>:
             nonce: '0'
             storage: {}
             code: '0x60206000600060006000733e180b1862f9d158abb5e519a6d8605540c2368262055730f200'
             balance: '0'
-        d000000000000000000000000000000000000000:
+        <contract:0xd000000000000000000000000000000000000000>:
             storage: {
                 "0x01" : "0x01"
             }
@@ -102,7 +102,7 @@ extCodeHashSubcallSuicideCancun:
     - '500000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: 'b000000000000000000000000000000000000000'
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: '<contract:target:0xb000000000000000000000000000000000000000>'
     value:
     - '1'

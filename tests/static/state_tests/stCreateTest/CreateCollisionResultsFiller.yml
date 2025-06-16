@@ -14,7 +14,7 @@ CreateCollisionResults:
   pre:
 
     # Same address as CREATE creates. 
-    8af6a7af30d840ba137e8f3f34d54cfb8beba6e2:
+    <contract:0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -26,7 +26,7 @@ CreateCollisionResults:
 
 
     # Same address as CREATE2 creates
-    40f1299359ea754ac29eb2662a1900752bf8275f:
+    <contract:0x40f1299359ea754ac29eb2662a1900752bf8275f>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -37,7 +37,7 @@ CreateCollisionResults:
         0x0: 0x60A7
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -52,8 +52,8 @@ CreateCollisionResults:
           (def 'callRet           0x640)
           (def 'buffer            0x660)
           ; Addresses of the contracts (to check what code is there)
-          (def 'OrigAddr1 0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2)
-          (def 'OrigAddr2 0x40f1299359ea754ac29eb2662a1900752bf8275f)
+          (def 'OrigAddr1 <contract:0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2>)
+          (def 'OrigAddr2 <contract:0x40f1299359ea754ac29eb2662a1900752bf8275f>)
           ; Other constants
           (def 'NOP 0)   ; No OPeration
           ; Understand the input.
@@ -91,13 +91,13 @@ CreateCollisionResults:
           ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
           ; CALL the address where the contract should have been created
           [callRet] (call 0xFFFF 
-                         0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2 0 0 0 0 0)
+                         <contract:0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2> 0 0 0 0 0)
           ; PC after contract call (CREATE)
           [[0x21]] (pc)
           [[0x12]] (- @callRet 1)
           [[0x13]] (returndatasize)  
           [callRet] (call 0xFFFF 
-                         0x40f1299359ea754ac29eb2662a1900752bf8275f 0 0 0 0 0)
+                         <contract:0x40f1299359ea754ac29eb2662a1900752bf8275f> 0 0 0 0 0)
           ; PC after contract call (CREATE2)
           [[0x22]] (pc)
           [[0x14]] (- @callRet 1)
@@ -127,7 +127,7 @@ CreateCollisionResults:
 
 
     # User account
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -148,8 +148,8 @@ CreateCollisionResults:
 
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -164,7 +164,7 @@ CreateCollisionResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # In the case of a collision CREATE[2] just pops the 
             # parameter values from the stack and returns zero, so the
@@ -182,7 +182,7 @@ CreateCollisionResults:
             0x33: 0x601d600055000000000000000000000000000000000000000000000000000000
 
         # The address CREATE would have chosen
-        8af6a7af30d840ba137e8f3f34d54cfb8beba6e2:
+        <contract:0x8af6a7af30d840ba137e8f3f34d54cfb8beba6e2>:
           code: 0x601d60005500
           storage:
             0: 0x001D
@@ -191,7 +191,7 @@ CreateCollisionResults:
             # 0x00FF - the new contract ran
 
         # The address CREATE2 would have chosen
-        40f1299359ea754ac29eb2662a1900752bf8275f:
+        <contract:0x40f1299359ea754ac29eb2662a1900752bf8275f>:
           code: 0x601d60005500
           storage:
             0: 0x001D

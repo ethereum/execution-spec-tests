@@ -17,10 +17,10 @@
                 "network" : [">=Cancun"],
                 "//comment" : "Contract creation OOG on create, and on internal opcode inside create",
                 "result" : {
-            	    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            	    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                        	"nonce" : "0x01"
             	    },
-            	    "6295ee1b4f6dd65047762f924ecd367c17eabf8f" : {
+            	    "<eoa:0x6295ee1b4f6dd65047762f924ecd367c17eabf8f>" : {
                       	"balance" : "0x01"
               	    }
                 }
@@ -34,24 +34,24 @@
                 "network" : [">=Cancun"],
                 "//comment" : "Contract creation OOG on internal opcode inside create",
                 "result" : {
-            	    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            	    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                        	"nonce" : "0x01"
             	    },
-            	    "6295ee1b4f6dd65047762f924ecd367c17eabf8f" : {
+            	    "<eoa:0x6295ee1b4f6dd65047762f924ecd367c17eabf8f>" : {
                        	"balance" : "0x02"
               	    }
                 }
             }
         ],
         "pre" : {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0x0f424000",
                 "code" : "0x",
                 "nonce" : "0x00",
                 "storage" : {
                 }
             },
-            "6295ee1b4f6dd65047762f924ecd367c17eabf8f" : {
+            "<eoa:0x6295ee1b4f6dd65047762f924ecd367c17eabf8f>" : {
                 "balance" : "0x01",
                 "code" : "0x",
                 "nonce" : "0x00",
@@ -70,7 +70,7 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
             "to" : "",
             "value" : [
                 "1"

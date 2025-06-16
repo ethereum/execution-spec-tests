@@ -16,7 +16,7 @@ CreateTransactionRefundEF:
       code: ''
 
     # Provides gas refund.
-    00000000000000000000000000000000005ef94d:
+    <contract:0x00000000000000000000000000000000005ef94d>:
       nonce: 0
       balance: 0
       storage:
@@ -39,7 +39,7 @@ CreateTransactionRefundEF:
     gasLimit: [ 100000 ]
     gasPrice: 10
     nonce: 0
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     to: ''
     value: [ 0 ]
   expect:
@@ -50,7 +50,7 @@ CreateTransactionRefundEF:
       network:
         - ">=Cancun"
       result:
-        00000000000000000000000000000000005ef94d:
+        <contract:0x00000000000000000000000000000000005ef94d>:
           storage:
             0: 1
         6295ee1b4f6dd65047762f924ecd367c17eabf8f:

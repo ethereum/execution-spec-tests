@@ -17,7 +17,7 @@
                         "storage" : {
                         }
                     },
-					"0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826" : {
+					"<eoa:0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826>" : {
 						"code" : "",
 						"nonce" : "0x0150",
 						"storage" : {
@@ -36,7 +36,7 @@
 						"storage" : {
 						}
 					},
-					"0xee098e6c2a43d9e2c04f08f0c3a87b0ba59079d4" : {
+					"<eoa:0xee098e6c2a43d9e2c04f08f0c3a87b0ba59079d4>" : {
 						"balance" : "10",
 						"code" : "",
 						"nonce" : "0x00",
@@ -54,13 +54,13 @@
                 "storage" : {
                 }
             },
-            "cd2a3d9f938e13cd947ec05abc7fe734df8dd826": {
+            "<eoa:0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826>": {
                 "nonce": "0x014f", 
                 "balance": "0xffffffffffffffffffff", 
                 "code": "0x", 
                 "storage": {}
             }, 
-            "ee098e6c2a43d9e2c04f08f0c3a87b0ba59079d4": {
+            "<eoa:0xee098e6c2a43d9e2c04f08f0c3a87b0ba59079d4>": {
                 "nonce": "0x00", 
                 "balance": "10", 
                 "code": "0x", 

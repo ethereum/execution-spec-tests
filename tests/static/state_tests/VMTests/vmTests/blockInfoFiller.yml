@@ -14,7 +14,7 @@ blockInfo:
 
   pre:
 
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -24,7 +24,7 @@ blockInfo:
       storage: {}
 
 
-    0000000000000000000000000000000000001001:
+    <contract:0x0000000000000000000000000000000000001001>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -34,7 +34,7 @@ blockInfo:
       storage: {}
 
 
-    0000000000000000000000000000000000001002:
+    <contract:0x0000000000000000000000000000000000001002>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -44,7 +44,7 @@ blockInfo:
       storage: {}
 
 
-    0000000000000000000000000000000000001003:
+    <contract:0x0000000000000000000000000000000000001003>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {  ; The blocknumber
@@ -54,7 +54,7 @@ blockInfo:
       storage: {}
 
 
-    0000000000000000000000000000000000001004:
+    <contract:0x0000000000000000000000000000000000001004>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -67,7 +67,7 @@ blockInfo:
 
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -77,7 +77,7 @@ blockInfo:
       storage: {}
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -94,10 +94,10 @@ blockInfo:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -109,7 +109,7 @@ blockInfo:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001000:
+        <contract:0x0000000000000000000000000000000000001000>:
           storage:
             0: 0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba
 
@@ -122,7 +122,7 @@ blockInfo:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001001:
+        <contract:0x0000000000000000000000000000000000001001>:
           storage:
             0: 0x20000
 
@@ -135,7 +135,7 @@ blockInfo:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001002:
+        <contract:0x0000000000000000000000000000000000001002>:
           storage:
             0: 100000000
 
@@ -150,7 +150,7 @@ blockInfo:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001003:
+        <contract:0x0000000000000000000000000000000000001003>:
           storage:
             0: 1
 
@@ -165,6 +165,6 @@ blockInfo:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000001004:
+        <contract:0x0000000000000000000000000000000000001004>:
           storage:
             0: 1000

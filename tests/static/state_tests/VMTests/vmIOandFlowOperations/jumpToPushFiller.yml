@@ -13,7 +13,7 @@ jumpToPush:
   pre:
     
     # PUSH1 - A: OK
-    000000000000000000000000000000000000001A:
+    <contract:0x000000000000000000000000000000000000001a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -31,7 +31,7 @@ jumpToPush:
 
 
     # PUSH1 - B: FAIL
-    000000000000000000000000000000000000001B:
+    <contract:0x000000000000000000000000000000000000001b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -49,7 +49,7 @@ jumpToPush:
 
 
     # PUSH2 - A: OK
-    000000000000000000000000000000000000002A:
+    <contract:0x000000000000000000000000000000000000002a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -67,7 +67,7 @@ jumpToPush:
 
 
     # PUSH2 - B: FAIL
-    000000000000000000000000000000000000002B:
+    <contract:0x000000000000000000000000000000000000002b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -85,7 +85,7 @@ jumpToPush:
 
 
     # PUSH2 - C: FAIL
-    000000000000000000000000000000000000002C:
+    <contract:0x000000000000000000000000000000000000002c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -103,7 +103,7 @@ jumpToPush:
 
 
     # PUSH3 - A: OK
-    000000000000000000000000000000000000003A:
+    <contract:0x000000000000000000000000000000000000003a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -121,7 +121,7 @@ jumpToPush:
 
 
     # PUSH3 - B: FAIL
-    000000000000000000000000000000000000003B:
+    <contract:0x000000000000000000000000000000000000003b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -139,7 +139,7 @@ jumpToPush:
 
 
     # PUSH3 - C: FAIL
-    000000000000000000000000000000000000003C:
+    <contract:0x000000000000000000000000000000000000003c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -157,7 +157,7 @@ jumpToPush:
 
 
     # PUSH4 - A: OK
-    000000000000000000000000000000000000004A:
+    <contract:0x000000000000000000000000000000000000004a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -175,7 +175,7 @@ jumpToPush:
 
 
     # PUSH4 - B: FAIL
-    000000000000000000000000000000000000004B:
+    <contract:0x000000000000000000000000000000000000004b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -193,7 +193,7 @@ jumpToPush:
 
 
     # PUSH4 - C: FAIL
-    000000000000000000000000000000000000004C:
+    <contract:0x000000000000000000000000000000000000004c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -211,7 +211,7 @@ jumpToPush:
 
 
     # PUSH5 - A: OK
-    000000000000000000000000000000000000005A:
+    <contract:0x000000000000000000000000000000000000005a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -229,7 +229,7 @@ jumpToPush:
 
 
     # PUSH5 - B: FAIL
-    000000000000000000000000000000000000005B:
+    <contract:0x000000000000000000000000000000000000005b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -247,7 +247,7 @@ jumpToPush:
 
 
     # PUSH5 - C: FAIL
-    000000000000000000000000000000000000005C:
+    <contract:0x000000000000000000000000000000000000005c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -265,7 +265,7 @@ jumpToPush:
 
 
     # PUSH6 - A: OK
-    000000000000000000000000000000000000006A:
+    <contract:0x000000000000000000000000000000000000006a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -283,7 +283,7 @@ jumpToPush:
 
 
     # PUSH6 - B: FAIL
-    000000000000000000000000000000000000006B:
+    <contract:0x000000000000000000000000000000000000006b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -301,7 +301,7 @@ jumpToPush:
 
 
     # PUSH6 - C: FAIL
-    000000000000000000000000000000000000006C:
+    <contract:0x000000000000000000000000000000000000006c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -319,7 +319,7 @@ jumpToPush:
 
 
     # PUSH7 - A: OK
-    000000000000000000000000000000000000007A:
+    <contract:0x000000000000000000000000000000000000007a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -337,7 +337,7 @@ jumpToPush:
 
 
     # PUSH7 - B: FAIL
-    000000000000000000000000000000000000007B:
+    <contract:0x000000000000000000000000000000000000007b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -355,7 +355,7 @@ jumpToPush:
 
 
     # PUSH7 - C: FAIL
-    000000000000000000000000000000000000007C:
+    <contract:0x000000000000000000000000000000000000007c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -373,7 +373,7 @@ jumpToPush:
 
 
     # PUSH8 - A: OK
-    000000000000000000000000000000000000008A:
+    <contract:0x000000000000000000000000000000000000008a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -391,7 +391,7 @@ jumpToPush:
 
 
     # PUSH8 - B: FAIL
-    000000000000000000000000000000000000008B:
+    <contract:0x000000000000000000000000000000000000008b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -409,7 +409,7 @@ jumpToPush:
 
 
     # PUSH8 - C: FAIL
-    000000000000000000000000000000000000008C:
+    <contract:0x000000000000000000000000000000000000008c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -427,7 +427,7 @@ jumpToPush:
 
 
     # PUSH9 - A: OK
-    000000000000000000000000000000000000009A:
+    <contract:0x000000000000000000000000000000000000009a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -445,7 +445,7 @@ jumpToPush:
 
 
     # PUSH9 - B: FAIL
-    000000000000000000000000000000000000009B:
+    <contract:0x000000000000000000000000000000000000009b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -463,7 +463,7 @@ jumpToPush:
 
 
     # PUSH9 - C: FAIL
-    000000000000000000000000000000000000009C:
+    <contract:0x000000000000000000000000000000000000009c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -481,7 +481,7 @@ jumpToPush:
 
 
     # PUSH10 - A: OK
-    00000000000000000000000000000000000000AA:
+    <contract:0x00000000000000000000000000000000000000aa>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -499,7 +499,7 @@ jumpToPush:
 
 
     # PUSH10 - B: FAIL
-    00000000000000000000000000000000000000AB:
+    <contract:0x00000000000000000000000000000000000000ab>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -517,7 +517,7 @@ jumpToPush:
 
 
     # PUSH10 - C: FAIL
-    00000000000000000000000000000000000000AC:
+    <contract:0x00000000000000000000000000000000000000ac>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -535,7 +535,7 @@ jumpToPush:
 
 
     # PUSH11 - A: OK
-    00000000000000000000000000000000000000BA:
+    <contract:0x00000000000000000000000000000000000000ba>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -553,7 +553,7 @@ jumpToPush:
 
 
     # PUSH11 - B: FAIL
-    00000000000000000000000000000000000000BB:
+    <contract:0x00000000000000000000000000000000000000bb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -571,7 +571,7 @@ jumpToPush:
 
 
     # PUSH11 - C: FAIL
-    00000000000000000000000000000000000000BC:
+    <contract:0x00000000000000000000000000000000000000bc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -589,7 +589,7 @@ jumpToPush:
 
 
     # PUSH12 - A: OK
-    00000000000000000000000000000000000000CA:
+    <contract:0x00000000000000000000000000000000000000ca>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -607,7 +607,7 @@ jumpToPush:
 
 
     # PUSH12 - B: FAIL
-    00000000000000000000000000000000000000CB:
+    <contract:0x00000000000000000000000000000000000000cb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -625,7 +625,7 @@ jumpToPush:
 
 
     # PUSH12 - C: FAIL
-    00000000000000000000000000000000000000CC:
+    <contract:0x00000000000000000000000000000000000000cc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -643,7 +643,7 @@ jumpToPush:
 
 
     # PUSH13 - A: OK
-    00000000000000000000000000000000000000DA:
+    <contract:0x00000000000000000000000000000000000000da>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -661,7 +661,7 @@ jumpToPush:
 
 
     # PUSH13 - B: FAIL
-    00000000000000000000000000000000000000DB:
+    <contract:0x00000000000000000000000000000000000000db>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -679,7 +679,7 @@ jumpToPush:
 
 
     # PUSH13 - C: FAIL
-    00000000000000000000000000000000000000DC:
+    <contract:0x00000000000000000000000000000000000000dc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -697,7 +697,7 @@ jumpToPush:
 
 
     # PUSH14 - A: OK
-    00000000000000000000000000000000000000EA:
+    <contract:0x00000000000000000000000000000000000000ea>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -715,7 +715,7 @@ jumpToPush:
 
 
     # PUSH14 - B: FAIL
-    00000000000000000000000000000000000000EB:
+    <contract:0x00000000000000000000000000000000000000eb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -733,7 +733,7 @@ jumpToPush:
 
 
     # PUSH14 - C: FAIL
-    00000000000000000000000000000000000000EC:
+    <contract:0x00000000000000000000000000000000000000ec>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -751,7 +751,7 @@ jumpToPush:
 
 
     # PUSH15 - A: OK
-    00000000000000000000000000000000000000FA:
+    <contract:0x00000000000000000000000000000000000000fa>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -769,7 +769,7 @@ jumpToPush:
 
 
     # PUSH15 - B: FAIL
-    00000000000000000000000000000000000000FB:
+    <contract:0x00000000000000000000000000000000000000fb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -787,7 +787,7 @@ jumpToPush:
 
 
     # PUSH15 - C: FAIL
-    00000000000000000000000000000000000000FC:
+    <contract:0x00000000000000000000000000000000000000fc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -805,7 +805,7 @@ jumpToPush:
 
 
     # PUSH16 - A: OK
-    000000000000000000000000000000000000010A:
+    <contract:0x000000000000000000000000000000000000010a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -823,7 +823,7 @@ jumpToPush:
 
 
     # PUSH16 - B: FAIL
-    000000000000000000000000000000000000010B:
+    <contract:0x000000000000000000000000000000000000010b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -841,7 +841,7 @@ jumpToPush:
 
 
     # PUSH16 - C: FAIL
-    000000000000000000000000000000000000010C:
+    <contract:0x000000000000000000000000000000000000010c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -859,7 +859,7 @@ jumpToPush:
 
 
     # PUSH17 - A: OK
-    000000000000000000000000000000000000011A:
+    <contract:0x000000000000000000000000000000000000011a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -877,7 +877,7 @@ jumpToPush:
 
 
     # PUSH17 - B: FAIL
-    000000000000000000000000000000000000011B:
+    <contract:0x000000000000000000000000000000000000011b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -895,7 +895,7 @@ jumpToPush:
 
 
     # PUSH17 - C: FAIL
-    000000000000000000000000000000000000011C:
+    <contract:0x000000000000000000000000000000000000011c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -913,7 +913,7 @@ jumpToPush:
 
 
     # PUSH18 - A: OK
-    000000000000000000000000000000000000012A:
+    <contract:0x000000000000000000000000000000000000012a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -931,7 +931,7 @@ jumpToPush:
 
 
     # PUSH18 - B: FAIL
-    000000000000000000000000000000000000012B:
+    <contract:0x000000000000000000000000000000000000012b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -949,7 +949,7 @@ jumpToPush:
 
 
     # PUSH18 - C: FAIL
-    000000000000000000000000000000000000012C:
+    <contract:0x000000000000000000000000000000000000012c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -967,7 +967,7 @@ jumpToPush:
 
 
     # PUSH19 - A: OK
-    000000000000000000000000000000000000013A:
+    <contract:0x000000000000000000000000000000000000013a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -985,7 +985,7 @@ jumpToPush:
 
 
     # PUSH19 - B: FAIL
-    000000000000000000000000000000000000013B:
+    <contract:0x000000000000000000000000000000000000013b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1003,7 +1003,7 @@ jumpToPush:
 
 
     # PUSH19 - C: FAIL
-    000000000000000000000000000000000000013C:
+    <contract:0x000000000000000000000000000000000000013c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1021,7 +1021,7 @@ jumpToPush:
 
 
     # PUSH20 - A: OK
-    000000000000000000000000000000000000014A:
+    <contract:0x000000000000000000000000000000000000014a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1039,7 +1039,7 @@ jumpToPush:
 
 
     # PUSH20 - B: FAIL
-    000000000000000000000000000000000000014B:
+    <contract:0x000000000000000000000000000000000000014b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1057,7 +1057,7 @@ jumpToPush:
 
 
     # PUSH20 - C: FAIL
-    000000000000000000000000000000000000014C:
+    <contract:0x000000000000000000000000000000000000014c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1075,7 +1075,7 @@ jumpToPush:
 
 
     # PUSH21 - A: OK
-    000000000000000000000000000000000000015A:
+    <contract:0x000000000000000000000000000000000000015a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1093,7 +1093,7 @@ jumpToPush:
 
 
     # PUSH21 - B: FAIL
-    000000000000000000000000000000000000015B:
+    <contract:0x000000000000000000000000000000000000015b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1111,7 +1111,7 @@ jumpToPush:
 
 
     # PUSH21 - C: FAIL
-    000000000000000000000000000000000000015C:
+    <contract:0x000000000000000000000000000000000000015c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1129,7 +1129,7 @@ jumpToPush:
 
 
     # PUSH22 - A: OK
-    000000000000000000000000000000000000016A:
+    <contract:0x000000000000000000000000000000000000016a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1147,7 +1147,7 @@ jumpToPush:
 
 
     # PUSH22 - B: FAIL
-    000000000000000000000000000000000000016B:
+    <contract:0x000000000000000000000000000000000000016b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1165,7 +1165,7 @@ jumpToPush:
 
 
     # PUSH22 - C: FAIL
-    000000000000000000000000000000000000016C:
+    <contract:0x000000000000000000000000000000000000016c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1183,7 +1183,7 @@ jumpToPush:
 
 
     # PUSH23 - A: OK
-    000000000000000000000000000000000000017A:
+    <contract:0x000000000000000000000000000000000000017a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1201,7 +1201,7 @@ jumpToPush:
 
 
     # PUSH23 - B: FAIL
-    000000000000000000000000000000000000017B:
+    <contract:0x000000000000000000000000000000000000017b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1219,7 +1219,7 @@ jumpToPush:
 
 
     # PUSH23 - C: FAIL
-    000000000000000000000000000000000000017C:
+    <contract:0x000000000000000000000000000000000000017c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1237,7 +1237,7 @@ jumpToPush:
 
 
     # PUSH24 - A: OK
-    000000000000000000000000000000000000018A:
+    <contract:0x000000000000000000000000000000000000018a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1255,7 +1255,7 @@ jumpToPush:
 
 
     # PUSH24 - B: FAIL
-    000000000000000000000000000000000000018B:
+    <contract:0x000000000000000000000000000000000000018b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1273,7 +1273,7 @@ jumpToPush:
 
 
     # PUSH24 - C: FAIL
-    000000000000000000000000000000000000018C:
+    <contract:0x000000000000000000000000000000000000018c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1291,7 +1291,7 @@ jumpToPush:
 
 
     # PUSH25 - A: OK
-    000000000000000000000000000000000000019A:
+    <contract:0x000000000000000000000000000000000000019a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1309,7 +1309,7 @@ jumpToPush:
 
 
     # PUSH25 - B: FAIL
-    000000000000000000000000000000000000019B:
+    <contract:0x000000000000000000000000000000000000019b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1327,7 +1327,7 @@ jumpToPush:
 
 
     # PUSH25 - C: FAIL
-    000000000000000000000000000000000000019C:
+    <contract:0x000000000000000000000000000000000000019c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1345,7 +1345,7 @@ jumpToPush:
 
 
     # PUSH26 - A: OK
-    00000000000000000000000000000000000001AA:
+    <contract:0x00000000000000000000000000000000000001aa>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1363,7 +1363,7 @@ jumpToPush:
 
 
     # PUSH26 - B: FAIL
-    00000000000000000000000000000000000001AB:
+    <contract:0x00000000000000000000000000000000000001ab>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1381,7 +1381,7 @@ jumpToPush:
 
 
     # PUSH26 - C: FAIL
-    00000000000000000000000000000000000001AC:
+    <contract:0x00000000000000000000000000000000000001ac>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1399,7 +1399,7 @@ jumpToPush:
 
 
     # PUSH27 - A: OK
-    00000000000000000000000000000000000001BA:
+    <contract:0x00000000000000000000000000000000000001ba>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1417,7 +1417,7 @@ jumpToPush:
 
 
     # PUSH27 - B: FAIL
-    00000000000000000000000000000000000001BB:
+    <contract:0x00000000000000000000000000000000000001bb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1435,7 +1435,7 @@ jumpToPush:
 
 
     # PUSH27 - C: FAIL
-    00000000000000000000000000000000000001BC:
+    <contract:0x00000000000000000000000000000000000001bc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1453,7 +1453,7 @@ jumpToPush:
 
 
     # PUSH28 - A: OK
-    00000000000000000000000000000000000001CA:
+    <contract:0x00000000000000000000000000000000000001ca>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1471,7 +1471,7 @@ jumpToPush:
 
 
     # PUSH28 - B: FAIL
-    00000000000000000000000000000000000001CB:
+    <contract:0x00000000000000000000000000000000000001cb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1489,7 +1489,7 @@ jumpToPush:
 
 
     # PUSH28 - C: FAIL
-    00000000000000000000000000000000000001CC:
+    <contract:0x00000000000000000000000000000000000001cc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1507,7 +1507,7 @@ jumpToPush:
 
 
     # PUSH29 - A: OK
-    00000000000000000000000000000000000001DA:
+    <contract:0x00000000000000000000000000000000000001da>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1525,7 +1525,7 @@ jumpToPush:
 
 
     # PUSH29 - B: FAIL
-    00000000000000000000000000000000000001DB:
+    <contract:0x00000000000000000000000000000000000001db>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1543,7 +1543,7 @@ jumpToPush:
 
 
     # PUSH29 - C: FAIL
-    00000000000000000000000000000000000001DC:
+    <contract:0x00000000000000000000000000000000000001dc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1561,7 +1561,7 @@ jumpToPush:
 
 
     # PUSH30 - A: OK
-    00000000000000000000000000000000000001EA:
+    <contract:0x00000000000000000000000000000000000001ea>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1579,7 +1579,7 @@ jumpToPush:
 
 
     # PUSH30 - B: FAIL
-    00000000000000000000000000000000000001EB:
+    <contract:0x00000000000000000000000000000000000001eb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1597,7 +1597,7 @@ jumpToPush:
 
 
     # PUSH30 - C: FAIL
-    00000000000000000000000000000000000001EC:
+    <contract:0x00000000000000000000000000000000000001ec>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1615,7 +1615,7 @@ jumpToPush:
 
 
     # PUSH31 - A: OK
-    00000000000000000000000000000000000001FA:
+    <contract:0x00000000000000000000000000000000000001fa>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1633,7 +1633,7 @@ jumpToPush:
 
 
     # PUSH31 - B: FAIL
-    00000000000000000000000000000000000001FB:
+    <contract:0x00000000000000000000000000000000000001fb>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1651,7 +1651,7 @@ jumpToPush:
 
 
     # PUSH31 - C: FAIL
-    00000000000000000000000000000000000001FC:
+    <contract:0x00000000000000000000000000000000000001fc>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1669,7 +1669,7 @@ jumpToPush:
 
 
     # PUSH32 - A: OK
-    000000000000000000000000000000000000020A:
+    <contract:0x000000000000000000000000000000000000020a>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1687,7 +1687,7 @@ jumpToPush:
 
 
     # PUSH32 - B: FAIL
-    000000000000000000000000000000000000020B:
+    <contract:0x000000000000000000000000000000000000020b>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1705,7 +1705,7 @@ jumpToPush:
 
 
     # PUSH32 - C: FAIL
-    000000000000000000000000000000000000020C:
+    <contract:0x000000000000000000000000000000000000020c>:
       balance: 0
       #  Bytes      Opcode
       #  Location
@@ -1725,7 +1725,7 @@ jumpToPush:
 
     
     # DelegateCall to the test contract
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: 0
       code: |
         :yul berlin {
@@ -1738,7 +1738,7 @@ jumpToPush:
         0x00: 0x00
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 0x100000000000
       code: '0x'
       nonce: '0'
@@ -1837,10 +1837,10 @@ jumpToPush:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     
     
   expect:
@@ -1852,7 +1852,7 @@ jumpToPush:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x00
 
@@ -1864,7 +1864,7 @@ jumpToPush:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x01
 

@@ -9,7 +9,7 @@ from ethereum_test_base_types import CamelModel
 from ethereum_test_exceptions import TransactionExceptionInstanceOrList
 from ethereum_test_forks import get_forks
 
-from .common import AddressInFiller, CodeInFiller, ValueInFiller
+from .common import AddressOrTagInFiller, CodeInFiller, ValueInFiller, ValueOrTagInFiller
 
 
 class Indexes(BaseModel):
@@ -31,7 +31,7 @@ class AccountInExpectSection(BaseModel):
     balance: ValueInFiller | None = Field(None)
     code: CodeInFiller | None = Field(None)
     nonce: ValueInFiller | None = Field(None)
-    storage: Dict[ValueInFiller, ValueInFiller | Literal["ANY"]] | None = Field(None)
+    storage: Dict[ValueOrTagInFiller, ValueOrTagInFiller | Literal["ANY"]] | None = Field(None)
     expected_to_not_exist: str | int | None = Field(None, alias="shouldnotexist")
 
     class Config:
@@ -108,7 +108,7 @@ class ExpectSectionInStateTestFiller(CamelModel):
 
     indexes: Indexes = Field(default_factory=Indexes)
     network: List[str]
-    result: Dict[AddressInFiller, AccountInExpectSection]
+    result: Dict[AddressOrTagInFiller, AccountInExpectSection]
     expect_exception: Dict[str, TransactionExceptionInstanceOrList] | None = None
 
     class Config:

@@ -18,7 +18,7 @@ jumpi:
   pre:
 
     # This should fail (jump to something that isn't a JUMPDEST)
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -30,7 +30,7 @@ jumpi:
 
 
     # This should fail (jumpi to something that isn't a JUMPDEST)
-    0000000000000000000000000000000000001001:
+    <contract:0x0000000000000000000000000000000000001001>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -42,7 +42,7 @@ jumpi:
 
 
     # This should succeed (the jump doesn't happen)
-    0000000000000000000000000000000000000200:
+    <contract:0x0000000000000000000000000000000000000200>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -54,7 +54,7 @@ jumpi:
 
 
     # This should succeed (the jump doesn't happen)
-    0000000000000000000000000000000000000201:
+    <contract:0x0000000000000000000000000000000000000201>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -66,7 +66,7 @@ jumpi:
 
 
     # Jump to after the STOP. Shouldn't be a problem
-    0000000000000000000000000000000000001002:
+    <contract:0x0000000000000000000000000000000000001002>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # 0  PUSH1 0x01
       # 2  PUSH1 0x06
@@ -83,7 +83,7 @@ jumpi:
 
 
     # Don't jump to after the STOP.
-    0000000000000000000000000000000000000202:
+    <contract:0x0000000000000000000000000000000000000202>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # 0  PUSH1 0x00
       # 2  PUSH1 0x06
@@ -103,7 +103,7 @@ jumpi:
 
 
     # This should fail (the old jumpHigh)
-    0000000000000000000000000000000000001003:
+    <contract:0x0000000000000000000000000000000000001003>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -115,7 +115,7 @@ jumpi:
 
 
     # This should work (the jump doesn't happen)
-    0000000000000000000000000000000000000203:
+    <contract:0x0000000000000000000000000000000000000203>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -127,7 +127,7 @@ jumpi:
 
 
     # The old jump0_AfterJumpdest
-    0000000000000000000000000000000000001004:
+    <contract:0x0000000000000000000000000000000000001004>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0x23
       #  2  PUSH1 0x01
@@ -143,7 +143,7 @@ jumpi:
 
 
     # Endless loop (well, endless until it runs out of gas, so mostly endless)
-    0000000000000000000000000000000000001005:
+    <contract:0x0000000000000000000000000000000000001005>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH2 0x600D
       #  3  PUSH1 0x00
@@ -158,7 +158,7 @@ jumpi:
 
 
     # Skip an opcode with jump, see it doesn't run
-    0000000000000000000000000000000000001006:
+    <contract:0x0000000000000000000000000000000000001006>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH2 0x600D
       #  3  PUSH1 0x01
@@ -175,7 +175,7 @@ jumpi:
 
 
     # Jump backwards, see that works too
-    0000000000000000000000000000000000001007:
+    <contract:0x0000000000000000000000000000000000001007>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0x0B
       #  2  JUMP
@@ -195,7 +195,7 @@ jumpi:
 
 
     # Dynamic jump
-    0000000000000000000000000000000000001008:
+    <contract:0x0000000000000000000000000000000000001008>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0x01
       #  2  PUSH1 0x04
@@ -213,7 +213,7 @@ jumpi:
 
 
     # Dynamic jump
-    0000000000000000000000000000000000000208:
+    <contract:0x0000000000000000000000000000000000000208>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0x00
       #  2  PUSH1 0x04
@@ -235,7 +235,7 @@ jumpi:
     # 0x5B (jumpdest)
     #
     # Amazingly, but correctly, this fails
-    0000000000000000000000000000000000001009:
+    <contract:0x0000000000000000000000000000000000001009>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0x01
       #  2  PUSH1 0x07
@@ -252,7 +252,7 @@ jumpi:
 
 
     # Jump to the data of a push, when it isn't a 0x5B (JUMPDEST)
-    000000000000000000000000000000000000100A:
+    <contract:0x000000000000000000000000000000000000100a>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH1 0xFF
       #  2  PUSH1 0x09
@@ -268,7 +268,7 @@ jumpi:
 
 
     # Jump one instruction after the JUMPDEST
-    000000000000000000000000000000000000100B:
+    <contract:0x000000000000000000000000000000000000100b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH2 0x600D
       #  3  PUSH1 0x00
@@ -287,7 +287,7 @@ jumpi:
 
 
     # Jump one instruction before the JUMPDEST
-    000000000000000000000000000000000000100C:
+    <contract:0x000000000000000000000000000000000000100c>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0  PUSH2 0x600D
       #  3  PUSH1 0x00
@@ -307,7 +307,7 @@ jumpi:
 
     # Another jump into hyperspace
     # The old jumpToUint64maxPlus1
-    000000000000000000000000000000000000100D:
+    <contract:0x000000000000000000000000000000000000100d>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # [ 0] PUSH1 0x11
       # [ 2] PUSH9 0x01000000000000000d
@@ -322,7 +322,7 @@ jumpi:
       storage: {}
 
 
-    000000000000000000000000000000000000020D:
+    <contract:0x000000000000000000000000000000000000020d>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # [ 0] PUSH1 0x00
       # [ 2] PUSH9 0x01000000000000000d
@@ -339,7 +339,7 @@ jumpi:
 
     # Another jump into hyperspace
     # The old jumpToUintmaxPlus1
-    000000000000000000000000000000000000100E:
+    <contract:0x000000000000000000000000000000000000100e>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # [ 0] PUSH1 0x11
       # [ 2] PUSH5 0x0100000009
@@ -357,7 +357,7 @@ jumpi:
 
     # Another jump into hyperspace
     # The old jumpToUintmaxPlus1
-    000000000000000000000000000000000000020E:
+    <contract:0x000000000000000000000000000000000000020e>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # [ 0] PUSH1 0x00
       # [ 2] PUSH5 0x0100000009
@@ -373,7 +373,7 @@ jumpi:
 
 
     # The furthest into hyperspace jump imaginable: to -1
-    000000000000000000000000000000000000100F:
+    <contract:0x000000000000000000000000000000000000100f>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -385,7 +385,7 @@ jumpi:
 
 
     # The furthest into hyperspace jump imaginable: to -1
-    000000000000000000000000000000000000020F:
+    <contract:0x000000000000000000000000000000000000020f>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -399,7 +399,7 @@ jumpi:
 
 
     # Jumpi into a big list of JUMPDESTs
-    0000000000000000000000000000000000000110:
+    <contract:0x0000000000000000000000000000000000000110>:
       balance: '0x0ba1a9ce0ba1a9ce'
       #  0 PUSH1 0x01
       #  2 PUSH1 0x0e
@@ -418,7 +418,7 @@ jumpi:
       storage: {}
 
     # A loop that eventually ends
-    0000000000000000000000000000000000000111:
+    <contract:0x0000000000000000000000000000000000000111>:
       balance: '0x0ba1a9ce0ba1a9ce'
       # 00 PUSH2 0x600D
       # 03 PUSH1 0x00
@@ -445,7 +445,7 @@ jumpi:
 
     # Using DELEGATECALL lets us group results together, because everything
     # is written to the same storage.
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -457,7 +457,7 @@ jumpi:
         0x00: 0x0BAD
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 0x100000000000
       code: '0x'
       nonce: '0'
@@ -536,10 +536,10 @@ jumpi:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -556,7 +556,7 @@ jumpi:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x0BAD
 
@@ -575,6 +575,6 @@ jumpi:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x600D

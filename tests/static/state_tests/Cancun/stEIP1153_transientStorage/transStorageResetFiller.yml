@@ -36,7 +36,7 @@ transStorageReset:
     #    0xFD - REVERT 
     #    0xFE - Invalid 
     #    0xFF - SELFDESTRUCT
-    000000000000000000000000000000000000dead:
+    <contract:0x000000000000000000000000000000000000dead>:
       balance: 0
       nonce: 1
       code: |
@@ -96,7 +96,7 @@ transStorageReset:
     # 0xAA - type of call between this contract and 0xDEAD
     # 0xBB - the type of call between 0xDEAD and back to this contract
     # 0xCC - the type of revert (or stop, invalid, etc.)
-    000000000000000000000000000000003f8390d5:
+    <contract:0x000000000000000000000000000000003f8390d5>:
       balance: 0
       nonce: 1
       code: |
@@ -156,7 +156,7 @@ transStorageReset:
     # Receives ABI calldata
     # Bytes 0x00-0x03 (the function hash) is the address of the contract to call
     # Bytes 0x04-0x23 are the parameter (assume we only need one)
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: 0
       code: |
         :yul {
@@ -169,7 +169,7 @@ transStorageReset:
       nonce: 1
       storage: {}
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: 1
@@ -250,10 +250,10 @@ transStorageReset:
     - 80000000
     gasPrice: 10
     nonce: 1
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '0'
-    secretKey: '45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8'
+    secretKey: '<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>'
 
 
 
@@ -264,15 +264,15 @@ transStorageReset:
       network:
         - ">=Cancun"
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3f8390d5 # Call to reverter(uint)
             1: 1    # Call was successful
-        000000000000000000000000000000003f8390d5:
+        <contract:0x000000000000000000000000000000003f8390d5>:
           storage:
             0x00: 0xBEEF # The call with tstore(0, 0xBEEF) was successful
             0x01: 1      # The call was successful
-        000000000000000000000000000000000000dead:
+        <contract:0x000000000000000000000000000000000000dead>:
           storage:
             0x10: 0x01   # call was successful
 
@@ -290,11 +290,11 @@ transStorageReset:
       network:
         - ">=Cancun"
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3f8390d5 # Call to reverter(uint)
             1: 1    # Call was successful
-        000000000000000000000000000000003f8390d5:
+        <contract:0x000000000000000000000000000000003f8390d5>:
           storage:
             0x00: 0xBEEF # The call with tstore(0, 0xBEEF) was successful
             0x01: 1      # The call was successful
@@ -309,11 +309,11 @@ transStorageReset:
       network:
         - ">=Cancun"
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3f8390d5 # Call to reverter(uint)
             1: 1    # Call was successful
-        000000000000000000000000000000003f8390d5:
+        <contract:0x000000000000000000000000000000003f8390d5>:
           storage:
             0x00: 0xBAD0BEEF # The call with tstore(0, 0xBAD0BEEF) was successful
             0x01: 1      # The call was successful
@@ -351,16 +351,16 @@ transStorageReset:
       network:
         - ">=Cancun"
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3f8390d5 # Call to reverter(uint)
             1: 1    # Call was successful
-        000000000000000000000000000000003f8390d5:
+        <contract:0x000000000000000000000000000000003f8390d5>:
           storage:
             0x00: 0x60A7 # The call with tstore(0, 0xBEEF) or tstore(0, 0xBAD0BEEF)
                          #  reverted
             0x01: 0      # The call failed
-        000000000000000000000000000000000000dead:
+        <contract:0x000000000000000000000000000000000000dead>:
           storage:
             # Reverted call, storage unchanged
             0x10: 0x60A7
@@ -378,15 +378,15 @@ transStorageReset:
       network:
         - ">=Cancun"
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x3f8390d5 # Call to reverter(uint)
             1: 1    # Call was successful
-        000000000000000000000000000000003f8390d5:
+        <contract:0x000000000000000000000000000000003f8390d5>:
           storage:
             0x00: 0x60A7 # The call with tstore(0, 0xBAD0BEEF) was in a different Trans
             0x01: 1      # The call was successful
-        000000000000000000000000000000000000dead:
+        <contract:0x000000000000000000000000000000000000dead>:
           storage:
             # Nothing overwrites the return value
             0x10: 0x7E57

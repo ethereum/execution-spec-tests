@@ -18,14 +18,14 @@ StaticcallToPrecompileFromCalledContract:
     network:
     - ">=Cancun"
     result:
-      b000000000000000000000000000000000000000:
+      <contract:target:0xb000000000000000000000000000000000000000>:
         storage:
           '0x00': '0x01'
-      a000000000000000000000000000000000000000:
+      <contract:0xa000000000000000000000000000000000000000>:
         storage:
           # precompiled contract #1 - Recovery of ECDSA signature
           '0x00': '0x01'
-          '0x01': '0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b'
+          '0x01': '<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
           '0x02': '0x01'
           # precompiled contract #2 - Hash function SHA256
           '0x03': '0x01'
@@ -53,15 +53,15 @@ StaticcallToPrecompileFromCalledContract:
           '0x19': '0x01'
           '0x20': '0x01'
   pre:
-    b000000000000000000000000000000000000000:
+    <contract:target:0xb000000000000000000000000000000000000000>:
       balance: '0'
       nonce: '0'
       storage: {}
       code: |
         {
-          [[ 0 ]] (CALL (GAS) 0xa000000000000000000000000000000000000000 0 0 0 0 0 )
+          [[ 0 ]] (CALL (GAS) <contract:0xa000000000000000000000000000000000000000> 0 0 0 0 0 )
         }
-    a000000000000000000000000000000000000000:
+    <contract:0xa000000000000000000000000000000000000000>:
       balance: '0'
       nonce: '0'
       storage: {}
@@ -166,7 +166,7 @@ StaticcallToPrecompileFromCalledContract:
           [[ 0x19 ]] (STATICCALL (GAS) 8 0 0x0180 1000 32)
           [[ 0x20 ]] @1000
         }
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '1000000000000000000'
       code: ''
       nonce: '0'
@@ -178,7 +178,7 @@ StaticcallToPrecompileFromCalledContract:
     - '1000000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: '0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8'
-    to: 'b000000000000000000000000000000000000000'
+    secretKey: '<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>'
+    to: '<contract:target:0xb000000000000000000000000000000000000000>'
     value:
     - '100'

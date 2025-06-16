@@ -20,12 +20,12 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "0x1000000000000000000000000000000000000000" : {
+                    "<contract:0x1000000000000000000000000000000000000000>" : {
                             "nonce" : "0x1d",
                             "storage" : {
                             }
                         },
-                        "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                        "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                             "code" : "",
                             "nonce" : "0x01",
                             "storage" : {
@@ -36,7 +36,7 @@
                             "storage" : {
                             }
                         },
-                        "0xffffffffffffffffffffffffffffffffffffffff" : {
+                        "<eoa:0xffffffffffffffffffffffffffffffffffffffff>" : {
                             "code" : "",
                             "nonce" : "0x1c",
                             "storage" : {
@@ -46,13 +46,13 @@
             }
 	],
 	"pre":{
-		"0x1000000000000000000000000000000000000000":{
+		"<contract:0x1000000000000000000000000000000000000000>":{
 			"balance":"0xbcbaf5a33577f162",
 			"code":":raw 0x58679b8e24022d8c28f3620b55a06384bc2f83136515b61916f0f579ea3e9d28799d45aa77bf1fc1a84edf0193dea2d610209eaaf9c814",
 			"nonce":"0x1d",
 			"storage":{}
 		},
-		"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b":{
+		"<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>":{
 			"balance":"0x6f1f70fea641f30a",
 			"code":"",
 			"nonce":"0x00",
@@ -64,7 +64,7 @@
 			"nonce":"0xaf",
 			"storage":{}
 		},
-		"0xffffffffffffffffffffffffffffffffffffffff":{
+		"<eoa:0xffffffffffffffffffffffffffffffffffffffff>":{
 			"balance":"0xb3508c0f8a22f8a1",
 			"code":"",
 			"nonce":"0x1c",
@@ -80,7 +80,7 @@
 		],
 		"gasPrice":"0x0a",
 		"nonce":"0x00",
-		"secretKey":"0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+		"secretKey":"<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
 		"to":"0x0000000000000000000000000000000000000003",
 		"value":[
 			"0xf2d6bf97", "0x00"

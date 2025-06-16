@@ -23,7 +23,7 @@ createFailResult:
 
   pre:
     # Just return with some data to fill up the returndata buffer
-    000000000000000000000000000000000000DA7A:
+    <contract:0x000000000000000000000000000000000000da7a>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -39,7 +39,7 @@ createFailResult:
 
 
     # Constructor code for BAD constructor (one that returns with REVERT)
-    0000000000000000000000000000000000000BAD:
+    <contract:0x0000000000000000000000000000000000000bad>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -52,7 +52,7 @@ createFailResult:
 
 
     # Constructor code for 600D constructor (one that returns with RETURN)
-    000000000000000000000000000000000000600D:
+    <contract:0x000000000000000000000000000000000000600d>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -67,7 +67,7 @@ createFailResult:
 
 
     # CREATE
-    0000000000000000000000000000000000C0DEF0:
+    <contract:0x0000000000000000000000000000000000c0def0>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -99,7 +99,7 @@ createFailResult:
 
 
     # CREATE2
-    0000000000000000000000000000000000C0DEF5:
+    <contract:0x0000000000000000000000000000000000c0def5>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -131,7 +131,7 @@ createFailResult:
 
 
     # Also CREATE2, but fails due to collision
-    0000000000000000000000000000000000C0DEFF:
+    <contract:0x0000000000000000000000000000000000c0deff>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -162,7 +162,7 @@ createFailResult:
 
 
     # The existing account CREATE2 collides with (600D)
-    bb0237ab04970e3cf3e813c02064662adc89336b:
+    <contract:0xbb0237ab04970e3cf3e813c02064662adc89336b>:
       balance: 0x600D
       code: :raw 0x600100
       nonce: 1
@@ -170,7 +170,7 @@ createFailResult:
 
 
     # The existing account CREATE2 collides with (BAD) 
-    13c950f8740ffaea1869a88d70b029e8b0c9a8da:
+    <contract:0x13c950f8740ffaea1869a88d70b029e8b0c9a8da>:
       balance: 0x600D
       code: :raw 0x600100
       nonce: 1
@@ -178,7 +178,7 @@ createFailResult:
 
 
     # Also CREATE, but fails due to collision
-    0000000000000000000000000000000000C0DEEE:
+    <contract:0x0000000000000000000000000000000000c0deee>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -210,7 +210,7 @@ createFailResult:
 
 
     # The existing account CREATE collides with
-    f9d1ea8eab6963659ee85b3e0b4d8a57e7edba2b:
+    <contract:0xf9d1ea8eab6963659ee85b3e0b4d8a57e7edba2b>:
       balance: 0x600D
       code: :raw 0x600100
       nonce: 1
@@ -218,7 +218,7 @@ createFailResult:
 
 
     # The contract we call
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -271,7 +271,7 @@ createFailResult:
 
 
     # User account
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: 0x
       nonce: 1
@@ -295,8 +295,8 @@ createFailResult:
     - 80000000
     gasPrice: 10
     nonce: 1
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -311,7 +311,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0  # Return value of failed call
             1: 0  # RETURNDATASIZE
@@ -335,7 +335,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0def0:
+        <contract:0x0000000000000000000000000000000000c0def0>:
           storage:
             # Address of newly created contract
             0x00: 0xb44f2c88d3d4283cd1e54e418c4ff7e6a6c73202
@@ -360,7 +360,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0def5:
+        <contract:0x0000000000000000000000000000000000c0def5>:
           storage:
             # Address of newly created contract
             0x00: 0x65ee26a034447b6ac64abdca1cccb7b747e4a231
@@ -384,7 +384,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0def0:
+        <contract:0x0000000000000000000000000000000000c0def0>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0x20 # There is returned data 
@@ -407,7 +407,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0def5:
+        <contract:0x0000000000000000000000000000000000c0def5>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0x20 # There is returned data 
@@ -430,7 +430,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0deff:
+        <contract:0x0000000000000000000000000000000000c0deff>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0    # No returned data in case of collision
@@ -452,7 +452,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0deff:
+        <contract:0x0000000000000000000000000000000000c0deff>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0    # There is no returned data 
@@ -478,7 +478,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0deee:
+        <contract:0x0000000000000000000000000000000000c0deee>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0    # No returned data in case of collision
@@ -500,7 +500,7 @@ createFailResult:
       network:
         - '>=Cancun'
       result:
-        0000000000000000000000000000000000c0deee:
+        <contract:0x0000000000000000000000000000000000c0deee>:
           storage:
             0x00: 0    # No newly created contract
             0x01: 0    # There is no returned data 

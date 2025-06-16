@@ -15,7 +15,7 @@ oog:
 
   pre:
     # SHA3
-    0000000000000000000000000000000000010020:
+    <contract:0x0000000000000000000000000000000000010020>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         :yul berlin
@@ -30,7 +30,7 @@ oog:
 
 
     # CALLDATACOPY
-    0000000000000000000000000000000000010037:
+    <contract:0x0000000000000000000000000000000000010037>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -43,7 +43,7 @@ oog:
 
 
     # CODECOPY
-    0000000000000000000000000000000000010039:
+    <contract:0x0000000000000000000000000000000000010039>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin 
@@ -55,7 +55,7 @@ oog:
 
 
     # EXTCODECOPY
-    000000000000000000000000000000000001003C:
+    <contract:0x000000000000000000000000000000000001003c>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin 
@@ -68,7 +68,7 @@ oog:
 
 
     # RETURNDATACOPY
-    000000000000000000000000000000000001003E:
+    <contract:0x000000000000000000000000000000000001003e>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -83,7 +83,7 @@ oog:
 
 
     # Create return data
-    000000000000000000000000000000000001113E:
+    <contract:0x000000000000000000000000000000000001113e>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -96,7 +96,7 @@ oog:
 
 
     # MLOAD
-    0000000000000000000000000000000000010051:
+    <contract:0x0000000000000000000000000000000000010051>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -108,7 +108,7 @@ oog:
 
 
     # MSTORE
-    0000000000000000000000000000000000010052:
+    <contract:0x0000000000000000000000000000000000010052>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -120,7 +120,7 @@ oog:
 
 
     # MSTORE8
-    0000000000000000000000000000000000010053:
+    <contract:0x0000000000000000000000000000000000010053>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -132,7 +132,7 @@ oog:
 
 
     # LOG0
-    00000000000000000000000000000000000100A0:
+    <contract:0x00000000000000000000000000000000000100a0>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -144,7 +144,7 @@ oog:
 
 
     # LOG1
-    00000000000000000000000000000000000100A1:
+    <contract:0x00000000000000000000000000000000000100a1>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -156,7 +156,7 @@ oog:
 
 
     # LOG2
-    00000000000000000000000000000000000100A2:
+    <contract:0x00000000000000000000000000000000000100a2>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -168,7 +168,7 @@ oog:
 
 
     # LOG3
-    00000000000000000000000000000000000100A3:
+    <contract:0x00000000000000000000000000000000000100a3>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -180,7 +180,7 @@ oog:
 
 
     # LOG4
-    00000000000000000000000000000000000100A4:
+    <contract:0x00000000000000000000000000000000000100a4>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -192,7 +192,7 @@ oog:
 
 
     # CREATE
-    00000000000000000000000000000000000100F0:
+    <contract:0x00000000000000000000000000000000000100f0>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -204,7 +204,7 @@ oog:
 
 
     # CREATE2
-    00000000000000000000000000000000000100F5:
+    <contract:0x00000000000000000000000000000000000100f5>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -217,7 +217,7 @@ oog:
 
 
     # RETURN
-    00000000000000000000000000000000000100F3:
+    <contract:0x00000000000000000000000000000000000100f3>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -229,7 +229,7 @@ oog:
 
 
     # CALL
-    00000000000000000000000000000000000100f1:
+    <contract:0x00000000000000000000000000000000000100f1>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -241,7 +241,7 @@ oog:
 
 
     # CALLCODE
-    00000000000000000000000000000000000100f2:
+    <contract:0x00000000000000000000000000000000000100f2>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -253,7 +253,7 @@ oog:
 
 
     # DELEGATECALL
-    00000000000000000000000000000000000100f4:
+    <contract:0x00000000000000000000000000000000000100f4>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -265,7 +265,7 @@ oog:
 
 
     # STATICCALL
-    00000000000000000000000000000000000100fa:
+    <contract:0x00000000000000000000000000000000000100fa>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -277,7 +277,7 @@ oog:
 
 
     # Contract to be called
-    00000000000000000000000000000000000111f1:
+    <contract:0x00000000000000000000000000000000000111f1>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -289,7 +289,7 @@ oog:
 
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
        :yul berlin
@@ -303,7 +303,7 @@ oog:
       nonce: 1
       storage: {}
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: 0x
       nonce: 1
@@ -405,8 +405,8 @@ oog:
     - 80000000
     gasPrice: 10
     nonce: 1
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -418,7 +418,7 @@ oog:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 1
 
@@ -430,6 +430,6 @@ oog:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0

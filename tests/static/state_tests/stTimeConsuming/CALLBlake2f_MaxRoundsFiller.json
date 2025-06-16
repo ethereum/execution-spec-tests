@@ -20,7 +20,7 @@
         },
         "network": [">=Cancun"],
         "result": {
-          "1000000000000000000000000000000000000000": {
+          "<contract:target:0x1000000000000000000000000000000000000000>": {
             "storage": {
               "0x01": "0x01",
               "0x02": "0xfc59093aafa9ab43daae0e914c57635c5402d8e3d2130eb9b3cc181de7f0ecf9",
@@ -31,13 +31,13 @@
       }
     ],
     "pre": {
-      "1000000000000000000000000000000000000000": {
+      "<contract:target:0x1000000000000000000000000000000000000000>": {
         "balance": "",
         "code": "{ (CALLDATACOPY 0 0 (CALLDATASIZE)) [[1]] (CALL (GAS) 9 0 0 (CALLDATASIZE) 1000 64) [[2]](MLOAD 1000) [[3]](MLOAD 1032)}",
         "nonce": "0",
         "storage": {}
       },
-      "a94f5374fce5edbc8e2a8697c15331677e6ebf0b": {
+      "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>": {
         "balance": "1000000000000000000000",
         "code": "",
         "nonce": "0",
@@ -57,8 +57,8 @@
       "gasLimit": ["10000000000"],
       "gasPrice": "10",
       "nonce": "0",
-      "secretKey": "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
-      "to": "1000000000000000000000000000000000000000",
+      "secretKey": "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
+      "to": "<contract:target:0x1000000000000000000000000000000000000000>",
       "value": ["0"]
     }
   }

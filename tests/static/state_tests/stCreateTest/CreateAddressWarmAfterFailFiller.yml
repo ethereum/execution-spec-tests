@@ -16,13 +16,13 @@ CreateAddressWarmAfterFail:
 
   pre:
     # Tx sender
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       nonce: 0
       balance: 1000000000001
       storage: {}
       code: ''
 
-    00000000000000000000000000000000000c0deC:
+    <contract:target:0x00000000000000000000000000000000000c0dec>:
       nonce: 0
       # Need extra gas to be able to send some to the "random" address
       # And to send to the created address twice
@@ -237,7 +237,7 @@ CreateAddressWarmAfterFail:
 
     # Data 3 - Out of gas through a constructor that returns too much
     # Data 4 - Out of gas later in the call (past the constructor)
-    00000000000000000000000000000000c0de1006:
+    <contract:0x00000000000000000000000000000000c0de1006>:
       nonce: 1
       balance: 0x1000
       storage: {}
@@ -259,7 +259,7 @@ CreateAddressWarmAfterFail:
 
     # Data 13 - Out of gas through a constructor that returns too much
     # Data 14 - Out of gas later in the call (past the constructor)
-    00000000000000000000000000000020c0de1006:
+    <contract:0x00000000000000000000000000000020c0de1006>:
       nonce: 1
       balance: 0x1000
       storage: {}
@@ -282,7 +282,7 @@ CreateAddressWarmAfterFail:
 
 
     # Data 5 - Nonce too high to create another contract
-    00000000000000000000000000000000c0deFFFF:
+    <contract:0x00000000000000000000000000000000c0deffff>:
       nonce: 0xFFFFFFFFFFFFFFFF
       balance: 0x1000
       storage: {}
@@ -322,8 +322,8 @@ CreateAddressWarmAfterFail:
       - 400000000
     gasPrice: 10
     nonce: 0
-    to: "00000000000000000000000000000000000c0deC"
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: "<contract:target:0x00000000000000000000000000000000000c0dec>"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
       - 0
       - 1
@@ -343,9 +343,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -375,10 +375,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -421,9 +421,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -448,10 +448,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -494,9 +494,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -521,10 +521,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -566,9 +566,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -593,10 +593,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -639,9 +639,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -668,10 +668,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1    # Create failed, but nonce is bumped.
           storage:
             0: 0    # Create failed
@@ -714,9 +714,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 0    # No nonce bump
           storage:
             0: 1    # Call to creator contract successful
@@ -750,9 +750,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 0   # No nonce bump
           storage:
             0: 1    # Creator account call is successful
@@ -800,9 +800,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 0    # No nonce bump
           storage:
             0: 0    # Call to creator contract reverted
@@ -834,9 +834,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 0   # No nonce bump
           storage:
             0: 0    # Call to creator contract reverted
@@ -872,9 +872,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1 
           storage:
             0: 0xd4e7ae083132925a4927c1f5816238ba17b82a65  # Create successful, created this address
@@ -899,10 +899,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1
           storage:
             0: 0xd4e7ae083132925a4927c1f5816238ba17b82a65  # Create successful, created this address
@@ -944,9 +944,9 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1 
           storage:
             0: 0xf7fef4b66b1570a057d7d5cec5c58846befa5b5c # Address created by CREATE2
@@ -973,10 +973,10 @@ CreateAddressWarmAfterFail:
       network:
         - ">=Cancun"
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-        00000000000000000000000000000000000c0deC:
+        <contract:target:0x00000000000000000000000000000000000c0dec>:
           nonce: 1
           storage:
             0: 0xf7fef4b66b1570a057d7d5cec5c58846befa5b5c # Address created by CREATE2

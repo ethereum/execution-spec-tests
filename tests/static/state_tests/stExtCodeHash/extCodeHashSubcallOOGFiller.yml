@@ -10,7 +10,7 @@ extCodeHashSubcallOOG:
     currentNumber: "1"
     currentTimestamp: "1000"
   pre:
-    '1000000000000000000000000000000000000000':
+    '<eoa:0x1000000000000000000000000000000000000000>':
       balance: '1000000000000000000'
       code: |
         {
@@ -26,41 +26,41 @@ extCodeHashSubcallOOG:
     '2000000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (CALL 150000 0xa000000000000000000000000000000000000000 0 0 0 0 32) (RETURN 0 32)}
+        { (CALL 150000 <contract:0xa000000000000000000000000000000000000000> 0 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     '2100000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (CALLCODE 150000 0xa000000000000000000000000000000000000000 0 0 0 0 32) (RETURN 0 32)}
+        { (CALLCODE 150000 <contract:0xa000000000000000000000000000000000000000> 0 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     '2200000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (DELEGATECALL 150000 0xa000000000000000000000000000000000000000 0 0 0 32) (RETURN 0 32)}
+        { (DELEGATECALL 150000 <contract:0xa000000000000000000000000000000000000000> 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     '3000000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (CALL 150000 0xa100000000000000000000000000000000000000 0 0 0 0 32) (RETURN 0 32)}
+        { (CALL 150000 <contract:0xa100000000000000000000000000000000000000> 0 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     '3100000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (CALLCODE 250000 0xa100000000000000000000000000000000000000 0 0 0 0 32) (RETURN 0 32)}
+        { (CALLCODE 250000 <contract:0xa100000000000000000000000000000000000000> 0 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     '3200000000000000000000000000000000000000':
       balance: '1000000000000000000'
       code: |
-        { (DELEGATECALL 150000 0xa100000000000000000000000000000000000000 0 0 0 32) (RETURN 0 32)}
+        { (DELEGATECALL 150000 <contract:0xa100000000000000000000000000000000000000> 0 0 0 32) (RETURN 0 32)}
       nonce: '0'
       storage: {}
     #create dynamic contract not going out of gas
-    a000000000000000000000000000000000000000:
+    <contract:0xa000000000000000000000000000000000000000>:
       balance: '1000000000000000000'
       code: |
         { 
@@ -79,7 +79,7 @@ extCodeHashSubcallOOG:
       nonce: '0'
       storage: {}
     #create dynamic contract and go OOG
-    a100000000000000000000000000000000000000:
+    <contract:0xa100000000000000000000000000000000000000>:
       balance: '1000000000000000000'
       code: |
         {
@@ -99,7 +99,7 @@ extCodeHashSubcallOOG:
         }
       nonce: '0'
       storage: {}
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '1000000000000000000'
       code: ''
       nonce: '0'
@@ -112,7 +112,7 @@ extCodeHashSubcallOOG:
       network:
         - '>=Cancun'
       result:
-        1000000000000000000000000000000000000000:
+        <eoa:0x1000000000000000000000000000000000000000>:
           storage: {
              "0x01": '0x9ff1f274b33e3b56edd7734520cbcdf2699fc1dc78b51644cdc56ca65bebeeae',
              "0x02": '0x05',
@@ -126,9 +126,9 @@ extCodeHashSubcallOOG:
       network:
         - '>=Cancun'
       result:
-        62ae0b997c8230e321b19d06b7004f25e1ac0637:
+        <eoa:0x62ae0b997c8230e321b19d06b7004f25e1ac0637>:
           shouldnotexist: '1'
-        c566c94b132ce77d6e67add86c5a74e808578876:
+        <eoa:0xc566c94b132ce77d6e67add86c5a74e808578876>:
           shouldnotexist: '1' 
   transaction:
     data:
@@ -142,7 +142,7 @@ extCodeHashSubcallOOG:
     - '400000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: '1000000000000000000000000000000000000000'
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: '<eoa:0x1000000000000000000000000000000000000000>'
     value:
     - '1'

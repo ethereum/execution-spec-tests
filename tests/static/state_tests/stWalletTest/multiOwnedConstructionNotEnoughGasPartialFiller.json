@@ -19,7 +19,7 @@
                     "6295ee1b4f6dd65047762f924ecd367c17eabf8f" : {
                         "shouldnotexist" : "1"
                     },
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "code" : "0x",
                         "nonce" : "0x01",
                         "storage" : {
@@ -38,7 +38,7 @@
                     "6295ee1b4f6dd65047762f924ecd367c17eabf8f" : {
                         "nonce" : "1"
                     },
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "code" : "0x",
                         "nonce" : "0x01",
                         "storage" : {
@@ -48,7 +48,7 @@
             }
         ],
         "pre" : {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000000000",
                 "code" : "0x",
                 "nonce" : "0",
@@ -65,7 +65,7 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
             "to" : "",
             "value" : [
                 "100"

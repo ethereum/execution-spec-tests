@@ -4,7 +4,7 @@ from typing import Dict
 
 from pydantic import BaseModel
 
-from .common import CodeInFiller, ValueInFiller
+from .common import CodeInFiller, ValueInFiller, ValueOrTagInFiller
 
 
 class AccountInFiller(BaseModel):
@@ -13,7 +13,7 @@ class AccountInFiller(BaseModel):
     balance: ValueInFiller
     code: CodeInFiller
     nonce: ValueInFiller
-    storage: Dict[ValueInFiller, ValueInFiller]
+    storage: Dict[ValueInFiller, ValueOrTagInFiller]
 
     class Config:
         """Model Config."""

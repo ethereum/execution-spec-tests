@@ -54,14 +54,14 @@
             }
         ],
         "pre" : {
-            "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
                 "code" : "",
                 "nonce" : "0x00",
                 "storage" : {
                 }
             },
-            "0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
                 "//code" : "{ (CODECOPY 0 0 100) (if (LT (GAS) 1000)  (GAS)  (CREATE2 0 0 100 0))   }",
                 "code" : "{ (MSTORE 0 0x606460006000396103e85a10601b576000606460006000f5601d565b5a5b)  (CREATE2 0 2 30 0) }",
@@ -79,8 +79,8 @@
             ],
             "gasPrice" : "0x0a",
             "nonce" : "0x00",
-            "secretKey" : "0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
-            "to" : "0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
+            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0x00"
             ]

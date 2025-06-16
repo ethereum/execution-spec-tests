@@ -15,7 +15,7 @@ revertRetDataSize:
 
   pre:
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {   ;  $4 is the type of thing that fails
@@ -226,7 +226,7 @@ revertRetDataSize:
 
 
     # Call and try to return a 0x40 byte value
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -240,7 +240,7 @@ revertRetDataSize:
 
 
     # Stack underflow
-    0000000000000000000000000000000000000200:
+    <contract:0x0000000000000000000000000000000000000200>:
       balance: '0x0ba1a9ce0ba1a9ce'
       nonce: '0'
       storage: {}
@@ -253,7 +253,7 @@ revertRetDataSize:
 
 
     # JUMP to a place that isn't a JUMPDEST
-    0000000000000000000000000000000000000300:
+    <contract:0x0000000000000000000000000000000000000300>:
       balance: '0x0ba1a9ce0ba1a9ce'
       nonce: '0'
       storage: {}
@@ -264,7 +264,7 @@ revertRetDataSize:
 
 
     # JUMPI to a place that isn't a JUMPDEST
-    0000000000000000000000000000000000000400:
+    <contract:0x0000000000000000000000000000000000000400>:
       balance: '0x0ba1a9ce0ba1a9ce'
       nonce: '0'
       storage: {}
@@ -276,7 +276,7 @@ revertRetDataSize:
 
 
     # Bad opcode
-    0000000000000000000000000000000000000500:
+    <contract:0x0000000000000000000000000000000000000500>:
       balance: '0x0ba1a9ce0ba1a9ce'
       nonce: '0'
       storage: {}
@@ -284,7 +284,7 @@ revertRetDataSize:
 
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -353,10 +353,10 @@ revertRetDataSize:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -370,7 +370,7 @@ revertRetDataSize:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0: 0x40   # First returndatasize
             1: 0x00   # Second returndatasize

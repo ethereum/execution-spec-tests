@@ -14,7 +14,7 @@ return:
 
 
     # Return a normal value
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -27,7 +27,7 @@ return:
 
 
     # "Infinite" (-1 = 0xfff..ffff) buffer
-    0000000000000000000000000000000000001001:
+    <contract:0x0000000000000000000000000000000000001001>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -40,7 +40,7 @@ return:
 
 
     # Big but reasonable buffer
-    0000000000000000000000000000000000001002:
+    <contract:0x0000000000000000000000000000000000001002>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -53,7 +53,7 @@ return:
 
 
     # Return at an offset
-    0000000000000000000000000000000000001003:
+    <contract:0x0000000000000000000000000000000000001003>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -99,7 +99,7 @@ return:
     #[42] MSTORE
     #[43] JUMPDEST
     # [44] STOP
-    0000000000000000000000000000000000001004:
+    <contract:0x0000000000000000000000000000000000001004>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: :raw 0x6001608052600060805111601b57600160005260206000f3602b565b602760005260206000f360026080525b00
       nonce: '0'
@@ -108,7 +108,7 @@ return:
 
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -123,7 +123,7 @@ return:
         0xFF: 0x0BAD
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -144,10 +144,10 @@ return:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '1'
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -161,7 +161,7 @@ return:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
             0x01: 0x00
@@ -176,7 +176,7 @@ return:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0xFF: 0x0BAD
 
@@ -189,7 +189,7 @@ return:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Remember that the higher significant bytes come first in EVM
             0x00: 0xabcdef0123456789abcdef0123456789abcdef0123456789abcdef0000000000
@@ -205,7 +205,7 @@ return:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             0x00: 0x0027
             0xFF: 0x0BAD
