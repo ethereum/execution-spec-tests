@@ -73,6 +73,9 @@ uv run pytest -c pytest-framework.ini -m run_in_serial
 
 # Run specific checks (fast checks)
 uvx --with=tox-uv tox -e lint,typecheck,spellcheck
+
+# Local docs check (fast mode: these warnings can be ignored "WARNING -  Doc file 'writing_tests/..."):
+export FAST_DOCS=true && export GEN_TEST_DOC_VERSION="tox" && uv run mkdocs build
 ```
 
 ## 🎯 Core Framework Rules
