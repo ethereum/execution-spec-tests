@@ -52,7 +52,7 @@ Claude works best with concrete information:
 
 ```bash
 # Share the exact command you ran
-uv run fill --fork=Cancun tests/cancun/eip4844_blobs/test_blob_txs.py --clean -v
+uv run fill --fork=Prague tests/cancun/eip4844_blobs/test_blob_txs.py --clean -v
 
 # Include relevant error output
 ERROR: Failed to compile Yul source: ...

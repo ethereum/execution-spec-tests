@@ -43,7 +43,7 @@ uvx pre-commit install
 uv run eest make test
 
 # Generate fixtures (PRIMARY WORKFLOW)
-uv run fill --fork=Cancun path/to/test.py --clean -v
+uv run fill --fork=Prague path/to/test.py --clean -v -m "not slow"
 
 # Execute against client
 uv run consume direct --bin=evm fixtures/
@@ -85,7 +85,7 @@ export FAST_DOCS=true && export GEN_TEST_DOC_VERSION="tox" && uv run mkdocs buil
 ```python
 def test_example(pre: Alloc, state_test: StateTestFiller):
     # ✅ Dynamic allocation
-    sender = pre.fund_eoa(10**18)
+    sender = pre.fund_eoa()
     contract = pre.deploy_contract(code=Op.SSTORE(1, 1))
     
     tx = Transaction(sender=sender, to=contract, gas_limit=5_000_000)
@@ -154,7 +154,7 @@ def test_with_params(value: int, pre: Alloc, state_test: StateTestFiller):
 ### Generate EVM Traces
 
 ```bash
-uv run fill --fork=Cancun --evm-dump-dir=debug_output/ --traces path/to/test.py
+uv run fill --fork=Prague --evm-dump-dir=debug_output/ --traces path/to/test.py
 jq -r '.opName' debug_output/**/*.jsonl
 ```
 
