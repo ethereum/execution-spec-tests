@@ -210,7 +210,7 @@ def validate_changelog():
         with open(changelog_path, "r", encoding="utf-8") as f:
             content = f.read()
     except Exception as e:
-        click.echo(f"❌ Error reading changelog: {e}")
+        click.echo(f"❌ Error reading changelog: {e}.")
         sys.exit(1)
 
     # Find bullet points that don't end with period or colon
@@ -220,15 +220,15 @@ def validate_changelog():
             invalid_lines.append((line_num, line.strip()))
 
     if invalid_lines:
-        click.echo("❌ Found bullet points without proper punctuation:")
+        click.echo(f"❌ Found bullet points in {changelog_path} without proper punctuation:")
         click.echo()
         for line_num, line in invalid_lines:
             click.echo(f"Line {line_num}: {line}")
         click.echo()
         click.echo("💡 All bullet points should end with:")
-        click.echo("  - A period (.) for regular entries")
-        click.echo("  - A colon (:) for section headers that introduce lists")
+        click.echo("  - A period (.) for regular entries.")
+        click.echo("  - A colon (:) for paragraphs that introduce lists.")
         sys.exit(1)
     else:
-        click.echo("✅ All bullet points have proper punctuation")
+        click.echo("✅ All bullet points have proper punctuation!")
         sys.exit(0)
