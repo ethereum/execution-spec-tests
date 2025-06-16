@@ -35,6 +35,7 @@ from tests.cancun.eip4844_blobs.spec import Spec as BlobsSpec
 from tests.istanbul.eip152_blake2.common import Blake2bInput
 from tests.istanbul.eip152_blake2.spec import Spec as Blake2bSpec
 from tests.osaka.eip7951_p256verify_precompiles import spec as p256verify_spec
+from tests.osaka.eip7951_p256verify_precompiles.spec import FieldElement
 from tests.prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
 from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 
@@ -710,15 +711,15 @@ def test_worst_precompile_fixed_cost(
         parameters_str = cast(list[str], parameters)
         concatenated_hex_string = "".join(parameters_str)
         concatenated_bytes = bytes.fromhex(concatenated_hex_string)
-    elif all(isinstance(p, (bytes, BytesConcatenation)) for p in parameters):
+    elif all(isinstance(p, (bytes, BytesConcatenation, FieldElement)) for p in parameters):
         parameters_bytes_list = [
-            bytes(p) for p in cast(list[BytesConcatenation | bytes], parameters)
+            bytes(p) for p in cast(list[BytesConcatenation | bytes | FieldElement], parameters)
         ]
         concatenated_bytes = b"".join(parameters_bytes_list)
     else:
         raise TypeError(
             "parameters must be a list of strings (hex) "
-            "or a list of byte-like objects (bytes or BytesConcatenation)."
+            "or a list of byte-like objects (bytes, BytesConcatenation or FieldElement)."
         )
 
     padding_length = (32 - (len(concatenated_bytes) % 32)) % 32
