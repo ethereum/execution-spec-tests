@@ -21,25 +21,25 @@ flowchart LR
   style H stroke:#F9A825,stroke-width:2px
   
   subgraph "ethereum/go-ethereum, ..."
-    C[<code>evm t8n</code><br>external executable]
+    C[<code>evm t8n</code><br/>external executable]
   end
 
   subgraph ethereum/solidity
-    D[<code>solc</code><br>external executable]
+    D[<code>solc</code><br/>external executable]
   end
 
   subgraph ethereum/EIPs
-    E(<code>EIPS/EIP-*.md</code><br>SHA digest via Github API)
+    E(<code>EIPS/EIP-*.md</code><br/>SHA digest via Github API)
   end
 
   subgraph "ethereum/execution-spec-tests"
-    A(<code>./tests/**/*.py</code><br>Python Test Cases)
-    B([<code>$ fill ./tests/</code><br>Python Framework])
+    A(<code>./tests/**/*.py</code><br/>Python Test Cases)
+    B([<code>$ fill ./tests/</code><br/>Python Framework])
   end
 
   subgraph Test Fixture Consumers
     subgraph ethereum/hive
-      G([<code>$ hive ...</code><br>Go Test Framework])
+      G([<code>$ hive ...</code><br/>Go Test Framework])
     end
     H([Client executables])
   end
