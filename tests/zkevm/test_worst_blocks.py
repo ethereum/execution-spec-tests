@@ -10,6 +10,7 @@ import pytest
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
+    Address,
     Alloc,
     Block,
     BlockchainTestFiller,
@@ -21,7 +22,7 @@ from ethereum_test_tools import (
 @pytest.fixture
 def iteration_count(eth_transfer_cost: int):
     """Calculate the number of iterations based on the gas limit and intrinsic cost."""
-    return min(5, Environment().gas_limit // eth_transfer_cost)
+    return Environment().gas_limit // eth_transfer_cost
 
 
 @pytest.fixture
@@ -37,75 +38,69 @@ def eth_transfer_cost(fork: Fork):
     return intrinsic_cost()
 
 
-def get_distinct_sender_list(pre: Alloc, iteration_count: int):
+def get_distinct_sender_list(pre: Alloc):
     """Get a list of distinct sender accounts."""
-    return [pre.fund_eoa() for _ in range(iteration_count)]
+    while True:
+        yield pre.fund_eoa()
 
 
-def get_distinct_receiver_list(pre: Alloc, iteration_count: int):
+def get_distinct_receiver_list(pre: Alloc):
     """Get a list of distinct receiver accounts."""
-    return [pre.fund_eoa(0) for _ in range(iteration_count)]
+    while True:
+        yield pre.fund_eoa(0)
 
 
-def get_single_sender_list(pre: Alloc, iteration_count: int):
+def get_single_sender_list(pre: Alloc):
     """Get a list of single sender accounts."""
     sender = pre.fund_eoa()
-    return [sender for _ in range(iteration_count)]
+    while True:
+        yield sender
 
 
-def get_single_receiver_list(pre: Alloc, iteration_count: int):
+def get_single_receiver_list(pre: Alloc):
     """Get a list of single receiver accounts."""
     receiver = pre.fund_eoa(0)
-    return [receiver for _ in range(iteration_count)]
+    while True:
+        yield receiver
 
 
 @pytest.fixture
 def ether_transfer_case(
     request,
     pre: Alloc,
-    iteration_count: int,
-    transfer_amount: int,
-    eth_transfer_cost: int,
 ):
     """Generate the test parameters based on the case ID."""
     case_id = request.param
 
     if case_id == "a_to_a":
         """Sending to self."""
-        total_balance = pre._eoa_fund_amount_default - eth_transfer_cost * iteration_count * 0x0A
-        account_list = get_single_sender_list(pre, iteration_count)
-        sender_list = account_list
-        receiver_list = account_list
-        post = {sender_list[0]: Account(balance=total_balance)}
+        senders = get_single_sender_list(pre)
+        receivers = get_single_receiver_list(pre)
 
     elif case_id == "a_to_b":
         """One sender → one receiver."""
-        sender_list = get_single_sender_list(pre, iteration_count)
-        receiver_list = get_single_receiver_list(pre, iteration_count)
-        post = {receiver_list[0]: Account(balance=transfer_amount * iteration_count)}
+        senders = get_single_sender_list(pre)
+        receivers = get_single_receiver_list(pre)
 
     elif case_id == "diff_acc_to_b":
         """Multiple senders → one receiver."""
-        sender_list = get_distinct_sender_list(pre, iteration_count)
-        receiver_list = get_single_receiver_list(pre, iteration_count)
-        post = {receiver_list[0]: Account(balance=transfer_amount * iteration_count)}
+        senders = get_distinct_sender_list(pre)
+        receivers = get_single_receiver_list(pre)
 
     elif case_id == "a_to_diff_acc":
         """One sender → multiple receivers."""
-        sender_list = get_single_sender_list(pre, iteration_count)
-        receiver_list = get_distinct_receiver_list(pre, iteration_count)
-        post = {receiver: Account(balance=transfer_amount) for receiver in receiver_list}
+        senders = get_single_sender_list(pre)
+        receivers = get_distinct_receiver_list(pre)
 
     elif case_id == "diff_acc_to_diff_acc":
         """Multiple senders → multiple receivers."""
-        sender_list = get_distinct_sender_list(pre, iteration_count)
-        receiver_list = get_distinct_receiver_list(pre, iteration_count)
-        post = {receiver: Account(balance=transfer_amount) for receiver in receiver_list}
+        senders = get_distinct_sender_list(pre)
+        receivers = get_distinct_receiver_list(pre)
 
     else:
         raise ValueError(f"Unknown case: {case_id}")
 
-    return sender_list, receiver_list, post
+    return senders, receivers
 
 
 @pytest.mark.valid_from("Cancun")
@@ -132,22 +127,34 @@ def test_block_full_of_ether_transfers(
     - a_to_diff_acc: one sender → multiple receivers
     - diff_acc_to_diff_acc: multiple senders → multiple receivers
     """
-    sender_list, receiver_list, post = ether_transfer_case
+    senders, receivers = ether_transfer_case
 
-    blocks = []
-    for i in range(iteration_count):
-        tx = Transaction(
-            to=receiver_list[i],
-            value=transfer_amount,
-            gas_limit=eth_transfer_cost,
-            sender=sender_list[i],
+    # Create a single block with all transactions
+    txs = []
+    balances: dict[Address, int] = {}
+    for _ in range(iteration_count):
+        receiver = next(receivers)
+        balances[receiver] = balances.get(receiver, 0) + transfer_amount
+        txs.append(
+            Transaction(
+                to=receiver,
+                value=transfer_amount,
+                gas_limit=eth_transfer_cost,
+                sender=next(senders),
+            )
         )
-        blocks.append(Block(txs=[tx]))
+
+    # Only include post state for non a_to_a cases
+    post_state = (
+        None
+        if ether_transfer_case == "a_to_a"
+        else {receiver: Account(balance=balance) for receiver, balance in balances.items()}
+    )
 
     blockchain_test(
         genesis_environment=Environment(),
         pre=pre,
-        post=post,
-        blocks=blocks,
+        post=post_state,
+        blocks=[Block(txs=txs)],
         exclude_full_post_state_in_output=True,
     )
