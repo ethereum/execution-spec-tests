@@ -91,6 +91,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/filling_tests/filling_tests_command_line_options/</loc>
+         <lastmod>2025-06-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/filling_tests/filling_tests_dev_fork/</loc>
          <lastmod>2025-06-16</lastmod>
          <changefreq>daily</changefreq>
@@ -222,6 +227,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/library/cli/evm_bytes/</loc>
+         <lastmod>2025-06-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/library/cli/extract_config/</loc>
          <lastmod>2025-06-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
