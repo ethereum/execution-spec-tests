@@ -23355,6 +23355,9 @@ uv<span class="w"> </span>run<span class="w"> </span>solc-select<span class="w">
 <p><strong>For EVM Tests</strong>: Review the cases in the <a href="../../writing_tests/checklist_templates/eip_testing_checklist_template/">EIP checklist template</a>.</p>
 </li>
 <li>
+<p><strong>For Porting Tests</strong>: If you're porting tests from ethereum/tests, see the <a href="../../dev/porting_legacy_tests/">porting guide</a> for coverage analysis and using <code>--skip-coverage-missed-reason</code> when needed.</p>
+</li>
+<li>
 <p><strong>Verify your changes</strong> by running the appropriate checks:</p>
 <div class="highlight"><pre><span></span><code>uvx<span class="w"> </span>--with<span class="o">=</span>tox-uv<span class="w"> </span>tox<span class="w"> </span>-e<span class="w"> </span>lint,typecheck
 </code></pre></div>
@@ -23620,6 +23623,7 @@ docs/improve-installation-guide
 <li>The entry should clearly but concisely describe the change.</li>
 <li>It must include a link to the PR in brackets (e.g., <code>([#1234](https://github.com/ethereum/execution-spec-tests/pull/1234))</code>).</li>
 <li>Add any breaking changes at the top of the upcoming release section.</li>
+<li>Changelog entries are automatically validated in CI to ensure proper formatting.</li>
 </ul>
 </li>
 <li>

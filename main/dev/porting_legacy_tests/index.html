@@ -2531,6 +2531,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resolving-coverage-gaps-from-yul-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolving Coverage Gaps from Yul Compilation
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -22877,6 +22886,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#resolving-coverage-gaps-from-yul-compilation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resolving Coverage Gaps from Yul Compilation
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -22989,6 +23007,22 @@
 <p>It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.</p>
 <p>Also note that yul tests and possibly other tests used <code>CALLDATALOAD</code> that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.</p>
 <p>For example, review the <a href="https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289">discussion in this PR.</a></p>
+</div>
+<h2 id="resolving-coverage-gaps-from-yul-compilation">Resolving Coverage Gaps from Yul Compilation<a class="headerlink" href="#resolving-coverage-gaps-from-yul-compilation" title="Permanent link">&para;</a></h2>
+<p>When porting tests from ethereum/tests, you may encounter coverage gaps that are false positives. This commonly occurs because:</p>
+<ul>
+<li><strong>Original tests</strong> often used Yul to define smart contracts, and solc compilation introduces additional opcodes that aren't specifically under test</li>
+<li><strong>EEST ports</strong> typically use the explicit EEST Opcode mini-language, which is more precise in opcode definition</li>
+</ul>
+<p>If coverage analysis shows missing opcodes that were only present due to Yul compilation artifacts (not the actual feature being tested), this can be resolved during PR review by adding the <code>coverage_missed_reason</code> parameter:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;path/to/original_test.json&quot;</span><span class="p">],</span>
+    <span class="n">coverage_missed_reason</span><span class="o">=</span><span class="s2">&quot;Missing opcodes are Yul compilation artifacts, not part of tested feature&quot;</span>
+<span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Add coverage_missed_reason only after PR review</p>
+<p>Only add <code>coverage_missed_reason</code> after PR review determines the coverage gap is acceptable, never preemptively. This helps maintain test coverage integrity while accounting for legitimate differences between Yul-based and EEST opcode-based implementations.</p>
 </div>
 
 
