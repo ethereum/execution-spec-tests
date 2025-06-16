@@ -79,7 +79,13 @@ def pytest_addoption(parser: pytest.Parser):
         action="store_true",
         dest="skip_coverage_missed_reason",
         default=False,
-        help="Skip printing tests with coverage_missed_reason.",
+        help=(
+            "When using --show-ported-from, exclude tests that have "
+            "coverage_missed_reason in their @pytest.mark.ported_from marker. "
+            "These are tests that were intentionally not ported from the original "
+            "static filler files, typically because they are redundant or obsolete. "
+            "This helps filter out accepted coverage gaps when analyzing test coverage."
+        ),
     )
     ported_from_group.addoption(
         "--ported-from-output-file",
