@@ -53,6 +53,22 @@ jobs:
         env:
           GITHUB_STEP_SUMMARY: ${{ env.GITHUB_STEP_SUMMARY }}
 
+  changelog:
+    name: Validate changelog entries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ethereum/execution-spec-tests
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install uv ${{ vars.UV_VERSION }} and python ${{ vars.DEFAULT_PYTHON_VERSION }}
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          version: ${{ vars.UV_VERSION }}
+          python-version: ${{ vars.DEFAULT_PYTHON_VERSION }}
+      - name: Run changelog validation via tox
+        run: uvx --with=tox-uv tox -e changelog
+
   markdownlint:
     name: Lint markdown files with markdownlint
     runs-on: ubuntu-latest
