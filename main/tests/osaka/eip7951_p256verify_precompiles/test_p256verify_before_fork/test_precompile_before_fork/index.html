@@ -22845,7 +22845,7 @@
 
 
 <h1 id="test_precompile_before_fork"><code>test_precompile_before_fork()</code><a class="headerlink" href="#test_precompile_before_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b8da4af651c2832099641e821c80b88b2b452c38/tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py#L19"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork@b8da4af6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/97b54c6af92ba37bd285fcaebe36d99be4aa9278/tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py#L19"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork@97b54c6a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork --fork Prague</span>
@@ -22904,7 +22904,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output,call_succeeds&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;new_precompile/test/fork_transition/before/invalid_input&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/fork_transition/before/invalid_input&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_precompile_before_fork</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
