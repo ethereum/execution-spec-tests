@@ -13,7 +13,7 @@ CreateResults:
 
   pre:
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -199,7 +199,7 @@ CreateResults:
 
 
 
-    00000000000000000000000000000000000060A7:
+    <contract:0x00000000000000000000000000000000000060a7>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -210,7 +210,7 @@ CreateResults:
 
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -282,8 +282,8 @@ CreateResults:
     - 0x900000
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -304,7 +304,7 @@ CreateResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Zero if all goes well 
             # 0x10 - RETURNDATASIZE from the constructor
@@ -318,7 +318,7 @@ CreateResults:
 
 
         # Verify the created contract has been called
-        00000000000000000000000000000000000060A7:
+        <contract:0x00000000000000000000000000000000000060a7>:
           storage:
             0:    0x60A7 
 
@@ -333,7 +333,7 @@ CreateResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Zero if all goes well 
             # 0x10 - RETURNDATASIZE from the constructor
@@ -367,7 +367,7 @@ CreateResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # Zero if all goes well 
             # 0x10 - RETURNDATASIZE from the constructor
@@ -402,7 +402,7 @@ CreateResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
 
             # 0x10 - RETURNDATASIZE from the constructor
@@ -449,7 +449,7 @@ CreateResults:
         - '>=Cancun'
       result:
 
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           storage:
             # 0x11 - Value we attempted to read (and failed)
             0x11: 0

@@ -11,7 +11,7 @@ eoaEmptyParis:
     currentTimestamp: '1000'
 
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 1000000000
       code: ''
       nonce: 0
@@ -19,7 +19,7 @@ eoaEmptyParis:
 
 
     # EOA with only a balance
-    000000000000000000000000000000000000BAD1:
+    <eoa:0x000000000000000000000000000000000000bad1>:
       balance: 1
       code: 0x
       nonce: 0
@@ -27,7 +27,7 @@ eoaEmptyParis:
 
 
     # EOA with only a nonce
-    000000000000000000000000000000000000BAD2:
+    <eoa:0x000000000000000000000000000000000000bad2>:
       balance: 0
       code: 0x
       nonce: 1
@@ -35,14 +35,14 @@ eoaEmptyParis:
 
 
     # EOA with balance and nonce
-    000000000000000000000000000000000000BAD3:
+    <eoa:0x000000000000000000000000000000000000bad3>:
       balance: 1
       code: 0x
       nonce: 1
       storage: {}
 
     # EOA with storage (shouldn't happen)
-    000000000000000000000000000000000000BAD4:
+    <eoa:0x000000000000000000000000000000000000bad4>:
       balance: 10
       code: 0x
       nonce: 0
@@ -51,7 +51,7 @@ eoaEmptyParis:
 
 
     # A suicidal contract that sends its value to the EOA
-    000000000000000000000000000000000000DEAD:
+    <contract:0x000000000000000000000000000000000000dead>:
       balance: 10000
       code: |
         :yul berlin
@@ -62,7 +62,7 @@ eoaEmptyParis:
       storage: {}
 
 
-    000000000000000000000000000000000000C0DE:
+    <contract:target:0x000000000000000000000000000000000000c0de>:
       balance: 0
       code: |
         :yul berlin
@@ -102,8 +102,8 @@ eoaEmptyParis:
       -  9999999   # Lower gas limit, should only affect BALANCE
     gasPrice: 100
     nonce: 0
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: 0x000000000000000000000000000000000000C0DE
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: <contract:target:0x000000000000000000000000000000000000c0de>
     value:
     - 0
     - 100
@@ -116,12 +116,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 0    # Balance (zero)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA
@@ -143,12 +143,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 0    # Balance (zero)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA
@@ -182,12 +182,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 100  # Balance (100 wei at this point)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA
@@ -209,12 +209,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 100  # Balance (100 wei at this point)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA
@@ -236,12 +236,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 0    # Balance (zero)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA
@@ -263,12 +263,12 @@ eoaEmptyParis:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
 
-       000000000000000000000000000000000000C0DE:
+       <contract:target:0x000000000000000000000000000000000000c0de>:
           storage: 
-            0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b   # EOA account
+            0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>   # EOA account
             0x31: 0    # Balance (zero)
             0x3B: 0    # EXTCODESIZE
             0x3F: 0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470 # EXTCODEHASH of active EOA

@@ -52,7 +52,7 @@ ecrecoverShortBuff:
   pre:  
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       code: |
         :yul berlin
         {
@@ -115,7 +115,7 @@ ecrecoverShortBuff:
 
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '1000000000000000000'
       code: 0x
       nonce: 1
@@ -129,8 +129,8 @@ ecrecoverShortBuff:
     - 'F000000000'
     gasPrice: '10'
     nonce: 1
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: cccccccccccccccccccccccccccccccccccccccc
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - '100000'
 
@@ -145,7 +145,7 @@ ecrecoverShortBuff:
     network: 
     - ">=Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # The return value for ecrecover is always one, the smart contract subtracts that
           # so we won't have to specify every value

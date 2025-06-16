@@ -17,7 +17,7 @@ ecpairing_inputs:
       network:
         - ">=Cancun"
       result:
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           storage:
             01: 1
     - indexes:
@@ -27,7 +27,7 @@ ecpairing_inputs:
       network:
         - ">=Cancun"
       result:
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           storage:
             01: 0
     - indexes:
@@ -40,7 +40,7 @@ ecpairing_inputs:
       network:
         - ">=Cancun"
       result:
-        000000000000000000000000000000000000c0de:
+        <contract:target:0x000000000000000000000000000000000000c0de>:
           storage:
             01: 0xfe
 
@@ -51,7 +51,7 @@ ecpairing_inputs:
       code: ''
       storage: { }
 
-    000000000000000000000000000000000000c0de:
+    <contract:target:0x000000000000000000000000000000000000c0de>:
       nonce: 0
       balance: 0
       code: |
@@ -69,17 +69,17 @@ ecpairing_inputs:
       storage:
         01: 0xcc  # placeholder for the result
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       nonce: 0
       balance: 1000000000000000000
       code: ''
       storage: { }
 
   transaction:
-    to: 000000000000000000000000000000000000c0de
+    to: <contract:target:0x000000000000000000000000000000000000c0de>
     nonce: 0
     gasPrice: 10
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     gasLimit:
       - 15000000
     value:

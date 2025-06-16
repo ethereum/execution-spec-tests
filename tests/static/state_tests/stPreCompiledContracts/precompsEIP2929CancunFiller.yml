@@ -70,7 +70,7 @@ precompsEIP2929Cancun:
     #      0x3B - get code size
     #      0x3C - copy code
     #      0x3F - get the code hash
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       code: |
         :yul berlin optimise
         {
@@ -266,7 +266,7 @@ precompsEIP2929Cancun:
 
 
     # Just a normal contract for comparison
-    000000000000000000000000000000000010c0de:
+    <contract:0x000000000000000000000000000000000010c0de>:
       code: |
         :yul berlin
         {
@@ -278,7 +278,7 @@ precompsEIP2929Cancun:
 
 
     # And a contract that has been previously accessed
-    0000000000000000000000000000000000101157:
+    <contract:0x0000000000000000000000000000000000101157>:
       code: |
         :yul berlin
         {
@@ -290,7 +290,7 @@ precompsEIP2929Cancun:
 
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '1000000000000000000'
       code: 0x
       nonce: '0'
@@ -864,8 +864,8 @@ precompsEIP2929Cancun:
     - '40000000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: cccccccccccccccccccccccccccccccccccccccc
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
 
     value:
     - '100000'
@@ -880,7 +880,7 @@ precompsEIP2929Cancun:
     network: 
     - ">=Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If this is a precompile (or previously accessed acct.), we
           # expect to always have the same gas cost
@@ -893,7 +893,7 @@ precompsEIP2929Cancun:
     network: 
     - ">=Prague"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If this is a precompile (or previously accessed acct.), we
           # expect to always have the same gas cost
@@ -909,7 +909,7 @@ precompsEIP2929Cancun:
     network: 
     - ">=Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If this isn't a precompile, we expect the second call to it to cost
           # less than the first
@@ -921,7 +921,7 @@ precompsEIP2929Cancun:
     network: 
     - "Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If this isn't a precompile, we expect the second call to it to cost
           # less than the first
@@ -936,7 +936,7 @@ precompsEIP2929Cancun:
     network: 
     - ">=Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If we need to create a new trie, that's a different cost
           # than the EIP 2929 one.
@@ -951,7 +951,7 @@ precompsEIP2929Cancun:
     network: 
     - ">=Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If we need to create a new trie, that's a different cost
           # than the EIP 2929 one.
@@ -963,7 +963,7 @@ precompsEIP2929Cancun:
     network: 
     - "Cancun"
     result:
-      cccccccccccccccccccccccccccccccccccccccc:
+      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
         storage:
           # If we need to create a new trie, that's a different cost
           # than the EIP 2929 one.

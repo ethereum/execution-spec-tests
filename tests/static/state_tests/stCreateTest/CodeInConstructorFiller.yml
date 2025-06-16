@@ -14,7 +14,7 @@ CodeInConstructor:
   pre:
 
     # Record information
-    000000000000000000000000000000000000da7a:
+    <contract:0x000000000000000000000000000000000000da7a>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -28,7 +28,7 @@ CodeInConstructor:
         0: 1
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -102,7 +102,7 @@ CodeInConstructor:
 
 
     # User account
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -119,8 +119,8 @@ CodeInConstructor:
     - 0x900000
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -134,7 +134,7 @@ CodeInConstructor:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000da7a:
+        <contract:0x000000000000000000000000000000000000da7a>:
           storage:
             0: 8
 
@@ -169,7 +169,7 @@ CodeInConstructor:
       network:
         - '>=Cancun'
       result:
-        000000000000000000000000000000000000da7a:
+        <contract:0x000000000000000000000000000000000000da7a>:
           storage:
             0: 8
 
