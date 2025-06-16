@@ -100,21 +100,23 @@ We welcome contributions via pull requests! This section will guide you through 
 
 7. **For EVM Tests**: Review the cases in the [EIP checklist template](./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md).
 
-8. **Verify your changes** by running the appropriate checks:
+8. **For Porting Tests**: If you're porting tests from ethereum/tests, see the [porting guide](https://eest.ethereum.org/main/dev/porting_legacy_tests) for coverage analysis and using `--skip-coverage-missed-reason` when needed.
+
+9. **Verify your changes** by running the appropriate checks:
 
     ```bash
     uvx --with=tox-uv tox -e lint,typecheck
     ```
 
-9. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
+10. **Commit your changes** with meaningful commit messages (see [Commit Messages, Issues and PR Titles](#commit-messages-issue-and-pr-titles)).
 
-10. **Push your branch** to your GitHub fork:
+11. **Push your branch** to your GitHub fork:
 
     ```bash
     git push -u origin your-branch-name
     ```
 
-10. **Create a pull request** by navigating to your fork on GitHub and clicking the "New Pull Request" button.
+12. **Create a pull request** by navigating to your fork on GitHub and clicking the "New Pull Request" button.
 
 ### Branch Naming Conventions
 
@@ -277,6 +279,7 @@ We maintain high standards for our repository history to ensure it's clean, unde
     - The entry should clearly but concisely describe the change.
     - It must include a link to the PR in brackets (e.g., `([#1234](https://github.com/ethereum/execution-spec-tests/pull/1234))`).
     - Add any breaking changes at the top of the upcoming release section.
+    - Changelog entries are automatically validated in CI to ensure proper formatting.
 
 3. **Check PR title format**
 

@@ -13,6 +13,7 @@ plugins:
         - navigation.md
         - getting_started/contributing.md
         - getting_started/security.md
+        - filling_tests/filling_tests_command_line_options.md
   - glightbox
   - mkdocstrings:
       handlers:
