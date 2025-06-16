@@ -9,7 +9,13 @@ repos:
         pass_filenames: false
       - id: tox-docs
         name: tox-docs
-        entry: uvx --with=tox-uv tox --parallel -e spellcheck,markdownlint,mkdocs
+        entry: uvx --with=tox-uv tox --parallel -e spellcheck,markdownlint
         language: system
         files: \.md$
+        pass_filenames: false
+      - id: tox-changelog
+        name: tox-changelog
+        entry: uvx --with=tox-uv tox -e changelog
+        language: system
+        files: ^docs/CHANGELOG\.md$
         pass_filenames: false
