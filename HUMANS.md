@@ -33,7 +33,7 @@ Humans are faster when they use LLMs correctly.
 - Any error messages or specific issues you're encountering.
 
 **Example - Good Context**:
-> "I'm writing a new test for EIP-7702 in `tests/prague/eip7702_set_code_tx/`. The test should verify that delegation target validation works correctly. I'm getting a `Fill failure` error when running `uv run fill --fork=Prague path/to/test.py`"
+> "I'm writing a new test for EIP-7702 in `tests/prague/eip7702_set_code_tx/`. The test should verify that delegation target validation works correctly. The test fails to fill when running `uv run fill --fork=Prague path/to/test.py`"
 
 **Example - Poor Context**:
 > "My test isn't working"
