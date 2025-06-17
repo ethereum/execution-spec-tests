@@ -130,7 +130,6 @@ files = ["src", "tests"]
 exclude = [
     '^\.cache/',
     '^\.git/',
-    '^\.github/',
     '^\.pytest_cache/',
     '^\.ruff_cache/',
     '^\.tox/',
