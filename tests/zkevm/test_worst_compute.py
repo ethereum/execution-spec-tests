@@ -1869,3 +1869,74 @@ def test_worst_dup(
         post={},
         tx=tx,
     )
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [
+        pytest.param(Op.PUSH0, id="PUSH0"),
+        pytest.param(Op.PUSH1, id="PUSH1"),
+        pytest.param(Op.PUSH2, id="PUSH2"),
+        pytest.param(Op.PUSH3, id="PUSH3"),
+        pytest.param(Op.PUSH4, id="PUSH4"),
+        pytest.param(Op.PUSH5, id="PUSH5"),
+        pytest.param(Op.PUSH6, id="PUSH6"),
+        pytest.param(Op.PUSH7, id="PUSH7"),
+        pytest.param(Op.PUSH8, id="PUSH8"),
+        pytest.param(Op.PUSH9, id="PUSH9"),
+        pytest.param(Op.PUSH10, id="PUSH10"),
+        pytest.param(Op.PUSH11, id="PUSH11"),
+        pytest.param(Op.PUSH12, id="PUSH12"),
+        pytest.param(Op.PUSH13, id="PUSH13"),
+        pytest.param(Op.PUSH14, id="PUSH14"),
+        pytest.param(Op.PUSH15, id="PUSH15"),
+        pytest.param(Op.PUSH16, id="PUSH16"),
+        pytest.param(Op.PUSH17, id="PUSH17"),
+        pytest.param(Op.PUSH18, id="PUSH18"),
+        pytest.param(Op.PUSH19, id="PUSH19"),
+        pytest.param(Op.PUSH20, id="PUSH20"),
+        pytest.param(Op.PUSH21, id="PUSH21"),
+        pytest.param(Op.PUSH22, id="PUSH22"),
+        pytest.param(Op.PUSH23, id="PUSH23"),
+        pytest.param(Op.PUSH24, id="PUSH24"),
+        pytest.param(Op.PUSH25, id="PUSH25"),
+        pytest.param(Op.PUSH26, id="PUSH26"),
+        pytest.param(Op.PUSH27, id="PUSH27"),
+        pytest.param(Op.PUSH28, id="PUSH28"),
+        pytest.param(Op.PUSH29, id="PUSH29"),
+        pytest.param(Op.PUSH30, id="PUSH30"),
+        pytest.param(Op.PUSH31, id="PUSH31"),
+        pytest.param(Op.PUSH32, id="PUSH32"),
+    ],
+)
+def test_worst_push(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Op,
+):
+    """Test running a block with as many PUSH as possible."""
+    env = Environment()
+
+    op = Op.PUSH0 if Op.PUSH0 == opcode else opcode(1)
+    opcode_sequence = op * fork.max_stack_height
+    target_contract_address = pre.deploy_contract(code=opcode_sequence)
+
+    calldata = Bytecode()
+    attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
+
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
