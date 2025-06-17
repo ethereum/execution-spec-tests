@@ -231,6 +231,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/library/cli/extract_config/</loc>
+         <lastmod>2025-06-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/library/pytest_plugins/</loc>
          <lastmod>2025-06-17</lastmod>
          <changefreq>daily</changefreq>
