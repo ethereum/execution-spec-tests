@@ -452,7 +452,7 @@ def display_stats(stats: Dict, console: Console, verbose: int = 0):
 @click.argument(
     "pre_alloc_folder",
     type=click.Path(exists=True, path_type=Path),
-    default="fixtures/blockchain_tests_engine_reorg/pre_alloc",
+    default="fixtures/blockchain_tests_engine_x/pre_alloc",
 )
 @click.option(
     "--verbose",

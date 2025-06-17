@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from pydantic import BaseModel, Field
 
-from ethereum_test_fixtures.blockchain import BlockchainEngineReorgFixture
+from ethereum_test_fixtures.blockchain import BlockchainEngineXFixture
 
 
 class FixtureOutput(BaseModel):
@@ -64,8 +64,8 @@ class FixtureOutput(BaseModel):
     @property
     def shared_pre_alloc_folder_path(self) -> Path:
         """Return the path for shared pre-allocation state file."""
-        reorg_dir = BlockchainEngineReorgFixture.output_base_dir_name()
-        return self.directory / reorg_dir / "pre_alloc"
+        engine_x_dir = BlockchainEngineXFixture.output_base_dir_name()
+        return self.directory / engine_x_dir / "pre_alloc"
 
     @staticmethod
     def strip_tarball_suffix(path: Path) -> Path:
