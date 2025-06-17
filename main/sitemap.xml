@@ -3126,6 +3126,16 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_blocks/</loc>
+         <lastmod>2025-06-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_blocks/test_block_full_of_ether_transfers/</loc>
+         <lastmod>2025-06-17</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_bytecode/</loc>
          <lastmod>2025-06-17</lastmod>
          <changefreq>daily</changefreq>
