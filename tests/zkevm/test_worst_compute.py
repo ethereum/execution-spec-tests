@@ -1706,27 +1706,21 @@ def test_worst_calldataload(
 
 
 @pytest.mark.parametrize(
-    "opcode,topic_count",
+    "opcode",
     [
-        pytest.param(Op.LOG0, 0, id="log0"),
-        pytest.param(Op.LOG1, 1, id="log1"),
-        pytest.param(Op.LOG2, 2, id="log2"),
-        pytest.param(Op.LOG3, 3, id="log3"),
-        pytest.param(Op.LOG4, 4, id="log4"),
+        pytest.param(Op.LOG0, id="log0"),
+        pytest.param(Op.LOG1, id="log1"),
+        pytest.param(Op.LOG2, id="log2"),
+        pytest.param(Op.LOG3, id="log3"),
+        pytest.param(Op.LOG4, id="log4"),
     ],
 )
-def test_worst_log_opcodes(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    fork: Fork,
-    opcode: Opcode,
-    topic_count: int,
-):
+def test_worst_log_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork, opcode: Opcode):
     """Test running a block with as many LOG opcodes as possible."""
     env = Environment()
-    max_code_size = fork.max_code_size()
+    max_code_size = 20
 
-    iter_code = Op.PUSH0 * (2 + topic_count) + opcode
+    iter_code = Op.PUSH0 * len(opcode.kwargs) + opcode
     code_prefix = Op.JUMPDEST
     code_suffix = Op.PUSH0 + Op.JUMP
 
