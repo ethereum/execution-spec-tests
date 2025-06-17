@@ -242,16 +242,16 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
     test_group.addoption(
-        "--generate-grouped-pre-allocs",
+        "--generate-pre-alloc-groups",
         action="store_true",
-        dest="generate_grouped_pre_allocs",
+        dest="generate_pre_alloc_groups",
         default=False,
         help="Generate pre-allocation groups (phase 1 only).",
     )
     test_group.addoption(
-        "--use-grouped-pre-allocs",
+        "--use-pre-alloc-groups",
         action="store_true",
-        dest="use_grouped_pre_allocs",
+        dest="use_pre_alloc_groups",
         default=False,
         help="Fill tests using existing pre-allocation groups (phase 2 only).",
     )
@@ -286,20 +286,20 @@ def pytest_sessionstart(session: pytest.Session):
     load the pre-allocation groups for phase 2 execution.
     """
     # Initialize empty pre-allocation groups container for phase 1
-    if session.config.getoption("generate_grouped_pre_allocs"):
-        session.config.grouped_pre_allocs = PreAllocGroups(root={})  # type: ignore[attr-defined]
+    if session.config.getoption("generate_pre_alloc_groups"):
+        session.config.pre_alloc_groups = PreAllocGroups(root={})  # type: ignore[attr-defined]
 
     # Load the pre-allocation groups for phase 2
-    if session.config.getoption("use_grouped_pre_allocs"):
-        grouped_pre_allocs_folder = session.config.fixture_output.grouped_pre_allocs_folder_path  # type: ignore[attr-defined]
-        if grouped_pre_allocs_folder.exists():
-            session.config.grouped_pre_allocs = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
-                grouped_pre_allocs_folder
+    if session.config.getoption("use_pre_alloc_groups"):
+        pre_alloc_groups_folder = session.config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
+        if pre_alloc_groups_folder.exists():
+            session.config.pre_alloc_groups = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
+                pre_alloc_groups_folder
             )
         else:
             pytest.exit(
-                f"Pre-allocation groups folder not found: {grouped_pre_allocs_folder}. "
-                "Run phase 1 with --generate-grouped-pre-allocs first.",
+                f"Pre-allocation groups folder not found: {pre_alloc_groups_folder}. "
+                "Run phase 1 with --generate-pre-alloc-groups first.",
                 returncode=pytest.ExitCode.USAGE_ERROR,
             )
 
@@ -339,7 +339,7 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and not config.getoption("generate_grouped_pre_allocs")
+        and not config.getoption("generate_pre_alloc_groups")
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
@@ -416,21 +416,21 @@ def pytest_terminal_summary(
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
-        if config.getoption("generate_grouped_pre_allocs"):
+        if config.getoption("generate_pre_alloc_groups"):
             # Generate summary stats
-            grouped_pre_allocs: PreAllocGroups
+            pre_alloc_groups: PreAllocGroups
             if config.pluginmanager.hasplugin("xdist"):
                 # Load pre-allocation groups from disk
-                grouped_pre_allocs = PreAllocGroups.from_folder(
-                    config.fixture_output.grouped_pre_allocs_folder_path  # type: ignore[attr-defined]
+                pre_alloc_groups = PreAllocGroups.from_folder(
+                    config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
                 )
             else:
-                assert hasattr(config, "grouped_pre_allocs")
-                grouped_pre_allocs = config.grouped_pre_allocs  # type: ignore[attr-defined]
+                assert hasattr(config, "pre_alloc_groups")
+                pre_alloc_groups = config.pre_alloc_groups  # type: ignore[attr-defined]
 
-            total_groups = len(grouped_pre_allocs.root)
+            total_groups = len(pre_alloc_groups.root)
             total_accounts = sum(
-                group.pre_account_count for group in grouped_pre_allocs.root.values()
+                group.pre_account_count for group in pre_alloc_groups.root.values()
             )
 
             terminalreporter.write_sep(
@@ -881,32 +881,32 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                 # Phase 1: Generate pre-allocation groups
                 if fixture_format is BlockchainEngineXFixture and request.config.getoption(
-                    "generate_grouped_pre_allocs"
+                    "generate_pre_alloc_groups"
                 ):
                     self.update_pre_alloc_groups(
-                        request.config.grouped_pre_allocs, fork, request.node.nodeid
+                        request.config.pre_alloc_groups, fork, request.node.nodeid
                     )
                     return  # Skip fixture generation in phase 1
 
                 # Phase 2: Use pre-allocation groups (only for BlockchainEngineXFixture)
                 pre_alloc_hash = None
                 if fixture_format is BlockchainEngineXFixture and request.config.getoption(
-                    "use_grouped_pre_allocs"
+                    "use_pre_alloc_groups"
                 ):
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
-                    if pre_alloc_hash not in request.config.grouped_pre_allocs:
+                    if pre_alloc_hash not in request.config.pre_alloc_groups:
                         pre_alloc_path = (
-                            request.config.fixture_output.grouped_pre_allocs_folder_path
+                            request.config.fixture_output.pre_alloc_groups_folder_path
                             / pre_alloc_hash
                         )
                         raise ValueError(
                             f"Pre-allocation hash {pre_alloc_hash} not found in "
                             f"pre-allocation groups. "
                             f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-grouped-pre-allocs) was run "
+                            "Make sure phase 1 (--generate-pre-alloc-groups) was run "
                             "before phase 2."
                         )
-                    group: PreAllocGroup = request.config.grouped_pre_allocs[pre_alloc_hash]
+                    group: PreAllocGroup = request.config.pre_alloc_groups[pre_alloc_hash]
                     self.pre = group.pre
 
                 fixture = self.generate(
@@ -918,14 +918,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 # Post-process for Engine X format (add pre_hash and state diff)
                 if (
                     fixture_format is BlockchainEngineXFixture
-                    and request.config.getoption("use_grouped_pre_allocs")
+                    and request.config.getoption("use_pre_alloc_groups")
                     and pre_alloc_hash is not None
                 ):
                     fixture.pre_hash = pre_alloc_hash
 
                     # Calculate state diff for efficiency
                     if hasattr(fixture, "post_state") and fixture.post_state is not None:
-                        group = request.config.grouped_pre_allocs[pre_alloc_hash]
+                        group = request.config.pre_alloc_groups[pre_alloc_hash]
                         fixture.post_state_diff = calculate_post_state_diff(
                             fixture.post_state, group.pre
                         )
@@ -968,12 +968,12 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
-            generate_grouped_pre_allocs = metafunc.config.getoption(
-                "generate_grouped_pre_allocs", False
+            generate_pre_alloc_groups = metafunc.config.getoption(
+                "generate_pre_alloc_groups", False
             )
-            use_grouped_pre_allocs = metafunc.config.getoption("use_grouped_pre_allocs", False)
+            use_pre_alloc_groups = metafunc.config.getoption("use_pre_alloc_groups", False)
 
-            if generate_grouped_pre_allocs or use_grouped_pre_allocs:
+            if generate_pre_alloc_groups or use_pre_alloc_groups:
                 # When pre-allocation group flags are set, only generate BlockchainEngineXFixture
                 supported_formats = [
                     format_item
@@ -1080,12 +1080,12 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
     # Save pre-allocation groups after phase 1
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-    if session.config.getoption("generate_grouped_pre_allocs") and hasattr(
-        session.config, "grouped_pre_allocs"
+    if session.config.getoption("generate_pre_alloc_groups") and hasattr(
+        session.config, "pre_alloc_groups"
     ):
-        grouped_pre_allocs_folder = fixture_output.grouped_pre_allocs_folder_path
-        grouped_pre_allocs_folder.mkdir(parents=True, exist_ok=True)
-        session.config.grouped_pre_allocs.to_folder(grouped_pre_allocs_folder)
+        pre_alloc_groups_folder = fixture_output.pre_alloc_groups_folder_path
+        pre_alloc_groups_folder.mkdir(parents=True, exist_ok=True)
+        session.config.pre_alloc_groups.to_folder(pre_alloc_groups_folder)
         return
 
     if xdist.is_xdist_worker(session):
@@ -1100,7 +1100,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
 
     # Generate index file for all produced fixtures.
     if session.config.getoption("generate_index") and not session.config.getoption(
-        "generate_grouped_pre_allocs"
+        "generate_pre_alloc_groups"
     ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
