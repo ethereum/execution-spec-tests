@@ -706,6 +706,9 @@ def test_worst_precompile_fixed_cost(
     """Test running a block filled with a precompile with fixed cost."""
     env = Environment()
 
+    if precompile_address not in fork.precompiles():
+        pytest.skip("Precompile not enabled")
+
     concatenated_bytes: bytes
     if all(isinstance(p, str) for p in parameters):
         parameters_str = cast(list[str], parameters)
