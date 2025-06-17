@@ -1165,9 +1165,11 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
 def test_worst_jumpi_fallthrough(
     state_test: StateTestFiller,
     pre: Alloc,
+    fork: Fork,
 ):
     """Test running a JUMPI-intensive contract with fallthrough."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     def jumpi_seq():
         return Op.JUMPI(Op.PUSH0, Op.PUSH0)
@@ -1175,10 +1177,12 @@ def test_worst_jumpi_fallthrough(
     prefix_seq = Op.JUMPDEST
     suffix_seq = Op.JUMP(Op.PUSH0)
     bytes_per_seq = len(jumpi_seq())
-    seqs_per_call = (MAX_CODE_SIZE - len(prefix_seq) - len(suffix_seq)) // bytes_per_seq
+    seqs_per_call = (max_code_size - len(prefix_seq) - len(suffix_seq)) // bytes_per_seq
 
     # Create and deploy the jumpi-intensive contract
     jumpis_code = prefix_seq + jumpi_seq() * seqs_per_call + suffix_seq
+    assert len(jumpis_code) <= max_code_size
+
     jumpis_address = pre.deploy_contract(code=bytes(jumpis_code))
 
     tx = Transaction(
