@@ -523,7 +523,7 @@ class BlockchainEngineFixtureCommon(BaseFixture):
     Base blockchain test fixture model for Engine API based execution.
 
     Similar to BlockchainFixtureCommon but excludes the 'pre' field to avoid
-    duplicating large pre-allocations when using shared genesis approaches.
+    duplicating large pre-allocations.
     """
 
     fork: Fork = Field(..., alias="network")
@@ -564,7 +564,7 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     """
     Engine X specific test fixture information.
 
-    Uses shared pre-allocations (and a shared client instance) for efficient
+    Uses pre-allocation groups (and a single client instance) for efficient
     test execution without client restarts.
     """
 
@@ -572,7 +572,7 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     description: ClassVar[str] = "Tests that generate a Blockchain Test Engine X fixture."
 
     pre_hash: str
-    """Hash of the shared pre-allocation group this test belongs to."""
+    """Hash of the pre-allocation group this test belongs to."""
 
     post_state_diff: Alloc | None = None
     """State difference from genesis after test execution (efficiency optimization)."""
