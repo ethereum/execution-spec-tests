@@ -66,16 +66,14 @@ def get_single_receiver_list(pre: Alloc):
 
 @pytest.fixture
 def ether_transfer_case(
-    request,
+    case_id: str,
     pre: Alloc,
 ):
     """Generate the test parameters based on the case ID."""
-    case_id = request.param
-
     if case_id == "a_to_a":
         """Sending to self."""
         senders = get_single_sender_list(pre)
-        receivers = get_single_receiver_list(pre)
+        receivers = senders
 
     elif case_id == "a_to_b":
         """One sender → one receiver."""
@@ -105,13 +103,13 @@ def ether_transfer_case(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "ether_transfer_case",
+    "case_id",
     ["a_to_a", "a_to_b", "diff_acc_to_b", "a_to_diff_acc", "diff_acc_to_diff_acc"],
-    indirect=True,
 )
 def test_block_full_of_ether_transfers(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    case_id: str,
     ether_transfer_case,
     iteration_count: int,
     transfer_amount: int,
@@ -146,8 +144,8 @@ def test_block_full_of_ether_transfers(
 
     # Only include post state for non a_to_a cases
     post_state = (
-        None
-        if ether_transfer_case == "a_to_a"
+        {}
+        if case_id == "a_to_a"
         else {receiver: Account(balance=balance) for receiver, balance in balances.items()}
     )
 
