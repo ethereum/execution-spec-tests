@@ -1,30 +1,30 @@
 # Blockchain Engine X Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") -->
 
-The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_x`, and use Engine API directives with optimized shared pre-allocation for improved execution performance.
+The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_x`, and use Engine API directives with optimized pre-allocation groups for improved execution performance.
 
-These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-shared-pre` and `--use-shared-pre` flags.
+These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-grouped-pre-allocs` and `--use-grouped-pre-allocs` flags.
 
 ## Description
 
 The Blockchain Engine X Test fixture format is an optimized variant of the [Blockchain Engine Test](./blockchain_test_engine.md) format designed for large-scale test execution with performance optimizations.
 
-It uses the Engine API to test block validation and consensus rules while leveraging **shared pre-allocation state** to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation). Each groups are executed against the same client instance using a common genesis state.
+It uses the Engine API to test block validation and consensus rules while leveraging **pre-allocation groups** to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation). Each group is executed against the same client instance using a common genesis state.
 
 The key optimization is that **clients need only be started once per group** instead of once per test (as in the original engine fixture format), dramatically improving execution performance for large test suites.
 
-Instead of including large pre-allocation state in each test fixture, this format references a shared pre-allocation folder (`pre_alloc`) which includes all different pre-allocation combinations used for any test fixture group.
+Instead of including large pre-allocation state in each test fixture, this format references a pre-allocation groups folder (`pre_alloc`) which contains all different pre-allocation combinations organized by group.
 
 A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object, with the key string representing the test name.
 
 The JSON file path plus the test name are used as the unique test identifier.
 
-## Shared Pre-Allocation File
+## Pre-Allocation Groups Folder
 
-The `blockchain_tests_engine_x` directory contains a special directory `pre_alloc` that stores shared pre-allocation state file used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.
+The `blockchain_tests_engine_x` directory contains a special directory `pre_alloc` that stores pre-allocation group files used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.
 
-### Pre-Allocation File Structure
+### Pre-Allocation Group File Structure
 
-Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shared state groups:
+Each file in the `pre_alloc` folder corresponds to a pre-allocation group identified by a hash:
 
 ```json
 {
@@ -37,14 +37,14 @@ Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shar
 }
 ```
 
-#### SharedPreStateGroup Fields
+#### Pre-Allocation Group Fields
 
-- **`test_count`**: Number of tests sharing this pre-allocation group
-- **`pre_account_count`**: Number of accounts in the shared pre-allocation state
-- **`testIds`**: Array of test identifiers that use this shared state
+- **`test_count`**: Number of tests in this pre-allocation group
+- **`pre_account_count`**: Number of accounts in the pre-allocation group
+- **`testIds`**: Array of test identifiers that belong to this group
 - **`network`**: Fork name (e.g., "Prague", "Cancun")
 - **`environment`**: Complete [`Environment`](./common_types.md#environment) object with execution context
-- **`pre`**: Shared [`Alloc`](./common_types.md#alloc-mappingaddressaccount) object containing initial account states
+- **`pre`**: Pre-allocation group [`Alloc`](./common_types.md#alloc-mappingaddressaccount) object containing initial account states
 
 ## Consumption
 
@@ -70,7 +70,7 @@ For each [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test ob
 4. **Verify Final State**:
    - Compare the final chain head against [`lastblockhash`](#-lastblockhash-hash)
    - If [`postStateDiff`](#-poststatediff-optionalalloc) is present:
-     - Apply the state differences to the shared pre-allocation
+     - Apply the state differences to the pre-allocation group
      - Verify the resulting state matches the client's final state
    - If `post` field were present (not typical), verify it directly
 
@@ -88,11 +88,11 @@ This field is going to be replaced by the value contained in `config.network`.
 
 #### - `preHash`: `string`
 
-Hash identifier referencing a shared pre-allocation group in the `pre_alloc` folder. This hash uniquely identifies the combination of fork, environment, and pre-allocation state shared by multiple tests.
+Hash identifier referencing a pre-allocation group in the `pre_alloc` folder. This hash uniquely identifies the combination of fork, environment, and pre-allocation state that defines the group.
 
 #### - `genesisBlockHeader`: [`FixtureHeader`](./blockchain_test.md#fixtureheader)
 
-Genesis block header. The state root in this header must match the state root calculated from the shared pre-allocation referenced by [`preHash`](#-prehash-string).
+Genesis block header. The state root in this header must match the state root calculated from the pre-allocation group referenced by [`preHash`](#-prehash-string).
 
 #### - `engineNewPayloads`: [`List`](./common_types.md#list)`[`[`FixtureEngineNewPayload`](#fixtureenginenewpayload)`]`
 
@@ -108,11 +108,11 @@ Hash of the last valid block after all payloads have been processed, or the gene
 
 #### - `postStateDiff`: [`Optional`](./common_types.md#optional)`[`[`Alloc`](./common_types.md#alloc-mappingaddressaccount)`]`
 
-State differences from the shared pre-allocation state after test execution. This optimization stores only the accounts that changed, were created, or were deleted during test execution, rather than the complete final state.
+State differences from the pre-allocation group after test execution. This optimization stores only the accounts that changed, were created, or were deleted during test execution, rather than the complete final state.
 
 To reconstruct the final state:
 
-1. Start with the shared pre-allocation from the `pre_alloc` folder
+1. Start with the pre-allocation group from the `pre_alloc` folder
 2. Apply the changes in `postStateDiff`:
    - **Modified accounts**: Replace existing accounts with new values
    - **New accounts**: Add accounts not present in pre-allocation  
@@ -138,7 +138,7 @@ Engine API payload structure identical to the one defined in [Blockchain Engine 
 
 ## Usage Notes
 
-- This format is only generated when using `--generate-shared-pre` and `--use-shared-pre` flags
+- This format is only generated when using `--generate-grouped-pre-allocs` and `--use-grouped-pre-allocs` flags
 - The `pre_alloc` folder is essential and must be distributed with the test fixtures
 - Tests are grouped by identical (fork + environment + pre-allocation) combinations
 - The format is optimized for Engine API testing (post-Paris forks)

@@ -17,8 +17,8 @@ from ethereum_test_fixtures import (
     BaseFixture,
     FixtureFormat,
     LabeledFixtureFormat,
-    SharedPreState,
-    SharedPreStateGroup,
+    PreAllocGroup,
+    PreAllocGroups,
 )
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Withdrawal
@@ -209,18 +209,18 @@ class BaseTest(BaseModel):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """
-        Get the genesis environment for shared pre-allocation.
+        Get the genesis environment for pre-allocation groups.
 
         Must be implemented by subclasses to provide the appropriate environment.
         """
         raise NotImplementedError(
-            f"{self.__class__.__name__} must implement genesis environment access for shared "
-            "pre-allocation"
+            f"{self.__class__.__name__} must implement genesis environment access for use with "
+            "pre-allocation groups."
         )
 
     def update_pre_alloc_groups(
-        self, pre_alloc_groups: SharedPreState, fork: Fork, test_id: str
-    ) -> SharedPreState:
+        self, pre_alloc_groups: PreAllocGroups, fork: Fork, test_id: str
+    ) -> PreAllocGroups:
         """Create or update the pre-allocation group with the pre from the current spec."""
         if not hasattr(self, "pre"):
             raise AttributeError(
@@ -244,7 +244,7 @@ class BaseTest(BaseModel):
             pre_alloc_groups[pre_alloc_hash] = group
         else:
             # Create new group - use Environment instead of expensive genesis generation
-            group = SharedPreStateGroup(
+            group = PreAllocGroup(
                 test_count=1,
                 pre_account_count=len(self.pre.root),
                 test_ids=[str(test_id)],
@@ -259,8 +259,8 @@ class BaseTest(BaseModel):
         """Hash (fork, env) in order to group tests by genesis config."""
         if not hasattr(self, "pre"):
             raise AttributeError(
-                f"{self.__class__.__name__} does not have a 'pre' field. Shared pre-allocation "
-                "is only supported for test types that define pre-allocation."
+                f"{self.__class__.__name__} does not have a 'pre' field. Pre-allocation group "
+                "usage is only supported for test types that define pre-allocs."
             )
         fork_digest = hashlib.sha256(fork.name().encode("utf-8")).digest()
         fork_hash = int.from_bytes(fork_digest[:8], byteorder="big")

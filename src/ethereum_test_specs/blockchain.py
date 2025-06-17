@@ -747,7 +747,7 @@ class BlockchainTest(BaseTest):
             return BlockchainEngineFixture(**fixture_data)
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
-        """Get the genesis environment for shared pre-allocation."""
+        """Get the genesis environment for pre-allocation groups."""
         return self.genesis_environment
 
     def generate(

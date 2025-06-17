@@ -30,8 +30,8 @@ from ethereum_test_fixtures import (
     FixtureCollector,
     FixtureConsumer,
     LabeledFixtureFormat,
-    SharedPreState,
-    SharedPreStateGroup,
+    PreAllocGroup,
+    PreAllocGroups,
     TestInfo,
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
@@ -57,7 +57,7 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
 
     This function enables significant space savings in Engine X fixtures by storing
     only the accounts that changed during test execution, rather than the full
-    post-state which may contain thousands of unchanged shared accounts.
+    post-state which may contain thousands of unchanged accounts.
 
     Returns an Alloc containing only the accounts that:
     - Changed between genesis and post state (balance, nonce, storage, code)
@@ -66,7 +66,7 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
 
     Args:
         post_state: Final state after test execution
-        genesis_state: Shared genesis pre-allocation state
+        genesis_state: Genesis pre-allocation state
 
     Returns:
         Alloc containing only the state differences for efficient storage
@@ -287,13 +287,13 @@ def pytest_sessionstart(session: pytest.Session):
     """
     # Initialize empty pre-allocation groups container for phase 1
     if session.config.getoption("generate_grouped_pre_allocs"):
-        session.config.grouped_pre_allocs = SharedPreState(root={})  # type: ignore[attr-defined]
+        session.config.grouped_pre_allocs = PreAllocGroups(root={})  # type: ignore[attr-defined]
 
     # Load the pre-allocation groups for phase 2
     if session.config.getoption("use_grouped_pre_allocs"):
         grouped_pre_allocs_folder = session.config.fixture_output.grouped_pre_allocs_folder_path  # type: ignore[attr-defined]
         if grouped_pre_allocs_folder.exists():
-            session.config.grouped_pre_allocs = SharedPreState.from_folder(  # type: ignore[attr-defined]
+            session.config.grouped_pre_allocs = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
                 grouped_pre_allocs_folder
             )
         else:
@@ -339,7 +339,7 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and not config.getoption("generate_shared_pre")
+        and not config.getoption("generate_grouped_pre_allocs")
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
@@ -418,10 +418,10 @@ def pytest_terminal_summary(
         # Custom message for Phase 1 (pre-allocation group generation)
         if config.getoption("generate_grouped_pre_allocs"):
             # Generate summary stats
-            grouped_pre_allocs: SharedPreState
+            grouped_pre_allocs: PreAllocGroups
             if config.pluginmanager.hasplugin("xdist"):
                 # Load pre-allocation groups from disk
-                grouped_pre_allocs = SharedPreState.from_folder(
+                grouped_pre_allocs = PreAllocGroups.from_folder(
                     config.fixture_output.grouped_pre_allocs_folder_path  # type: ignore[attr-defined]
                 )
             else:
@@ -900,11 +900,13 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                             / pre_alloc_hash
                         )
                         raise ValueError(
-                            f"Pre-allocation hash {pre_alloc_hash} not found in shared pre-state. "
-                            f"Please check the shared pre-state file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-shared-pre) was run before phase 2."
+                            f"Pre-allocation hash {pre_alloc_hash} not found in "
+                            f"pre-allocation groups. "
+                            f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
+                            "Make sure phase 1 (--generate-grouped-pre-allocs) was run "
+                            "before phase 2."
                         )
-                    group: SharedPreStateGroup = request.config.shared_pre_state[pre_alloc_hash]
+                    group: PreAllocGroup = request.config.grouped_pre_allocs[pre_alloc_hash]
                     self.pre = group.pre
 
                 fixture = self.generate(
@@ -923,7 +925,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                     # Calculate state diff for efficiency
                     if hasattr(fixture, "post_state") and fixture.post_state is not None:
-                        group = request.config.shared_pre_state[pre_alloc_hash]
+                        group = request.config.grouped_pre_allocs[pre_alloc_hash]
                         fixture.post_state_diff = calculate_post_state_diff(
                             fixture.post_state, group.pre
                         )
@@ -1098,7 +1100,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
 
     # Generate index file for all produced fixtures.
     if session.config.getoption("generate_index") and not session.config.getoption(
-        "generate_shared_pre"
+        "generate_grouped_pre_allocs"
     ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False

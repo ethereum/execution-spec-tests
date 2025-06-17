@@ -120,7 +120,7 @@ Since Hive doesn't directly expose container IDs, the tool uses a detection mech
 The tool supports:
 
 - Individual fixture JSON files (BlockchainFixture format)
-- SharedPreStateGroup JSON files
+- PreAllocGroup JSON files
 - Directories containing multiple fixture files
 
 ## Troubleshooting

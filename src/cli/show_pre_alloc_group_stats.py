@@ -10,7 +10,7 @@ from rich.console import Console
 from rich.table import Table
 
 from ethereum_test_base_types import CamelModel
-from ethereum_test_fixtures import SharedPreState
+from ethereum_test_fixtures import PreAllocGroups
 
 
 def extract_test_module(test_id: str) -> str:
@@ -102,22 +102,22 @@ def calculate_size_distribution(
 
 def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
     """Analyze pre-allocation folder and return statistics."""
-    pre_state = SharedPreState.from_folder(folder)
+    pre_alloc_groups = PreAllocGroups.from_folder(folder)
 
     # Basic stats
-    total_groups = len(pre_state)
-    total_tests = sum(group.test_count for group in pre_state.values())
-    total_accounts = sum(group.pre_account_count for group in pre_state.values())
+    total_groups = len(pre_alloc_groups)
+    total_tests = sum(group.test_count for group in pre_alloc_groups.values())
+    total_accounts = sum(group.pre_account_count for group in pre_alloc_groups.values())
 
     # Group by fork
     fork_stats: Dict[str, Dict] = defaultdict(lambda: {"groups": 0, "tests": 0})
-    for group in pre_state.values():
+    for group in pre_alloc_groups.values():
         fork_stats[group.fork.name()]["groups"] += 1
         fork_stats[group.fork.name()]["tests"] += group.test_count
 
     # Group by test module
     module_stats: Dict[str, Dict] = defaultdict(lambda: {"groups": set(), "tests": 0})
-    for hash_key, group in pre_state.items():
+    for hash_key, group in pre_alloc_groups.items():
         # Count tests per module in this group
         module_test_count: defaultdict = defaultdict(int)
         for test_id in group.test_ids:
@@ -135,7 +135,7 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
 
     # Per-group details
     group_details = []
-    for hash_key, group in pre_state.items():
+    for hash_key, group in pre_alloc_groups.items():
         group_details.append(
             {
                 "hash": hash_key[:8] + "...",  # Shortened hash for display
@@ -158,7 +158,7 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
     split_test_functions: Dict[str, SplitTestFunction] = defaultdict(lambda: SplitTestFunction())
 
     # Process all size-1 groups directly from pre_state
-    for _hash_key, group_data in pre_state.items():
+    for _hash_key, group_data in pre_alloc_groups.items():
         if group_data.test_count == 1:  # Size-1 group
             test_id = group_data.test_ids[0]
             test_function = extract_test_function(test_id)
