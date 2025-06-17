@@ -4,7 +4,7 @@ from .base import BaseFixture, FixtureFormat, LabeledFixtureFormat
 from .blockchain import (
     BlockchainEngineFixture,
     BlockchainEngineFixtureCommon,
-    BlockchainEngineReorgFixture,
+    BlockchainEngineXFixture,
     BlockchainFixture,
     BlockchainFixtureCommon,
 )
@@ -19,7 +19,7 @@ __all__ = [
     "BaseFixture",
     "BlockchainEngineFixture",
     "BlockchainEngineFixtureCommon",
-    "BlockchainEngineReorgFixture",
+    "BlockchainEngineXFixture",
     "BlockchainFixture",
     "BlockchainFixtureCommon",
     "EOFFixture",

@@ -26,7 +26,7 @@ from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Account, Address, Alloc, ReferenceSpec
 from ethereum_test_fixtures import (
     BaseFixture,
-    BlockchainEngineReorgFixture,
+    BlockchainEngineXFixture,
     FixtureCollector,
     FixtureConsumer,
     LabeledFixtureFormat,
@@ -55,7 +55,7 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     """
     Calculate the state difference between post_state and genesis_state.
 
-    This function enables significant space savings in reorg fixtures by storing
+    This function enables significant space savings in Engine X fixtures by storing
     only the accounts that changed during test execution, rather than the full
     post-state which may contain thousands of unchanged shared accounts.
 
@@ -878,7 +878,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 self._request = request
 
                 # Phase 1: Generate shared pre-state
-                if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
+                if fixture_format is BlockchainEngineXFixture and request.config.getoption(
                     "generate_shared_pre"
                 ):
                     self.update_shared_pre_state(
@@ -886,9 +886,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     )
                     return  # Skip fixture generation in phase 1
 
-                # Phase 2: Use shared pre-state (only for BlockchainEngineReorgFixture)
+                # Phase 2: Use shared pre-state (only for BlockchainEngineXFixture)
                 pre_alloc_hash = None
-                if fixture_format is BlockchainEngineReorgFixture and request.config.getoption(
+                if fixture_format is BlockchainEngineXFixture and request.config.getoption(
                     "use_shared_pre"
                 ):
                     pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
@@ -911,9 +911,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     fixture_format=fixture_format,
                 )
 
-                # Post-process for reorg format (add pre_hash and state diff)
+                # Post-process for Engine X format (add pre_hash and state diff)
                 if (
-                    fixture_format is BlockchainEngineReorgFixture
+                    fixture_format is BlockchainEngineXFixture
                     and request.config.getoption("use_shared_pre")
                     and pre_alloc_hash is not None
                 ):
@@ -968,28 +968,28 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             use_shared_pre = metafunc.config.getoption("use_shared_pre", False)
 
             if generate_shared_pre or use_shared_pre:
-                # When shared alloc flags are set, only generate BlockchainEngineReorgFixture
+                # When shared alloc flags are set, only generate BlockchainEngineXFixture
                 supported_formats = [
                     format_item
                     for format_item in test_type.supported_fixture_formats
                     if (
-                        format_item is BlockchainEngineReorgFixture
+                        format_item is BlockchainEngineXFixture
                         or (
                             isinstance(format_item, LabeledFixtureFormat)
-                            and format_item.format is BlockchainEngineReorgFixture
+                            and format_item.format is BlockchainEngineXFixture
                         )
                     )
                 ]
             else:
-                # Filter out BlockchainEngineReorgFixture if shared alloc flags not set
+                # Filter out BlockchainEngineXFixture if shared alloc flags not set
                 supported_formats = [
                     format_item
                     for format_item in test_type.supported_fixture_formats
                     if not (
-                        format_item is BlockchainEngineReorgFixture
+                        format_item is BlockchainEngineXFixture
                         or (
                             isinstance(format_item, LabeledFixtureFormat)
-                            and format_item.format is BlockchainEngineReorgFixture
+                            and format_item.format is BlockchainEngineXFixture
                         )
                     )
                 ]

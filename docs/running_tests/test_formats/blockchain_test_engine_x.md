@@ -1,26 +1,26 @@
-# Blockchain Engine Reorg Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") -->
+# Blockchain Engine X Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") -->
 
-The Blockchain Engine Reorg Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_reorg`, and use Engine API directives with optimized shared pre-allocation for improved execution performance.
+The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_x`, and use Engine API directives with optimized shared pre-allocation for improved execution performance.
 
 These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-shared-pre` and `--use-shared-pre` flags.
 
 ## Description
 
-The Blockchain Engine Reorg Test fixture format is an optimized variant of the [Blockchain Engine Test](./blockchain_test_engine.md) format designed for large-scale test execution with performance optimizations.
+The Blockchain Engine X Test fixture format is an optimized variant of the [Blockchain Engine Test](./blockchain_test_engine.md) format designed for large-scale test execution with performance optimizations.
 
-It uses the Engine API to test block validation and consensus rules while leveraging **shared pre-allocation state** to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation) and share common genesis states through blockchain reorganization.
+It uses the Engine API to test block validation and consensus rules while leveraging **shared pre-allocation state** to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation). Each groups are executed against the same client instance using a common genesis state.
 
 The key optimization is that **clients need only be started once per group** instead of once per test (as in the original engine fixture format), dramatically improving execution performance for large test suites.
 
 Instead of including large pre-allocation state in each test fixture, this format references a shared pre-allocation folder (`pre_alloc`) which includes all different pre-allocation combinations used for any test fixture group.
 
-A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`ReorgFixture`](#reorgfixture) test object, with the key string representing the test name.
+A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object, with the key string representing the test name.
 
 The JSON file path plus the test name are used as the unique test identifier.
 
 ## Shared Pre-Allocation File
 
-The `blockchain_tests_engine_reorg` directory contains a special directory `pre_alloc` that stores shared pre-allocation state file used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.
+The `blockchain_tests_engine_x` directory contains a special directory `pre_alloc` that stores shared pre-allocation state file used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.
 
 ### Pre-Allocation File Structure
 
@@ -48,7 +48,7 @@ Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shar
 
 ## Consumption
 
-For each [`ReorgFixture`](#reorgfixture) test object in the JSON fixture file, perform the following steps:
+For each [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object in the JSON fixture file, perform the following steps:
 
 1. **Load Shared Pre-Allocation**:
    - Read the appropriate file from the `pre_alloc` folder in the same directory
@@ -76,7 +76,7 @@ For each [`ReorgFixture`](#reorgfixture) test object in the JSON fixture file, p
 
 ## Structures
 
-### `ReorgFixture`
+### `BlockchainTestEngineXFixture`
 
 #### - `network`: [`Fork`](./common_types.md#fork)
 
@@ -100,7 +100,7 @@ List of `engine_newPayloadVX` directives to be processed after the genesis block
 
 #### - `syncPayload`: [`Optional`](./common_types.md#optional)`[`[`FixtureEngineNewPayload`](#fixtureenginenewpayload)`]`
 
-Optional synchronization payload used for blockchain reorganization scenarios. When present, this payload is typically used to sync the chain to a specific state before or after the main payload sequence.
+Optional synchronization payload. When present, this payload is typically used to sync the chain to a specific state before or after the main payload sequence.
 
 #### - `lastblockhash`: [`Hash`](./common_types.md#hash)
 
@@ -120,7 +120,7 @@ To reconstruct the final state:
 
 #### - `config`: [`FixtureConfig`](#fixtureconfig)
 
-Chain configuration object to be applied to the client running the blockchain engine reorg test.
+Chain configuration object to be applied to the client running the blockchain engine x test.
 
 ### `FixtureConfig`
 
@@ -142,4 +142,3 @@ Engine API payload structure identical to the one defined in [Blockchain Engine 
 - The `pre_alloc` folder is essential and must be distributed with the test fixtures
 - Tests are grouped by identical (fork + environment + pre-allocation) combinations
 - The format is optimized for Engine API testing (post-Paris forks)
-- Reorganization scenarios are supported through the `forkChoiceUpdate` mechanism
