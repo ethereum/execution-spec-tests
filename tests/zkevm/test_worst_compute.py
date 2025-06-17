@@ -1715,22 +1715,43 @@ def test_worst_calldataload(
         pytest.param(Op.LOG4, id="log4"),
     ],
 )
-def test_worst_log_opcodes(state_test: StateTestFiller, pre: Alloc, fork: Fork, opcode: Opcode):
+@pytest.mark.parametrize("empty_value", [True, False])
+@pytest.mark.parametrize("offset", [0, 1, 2, 3, 4])
+def test_worst_log_opcodes(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Opcode,
+    empty_value: bool,
+    offset: int,
+):
     """Test running a block with as many LOG opcodes as possible."""
     env = Environment()
-    max_code_size = 20
+    max_code_size = fork.max_code_size()
 
-    iter_code = Op.PUSH0 * len(opcode.kwargs) + opcode
-    code_prefix = Op.JUMPDEST
-    code_suffix = Op.PUSH0 + Op.JUMP
+    push_value = Op.PUSH0 if empty_value else Op.PUSH32(0xFF)
 
-    iter_count = (max_code_size - len(code_prefix) - len(code_suffix)) // len(iter_code)
+    topic_count = len(opcode.kwargs) - 2
 
-    code = code_prefix + iter_code * iter_count + code_suffix
-    assert len(code) <= max_code_size
+    code_sequence = (
+        push_value * topic_count  # Push topics
+        + Op.PUSH32(2**offset)  # Push memory size
+        + Op.PUSH32(10**offset)  # Push memory offset
+        + opcode  # Add the LOG opcode
+    )
 
+    # Calculate how many times we can repeat the sequence within code size limits
+    code_prefix = Op.MSTORE(10**offset, push_value) + Op.JUMPDEST
+    code_suffix = Op.PUSH1(len(code_prefix)) + Op.JUMP
+    max_iterations = (max_code_size - len(code_prefix) - len(code_suffix)) // len(code_sequence)
+
+    # Build the final code
+    deployed_code = code_prefix + (code_sequence * max_iterations) + code_suffix
+    assert len(deployed_code) <= max_code_size
+
+    # Create and execute the transaction
     tx = Transaction(
-        to=pre.deploy_contract(code=code),
+        to=pre.deploy_contract(code=deployed_code),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
