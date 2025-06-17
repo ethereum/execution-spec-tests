@@ -473,7 +473,7 @@ def main(pre_alloc_folder: Path, verbose: int):
     - Number of groups and tests per test module (tabulated)
 
     The pre_alloc file is generated when running tests with the
-    --generate-grouped-pre-allocs and --use-grouped-pre-allocs flags to optimize
+    --generate-pre-alloc-groups and --use-pre-alloc-groups flags to optimize
     test execution by grouping tests with identical pre-allocation state.
 
     """

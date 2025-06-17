@@ -26,16 +26,16 @@ class FillCommand(PytestCommand):
         Create execution plan that supports two-phase pre-allocation group generation.
 
         Returns single execution for normal filling, or two-phase execution
-        when --generate-grouped-pre-allocs is specified.
+        when --generate-pre-alloc-groups is specified.
         """
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
-        if "--generate-grouped-pre-allocs" in processed_args:
+        if "--generate-pre-alloc-groups" in processed_args:
             return self._create_two_phase_executions(processed_args)
-        elif "--use-grouped-pre-allocs" in processed_args:
+        elif "--use-pre-alloc-groups" in processed_args:
             # Only phase 2: using existing pre-allocation groups
-            return self._create_single_phase_with_grouped_pre_allocs(processed_args)
+            return self._create_single_phase_with_pre_alloc_groups(processed_args)
         else:
             # Normal single-phase execution
             return [
@@ -66,9 +66,7 @@ class FillCommand(PytestCommand):
             ),
         ]
 
-    def _create_single_phase_with_grouped_pre_allocs(
-        self, args: List[str]
-    ) -> List[PytestExecution]:
+    def _create_single_phase_with_pre_alloc_groups(self, args: List[str]) -> List[PytestExecution]:
         """Create single execution using existing pre-allocation groups."""
         return [
             PytestExecution(
@@ -84,7 +82,7 @@ class FillCommand(PytestCommand):
 
         # Add required phase 1 flags (with quiet output by default)
         phase1_args = [
-            "--generate-grouped-pre-allocs",
+            "--generate-pre-alloc-groups",
             "-qq",  # Quiet pytest output by default (user -v/-vv/-vvv can override)
         ] + filtered_args
 
@@ -92,10 +90,10 @@ class FillCommand(PytestCommand):
 
     def _create_phase2_args(self, args: List[str]) -> List[str]:
         """Create arguments for phase 2 (fixture filling)."""
-        # Remove --generate-grouped-pre-allocs and --clean, then add --use-grouped-pre-allocs
-        phase2_args = self._remove_generate_grouped_pre_allocs_flag(args)
+        # Remove --generate-pre-alloc-groups and --clean, then add --use-pre-alloc-groups
+        phase2_args = self._remove_generate_pre_alloc_groups_flag(args)
         phase2_args = self._remove_clean_flag(phase2_args)
-        phase2_args = self._add_use_grouped_pre_allocs_flag(phase2_args)
+        phase2_args = self._add_use_pre_alloc_groups_flag(phase2_args)
         return phase2_args
 
     def _remove_unwanted_phase1_args(self, args: List[str]) -> List[str]:
@@ -109,8 +107,8 @@ class FillCommand(PytestCommand):
             "-qq",
             "--tb",
             # Pre-allocation group flags (we'll add our own)
-            "--generate-grouped-pre-allocs",
-            "--use-grouped-pre-allocs",
+            "--generate-pre-alloc-groups",
+            "--use-pre-alloc-groups",
         }
 
         filtered_args = []
@@ -134,17 +132,17 @@ class FillCommand(PytestCommand):
 
         return filtered_args
 
-    def _remove_generate_grouped_pre_allocs_flag(self, args: List[str]) -> List[str]:
-        """Remove --generate-grouped-pre-allocs flag from argument list."""
-        return [arg for arg in args if arg != "--generate-grouped-pre-allocs"]
+    def _remove_generate_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
+        """Remove --generate-pre-alloc-groups flag from argument list."""
+        return [arg for arg in args if arg != "--generate-pre-alloc-groups"]
 
     def _remove_clean_flag(self, args: List[str]) -> List[str]:
         """Remove --clean flag from argument list."""
         return [arg for arg in args if arg != "--clean"]
 
-    def _add_use_grouped_pre_allocs_flag(self, args: List[str]) -> List[str]:
-        """Add --use-grouped-pre-allocs flag to argument list."""
-        return args + ["--use-grouped-pre-allocs"]
+    def _add_use_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
+        """Add --use-pre-alloc-groups flag to argument list."""
+        return args + ["--use-pre-alloc-groups"]
 
 
 class PhilCommand(FillCommand):
