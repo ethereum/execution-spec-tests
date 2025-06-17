@@ -218,20 +218,20 @@ class BaseTest(BaseModel):
             "pre-allocation"
         )
 
-    def update_shared_pre_state(
-        self, shared_pre_state: SharedPreState, fork: Fork, test_id: str
+    def update_pre_alloc_groups(
+        self, pre_alloc_groups: SharedPreState, fork: Fork, test_id: str
     ) -> SharedPreState:
-        """Create or update the shared pre-state group with the pre from the current spec."""
+        """Create or update the pre-allocation group with the pre from the current spec."""
         if not hasattr(self, "pre"):
             raise AttributeError(
-                f"{self.__class__.__name__} does not have a 'pre' field. Shared pre-allocation "
-                "is only supported for test types that define pre-allocation."
+                f"{self.__class__.__name__} does not have a 'pre' field. Pre-allocation groups "
+                "are only supported for test types that define pre-allocation."
             )
-        pre_alloc_hash = self.compute_shared_pre_alloc_hash(fork=fork)
+        pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
 
-        if pre_alloc_hash in shared_pre_state:
+        if pre_alloc_hash in pre_alloc_groups:
             # Update existing group - just merge pre-allocations
-            group = shared_pre_state[pre_alloc_hash]
+            group = pre_alloc_groups[pre_alloc_hash]
             group.pre = Alloc.merge(
                 group.pre,
                 self.pre,
@@ -241,7 +241,7 @@ class BaseTest(BaseModel):
             group.test_ids.append(str(test_id))
             group.test_count = len(group.test_ids)
             group.pre_account_count = len(group.pre.root)
-            shared_pre_state[pre_alloc_hash] = group
+            pre_alloc_groups[pre_alloc_hash] = group
         else:
             # Create new group - use Environment instead of expensive genesis generation
             group = SharedPreStateGroup(
@@ -252,11 +252,11 @@ class BaseTest(BaseModel):
                 environment=self.get_genesis_environment(fork),
                 pre=self.pre,
             )
-            shared_pre_state[pre_alloc_hash] = group
-        return shared_pre_state
+            pre_alloc_groups[pre_alloc_hash] = group
+        return pre_alloc_groups
 
-    def compute_shared_pre_alloc_hash(self, fork: Fork) -> str:
-        """Hash (fork, env) in order to group tests by shared genesis config."""
+    def compute_pre_alloc_group_hash(self, fork: Fork) -> str:
+        """Hash (fork, env) in order to group tests by genesis config."""
         if not hasattr(self, "pre"):
             raise AttributeError(
                 f"{self.__class__.__name__} does not have a 'pre' field. Shared pre-allocation "

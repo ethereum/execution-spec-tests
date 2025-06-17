@@ -50,15 +50,15 @@ Each file in the `pre_alloc` folder corresponds to a pre-allocation hash to shar
 
 For each [`BlockchainTestEngineXFixture`](#BlockchainTestEngineXFixture) test object in the JSON fixture file, perform the following steps:
 
-1. **Load Shared Pre-Allocation**:
+1. **Load Pre-Allocation Group**:
    - Read the appropriate file from the `pre_alloc` folder in the same directory
-   - Locate the shared state group using [`preHash`](#-prehash-string)
-   - Extract the `pre` allocation and `environment` from the shared group
+   - Locate the pre-allocation group using [`preHash`](#-prehash-string)
+   - Extract the `pre` allocation and `environment` from the group
 
 2. **Initialize Client**:
    - Use [`network`](#-network-fork) to configure the execution fork schedule
-   - Use the shared `pre` allocation as the starting state
-   - Use the shared `environment` as the execution context
+   - Use the pre-allocation group's `pre` allocation as the starting state
+   - Use the pre-allocation group's `environment` as the execution context
    - Use [`genesisBlockHeader`](#-genesisblockheader-fixtureheader) as the genesis block header
 
 3. **Execute Engine API Sequence**:

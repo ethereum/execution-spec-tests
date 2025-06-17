@@ -1,4 +1,4 @@
-"""Shared pre-allocation models for test fixture generation."""
+"""Pre-allocation group models for test fixture generation."""
 
 from pathlib import Path
 from typing import Any, Dict, List
@@ -15,10 +15,10 @@ from .blockchain import FixtureHeader
 
 class SharedPreStateGroup(CamelModel):
     """
-    Shared pre-state group for tests with identical Environment and fork values.
+    Pre-allocation group for tests with identical Environment and fork values.
 
     Groups tests by a hash of their fixture Environment and fork to enable
-    shared pre-allocation optimization.
+    pre-allocation group optimization.
     """
 
     model_config = {"populate_by_name": True}  # Allow both field names and aliases
