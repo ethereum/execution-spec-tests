@@ -11,6 +11,10 @@ on:
 jobs:
   evmone-coverage-diff:
     runs-on: ubuntu-latest
+    
+    env:
+      BLOCK_GAS_LIMIT: "36000000"
+      FILL_UNTIL: "Cancun"
 
     steps:
       - name: Checkout code
@@ -60,8 +64,8 @@ jobs:
         if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' && github.event.pull_request.head.repo.full_name == github.repository }}
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772
         with:
-          username: winsvega
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: marioeth
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Install deps
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
@@ -113,157 +117,32 @@ jobs:
 
       # This command diffs the file and filters in new lines
       - name: Parse ported_from markers from introduced .py tests
+        id: ported-from
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         env:
           CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_changed_files }}
         run: |
-          source $GITHUB_ENV
-          new_sources=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
-          echo "Changed or new test files: $new_sources"
+          ./.github/scripts/parse_ported_tests.sh "$CHANGED_TEST_FILES" "${{ github.workspace }}" || true
 
-          uv run fill $new_sources --show-ported-from --clean --quiet --links-as-filled --skip-coverage-missed-reason --ported-from-output-file ported_from_files.txt
-          files=$(cat ported_from_files.txt)
-          echo "Extracted converted tests: $files"
-          if [[ -z "$files" ]]; then
-              echo "No ported fillers found, check updates instead:"
-              echo "converted_skip=true" >> $GITHUB_ENV
-              exit 0
-          else
-              echo "converted_skip=false" >> $GITHUB_ENV
-          fi
-
-          echo "----------------"
-          echo "Discovered existing json tests that will be BASE files:"
-
-          BASE_TESTS_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
-          mkdir -p $BASE_TESTS_PATH
-          for file in $files; do
-              # Make sure each file exist at least in develop or legacy tests
-              file_found=0
-              file_path=${{ github.workspace }}/testpath/$file
-              if [ -e "$file_path" ]; then
-                file_found=1
-                cp $file_path $BASE_TESTS_PATH
-                echo $file_path
-              fi
-
-              # Do not search EOF files in legacy tests (assuming blockchain files we do not cover yet)
-              if [[ "$file" != *"EOFTests"* ]]; then
-                  file_path=${{ github.workspace }}/legacytestpath/Cancun/$file
-                  base_name=$(basename "$file")
-                  legacy_file_name="legacy_$base_name"
-                  if [ -e "$file_path" ]; then
-                    file_found=1
-                    cp $file_path $BASE_TESTS_PATH/$legacy_file_name
-                    echo $file_path
-                  fi
-              fi
-
-              if [ $file_found -eq 0 ]; then
-                echo "Error: Failed to find the test file $file in test repo"
-                exit 1
-              fi
-          done
-
-      # This command diffs the .py scripts introduced by a PR
+      # This command checks and fills python test sources introduced by a PR
       - name: Parse and fill introduced test sources
         if: steps.changed-tests.outputs.tests_any_changed == 'true'
         env:
           CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_changed_files }}
         run: |
-          source $GITHUB_ENV
-          files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
-
-          # Include basic evm operations into coverage by default
-          # As when we translate from yul/solidity some dup/push opcodes could become untouched
-          files="$files tests/homestead/coverage/test_coverage.py"
-
-          echo "uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit 36000000 >> filloutput.log 2>&1"
-          uv run fill $files --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit 36000000 > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
-
-          if grep -q "FAILURES" filloutput.log; then
-              echo "Error: failed to generate .py tests."
-              exit 1
-          fi
-
-          mkdir -p fixtures/blockchain_tests
-          mkdir -p fixtures/state_tests
-          filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
-          filesState=$(find fixtures/state_tests -type f -name "*.json")
-          if [ -z "$filesState" ] && [ -z "$filesBlock" ]; then
-              echo "Error: No supported filled JSON files found in fixtures."
-              exit 1
-          fi
-
-
-          PATCH_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS
-          mkdir -p $PATCH_TEST_PATH
-          find fixtures/blockchain_tests -type f -name "*.json" -exec bash -c 'cp "$0" "$1/blockchain_$(basename "$0")"' {} "$PATCH_TEST_PATH" \;
-          find fixtures/state_tests -type f -name "*.json" -exec cp {} $PATCH_TEST_PATH \;
+          ./.github/scripts/fill_introduced_tests.sh "$CHANGED_TEST_FILES" "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS" "${{ env.BLOCK_GAS_LIMIT }}" "${{ env.FILL_UNTIL }}"
 
       - name: Parse and fill introduced test sources from before the PR
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' && env.converted_skip == 'true' }}
+        if: ${{ (steps.changed-tests.outputs.tests_any_modified == 'true' || steps.changed-tests.outputs.tests_any_deleted == 'true') && steps.ported-from.outputs.any_ported == 'false' }}
+        id: pre-patch-fill
         env:
-          CHANGED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_all_modified_files }}
+          MODIFIED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_modified_files }}
+          DELETED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_deleted_files }}
         run: |
-          echo "--------------------"
-          echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
-
-          source $GITHUB_ENV
-          files=$(echo "$CHANGED_TEST_FILES" | tr ',' '\n')
-
-          git checkout main
-          PREV_COMMIT=$(git rev-parse HEAD)
-          echo "Checkout head $PREV_COMMIT"
-
-          # Take only those files that exist in the filesystem (ignore newly created files)
-          files_fixed=$(echo "$files" | tr ' ' '\n' | while read file; do
-            if [ -f "$file" ]; then
-              echo "$file"
-            fi
-          done | tr '\n' ' ')
-
-          echo "Select files that were changed and exist on the main branch:"
-          echo $files_fixed
-
-          rm -r fixtures
-          rm filloutput.log
-
-          if [ -n "$files_fixed" ]; then
-              echo "uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit 36000000 >> filloutput.log 2>&1"
-              uv run fill $files_fixed --clean --until=Cancun --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit 36000000 > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
-
-              if grep -q "FAILURES" filloutput.log; then
-                echo "Error: failed to generate .py tests from before the PR."
-                exit 1
-              fi
-
-              if grep -q "ERROR collecting test session" filloutput.log; then
-                echo "Error: failed to generate .py tests from before the PR."
-                exit 1
-              fi
-          else
-              echo "No tests affected from before the patch!"
-          fi
-
-          mkdir -p fixtures/blockchain_tests
-          mkdir -p fixtures/state_tests
-          filesBlock=$(find fixtures/blockchain_tests -type f -name "*.json")
-          filesState=$(find fixtures/state_tests -type f -name "*.json")
-
-          BASE_TEST_PATH=${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
-          mkdir -p $BASE_TEST_PATH
-
-          find fixtures/blockchain_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-          find fixtures/state_tests -type f -name "*.json" -exec cp {} $BASE_TEST_PATH \;
-          for file in $BASE_TEST_PATH/*.json; do
-              if [ -e "$file" ]; then
-                  mv "$file" "${file%.json}_$PREV_COMMIT.json"
-              fi
-          done
+          ./.github/scripts/fill_prepatched_tests.sh "$MODIFIED_TEST_FILES $DELETED_TEST_FILES" "${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS" "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS" "${{ env.BLOCK_GAS_LIMIT }}" "${{ env.FILL_UNTIL }}"
 
       - name: Print tests that will be covered
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         run: |
           echo "Original BASE tests:"
           ls ${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS
@@ -273,37 +152,37 @@ jobs:
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         with:
-          image: winsvega/evmone-coverage-script:latest
+          image: marioeth/evmone-coverage-script:v0.0.1
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/BASE_TESTS --outputname=BASE
+          run: /entrypoint.sh --mode=cover --testpath=/tests/BASE_TESTS --outputname=BASE
 
       - name: Run coverage of the PATCH tests
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         with:
-          image: winsvega/evmone-coverage-script:latest
+          image: marioeth/evmone-coverage-script:v0.0.1
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
-          run: /entrypoint.sh --mode=cover --driver=native --testpath=/tests/PATCH_TESTS --outputname=PATCH
+          run: /entrypoint.sh --mode=cover --testpath=/tests/PATCH_TESTS --outputname=PATCH
 
       - name: Run coverage DIFF of the PATCH tests compared to BASE tests
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        if: ${{  steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         with:
-          image: winsvega/evmone-coverage-script:latest
+          image: marioeth/evmone-coverage-script:v0.0.1
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
           run: /entrypoint.sh --mode=diff --basefile=coverage_BASE.lcov --patchfile=coverage_PATCH.lcov
 
       - name: Chmod coverage results
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         run: |
           user=$(whoami)
           sudo chown -R $user:$user ${{ github.workspace }}/evmtest_coverage/coverage
 
       - name: Upload coverage results
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         with:
           name: coverage-diff-native-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ github.workspace }}/evmtest_coverage/coverage
@@ -311,8 +190,8 @@ jobs:
 
       - name: Verify coverage results
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
-        if: ${{ steps.changed-tests.outputs.tests_any_changed == 'true' }}
+        if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         with:
-          image: winsvega/evmone-coverage-script:latest
+          image: marioeth/evmone-coverage-script:v0.0.1
           options: -v ${{ github.workspace }}/evmtest_coverage/coverage:/tests
           run: /check.sh
