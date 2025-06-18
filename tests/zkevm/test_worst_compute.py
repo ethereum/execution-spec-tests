@@ -1919,7 +1919,7 @@ def test_worst_push(
     env = Environment()
 
     op = opcode[1] if opcode.has_data_portion() else opcode
-    opcode_sequence = op * fork.max_stack_height
+    opcode_sequence = op * fork.max_stack_height()
     target_contract_address = pre.deploy_contract(code=opcode_sequence)
 
     calldata = Bytecode()
