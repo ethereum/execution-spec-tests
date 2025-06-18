@@ -1633,11 +1633,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+      <a href="../../../running_tests/test_formats/blockchain_test_engine_x/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blockchain Engine Reorg Tests
+    Blockchain Engine X Tests
   </span>
   
 
@@ -22902,9 +22902,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pytest_plugins.filler.FixtureOutput.shared_pre_alloc_folder_path" class="md-nav__link">
+  <a href="#pytest_plugins.filler.FixtureOutput.pre_alloc_groups_folder_path" class="md-nav__link">
     <span class="md-ellipsis">
-      shared_pre_alloc_folder_path
+      pre_alloc_groups_folder_path
     </span>
   </a>
   
@@ -23807,13 +23807,13 @@
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Clean (remove) the output directory before filling fixtures.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">generate_shared_pre</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">generate_pre_alloc_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generate shared pre-allocation state (phase 1).&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Generate pre-allocation groups (phase 1).&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">use_shared_pre</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">use_pre_alloc_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Use existing shared pre-allocation state (phase 2).&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Use existing pre-allocation groups (phase 2).&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -23840,10 +23840,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;stdout&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">shared_pre_alloc_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path for shared pre-allocation state file.&quot;&quot;&quot;</span>
-        <span class="n">reorg_dir</span> <span class="o">=</span> <span class="n">BlockchainEngineReorgFixture</span><span class="o">.</span><span class="n">output_base_dir_name</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">reorg_dir</span> <span class="o">/</span> <span class="s2">&quot;pre_alloc&quot;</span>
+    <span class="k">def</span> <span class="nf">pre_alloc_groups_folder_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path for pre-allocation groups folder.&quot;&quot;&quot;</span>
+        <span class="n">engine_x_dir</span> <span class="o">=</span> <span class="n">BlockchainEngineXFixture</span><span class="o">.</span><span class="n">output_base_dir_name</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">engine_x_dir</span> <span class="o">/</span> <span class="s2">&quot;pre_alloc&quot;</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">strip_tarball_suffix</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
@@ -23864,16 +23864,16 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">True</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
             <span class="c1"># Phase 1: Directory must be completely empty</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_directory_empty</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_shared_pre</span><span class="p">:</span>
-            <span class="c1"># Phase 2: Only shared alloc file must exist, no other files allowed</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_pre_alloc_groups</span><span class="p">:</span>
+            <span class="c1"># Phase 2: Only pre-allocation groups must exist, no other files allowed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="k">return</span> <span class="kc">False</span>
-            <span class="c1"># Check that only the shared prealloc file exists</span>
+            <span class="c1"># Check that only the pre-allocation group files exist</span>
             <span class="n">existing_files</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">is_file</span><span class="p">()}</span>
-            <span class="n">allowed_files</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">))</span>
+            <span class="n">allowed_files</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">existing_files</span> <span class="o">==</span> <span class="n">allowed_files</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Normal filling: Directory must be empty</span>
@@ -23938,18 +23938,18 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_directory_usable_for_phase</span><span class="p">():</span>
             <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_directory_summary</span><span class="p">()</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Output directory &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="si">}</span><span class="s2">&#39; must be completely empty for &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;shared allocation generation (phase 1). Contains: </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;pre-allocation group generation (phase 1). Contains: </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">. &quot;</span>
                     <span class="s2">&quot;Use --clean to remove all existing files.&quot;</span>
                 <span class="p">)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_shared_pre</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_pre_alloc_groups</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">&quot;Shared pre-allocation file not found at &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-                        <span class="s2">&quot;Run phase 1 with --generate-shared-pre first.&quot;</span>
+                        <span class="s2">&quot;Pre-allocation groups folder not found at &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                        <span class="s2">&quot;Run phase 1 with --generate-pre-alloc-groups first.&quot;</span>
                     <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -23962,9 +23962,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># Create shared allocation directory for phase 1</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Create pre-allocation groups directory for phase 1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">create_tarball</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create tarball of the output directory if configured to do so.&quot;&quot;&quot;</span>
@@ -23985,8 +23985,8 @@
             <span class="n">flat_output</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;flat_output&quot;</span><span class="p">),</span>
             <span class="n">single_fixture_per_file</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;single_fixture_per_file&quot;</span><span class="p">),</span>
             <span class="n">clean</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;clean&quot;</span><span class="p">),</span>
-            <span class="n">generate_shared_pre</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">),</span>
-            <span class="n">use_shared_pre</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">),</span>
+            <span class="n">generate_pre_alloc_groups</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">),</span>
+            <span class="n">use_pre_alloc_groups</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">),</span>
         <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -24109,19 +24109,19 @@
 
 
 
-<h3 id="pytest_plugins.filler.FixtureOutput.shared_pre_alloc_folder_path" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">shared_pre_alloc_folder_path</span><span class="p">:</span> <span class="n">Path</span></code>
+<h3 id="pytest_plugins.filler.FixtureOutput.pre_alloc_groups_folder_path" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pre_alloc_groups_folder_path</span><span class="p">:</span> <span class="n">Path</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-<a href="#pytest_plugins.filler.FixtureOutput.shared_pre_alloc_folder_path" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#pytest_plugins.filler.FixtureOutput.pre_alloc_groups_folder_path" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Return the path for shared pre-allocation state file.</p>
+      <p>Return the path for pre-allocation groups folder.</p>
     </div>
 
 </div>
@@ -24247,16 +24247,16 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">True</span>
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
         <span class="c1"># Phase 1: Directory must be completely empty</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_directory_empty</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_shared_pre</span><span class="p">:</span>
-        <span class="c1"># Phase 2: Only shared alloc file must exist, no other files allowed</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_pre_alloc_groups</span><span class="p">:</span>
+        <span class="c1"># Phase 2: Only pre-allocation groups must exist, no other files allowed</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="c1"># Check that only the shared prealloc file exists</span>
+        <span class="c1"># Check that only the pre-allocation group files exist</span>
         <span class="n">existing_files</span> <span class="o">=</span> <span class="p">{</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">is_file</span><span class="p">()}</span>
-        <span class="n">allowed_files</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">))</span>
+        <span class="n">allowed_files</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.json&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">existing_files</span> <span class="o">==</span> <span class="n">allowed_files</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Normal filling: Directory must be empty</span>
@@ -24456,18 +24456,18 @@ Otherwise, verify the directory is empty before proceeding.</p>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_directory_usable_for_phase</span><span class="p">():</span>
         <span class="n">summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_directory_summary</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Output directory &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="si">}</span><span class="s2">&#39; must be completely empty for &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;shared allocation generation (phase 1). Contains: </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;pre-allocation group generation (phase 1). Contains: </span><span class="si">{</span><span class="n">summary</span><span class="si">}</span><span class="s2">. &quot;</span>
                 <span class="s2">&quot;Use --clean to remove all existing files.&quot;</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_shared_pre</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_pre_alloc_groups</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Shared pre-allocation file not found at &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
-                    <span class="s2">&quot;Run phase 1 with --generate-shared-pre first.&quot;</span>
+                    <span class="s2">&quot;Pre-allocation groups folder not found at &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                    <span class="s2">&quot;Run phase 1 with --generate-pre-alloc-groups first.&quot;</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -24480,9 +24480,9 @@ Otherwise, verify the directory is empty before proceeding.</p>
     <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">metadata_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># Create shared allocation directory for phase 1</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_shared_pre</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Create pre-allocation groups directory for phase 1</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_pre_alloc_groups</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -24576,8 +24576,8 @@ Otherwise, verify the directory is empty before proceeding.</p>
         <span class="n">flat_output</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;flat_output&quot;</span><span class="p">),</span>
         <span class="n">single_fixture_per_file</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;single_fixture_per_file&quot;</span><span class="p">),</span>
         <span class="n">clean</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;clean&quot;</span><span class="p">),</span>
-        <span class="n">generate_shared_pre</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">),</span>
-        <span class="n">use_shared_pre</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">),</span>
+        <span class="n">generate_pre_alloc_groups</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">),</span>
+        <span class="n">use_pre_alloc_groups</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -24726,9 +24726,9 @@ writes the generated fixtures to file.</p>
     <div class="doc doc-contents ">
 
       <p>Calculate the state difference between post_state and genesis_state.</p>
-<p>This function enables significant space savings in reorg fixtures by storing
+<p>This function enables significant space savings in Engine X fixtures by storing
 only the accounts that changed during test execution, rather than the full
-post-state which may contain thousands of unchanged shared accounts.</p>
+post-state which may contain thousands of unchanged accounts.</p>
 <p>Returns an Alloc containing only the accounts that:
 - Changed between genesis and post state (balance, nonce, storage, code)
 - Were created during test execution (new accounts)
@@ -24767,7 +24767,7 @@ post-state which may contain thousands of unchanged shared accounts.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Shared genesis pre-allocation state</p>
+                <p>Genesis pre-allocation state</p>
               </div>
             </td>
             <td>
@@ -24850,9 +24850,9 @@ post-state which may contain thousands of unchanged shared accounts.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the state difference between post_state and genesis_state.</span>
 
-<span class="sd">    This function enables significant space savings in reorg fixtures by storing</span>
+<span class="sd">    This function enables significant space savings in Engine X fixtures by storing</span>
 <span class="sd">    only the accounts that changed during test execution, rather than the full</span>
-<span class="sd">    post-state which may contain thousands of unchanged shared accounts.</span>
+<span class="sd">    post-state which may contain thousands of unchanged accounts.</span>
 
 <span class="sd">    Returns an Alloc containing only the accounts that:</span>
 <span class="sd">    - Changed between genesis and post state (balance, nonce, storage, code)</span>
@@ -24861,7 +24861,7 @@ post-state which may contain thousands of unchanged shared accounts.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        post_state: Final state after test execution</span>
-<span class="sd">        genesis_state: Shared genesis pre-allocation state</span>
+<span class="sd">        genesis_state: Genesis pre-allocation state</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Alloc containing only the state differences for efficient storage</span>
@@ -25282,18 +25282,18 @@ function to allow for easier testing.</p>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">test_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
-        <span class="s2">&quot;--generate-shared-pre&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--generate-pre-alloc-groups&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate shared pre-allocation state (phase 1 only).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Generate pre-allocation groups (phase 1 only).&quot;</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">test_group</span><span class="o">.</span><span class="n">addoption</span><span class="p">(</span>
-        <span class="s2">&quot;--use-shared-pre&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--use-pre-alloc-groups&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fill tests using an existing shared pre-allocation state (phase 2 only).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fill tests using existing pre-allocation groups (phase 2 only).&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">debug_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">getgroup</span><span class="p">(</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments defining debug behavior&quot;</span><span class="p">)</span>
@@ -25339,8 +25339,8 @@ function to allow for easier testing.</p>
     <div class="doc doc-contents ">
 
       <p>Initialize session-level state.</p>
-<p>Either initialize an empty shared pre-state container for phase 1 or
-load the shared pre-allocation state for phase 2 execution.</p>
+<p>Either initialize an empty pre-allocation groups container for phase 1 or
+load the pre-allocation groups for phase 2 execution.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
@@ -25365,26 +25365,30 @@ load the shared pre-allocation state for phase 2 execution.</p>
 <span class="normal">299</span>
 <span class="normal">300</span>
 <span class="normal">301</span>
-<span class="normal">302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionstart</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionstart</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize session-level state.</span>
 
-<span class="sd">    Either initialize an empty shared pre-state container for phase 1 or</span>
-<span class="sd">    load the shared pre-allocation state for phase 2 execution.</span>
+<span class="sd">    Either initialize an empty pre-allocation groups container for phase 1 or</span>
+<span class="sd">    load the pre-allocation groups for phase 2 execution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Initialize empty shared pre-state container for phase 1</span>
-    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">):</span>
-        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span> <span class="o">=</span> <span class="n">SharedPreState</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="c1"># Initialize empty pre-allocation groups container for phase 1</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">):</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span> <span class="o">=</span> <span class="n">PreAllocGroups</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="p">{})</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
-    <span class="c1"># Load the pre-state for phase 2</span>
-    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">):</span>
-        <span class="n">shared_pre_alloc_folder</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span>  <span class="c1"># type: ignore[attr-defined]</span>
-        <span class="k">if</span> <span class="n">shared_pre_alloc_folder</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-            <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span> <span class="o">=</span> <span class="n">SharedPreState</span><span class="o">.</span><span class="n">from_folder</span><span class="p">(</span><span class="n">shared_pre_alloc_folder</span><span class="p">)</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="c1"># Load the pre-allocation groups for phase 2</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">):</span>
+        <span class="n">pre_alloc_groups_folder</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span>  <span class="c1"># type: ignore[attr-defined]</span>
+        <span class="k">if</span> <span class="n">pre_alloc_groups_folder</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span> <span class="o">=</span> <span class="n">PreAllocGroups</span><span class="o">.</span><span class="n">from_folder</span><span class="p">(</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">pre_alloc_groups_folder</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Shared pre-alloc file not found: </span><span class="si">{</span><span class="n">shared_pre_alloc_folder</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Run phase 1 with --generate-shared-alloc first.&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;Pre-allocation groups folder not found: </span><span class="si">{</span><span class="n">pre_alloc_groups_folder</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="s2">&quot;Run phase 1 with --generate-pre-alloc-groups first.&quot;</span><span class="p">,</span>
                 <span class="n">returncode</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">ExitCode</span><span class="o">.</span><span class="n">USAGE_ERROR</span><span class="p">,</span>
             <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -25424,9 +25428,7 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">307</span>
 <span class="normal">308</span>
 <span class="normal">309</span>
 <span class="normal">310</span>
@@ -25490,7 +25492,9 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 <span class="normal">368</span>
 <span class="normal">369</span>
 <span class="normal">370</span>
-<span class="normal">371</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_configure</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook called after command line options have been parsed and before</span>
@@ -25525,7 +25529,7 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
     <span class="k">if</span> <span class="p">(</span>
         <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;disable_html&quot;</span><span class="p">)</span>
         <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;htmlpath&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">)</span>
     <span class="p">):</span>
         <span class="n">config</span><span class="o">.</span><span class="n">option</span><span class="o">.</span><span class="n">htmlpath</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">directory</span> <span class="o">/</span> <span class="n">default_html_report_file_path</span><span class="p">()</span>
 
@@ -25583,13 +25587,13 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">376</span>
 <span class="normal">377</span>
 <span class="normal">378</span>
 <span class="normal">379</span>
-<span class="normal">380</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_report_header</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add lines to pytest&#39;s console output header.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">is_help_or_collectonly_mode</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
@@ -25630,9 +25634,7 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">385</span>
 <span class="normal">386</span>
 <span class="normal">387</span>
 <span class="normal">388</span>
@@ -25645,7 +25647,9 @@ https://docs.pytest.org/en/7.1.x/how-to/writing_plugins.html#registering-custom-
 <span class="normal">395</span>
 <span class="normal">396</span>
 <span class="normal">397</span>
-<span class="normal">398</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">tryfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_report_teststatus</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Modify test results in pytest&#39;s terminal output.</span>
@@ -25689,9 +25693,7 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">401</span>
-<span class="normal">402</span>
-<span class="normal">403</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">403</span>
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
@@ -25742,7 +25744,9 @@ actually run the tests.</p>
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">trylast</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_terminal_summary</span><span class="p">(</span>
     <span class="n">terminalreporter</span><span class="p">:</span> <span class="n">TerminalReporter</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span>
 <span class="p">):</span>
@@ -25757,27 +25761,27 @@ actually run the tests.</p>
         <span class="k">return</span>
     <span class="n">stats</span> <span class="o">=</span> <span class="n">terminalreporter</span><span class="o">.</span><span class="n">stats</span>
     <span class="k">if</span> <span class="s2">&quot;passed&quot;</span> <span class="ow">in</span> <span class="n">stats</span> <span class="ow">and</span> <span class="n">stats</span><span class="p">[</span><span class="s2">&quot;passed&quot;</span><span class="p">]:</span>
-        <span class="c1"># Custom message for Phase 1 (shared pre-allocation generation)</span>
-        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">):</span>
+        <span class="c1"># Custom message for Phase 1 (pre-allocation group generation)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">):</span>
             <span class="c1"># Generate summary stats</span>
-            <span class="n">shared_pre_state</span><span class="p">:</span> <span class="n">SharedPreState</span>
+            <span class="n">pre_alloc_groups</span><span class="p">:</span> <span class="n">PreAllocGroups</span>
             <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">pluginmanager</span><span class="o">.</span><span class="n">hasplugin</span><span class="p">(</span><span class="s2">&quot;xdist&quot;</span><span class="p">):</span>
-                <span class="c1"># Load shared pre-state from disk</span>
-                <span class="n">shared_pre_state</span> <span class="o">=</span> <span class="n">SharedPreState</span><span class="o">.</span><span class="n">from_folder</span><span class="p">(</span>
-                    <span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="c1"># Load pre-allocation groups from disk</span>
+                <span class="n">pre_alloc_groups</span> <span class="o">=</span> <span class="n">PreAllocGroups</span><span class="o">.</span><span class="n">from_folder</span><span class="p">(</span>
+                    <span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span>  <span class="c1"># type: ignore[attr-defined]</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;shared_pre_state&quot;</span><span class="p">)</span>
-                <span class="n">shared_pre_state</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;pre_alloc_groups&quot;</span><span class="p">)</span>
+                <span class="n">pre_alloc_groups</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
-            <span class="n">total_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shared_pre_state</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
+            <span class="n">total_groups</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pre_alloc_groups</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
             <span class="n">total_accounts</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-                <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">shared_pre_state</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">pre_alloc_groups</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
             <span class="p">)</span>
 
             <span class="n">terminalreporter</span><span class="o">.</span><span class="n">write_sep</span><span class="p">(</span>
                 <span class="s2">&quot;=&quot;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot; Phase 1 Complete: Generated </span><span class="si">{</span><span class="n">total_groups</span><span class="si">}</span><span class="s2"> shared pre-allocation groups &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot; Phase 1 Complete: Generated </span><span class="si">{</span><span class="n">total_groups</span><span class="si">}</span><span class="s2"> pre-allocation groups &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">total_accounts</span><span class="si">}</span><span class="s2"> total accounts) &quot;</span><span class="p">,</span>
                 <span class="n">bold</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">green</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -25822,9 +25826,9 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add or remove metadata to/from the pytest report.&quot;&quot;&quot;</span>
     <span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;JAVA_HOME&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -25853,11 +25857,11 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">464</span>
 <span class="normal">465</span>
-<span class="normal">466</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_header</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_header</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Customize the table headers of the HTML report table.&quot;&quot;&quot;</span>
     <span class="n">cells</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;&lt;th class=&quot;sortable&quot; data-column-type=&quot;fixturePath&quot;&gt;JSON Fixture File&lt;/th&gt;&#39;</span><span class="p">)</span>
     <span class="n">cells</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;&lt;th class=&quot;sortable&quot; data-column-type=&quot;evmDumpDir&quot;&gt;EVM Dump Dir&lt;/th&gt;&#39;</span><span class="p">)</span>
@@ -25888,9 +25892,7 @@ actually run the tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">471</span>
 <span class="normal">472</span>
 <span class="normal">473</span>
 <span class="normal">474</span>
@@ -25917,7 +25919,9 @@ actually run the tests.</p>
 <span class="normal">495</span>
 <span class="normal">496</span>
 <span class="normal">497</span>
-<span class="normal">498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_row</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">cells</span><span class="p">):</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_results_table_row</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">cells</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Customize the table rows of the HTML report table.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="s2">&quot;user_properties&quot;</span><span class="p">):</span>
         <span class="n">user_props</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">report</span><span class="o">.</span><span class="n">user_properties</span><span class="p">)</span>
@@ -25975,9 +25979,7 @@ user_properties.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">503</span>
 <span class="normal">504</span>
 <span class="normal">505</span>
 <span class="normal">506</span>
@@ -26004,7 +26006,9 @@ user_properties.</p>
 <span class="normal">527</span>
 <span class="normal">528</span>
 <span class="normal">529</span>
-<span class="normal">530</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">hookimpl</span><span class="p">(</span><span class="n">hookwrapper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pytest_runtest_makereport</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">call</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make each test&#39;s fixture json path available to the test report via</span>
@@ -26060,9 +26064,9 @@ user_properties.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_report_title</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_html_report_title</span><span class="p">(</span><span class="n">report</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the HTML report title (pytest-html plugin).&quot;&quot;&quot;</span>
     <span class="n">report</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Fill Test Report&quot;</span>
 </code></pre></div></td></tr></table></div>
@@ -26091,10 +26095,10 @@ user_properties.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_bin</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return configured evm tool binary path used to run t8n.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;evm_bin&quot;</span><span class="p">)</span>
@@ -26125,13 +26129,13 @@ blocktest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">546</span>
 <span class="normal">547</span>
 <span class="normal">548</span>
 <span class="normal">549</span>
-<span class="normal">550</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">verify_fixtures_bin</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return configured evm tool binary path used to run statetest or</span>
@@ -26164,9 +26168,7 @@ blocktest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">555</span>
 <span class="normal">556</span>
 <span class="normal">557</span>
 <span class="normal">558</span>
@@ -26179,7 +26181,9 @@ blocktest.</p>
 <span class="normal">565</span>
 <span class="normal">566</span>
 <span class="normal">567</span>
-<span class="normal">568</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">t8n</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">evm_bin</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">TransitionTool</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return configured transition tool.&quot;&quot;&quot;</span>
     <span class="n">t8n</span> <span class="o">=</span> <span class="n">TransitionTool</span><span class="o">.</span><span class="n">from_binary_path</span><span class="p">(</span>
@@ -26222,9 +26226,7 @@ generated fixture JSON files.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">573</span>
 <span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
@@ -26235,7 +26237,9 @@ generated fixture JSON files.</p>
 <span class="normal">581</span>
 <span class="normal">582</span>
 <span class="normal">583</span>
-<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">do_fixture_verification</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">verify_fixtures_bin</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -26276,9 +26280,7 @@ commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">589</span>
 <span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
@@ -26316,7 +26318,9 @@ commands used to verify generated JSON fixtures.</p>
 <span class="normal">624</span>
 <span class="normal">625</span>
 <span class="normal">626</span>
-<span class="normal">627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">evm_fixture_verification</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -26383,15 +26387,15 @@ commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">632</span>
 <span class="normal">633</span>
 <span class="normal">634</span>
 <span class="normal">635</span>
 <span class="normal">636</span>
 <span class="normal">637</span>
-<span class="normal">638</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">base_dump_dir</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Path to base directory to dump the evm debug output.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;skip_dump_dir&quot;</span><span class="p">):</span>
@@ -26426,10 +26430,10 @@ commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fixture_output</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FixtureOutput</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the fixture output configuration.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span>  <span class="c1"># type: ignore[attr-defined]</span>
@@ -26459,10 +26463,10 @@ commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">is_output_tarball</span><span class="p">(</span><span class="n">fixture_output</span><span class="p">:</span> <span class="n">FixtureOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the output directory is a tarball.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fixture_output</span><span class="o">.</span><span class="n">is_tarball</span>
@@ -26492,10 +26496,10 @@ commands used to verify generated JSON fixtures.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">output_dir</span><span class="p">(</span><span class="n">fixture_output</span><span class="p">:</span> <span class="n">FixtureOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return directory to store the generated test fixtures.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">fixture_output</span><span class="o">.</span><span class="n">directory</span>
@@ -26526,9 +26530,7 @@ directory.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">661</span>
 <span class="normal">662</span>
 <span class="normal">663</span>
 <span class="normal">664</span>
@@ -26567,7 +26569,9 @@ directory.</p>
 <span class="normal">697</span>
 <span class="normal">698</span>
 <span class="normal">699</span>
-<span class="normal">700</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">,</span> <span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_properties_file</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">fixture_output</span><span class="p">:</span> <span class="n">FixtureOutput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create ini file with fixture build properties in the fixture output</span>
@@ -26638,9 +26642,7 @@ level.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">703</span>
-<span class="normal">704</span>
-<span class="normal">705</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
 <span class="normal">708</span>
@@ -26659,7 +26661,9 @@ level.</p>
 <span class="normal">721</span>
 <span class="normal">722</span>
 <span class="normal">723</span>
-<span class="normal">724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">dump_dir_parameter_level</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span> <span class="n">base_dump_dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">filler_path</span><span class="p">:</span> <span class="n">Path</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -26708,9 +26712,7 @@ level.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
-<span class="normal">728</span>
-<span class="normal">729</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">729</span>
 <span class="normal">730</span>
 <span class="normal">731</span>
 <span class="normal">732</span>
@@ -26718,7 +26720,9 @@ level.</p>
 <span class="normal">734</span>
 <span class="normal">735</span>
 <span class="normal">736</span>
-<span class="normal">737</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fixture_collection_scope</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_fixture_collection_scope</span><span class="p">(</span><span class="n">fixture_name</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return the appropriate scope to write fixture JSON files.</span>
 
@@ -26756,16 +26760,16 @@ level.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">742</span>
 <span class="normal">743</span>
 <span class="normal">744</span>
 <span class="normal">745</span>
 <span class="normal">746</span>
 <span class="normal">747</span>
 <span class="normal">748</span>
-<span class="normal">749</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;module&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">reference_spec</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span> <span class="o">|</span> <span class="n">ReferenceSpec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest fixture that returns the reference spec defined in a module.</span>
@@ -26802,9 +26806,7 @@ in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">754</span>
 <span class="normal">755</span>
 <span class="normal">756</span>
 <span class="normal">757</span>
@@ -26826,7 +26828,9 @@ in one test module.</p>
 <span class="normal">773</span>
 <span class="normal">774</span>
 <span class="normal">775</span>
-<span class="normal">776</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="n">get_fixture_collection_scope</span><span class="p">)</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="n">get_fixture_collection_scope</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fixture_collector</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">do_fixture_verification</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -26877,10 +26881,10 @@ in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">779</span>
-<span class="normal">780</span>
-<span class="normal">781</span>
-<span class="normal">782</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">filler_path</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return directory containing the tests to execute.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;filler_path&quot;</span><span class="p">)</span>
@@ -26910,14 +26914,14 @@ in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">785</span>
-<span class="normal">786</span>
-<span class="normal">787</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">787</span>
 <span class="normal">788</span>
 <span class="normal">789</span>
 <span class="normal">790</span>
 <span class="normal">791</span>
-<span class="normal">792</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_to_test_info</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TestInfo</span><span class="p">:</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">node_to_test_info</span><span class="p">(</span><span class="n">node</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TestInfo</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return test info of the current node item.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">TestInfo</span><span class="p">(</span>
         <span class="n">name</span><span class="o">=</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
@@ -26951,10 +26955,10 @@ in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;session&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">commit_hash_or_tag</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cache the git commit hash or tag for the entire test session.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">get_current_commit_hash_or_tag</span><span class="p">()</span>
@@ -26984,9 +26988,7 @@ in one test module.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">803</span>
 <span class="normal">804</span>
 <span class="normal">805</span>
 <span class="normal">806</span>
@@ -27009,7 +27011,9 @@ in one test module.</p>
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">fixture_source_url</span><span class="p">(</span>
     <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
     <span class="n">commit_hash_or_tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -27063,9 +27067,7 @@ leakage between tests.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">829</span>
-<span class="normal">830</span>
-<span class="normal">831</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">831</span>
 <span class="normal">832</span>
 <span class="normal">833</span>
 <span class="normal">834</span>
@@ -27185,7 +27187,11 @@ leakage between tests.</p>
 <span class="normal">948</span>
 <span class="normal">949</span>
 <span class="normal">950</span>
-<span class="normal">951</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
+<span class="normal">951</span>
+<span class="normal">952</span>
+<span class="normal">953</span>
+<span class="normal">954</span>
+<span class="normal">955</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate pytest.fixture for a given BaseTest subclass.</span>
 
@@ -27236,32 +27242,34 @@ leakage between tests.</p>
                 <span class="nb">super</span><span class="p">(</span><span class="n">BaseTestWrapper</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_request</span> <span class="o">=</span> <span class="n">request</span>
 
-                <span class="c1"># Phase 1: Generate shared pre-state</span>
-                <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
-                    <span class="s2">&quot;generate_shared_pre&quot;</span>
+                <span class="c1"># Phase 1: Generate pre-allocation groups</span>
+                <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
+                    <span class="s2">&quot;generate_pre_alloc_groups&quot;</span>
                 <span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">update_shared_pre_state</span><span class="p">(</span>
-                        <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">update_pre_alloc_groups</span><span class="p">(</span>
+                        <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span>
                     <span class="p">)</span>
                     <span class="k">return</span>  <span class="c1"># Skip fixture generation in phase 1</span>
 
-                <span class="c1"># Phase 2: Use shared pre-state (only for BlockchainEngineReorgFixture)</span>
+                <span class="c1"># Phase 2: Use pre-allocation groups (only for BlockchainEngineXFixture)</span>
                 <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
-                    <span class="s2">&quot;use_shared_pre&quot;</span>
+                <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
+                    <span class="s2">&quot;use_pre_alloc_groups&quot;</span>
                 <span class="p">):</span>
-                    <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span><span class="p">:</span>
+                    <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span><span class="p">:</span>
                         <span class="n">pre_alloc_path</span> <span class="o">=</span> <span class="p">(</span>
-                            <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span>
+                            <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span>
                             <span class="o">/</span> <span class="n">pre_alloc_hash</span>
                         <span class="p">)</span>
                         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Pre-allocation hash </span><span class="si">{</span><span class="n">pre_alloc_hash</span><span class="si">}</span><span class="s2"> not found in shared pre-state. &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;Please check the shared pre-state file at: </span><span class="si">{</span><span class="n">pre_alloc_path</span><span class="si">}</span><span class="s2">. &quot;</span>
-                            <span class="s2">&quot;Make sure phase 1 (--generate-shared-pre) was run before phase 2.&quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;Pre-allocation hash </span><span class="si">{</span><span class="n">pre_alloc_hash</span><span class="si">}</span><span class="s2"> not found in &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;pre-allocation groups. &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;Please check the pre-allocation groups file at: </span><span class="si">{</span><span class="n">pre_alloc_path</span><span class="si">}</span><span class="s2">. &quot;</span>
+                            <span class="s2">&quot;Make sure phase 1 (--generate-pre-alloc-groups) was run &quot;</span>
+                            <span class="s2">&quot;before phase 2.&quot;</span>
                         <span class="p">)</span>
-                    <span class="n">group</span><span class="p">:</span> <span class="n">SharedPreStateGroup</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
+                    <span class="n">group</span><span class="p">:</span> <span class="n">PreAllocGroup</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">pre</span>
 
                 <span class="n">fixture</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span>
@@ -27270,17 +27278,17 @@ leakage between tests.</p>
                     <span class="n">fixture_format</span><span class="o">=</span><span class="n">fixture_format</span><span class="p">,</span>
                 <span class="p">)</span>
 
-                <span class="c1"># Post-process for reorg format (add pre_hash and state diff)</span>
+                <span class="c1"># Post-process for Engine X format (add pre_hash and state diff)</span>
                 <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span>
-                    <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">)</span>
+                    <span class="n">fixture_format</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span>
+                    <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">)</span>
                     <span class="ow">and</span> <span class="n">pre_alloc_hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="p">):</span>
                     <span class="n">fixture</span><span class="o">.</span><span class="n">pre_hash</span> <span class="o">=</span> <span class="n">pre_alloc_hash</span>
 
                     <span class="c1"># Calculate state diff for efficiency</span>
                     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fixture</span><span class="p">,</span> <span class="s2">&quot;post_state&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">fixture</span><span class="o">.</span><span class="n">post_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">group</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
+                        <span class="n">group</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
                         <span class="n">fixture</span><span class="o">.</span><span class="n">post_state_diff</span> <span class="o">=</span> <span class="n">calculate_post_state_diff</span><span class="p">(</span>
                             <span class="n">fixture</span><span class="o">.</span><span class="n">post_state</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">pre</span>
                         <span class="p">)</span>
@@ -27335,11 +27343,7 @@ test spec supports.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 960</span>
-<span class="normal"> 961</span>
-<span class="normal"> 962</span>
-<span class="normal"> 963</span>
-<span class="normal"> 964</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 964</span>
 <span class="normal"> 965</span>
 <span class="normal"> 966</span>
 <span class="normal"> 967</span>
@@ -27383,39 +27387,47 @@ test spec supports.</p>
 <span class="normal">1005</span>
 <span class="normal">1006</span>
 <span class="normal">1007</span>
-<span class="normal">1008</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook used to dynamically generate test cases for each fixture format a given</span>
 <span class="sd">    test spec supports.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">test_type</span> <span class="ow">in</span> <span class="n">BaseTest</span><span class="o">.</span><span class="n">spec_types</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">test_type</span><span class="o">.</span><span class="n">pytest_parameter_name</span><span class="p">()</span> <span class="ow">in</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">fixturenames</span><span class="p">:</span>
-            <span class="n">generate_shared_pre</span> <span class="o">=</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-            <span class="n">use_shared_pre</span> <span class="o">=</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_shared_pre&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">generate_pre_alloc_groups</span> <span class="o">=</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
+                <span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="kc">False</span>
+            <span class="p">)</span>
+            <span class="n">use_pre_alloc_groups</span> <span class="o">=</span> <span class="n">metafunc</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">generate_shared_pre</span> <span class="ow">or</span> <span class="n">use_shared_pre</span><span class="p">:</span>
-                <span class="c1"># When shared alloc flags are set, only generate BlockchainEngineReorgFixture</span>
+            <span class="k">if</span> <span class="n">generate_pre_alloc_groups</span> <span class="ow">or</span> <span class="n">use_pre_alloc_groups</span><span class="p">:</span>
+                <span class="c1"># When pre-allocation group flags are set, only generate BlockchainEngineXFixture</span>
                 <span class="n">supported_formats</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">format_item</span>
                     <span class="k">for</span> <span class="n">format_item</span> <span class="ow">in</span> <span class="n">test_type</span><span class="o">.</span><span class="n">supported_fixture_formats</span>
                     <span class="k">if</span> <span class="p">(</span>
-                        <span class="n">format_item</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span>
+                        <span class="n">format_item</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span>
                         <span class="ow">or</span> <span class="p">(</span>
                             <span class="nb">isinstance</span><span class="p">(</span><span class="n">format_item</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">)</span>
-                            <span class="ow">and</span> <span class="n">format_item</span><span class="o">.</span><span class="n">format</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span>
+                            <span class="ow">and</span> <span class="n">format_item</span><span class="o">.</span><span class="n">format</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
                 <span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="c1"># Filter out BlockchainEngineReorgFixture if shared alloc flags not set</span>
+                <span class="c1"># Filter out BlockchainEngineXFixture if pre-allocation group flags not set</span>
                 <span class="n">supported_formats</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">format_item</span>
                     <span class="k">for</span> <span class="n">format_item</span> <span class="ow">in</span> <span class="n">test_type</span><span class="o">.</span><span class="n">supported_fixture_formats</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span>
-                        <span class="n">format_item</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span>
+                        <span class="n">format_item</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span>
                         <span class="ow">or</span> <span class="p">(</span>
                             <span class="nb">isinstance</span><span class="p">(</span><span class="n">format_item</span><span class="p">,</span> <span class="n">LabeledFixtureFormat</span><span class="p">)</span>
-                            <span class="ow">and</span> <span class="n">format_item</span><span class="o">.</span><span class="n">format</span> <span class="ow">is</span> <span class="n">BlockchainEngineReorgFixture</span>
+                            <span class="ow">and</span> <span class="n">format_item</span><span class="o">.</span><span class="n">format</span> <span class="ow">is</span> <span class="n">BlockchainEngineXFixture</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
                 <span class="p">]</span>
@@ -27462,13 +27474,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
-<span class="normal">1017</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1017</span>
 <span class="normal">1018</span>
 <span class="normal">1019</span>
 <span class="normal">1020</span>
@@ -27514,7 +27520,13 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1060</span>
 <span class="normal">1061</span>
 <span class="normal">1062</span>
-<span class="normal">1063</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span>
+<span class="normal">1066</span>
+<span class="normal">1067</span>
+<span class="normal">1068</span>
+<span class="normal">1069</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span> <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Function</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -27591,7 +27603,7 @@ parametrization occurs in the forks plugin.</p>
 
       <p>Perform session finish tasks.</p>
 <ul>
-<li>Save shared pre-allocation state (phase 1)</li>
+<li>Save pre-allocation groups (phase 1)</li>
 <li>Remove any lock files that may have been created.</li>
 <li>Generate index file for all produced fixtures.</li>
 <li>Create tarball of the output directory if the output is a tarball.</li>
@@ -27599,13 +27611,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1066</span>
-<span class="normal">1067</span>
-<span class="normal">1068</span>
-<span class="normal">1069</span>
-<span class="normal">1070</span>
-<span class="normal">1071</span>
-<span class="normal">1072</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1072</span>
 <span class="normal">1073</span>
 <span class="normal">1074</span>
 <span class="normal">1075</span>
@@ -27637,23 +27643,29 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1101</span>
 <span class="normal">1102</span>
 <span class="normal">1103</span>
-<span class="normal">1104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">1104</span>
+<span class="normal">1105</span>
+<span class="normal">1106</span>
+<span class="normal">1107</span>
+<span class="normal">1108</span>
+<span class="normal">1109</span>
+<span class="normal">1110</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 
-<span class="sd">    - Save shared pre-allocation state (phase 1)</span>
+<span class="sd">    - Save pre-allocation groups (phase 1)</span>
 <span class="sd">    - Remove any lock files that may have been created.</span>
 <span class="sd">    - Generate index file for all produced fixtures.</span>
 <span class="sd">    - Create tarball of the output directory if the output is a tarball.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Save shared pre-state after phase 1</span>
+    <span class="c1"># Save pre-allocation groups after phase 1</span>
     <span class="n">fixture_output</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">fixture_output</span>  <span class="c1"># type: ignore[attr-defined]</span>
-    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
-        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;shared_pre_state&quot;</span>
+    <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;pre_alloc_groups&quot;</span>
     <span class="p">):</span>
-        <span class="n">shared_pre_alloc_folder</span> <span class="o">=</span> <span class="n">fixture_output</span><span class="o">.</span><span class="n">shared_pre_alloc_folder_path</span>
-        <span class="n">shared_pre_alloc_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">shared_pre_state</span><span class="o">.</span><span class="n">to_folder</span><span class="p">(</span><span class="n">shared_pre_alloc_folder</span><span class="p">)</span>
+        <span class="n">pre_alloc_groups_folder</span> <span class="o">=</span> <span class="n">fixture_output</span><span class="o">.</span><span class="n">pre_alloc_groups_folder_path</span>
+        <span class="n">pre_alloc_groups_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">pre_alloc_groups</span><span class="o">.</span><span class="n">to_folder</span><span class="p">(</span><span class="n">pre_alloc_groups_folder</span><span class="p">)</span>
         <span class="k">return</span>
 
     <span class="k">if</span> <span class="n">xdist</span><span class="o">.</span><span class="n">is_xdist_worker</span><span class="p">(</span><span class="n">session</span><span class="p">):</span>
@@ -27668,7 +27680,7 @@ parametrization occurs in the forks plugin.</p>
 
     <span class="c1"># Generate index file for all produced fixtures.</span>
     <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_index&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">session</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
-        <span class="s2">&quot;generate_shared_pre&quot;</span>
+        <span class="s2">&quot;generate_pre_alloc_groups&quot;</span>
     <span class="p">):</span>
         <span class="n">generate_fixtures_index</span><span class="p">(</span>
             <span class="n">fixture_output</span><span class="o">.</span><span class="n">directory</span><span class="p">,</span> <span class="n">quiet_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disable_infer_format</span><span class="o">=</span><span class="kc">False</span>
@@ -29045,9 +29057,9 @@ send any transactions, ensuring that the account remains "empty."</p>
     <span class="n">contract_address_increments</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Address</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return iterator over contract addresses with dynamic scoping.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
-        <span class="s2">&quot;use_shared_pre&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
+        <span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Use a starting address that is derived from the test node</span>
         <span class="n">contract_start_address</span> <span class="o">=</span> <span class="n">sha256_from_string</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span>
@@ -29136,9 +29148,9 @@ send any transactions, ensuring that the account remains "empty."</p>
 <span class="normal">341</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">eoa_iterator</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">EOA</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return iterator over EOAs copies with dynamic scoping.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_shared_pre&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
-        <span class="s2">&quot;use_shared_pre&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">):</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span>
+        <span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># Use a starting address that is derived from the test node</span>
         <span class="n">eoa_start_pk</span> <span class="o">=</span> <span class="n">sha256_from_string</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span>

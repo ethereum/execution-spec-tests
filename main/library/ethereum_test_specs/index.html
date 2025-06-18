@@ -1639,11 +1639,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../running_tests/test_formats/blockchain_test_engine_reorg/" class="md-nav__link">
+      <a href="../../running_tests/test_formats/blockchain_test_engine_x/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Blockchain Engine Reorg Tests
+    Blockchain Engine X Tests
   </span>
   
 
@@ -2879,18 +2879,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.update_shared_pre_state" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.update_pre_alloc_groups" class="md-nav__link">
     <span class="md-ellipsis">
-      update_shared_pre_state
+      update_pre_alloc_groups
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.compute_shared_pre_alloc_hash" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.compute_pre_alloc_group_hash" class="md-nav__link">
     <span class="md-ellipsis">
-      compute_shared_pre_alloc_hash
+      compute_pre_alloc_group_hash
     </span>
   </a>
   
@@ -23781,18 +23781,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.update_shared_pre_state" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.update_pre_alloc_groups" class="md-nav__link">
     <span class="md-ellipsis">
-      update_shared_pre_state
+      update_pre_alloc_groups
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BaseTest.compute_shared_pre_alloc_hash" class="md-nav__link">
+  <a href="#ethereum_test_specs.BaseTest.compute_pre_alloc_group_hash" class="md-nav__link">
     <span class="md-ellipsis">
-      compute_shared_pre_alloc_hash
+      compute_pre_alloc_group_hash
     </span>
   </a>
   
@@ -24884,29 +24884,29 @@
 
     <span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the genesis environment for shared pre-allocation.</span>
+<span class="sd">        Get the genesis environment for pre-allocation groups.</span>
 
 <span class="sd">        Must be implemented by subclasses to provide the appropriate environment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must implement genesis environment access for shared &quot;</span>
-            <span class="s2">&quot;pre-allocation&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must implement genesis environment access for use with &quot;</span>
+            <span class="s2">&quot;pre-allocation groups.&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">update_shared_pre_state</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">shared_pre_state</span><span class="p">:</span> <span class="n">SharedPreState</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SharedPreState</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create or update the shared pre-state group with the pre from the current spec.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">update_pre_alloc_groups</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">pre_alloc_groups</span><span class="p">:</span> <span class="n">PreAllocGroups</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PreAllocGroups</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create or update the pre-allocation group with the pre from the current spec.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pre&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Shared pre-allocation &quot;</span>
-                <span class="s2">&quot;is only supported for test types that define pre-allocation.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Pre-allocation groups &quot;</span>
+                <span class="s2">&quot;are only supported for test types that define pre-allocation.&quot;</span>
             <span class="p">)</span>
-        <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
+        <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">in</span> <span class="n">shared_pre_state</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">in</span> <span class="n">pre_alloc_groups</span><span class="p">:</span>
             <span class="c1"># Update existing group - just merge pre-allocations</span>
-            <span class="n">group</span> <span class="o">=</span> <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
             <span class="n">group</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
                 <span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
@@ -24916,10 +24916,10 @@
             <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
             <span class="n">group</span><span class="o">.</span><span class="n">test_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
             <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
-            <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+            <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Create new group - use Environment instead of expensive genesis generation</span>
-            <span class="n">group</span> <span class="o">=</span> <span class="n">SharedPreStateGroup</span><span class="p">(</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">PreAllocGroup</span><span class="p">(</span>
                 <span class="n">test_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">pre_account_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">),</span>
                 <span class="n">test_ids</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">)],</span>
@@ -24927,15 +24927,15 @@
                 <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">),</span>
                 <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
-        <span class="k">return</span> <span class="n">shared_pre_state</span>
+            <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+        <span class="k">return</span> <span class="n">pre_alloc_groups</span>
 
-    <span class="k">def</span> <span class="nf">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hash (fork, env) in order to group tests by shared genesis config.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Hash (fork, env) in order to group tests by genesis config.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pre&quot;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Shared pre-allocation &quot;</span>
-                <span class="s2">&quot;is only supported for test types that define pre-allocation.&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Pre-allocation group &quot;</span>
+                <span class="s2">&quot;usage is only supported for test types that define pre-allocs.&quot;</span>
             <span class="p">)</span>
         <span class="n">fork_digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
         <span class="n">fork_hash</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">fork_digest</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
@@ -25563,7 +25563,7 @@ This is the case when the test is not run in pytest.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get the genesis environment for shared pre-allocation.</p>
+      <p>Get the genesis environment for pre-allocation groups.</p>
 <p>Must be implemented by subclasses to provide the appropriate environment.</p>
 
             <details class="quote">
@@ -25579,13 +25579,13 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">218</span>
 <span class="normal">219</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the genesis environment for shared pre-allocation.</span>
+<span class="sd">    Get the genesis environment for pre-allocation groups.</span>
 
 <span class="sd">    Must be implemented by subclasses to provide the appropriate environment.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must implement genesis environment access for shared &quot;</span>
-        <span class="s2">&quot;pre-allocation&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> must implement genesis environment access for use with &quot;</span>
+        <span class="s2">&quot;pre-allocation groups.&quot;</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -25601,15 +25601,15 @@ This is the case when the test is not run in pytest.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BaseTest.update_shared_pre_state" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">update_shared_pre_state</span><span class="p">(</span><span class="n">shared_pre_state</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">)</span></code>
+<h3 id="ethereum_test_specs.BaseTest.update_pre_alloc_groups" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">update_pre_alloc_groups</span><span class="p">(</span><span class="n">pre_alloc_groups</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">)</span></code>
 
-<a href="#ethereum_test_specs.BaseTest.update_shared_pre_state" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#ethereum_test_specs.BaseTest.update_pre_alloc_groups" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Create or update the shared pre-state group with the pre from the current spec.</p>
+      <p>Create or update the pre-allocation group with the pre from the current spec.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
@@ -25648,20 +25648,20 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
-<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_shared_pre_state</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">shared_pre_state</span><span class="p">:</span> <span class="n">SharedPreState</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SharedPreState</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create or update the shared pre-state group with the pre from the current spec.&quot;&quot;&quot;</span>
+<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">update_pre_alloc_groups</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="n">pre_alloc_groups</span><span class="p">:</span> <span class="n">PreAllocGroups</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PreAllocGroups</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create or update the pre-allocation group with the pre from the current spec.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pre&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Shared pre-allocation &quot;</span>
-            <span class="s2">&quot;is only supported for test types that define pre-allocation.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Pre-allocation groups &quot;</span>
+            <span class="s2">&quot;are only supported for test types that define pre-allocation.&quot;</span>
         <span class="p">)</span>
-    <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
+    <span class="n">pre_alloc_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">in</span> <span class="n">shared_pre_state</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">pre_alloc_hash</span> <span class="ow">in</span> <span class="n">pre_alloc_groups</span><span class="p">:</span>
         <span class="c1"># Update existing group - just merge pre-allocations</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span>
         <span class="n">group</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
@@ -25671,10 +25671,10 @@ This is the case when the test is not run in pytest.</p>
         <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
         <span class="n">group</span><span class="o">.</span><span class="n">test_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
         <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
-        <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+        <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Create new group - use Environment instead of expensive genesis generation</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="n">SharedPreStateGroup</span><span class="p">(</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">PreAllocGroup</span><span class="p">(</span>
             <span class="n">test_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
             <span class="n">pre_account_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">),</span>
             <span class="n">test_ids</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">)],</span>
@@ -25682,8 +25682,8 @@ This is the case when the test is not run in pytest.</p>
             <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">),</span>
             <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">shared_pre_state</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
-    <span class="k">return</span> <span class="n">shared_pre_state</span>
+        <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+    <span class="k">return</span> <span class="n">pre_alloc_groups</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -25698,15 +25698,15 @@ This is the case when the test is not run in pytest.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BaseTest.compute_shared_pre_alloc_hash" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
+<h3 id="ethereum_test_specs.BaseTest.compute_pre_alloc_group_hash" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
 
-<a href="#ethereum_test_specs.BaseTest.compute_shared_pre_alloc_hash" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#ethereum_test_specs.BaseTest.compute_pre_alloc_group_hash" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-      <p>Hash (fork, env) in order to group tests by shared genesis config.</p>
+      <p>Hash (fork, env) in order to group tests by genesis config.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
@@ -25737,12 +25737,12 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
-<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_shared_pre_alloc_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash (fork, env) in order to group tests by shared genesis config.&quot;&quot;&quot;</span>
+<span class="normal">285</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash (fork, env) in order to group tests by genesis config.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pre&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Shared pre-allocation &quot;</span>
-            <span class="s2">&quot;is only supported for test types that define pre-allocation.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not have a &#39;pre&#39; field. Pre-allocation group &quot;</span>
+            <span class="s2">&quot;usage is only supported for test types that define pre-allocs.&quot;</span>
         <span class="p">)</span>
     <span class="n">fork_digest</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
     <span class="n">fork_hash</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">fork_digest</span><span class="p">[:</span><span class="mi">8</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
@@ -27190,7 +27190,7 @@ return test_state_filler
     <span class="n">supported_fixture_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">FixtureFormat</span> <span class="o">|</span> <span class="n">LabeledFixtureFormat</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">BlockchainFixture</span><span class="p">,</span>
         <span class="n">BlockchainEngineFixture</span><span class="p">,</span>
-        <span class="n">BlockchainEngineReorgFixture</span><span class="p">,</span>
+        <span class="n">BlockchainEngineXFixture</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="n">supported_execute_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LabeledExecuteFormat</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">LabeledExecuteFormat</span><span class="p">(</span>
@@ -27512,7 +27512,7 @@ return test_state_filler
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
         <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span> <span class="o">=</span> <span class="n">BlockchainEngineFixture</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span> <span class="o">|</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span> <span class="o">|</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
         <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -27604,8 +27604,8 @@ return test_state_filler
         <span class="p">}</span>
 
         <span class="c1"># Add format-specific fields</span>
-        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
-            <span class="c1"># For reorg format, exclude pre (will be provided via shared state)</span>
+        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
+            <span class="c1"># For Engine X format, exclude pre (will be provided via shared state)</span>
             <span class="c1"># and prepare for state diff optimization</span>
             <span class="n">fixture_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
                 <span class="p">{</span>
@@ -27615,7 +27615,7 @@ return test_state_filler
                     <span class="s2">&quot;pre_hash&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Will be set by BaseTestWrapper</span>
                 <span class="p">}</span>
             <span class="p">)</span>
-            <span class="k">return</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">BlockchainEngineXFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Standard engine fixture</span>
             <span class="n">fixture_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -27629,7 +27629,7 @@ return test_state_filler
             <span class="k">return</span> <span class="n">BlockchainEngineFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for shared pre-allocation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
@@ -27642,7 +27642,7 @@ return test_state_filler
         <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
@@ -28572,7 +28572,7 @@ In this case, the state verification is only performed based on the state root.<
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span> <span class="o">=</span> <span class="n">BlockchainEngineFixture</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span> <span class="o">|</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainEngineFixture</span> <span class="o">|</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
     <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -28664,8 +28664,8 @@ In this case, the state verification is only performed based on the state root.<
     <span class="p">}</span>
 
     <span class="c1"># Add format-specific fields</span>
-    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
-        <span class="c1"># For reorg format, exclude pre (will be provided via shared state)</span>
+    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
+        <span class="c1"># For Engine X format, exclude pre (will be provided via shared state)</span>
         <span class="c1"># and prepare for state diff optimization</span>
         <span class="n">fixture_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
             <span class="p">{</span>
@@ -28675,7 +28675,7 @@ In this case, the state verification is only performed based on the state root.<
                 <span class="s2">&quot;pre_hash&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>  <span class="c1"># Will be set by BaseTestWrapper</span>
             <span class="p">}</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">BlockchainEngineXFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Standard engine fixture</span>
         <span class="n">fixture_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
@@ -28709,14 +28709,14 @@ In this case, the state verification is only performed based on the state root.<
 
     <div class="doc doc-contents ">
 
-      <p>Get the genesis environment for shared pre-allocation.</p>
+      <p>Get the genesis environment for pre-allocation groups.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">749</span>
 <span class="normal">750</span>
 <span class="normal">751</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for shared pre-allocation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -28769,7 +28769,7 @@ In this case, the state verification is only performed based on the state root.<
     <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineReorgFixture</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
@@ -31617,7 +31617,7 @@ unset.</p>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for shared pre-allocation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span>
@@ -31943,14 +31943,14 @@ unset.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Get the genesis environment for shared pre-allocation.</p>
+      <p>Get the genesis environment for pre-allocation groups.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
 <span class="normal">237</span>
 <span class="normal">238</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for shared pre-allocation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

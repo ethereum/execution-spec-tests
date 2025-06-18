@@ -361,7 +361,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_reorg/</loc>
+         <loc>https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_x/</loc>
          <lastmod>2025-06-18</lastmod>
          <changefreq>daily</changefreq>
     </url>
