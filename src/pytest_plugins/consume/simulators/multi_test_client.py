@@ -118,21 +118,32 @@ def client(
     pre_alloc_group: PreAllocGroup,
     multi_test_client_manager: MultiTestClientManager,
     fixtures_source: FixturesSource,
+    pre_alloc_group_test_tracker,
+    request,
 ) -> Generator[Client, None, None]:
     """Initialize or reuse multi-test client for the test group."""
     logger.info("🔥 MULTI-TEST CLIENT FIXTURE CALLED - Using multi-test client architecture!")
     pre_hash = fixture.pre_hash
+    test_id = request.node.nodeid
 
     # Set pre-alloc path in manager if not already set
     if multi_test_client_manager.pre_alloc_path is None:
         fixture_output = FixtureOutput(output_path=fixtures_source.path)
         multi_test_client_manager.set_pre_alloc_path(fixture_output.pre_alloc_groups_folder_path)
 
+    # Set test tracker in manager if not already set
+    if multi_test_client_manager.test_tracker is None:
+        multi_test_client_manager.set_test_tracker(pre_alloc_group_test_tracker)
+
     # Check for existing client
-    existing_client = multi_test_client_manager.get_client_for_test(pre_hash)
+    existing_client = multi_test_client_manager.get_client_for_test(pre_hash, test_id)
     if existing_client is not None:
         logger.info(f"Reusing multi-test client for pre-allocation group {pre_hash}")
-        yield existing_client
+        try:
+            yield existing_client
+        finally:
+            # Mark test as completed when fixture teardown occurs
+            multi_test_client_manager.mark_test_completed(pre_hash, test_id)
         return
 
     # Start new multi-test client
@@ -157,4 +168,8 @@ def client(
     multi_test_client.set_client(hive_client)
 
     logger.info(f"Multi-test client ready for pre-allocation group {pre_hash}")
-    yield hive_client
+    try:
+        yield hive_client
+    finally:
+        # Mark test as completed when fixture teardown occurs
+        multi_test_client_manager.mark_test_completed(pre_hash, test_id)
