@@ -426,7 +426,8 @@ def pytest_generate_tests(metafunc):
             test_case,
             id=test_case.id,
             marks=[getattr(pytest.mark, m) for m in fork_markers]
-            + [getattr(pytest.mark, test_case.format.format_name)],
+            + [getattr(pytest.mark, test_case.format.format_name)]
+            + [pytest.mark.xdist_group(name=test_case.pre_hash)],
         )
         param_list.append(param)
 

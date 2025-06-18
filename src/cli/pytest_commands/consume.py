@@ -13,14 +13,14 @@ from .processors import ConsumeCommandProcessor, HelpFlagsProcessor, HiveEnviron
 class ConsumeCommand(PytestCommand):
     """Pytest command for consume operations."""
 
-    def __init__(self, command_paths: List[Path], is_hive: bool = False):
+    def __init__(self, command_paths: List[Path], is_hive: bool = False, command_name: str = ""):
         """Initialize consume command with paths and processors."""
         processors: List[ArgumentProcessor] = [HelpFlagsProcessor("consume")]
 
         if is_hive:
             processors.extend(
                 [
-                    HiveEnvironmentProcessor(),
+                    HiveEnvironmentProcessor(command_name),
                     ConsumeCommandProcessor(is_hive=True),
                 ]
             )
@@ -49,18 +49,20 @@ class ConsumeCommand(PytestCommand):
         ]
 
 
-def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
+def get_command_paths(command_name: str) -> List[Path]:
     """Determine the command paths based on the command name and hive flag."""
     base_path = Path("src/pytest_plugins/consume")
     if command_name == "hive":
         commands = ["rlp", "engine"]
+        command_paths = [base_path / "simulators" / cmd / f"test_via_{cmd}.py" for cmd in commands]
+    elif command_name in ["engine", "engine-reorg", "engine_reorg"]:
+        command_paths = [base_path / "simulators" / "hive_tests" / "test_via_engine.py"]
+    elif command_name == "rlp":
+        command_paths = [base_path / "simulators" / "hive_tests" / "test_via_rlp.py"]
+    elif command_name == "direct":
+        command_paths = [base_path / "direct" / "test_via_direct.py"]
     else:
-        commands = [command_name]
-
-    command_paths = [
-        base_path / ("simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
-        for cmd in commands
-    ]
+        raise ValueError(f"Unexpected command: {command_name}.")
     return command_paths
 
 
@@ -76,7 +78,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     def decorator(func: Callable[..., Any]) -> click.Command:
         command_name = func.__name__
         command_help = func.__doc__
-        command_paths = get_command_paths(command_name, is_hive)
+        command_paths = get_command_paths(command_name)
 
         @consume.command(
             name=command_name,
@@ -86,7 +88,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
         @common_pytest_options
         @functools.wraps(func)
         def command(pytest_args: List[str], **kwargs) -> None:
-            consume_cmd = ConsumeCommand(command_paths, is_hive)
+            consume_cmd = ConsumeCommand(command_paths, is_hive, command_name)
             consume_cmd.execute(list(pytest_args))
 
         return command
@@ -112,9 +114,25 @@ def engine() -> None:
     pass
 
 
+@consume.command(
+    name="engine-reorg",
+    help="Client consumes via the Engine API with reorg fixtures.",
+    context_settings={"ignore_unknown_options": True},
+)
+@common_pytest_options
+def engine_reorg(
+    pytest_args: List[str], help_flag: bool = False, pytest_help_flag: bool = False
+) -> None:
+    """Client consumes via the Engine API with reorg fixtures."""
+    command_name = "engine_reorg"  # Use underscore for internal logic
+    command_paths = get_command_paths(command_name)
+    consume_cmd = ConsumeCommand(command_paths, is_hive=True, command_name=command_name)
+    consume_cmd.execute(list(pytest_args))
+
+
 @consume_command(is_hive=True)
 def hive() -> None:
-    """Client consumes via all available hive methods (rlp, engine)."""
+    """Client consumes via rlp & engine hive methods."""
     pass
 
 
@@ -122,7 +140,7 @@ def hive() -> None:
     context_settings={"ignore_unknown_options": True},
 )
 @common_pytest_options
-def cache(pytest_args: List[str], **kwargs) -> None:
+def cache(pytest_args: List[str], help_flag: bool = False, pytest_help_flag: bool = False) -> None:
     """Consume command to cache test fixtures."""
-    cache_cmd = ConsumeCommand([], is_hive=False)
+    cache_cmd = ConsumeCommand([], is_hive=False, command_name="cache")
     cache_cmd.execute(list(pytest_args))

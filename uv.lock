@@ -578,7 +578,7 @@ requires-dist = [
     { name = "ethereum-types", specifier = ">=0.2.1,<0.3" },
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "gitpython", specifier = ">=3.1.31,<4" },
-    { name = "hive-py", git = "https://github.com/marioevz/hive.py" },
+    { name = "hive-py", git = "https://github.com/marioevz/hive.py?rev=582703e2f94b4d5e61ae495d90d684852c87a580" },
     { name = "joblib", specifier = ">=1.4.2" },
     { name = "mike", marker = "extra == 'docs'", specifier = ">=1.1.2,<2" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.4.3,<2" },
@@ -750,7 +750,7 @@ wheels = [
 [[package]]
 name = "hive-py"
 version = "0.1.0"
-source = { git = "https://github.com/marioevz/hive.py#8874cb30904b00098bb6b696b2fd3c0f5a12e119" }
+source = { git = "https://github.com/marioevz/hive.py?rev=582703e2f94b4d5e61ae495d90d684852c87a580#582703e2f94b4d5e61ae495d90d684852c87a580" }
 dependencies = [
     { name = "requests" },
 ]
