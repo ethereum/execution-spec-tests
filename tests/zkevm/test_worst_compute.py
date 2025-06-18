@@ -1790,7 +1790,7 @@ def test_worst_dup(
     env = Environment()
     max_stack_height = 1024
 
-    min_stack_height = opcode.min_stack_height()
+    min_stack_height = opcode.min_stack_height
     code_prefix = Op.PUSH0 * min_stack_height
     opcode_sequence = opcode * (max_stack_height - min_stack_height)
     target_contract_address = pre.deploy_contract(code=code_prefix + opcode_sequence)
