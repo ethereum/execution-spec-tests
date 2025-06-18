@@ -38,6 +38,8 @@ from tests.osaka.eip7951_p256verify_precompiles.spec import FieldElement
 from tests.prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
 from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 
+from .helpers import code_loop_precompile_call
+
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
