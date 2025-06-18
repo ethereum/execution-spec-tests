@@ -1,19 +1,20 @@
-"""Pytest plugin for the `consume engine` simulator."""
+"""
+Pytest fixtures for the `consume enginex` simulator.
 
-import io
-from typing import Mapping
+Configures the hive back-end & EL clients for test execution with BlockchainEngineXFixtures.
+"""
 
 import pytest
 from hive.client import Client
 
 from ethereum_test_exceptions import ExceptionMapper
-from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_fixtures import BlockchainEngineXFixture
 from ethereum_test_rpc import EngineRPC
 
 pytest_plugins = (
     "pytest_plugins.pytest_hive.pytest_hive",
     "pytest_plugins.consume.simulators.base",
-    "pytest_plugins.consume.simulators.single_test_client",
+    "pytest_plugins.consume.simulators.multi_test_client",
     "pytest_plugins.consume.simulators.test_case_description",
     "pytest_plugins.consume.simulators.timing_data",
     "pytest_plugins.consume.simulators.exceptions",
@@ -22,19 +23,22 @@ pytest_plugins = (
 
 def pytest_configure(config):
     """Set the supported fixture formats for the engine simulator."""
-    config._supported_fixture_formats = [BlockchainEngineFixture.format_name]
+    config._supported_fixture_formats = [BlockchainEngineXFixture.format_name]
 
 
 @pytest.fixture(scope="module")
 def test_suite_name() -> str:
     """The name of the hive test suite used in this simulator."""
-    return "eest/consume-engine"
+    return "eest/consume-enginex"
 
 
 @pytest.fixture(scope="module")
 def test_suite_description() -> str:
     """The description of the hive test suite used in this simulator."""
-    return "Execute blockchain tests against clients using the Engine API."
+    return (
+        "Execute blockchain tests against clients using the Engine API with "
+        "pre-allocation group optimization using Engine X fixtures."
+    )
 
 
 @pytest.fixture(scope="function")
@@ -48,11 +52,3 @@ def engine_rpc(client: Client, client_exception_mapper: ExceptionMapper | None) 
             },
         )
     return EngineRPC(f"http://{client.ip}:8551")
-
-
-@pytest.fixture(scope="function")
-def client_files(buffered_genesis: io.BufferedReader) -> Mapping[str, io.BufferedReader]:
-    """Define the files that hive will start the client with."""
-    files = {}
-    files["/genesis.json"] = buffered_genesis
-    return files

@@ -495,11 +495,18 @@ def pytest_generate_tests(metafunc):
         if test_case.format.format_name not in metafunc.config._supported_fixture_formats:
             continue
         fork_markers = get_relative_fork_markers(test_case.fork, strict_mode=False)
+
+        # Append pre_hash (first 8 chars) to test ID for easier selection with --sim.limit
+        test_id = test_case.id
+        if hasattr(test_case, "pre_hash") and test_case.pre_hash:
+            test_id = f"{test_case.id}[{test_case.pre_hash[:8]}]"
+
         param = pytest.param(
             test_case,
-            id=test_case.id,
+            id=test_id,
             marks=[getattr(pytest.mark, m) for m in fork_markers]
-            + [getattr(pytest.mark, test_case.format.format_name)],
+            + [getattr(pytest.mark, test_case.format.format_name)]
+            + [pytest.mark.xdist_group(name=test_case.pre_hash)],
         )
         param_list.append(param)
 
