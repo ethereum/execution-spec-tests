@@ -44,7 +44,7 @@ def get_static_test_paths(command_name: str, is_hive: bool) -> List[Path]:
         static_test_paths = [
             base_path / "simulators" / "simulator_logic" / f"test_via_{cmd}.py" for cmd in commands
         ]
-    elif command_name in ["engine", "engine-reorg", "engine_reorg"]:
+    elif command_name in ["engine", "enginex"]:
         static_test_paths = [base_path / "simulators" / "simulator_logic" / "test_via_engine.py"]
     elif command_name == "rlp":
         static_test_paths = [base_path / "simulators" / "simulator_logic" / "test_via_rlp.py"]
@@ -101,26 +101,14 @@ def rlp() -> None:
 
 @consume_command(is_hive=True)
 def engine() -> None:
-    """Client consumes via the Engine API."""
+    """Client consumes Engine Fixtures via the Engine API."""
     pass
 
 
-@consume.command(
-    name="engine-reorg",
-    help="Client consumes via the Engine API with reorg fixtures.",
-    context_settings={"ignore_unknown_options": True},
-)
-@common_pytest_options
-def engine_reorg(
-    pytest_args: List[str], help_flag: bool = False, pytest_help_flag: bool = False
-) -> None:
-    """Client consumes via the Engine API with reorg fixtures."""
-    command_name = "engine_reorg"  # Use underscore for internal logic
-    static_test_paths = get_static_test_paths(command_name, is_hive=True)
-    consume_cmd = create_consume_command(
-        static_test_paths=static_test_paths, is_hive=True, command_name=command_name
-    )
-    consume_cmd.execute(list(pytest_args))
+@consume_command(is_hive=True)
+def enginex() -> None:
+    """Client consumes Engine X Fixtures via the Engine API."""
+    pass
 
 
 @consume_command(is_hive=True)
@@ -133,7 +121,7 @@ def hive() -> None:
     context_settings={"ignore_unknown_options": True},
 )
 @common_pytest_options
-def cache(pytest_args: List[str], help_flag: bool = False, pytest_help_flag: bool = False) -> None:
+def cache(pytest_args: List[str], **kwargs) -> None:
     """Consume command to cache test fixtures."""
     cache_cmd = create_consume_command(static_test_paths=[], is_hive=False)
     cache_cmd.execute(list(pytest_args))
