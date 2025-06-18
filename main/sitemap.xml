@@ -1691,6 +1691,46 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/checklist/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/spec/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_fork_transition/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_opcode_scenarios/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_stack_underflow/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/</loc>
          <lastmod>2025-06-18</lastmod>
          <changefreq>daily</changefreq>
