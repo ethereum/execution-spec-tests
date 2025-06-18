@@ -545,6 +545,30 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_even_32b_exp_256",
         ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "ff",
+                exponent=12 * "ff",
+                modulus=31 * "ff" + "01",
+            ),
+            id="mod_odd_32b_exp_96",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "ff",
+                exponent=32 * "ff",
+                modulus=31 * "ff" + "01",
+            ),
+            id="mod_odd_32b_exp_256",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "ff",
+                exponent=8 * "12345670",
+                modulus=31 * "ff" + "01",
+            ),
+            id="mod_odd_32b_exp_cover_windows",
+        ),
     ],
 )
 def test_worst_modexp(
