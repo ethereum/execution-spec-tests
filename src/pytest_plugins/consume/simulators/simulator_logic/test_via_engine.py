@@ -39,14 +39,36 @@ def test_blockchain_via_engine(
     fixture: BlockchainEngineFixture | BlockchainEngineXFixture,
     genesis_header: FixtureHeader,
     strict_exception_matching: bool,
+    fcu_frequency_tracker=None,  # Optional for enginex simulator
+    request=None,  # For accessing test info
 ):
     """
     1. Check the client genesis block hash matches `genesis.block_hash`.
     2. Execute the test case fixture blocks against the client under test using the
     `engine_newPayloadVX` method from the Engine API.
-    3. For valid payloads a forkchoice update is performed to finalize the chain.
+    3. For valid payloads a forkchoice update is performed to finalize the chain
+       (controlled by FCU frequency for enginex simulator).
     """
-    # Send an initial forkchoice update
+    # Determine if we should perform forkchoice updates based on frequency tracker
+    should_perform_fcus = True  # Default behavior for engine simulator
+    pre_hash = None
+
+    if fcu_frequency_tracker is not None and hasattr(fixture, "pre_hash"):
+        # EngineX simulator with forkchoice update frequency control
+        pre_hash = fixture.pre_hash
+        should_perform_fcus = fcu_frequency_tracker.should_perform_fcu(pre_hash)
+
+        logger.info(
+            f"Forkchoice update frequency check for pre-allocation group {pre_hash}: "
+            f"perform_fcu={should_perform_fcus} "
+            f"(frequency={fcu_frequency_tracker.fcu_frequency}, "
+            f"test_count={fcu_frequency_tracker.get_test_count(pre_hash)})"
+        )
+
+    # Always increment the test counter at the start for proper tracking
+    if fcu_frequency_tracker is not None and pre_hash is not None:
+        fcu_frequency_tracker.increment_test_count(pre_hash)
+    # Send a initial forkchoice update
     with timing_data.time("Initial forkchoice update"):
         logger.info("Sending initial forkchoice update to genesis block...")
         delay = 0.5
@@ -155,7 +177,7 @@ def test_blockchain_via_engine(
                                 f"Unexpected error code: {e.code}, expected: {payload.error_code}"
                             ) from e
 
-                if payload.valid():
+                if payload.valid() and should_perform_fcus:
                     with payload_timing.time(
                         f"engine_forkchoiceUpdatedV{payload.forkchoice_updated_version}"
                     ):
@@ -176,4 +198,18 @@ def test_blockchain_via_engine(
                                 f"unexpected status: want {PayloadStatusEnum.VALID},"
                                 f" got {forkchoice_response.payload_status.status}"
                             )
+                elif payload.valid() and not should_perform_fcus:
+                    logger.info(
+                        f"Skipping forkchoice update for payload {i + 1} due to frequency setting "
+                        f"(pre-allocation group: {pre_hash})"
+                    )
         logger.info("All payloads processed successfully.")
+
+    # Log final FCU frequency statistics for enginex simulator
+    if fcu_frequency_tracker is not None and pre_hash is not None:
+        final_count = fcu_frequency_tracker.get_test_count(pre_hash)
+        logger.info(
+            f"Test completed for pre-allocation group {pre_hash}. "
+            f"Total tests in group: {final_count}, "
+            f"FCU frequency: {fcu_frequency_tracker.fcu_frequency}"
+        )
