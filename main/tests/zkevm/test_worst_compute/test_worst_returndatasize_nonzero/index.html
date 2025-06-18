@@ -22976,7 +22976,7 @@
 
 
 <h1 id="test_worst_returndatasize_nonzero"><code>test_worst_returndatasize_nonzero()</code><a class="headerlink" href="#test_worst_returndatasize_nonzero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8180a5b1446d7ef57ba36d09174d9fd3fe228a98/tests/zkevm/test_worst_compute.py#L207"><code>tests/zkevm/test_worst_compute.py::test_worst_returndatasize_nonzero@8180a5b1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a13fef684b7894cb8850b6aa4ddac4a413112217/tests/zkevm/test_worst_compute.py#L208"><code>tests/zkevm/test_worst_compute.py::test_worst_returndatasize_nonzero@a13fef68</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_returndatasize_nonzero --fork Prague</span>
@@ -22998,8 +22998,7 @@ The <code>return_data_style</code> indicates how returned data is produced for t
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">207</span>
-<span class="normal">208</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
@@ -23058,7 +23057,8 @@ The <code>return_data_style</code> indicates how returned data is produced for t
 <span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
-<span class="normal">267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">267</span>
+<span class="normal">268</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;return_data_style&quot;</span><span class="p">,</span>
     <span class="p">[</span>

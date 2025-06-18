@@ -22976,7 +22976,7 @@
 
 
 <h1 id="test_worst_modexp"><code>test_worst_modexp()</code><a class="headerlink" href="#test_worst_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8180a5b1446d7ef57ba36d09174d9fd3fe228a98/tests/zkevm/test_worst_compute.py#L496"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@8180a5b1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a13fef684b7894cb8850b6aa4ddac4a413112217/tests/zkevm/test_worst_compute.py#L497"><code>tests/zkevm/test_worst_compute.py::test_worst_modexp@a13fef68</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_modexp --fork Prague</span>
@@ -22991,12 +22991,12 @@
 <a id="tests.zkevm.test_worst_compute.test_worst_modexp"></a>
     <div class="doc doc-contents first">
 
-      <p>Test running a block with as many MODEXP calls as possible.</p>
+      <p>Test running a block with as many calls to the MODEXP (5) precompile as possible.
+All the calls have the same parametrized input.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">496</span>
-<span class="normal">497</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">497</span>
 <span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
@@ -23037,41 +23037,180 @@
 <span class="normal">535</span>
 <span class="normal">536</span>
 <span class="normal">537</span>
-<span class="normal">538</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_worst_modexp</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many MODEXP calls as possible.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">&quot;mod_exp_input&quot;</span><span class="p">],</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">112</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">7</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_8b_exp_896&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">16</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">40</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">15</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_16b_exp_320&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">24</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">21</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">23</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_24b_exp_168&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">5</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_32b_exp_40&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_32b_exp_96&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;00&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_even_32b_exp_256&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">12</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_odd_32b_exp_96&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_odd_32b_exp_256&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="p">(</span>
+                <span class="n">base</span><span class="o">=</span><span class="mi">32</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span><span class="p">,</span>
+                <span class="n">exponent</span><span class="o">=</span><span class="mi">8</span> <span class="o">*</span> <span class="s2">&quot;12345670&quot;</span><span class="p">,</span>
+                <span class="n">modulus</span><span class="o">=</span><span class="mi">31</span> <span class="o">*</span> <span class="s2">&quot;ff&quot;</span> <span class="o">+</span> <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_odd_32b_exp_cover_windows&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">test_worst_modexp</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">mod_exp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Test running a block with as many calls to the MODEXP (5) precompile as possible.</span>
+<span class="sd">    All the calls have the same parametrized input.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Skip the trailing zeros from the input to make EVM work even harder.</span>
+    <span class="n">calldata</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">mod_exp_input</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="n">base_mod_length</span> <span class="o">=</span> <span class="mi">32</span>
-    <span class="n">exp_length</span> <span class="o">=</span> <span class="mi">32</span>
-
-    <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">base_mod_length</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">mod</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">base_mod_length</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span>  <span class="c1"># Prevents base == mod</span>
-    <span class="n">exp</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="n">exp_length</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-
-    <span class="c1"># MODEXP calldata</span>
-    <span class="n">calldata</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">base_mod_length</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">exp_length</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">base_mod_length</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">exp</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span> <span class="n">mod</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>  <span class="c1"># Copy the input to the memory.</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="mh">0x5</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">)),</span>
+        <span class="n">fork</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="c1"># EIP-2565</span>
-    <span class="n">mul_complexity</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">base_mod_length</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-    <span class="n">iter_complexity</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">gas_cost</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">mul_complexity</span> <span class="o">*</span> <span class="n">iter_complexity</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">gas_cost</span><span class="p">,</span> <span class="mh">0x5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
-
-    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+        <span class="nb">input</span><span class="o">=</span><span class="n">calldata</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span>
@@ -23085,7 +23224,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_worst_modexp.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -23130,56 +23269,495 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>mod_exp_input</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test]">
-                    ...fork_Cancun-state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_8b_exp_896]">
+                    ...fork_Cancun-state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_16b_exp_320]">
+                    ...fork_Cancun-state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_24b_exp_168]">
+                    ...fork_Cancun-state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_40]">
+                    ...fork_Cancun-state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_96]">
+                    ...fork_Cancun-state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_even_32b_exp_256]">
+                    ...fork_Cancun-state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_96]">
+                    ...fork_Cancun-state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_256]">
+                    ...fork_Cancun-state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Cancun-state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test]">
-                    ...fork_Cancun-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_8b_exp_896]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_16b_exp_320]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_24b_exp_168]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_40]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_96]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_256]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_96]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_256]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_8b_exp_896]">
+                    ...fork_Prague-state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_16b_exp_320]">
+                    ...fork_Prague-state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_24b_exp_168]">
+                    ...fork_Prague-state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_40]">
+                    ...fork_Prague-state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_96]">
+                    ...fork_Prague-state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_even_32b_exp_256]">
+                    ...fork_Prague-state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_96]">
+                    ...fork_Prague-state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_256]">
+                    ...fork_Prague-state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Prague-state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_8b_exp_896]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_16b_exp_320]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_24b_exp_168]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_40]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_96]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_256]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_96]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_256]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_8b_exp_896]">
+                    ...fork_Osaka-state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_16b_exp_320]">
+                    ...fork_Osaka-state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_24b_exp_168]">
+                    ...fork_Osaka-state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_40]">
+                    ...fork_Osaka-state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_96]">
+                    ...fork_Osaka-state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_even_32b_exp_256]">
+                    ...fork_Osaka-state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_96]">
+                    ...fork_Osaka-state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_256]">
+                    ...fork_Osaka-state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Osaka-state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_8b_exp_896]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_8b_exp_896]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_8b_exp_896
                 </abbr>
             </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_16b_exp_320]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_16b_exp_320]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_16b_exp_320
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_24b_exp_168]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_24b_exp_168]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_24b_exp_168
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_40]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_40]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_40
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_96]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_256]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_even_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x00' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_96]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_96]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_96
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_256]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_256]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_256
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]" title="tests/zkevm/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_odd_32b_exp_cover_windows
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp\x124Vp' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\x01' extra_data=b''</td>
                     </tr>
             </tbody>
 </table>
