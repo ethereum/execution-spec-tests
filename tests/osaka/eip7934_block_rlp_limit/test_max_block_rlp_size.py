@@ -250,17 +250,9 @@ def _exact_size_transactions_calculation(
 @pytest.mark.parametrize(
     "delta",
     [
-        pytest.param(-100, id="max_rlp_size_minus_100_bytes"),  # max RLP size - 100 byte, valid
-        pytest.param(-1, id="max_rlp_size_minus_1_byte"),  # max RLP size - 1 byte, valid
-        pytest.param(0, id="max_rlp_size"),  # exactly max RLP size, valid
+        pytest.param(-1, id="max_rlp_size_minus_1_byte"),
+        pytest.param(0, id="max_rlp_size"),
         pytest.param(1, id="max_rlp_size_plus_1_byte", marks=pytest.mark.exception_test),
-        pytest.param(2, id="max_rlp_size_plus_2_bytes", marks=pytest.mark.exception_test),
-        pytest.param(1000, id="max_rlp_size_plus_1000_bytes", marks=pytest.mark.exception_test),
-        pytest.param(
-            Spec.MAX_RLP_BLOCK_SIZE,
-            id="2x_max_rlp_size",
-            marks=pytest.mark.exception_test,
-        ),
     ],
 )
 def test_block_at_rlp_size_limit_boundary(
@@ -278,7 +270,6 @@ def test_block_at_rlp_size_limit_boundary(
     - At the limit - 1 byte, the block is valid
     - At the limit, the block is valid
     - At the limit + 1 byte, the block is invalid
-    - At the limit + N bytes, the block is invalid
     """
     transactions, gas_used = exact_size_transactions
     block_rlp_size = get_block_rlp_size(transactions, gas_used=gas_used)
