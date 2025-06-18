@@ -250,7 +250,7 @@ def _exact_size_transactions_calculation(
 @pytest.mark.parametrize(
     "delta",
     [
-        pytest.param(-100, id="max_rlp_size_minus_100_byte"),  # max RLP size - 100 byte, valid
+        pytest.param(-100, id="max_rlp_size_minus_100_bytes"),  # max RLP size - 100 byte, valid
         pytest.param(-1, id="max_rlp_size_minus_1_byte"),  # max RLP size - 1 byte, valid
         pytest.param(0, id="max_rlp_size"),  # exactly max RLP size, valid
         pytest.param(1, id="max_rlp_size_plus_1_byte", marks=pytest.mark.exception_test),
