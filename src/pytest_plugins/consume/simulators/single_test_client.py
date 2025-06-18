@@ -10,9 +10,8 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTest
 
 from ethereum_test_base_types import Number, to_json
-from ethereum_test_fixtures import (
-    BlockchainFixtureCommon,
-)
+from ethereum_test_fixtures import BlockchainFixtureCommon
+from ethereum_test_fixtures.blockchain import FixtureHeader
 from pytest_plugins.consume.simulators.helpers.ruleset import (
     ruleset,  # TODO: generate dynamically
 )
@@ -54,6 +53,12 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
     genesis_json = json.dumps(client_genesis)
     genesis_bytes = genesis_json.encode("utf-8")
     return io.BufferedReader(cast(io.RawIOBase, io.BytesIO(genesis_bytes)))
+
+
+@pytest.fixture(scope="function")
+def genesis_header(fixture: BlockchainFixtureCommon) -> FixtureHeader:
+    """Provide the genesis header from the shared pre-state group."""
+    return fixture.genesis  # type: ignore
 
 
 @pytest.fixture(scope="function")
