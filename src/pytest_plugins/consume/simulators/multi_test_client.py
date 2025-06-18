@@ -10,9 +10,9 @@ from hive.client import Client, ClientType
 from hive.testing import HiveTestSuite
 
 from ethereum_test_base_types import to_json
-from ethereum_test_fixtures import BlockchainEngineReorgFixture
+from ethereum_test_fixtures import BlockchainEngineXFixture
 from ethereum_test_fixtures.blockchain import FixtureHeader
-from ethereum_test_fixtures.shared_alloc import SharedPreStateGroup
+from ethereum_test_fixtures.pre_alloc_groups import PreAllocGroup
 from pytest_plugins.consume.consume import FixturesSource
 from pytest_plugins.consume.simulators.helpers.ruleset import (
     ruleset,  # TODO: generate dynamically
@@ -26,17 +26,17 @@ logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="session")
-def shared_pre_state_cache() -> Dict[str, SharedPreStateGroup]:
+def shared_pre_state_cache() -> Dict[str, PreAllocGroup]:
     """Cache for shared pre-state groups to avoid reloading from disk."""
     return {}
 
 
 @pytest.fixture(scope="function")
 def shared_pre_state_group(
-    fixture: BlockchainEngineReorgFixture,
+    fixture: BlockchainEngineXFixture,
     fixtures_source: FixturesSource,
-    shared_pre_state_cache: Dict[str, SharedPreStateGroup],
-) -> SharedPreStateGroup:
+    shared_pre_state_cache: Dict[str, PreAllocGroup],
+) -> PreAllocGroup:
     """Load the shared pre-state group for the current test case."""
     pre_hash = fixture.pre_hash
 
@@ -50,20 +50,20 @@ def shared_pre_state_group(
 
     # Look for shared pre-allocation file using FixtureOutput path structure
     fixture_output = FixtureOutput(output_path=fixtures_source.path)
-    shared_alloc_path = fixture_output.shared_pre_alloc_folder_path / f"{pre_hash}.json"
+    shared_alloc_path = fixture_output.pre_alloc_groups_folder_path / f"{pre_hash}.json"
     if not shared_alloc_path.exists():
         raise FileNotFoundError(f"Shared pre-allocation file not found: {shared_alloc_path}")
 
     # Load and cache
     with open(shared_alloc_path) as f:
-        shared_group = SharedPreStateGroup.model_validate_json(f.read())
+        shared_group = PreAllocGroup.model_validate_json(f.read())
 
     shared_pre_state_cache[pre_hash] = shared_group
     return shared_group
 
 
-def create_environment(shared_pre_state_group: SharedPreStateGroup, check_live_port: int) -> dict:
-    """Define environment using SharedPreStateGroup data."""
+def create_environment(shared_pre_state_group: PreAllocGroup, check_live_port: int) -> dict:
+    """Define environment using PreAllocGroup data."""
     fork = shared_pre_state_group.fork
     assert fork in ruleset, f"fork '{fork}' missing in hive ruleset"
     return {
@@ -75,7 +75,7 @@ def create_environment(shared_pre_state_group: SharedPreStateGroup, check_live_p
     }
 
 
-def client_files(shared_pre_state_group: SharedPreStateGroup) -> Mapping[str, io.BufferedReader]:
+def client_files(shared_pre_state_group: PreAllocGroup) -> Mapping[str, io.BufferedReader]:
     """Define the files that hive will start the client with."""
     genesis = to_json(shared_pre_state_group.genesis)  # type: ignore
     alloc = to_json(shared_pre_state_group.pre)
@@ -105,7 +105,7 @@ def reorg_client_manager() -> Generator[ReorgClientManager, None, None]:
 
 
 @pytest.fixture(scope="function")
-def genesis_header(shared_pre_state_group: SharedPreStateGroup) -> FixtureHeader:
+def genesis_header(shared_pre_state_group: PreAllocGroup) -> FixtureHeader:
     """Provide the genesis header from the shared pre-state group."""
     return shared_pre_state_group.genesis  # type: ignore
 
@@ -115,8 +115,8 @@ def client(
     test_suite: HiveTestSuite,
     client_type: ClientType,
     total_timing_data: TimingData,
-    fixture: BlockchainEngineReorgFixture,
-    shared_pre_state_group: SharedPreStateGroup,
+    fixture: BlockchainEngineXFixture,
+    shared_pre_state_group: PreAllocGroup,
     reorg_client_manager: ReorgClientManager,
     fixtures_source: FixturesSource,
 ) -> Generator[Client, None, None]:
@@ -127,7 +127,7 @@ def client(
     # Set pre-alloc path in manager if not already set
     if reorg_client_manager.pre_alloc_path is None:
         fixture_output = FixtureOutput(output_path=fixtures_source.path)
-        reorg_client_manager.set_pre_alloc_path(fixture_output.shared_pre_alloc_folder_path)
+        reorg_client_manager.set_pre_alloc_path(fixture_output.pre_alloc_groups_folder_path)
 
     # Check for existing client
     existing_client = reorg_client_manager.get_client_for_test(pre_hash)
