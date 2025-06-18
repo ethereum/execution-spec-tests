@@ -1,5 +1,5 @@
 """
-Pytest fixtures for the `consume engine-reorg` simulator.
+Pytest fixtures for the `consume enginex` simulator.
 
 Configures the hive back-end & EL clients for test execution with BlockchainEngineXFixtures.
 """
@@ -28,15 +28,15 @@ def pytest_configure(config):
 @pytest.fixture(scope="module")
 def test_suite_name() -> str:
     """The name of the hive test suite used in this simulator."""
-    return "eest/consume-engine-reorg"
+    return "eest/consume-enginex"
 
 
 @pytest.fixture(scope="module")
 def test_suite_description() -> str:
     """The description of the hive test suite used in this simulator."""
     return (
-        "Execute blockchain tests against clients using the Engine API and shared clients "
-        "using engine reorg fixtures."
+        "Execute blockchain tests against clients using the Engine API with "
+        "pre-allocation group optimization using Engine X fixtures."
     )
 
 

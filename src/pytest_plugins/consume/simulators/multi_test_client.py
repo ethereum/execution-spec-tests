@@ -19,52 +19,52 @@ from pytest_plugins.consume.simulators.helpers.ruleset import (
 )
 from pytest_plugins.filler.fixture_output import FixtureOutput
 
-from .helpers.client_wrapper import ReorgClientManager
+from .helpers.client_wrapper import MultiTestClientManager
 from .helpers.timing import TimingData
 
 logger = logging.getLogger(__name__)
 
 
 @pytest.fixture(scope="session")
-def shared_pre_state_cache() -> Dict[str, PreAllocGroup]:
-    """Cache for shared pre-state groups to avoid reloading from disk."""
+def pre_alloc_group_cache() -> Dict[str, PreAllocGroup]:
+    """Cache for pre-allocation groups to avoid reloading from disk."""
     return {}
 
 
 @pytest.fixture(scope="function")
-def shared_pre_state_group(
+def pre_alloc_group(
     fixture: BlockchainEngineXFixture,
     fixtures_source: FixturesSource,
-    shared_pre_state_cache: Dict[str, PreAllocGroup],
+    pre_alloc_group_cache: Dict[str, PreAllocGroup],
 ) -> PreAllocGroup:
-    """Load the shared pre-state group for the current test case."""
+    """Load the pre-allocation group for the current test case."""
     pre_hash = fixture.pre_hash
 
     # Check cache first
-    if pre_hash in shared_pre_state_cache:
-        return shared_pre_state_cache[pre_hash]
+    if pre_hash in pre_alloc_group_cache:
+        return pre_alloc_group_cache[pre_hash]
 
     # Load from disk
     if fixtures_source.is_stdin:
-        raise ValueError("Shared pre-state groups require file-based fixture input.")
+        raise ValueError("Pre-allocation groups require file-based fixture input.")
 
-    # Look for shared pre-allocation file using FixtureOutput path structure
+    # Look for pre-allocation group file using FixtureOutput path structure
     fixture_output = FixtureOutput(output_path=fixtures_source.path)
-    shared_alloc_path = fixture_output.pre_alloc_groups_folder_path / f"{pre_hash}.json"
-    if not shared_alloc_path.exists():
-        raise FileNotFoundError(f"Shared pre-allocation file not found: {shared_alloc_path}")
+    pre_alloc_path = fixture_output.pre_alloc_groups_folder_path / f"{pre_hash}.json"
+    if not pre_alloc_path.exists():
+        raise FileNotFoundError(f"Pre-allocation group file not found: {pre_alloc_path}")
 
     # Load and cache
-    with open(shared_alloc_path) as f:
-        shared_group = PreAllocGroup.model_validate_json(f.read())
+    with open(pre_alloc_path) as f:
+        pre_alloc_group_obj = PreAllocGroup.model_validate_json(f.read())
 
-    shared_pre_state_cache[pre_hash] = shared_group
-    return shared_group
+    pre_alloc_group_cache[pre_hash] = pre_alloc_group_obj
+    return pre_alloc_group_obj
 
 
-def create_environment(shared_pre_state_group: PreAllocGroup, check_live_port: int) -> dict:
+def create_environment(pre_alloc_group: PreAllocGroup, check_live_port: int) -> dict:
     """Define environment using PreAllocGroup data."""
-    fork = shared_pre_state_group.fork
+    fork = pre_alloc_group.fork
     assert fork in ruleset, f"fork '{fork}' missing in hive ruleset"
     return {
         "HIVE_CHAIN_ID": "1",  # TODO: Environment doesn't have chain_id - see work_in_progress.md
@@ -75,10 +75,10 @@ def create_environment(shared_pre_state_group: PreAllocGroup, check_live_port: i
     }
 
 
-def client_files(shared_pre_state_group: PreAllocGroup) -> Mapping[str, io.BufferedReader]:
+def client_files(pre_alloc_group: PreAllocGroup) -> Mapping[str, io.BufferedReader]:
     """Define the files that hive will start the client with."""
-    genesis = to_json(shared_pre_state_group.genesis)  # type: ignore
-    alloc = to_json(shared_pre_state_group.pre)
+    genesis = to_json(pre_alloc_group.genesis)  # type: ignore
+    alloc = to_json(pre_alloc_group.pre)
 
     # NOTE: nethermind requires account keys without '0x' prefix
     genesis["alloc"] = {k.replace("0x", ""): v for k, v in alloc.items()}
@@ -92,22 +92,21 @@ def client_files(shared_pre_state_group: PreAllocGroup) -> Mapping[str, io.Buffe
     return files
 
 
-# TODO: rename reorg_client_manager -> multi_test_client_manager
 @pytest.fixture(scope="session")
-def reorg_client_manager() -> Generator[ReorgClientManager, None, None]:
-    """Provide singleton ReorgClientManager with session cleanup."""
-    manager = ReorgClientManager()
+def multi_test_client_manager() -> Generator[MultiTestClientManager, None, None]:
+    """Provide singleton MultiTestClientManager with session cleanup."""
+    manager = MultiTestClientManager()
     try:
         yield manager
     finally:
-        logger.info("Cleaning up shared clients at session end...")
+        logger.info("Cleaning up multi-test clients at session end...")
         manager.stop_all_clients()
 
 
 @pytest.fixture(scope="function")
-def genesis_header(shared_pre_state_group: PreAllocGroup) -> FixtureHeader:
-    """Provide the genesis header from the shared pre-state group."""
-    return shared_pre_state_group.genesis  # type: ignore
+def genesis_header(pre_alloc_group: PreAllocGroup) -> FixtureHeader:
+    """Provide the genesis header from the pre-allocation group."""
+    return pre_alloc_group.genesis  # type: ignore
 
 
 @pytest.fixture(scope="function")
@@ -116,44 +115,46 @@ def client(
     client_type: ClientType,
     total_timing_data: TimingData,
     fixture: BlockchainEngineXFixture,
-    shared_pre_state_group: PreAllocGroup,
-    reorg_client_manager: ReorgClientManager,
+    pre_alloc_group: PreAllocGroup,
+    multi_test_client_manager: MultiTestClientManager,
     fixtures_source: FixturesSource,
 ) -> Generator[Client, None, None]:
-    """Initialize or reuse shared client for the test group."""
-    logger.info("🔥 REORG CLIENT FIXTURE CALLED - Using shared client architecture!")
+    """Initialize or reuse multi-test client for the test group."""
+    logger.info("🔥 MULTI-TEST CLIENT FIXTURE CALLED - Using multi-test client architecture!")
     pre_hash = fixture.pre_hash
 
     # Set pre-alloc path in manager if not already set
-    if reorg_client_manager.pre_alloc_path is None:
+    if multi_test_client_manager.pre_alloc_path is None:
         fixture_output = FixtureOutput(output_path=fixtures_source.path)
-        reorg_client_manager.set_pre_alloc_path(fixture_output.pre_alloc_groups_folder_path)
+        multi_test_client_manager.set_pre_alloc_path(fixture_output.pre_alloc_groups_folder_path)
 
     # Check for existing client
-    existing_client = reorg_client_manager.get_client_for_test(pre_hash)
+    existing_client = multi_test_client_manager.get_client_for_test(pre_hash)
     if existing_client is not None:
-        logger.info(f"Reusing shared client for preHash: {pre_hash}")
+        logger.info(f"Reusing multi-test client for pre-allocation group {pre_hash}")
         yield existing_client
         return
 
-    # Start new shared client
-    logger.info(f"Starting shared client for preHash: {pre_hash}")
+    # Start new multi-test client
+    logger.info(f"Starting multi-test client for pre-allocation group {pre_hash}")
 
-    with total_timing_data.time("Start shared client"):
+    with total_timing_data.time("Start multi-test client"):
         hive_client = test_suite.start_client(
             client_type=client_type,
-            environment=create_environment(shared_pre_state_group, 8551),
-            files=client_files(shared_pre_state_group),
+            environment=create_environment(pre_alloc_group, 8551),
+            files=client_files(pre_alloc_group),
         )
 
-    assert hive_client is not None, f"Failed to start shared client for preHash: {pre_hash}"
+    assert hive_client is not None, (
+        f"Failed to start multi-test client for pre-allocation group {pre_hash}"
+    )
 
     # Register with manager
-    reorg_client = reorg_client_manager.get_or_create_reorg_client(
+    multi_test_client = multi_test_client_manager.get_or_create_multi_test_client(
         pre_hash=pre_hash,
         client_type=client_type,
     )
-    reorg_client.set_client(hive_client)
+    multi_test_client.set_client(hive_client)
 
-    logger.info(f"Shared client ready for preHash: {pre_hash}")
+    logger.info(f"Multi-test client ready for pre-allocation group {pre_hash}")
     yield hive_client

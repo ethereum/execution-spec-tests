@@ -191,85 +191,86 @@ class RestartClient(ClientWrapper):
         return to_json(self.fixture.genesis)
 
 
-class ReorgClient(ClientWrapper):
+class MultiTestClient(ClientWrapper):
     """
-    Client wrapper for the reorg simulator where clients are shared across tests.
+    Client wrapper for multi-test execution where clients are used across tests.
 
     This class manages clients that are reused across multiple tests in the same
-    pre-allocation group, using blockchain reorganization to reset state between tests.
+    pre-allocation group.
     """
 
     def __init__(
         self,
         pre_hash: str,
         client_type: ClientType,
-        shared_pre_state: PreAllocGroup,
+        pre_alloc_group: PreAllocGroup,
     ):
         """
-        Initialize a reorg client wrapper.
+        Initialize a multi-test client wrapper.
 
         Args:
             pre_hash: The hash identifying the pre-allocation group
             client_type: The type of client to manage
-            shared_pre_state: The shared pre-state data for this group
+            pre_alloc_group: The pre-allocation group data for this group
 
         """
         super().__init__(client_type)
         self.pre_hash = pre_hash
-        self.shared_pre_state = shared_pre_state
+        self.pre_alloc_group = pre_alloc_group
 
     def _get_fork(self) -> Fork:
-        """Get the fork from the shared pre-state."""
-        return self.shared_pre_state.fork
+        """Get the fork from the pre-allocation group."""
+        return self.pre_alloc_group.fork
 
     def _get_chain_id(self) -> int:
-        """Get the chain ID from the shared pre-state environment."""
+        """Get the chain ID from the pre-allocation group environment."""
         # TODO: Environment doesn't have chain_id field - see work_in_progress.md
         return 1
 
     def _get_pre_alloc(self) -> dict:
-        """Get the pre-allocation from the shared pre-state."""
-        return to_json(self.shared_pre_state.pre)
+        """Get the pre-allocation from the pre-allocation group."""
+        return to_json(self.pre_alloc_group.pre)
 
     def _get_genesis_header(self) -> dict:
-        """Get the genesis header from the shared pre-state."""
-        return self.shared_pre_state.genesis().model_dump(by_alias=True)
+        """Get the genesis header from the pre-allocation group."""
+        return self.pre_alloc_group.genesis().model_dump(by_alias=True)
 
     def set_client(self, client: Client) -> None:
         """Override to log with pre_hash information."""
         if self._is_started:
-            raise RuntimeError(f"Client for preHash {self.pre_hash} is already set")
+            raise RuntimeError(f"Client for pre-allocation group {self.pre_hash} is already set")
 
         self.client = client
         self._is_started = True
         logger.info(
-            f"Reorg client ({self.client_type.name}) registered for preHash {self.pre_hash}"
+            f"Multi-test client ({self.client_type.name}) registered for pre-allocation group "
+            f"{self.pre_hash}"
         )
 
     def stop(self) -> None:
         """Override to log with pre_hash information."""
         if self._is_started:
             logger.info(
-                f"Marking reorg client ({self.client_type.name}) for preHash {self.pre_hash} "
-                f"as stopped after {self.test_count} tests"
+                f"Marking multi-test client ({self.client_type.name}) for pre-allocation group "
+                f"{self.pre_hash} as stopped after {self.test_count} tests"
             )
             self.client = None
             self._is_started = False
 
 
-class ReorgClientManager:
+class MultiTestClientManager:
     """
-    Singleton manager for coordinating reorg clients across test execution.
+    Singleton manager for coordinating multi-test clients across test execution.
 
-    This class tracks all reorg clients by their preHash and ensures proper
+    This class tracks all multi-test clients by their preHash and ensures proper
     lifecycle management including cleanup at session end.
     """
 
-    _instance: Optional["ReorgClientManager"] = None
+    _instance: Optional["MultiTestClientManager"] = None
     _initialized: bool
 
-    def __new__(cls) -> "ReorgClientManager":
-        """Ensure only one instance of ReorgClientManager exists."""
+    def __new__(cls) -> "MultiTestClientManager":
+        """Ensure only one instance of MultiTestClientManager exists."""
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance._initialized = False
@@ -280,10 +281,10 @@ class ReorgClientManager:
         if hasattr(self, "_initialized") and self._initialized:
             return
 
-        self.reorg_clients: Dict[str, ReorgClient] = {}
+        self.multi_test_clients: Dict[str, MultiTestClient] = {}
         self.pre_alloc_path: Optional[Path] = None
         self._initialized = True
-        logger.info("ReorgClientManager initialized")
+        logger.info("MultiTestClientManager initialized")
 
     def set_pre_alloc_path(self, path: Path) -> None:
         """
@@ -296,9 +297,9 @@ class ReorgClientManager:
         self.pre_alloc_path = path
         logger.debug(f"Pre-alloc path set to: {path}")
 
-    def load_shared_pre_state(self, pre_hash: str) -> PreAllocGroup:
+    def load_pre_alloc_group(self, pre_hash: str) -> PreAllocGroup:
         """
-        Load the shared pre-state for a given preHash.
+        Load the pre-allocation group for a given preHash.
 
         Args:
             pre_hash: The hash identifying the pre-allocation group
@@ -312,7 +313,7 @@ class ReorgClientManager:
 
         """
         if self.pre_alloc_path is None:
-            raise RuntimeError("Pre-alloc path not set in ReorgClientManager")
+            raise RuntimeError("Pre-alloc path not set in MultiTestClientManager")
 
         pre_alloc_file = self.pre_alloc_path / f"{pre_hash}.json"
         if not pre_alloc_file.exists():
@@ -320,55 +321,57 @@ class ReorgClientManager:
 
         return PreAllocGroup.model_validate_json(pre_alloc_file.read_text())
 
-    def get_or_create_reorg_client(
+    def get_or_create_multi_test_client(
         self,
         pre_hash: str,
         client_type: ClientType,
-    ) -> ReorgClient:
+    ) -> MultiTestClient:
         """
-        Get an existing ReorgClient or create a new one for the given preHash.
+        Get an existing MultiTestClient or create a new one for the given preHash.
 
         This method doesn't start the actual client - that's done by HiveTestSuite.
-        It just manages the ReorgClient wrapper objects.
+        It just manages the MultiTestClient wrapper objects.
 
         Args:
             pre_hash: The hash identifying the pre-allocation group
             client_type: The type of client that will be started
 
         Returns:
-            The ReorgClient wrapper instance
+            The MultiTestClient wrapper instance
 
         """
-        # Check if we already have a ReorgClient for this preHash
-        if pre_hash in self.reorg_clients:
-            reorg_client = self.reorg_clients[pre_hash]
-            if reorg_client.is_running:
-                logger.debug(f"Found existing ReorgClient for preHash {pre_hash}")
-                return reorg_client
+        # Check if we already have a MultiTestClient for this preHash
+        if pre_hash in self.multi_test_clients:
+            multi_test_client = self.multi_test_clients[pre_hash]
+            if multi_test_client.is_running:
+                logger.debug(f"Found existing MultiTestClient for pre-allocation group {pre_hash}")
+                return multi_test_client
             else:
-                # ReorgClient exists but isn't running, remove it
-                logger.warning(f"Found stopped ReorgClient for preHash {pre_hash}, removing")
-                del self.reorg_clients[pre_hash]
+                # MultiTestClient exists but isn't running, remove it
+                logger.warning(
+                    f"Found stopped MultiTestClient for pre-allocation group {pre_hash}, removing"
+                )
+                del self.multi_test_clients[pre_hash]
 
-        # Load the shared pre-state for this group
-        shared_pre_state = self.load_shared_pre_state(pre_hash)
+        # Load the pre-allocation group for this group
+        pre_alloc_group = self.load_pre_alloc_group(pre_hash)
 
-        # Create new ReorgClient wrapper
-        reorg_client = ReorgClient(
+        # Create new MultiTestClient wrapper
+        multi_test_client = MultiTestClient(
             pre_hash=pre_hash,
             client_type=client_type,
-            shared_pre_state=shared_pre_state,
+            pre_alloc_group=pre_alloc_group,
         )
 
-        # Track the ReorgClient
-        self.reorg_clients[pre_hash] = reorg_client
+        # Track the MultiTestClient
+        self.multi_test_clients[pre_hash] = multi_test_client
 
         logger.info(
-            f"Created new ReorgClient wrapper for preHash {pre_hash} "
-            f"(total tracked clients: {len(self.reorg_clients)})"
+            f"Created new MultiTestClient wrapper for pre-allocation group {pre_hash} "
+            f"(total tracked clients: {len(self.multi_test_clients)})"
         )
 
-        return reorg_client
+        return multi_test_client
 
     def get_client_for_test(self, pre_hash: str) -> Optional[Client]:
         """
@@ -381,38 +384,42 @@ class ReorgClientManager:
             The client instance if available, None otherwise
 
         """
-        if pre_hash in self.reorg_clients:
-            reorg_client = self.reorg_clients[pre_hash]
-            if reorg_client.is_running:
-                reorg_client.increment_test_count()
-                return reorg_client.client
+        if pre_hash in self.multi_test_clients:
+            multi_test_client = self.multi_test_clients[pre_hash]
+            if multi_test_client.is_running:
+                multi_test_client.increment_test_count()
+                return multi_test_client.client
         return None
 
     def stop_all_clients(self) -> None:
-        """Mark all reorg clients as stopped."""
-        logger.info(f"Marking all {len(self.reorg_clients)} reorg clients as stopped")
+        """Mark all multi-test clients as stopped."""
+        logger.info(f"Marking all {len(self.multi_test_clients)} multi-test clients as stopped")
 
-        for pre_hash, reorg_client in list(self.reorg_clients.items()):
+        for pre_hash, multi_test_client in list(self.multi_test_clients.items()):
             try:
-                reorg_client.stop()
+                multi_test_client.stop()
             except Exception as e:
-                logger.error(f"Error stopping ReorgClient for preHash {pre_hash}: {e}")
+                logger.error(
+                    f"Error stopping MultiTestClient for pre-allocation group {pre_hash}: {e}"
+                )
             finally:
-                del self.reorg_clients[pre_hash]
+                del self.multi_test_clients[pre_hash]
 
-        logger.info("All ReorgClient wrappers cleared")
+        logger.info("All MultiTestClient wrappers cleared")
 
     def get_client_count(self) -> int:
-        """Get the number of tracked reorg clients."""
-        return len(self.reorg_clients)
+        """Get the number of tracked multi-test clients."""
+        return len(self.multi_test_clients)
 
     def get_test_counts(self) -> Dict[str, int]:
-        """Get test counts for each reorg client."""
-        return {pre_hash: client.test_count for pre_hash, client in self.reorg_clients.items()}
+        """Get test counts for each multi-test client."""
+        return {
+            pre_hash: client.test_count for pre_hash, client in self.multi_test_clients.items()
+        }
 
     def reset(self) -> None:
         """Reset the manager, clearing all state."""
         self.stop_all_clients()
-        self.reorg_clients.clear()
+        self.multi_test_clients.clear()
         self.pre_alloc_path = None
-        logger.info("ReorgClientManager reset")
+        logger.info("MultiTestClientManager reset")
