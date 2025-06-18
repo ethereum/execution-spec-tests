@@ -1,1 +1,1 @@
-"""Consume RLP test functions."""
+"""The consume rlp simulator."""
