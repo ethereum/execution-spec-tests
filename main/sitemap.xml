@@ -3251,6 +3251,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_swap/</loc>
+         <lastmod>2025-06-18</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/zkevm/test_worst_compute/test_worst_tload/</loc>
          <lastmod>2025-06-18</lastmod>
          <changefreq>daily</changefreq>
