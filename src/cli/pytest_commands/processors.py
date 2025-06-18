@@ -107,9 +107,10 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
         modified_args.extend(["-p", "pytest_plugins.pytest_hive.pytest_hive"])
 
-
         if self.command_name == "engine":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.engine.conftest"])
+        elif self.command_name == "engine_reorg":
+            modified_args.extend(["-p", "pytest_plugins.consume.simulators.engine_reorg.conftest"])
         elif self.command_name == "rlp":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.rlp.conftest"])
         else:
