@@ -15,6 +15,8 @@ from ethereum_test_fixtures.pre_alloc_groups import PreAllocGroup
 from ethereum_test_forks import Fork
 from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
+from .test_tracker import PreAllocGroupTestTracker
+
 logger = logging.getLogger(__name__)
 
 
@@ -248,12 +250,22 @@ class MultiTestClient(ClientWrapper):
         )
 
     def stop(self) -> None:
-        """Override to log with pre_hash information."""
+        """Override to log with pre_hash information and actually stop the client."""
         if self._is_started:
             logger.info(
-                f"Marking multi-test client ({self.client_type.name}) for pre-allocation group "
-                f"{self.pre_hash} as stopped after {self.test_count} tests"
+                f"Stopping multi-test client ({self.client_type.name}) for pre-allocation group "
+                f"{self.pre_hash} after {self.test_count} tests"
             )
+            # Actually stop the Hive client
+            if self.client is not None:
+                try:
+                    self.client.stop()
+                    logger.debug(f"Hive client stopped for pre-allocation group {self.pre_hash}")
+                except Exception as e:
+                    logger.error(
+                        f"Error stopping Hive client for pre-allocation group {self.pre_hash}: {e}"
+                    )
+
             self.client = None
             self._is_started = False
 
@@ -283,6 +295,7 @@ class MultiTestClientManager:
 
         self.multi_test_clients: Dict[str, MultiTestClient] = {}
         self.pre_alloc_path: Optional[Path] = None
+        self.test_tracker: Optional["PreAllocGroupTestTracker"] = None
         self._initialized = True
         logger.info("MultiTestClientManager initialized")
 
@@ -296,6 +309,17 @@ class MultiTestClientManager:
         """
         self.pre_alloc_path = path
         logger.debug(f"Pre-alloc path set to: {path}")
+
+    def set_test_tracker(self, test_tracker: "PreAllocGroupTestTracker") -> None:
+        """
+        Set the test tracker for automatic client cleanup.
+
+        Args:
+            test_tracker: The test tracker instance
+
+        """
+        self.test_tracker = test_tracker
+        logger.debug("Test tracker set for automatic client cleanup")
 
     def load_pre_alloc_group(self, pre_hash: str) -> PreAllocGroup:
         """
@@ -373,12 +397,15 @@ class MultiTestClientManager:
 
         return multi_test_client
 
-    def get_client_for_test(self, pre_hash: str) -> Optional[Client]:
+    def get_client_for_test(
+        self, pre_hash: str, test_id: Optional[str] = None
+    ) -> Optional[Client]:
         """
         Get the actual client instance for a test with the given preHash.
 
         Args:
             pre_hash: The hash identifying the pre-allocation group
+            test_id: Optional test ID for completion tracking
 
         Returns:
             The client instance if available, None otherwise
@@ -390,6 +417,58 @@ class MultiTestClientManager:
                 multi_test_client.increment_test_count()
                 return multi_test_client.client
         return None
+
+    def mark_test_completed(self, pre_hash: str, test_id: str) -> None:
+        """
+        Mark a test as completed and trigger automatic client cleanup if appropriate.
+
+        Args:
+            pre_hash: The hash identifying the pre-allocation group
+            test_id: The unique test identifier
+
+        """
+        if self.test_tracker is None:
+            logger.debug("No test tracker available, skipping completion tracking")
+            return
+
+        # Mark test as completed in tracker
+        is_group_complete = self.test_tracker.mark_test_completed(pre_hash, test_id)
+
+        if is_group_complete:
+            # All tests in this pre-allocation group are complete
+            self._auto_stop_client_if_complete(pre_hash)
+
+    def _auto_stop_client_if_complete(self, pre_hash: str) -> None:
+        """
+        Automatically stop the client for a pre-allocation group if all tests are complete.
+
+        Args:
+            pre_hash: The hash identifying the pre-allocation group
+
+        """
+        if pre_hash not in self.multi_test_clients:
+            logger.debug(f"No client found for pre-allocation group {pre_hash}")
+            return
+
+        multi_test_client = self.multi_test_clients[pre_hash]
+        if not multi_test_client.is_running:
+            logger.debug(f"Client for pre-allocation group {pre_hash} is already stopped")
+            return
+
+        # Stop the client and remove from tracking
+        logger.info(
+            f"Auto-stopping client for pre-allocation group {pre_hash} - "
+            f"all tests completed ({multi_test_client.test_count} tests executed)"
+        )
+
+        try:
+            multi_test_client.stop()
+        except Exception as e:
+            logger.error(f"Error auto-stopping client for pre-allocation group {pre_hash}: {e}")
+        finally:
+            # Remove from tracking to free memory
+            del self.multi_test_clients[pre_hash]
+            logger.debug(f"Removed completed client from tracking: {pre_hash}")
 
     def stop_all_clients(self) -> None:
         """Mark all multi-test clients as stopped."""
@@ -422,4 +501,5 @@ class MultiTestClientManager:
         self.stop_all_clients()
         self.multi_test_clients.clear()
         self.pre_alloc_path = None
+        self.test_tracker = None
         logger.info("MultiTestClientManager reset")
