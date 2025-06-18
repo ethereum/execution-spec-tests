@@ -1,14 +1,14 @@
 """
 Pytest fixtures for the `consume engine-reorg` simulator.
 
-Configures the hive back-end & EL clients for test execution with BlockchainEngineReorgFixtures.
+Configures the hive back-end & EL clients for test execution with BlockchainEngineXFixtures.
 """
 
 import pytest
 from hive.client import Client
 
 from ethereum_test_exceptions import ExceptionMapper
-# Note: BlockchainEngineReorgFixture import removed as it may not exist at this commit
+from ethereum_test_fixtures import BlockchainEngineXFixture
 from ethereum_test_rpc import EngineRPC
 
 pytest_plugins = (
@@ -22,7 +22,7 @@ pytest_plugins = (
 
 def pytest_configure(config):
     """Set the supported fixture formats for the engine simulator."""
-    config._supported_fixture_formats = [BlockchainEngineReorgFixture.format_name]
+    config._supported_fixture_formats = [BlockchainEngineXFixture.format_name]
 
 
 @pytest.fixture(scope="module")

@@ -8,7 +8,7 @@ Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID res
 import time
 
 from ethereum_test_exceptions import UndefinedException
-from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_fixtures import BlockchainEngineFixture, BlockchainEngineXFixture
 from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import ForkchoiceState, JSONRPCError, PayloadStatusEnum
@@ -33,7 +33,7 @@ def test_blockchain_via_engine(
     timing_data: TimingData,
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
-    fixture: BlockchainEngineFixture,
+    fixture: BlockchainEngineFixture | BlockchainEngineXFixture,
     genesis_header: FixtureHeader,
     strict_exception_matching: bool,
 ):

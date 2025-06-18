@@ -11,7 +11,7 @@ from hive.client import Client, ClientType
 
 from ethereum_test_base_types import Number, to_json
 from ethereum_test_fixtures import BlockchainFixtureCommon
-# Note: SharedPreStateGroup import removed as shared_alloc module may not exist at this commit
+from ethereum_test_fixtures.pre_alloc_groups import PreAllocGroup
 from ethereum_test_forks import Fork
 from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
@@ -203,7 +203,7 @@ class ReorgClient(ClientWrapper):
         self,
         pre_hash: str,
         client_type: ClientType,
-        shared_pre_state: SharedPreStateGroup,
+        shared_pre_state: PreAllocGroup,
     ):
         """
         Initialize a reorg client wrapper.
@@ -296,7 +296,7 @@ class ReorgClientManager:
         self.pre_alloc_path = path
         logger.debug(f"Pre-alloc path set to: {path}")
 
-    def load_shared_pre_state(self, pre_hash: str) -> SharedPreStateGroup:
+    def load_shared_pre_state(self, pre_hash: str) -> PreAllocGroup:
         """
         Load the shared pre-state for a given preHash.
 
@@ -304,7 +304,7 @@ class ReorgClientManager:
             pre_hash: The hash identifying the pre-allocation group
 
         Returns:
-            The loaded SharedPreStateGroup
+            The loaded PreAllocGroup
 
         Raises:
             RuntimeError: If pre-alloc path is not set
@@ -318,7 +318,7 @@ class ReorgClientManager:
         if not pre_alloc_file.exists():
             raise FileNotFoundError(f"Pre-allocation file not found: {pre_alloc_file}")
 
-        return SharedPreStateGroup.model_validate_json(pre_alloc_file.read_text())
+        return PreAllocGroup.model_validate_json(pre_alloc_file.read_text())
 
     def get_or_create_reorg_client(
         self,
