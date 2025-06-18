@@ -105,10 +105,36 @@ def engine() -> None:
     pass
 
 
-@consume_command(is_hive=True)
-def enginex() -> None:
+@consume.command(
+    name="enginex",
+    help="Client consumes Engine X Fixtures via the Engine API.",
+    context_settings={"ignore_unknown_options": True},
+)
+@click.option(
+    "--enginex-fcu-frequency",
+    type=int,
+    default=1,
+    help=(
+        "Control forkchoice update frequency for enginex simulator. "
+        "0=disable FCUs, 1=FCU every test (default), N=FCU every Nth test per "
+        "pre-allocation group."
+    ),
+)
+@common_pytest_options
+def enginex(enginex_fcu_frequency: int, pytest_args: List[str], **_kwargs) -> None:
     """Client consumes Engine X Fixtures via the Engine API."""
-    pass
+    command_name = "enginex"
+    command_paths = get_command_paths(command_name, is_hive=True)
+
+    # Validate the frequency parameter
+    if enginex_fcu_frequency < 0:
+        raise click.BadParameter("FCU frequency must be non-negative")
+
+    # Add the FCU frequency to pytest args as a custom config option
+    pytest_args_with_fcu = [f"--enginex-fcu-frequency={enginex_fcu_frequency}"] + list(pytest_args)
+
+    consume_cmd = ConsumeCommand(command_paths, is_hive=True, command_name=command_name)
+    consume_cmd.execute(pytest_args_with_fcu)
 
 
 @consume_command(is_hive=True)
