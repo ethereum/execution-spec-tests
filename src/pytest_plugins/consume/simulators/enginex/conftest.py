@@ -26,9 +26,28 @@ pytest_plugins = (
 )
 
 
+def pytest_addoption(parser):
+    """Add enginex-specific command line options."""
+    enginex_group = parser.getgroup("enginex", "EngineX simulator options")
+    enginex_group.addoption(
+        "--enginex-fcu-frequency",
+        action="store",
+        type=int,
+        default=0,
+        help=(
+            "Control forkchoice update frequency for enginex simulator. "
+            "0=disable FCUs (default), 1=FCU every test, N=FCU every Nth test per "
+            "pre-allocation group."
+        ),
+    )
+
+
 def pytest_configure(config):
-    """Set the supported fixture formats for the engine simulator."""
+    """Set the supported fixture formats and store enginex configuration."""
     config._supported_fixture_formats = [BlockchainEngineXFixture.format_name]
+
+    # Store FCU frequency on config for access by fixtures
+    config.enginex_fcu_frequency = config.getoption("--enginex-fcu-frequency", 1)
 
 
 @pytest.fixture(scope="module")
@@ -105,3 +124,23 @@ def engine_rpc(client: Client, client_exception_mapper: ExceptionMapper | None) 
             },
         )
     return EngineRPC(f"http://{client.ip}:8551")
+
+
+@pytest.fixture(scope="session")
+def fcu_frequency_tracker(request):
+    """
+    Session-scoped FCU frequency tracker for enginex simulator.
+
+    This fixture is imported from test_tracker module and configured
+    with the --enginex-fcu-frequency command line option.
+    """
+    # Import here to avoid circular imports
+    from ..helpers.test_tracker import FCUFrequencyTracker
+
+    # Get FCU frequency from pytest config (set by command line argument)
+    fcu_frequency = getattr(request.config, "enginex_fcu_frequency", 1)
+
+    tracker = FCUFrequencyTracker(fcu_frequency=fcu_frequency)
+    logger.info(f"FCU frequency tracker initialized with frequency: {fcu_frequency}")
+
+    return tracker

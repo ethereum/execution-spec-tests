@@ -175,3 +175,102 @@ def pre_alloc_group_test_tracker(request) -> PreAllocGroupTestTracker:
 
     logger.info("Pre-allocation group test tracker initialized")
     return tracker
+
+
+@dataclass
+class FCUFrequencyTracker:
+    """
+    Tracks forkchoice update frequency per pre-allocation group.
+
+    This class enables controlling how often forkchoice updates are performed
+    during test execution on a per-pre-allocation-group basis.
+    """
+
+    fcu_frequency: int
+    """Frequency of FCU operations (0=disabled, 1=every test, N=every Nth test)."""
+
+    group_test_counters: Dict[str, int] = field(default_factory=dict)
+    """Test counters per pre-allocation group (pre_hash -> count)."""
+
+    def should_perform_fcu(self, pre_hash: str) -> bool:
+        """
+        Check if forkchoice update should be performed for this test.
+
+        Args:
+            pre_hash: The pre-allocation group hash
+
+        Returns:
+            True if FCU should be performed for this test
+
+        """
+        if self.fcu_frequency == 0:
+            logger.debug(f"FCU disabled for pre-allocation group {pre_hash} (frequency=0)")
+            return False
+
+        current_count = self.group_test_counters.get(pre_hash, 0)
+        should_perform = (current_count % self.fcu_frequency) == 0
+
+        logger.debug(
+            f"FCU decision for pre-allocation group {pre_hash}: "
+            f"perform={should_perform} (test_count={current_count}, "
+            f"frequency={self.fcu_frequency})"
+        )
+
+        return should_perform
+
+    def increment_test_count(self, pre_hash: str) -> None:
+        """
+        Increment test counter for pre-allocation group.
+
+        Args:
+            pre_hash: The pre-allocation group hash
+
+        """
+        current_count = self.group_test_counters.get(pre_hash, 0)
+        new_count = current_count + 1
+        self.group_test_counters[pre_hash] = new_count
+
+        logger.debug(
+            f"Incremented test count for pre-allocation group {pre_hash}: "
+            f"{current_count} -> {new_count}"
+        )
+
+    def get_test_count(self, pre_hash: str) -> int:
+        """
+        Get current test count for pre-allocation group.
+
+        Args:
+            pre_hash: The pre-allocation group hash
+
+        Returns:
+            Current test count for the group
+
+        """
+        return self.group_test_counters.get(pre_hash, 0)
+
+    def get_all_test_counts(self) -> Dict[str, int]:
+        """
+        Get test counts for all tracked pre-allocation groups.
+
+        Returns:
+            Dict mapping pre_hash to test count
+
+        """
+        return dict(self.group_test_counters)
+
+    def reset_group(self, pre_hash: str) -> None:
+        """
+        Reset test counter for a specific pre-allocation group.
+
+        Args:
+            pre_hash: The pre-allocation group hash to reset
+
+        """
+        if pre_hash in self.group_test_counters:
+            del self.group_test_counters[pre_hash]
+        logger.debug(f"Reset test counter for pre-allocation group {pre_hash}")
+
+    def reset_all(self) -> None:
+        """Reset all test counters."""
+        self.group_test_counters.clear()
+        logger.debug("Reset all FCU frequency test counters")
