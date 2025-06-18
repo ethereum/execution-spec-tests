@@ -1788,7 +1788,7 @@ def test_worst_dup(
 ):
     """Test running a block with as many DUP as possible."""
     env = Environment()
-    max_stack_height = 1024
+    max_stack_height = fork.max_stack_height()
 
     min_stack_height = opcode.min_stack_height
     code_prefix = Op.PUSH0 * min_stack_height
