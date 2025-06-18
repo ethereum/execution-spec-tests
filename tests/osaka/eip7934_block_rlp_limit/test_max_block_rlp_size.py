@@ -248,16 +248,19 @@ def _exact_size_transactions_calculation(
 
 
 @pytest.mark.parametrize(
-    "from_limit",
+    "delta",
     [
-        -100,  # max RLP size - 100 byte, valid
-        -1,  # max RLP size - 1 byte, valid
-        0,  # exactly max RLP size, valid
-        pytest.param(1, marks=pytest.mark.exception_test),  # max RLP size + 1 byte, invalid
-        pytest.param(2, marks=pytest.mark.exception_test),  # max RLP size + N bytes, invalid
-        pytest.param(1000, marks=pytest.mark.exception_test),
-        pytest.param(100000, marks=pytest.mark.exception_test),
-        pytest.param(Spec.MAX_RLP_BLOCK_SIZE, marks=pytest.mark.exception_test),
+        pytest.param(-100, id="max_rlp_size_minus_100_byte"),  # max RLP size - 100 byte, valid
+        pytest.param(-1, id="max_rlp_size_minus_1_byte"),  # max RLP size - 1 byte, valid
+        pytest.param(0, id="max_rlp_size"),  # exactly max RLP size, valid
+        pytest.param(1, id="max_rlp_size_plus_1_byte", marks=pytest.mark.exception_test),
+        pytest.param(2, id="max_rlp_size_plus_2_bytes", marks=pytest.mark.exception_test),
+        pytest.param(1000, id="max_rlp_size_plus_1000_bytes", marks=pytest.mark.exception_test),
+        pytest.param(
+            Spec.MAX_RLP_BLOCK_SIZE,
+            id="2x_max_rlp_size",
+            marks=pytest.mark.exception_test,
+        ),
     ],
 )
 def test_block_at_rlp_size_limit_boundary(
@@ -267,7 +270,7 @@ def test_block_at_rlp_size_limit_boundary(
     block_size_limit: int,
     env: Environment,
     exact_size_transactions,
-    from_limit: int,
+    delta: int,
 ):
     """
     Test the block rlp size limit.
@@ -286,15 +289,15 @@ def test_block_at_rlp_size_limit_boundary(
 
     block = Block(
         txs=transactions,
-        exception=BlockException.RLP_BLOCK_LIMIT_EXCEEDED if from_limit > 0 else None,
+        exception=BlockException.RLP_BLOCK_LIMIT_EXCEEDED if delta > 0 else None,
     )
 
-    if from_limit < 0:
-        block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT[: -abs(from_limit)])
-    elif from_limit == 0:
+    if delta < 0:
+        block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT[: -abs(delta)])
+    elif delta == 0:
         block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT)
-    else:  # from_limit > 0
-        block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT + b"\x00" * from_limit)
+    else:  # delta > 0
+        block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT + b"\x00" * delta)
 
     block.timestamp = ZeroPaddedHexNumber(HEADER_TIMESTAMP)
     blockchain_test(
@@ -302,5 +305,5 @@ def test_block_at_rlp_size_limit_boundary(
         pre=pre,
         post=post,
         blocks=[block],
-        verify_sync=False if from_limit > 0 else True,
+        verify_sync=False if delta > 0 else True,
     )
