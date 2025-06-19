@@ -364,7 +364,7 @@ class NethermindExceptionMapper(ExceptionMapper):
             # TODO:
             ""
         ),
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "DepositsInvalid: Invalid deposit event layout:"
         ),
     }

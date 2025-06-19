@@ -37,6 +37,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
 - 🐞 zkEVM marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
+- 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 
 #### `consume`
 
