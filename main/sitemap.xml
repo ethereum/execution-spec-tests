@@ -1691,6 +1691,36 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/checklist/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/spec/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee/test_reserve_price_boundary/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee/test_reserve_price_various_base_fee_scenarios/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/</loc>
          <lastmod>2025-06-19</lastmod>
          <changefreq>daily</changefreq>
