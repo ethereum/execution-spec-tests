@@ -7,7 +7,7 @@ note: Tests ported from:
     - [ethereum/tests/pull/1012](https://github.com/ethereum/tests/pull/990)
 """
 
-from typing import List
+from typing import Iterator, List
 
 import pytest
 
@@ -28,9 +28,10 @@ from ethereum_test_tools import (
     ceiling_division,
     compute_create_address,
 )
+from ethereum_test_tools.utility.pytest import ParameterSet
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .helpers import INITCODE_RESULTING_DEPLOYED_CODE, get_create_id, get_initcode_name
+from .helpers import INITCODE_RESULTING_DEPLOYED_CODE, get_create_id
 from .spec import Spec, ref_spec_3860
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_3860.git_path
@@ -42,90 +43,137 @@ pytestmark = pytest.mark.valid_from("Shanghai")
 """
 Initcode templates used throughout the tests
 """
-INITCODE_ONES_MAX_LIMIT = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=Spec.MAX_INITCODE_SIZE,
-    padding_byte=0x01,
-    name="max_size_ones",
-)
 
-INITCODE_ZEROS_MAX_LIMIT = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=Spec.MAX_INITCODE_SIZE,
-    padding_byte=0x00,
-    name="max_size_zeros",
-)
 
-INITCODE_ONES_OVER_LIMIT = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=Spec.MAX_INITCODE_SIZE + 1,
-    padding_byte=0x01,
-    name="over_limit_ones",
-)
+def initcode_ones_max_limit(fork: Fork) -> Initcode:
+    """Initcode with all ones."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size(),
+        padding_byte=0x01,
+        name="max_size_ones",
+    )
 
-INITCODE_ZEROS_OVER_LIMIT = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=Spec.MAX_INITCODE_SIZE + 1,
-    padding_byte=0x00,
-    name="over_limit_zeros",
-)
 
-INITCODE_ZEROS_32_BYTES = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=32,
-    padding_byte=0x00,
-    name="32_bytes",
-)
+def initcode_zeros_max_limit(fork: Fork) -> Initcode:
+    """Initcode with all zeros."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size(),
+        padding_byte=0x00,
+        name="max_size_zeros",
+    )
 
-INITCODE_ZEROS_33_BYTES = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=33,
-    padding_byte=0x00,
-    name="33_bytes",
-)
 
-INITCODE_ZEROS_49120_BYTES = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=49120,
-    padding_byte=0x00,
-    name="49120_bytes",
-)
+def initcode_ones_over_limit(fork: Fork) -> Initcode:
+    """Initcode with all ones over the max limit."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size() + 1,
+        padding_byte=0x01,
+        name="over_limit_ones",
+    )
 
-INITCODE_ZEROS_49121_BYTES = Initcode(
-    deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
-    initcode_length=49121,
-    padding_byte=0x00,
-    name="49121_bytes",
-)
 
-EMPTY_INITCODE = Initcode(
-    name="empty",
-)
-EMPTY_INITCODE._bytes_ = bytes()
-EMPTY_INITCODE.deployment_gas = 0
-EMPTY_INITCODE.execution_gas = 0
+def initcode_zeros_over_limit(fork: Fork) -> Initcode:
+    """Initcode with all zeros over the max limit."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size() + 1,
+        padding_byte=0x00,
+        name="over_limit_zeros",
+    )
 
-SINGLE_BYTE_INITCODE = Initcode(
-    name="single_byte",
-)
-SINGLE_BYTE_INITCODE._bytes_ = bytes(Op.STOP)
-SINGLE_BYTE_INITCODE.deployment_gas = 0
-SINGLE_BYTE_INITCODE.execution_gas = 0
+
+def initcode_32_bytes(fork: Fork) -> Initcode:
+    """Initcode with 32 bytes."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=32,
+        padding_byte=0x00,
+        name="32_bytes",
+    )
+
+
+def initcode_33_bytes(fork: Fork) -> Initcode:
+    """Initcode with 33 bytes."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=33,
+        padding_byte=0x00,
+        name="33_bytes",
+    )
+
+
+def initcode_max_minus_32_bytes(fork: Fork) -> Initcode:
+    """Initcode with max - 32 bytes."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size() - 32,
+        padding_byte=0x00,
+        name="max_minus_32_bytes",
+    )
+
+
+def initcode_max_minus_32_plus_1_bytes(fork: Fork) -> Initcode:
+    """Initcode with max - 32 + 1 bytes."""
+    return Initcode(
+        deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
+        initcode_length=fork.max_initcode_size() - 32 + 1,
+        padding_byte=0x00,
+        name="max_minus_32_plus_1_bytes",
+    )
+
+
+def initcode_empty(fork: Fork) -> Initcode:
+    """Initcode with 0 bytes."""
+    empty_initcode = Initcode(
+        name="empty",
+    )
+    empty_initcode._bytes_ = bytes()
+    empty_initcode.deployment_gas = 0
+    empty_initcode.execution_gas = 0
+    return empty_initcode
+
+
+def initcode_single_byte(fork: Fork) -> Initcode:
+    """Initcode with 1 byte."""
+    single_byte_initcode = Initcode(
+        name="single_byte",
+    )
+    single_byte_initcode._bytes_ = bytes(Op.STOP)
+    single_byte_initcode.deployment_gas = 0
+    single_byte_initcode.execution_gas = 0
+    return single_byte_initcode
+
 
 """
 Test cases using a contract creating transaction
 """
 
 
-@pytest.mark.parametrize(
-    "initcode",
-    [
-        INITCODE_ZEROS_MAX_LIMIT,
-        INITCODE_ONES_MAX_LIMIT,
-        pytest.param(INITCODE_ZEROS_OVER_LIMIT, marks=pytest.mark.exception_test),
-        pytest.param(INITCODE_ONES_OVER_LIMIT, marks=pytest.mark.exception_test),
-    ],
-    ids=get_initcode_name,
+def contract_creating_tx_cases(
+    fork: Fork,
+) -> Iterator[ParameterSet]:
+    """Generate test cases for contract creating transactions."""
+
+    def param(initcode: Initcode, exception: TransactionException | None = None) -> ParameterSet:
+        return pytest.param(
+            initcode,
+            exception,
+            marks=[pytest.mark.exception_test] if exception else [],
+            id=initcode._name_,
+        )
+
+    yield param(initcode_ones_max_limit(fork))
+    yield param(initcode_zeros_max_limit(fork))
+    yield param(initcode_zeros_over_limit(fork), TransactionException.INITCODE_SIZE_EXCEEDED)
+    yield param(initcode_ones_over_limit(fork), TransactionException.INITCODE_SIZE_EXCEEDED)
+
+
+@pytest.mark.parametrize_by_fork(
+    "initcode,exception",
+    contract_creating_tx_cases,
 )
 def test_contract_creating_tx(
     state_test: StateTestFiller,
@@ -134,6 +182,7 @@ def test_contract_creating_tx(
     post: Alloc,
     sender: EOA,
     initcode: Initcode,
+    exception: TransactionException | None,
 ):
     """
     Tests creating a contract using a transaction with an initcode that is
@@ -148,16 +197,15 @@ def test_contract_creating_tx(
         nonce=0,
         to=None,
         data=initcode,
-        gas_limit=10000000,
-        gas_price=10,
+        gas_limit=10_000_000,
         sender=sender,
+        error=exception,
     )
 
     if len(initcode) > Spec.MAX_INITCODE_SIZE:
         # Initcode is above the max size, tx inclusion in the block makes
         # it invalid.
         post[create_contract_address] = Account.NONEXISTENT
-        tx.error = TransactionException.INITCODE_SIZE_EXCEEDED
     else:
         # Initcode is at or below the max size, tx inclusion in the block
         # is ok and the contract is successfully created.
@@ -178,33 +226,35 @@ def valid_gas_test_case(initcode: Initcode, gas_test_case: str) -> bool:
     return True
 
 
-@pytest.mark.parametrize(
-    "initcode,gas_test_case",
-    [
-        pytest.param(
-            i,
-            g,
-            marks=([pytest.mark.exception_test] if g == "too_little_intrinsic_gas" else []),
-        )
-        for i in [
-            INITCODE_ZEROS_MAX_LIMIT,
-            INITCODE_ONES_MAX_LIMIT,
-            EMPTY_INITCODE,
-            SINGLE_BYTE_INITCODE,
-            INITCODE_ZEROS_32_BYTES,
-            INITCODE_ZEROS_33_BYTES,
-            INITCODE_ZEROS_49120_BYTES,
-            INITCODE_ZEROS_49121_BYTES,
-        ]
+def gas_test_cases(fork: Fork) -> Iterator[ParameterSet]:
+    """Generate test cases for gas usage."""
+    for i in [
+        initcode_zeros_max_limit(fork),
+        initcode_ones_max_limit(fork),
+        initcode_empty(fork),
+        initcode_single_byte(fork),
+        initcode_32_bytes(fork),
+        initcode_33_bytes(fork),
+        initcode_max_minus_32_bytes(fork),
+        initcode_max_minus_32_plus_1_bytes(fork),
+    ]:
         for g in [
             "too_little_intrinsic_gas",
             "exact_intrinsic_gas",
             "too_little_execution_gas",
             "exact_execution_gas",
-        ]
-        if valid_gas_test_case(i, g)
-    ],
-    ids=lambda x: f"{get_initcode_name(x[0])}-{x[1]}" if isinstance(x, tuple) else x,
+        ]:
+            if valid_gas_test_case(i, g):
+                if g == "too_little_intrinsic_gas":
+                    marks = [pytest.mark.exception_test]
+                else:
+                    marks = []
+                yield pytest.param(i, g, marks=marks, id=f"{i._name_}-{g}")
+
+
+@pytest.mark.parametrize_by_fork(
+    "initcode,gas_test_case",
+    gas_test_cases,
 )
 class TestContractCreationGasUsage:
     """
@@ -223,12 +273,27 @@ class TestContractCreationGasUsage:
     """
 
     @pytest.fixture
-    def tx_access_list(self) -> List[AccessList]:
+    def tx_access_list(self, fork: Fork, initcode: Initcode) -> List[AccessList]:
         """
         On EIP-7623, we need to use an access list to raise the intrinsic gas cost to
         be above the floor data cost.
         """
-        return [AccessList(address=Address(i), storage_keys=[]) for i in range(1, 478)]
+        gas_costs = fork.gas_costs()
+        tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
+        data_floor = tx_intrinsic_gas_cost_calculator(calldata=initcode)
+        intrinsic_gas_cost = tx_intrinsic_gas_cost_calculator(
+            calldata=initcode,
+            contract_creation=True,
+            return_cost_deducted_prior_execution=True,
+        )
+        if intrinsic_gas_cost > data_floor:
+            return []
+        access_list_count = (
+            (data_floor - intrinsic_gas_cost) // gas_costs.G_ACCESS_LIST_ADDRESS
+        ) + 1
+        return [
+            AccessList(address=Address(i + 1), storage_keys=[]) for i in range(access_list_count)
+        ]
 
     @pytest.fixture
     def exact_intrinsic_gas(
@@ -349,21 +414,29 @@ class TestContractCreationGasUsage:
         )
 
 
-@pytest.mark.parametrize(
+def create_initcode_cases(
+    fork: Fork,
+) -> Iterator[ParameterSet]:
+    """Generate test cases for contract creating transactions."""
+
+    def param(initcode: Initcode) -> ParameterSet:
+        return pytest.param(initcode, id=initcode._name_)
+
+    yield param(initcode_zeros_max_limit(fork))
+    yield param(initcode_ones_max_limit(fork))
+    yield param(initcode_zeros_over_limit(fork))
+    yield param(initcode_ones_over_limit(fork))
+    yield param(initcode_empty(fork))
+    yield param(initcode_single_byte(fork))
+    yield param(initcode_32_bytes(fork))
+    yield param(initcode_33_bytes(fork))
+    yield param(initcode_max_minus_32_bytes(fork))
+    yield param(initcode_max_minus_32_plus_1_bytes(fork))
+
+
+@pytest.mark.parametrize_by_fork(
     "initcode",
-    [
-        INITCODE_ZEROS_MAX_LIMIT,
-        INITCODE_ONES_MAX_LIMIT,
-        INITCODE_ZEROS_OVER_LIMIT,
-        INITCODE_ONES_OVER_LIMIT,
-        EMPTY_INITCODE,
-        SINGLE_BYTE_INITCODE,
-        INITCODE_ZEROS_32_BYTES,
-        INITCODE_ZEROS_33_BYTES,
-        INITCODE_ZEROS_49120_BYTES,
-        INITCODE_ZEROS_49121_BYTES,
-    ],
-    ids=get_initcode_name,
+    create_initcode_cases,
 )
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2], ids=get_create_id)
 class TestCreateInitcode:
