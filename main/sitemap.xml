@@ -1691,6 +1691,31 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/checklist/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/spec/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_size_limit_boundary/</loc>
+         <lastmod>2025-06-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/</loc>
          <lastmod>2025-06-19</lastmod>
          <changefreq>daily</changefreq>
