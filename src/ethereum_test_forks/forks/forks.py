@@ -17,6 +17,7 @@ from ..base_fork import (
     BlobGasPriceCalculator,
     CalldataGasCalculator,
     ExcessBlobGasCalculator,
+    LargeContractAccessGasCalculator,
     MemoryExpansionGasCalculator,
     TransactionDataFloorCostCalculator,
     TransactionIntrinsicCostCalculator,
@@ -26,6 +27,16 @@ from .helpers import ceiling_division, fake_exponential
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
+
+
+def ceil32(value: int) -> int:
+    """Convert a unsigned integer to the next closest multiple of 32."""
+    ceiling = 32
+    remainder = value % ceiling
+    if remainder == 0:
+        return value
+    else:
+        return value + ceiling - remainder
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
@@ -226,6 +237,17 @@ class Frontier(BaseFork, solc_name="homestead"):
         raise NotImplementedError(f"Excess blob gas calculator is not supported in {cls.name()}")
 
     @classmethod
+    def large_contract_access_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> LargeContractAccessGasCalculator:
+        """At Frontier, there is no extra gas cost of accessing a large contract."""
+
+        def fn(*, size: int) -> int:
+            return 0
+
+        return fn
+
+    @classmethod
     def min_base_fee_per_blob_gas(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the amount of blob gas used per blob at a given fork."""
         raise NotImplementedError(f"Base fee per blob gas is not supported in {cls.name()}")
@@ -386,15 +408,23 @@ class Frontier(BaseFork, solc_name="homestead"):
         return 0x6000
 
     @classmethod
-    def max_stack_height(cls) -> int:
-        """At genesis, the maximum stack height is 1024."""
-        return 1024
-
-    @classmethod
     def max_initcode_size(cls) -> int:
         """At genesis, there is no upper bound for initcode size."""
         """However, the default is set to the limit of EIP-3860 (Shanghai)"""
         return 0xC000
+
+    @classmethod
+    def large_contract_size(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """
+        Return the size of a large contract at a given fork, at which the extra gas cost of
+        accessing a large contract is applied.
+        """
+        return None
+
+    @classmethod
+    def max_stack_height(cls) -> int:
+        """At genesis, the maximum stack height is 1024."""
+        return 1024
 
     @classmethod
     def call_opcodes(
@@ -1388,6 +1418,39 @@ class Osaka(Prague, solc_name="cancun"):
         P256VERIFY = 0x100
         """
         return [Address(0x100)] + super(Osaka, cls).precompiles(block_number, timestamp)
+
+    @classmethod
+    def max_code_size(cls) -> int:
+        """At Osaka, the maximum code size is 256KB."""
+        return 0x40000
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """At Osaka, the maximum initcode size is 512KB."""
+        return 0x80000
+
+    @classmethod
+    def large_contract_size(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """
+        Return the size of a large contract at a given fork, at which the extra gas cost of
+        accessing a large contract is applied.
+        """
+        return 0x6000
+
+    @classmethod
+    def large_contract_access_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> LargeContractAccessGasCalculator:
+        """At Osaka, the extra gas cost of accessing a large contract is modified."""
+        large_contract_floor_size = cls.large_contract_size(block_number, timestamp)
+        assert large_contract_floor_size is not None, "Large contract floor size is required"
+        gas_init_code_word_cost = 2
+
+        def fn(*, size: int) -> int:
+            excess_contract_size = max(0, size - large_contract_floor_size)
+            return ceil32(excess_contract_size) * gas_init_code_word_cost // 32
+
+        return fn
 
     @classmethod
     def excess_blob_gas_calculator(
