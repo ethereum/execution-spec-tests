@@ -23246,7 +23246,7 @@
 
 
 <h1 id="test_invalid_layout"><code>test_invalid_layout()</code><a class="headerlink" href="#test_invalid_layout" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f66e4c04335623757f5bb0ca3661dedd6caad338/tests/prague/eip6110_deposits/test_modified_contract.py#L146"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@f66e4c04</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0c33fa0e9d29b754e9347ee0be979f33426a0bb8/tests/prague/eip6110_deposits/test_modified_contract.py#L146"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout@0c33fa0e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_layout --fork Prague</span>
@@ -23308,8 +23308,7 @@
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;log_argument,value&quot;</span><span class="p">,</span>
     <span class="p">[(</span><span class="n">log_argument</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">log_argument</span> <span class="ow">in</span> <span class="n">EVENT_ARGUMENTS</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">EVENT_ARGUMENT_VALUES</span><span class="p">],</span>
 <span class="p">)</span>
@@ -23344,13 +23343,12 @@
         <span class="n">to</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">DEPOSIT_CONTRACT_ADDRESS</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
-        <span class="n">error</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">exception</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">),</span>
+            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">),</span>
         <span class="p">],</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">)</span>

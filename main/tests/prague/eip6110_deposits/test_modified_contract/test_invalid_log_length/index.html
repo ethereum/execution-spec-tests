@@ -23246,7 +23246,7 @@
 
 
 <h1 id="test_invalid_log_length"><code>test_invalid_log_length()</code><a class="headerlink" href="#test_invalid_log_length" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f66e4c04335623757f5bb0ca3661dedd6caad338/tests/prague/eip6110_deposits/test_modified_contract.py#L193"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_log_length@f66e4c04</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/0c33fa0e9d29b754e9347ee0be979f33426a0bb8/tests/prague/eip6110_deposits/test_modified_contract.py#L192"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_log_length@0c33fa0e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_invalid_log_length --fork Prague</span>
@@ -23265,7 +23265,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip6110_deposits/test_modified_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
+<span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -23305,9 +23306,7 @@
 <span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;slice_bytes&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
@@ -23340,13 +23339,12 @@
         <span class="n">to</span><span class="o">=</span><span class="n">Spec</span><span class="o">.</span><span class="n">DEPOSIT_CONTRACT_ADDRESS</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
-        <span class="n">error</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span>
-            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">exception</span><span class="o">=</span><span class="n">TransactionException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">),</span>
+            <span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">tx</span><span class="p">],</span> <span class="n">exception</span><span class="o">=</span><span class="n">BlockException</span><span class="o">.</span><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span><span class="p">),</span>
         <span class="p">],</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">)</span>

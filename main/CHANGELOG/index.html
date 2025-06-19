@@ -25174,6 +25174,7 @@
 <li>🐞 <code>fill</code> no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or <code>--clean</code> must be used to delete it first (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608">#1608</a>).</li>
 <li>🐞 zkEVM marked tests have been removed from <code>tests-deployed</code> tox environment into its own separate workflow <code>tests-deployed-zkevm</code> and are filled by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1617">#1617</a>).</li>
 <li>✨ Field <code>postStateHash</code> is now added to all <code>blockchain_test</code> and <code>blockchain_test_engine</code> tests that use <code>exclude_full_post_state_in_output</code> in place of <code>postState</code>. Fixes <code>evmone-blockchaintest</code> test consumption and indirectly fixes coverage runs for these tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1667">#1667</a>).</li>
+<li>🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException (<a href="https://github.com/ethereum/execution-spec-tests/pull/1773">#1773</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
@@ -25969,6 +25970,7 @@
         <a href="mailto:danno@numisight.com">Danno Ferrin</a>, 
         <a href="mailto:116461155+emrhncvsgl@users.noreply.github.com">Emirhan Cavusoglu</a>, 
         <a href="mailto:etan@nimbus.team">Etan Kissling</a>, 
+        <a href="mailto:48196632+gurukamath@users.noreply.github.com">Guruprasad Kamath</a>, 
         <a href="mailto:jochembrouwer96@gmail.com">Jochem Brouwer</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:5199899+pacrob@users.noreply.github.com">Paul Robinson</a>, 

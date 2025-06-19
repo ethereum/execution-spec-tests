@@ -3241,6 +3241,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_DEPOSIT_EVENT_LAYOUT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_DEPOSIT_EVENT_LAYOUT
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4406,15 +4415,6 @@
   <a href="#ethereum_test_exceptions.TransactionException.TYPE_4_TX_PRE_FORK" class="md-nav__link">
     <span class="md-ellipsis">
       TYPE_4_TX_PRE_FORK
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT" class="md-nav__link">
-    <span class="md-ellipsis">
-      INVALID_DEPOSIT_EVENT_LAYOUT
     </span>
   </a>
   
@@ -25529,6 +25529,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_exceptions.BlockException.INVALID_DEPOSIT_EVENT_LAYOUT" class="md-nav__link">
+    <span class="md-ellipsis">
+      INVALID_DEPOSIT_EVENT_LAYOUT
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -26699,15 +26708,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#ethereum_test_exceptions.TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT" class="md-nav__link">
-    <span class="md-ellipsis">
-      INVALID_DEPOSIT_EVENT_LAYOUT
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -27398,7 +27398,12 @@ block header contains an invalid field.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_exceptions/exceptions.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">405</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
 <span class="normal">406</span>
 <span class="normal">407</span>
 <span class="normal">408</span>
@@ -27800,6 +27805,11 @@ block header contains an invalid field.</p>
     <span class="n">INVALID_BLOCK_HASH</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block header&#39;s hash does not match the actually computed hash of the block.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout</span>
+<span class="sd">    of the event does not match the required layout.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -29102,6 +29112,34 @@ a fork that is not active yet.</p>
     <div class="doc doc-contents ">
 
       <p>Block header's hash does not match the actually computed hash of the block.</p>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_exceptions.BlockException.INVALID_DEPOSIT_EVENT_LAYOUT" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
+      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
+  </span>
+
+<a href="#ethereum_test_exceptions.BlockException.INVALID_DEPOSIT_EVENT_LAYOUT" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Transaction emits a <code>DepositEvent</code> in the deposit contract (EIP-6110), but the layout
+of the event does not match the required layout.</p>
     </div>
 
 </div>
@@ -31624,12 +31662,7 @@ when returning</p>
 <span class="normal">394</span>
 <span class="normal">395</span>
 <span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
-<span class="normal">401</span>
-<span class="normal">402</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
+<span class="normal">397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">TransactionException</span><span class="p">(</span><span class="n">ExceptionBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Exception raised when a transaction is invalid, and thus cannot be executed.</span>
@@ -31912,11 +31945,6 @@ when returning</p>
     <span class="n">TYPE_4_TX_PRE_FORK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transaction type 4 included before activation fork.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout</span>
-<span class="sd">    of the event does not match the required layout.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -33785,34 +33813,6 @@ when returning</p>
     <div class="doc doc-contents ">
 
       <p>Transaction type 4 included before activation fork.</p>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="ethereum_test_exceptions.TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">INVALID_DEPOSIT_EVENT_LAYOUT</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></code>
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
-      <small class="doc doc-label doc-label-instance-attribute"><code>instance-attribute</code></small>
-  </span>
-
-<a href="#ethereum_test_exceptions.TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-      <p>Transaction emits a <code>DepositEvent</code> in the deposit contract (EIP-6110), but the layout
-of the event does not match the required layout.</p>
     </div>
 
 </div>
