@@ -547,7 +547,7 @@ class TestCreateInitcode:
                     1: expected_gas_usage,
                 },
             )
-
+        # Temp change to trigger coverage script.
         state_test(
             env=env,
             pre=pre,
