@@ -1061,6 +1061,7 @@ Typechecking
 groupstats
 SharedPreStateGroup
 zkEVMs
+enginex
 qube
 aspell
 codespell
