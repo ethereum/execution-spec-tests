@@ -37,3 +37,7 @@ eip7692:
   solc: 0.8.21
   eofwrap: true
   feature_only: true
+fusaka-devnet-2:
+  evm-type: develop
+  fill-params: --from=Prague --until=Osaka -k "((test_precompiles and address_0x100) or (test_set_code_to_precompile and precompile_0x0000000000000000000000000000000000000100)) or (eip198_modexp) or (test_sufficient_balance_blob_tx) or (test_valid_blob_tx_combinations)" tests/osaka tests/byzantium/eip198_modexp_precompile ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_valid_blob_tx_combinations
+  feature_only: true
