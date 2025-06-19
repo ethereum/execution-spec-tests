@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../test_worst_compute/">
+        <link rel="next" href="../test_worst_initcode_jumpdest_analysis/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -22311,6 +22311,8 @@
       
         
       
+        
+      
     
     
       
@@ -22426,6 +22428,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_initcode_jumpdest_analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_initcode_jumpdest_analysis</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -23466,7 +23489,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/558a38c5b6fbd571c1138fc040005128dddbc1ed/tests/zkevm/test_worst_bytecode.py#L34"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@558a38c5</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6490fb4566117bf00ef591e661f0fcc8ead0b94e/tests/zkevm/test_worst_bytecode.py#L35"><code>tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode@6490fb45</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_bytecode.py::test_worst_bytecode_single_opcode --fork Prague</span>
@@ -23491,8 +23514,7 @@ consumed by repeated opcode executions.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
-<span class="normal"> 35</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
@@ -23680,7 +23702,8 @@ consumed by repeated opcode executions.</p>
 <span class="normal">220</span>
 <span class="normal">221</span>
 <span class="normal">222</span>
-<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">223</span>
+<span class="normal">224</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">,</span>
