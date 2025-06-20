@@ -5,6 +5,8 @@ from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test a
 Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
 """
 
+import pytest
+
 from ethereum_test_exceptions import UndefinedException
 from ethereum_test_fixtures import BlockchainEngineFixture, BlockchainEngineXFixture
 from ethereum_test_fixtures.blockchain import FixtureHeader
@@ -27,6 +29,7 @@ class LoggedError(Exception):
         logger.fail(str(self))
 
 
+@pytest.mark.usefixtures("hive_test")
 def test_blockchain_via_engine(
     timing_data: TimingData,
     eth_rpc: EthRPC,
