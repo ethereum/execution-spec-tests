@@ -12,6 +12,8 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    Block,
+    BlockchainTestFiller,
     Bytecode,
     CodeGasMeasure,
     Conditional,
@@ -46,24 +48,31 @@ def large_contract_code() -> Bytecode:
 
 
 @pytest.fixture
-def large_contract_address(
-    pre: Alloc,
-    large_contract_size: int,
-    large_contract_code: Bytecode | None,
-) -> Address:
-    """Create a large contract address."""
-    return pre.deploy_contract(
-        create_large_contract(size=large_contract_size, prefix=large_contract_code)
-    )
-
-
-def minimum_large_contract_size(fork: Fork) -> Generator[ParameterSet, None, None]:
-    """Return the minimum large contract size."""
+def large_contract_size(fork: Fork) -> int:
+    """Return the minimum contract size that triggers the large contract access gas."""
     large_contract_size = fork.large_contract_size()
     if large_contract_size is None:
-        yield pytest.param(fork.max_code_size(), id="max_code_size")
+        return fork.max_code_size()
     else:
-        yield pytest.param(large_contract_size + 1, id="large_contract_size_plus_1")
+        return large_contract_size + 1
+
+
+@pytest.fixture
+def large_contract_bytecode(
+    large_contract_size: int,
+    large_contract_code: Bytecode | None,
+) -> bytes:
+    """Return the default large contract code."""
+    return create_large_contract(size=large_contract_size, prefix=large_contract_code)
+
+
+@pytest.fixture
+def large_contract_address(
+    pre: Alloc,
+    large_contract_bytecode: bytes,
+) -> Address:
+    """Create a large contract address."""
+    return pre.deploy_contract(large_contract_bytecode)
 
 
 def large_contract_size_cases(fork: Fork) -> Generator[ParameterSet, None, None]:
@@ -87,7 +96,7 @@ def large_contract_size_cases(fork: Fork) -> Generator[ParameterSet, None, None]
     large_contract_size_cases,
 )
 @pytest.mark.with_all_call_opcodes
-def test_call_to_large_contract(
+def test_gas_on_call_to_large_contract(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
@@ -133,7 +142,7 @@ def test_call_to_large_contract(
 def test_contract_reentry(
     state_test: StateTestFiller,
     pre: Alloc,
-    fork: Fork,
+    large_contract_size: int,
 ):
     """
     Test a large contract being the transaction entry point, calls a different contract,
@@ -151,7 +160,7 @@ def test_contract_reentry(
     )
     entry_large_contract_address = pre.deploy_contract(
         create_large_contract(
-            size=fork.max_code_size(),
+            size=large_contract_size,
             prefix=entry_point_code,
         )
     )
@@ -175,10 +184,6 @@ def test_contract_reentry(
     )
 
 
-@pytest.mark.parametrize_by_fork(
-    "large_contract_size",
-    minimum_large_contract_size,
-)
 def test_different_large_contracts_same_code_hash(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -231,10 +236,6 @@ def test_different_large_contracts_same_code_hash(
     state_test(pre=pre, tx=tx, post=post)
 
 
-@pytest.mark.parametrize_by_fork(
-    "large_contract_size",
-    minimum_large_contract_size,
-)
 def test_calling_large_contract_twice_same_tx(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -281,10 +282,132 @@ def test_calling_large_contract_twice_same_tx(
     state_test(pre=pre, tx=tx, post=post)
 
 
-@pytest.mark.skip(reason="Not implemented")
-def test_calling_large_contract_twice_different_tx(state_test: StateTestFiller):
-    """Test calling a large contract twice in different transactions."""
-    pass
+def test_calling_large_contract_twice_different_tx(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    large_contract_address: Address,
+    large_contract_size: int,
+):
+    """Test calling a large contract in different transactions in the same block."""
+    gas_costs = fork.gas_costs()
+    call_opcode = Op.CALL
+    overhead_cost = (
+        gas_costs.G_VERY_LOW * (call_opcode.popped_stack_items - 1)  # Call stack items
+        + gas_costs.G_BASE  # Call gas
+    )
+    entry_point_code = (
+        CodeGasMeasure(
+            code=call_opcode(address=large_contract_address),
+            overhead_cost=overhead_cost,
+            extra_stack_items=1,
+            sstore_key=Op.SLOAD(0),
+            stop=False,
+        )
+        + Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1))
+        + Op.STOP
+    )
+    entry_point_address = pre.deploy_contract(entry_point_code, storage={0: 1})
+
+    large_contract_access_gas_calculator = fork.large_contract_access_gas_calculator()
+    expected_gas_cost = gas_costs.G_COLD_ACCOUNT_ACCESS + large_contract_access_gas_calculator(
+        size=large_contract_size,
+    )
+    sender = pre.fund_eoa()
+    tx_1 = Transaction(
+        to=entry_point_address,
+        gas_limit=1_000_000,
+        sender=sender,
+    )
+    tx_2 = Transaction(
+        to=entry_point_address,
+        gas_limit=1_000_000,
+        sender=sender,
+    )
+    post = {
+        entry_point_address: Account(
+            storage={0: 3, 1: expected_gas_cost, 2: expected_gas_cost},
+        )
+    }
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=[tx_1, tx_2])],
+        post=post,
+    )
+
+
+@pytest.mark.parametrize(
+    "opcode,large_contract_cost_charged",
+    [
+        (Op.EXTCODESIZE, True),
+        (Op.EXTCODEHASH, True),
+        (Op.EXTCODECOPY, False),
+        (Op.BALANCE, True),
+        (Op.SELFDESTRUCT, True),
+    ],
+)
+def test_opcode_then_call_large_contract(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Op,
+    large_contract_address: Address,
+    large_contract_size: int,
+    large_contract_cost_charged: bool,
+):
+    """
+    Test calling a large contract after an opcode that accesses the account or code.
+
+    - EXTCODESIZE
+    - EXTCODEHASH
+    - EXTCODECOPY
+    - BALANCE
+    - SELFDESTRUCT
+
+    """
+    gas_costs = fork.gas_costs()
+    if opcode == Op.EXTCODECOPY:
+        opcode_contract_code = opcode(
+            address=large_contract_address,
+            dest_offset=0,
+            offset=0,
+            size=1,
+        )
+    else:
+        opcode_contract_code = opcode(address=large_contract_address)
+    opcode_contract = pre.deploy_contract(opcode_contract_code, balance=1)
+
+    call_opcode = Op.CALL
+    overhead_cost = (
+        gas_costs.G_VERY_LOW * (call_opcode.popped_stack_items - 1)  # Call stack items
+        + gas_costs.G_BASE  # Call gas
+    )
+    entry_point_code = Op.SSTORE(0, call_opcode(address=opcode_contract)) + CodeGasMeasure(
+        code=call_opcode(address=large_contract_address),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=1,
+    )
+    entry_point_address = pre.deploy_contract(entry_point_code)
+
+    large_contract_access_gas_calculator = fork.large_contract_access_gas_calculator()
+    expected_gas_cost = gas_costs.G_WARM_ACCOUNT_ACCESS
+    if large_contract_cost_charged:
+        expected_gas_cost += large_contract_access_gas_calculator(
+            size=large_contract_size,
+        )
+
+    tx = Transaction(
+        to=entry_point_address,
+        gas_limit=1_000_000,
+        sender=pre.fund_eoa(),
+    )
+    post = {
+        entry_point_address: Account(
+            storage={0: 1, 1: expected_gas_cost},
+        )
+    }
+    state_test(pre=pre, tx=tx, post=post)
 
 
 @pytest.mark.skip(reason="Not implemented")
@@ -302,23 +425,6 @@ def test_calling_large_contract_in_authorization_list(state_test: StateTestFille
 @pytest.mark.skip(reason="Not implemented")
 def test_calling_large_contract_in_access_list(state_test: StateTestFiller):
     """Test calling a large contract in the access list of the transaction."""
-    pass
-
-
-@pytest.mark.skip(reason="Not implemented")
-def test_opcode_then_call_large_contract(state_test: StateTestFiller):
-    """
-    Test calling a large contract after an opcode that accesses the account or code.
-
-    - EXTCODESIZE
-    - EXTCODEHASH
-    - CODESIZE
-    - CODECOPY
-    - EXTCODECOPY
-    - SELFDESTRUCT
-    - BALANCE
-
-    """
     pass
 
 
