@@ -75,6 +75,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
+- ✨ [EIP-7907](https://eips.ethereum.org/EIPS/eip-7907): Initial meter contract code size and increase limit tests cases ([#1777](https://github.com/ethereum/execution-spec-tests/pull/1777)).
 - 🔀 [EIP-3860](https://eips.ethereum.org/EIPS/eip-3860) tests cases updated for [EIP-7907](https://eips.ethereum.org/EIPS/eip-7907) ([#1777](https://github.com/ethereum/execution-spec-tests/pull/1777)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
