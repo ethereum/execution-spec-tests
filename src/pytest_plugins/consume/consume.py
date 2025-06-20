@@ -563,24 +563,30 @@ def pytest_generate_tests(metafunc):
     """
     Generate test cases for every test fixture in all the JSON fixture files
     within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
+
+    This function only applies to the test_blockchain_via_engine test function
+    to avoid conflicts with other consume simulators.
     """
     if "cache" in sys.argv:
+        return
+
+    # Only apply to simulator test functions to avoid conflicts with other consume simulators
+    if metafunc.function.__name__ not in ["test_blockchain_via_engine", "test_via_rlp"]:
         return
 
     test_cases = metafunc.config.test_cases
     xdist_group_mapper = getattr(metafunc.config, "xdist_group_mapper", None)
     param_list = []
+
     for test_case in test_cases:
-        if test_case.format.format_name not in metafunc.config._supported_fixture_formats:
+        # Check if _supported_fixture_formats is set, if not allow all formats
+        supported_formats = getattr(metafunc.config, "_supported_fixture_formats", None)
+        if supported_formats and test_case.format.format_name not in supported_formats:
             continue
+
         fork_markers = get_relative_fork_markers(test_case.fork, strict_mode=False)
 
-        # Append pre_hash (first 8 chars) to test ID for easier selection with --sim.limit
-        test_id = test_case.id
-        if hasattr(test_case, "pre_hash") and test_case.pre_hash:
-            test_id = f"{test_case.id}[{test_case.pre_hash[:8]}]"
-
-        # Determine xdist group name
+        # Determine xdist group name first
         if xdist_group_mapper and hasattr(test_case, "pre_hash") and test_case.pre_hash:
             # Use the mapper to get potentially split group name
             xdist_group_name = xdist_group_mapper.get_xdist_group_name(test_case)
@@ -590,6 +596,18 @@ def pytest_generate_tests(metafunc):
         else:
             # No pre_hash, use test ID
             xdist_group_name = test_case.id
+
+        # Create test ID showing the xdist group name for easier identification
+        test_id = test_case.id
+        if hasattr(test_case, "pre_hash") and test_case.pre_hash:
+            # Show first 8 chars of xdist group name (includes sub-group if split)
+            group_display = xdist_group_name[:8] if len(xdist_group_name) > 8 else xdist_group_name
+            # If it's a split group (contains ':'), show that clearly
+            if ":" in xdist_group_name:
+                # Extract sub-group number for display
+                pre_hash_part, sub_group = xdist_group_name.split(":", 1)
+                group_display = f"{pre_hash_part[:8]}:{sub_group}"
+            test_id = f"{test_case.id}[{group_display}]"
 
         param = pytest.param(
             test_case,
