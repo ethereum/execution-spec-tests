@@ -19,7 +19,10 @@ from pytest_plugins.consume.simulators.helpers.ruleset import (
 )
 from pytest_plugins.filler.fixture_output import FixtureOutput
 
-from .helpers.client_wrapper import MultiTestClientManager
+from .helpers.client_wrapper import (
+    MultiTestClientManager,
+    get_group_identifier_from_request,
+)
 from .helpers.timing import TimingData
 
 logger = logging.getLogger(__name__)
@@ -126,6 +129,10 @@ def client(
     pre_hash = fixture.pre_hash
     test_id = request.node.nodeid
 
+    # Determine the appropriate group identifier for this test
+    group_identifier = get_group_identifier_from_request(request, pre_hash)
+    logger.info(f"Using group identifier: {group_identifier} (pre_hash: {pre_hash})")
+
     # Set pre-alloc path in manager if not already set
     if multi_test_client_manager.pre_alloc_path is None:
         fixture_output = FixtureOutput(output_path=fixtures_source.path)
@@ -136,18 +143,18 @@ def client(
         multi_test_client_manager.set_test_tracker(pre_alloc_group_test_tracker)
 
     # Check for existing client
-    existing_client = multi_test_client_manager.get_client_for_test(pre_hash, test_id)
+    existing_client = multi_test_client_manager.get_client_for_test(group_identifier, test_id)
     if existing_client is not None:
-        logger.info(f"Reusing multi-test client for pre-allocation group {pre_hash}")
+        logger.info(f"Reusing multi-test client for group {group_identifier}")
         try:
             yield existing_client
         finally:
             # Mark test as completed when fixture teardown occurs
-            multi_test_client_manager.mark_test_completed(pre_hash, test_id)
+            multi_test_client_manager.mark_test_completed(group_identifier, test_id)
         return
 
     # Start new multi-test client
-    logger.info(f"Starting multi-test client for pre-allocation group {pre_hash}")
+    logger.info(f"Starting multi-test client for group {group_identifier}")
 
     with total_timing_data.time("Start multi-test client"):
         hive_client = test_suite.start_client(
@@ -157,19 +164,19 @@ def client(
         )
 
     assert hive_client is not None, (
-        f"Failed to start multi-test client for pre-allocation group {pre_hash}"
+        f"Failed to start multi-test client for group {group_identifier}"
     )
 
     # Register with manager
     multi_test_client = multi_test_client_manager.get_or_create_multi_test_client(
-        pre_hash=pre_hash,
+        group_identifier=group_identifier,
         client_type=client_type,
     )
     multi_test_client.set_client(hive_client)
 
-    logger.info(f"Multi-test client ready for pre-allocation group {pre_hash}")
+    logger.info(f"Multi-test client ready for group {group_identifier}")
     try:
         yield hive_client
     finally:
         # Mark test as completed when fixture teardown occurs
-        multi_test_client_manager.mark_test_completed(pre_hash, test_id)
+        multi_test_client_manager.mark_test_completed(group_identifier, test_id)
