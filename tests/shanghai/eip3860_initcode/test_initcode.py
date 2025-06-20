@@ -32,7 +32,7 @@ from ethereum_test_tools.utility.pytest import ParameterSet
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import INITCODE_RESULTING_DEPLOYED_CODE, get_create_id
-from .spec import Spec, ref_spec_3860
+from .spec import ref_spec_3860
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_3860.git_path
 REFERENCE_SPEC_VERSION = ref_spec_3860.version
@@ -277,7 +277,7 @@ class TestContractCreationGasUsage:
     def tx_access_list(self, fork: Fork, initcode: Initcode) -> List[AccessList]:
         """
         On EIP-7623, we need to use an access list to raise the intrinsic gas cost to
-        be above the floor data cost.
+        be above the floor data cost. Use at least 477 entries to maintain original test coverage.
         """
         gas_costs = fork.gas_costs()
         tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
@@ -292,6 +292,7 @@ class TestContractCreationGasUsage:
         access_list_count = (
             (data_floor - intrinsic_gas_cost) // gas_costs.G_ACCESS_LIST_ADDRESS
         ) + 1
+        access_list_count = max(access_list_count, 477)
         return [
             AccessList(address=Address(i + 1), storage_keys=[]) for i in range(access_list_count)
         ]

@@ -149,7 +149,7 @@ class CodeGasMeasure(Bytecode):
     To be considered when subtracting the value of the previous GAS operation,
     and to be popped at the end of the execution.
     """
-    sstore_key: int | Bytes
+    sstore_key: int | Bytes | Bytecode
     """
     Storage key to save the gas used.
     """
@@ -160,7 +160,7 @@ class CodeGasMeasure(Bytecode):
         code: Bytecode,
         overhead_cost: int = 0,
         extra_stack_items: int = 0,
-        sstore_key: int | Bytes = 0,
+        sstore_key: int | Bytes | Bytecode = 0,
         stop: bool = True,
     ):
         """Assemble the bytecode that measures gas usage."""
