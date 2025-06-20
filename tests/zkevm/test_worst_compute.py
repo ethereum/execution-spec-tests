@@ -552,6 +552,46 @@ def test_worst_precompile_only_data_input(
         ),
         pytest.param(
             ModExpInput(
+                base=64 * "ff",
+                exponent=64 * "ff",
+                modulus=63 * "ff" + "00",
+            ),
+            id="mod_even_64b_exp_512",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=128 * "ff",
+                exponent=128 * "ff",
+                modulus=127 * "ff" + "00",
+            ),
+            id="mod_even_128b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=256 * "ff",
+                exponent=128 * "ff",
+                modulus=255 * "ff" + "00",
+            ),
+            id="mod_even_256b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=512 * "ff",
+                exponent=128 * "ff",
+                modulus=511 * "ff" + "00",
+            ),
+            id="mod_even_512b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=1024 * "ff",
+                exponent=128 * "ff",
+                modulus=1023 * "ff" + "00",
+            ),
+            id="mod_even_1024b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
                 base=32 * "ff",
                 exponent=12 * "ff",
                 modulus=31 * "ff" + "01",
@@ -565,6 +605,46 @@ def test_worst_precompile_only_data_input(
                 modulus=31 * "ff" + "01",
             ),
             id="mod_odd_32b_exp_256",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=64 * "ff",
+                exponent=64 * "ff",
+                modulus=63 * "ff" + "01",
+            ),
+            id="mod_odd_64b_exp_512",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=128 * "ff",
+                exponent=128 * "ff",
+                modulus=127 * "ff" + "01",
+            ),
+            id="mod_odd_128b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=256 * "ff",
+                exponent=128 * "ff",
+                modulus=255 * "ff" + "01",
+            ),
+            id="mod_odd_256b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=512 * "ff",
+                exponent=128 * "ff",
+                modulus=511 * "ff" + "01",
+            ),
+            id="mod_odd_512b_exp_1024",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=1024 * "ff",
+                exponent=128 * "ff",
+                modulus=1023 * "ff" + "01",
+            ),
+            id="mod_odd_1024b_exp_1024",
         ),
         pytest.param(
             ModExpInput(
