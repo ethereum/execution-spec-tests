@@ -23,7 +23,7 @@ import requests
 import rich
 
 from cli.gen_index import generate_fixtures_index
-from ethereum_test_fixtures import BaseFixture, BlockchainEngineXFixture
+from ethereum_test_fixtures import BaseFixture
 from ethereum_test_fixtures.consume import IndexFile, TestCases
 from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
 from ethereum_test_tools.utility.versioning import get_current_commit_hash_or_tag
@@ -473,26 +473,28 @@ def pytest_configure(config):  # noqa: D103
     config.test_cases = index.test_cases
 
     # Create XDistGroupMapper for enginex simulator if needed
-    if (
-        hasattr(config, "_supported_fixture_formats")
-        and BlockchainEngineXFixture.format_name in config._supported_fixture_formats
-    ):
-        max_group_size = getattr(config, "enginex_max_group_size", 400)
-        config.xdist_group_mapper = XDistGroupMapper(max_group_size)
-        config.xdist_group_mapper.build_mapping(config.test_cases)
+    # Check if enginex options are present (indicates enginex simulator is being used)
+    try:
+        max_group_size = config.getoption("--enginex-max-group-size", None)
+        if max_group_size is not None:
+            config.xdist_group_mapper = XDistGroupMapper(max_group_size)
+            config.xdist_group_mapper.build_mapping(config.test_cases)
 
-        # Log statistics about group splitting
-        split_stats = config.xdist_group_mapper.get_split_statistics()
-        if split_stats:
-            rich.print("[bold yellow]Pre-allocation group splitting for load balancing:[/]")
-            for pre_hash, stats in split_stats.items():
-                rich.print(
-                    f"  Group {pre_hash[:8]}: {stats['total_tests']} tests → "
-                    f"{stats['num_subgroups']} sub-groups "
-                    f"(~{stats['tests_per_subgroup']} tests each)"
-                )
-            rich.print(f"  Max group size: {max_group_size}")
-    else:
+            # Log statistics about group splitting
+            split_stats = config.xdist_group_mapper.get_split_statistics()
+            if split_stats:
+                rich.print("[bold yellow]Pre-allocation group splitting for load balancing:[/]")
+                for pre_hash, stats in split_stats.items():
+                    rich.print(
+                        f"  Group {pre_hash[:8]}: {stats['total_tests']} tests → "
+                        f"{stats['num_subgroups']} sub-groups "
+                        f"(~{stats['tests_per_subgroup']} tests each)"
+                    )
+                rich.print(f"  Max group size: {max_group_size}")
+        else:
+            config.xdist_group_mapper = None
+    except ValueError:
+        # enginex options not available, not using enginex simulator
         config.xdist_group_mapper = None
 
     for fixture_format in BaseFixture.formats.values():
