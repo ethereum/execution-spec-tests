@@ -32,7 +32,7 @@ from ethereum_test_tools.utility.pytest import ParameterSet
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from .helpers import INITCODE_RESULTING_DEPLOYED_CODE, get_create_id
-from .spec import Spec, ref_spec_3860
+from .spec import ref_spec_3860
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_3860.git_path
 REFERENCE_SPEC_VERSION = ref_spec_3860.version
