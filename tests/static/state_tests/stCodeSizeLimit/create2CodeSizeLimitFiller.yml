@@ -9,12 +9,12 @@ create2CodeSizeLimit:
     currentTimestamp: '1000'
 
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 200000000
       code: ''
       nonce: 0
       storage: {}
-    b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 0
       code: |
         :yul berlin 
@@ -34,8 +34,8 @@ create2CodeSizeLimit:
       - 15000000
     gasPrice: 10
     nonce: 0
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: 'b94f5374fce5edbc8e2a8697c15331677e6ebf0b'
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: '<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
     value:
     - 0
 
@@ -47,9 +47,9 @@ create2CodeSizeLimit:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-       b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           storage:
               '0': '81c305016ab9ca56033a07cc37e7a30fc3e079ac'
               '1': 1
@@ -65,9 +65,9 @@ create2CodeSizeLimit:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-       b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           storage:
               '0': '0'
               '1': 1

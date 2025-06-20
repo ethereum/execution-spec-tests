@@ -16,7 +16,7 @@
                 },
                 "network" : [ ">=Cancun"],
                 "result" : {
-		            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		                "storage" : {
 		                    "0x00" : "0x12",
 		                    "0x01" : "0x20",
@@ -34,28 +34,28 @@
         ],
         "pre" :
         {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000",
                 "code" : "",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-    	    "1000000000000000000000000000000000000010" : {
+    	    "<contract:0x1000000000000000000000000000000000000010>" : {
                 "balance" : "111",
                 "code" : ":raw 0x1122334455667788991011121314151617181920212223242526272829303132",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-    	   "1000000000000000000000000000000000000011" : {
+    	   "<eoa:0x1000000000000000000000000000000000000011>" : {
                 "balance" : "0",
 		        "nonce" : "0",
 		        "code" : "{ (SSTORE 100 0x11) }",
 		        "storage": {
 		        }
             },
-    	    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+    	    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
         		"nonce" : "0",
                 "// code" : "Test gasPrice of these codes after EIP150 transition",
@@ -74,8 +74,8 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
-            "to" : "b94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
+            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0"
             ]

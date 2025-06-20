@@ -8,7 +8,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
 
 from .account import AccountInFiller
-from .common import AddressInFiller
+from .common import AddressOrTagInFiller
 from .environment import EnvironmentInStateTestFiller
 from .expect_section import ExpectSectionInStateTestFiller
 from .general_transaction import GeneralTransactionInFiller
@@ -26,7 +26,7 @@ class StateTestInFiller(BaseModel):
 
     info: Info | None = Field(None, alias="_info")
     env: EnvironmentInStateTestFiller
-    pre: Dict[AddressInFiller, AccountInFiller]
+    pre: Dict[AddressOrTagInFiller, AccountInFiller]
     transaction: GeneralTransactionInFiller
     expect: List[ExpectSectionInStateTestFiller]
     solidity: str | None = Field(None)

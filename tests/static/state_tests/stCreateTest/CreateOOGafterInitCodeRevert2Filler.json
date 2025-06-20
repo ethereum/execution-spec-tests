@@ -20,7 +20,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "c94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+        		    "<eoa:0xc94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		                "storage" : {
                             "0x01" : "0x6460016001556000526005601bf3"
                          }
@@ -39,7 +39,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "d94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+        		    "<eoa:0xd94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		                "storage" : {
                             "0x01" : "0x00"
                          }
@@ -52,21 +52,21 @@
         ],
         "pre" :
         {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000",
                 "code" : "",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "1000000000000000000000000000000000000000" : {
+            "<eoa:0x1000000000000000000000000000000000000000>" : {
                 "balance" : "1000000000000",
                 "code" : "{ (CALL (GAS) (CALLDATALOAD 0) 0 0 0 0 0) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-    	    "c94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+    	    "<eoa:0xc94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
 		        "code" : "{ (CALL 33000 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b 0 0 0 0 32) [[ 1 ]] (MLOAD 0) }",
@@ -74,7 +74,7 @@
                     "0x01" : "0xff"
 		        }
             },
-    	    "d94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+    	    "<eoa:0xd94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
 		        "code" : "{ (CALL 23000 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b 0 0 0 0 32) [[ 1 ]] (MLOAD 0) }",
@@ -82,7 +82,7 @@
                     "0x01" : "0xff"
 		        }
             },
-    	    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+    	    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
 		        "//code" : "(SSTORE 1 1) RETURN",
@@ -101,8 +101,8 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
-            "to" : "1000000000000000000000000000000000000000",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
+            "to" : "<eoa:0x1000000000000000000000000000000000000000>",
             "value" : [
                 "0"
             ]

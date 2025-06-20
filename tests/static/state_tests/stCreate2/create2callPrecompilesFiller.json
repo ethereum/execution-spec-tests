@@ -19,12 +19,12 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0xf68e26002db0f9ca9b54367c57c25e474c581622" : {
                         "storage" : {
-						    "0x00" : "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+						    "0x00" : "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
                             "0x01" : "0x01",
                             "0x02" : "0x01"
 						}
@@ -39,7 +39,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0x3b9ea59b92545beb727022289665cf38fa462bae" : {
@@ -58,7 +58,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0x7525f19e2970539fd2897357777a4c275175bcf5" : {
@@ -77,7 +77,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0x0ee431db7c48fc10a9a56c909bfefa87661442fb" : {
@@ -96,7 +96,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0xbbd394930b408da783ee071ced240ece997bc8b2" : {
@@ -115,7 +115,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0x2e3ec33a50ed32c2fcbef07a1bab8643db4dc670" : {
@@ -134,7 +134,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0xaa0ab87aa0e27e22e21671040c11f3537cdc7b3e" : {
@@ -154,7 +154,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
                     "0xab7cf4e4980432e892fa512ec2b9e8532c23ac15" : {
@@ -173,21 +173,21 @@
             }
         ],
         "pre" : {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000000000",
                 "code" : "",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-	    "addf5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+	    "<eoa:0xaddf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "",
                 "code" : "{(MSTORE 0 (CALLDATALOAD 0)) (MSTORE 32 (CALLDATALOAD 32)) (MSTORE 64 (CALLDATALOAD 64)) (MSTORE 96 (CALLDATALOAD 96)) [[0]](CALLCODE 500000 6 0 0 128 200 64)  [[1]] (MLOAD 200)  [[2]] (MLOAD 232) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-	    "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+	    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "",
 		"//code" : "ECMUl ChecK", 
                 "code" : "{(MSTORE 0 (CALLDATALOAD 0)) (MSTORE 32 (CALLDATALOAD 32)) (MSTORE 64 (CALLDATALOAD 64)) (MSTORE 96 (CALLDATALOAD 96))  (MSTORE 128 (CALLDATALOAD 128)) (MSTORE 160 (CALLDATALOAD 160)) (MSTORE 192 (CALLDATALOAD 192)) [[0]](CALLCODE 500000 6 0 0 128 300 64)  [[1]](CALLCODE 500000 7 0 128 96 400 64) [[10]] (MLOAD 300)  [[11]] (MLOAD 332) [[20]] (MLOAD 400)  [[21]] (MLOAD 432) [[2]] (EQ (SLOAD 10) (SLOAD 20)) [[3]] (EQ (SLOAD 11) (SLOAD 21))}",
@@ -222,7 +222,7 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
             "to" : "",
             "value" : [
                 "1"

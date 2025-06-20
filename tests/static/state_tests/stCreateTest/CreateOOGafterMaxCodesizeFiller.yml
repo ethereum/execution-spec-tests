@@ -11,7 +11,7 @@ CreateOOGafterMaxCodesize:
 
   pre:
     # Code that will end up in the created contracts
-    00000000000000000000000000000000000c0de0:
+    <contract:0x00000000000000000000000000000000000c0de0>:
       balance: 0
       code: |
         :yul berlin
@@ -24,20 +24,20 @@ CreateOOGafterMaxCodesize:
         }
       nonce: 0
       storage: {}
-    # Init code that creates max codesize contracts with 00000000000000000000000000000000000c0de0 code
-    00000000000000000000000000000000000c0de1:
+    # Init code that creates max codesize contracts with <contract:0x00000000000000000000000000000000000c0de0> code
+    <contract:0x00000000000000000000000000000000000c0de1>:
       balance: 0
       code: |
         :yul berlin
         {
           // Init code that uses max codesize and can be called to selfdestruct
-          let code_addr := 0x00000000000000000000000000000000000c0de0
+          let code_addr := <contract:0x00000000000000000000000000000000000c0de0>
           extcodecopy(code_addr, 0, 0, extcodesize(code_addr))
           return(0, 0x6000)
         }
       nonce: 0
       storage: {}
-    00000000000000000000000000000000000c0deb:
+    <contract:0x00000000000000000000000000000000000c0deb>:
       balance: 0
       # The purpose of this contract is to create a given number of max-codesize-contracts, specified by the first argument of the call.
       # The created contracts can self-destruct when called.
@@ -51,7 +51,7 @@ CreateOOGafterMaxCodesize:
           let should_oog := calldataload(32)
 
           // get the init code that returns max codesize from another contract
-          let initcode_addr := 0x00000000000000000000000000000000000c0de1
+          let initcode_addr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcode_size := extcodesize(initcode_addr)
           extcodecopy(initcode_addr, 0, 0, initcode_size)
 
@@ -69,7 +69,7 @@ CreateOOGafterMaxCodesize:
       nonce: 1
       storage: {}
 
-    00000000000000000000000000000000000c0dea:
+    <contract:target:0x00000000000000000000000000000000000c0dea>:
       balance: 0
       # This test contract performs 3 actions, which are configured by the parameters passed:
       # First action is to delegate call 0xc0deb to create self-destructing contracts on 0xc0dea context without OOG'ing;
@@ -99,7 +99,7 @@ CreateOOGafterMaxCodesize:
           mstore(32, 0)
           let returnStart := 64
           let returnLength := mul(delegate_contract_count, 32)
-          let retcode := delegatecall(div(gas(), 2), 0x00000000000000000000000000000000000c0deb, 0, 64, returnStart, returnLength)
+          let retcode := delegatecall(div(gas(), 2), <contract:0x00000000000000000000000000000000000c0deb>, 0, 64, returnStart, returnLength)
 
           if eq(retcode, 0) {
             // We oog'd, fail test
@@ -111,7 +111,7 @@ CreateOOGafterMaxCodesize:
           mstore(32, subcall_oog)
           returnStart := add(64, mul(delegate_contract_count, 32))
           returnLength := mul(subcall_contract_count, 32)
-          retcode := call(div(gas(), 2), 0x00000000000000000000000000000000000c0deb, 0,	0, 64, returnStart, returnLength)
+          retcode := call(div(gas(), 2), <contract:0x00000000000000000000000000000000000c0deb>, 0,	0, 64, returnStart, returnLength)
 
           if eq(retcode, 0) {
             // We oog'd
@@ -143,7 +143,7 @@ CreateOOGafterMaxCodesize:
       nonce: 1
       storage: {}
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -168,8 +168,8 @@ CreateOOGafterMaxCodesize:
     - 0x100000000
     gasPrice: '10'
     nonce: '0'
-    to: 00000000000000000000000000000000000c0dea
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: <contract:target:0x00000000000000000000000000000000000c0dea>
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -184,12 +184,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 1
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 1
           storage: {}
 
@@ -210,12 +210,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 11
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 1
           storage: {}
 
@@ -248,12 +248,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 11
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 11
           storage:
             0x1: 0x1
@@ -315,12 +315,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 1
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 1
           storage: {}
 
@@ -341,12 +341,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 251
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 1
           storage: {}
 
@@ -379,12 +379,12 @@ CreateOOGafterMaxCodesize:
         - '>=Cancun'
       result:
 
-        00000000000000000000000000000000000c0dea:
+        <contract:target:0x00000000000000000000000000000000000c0dea>:
           nonce: 251
           storage:
             0x1: 0x1
 
-        00000000000000000000000000000000000c0deb:
+        <contract:0x00000000000000000000000000000000000c0deb>:
           nonce: 251
           storage:
             0x1: 0x1

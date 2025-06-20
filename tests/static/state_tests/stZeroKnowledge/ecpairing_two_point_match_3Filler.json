@@ -8,7 +8,7 @@
             "currentTimestamp": "1000"
         },
         "pre": {
-            "24143873e0e0815fdcbcffdbe09c979cbf9ad013": {
+            "<eoa:0x24143873e0e0815fdcbcffdbe09c979cbf9ad013>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
@@ -20,13 +20,13 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "dceceaf3fc5c0a63d195d69b1a90011b7b19650d": {
+            "<eoa:0xdceceaf3fc5c0a63d195d69b1a90011b7b19650d>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
                 "code": "0x"
             },
-            "c305c901078781c232a2a521c2af7980f8385ee9": {
+            "<contract:target:0xc305c901078781c232a2a521c2af7980f8385ee9>": {
                 "storage": {
                     "0x00": "0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6"
                 },
@@ -46,7 +46,7 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "13cbb8d99c6c4e0f2728c7d72606e78a29c4e224": {
+            "<eoa:0x13cbb8d99c6c4e0f2728c7d72606e78a29c4e224>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
@@ -58,7 +58,7 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "82a978b3f5962a5b0957d9ee9eef472ee55b42f1": {
+            "<eoa:0x82a978b3f5962a5b0957d9ee9eef472ee55b42f1>": {
                 "storage": {},
                 "nonce": "14",
                 "balance": "999999999996843881",
@@ -76,13 +76,13 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "598443f1880ef585b21f1d7585bd0577402861e5": {
+            "<eoa:0x598443f1880ef585b21f1d7585bd0577402861e5>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
                 "code": "0x"
             },
-            "7d577a597b2742b498cb5cf0c26cdcd726d39e6e": {
+            "<eoa:0x7d577a597b2742b498cb5cf0c26cdcd726d39e6e>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
@@ -94,7 +94,7 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "e0fc04fa2d34a66b779fd5cee748268032a146c0": {
+            "<eoa:0xe0fc04fa2d34a66b779fd5cee748268032a146c0>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
@@ -112,19 +112,19 @@
                 "balance": "1",
                 "code": "0x"
             },
-            "77db2bebba79db42a978f896968f4afce746ea1f": {
+            "<eoa:0x77db2bebba79db42a978f896968f4afce746ea1f>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
                 "code": "0x"
             },
-            "10a1c1cb95c92ec31d3f22c66eef1d9f3f258c6b": {
+            "<eoa:0x10a1c1cb95c92ec31d3f22c66eef1d9f3f258c6b>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
                 "code": "0x"
             },
-            "90f0b1ebbba1c1936aff7aaf20a7878ff9e04b6c": {
+            "<contract:0x90f0b1ebbba1c1936aff7aaf20a7878ff9e04b6c>": {
                 "storage": {},
                 "nonce": "0",
                 "balance": "1000000000000000000",
@@ -141,7 +141,7 @@
             "gasPrice": "0x0a",
             "nonce": "0xe",
             "secretKey": "0x044852b2a670ade5407e78fb2863c51de9fcb96542a07186fe3aeda6bb8a116d",
-            "to": "0xc305c901078781c232a2a521c2af7980f8385ee9",
+            "to": "<contract:target:0xc305c901078781c232a2a521c2af7980f8385ee9>",
             "value": [
                 "0x00"
             ]
@@ -157,7 +157,7 @@
                     ">=Cancun"
                 ],
                 "result": {
-                    "24143873e0e0815fdcbcffdbe09c979cbf9ad013": {
+                    "<eoa:0x24143873e0e0815fdcbcffdbe09c979cbf9ad013>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
@@ -169,13 +169,13 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "dceceaf3fc5c0a63d195d69b1a90011b7b19650d": {
+                    "<eoa:0xdceceaf3fc5c0a63d195d69b1a90011b7b19650d>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
                         "code": "0x"
                     },
-                    "c305c901078781c232a2a521c2af7980f8385ee9": {
+                    "<contract:target:0xc305c901078781c232a2a521c2af7980f8385ee9>": {
                         "storage": {
                             "0x00": "0xb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf6"
                         },
@@ -195,7 +195,7 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "13cbb8d99c6c4e0f2728c7d72606e78a29c4e224": {
+                    "<eoa:0x13cbb8d99c6c4e0f2728c7d72606e78a29c4e224>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
@@ -207,7 +207,7 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "82a978b3f5962a5b0957d9ee9eef472ee55b42f1": {
+                    "<eoa:0x82a978b3f5962a5b0957d9ee9eef472ee55b42f1>": {
                         "storage": {},
                         "nonce": "15",
                         "code": "0x"
@@ -224,13 +224,13 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "598443f1880ef585b21f1d7585bd0577402861e5": {
+                    "<eoa:0x598443f1880ef585b21f1d7585bd0577402861e5>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
                         "code": "0x"
                     },
-                    "7d577a597b2742b498cb5cf0c26cdcd726d39e6e": {
+                    "<eoa:0x7d577a597b2742b498cb5cf0c26cdcd726d39e6e>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
@@ -242,7 +242,7 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "e0fc04fa2d34a66b779fd5cee748268032a146c0": {
+                    "<eoa:0xe0fc04fa2d34a66b779fd5cee748268032a146c0>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
@@ -259,19 +259,19 @@
                         "balance": "1",
                         "code": "0x"
                     },
-                    "77db2bebba79db42a978f896968f4afce746ea1f": {
+                    "<eoa:0x77db2bebba79db42a978f896968f4afce746ea1f>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
                         "code": "0x"
                     },
-                    "10a1c1cb95c92ec31d3f22c66eef1d9f3f258c6b": {
+                    "<eoa:0x10a1c1cb95c92ec31d3f22c66eef1d9f3f258c6b>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",
                         "code": "0x"
                     },
-                    "90f0b1ebbba1c1936aff7aaf20a7878ff9e04b6c": {
+                    "<contract:0x90f0b1ebbba1c1936aff7aaf20a7878ff9e04b6c>": {
                         "storage": {},
                         "nonce": "0",
                         "balance": "1000000000000000000",

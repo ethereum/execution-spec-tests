@@ -9,7 +9,7 @@ Create2OOGFromCallRefunds:
 
   pre:
     #### MAIN CALLER
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '0x3d0900'
       code: '0x'
       nonce: '1'
@@ -17,7 +17,7 @@ Create2OOGFromCallRefunds:
     
     ### MAIN ENTRY CONTRACT: Code that extcode-copies and creates a contract using CREATE2
     # Switches init code based on the first parameter's value
-    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:
+    <contract:target:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa>:
       balance: '0'
       code: |
         :yul berlin
@@ -36,7 +36,7 @@ Create2OOGFromCallRefunds:
     
     ### INIT CODES: Used to create contracts with a variety of OOG init codes.
     # Init codes: Sstore refund
-    000000000000000000000000000000000000001a:
+    <contract:0x000000000000000000000000000000000000001a>:
       # CREATE2 keccak = 0xcfb6834f84b9e726f5f8aef446d585b732abdd99
       balance: '0'
       code: |
@@ -50,7 +50,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000001b:
+    <contract:0x000000000000000000000000000000000000001b>:
       # CREATE2 keccak = 0x95e88628c53b5c0e40ff6de65a3cf8cdc3b477f7
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -66,7 +66,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000001c:
+    <contract:0x000000000000000000000000000000000000001c>:
       # CREATE2 keccak = 0x66e1cc2616a273450621c8cc5e91d8cfd92494fa
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -83,21 +83,21 @@ Create2OOGFromCallRefunds:
       storage: {}
 
     # Init codes: Sstore refund, call
-    000000000000000000000000000000000000002a:
+    <contract:0x000000000000000000000000000000000000002a>:
       # CREATE2 keccak = 0xd615c5eaff84f487cff253b50dc18517fc8385b0
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 1)
           let noOpt := msize()
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000002b:
+    <contract:0x000000000000000000000000000000000000002b>:
       # CREATE2 keccak = 0x6175ba9976476425b1cda8e1da479768fb429542
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -106,13 +106,13 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
 
-    000000000000000000000000000000000000002c:
+    <contract:0x000000000000000000000000000000000000002c>:
       # CREATE2 keccak = 0x8dff0e448f1e078e9b8a7fcf0bf6c291f167aaef
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -121,14 +121,14 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
 
     # Init codes: Sstore refund, delegatecall
-    000000000000000000000000000000000000003a:
+    <contract:0x000000000000000000000000000000000000003a>:
       # CREATE2 keccak = 0x0d44b2ad06c5c9f9a86c9edf8d13fb7d44fe756c
       balance: '0'
       code: |
@@ -136,14 +136,14 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           return(0, 1)
           let noOpt := msize()
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000003b:
+    <contract:0x000000000000000000000000000000000000003b>:
       # CREATE2 keccak = 0xa2c4270800a5dbeea48464e5f2420efb1747725a
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -153,13 +153,13 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000003c:
+    <contract:0x000000000000000000000000000000000000003c>:
       # CREATE2 keccak = 0x4d80f1150ee236adfaab47c70df90e757cef1141
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -169,14 +169,14 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(delegatecall(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0))
+          pop(delegatecall(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Sstore refund, callcode
-    000000000000000000000000000000000000004a:
+    <contract:0x000000000000000000000000000000000000004a>:
       # CREATE2 keccak = 0x858ec13538276b49d5ece2a408c8331ccb79ad89
       balance: '0'
       code: |
@@ -184,14 +184,14 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 1)
           let noOpt := msize()
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000004b:
+    <contract:0x000000000000000000000000000000000000004b>:
       # CREATE2 keccak = 0x0566dc8dabc80fad3ed9ab2b4309ebfd98894f44
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -201,13 +201,13 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000004c:
+    <contract:0x000000000000000000000000000000000000004c>:
       # CREATE2 keccak = 0x55305cc46bdaf1e755a05a771d55cfec3fedef90
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -217,28 +217,28 @@ Create2OOGFromCallRefunds:
         {
           sstore(0, 1)
           sstore(1, 1)
-          pop(callcode(gas(), 0x00000000000000000000000000000000000c0deA, 0, 0, 0, 0, 0))
+          pop(callcode(gas(), <contract:0x00000000000000000000000000000000000c0dea>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Call self-destruct
-    000000000000000000000000000000000000005a:
+    <contract:0x000000000000000000000000000000000000005a>:
       # CREATE2 keccak = 0xd83e541aa11c5ae1e9c847aa1728d5bc47d32faf
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           return(0, 1)
           let noOpt := msize()
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000005b:
+    <contract:0x000000000000000000000000000000000000005b>:
       # CREATE2 keccak = 0x8f6e6c741ac95c1a9109850ea1a3ffc722dc3bf8
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -247,13 +247,13 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000005c:
+    <contract:0x000000000000000000000000000000000000005c>:
       # CREATE2 keccak = 0x1f5d187bb3a48dbb2c011d0a6e731ac8131799ad
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -262,28 +262,28 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0deD, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0ded>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Log operations
-    000000000000000000000000000000000000006a:
+    <contract:0x000000000000000000000000000000000000006a>:
       # CREATE2 keccak = 0x2a2141ed764598d4c5a8b6e036987928d5ec6bea
       balance: '0'
       code: |
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           return(0, 1)
           let noOpt := msize()
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000006b:
+    <contract:0x000000000000000000000000000000000000006b>:
       # CREATE2 keccak = 0x74b39291dfc237c0d42fd15457754778f51c6de8
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -292,13 +292,13 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           return(0, 5000)
         }
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000006c:
+    <contract:0x000000000000000000000000000000000000006c>:
       # CREATE2 keccak = 0x3399c78929eab89c673a8986ff7ca9ccc49db454
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -307,14 +307,14 @@ Create2OOGFromCallRefunds:
         :yul berlin
         {
           sstore(0, 1)
-          pop(call(gas(), 0x00000000000000000000000000000000000c0de0, 0, 0, 0, 0, 0))
+          pop(call(gas(), <contract:0x00000000000000000000000000000000000c0de0>, 0, 0, 0, 0, 0))
           invalid()
         }
       nonce: '0'
       storage: {}
     
     # Init codes: Create, refund
-    000000000000000000000000000000000000007a:
+    <contract:0x000000000000000000000000000000000000007a>:
       # CREATE2 keccak = 0xdeb7d920f2653a8eddcffca0a77f56fcd788c00a
       balance: '0'
       code: |
@@ -323,7 +323,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -333,7 +333,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000007b:
+    <contract:0x000000000000000000000000000000000000007b>:
       # CREATE2 keccak = 0xf922b2f70110c83f8ec7df512b41bac5627e8e59
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -344,7 +344,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -353,7 +353,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000007c:
+    <contract:0x000000000000000000000000000000000000007c>:
       # CREATE2 keccak = 0x2ca788d22e21134ab1909266ed3b6c352e2a07cb
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -364,7 +364,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create(0, 0, initcodelength))
@@ -374,7 +374,7 @@ Create2OOGFromCallRefunds:
       storage: {}
     
     # Init codes: Create2, refund
-    000000000000000000000000000000000000008a:
+    <contract:0x000000000000000000000000000000000000008a>:
       # CREATE2 keccak = 0x5a2664b55822aa3c6d9d90fec18b4c87cde07d04
       balance: '0'
       code: |
@@ -383,7 +383,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create2(0, 0, initcodelength, 0))
@@ -393,7 +393,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000008b:
+    <contract:0x000000000000000000000000000000000000008b>:
       # CREATE2 keccak = 0xdd2c53bfcaf5c1d698a2b21c0908f15f7fbfd635
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -404,7 +404,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create2(0, 0, initcodelength, 0))
@@ -413,7 +413,7 @@ Create2OOGFromCallRefunds:
       nonce: '0'
       storage: {}
     
-    000000000000000000000000000000000000008c:
+    <contract:0x000000000000000000000000000000000000008c>:
       # CREATE2 keccak = 0x2d556bdbcc37c7a021879a21abe25d1850d4fd36
       # Need to double check this address with solc optimisations for expect section
       # https://github.com/ethereum/go-ethereum/issues/28375
@@ -424,7 +424,7 @@ Create2OOGFromCallRefunds:
           sstore(0, 1)
           sstore(1, 1)
           sstore(1, 0)
-          let initcodeaddr := 0x00000000000000000000000000000000000c0de1
+          let initcodeaddr := <contract:0x00000000000000000000000000000000000c0de1>
           let initcodelength := extcodesize(initcodeaddr)
           extcodecopy(initcodeaddr, 0, 0, initcodelength)
           pop(create2(0, 0, initcodelength, 0))
@@ -435,7 +435,7 @@ Create2OOGFromCallRefunds:
     
     ### HELPER CONTRACTS
     # Simple contract to reset sstore and refund
-    00000000000000000000000000000000000c0deA:
+    <contract:0x00000000000000000000000000000000000c0dea>:
       balance: '0'
       code: |
         :yul berlin
@@ -449,7 +449,7 @@ Create2OOGFromCallRefunds:
       }
 
     # Simple contract that self-destructs to refund
-    00000000000000000000000000000000000c0deD:
+    <contract:0x00000000000000000000000000000000000c0ded>:
       balance: '0'
       code: |
         :yul berlin
@@ -462,7 +462,7 @@ Create2OOGFromCallRefunds:
       }
     
     # Simple contract that performs log operations
-    00000000000000000000000000000000000c0de0:
+    <contract:0x00000000000000000000000000000000000c0de0>:
       balance: '0'
       code: |
         :yul berlin
@@ -480,7 +480,7 @@ Create2OOGFromCallRefunds:
       }
 
     # Init code that successfully creates contract but contains a refund
-    00000000000000000000000000000000000c0de1:
+    <contract:0x00000000000000000000000000000000000c0de1>:
       balance: '0'
       code: |
         :yul berlin
@@ -575,8 +575,8 @@ Create2OOGFromCallRefunds:
     - 0x61a80
     gasPrice: '10'
     nonce: '1'
-    to: "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    to: "<contract:target:0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa>"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
     - 0
 
@@ -589,7 +589,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         cfb6834f84b9e726f5f8aef446d585b732abdd99:
@@ -605,7 +605,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         d615c5eaff84f487cff253b50dc18517fc8385b0:
@@ -621,7 +621,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         0d44b2ad06c5c9f9a86c9edf8d13fb7d44fe756c:
@@ -637,7 +637,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         858ec13538276b49d5ece2a408c8331ccb79ad89:
@@ -653,7 +653,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -682,7 +682,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         d83e541aa11c5ae1e9c847aa1728d5bc47d32faf:
@@ -691,7 +691,7 @@ Create2OOGFromCallRefunds:
           storage: {
             '0': 1
           }
-        00000000000000000000000000000000000c0deD:   # Suicide in Cancun no longer deletes account
+        <contract:0x00000000000000000000000000000000000c0ded>:   # Suicide in Cancun no longer deletes account
           balance: 0
           nonce: 1
 
@@ -702,7 +702,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -712,7 +712,7 @@ Create2OOGFromCallRefunds:
         1f5d187bb3a48dbb2c011d0a6e731ac8131799ad:
           shouldnotexist: 1
 
-        00000000000000000000000000000000000c0deD:
+        <contract:0x00000000000000000000000000000000000c0ded>:
           code: '0x32FF'
           nonce: '1'
           storage: {
@@ -726,7 +726,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         2a2141ed764598d4c5a8b6e036987928d5ec6bea:
@@ -742,7 +742,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -759,7 +759,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         deb7d920f2653a8eddcffca0a77f56fcd788c00a:
@@ -780,7 +780,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
@@ -802,7 +802,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 2
 
         5a2664b55822aa3c6d9d90fec18b4c87cde07d04:
@@ -823,7 +823,7 @@ Create2OOGFromCallRefunds:
         - '>=Cancun'
       result:
 
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           # When we OoG, we use up all the gas regardless of the refunds
           balance: 0
           nonce: 2
