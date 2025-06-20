@@ -57,6 +57,15 @@ def large_contract_address(
     )
 
 
+def minimum_large_contract_size(fork: Fork) -> Generator[ParameterSet, None, None]:
+    """Return the minimum large contract size."""
+    large_contract_size = fork.large_contract_size()
+    if large_contract_size is None:
+        yield pytest.param(fork.max_code_size(), id="max_code_size")
+    else:
+        yield pytest.param(large_contract_size + 1, id="large_contract_size_plus_1")
+
+
 def large_contract_size_cases(fork: Fork) -> Generator[ParameterSet, None, None]:
     """Return the default large contract size."""
     yield pytest.param(fork.max_code_size(), id="max_code_size")
@@ -166,19 +175,110 @@ def test_contract_reentry(
     )
 
 
-@pytest.mark.skip(reason="Not implemented")
-def test_different_large_contracts_same_code_hash(state_test: StateTestFiller):
+@pytest.mark.parametrize_by_fork(
+    "large_contract_size",
+    minimum_large_contract_size,
+)
+def test_different_large_contracts_same_code_hash(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    large_contract_size: int,
+):
     """
     Test calling two different large contracts with the same code hash in the
     same transaction.
     """
-    pass
+    gas_costs = fork.gas_costs()
+    large_contract_bytecode = create_large_contract(size=large_contract_size)
+    large_contract_address_1 = pre.deploy_contract(large_contract_bytecode)
+    large_contract_address_2 = pre.deploy_contract(large_contract_bytecode)
+
+    call_opcode = Op.CALL
+    overhead_cost = (
+        gas_costs.G_VERY_LOW * (call_opcode.popped_stack_items - 1)  # Call stack items
+        + gas_costs.G_BASE  # Call gas
+    )
+    entry_point_code = CodeGasMeasure(
+        code=call_opcode(address=large_contract_address_1),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=0,
+        stop=False,
+    ) + CodeGasMeasure(
+        code=call_opcode(address=large_contract_address_2),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=1,
+    )
+    entry_point_address = pre.deploy_contract(entry_point_code)
+
+    large_contract_access_gas_calculator = fork.large_contract_access_gas_calculator()
+    expected_gas_cost = gas_costs.G_COLD_ACCOUNT_ACCESS + large_contract_access_gas_calculator(
+        size=large_contract_size,
+    )
+
+    tx = Transaction(
+        to=entry_point_address,
+        gas_limit=1_000_000,
+        sender=pre.fund_eoa(),
+    )
+    post = {
+        entry_point_address: Account(
+            storage={0: expected_gas_cost, 1: expected_gas_cost},
+        )
+    }
+    state_test(pre=pre, tx=tx, post=post)
 
 
-@pytest.mark.skip(reason="Not implemented")
-def test_calling_large_contract_twice_same_tx(state_test: StateTestFiller):
+@pytest.mark.parametrize_by_fork(
+    "large_contract_size",
+    minimum_large_contract_size,
+)
+def test_calling_large_contract_twice_same_tx(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    large_contract_address: Address,
+    large_contract_size: int,
+):
     """Test calling a large contract twice in the same transaction."""
-    pass
+    gas_costs = fork.gas_costs()
+    call_opcode = Op.CALL
+    overhead_cost = (
+        gas_costs.G_VERY_LOW * (call_opcode.popped_stack_items - 1)  # Call stack items
+        + gas_costs.G_BASE  # Call gas
+    )
+    entry_point_code = CodeGasMeasure(
+        code=call_opcode(address=large_contract_address),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=0,
+        stop=False,
+    ) + CodeGasMeasure(
+        code=call_opcode(address=large_contract_address),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,
+        sstore_key=1,
+    )
+    entry_point_address = pre.deploy_contract(entry_point_code)
+
+    large_contract_access_gas_calculator = fork.large_contract_access_gas_calculator()
+    expected_gas_cost = gas_costs.G_COLD_ACCOUNT_ACCESS + large_contract_access_gas_calculator(
+        size=large_contract_size,
+    )
+
+    tx = Transaction(
+        to=entry_point_address,
+        gas_limit=1_000_000,
+        sender=pre.fund_eoa(),
+    )
+    post = {
+        entry_point_address: Account(
+            storage={0: expected_gas_cost, 1: gas_costs.G_WARM_ACCOUNT_ACCESS},
+        )
+    }
+    state_test(pre=pre, tx=tx, post=post)
 
 
 @pytest.mark.skip(reason="Not implemented")
