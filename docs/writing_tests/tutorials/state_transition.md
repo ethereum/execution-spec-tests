@@ -18,7 +18,7 @@ The most effective method of learning how to write tests is to study a couple of
 
 ### Yul Test
 
-You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../../tests/homestead/yul/test_yul_example/index.md).
+You can find the source code for the Yul test in `tests/homestead/yul/test_yul_example.py`.
 It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml).
 
 Lets examine each section.
