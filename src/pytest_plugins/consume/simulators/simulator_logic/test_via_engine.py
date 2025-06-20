@@ -51,63 +51,63 @@ def test_blockchain_via_engine(
     """
     # Determine if we should perform forkchoice updates based on frequency tracker
     should_perform_fcus = True  # Default behavior for engine simulator
-    pre_hash = None
+    group_identifier = None
 
     if fcu_frequency_tracker is not None and hasattr(fixture, "pre_hash"):
         # EngineX simulator with forkchoice update frequency control
-        pre_hash = fixture.pre_hash
-        should_perform_fcus = fcu_frequency_tracker.should_perform_fcu(pre_hash)
+        # Use group identifier for tracking (supports both sequential and xdist execution)
+        from ..helpers.client_wrapper import get_group_identifier_from_request
+
+        group_identifier = get_group_identifier_from_request(request, fixture.pre_hash)
+        should_perform_fcus = fcu_frequency_tracker.should_perform_fcu(group_identifier)
 
         logger.info(
-            f"Forkchoice update frequency check for pre-allocation group {pre_hash}: "
+            f"Forkchoice update frequency check for group {group_identifier}: "
             f"perform_fcu={should_perform_fcus} "
             f"(frequency={fcu_frequency_tracker.fcu_frequency}, "
-            f"test_count={fcu_frequency_tracker.get_test_count(pre_hash)})"
+            f"test_count={fcu_frequency_tracker.get_test_count(group_identifier)})"
         )
 
     # Always increment the test counter at the start for proper tracking
-    if fcu_frequency_tracker is not None and pre_hash is not None:
-        fcu_frequency_tracker.increment_test_count(pre_hash)
-    # Send a initial forkchoice update
-    with timing_data.time("Initial forkchoice update"):
-        logger.info("Sending initial forkchoice update to genesis block...")
-        delay = 0.5
-        for attempt in range(3):
-            forkchoice_response = engine_rpc.forkchoice_updated(
-                forkchoice_state=ForkchoiceState(
-                    head_block_hash=genesis_header.block_hash,
-                ),
-                payload_attributes=None,
-                version=fixture.payloads[0].forkchoice_updated_version,
-            )
-            status = forkchoice_response.payload_status.status
-            logger.info(f"Initial forkchoice update response attempt {attempt + 1}: {status}")
-            if status != PayloadStatusEnum.SYNCING:
-                break
-            if attempt < 2:
-                time.sleep(delay)
-                delay *= 2
+    if fcu_frequency_tracker is not None and group_identifier is not None:
+        fcu_frequency_tracker.increment_test_count(group_identifier)
 
-        if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
-            logger.error(
-                f"Client failed to initialize properly after 3 attempts, "
-                f"final status: {forkchoice_response.payload_status.status}"
-            )
-            raise LoggedError(
-                f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
-            )
+    if not isinstance(fixture, BlockchainEngineXFixture):
+        # Skip the initial FCU update for enginex simulator
+        with timing_data.time("Initial forkchoice update"):
+            logger.info("Sending initial forkchoice update to genesis block...")
+            delay = 0.5
+            for attempt in range(3):
+                forkchoice_response = engine_rpc.forkchoice_updated(
+                    forkchoice_state=ForkchoiceState(
+                        head_block_hash=genesis_header.block_hash,
+                    ),
+                    payload_attributes=None,
+                    version=fixture.payloads[0].forkchoice_updated_version,
+                )
+                status = forkchoice_response.payload_status.status
+                logger.info(f"Initial forkchoice update response attempt {attempt + 1}: {status}")
+                if status != PayloadStatusEnum.SYNCING:
+                    break
+                if attempt < 2:
+                    time.sleep(delay)
+                    delay *= 2
+            if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
+                raise LoggedError(
+                    f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
+                )
 
-    with timing_data.time("Get genesis block"):
-        logger.info("Calling getBlockByNumber to get genesis block...")
-        client_genesis_response = eth_rpc.get_block_by_number(0)
-        if client_genesis_response["hash"] != str(genesis_header.block_hash):
-            expected = genesis_header.block_hash
-            got = client_genesis_response["hash"]
-            logger.fail(f"Genesis block hash mismatch. Expected: {expected}, Got: {got}")
-            raise GenesisBlockMismatchExceptionError(
-                expected_header=genesis_header,
-                got_genesis_block=client_genesis_response,
-            )
+        with timing_data.time("Get genesis block"):
+            logger.info("Calling getBlockByNumber to get genesis block...")
+            client_genesis_response = eth_rpc.get_block_by_number(0)
+            if client_genesis_response["hash"] != str(genesis_header.block_hash):
+                expected = genesis_header.block_hash
+                got = client_genesis_response["hash"]
+                logger.fail(f"Genesis block hash mismatch. Expected: {expected}, Got: {got}")
+                raise GenesisBlockMismatchExceptionError(
+                    expected_header=genesis_header,
+                    got_genesis_block=client_genesis_response,
+                )
 
     with timing_data.time("Payloads execution") as total_payload_timing:
         logger.info(f"Starting execution of {len(fixture.payloads)} payloads...")
@@ -201,15 +201,15 @@ def test_blockchain_via_engine(
                 elif payload.valid() and not should_perform_fcus:
                     logger.info(
                         f"Skipping forkchoice update for payload {i + 1} due to frequency setting "
-                        f"(pre-allocation group: {pre_hash})"
+                        f"(group: {group_identifier})"
                     )
         logger.info("All payloads processed successfully.")
 
     # Log final FCU frequency statistics for enginex simulator
-    if fcu_frequency_tracker is not None and pre_hash is not None:
-        final_count = fcu_frequency_tracker.get_test_count(pre_hash)
+    if fcu_frequency_tracker is not None and group_identifier is not None:
+        final_count = fcu_frequency_tracker.get_test_count(group_identifier)
         logger.info(
-            f"Test completed for pre-allocation group {pre_hash}. "
+            f"Test completed for group {group_identifier}. "
             f"Total tests in group: {final_count}, "
             f"FCU frequency: {fcu_frequency_tracker.fcu_frequency}"
         )

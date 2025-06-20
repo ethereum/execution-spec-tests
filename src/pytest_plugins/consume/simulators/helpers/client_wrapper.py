@@ -20,6 +20,69 @@ from .test_tracker import PreAllocGroupTestTracker
 logger = logging.getLogger(__name__)
 
 
+def get_group_identifier_from_request(request, pre_hash: str) -> str:
+    """
+    Determine the appropriate group identifier for client tracking.
+
+    For xdist execution: Uses xdist group name (includes subgroup suffix if split)
+    For sequential execution: Uses pre_hash directly
+
+    Args:
+        request: The pytest request object containing test metadata
+        pre_hash: The pre-allocation group hash
+
+    Returns:
+        Group identifier string to use for client tracking
+
+    """
+    # Check if this test has an xdist_group marker (indicates xdist execution)
+    xdist_group_marker = None
+    iter_markers = getattr(request.node, "iter_markers", None)
+    if iter_markers is None:
+        return pre_hash
+
+    for marker in iter_markers("xdist_group"):
+        xdist_group_marker = marker
+        break
+
+    if (
+        xdist_group_marker
+        and hasattr(xdist_group_marker, "kwargs")
+        and "name" in xdist_group_marker.kwargs
+    ):
+        group_identifier = xdist_group_marker.kwargs["name"]
+        logger.debug(f"Using xdist group identifier: {group_identifier}")
+        return group_identifier
+
+    # Fallback to pre_hash for sequential execution or when no xdist marker is found
+    logger.debug(f"Using pre_hash as group identifier: {pre_hash}")
+    return pre_hash
+
+
+def extract_pre_hash_from_group_identifier(group_identifier: str) -> str:
+    """
+    Extract the pre_hash from a group identifier.
+
+    For xdist subgroups: Removes the subgroup suffix (e.g., "0x123:0" -> "0x123")
+    For sequential: Returns as-is (group_identifier == pre_hash)
+
+    Args:
+        group_identifier: The group identifier string
+
+    Returns:
+        The pre_hash without any subgroup suffix
+
+    """
+    if ":" in group_identifier:
+        # Split subgroup format: "pre_hash:subgroup_index"
+        pre_hash = group_identifier.split(":", 1)[0]
+        logger.debug(f"Extracted pre_hash {pre_hash} from group identifier {group_identifier}")
+        return pre_hash
+
+    # No subgroup suffix, return as-is
+    return group_identifier
+
+
 class ClientWrapper(ABC):
     """
     Abstract base class for managing client instances in engine simulators.
@@ -274,8 +337,9 @@ class MultiTestClientManager:
     """
     Singleton manager for coordinating multi-test clients across test execution.
 
-    This class tracks all multi-test clients by their preHash and ensures proper
-    lifecycle management including cleanup at session end.
+    This class tracks all multi-test clients by their group identifier and ensures proper
+    lifecycle management including cleanup at session end. Group identifiers can be
+    either pre_hash (for sequential execution) or xdist group names (for parallel execution).
     """
 
     _instance: Optional["MultiTestClientManager"] = None
@@ -293,7 +357,7 @@ class MultiTestClientManager:
         if hasattr(self, "_initialized") and self._initialized:
             return
 
-        self.multi_test_clients: Dict[str, MultiTestClient] = {}
+        self.multi_test_clients: Dict[str, MultiTestClient] = {}  # group_identifier -> client
         self.pre_alloc_path: Optional[Path] = None
         self.test_tracker: Optional["PreAllocGroupTestTracker"] = None
         self._initialized = True
@@ -321,12 +385,12 @@ class MultiTestClientManager:
         self.test_tracker = test_tracker
         logger.debug("Test tracker set for automatic client cleanup")
 
-    def load_pre_alloc_group(self, pre_hash: str) -> PreAllocGroup:
+    def load_pre_alloc_group(self, group_identifier: str) -> PreAllocGroup:
         """
-        Load the pre-allocation group for a given preHash.
+        Load the pre-allocation group for a given group identifier.
 
         Args:
-            pre_hash: The hash identifying the pre-allocation group
+            group_identifier: The group identifier (pre_hash or xdist group name)
 
         Returns:
             The loaded PreAllocGroup
@@ -339,6 +403,8 @@ class MultiTestClientManager:
         if self.pre_alloc_path is None:
             raise RuntimeError("Pre-alloc path not set in MultiTestClientManager")
 
+        # Extract pre_hash from group identifier (handles subgroups)
+        pre_hash = extract_pre_hash_from_group_identifier(group_identifier)
         pre_alloc_file = self.pre_alloc_path / f"{pre_hash}.json"
         if not pre_alloc_file.exists():
             raise FileNotFoundError(f"Pre-allocation file not found: {pre_alloc_file}")
@@ -347,38 +413,41 @@ class MultiTestClientManager:
 
     def get_or_create_multi_test_client(
         self,
-        pre_hash: str,
+        group_identifier: str,
         client_type: ClientType,
     ) -> MultiTestClient:
         """
-        Get an existing MultiTestClient or create a new one for the given preHash.
+        Get an existing MultiTestClient or create a new one for the given group identifier.
 
         This method doesn't start the actual client - that's done by HiveTestSuite.
         It just manages the MultiTestClient wrapper objects.
 
         Args:
-            pre_hash: The hash identifying the pre-allocation group
+            group_identifier: The group identifier (pre_hash or xdist group name)
             client_type: The type of client that will be started
 
         Returns:
             The MultiTestClient wrapper instance
 
         """
-        # Check if we already have a MultiTestClient for this preHash
-        if pre_hash in self.multi_test_clients:
-            multi_test_client = self.multi_test_clients[pre_hash]
+        # Check if we already have a MultiTestClient for this group identifier
+        if group_identifier in self.multi_test_clients:
+            multi_test_client = self.multi_test_clients[group_identifier]
             if multi_test_client.is_running:
-                logger.debug(f"Found existing MultiTestClient for pre-allocation group {pre_hash}")
+                logger.debug(f"Found existing MultiTestClient for group {group_identifier}")
                 return multi_test_client
             else:
                 # MultiTestClient exists but isn't running, remove it
                 logger.warning(
-                    f"Found stopped MultiTestClient for pre-allocation group {pre_hash}, removing"
+                    f"Found stopped MultiTestClient for group {group_identifier}, removing"
                 )
-                del self.multi_test_clients[pre_hash]
+                del self.multi_test_clients[group_identifier]
 
         # Load the pre-allocation group for this group
-        pre_alloc_group = self.load_pre_alloc_group(pre_hash)
+        pre_alloc_group = self.load_pre_alloc_group(group_identifier)
+
+        # Extract pre_hash for the MultiTestClient constructor
+        pre_hash = extract_pre_hash_from_group_identifier(group_identifier)
 
         # Create new MultiTestClient wrapper
         multi_test_client = MultiTestClient(
@@ -387,43 +456,43 @@ class MultiTestClientManager:
             pre_alloc_group=pre_alloc_group,
         )
 
-        # Track the MultiTestClient
-        self.multi_test_clients[pre_hash] = multi_test_client
+        # Track the MultiTestClient by group identifier
+        self.multi_test_clients[group_identifier] = multi_test_client
 
         logger.info(
-            f"Created new MultiTestClient wrapper for pre-allocation group {pre_hash} "
-            f"(total tracked clients: {len(self.multi_test_clients)})"
+            f"Created new MultiTestClient wrapper for group {group_identifier} "
+            f"(pre_hash: {pre_hash}, total tracked clients: {len(self.multi_test_clients)})"
         )
 
         return multi_test_client
 
     def get_client_for_test(
-        self, pre_hash: str, test_id: Optional[str] = None
+        self, group_identifier: str, test_id: Optional[str] = None
     ) -> Optional[Client]:
         """
-        Get the actual client instance for a test with the given preHash.
+        Get the actual client instance for a test with the given group identifier.
 
         Args:
-            pre_hash: The hash identifying the pre-allocation group
+            group_identifier: The group identifier (pre_hash or xdist group name)
             test_id: Optional test ID for completion tracking
 
         Returns:
             The client instance if available, None otherwise
 
         """
-        if pre_hash in self.multi_test_clients:
-            multi_test_client = self.multi_test_clients[pre_hash]
+        if group_identifier in self.multi_test_clients:
+            multi_test_client = self.multi_test_clients[group_identifier]
             if multi_test_client.is_running:
                 multi_test_client.increment_test_count()
                 return multi_test_client.client
         return None
 
-    def mark_test_completed(self, pre_hash: str, test_id: str) -> None:
+    def mark_test_completed(self, group_identifier: str, test_id: str) -> None:
         """
         Mark a test as completed and trigger automatic client cleanup if appropriate.
 
         Args:
-            pre_hash: The hash identifying the pre-allocation group
+            group_identifier: The group identifier (pre_hash or xdist group name)
             test_id: The unique test identifier
 
         """
@@ -432,57 +501,55 @@ class MultiTestClientManager:
             return
 
         # Mark test as completed in tracker
-        is_group_complete = self.test_tracker.mark_test_completed(pre_hash, test_id)
+        is_group_complete = self.test_tracker.mark_test_completed(group_identifier, test_id)
 
         if is_group_complete:
-            # All tests in this pre-allocation group are complete
-            self._auto_stop_client_if_complete(pre_hash)
+            # All tests in this group are complete
+            self._auto_stop_client_if_complete(group_identifier)
 
-    def _auto_stop_client_if_complete(self, pre_hash: str) -> None:
+    def _auto_stop_client_if_complete(self, group_identifier: str) -> None:
         """
-        Automatically stop the client for a pre-allocation group if all tests are complete.
+        Automatically stop the client for a group if all tests are complete.
 
         Args:
-            pre_hash: The hash identifying the pre-allocation group
+            group_identifier: The group identifier (pre_hash or xdist group name)
 
         """
-        if pre_hash not in self.multi_test_clients:
-            logger.debug(f"No client found for pre-allocation group {pre_hash}")
+        if group_identifier not in self.multi_test_clients:
+            logger.debug(f"No client found for group {group_identifier}")
             return
 
-        multi_test_client = self.multi_test_clients[pre_hash]
+        multi_test_client = self.multi_test_clients[group_identifier]
         if not multi_test_client.is_running:
-            logger.debug(f"Client for pre-allocation group {pre_hash} is already stopped")
+            logger.debug(f"Client for group {group_identifier} is already stopped")
             return
 
         # Stop the client and remove from tracking
         logger.info(
-            f"Auto-stopping client for pre-allocation group {pre_hash} - "
+            f"Auto-stopping client for group {group_identifier} - "
             f"all tests completed ({multi_test_client.test_count} tests executed)"
         )
 
         try:
             multi_test_client.stop()
         except Exception as e:
-            logger.error(f"Error auto-stopping client for pre-allocation group {pre_hash}: {e}")
+            logger.error(f"Error auto-stopping client for group {group_identifier}: {e}")
         finally:
             # Remove from tracking to free memory
-            del self.multi_test_clients[pre_hash]
-            logger.debug(f"Removed completed client from tracking: {pre_hash}")
+            del self.multi_test_clients[group_identifier]
+            logger.debug(f"Removed completed client from tracking: {group_identifier}")
 
     def stop_all_clients(self) -> None:
         """Mark all multi-test clients as stopped."""
         logger.info(f"Marking all {len(self.multi_test_clients)} multi-test clients as stopped")
 
-        for pre_hash, multi_test_client in list(self.multi_test_clients.items()):
+        for group_identifier, multi_test_client in list(self.multi_test_clients.items()):
             try:
                 multi_test_client.stop()
             except Exception as e:
-                logger.error(
-                    f"Error stopping MultiTestClient for pre-allocation group {pre_hash}: {e}"
-                )
+                logger.error(f"Error stopping MultiTestClient for group {group_identifier}: {e}")
             finally:
-                del self.multi_test_clients[pre_hash]
+                del self.multi_test_clients[group_identifier]
 
         logger.info("All MultiTestClient wrappers cleared")
 
@@ -493,7 +560,8 @@ class MultiTestClientManager:
     def get_test_counts(self) -> Dict[str, int]:
         """Get test counts for each multi-test client."""
         return {
-            pre_hash: client.test_count for pre_hash, client in self.multi_test_clients.items()
+            group_identifier: client.test_count
+            for group_identifier, client in self.multi_test_clients.items()
         }
 
     def reset(self) -> None:
