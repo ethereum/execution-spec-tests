@@ -124,7 +124,7 @@ def engine() -> None:
 def enginex(enginex_fcu_frequency: int, pytest_args: List[str], **_kwargs) -> None:
     """Client consumes Engine X Fixtures via the Engine API."""
     command_name = "enginex"
-    command_paths = get_command_paths(command_name, is_hive=True)
+    static_test_paths = get_static_test_paths(command_name, is_hive=True)
 
     # Validate the frequency parameter
     if enginex_fcu_frequency < 0:
@@ -133,7 +133,9 @@ def enginex(enginex_fcu_frequency: int, pytest_args: List[str], **_kwargs) -> No
     # Add the FCU frequency to pytest args as a custom config option
     pytest_args_with_fcu = [f"--enginex-fcu-frequency={enginex_fcu_frequency}"] + list(pytest_args)
 
-    consume_cmd = ConsumeCommand(command_paths, is_hive=True, command_name=command_name)
+    consume_cmd = create_consume_command(
+        static_test_paths=static_test_paths, is_hive=True, command_name=command_name
+    )
     consume_cmd.execute(pytest_args_with_fcu)
 
 
