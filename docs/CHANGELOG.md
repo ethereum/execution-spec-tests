@@ -39,6 +39,10 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 
+#### `check_eip_versions`
+
+- 🔀 Refactor: Move EIP version report generation from external script into the `spec_version_checker` pytest plugin to eliminate brittle regex parsing of console output and improve maintainability.
+
 #### `consume`
 
 #### `execute`
