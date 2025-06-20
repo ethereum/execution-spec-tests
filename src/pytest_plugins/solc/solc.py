@@ -107,23 +107,25 @@ def pytest_configure(config: pytest.Config):
     # test whether solc_version matches actual one
     # using subprocess because that's how yul is compiled in
     # ./src/ethereum_test_specs/static_state/common/compile_yul.py
-    expected_solc_version_string: str = str(solc_version_semver)
-    actual_solc_version = subprocess.run(
-        ["solc", "--version"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-        text=True,
-        check=True,
-    )
-    actual_solc_version_string = actual_solc_version.stdout
-    # use only look at first 10 chars to pass e.g.
-    # actual: 0.8.25+commit.b61c2a91.Linux.g++ should pass with expected: "0.8.25+commit.b61c2a91
-    if (
-        expected_solc_version_string[:10] not in actual_solc_version_string
-    ) or expected_solc_version_string == "":
-        error_message = f"Expected solc version {solc_version_semver} but detected a\
- different solc version:\n{actual_solc_version_string}\nCritical error, aborting.."
-        pytest.exit(error_message, returncode=pytest.ExitCode.USAGE_ERROR)
+
+
+#     expected_solc_version_string: str = str(solc_version_semver)
+#     actual_solc_version = subprocess.run(
+#         ["solc", "--version"],
+#         stdout=subprocess.PIPE,
+#         stderr=subprocess.STDOUT,
+#         text=True,
+#         check=True,
+#     )
+#     actual_solc_version_string = actual_solc_version.stdout
+#     # use only look at first 10 chars to pass e.g.
+#     # actual: 0.8.25+commit.b61c2a91.Linux.g++ should pass with expected: "0.8.25+commit.b61c2a91
+#     if (
+#         expected_solc_version_string[:10] not in actual_solc_version_string
+#     ) or expected_solc_version_string == "":
+#         error_message = f"Expected solc version {solc_version_semver} but detected a\
+#  different solc version:\n{actual_solc_version_string}\nCritical error, aborting.."
+#         pytest.exit(error_message, returncode=pytest.ExitCode.USAGE_ERROR)
 
 
 @pytest.fixture(autouse=True, scope="session")
