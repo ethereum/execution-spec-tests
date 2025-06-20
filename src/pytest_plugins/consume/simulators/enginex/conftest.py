@@ -39,6 +39,16 @@ def pytest_addoption(parser):
             "pre-allocation group."
         ),
     )
+    enginex_group.addoption(
+        "--enginex-max-group-size",
+        action="store",
+        type=int,
+        default=400,
+        help=(
+            "Maximum number of tests per xdist group. Large pre-allocation groups will be "
+            "split into virtual sub-groups to improve load balancing. Default: 400."
+        ),
+    )
 
 
 def pytest_configure(config):
@@ -47,6 +57,9 @@ def pytest_configure(config):
 
     # Store FCU frequency on config for access by fixtures
     config.enginex_fcu_frequency = config.getoption("--enginex-fcu-frequency", 1)
+
+    # Store max group size on config for access during test generation
+    config.enginex_max_group_size = config.getoption("--enginex-max-group-size", 400)
 
 
 @pytest.fixture(scope="module")
