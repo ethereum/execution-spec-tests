@@ -19,3 +19,13 @@ def fake_exponential(factor: int, numerator: int, denominator: int) -> int:
         numerator_accumulator = (numerator_accumulator * numerator) // (denominator * i)
         i += 1
     return output // denominator
+
+
+def ceil32(value: int) -> int:
+    """Convert a unsigned integer to the next closest multiple of 32."""
+    ceiling = 32
+    remainder = value % ceiling
+    if remainder == 0:
+        return value
+    else:
+        return value + ceiling - remainder

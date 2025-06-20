@@ -183,6 +183,7 @@ def test_contract_creating_tx(
     sender: EOA,
     initcode: Initcode,
     exception: TransactionException | None,
+    fork: Fork,
 ):
     """
     Tests creating a contract using a transaction with an initcode that is
@@ -197,12 +198,12 @@ def test_contract_creating_tx(
         nonce=0,
         to=None,
         data=initcode,
-        gas_limit=10_000_000,
+        gas_limit=25_000_000,
         sender=sender,
         error=exception,
     )
 
-    if len(initcode) > Spec.MAX_INITCODE_SIZE:
+    if len(initcode) > fork.max_initcode_size():
         # Initcode is above the max size, tx inclusion in the block makes
         # it invalid.
         post[create_contract_address] = Account.NONEXISTENT
@@ -511,7 +512,7 @@ class TestCreateInitcode:
             nonce=0,
             to=caller_contract_address,
             data=initcode,
-            gas_limit=10000000,
+            gas_limit=25_000_000,
             gas_price=10,
             sender=sender,
         )
@@ -564,12 +565,13 @@ class TestCreateInitcode:
         contract_creation_gas_cost: int,
         initcode_word_cost: int,
         create2_word_cost: int,
+        fork: Fork,
     ):
         """
         Test contract creation via the CREATE/CREATE2 opcodes that have an
         initcode that is on/over the max allowed limit.
         """
-        if len(initcode) > Spec.MAX_INITCODE_SIZE:
+        if len(initcode) > fork.max_initcode_size():
             # Call returns 0 as out of gas s[0]==1
             post[caller_contract_address] = Account(
                 nonce=1,
