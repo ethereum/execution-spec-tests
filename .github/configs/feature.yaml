@@ -39,5 +39,5 @@ eip7692:
   feature_only: true
 fusaka-devnet-2:
   evm-type: develop
-  fill-params: ./tests/osaka ./tests/shanghai/eip3860_initcode ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile ./tests/byzantium/eip198_modexp_precompile ./tests/frontier/precompiles/test_precompiles.py ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_valid_blob_tx_combinations
+  fill-params: --from=Prague --until=Osaka ./tests/osaka ./tests/shanghai/eip3860_initcode/test_initcode.py ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile ./tests/byzantium/eip198_modexp_precompile ./tests/frontier/precompiles/test_precompiles.py ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_valid_blob_tx_combinations
   feature_only: true
