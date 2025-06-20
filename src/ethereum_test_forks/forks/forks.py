@@ -23,20 +23,10 @@ from ..base_fork import (
     TransactionIntrinsicCostCalculator,
 )
 from ..gas_costs import GasCosts
-from .helpers import ceiling_division, fake_exponential
+from .helpers import ceil32, ceiling_division, fake_exponential
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
-
-
-def ceil32(value: int) -> int:
-    """Convert a unsigned integer to the next closest multiple of 32."""
-    ceiling = 32
-    remainder = value % ceiling
-    if remainder == 0:
-        return value
-    else:
-        return value + ceiling - remainder
 
 
 # All forks must be listed here !!! in the order they were introduced !!!
