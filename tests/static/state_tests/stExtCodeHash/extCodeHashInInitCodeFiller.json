@@ -62,8 +62,8 @@
         },
         "transaction" : {
             "data" : [
-                "{ [[0]] (EXTCODEHASH 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b) [[1]] (EXTCODESIZE 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b) }",
-        		"{ (seq (CREATE2 0 0 (lll (seq          [[0]] (EXTCODEHASH 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b) [[1]] (EXTCODESIZE 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b)            ) 0) 0) (STOP) )}"
+                "{ [[0]] (EXTCODEHASH <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>) [[1]] (EXTCODESIZE <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>) }",
+        		"{ (seq (CREATE2 0 0 (lll (seq          [[0]] (EXTCODEHASH <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>) [[1]] (EXTCODESIZE <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>)            ) 0) 0) (STOP) )}"
             ],
             "gasLimit" : [
                 "400000"

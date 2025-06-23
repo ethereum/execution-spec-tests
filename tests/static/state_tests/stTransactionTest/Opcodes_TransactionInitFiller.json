@@ -382,17 +382,17 @@
                 ":raw 0x60ff60ff60ff60006000a360006000f3", 
                 ":raw 0x60ff60ff60ff60ff60006000a460006000f3", 
                 ":raw 0x6000600060fff05060006000f3", 
-                ":raw 0x60006000600060006017730f572e5295c57f15886f9b263e2f6d2d6c7b5ec66064f15060006000f3", 
-                ":raw 0x60006000600060006000730f572e5295c57f15886f9b263e2f6d2d6c7b5ec66064f25060006000f3", 
+                ":raw 0x6000600060006000601773<contract:0x0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6>6064f15060006000f3", 
+                ":raw 0x6000600060006000600073<contract:0x0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6>6064f25060006000f3", 
                 ":raw 0x60006000f3", 
-                ":raw 0x6000600060006000730f572e5295c57f15886f9b263e2f6d2d6c7b5ec6620186a0f45060006000f3", 
-                ":raw 0x6000600060006000730f572e5295c57f15886f9b263e2f6d2d6c7b5ec6612710fa5060006000f3", 
+                ":raw 0x600060006000600073<contract:0x0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6>620186a0f45060006000f3", 
+                ":raw 0x600060006000600073<contract:0x0f572e5295c57f15886f9b263e2f6d2d6c7b5ec6>612710fa5060006000f3", 
                 ":raw 0x60006000fd60006000f3", 
                 ":raw 0x32ff",
                 ":label invalid_first_byte_ef :raw 0xef",
-                ":label side_effects :yul berlin { pop(call(50000, 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b, 0, 0, 0, 0, 0)) }",
-                ":label side_effects_invalid_opcode :yul berlin { pop(call(50000, 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b, 0, 0, 0, 0, 0)) invalid() }",
-                ":label side_effects_return_ef :yul berlin { pop(call(50000, 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b, 0, 0, 0, 0, 0)) mstore8(0, 0xef) return(0, 1) }"
+                ":label side_effects :yul berlin { pop(call(50000, <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>, 0, 0, 0, 0, 0)) }",
+                ":label side_effects_invalid_opcode :yul berlin { pop(call(50000, <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>, 0, 0, 0, 0, 0)) invalid() }",
+                ":label side_effects_return_ef :yul berlin { pop(call(50000, <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>, 0, 0, 0, 0, 0)) mstore8(0, 0xef) return(0, 1) }"
             ],
             "gasLimit" : [
                 "400000"

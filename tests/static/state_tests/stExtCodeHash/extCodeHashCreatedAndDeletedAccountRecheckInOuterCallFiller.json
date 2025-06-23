@@ -58,7 +58,7 @@
       },
       "<contract:target:0xdeadbeef00000000000000000000000000000001>": {
         "balance": "1000000000000000000",
-        "code": "{ (CALL 0x20000 0xdeadbeef00000000000000000000000000000000 0 0 0 0 0) [[0]] (EXTCODEHASH 0x123f4c415171383dcf6f3ac6c3b70fe321e11b5e) [[1]] (EXTCODESIZE 0x123f4c415171383dcf6f3ac6c3b70fe321e11b5e) (STOP) }",
+        "code": "{ (CALL 0x20000 <contract:0xdeadbeef00000000000000000000000000000000> 0 0 0 0 0) [[0]] (EXTCODEHASH 0x123f4c415171383dcf6f3ac6c3b70fe321e11b5e) [[1]] (EXTCODESIZE 0x123f4c415171383dcf6f3ac6c3b70fe321e11b5e) (STOP) }",
         "nonce": "0",
         "storage": {
         }

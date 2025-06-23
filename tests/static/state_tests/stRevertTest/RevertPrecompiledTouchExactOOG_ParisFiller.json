@@ -137,14 +137,14 @@
             }
         ],
         "pre" : {
-            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
                 "code" : "{  (CALLCODE (GAS) (CALLDATALOAD 0) 0 0 (CALLDATALOAD 32) 0 0) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "<eoa:0x1000000000000000000000000000000000000000>" : {
+            "<contract:0x1000000000000000000000000000000000000000>" : {
                 "//comment" : "CALL precompiles and OOG",
                 "balance" : "0",
                 "code" : "{ (CALL (GAS) (CALLDATASIZE) 0 0 0 0 0) }",
@@ -152,7 +152,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0x2000000000000000000000000000000000000000>" : {
+            "<contract:0x2000000000000000000000000000000000000000>" : {
                 "//comment" : "DELEGATECALL precompiles and OOG",
                 "balance" : "0",
                 "code" : "{ (DELEGATECALL (GAS) (CALLDATASIZE) 0 0 0 0) }",
@@ -160,7 +160,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0x3000000000000000000000000000000000000000>" : {
+            "<contract:0x3000000000000000000000000000000000000000>" : {
                 "//comment" : "CALLCODE precompiles and OOG",
                 "balance" : "0",
                 "code" : "{ (CALLCODE (GAS) (CALLDATASIZE) 0 0 0 0 0) }",
@@ -168,7 +168,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0x4000000000000000000000000000000000000000>" : {
+            "<contract:0x4000000000000000000000000000000000000000>" : {
                 "//comment" : "STATICCALL precompiles and OOG",
                 "balance" : "0",
                 "code" : "{ (STATICCALL (GAS) (CALLDATASIZE) 0 0 0 0)  }",
@@ -281,7 +281,7 @@
             "gasPrice" : "10",
             "nonce" : "1",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0"
             ]

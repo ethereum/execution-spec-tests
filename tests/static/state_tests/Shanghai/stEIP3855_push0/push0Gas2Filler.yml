@@ -46,8 +46,8 @@ push0Gas2:
 
   transaction:
     data:
-      - ':label use_push0 :raw 0x0000000000000000000000000000000000001000'
-      - ':label use_push1_00 :raw 0x0000000000000000000000000000000000000200'
+      - ':label use_push0 :raw <contract:0x0000000000000000000000000000000000001000>'
+      - ':label use_push1_00 :raw <contract:0x0000000000000000000000000000000000000200>'
     gasLimit:
       - 300000
     gasPrice: 10

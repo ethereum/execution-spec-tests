@@ -23,7 +23,7 @@
                         "balance" : "99463960",
                         "nonce" : "1"
                     },
-        		    "<eoa:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>" : {
+        		    "<contract:target:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>" : {
             			"balance" : "0",
                         "nonce" : "0",
                         "storage" : {
@@ -48,7 +48,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>" : {
+            "<contract:target:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>" : {
                 "balance" : "1000000000000000000",
                 "code" : "{ (SELFDESTRUCT 0x095e7baea6a6c7c4c2dfeb977efac326af552d87) }",
                 "nonce" : "0",
@@ -67,7 +67,7 @@
             "gasPrice" : "10",
             "nonce" : "0",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>",
+            "to" : "<contract:target:0xaaae7baea6a6c7c4c2dfeb977efac326af552aaa>",
             "value" : [
                 "10"
             ]

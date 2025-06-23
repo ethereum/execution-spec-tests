@@ -22,7 +22,7 @@
                     "014830fe159f418212e5c39b4b2e2ddc7b295395" : {
                         "shouldnotexist" : "1"
                     },
-                    "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "0x00",
                         "storage" : {
                             "0x00" : "0x00",
@@ -69,7 +69,7 @@
                         "storage" : {
                         }
                     },
-                    "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "balance" : "0x0ffffffffffc21",
                         "nonce" : "0x03e8",
                         "storage" : {
@@ -179,7 +179,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0xfffffffffffff",
                 "code" : "{ (def 'i 0x80) (for {} (< @i 1000) [i](+ @i 1) [[ 0 ]] (CREATE 1 0 10) ) [[ 1 ]] @i}",
                 "nonce" : "0",
@@ -197,7 +197,7 @@
             "gasPrice" : "10",
             "nonce" : "",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "10"
             ]

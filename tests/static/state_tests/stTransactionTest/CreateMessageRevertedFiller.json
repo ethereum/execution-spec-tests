@@ -19,7 +19,7 @@
                     "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     },
-                    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "balance" : "0",
                         "nonce" : "0"
                     }
@@ -34,7 +34,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
                 "code" : "{(MSTORE 0 0x600c600055) (CREATE 0 27 5)}",
                 "nonce" : "0",
@@ -52,7 +52,7 @@
             "gasPrice" : "10",
             "nonce" : "0",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "100"
             ]

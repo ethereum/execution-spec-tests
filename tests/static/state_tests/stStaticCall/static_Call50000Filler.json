@@ -22,13 +22,13 @@
                         "storage" : {
                         }
                     },
-                    "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "0x00",
                         "storage" : {
 							"0x00" : "0x01"
                         }
                     },
-                    "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "balance" : "4503599627370505",
                         "nonce" : "0x00",
                         "storage" : {
@@ -36,7 +36,7 @@
                             "0x01" : "50000"
                         }
                     },
-					"<eoa:0x1000000000000000000000000000000000000000>" : {
+					"<contract:target:0x1000000000000000000000000000000000000000>" : {
 						"storage" : {
 							"0x00" : "0x01",
 							"0x01" : "0x01"
@@ -57,21 +57,21 @@
                         "storage" : {
                         }
                     },
-                    "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "balance" : "0x1b58",
                         "nonce" : "0x00",
                         "storage" : {
 							"0x00" : "0x01"
                         }
                     },
-                    "<eoa:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "0x00",
                         "storage" : {
 							"0x00" : "0x01",
 							"0x20" : "0xc350"
                         }
                     },
-					"<eoa:0x1000000000000000000000000000000000000000>" : {
+					"<contract:target:0x1000000000000000000000000000000000000000>" : {
 						"storage" : {
 							"0x00" : "0x01",
 							"0x01" : "0x01"
@@ -88,7 +88,7 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "7000",
                 "code" : "{ (MSTORE 0 (SLOAD 0)) }",
                 "nonce" : "0",
@@ -96,7 +96,7 @@
 					"0x00" : "0x01"
                 }
             },
-			"<eoa:0xbaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+			"<contract:0xbaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "7000",
                 "code" : "{ (SSTORE 0 (SLOAD 0)) }",
                 "nonce" : "0",
@@ -104,23 +104,23 @@
 					"0x00" : "0x01"
                 }
             },
-	    	"<eoa:0x1000000000000000000000000000000000000000>" : {
+	    	"<contract:target:0x1000000000000000000000000000000000000000>" : {
                 "balance" : "0",
                 "code" : "{  [[ 0 ]] (CALL (GAS) (CALLDATALOAD 0) (CALLVALUE) 0 0 0 0) [[ 1 ]] 1 }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0xfffffffffffff",
-                "code" : "{ (def 'i 0x80) (for {} (< @i 50000) [i](+ @i 1) [[ 0 ]] (STATICCALL 100000 0xbaaf5374fce5edbc8e2a8697c15331677e6ebf0b 0 50000 0 0) ) [[ 1 ]] @i}",
+                "code" : "{ (def 'i 0x80) (for {} (< @i 50000) [i](+ @i 1) [[ 0 ]] (STATICCALL 100000 <contract:0xbaaf5374fce5edbc8e2a8697c15331677e6ebf0b> 0 50000 0 0) ) [[ 1 ]] @i}",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "<eoa:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0xfffffffffffff",
-                "code" : "{ (def 'i 0x80) (for {} (< @i 50000) [i](+ @i 1) (SSTORE 0 (STATICCALL 100000 0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b 0 50000 0 0)) ) (SSTORE 32 @i ) }",
+                "code" : "{ (def 'i 0x80) (for {} (< @i 50000) [i](+ @i 1) (SSTORE 0 (STATICCALL 100000 <contract:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b> 0 50000 0 0)) ) (SSTORE 32 @i ) }",
                 "nonce" : "0",
                 "storage" : {
                 }
@@ -128,8 +128,8 @@
         },
         "transaction" : {
             "data" : [
-                ":raw 0x000000000000000000000000bbbf5374fce5edbc8e2a8697c15331677e6ebf0b",
-				":raw 0x000000000000000000000000cccf5374fce5edbc8e2a8697c15331677e6ebf0b"
+                ":raw 0x000000000000000000000000<contract:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>",
+				":raw 0x000000000000000000000000<contract:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b>"
             ],
             "gasLimit" : [
                 "90000000000"
@@ -137,7 +137,7 @@
             "gasPrice" : "10",
             "nonce" : "",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0x1000000000000000000000000000000000000000>",
+            "to" : "<contract:target:0x1000000000000000000000000000000000000000>",
             "value" : [
                 "10"
             ]

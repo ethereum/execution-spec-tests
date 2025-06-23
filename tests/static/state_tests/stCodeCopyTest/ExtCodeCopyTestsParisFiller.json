@@ -11,7 +11,7 @@
             {
                 "network" : [">=Cancun"],
                 "result" : {
-        		    "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+        		    "<contract:target:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
         		        "storage" : {
         		            "0x02" : "0x00",
             			    "0x03" : "0x00",
@@ -41,9 +41,9 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:target:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "7000",
-                "code" : "{ (EXTCODECOPY 0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 2) [[2]] (MLOAD 0) (EXTCODECOPY 0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 2) [[3]] (MLOAD 0) (EXTCODECOPY 0xdddf5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 2) [[4]] (MLOAD 0) (EXTCODECOPY 0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 2) [[5]] (MLOAD 0) (EXTCODECOPY 0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 200) [[6]] (MLOAD 0)}",
+                "code" : "{ (EXTCODECOPY 0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b 1 10 2) [[2]] (MLOAD 0) (EXTCODECOPY <eoa:0xcccf5374fce5edbc8e2a8697c15331677e6ebf0b> 1 10 2) [[3]] (MLOAD 0) (EXTCODECOPY <eoa:0xdddf5374fce5edbc8e2a8697c15331677e6ebf0b> 1 10 2) [[4]] (MLOAD 0) (EXTCODECOPY <contract:0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b> 1 10 2) [[5]] (MLOAD 0) (EXTCODECOPY <contract:0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b> 1 10 200) [[6]] (MLOAD 0)}",
                 "nonce" : "0",
                 "storage" : {
                 }
@@ -80,7 +80,7 @@
             "gasPrice" : "10",
             "nonce" : "0",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0"
             ]

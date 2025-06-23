@@ -19,7 +19,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+		            "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		                "storage" : {
 		                    "0x01" : "0"
 		                }
@@ -37,7 +37,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-		            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+		            "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		                "storage" : {
 		                    "0x01" : "0",
     			            "0x02" : "0x6460016001556000526005601bf3"
@@ -58,7 +58,7 @@
                 "storage" : {
                 }
             },
-	    "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+	    "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		"nonce" : "0",
 		"//code" : "(SSTORE 1 1) RETURN",
@@ -77,7 +77,7 @@
             "gasPrice" : "10",
             "nonce" : "0",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "0"
             ]

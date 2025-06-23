@@ -17,7 +17,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "<eoa:0xe2b35478fdd26477cc576dd906e6277761246a3c>" : {
+                    "<contract:0xe2b35478fdd26477cc576dd906e6277761246a3c>" : {
                         "balance" : "0",
                         "nonce" : "0"
                     },
@@ -42,7 +42,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "<eoa:0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01>" : {
+                    "<contract:0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01>" : {
                         "balance" : "0",
                         "nonce" : "0"
                     },
@@ -67,7 +67,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "<eoa:0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50>" : {
+                    "<contract:0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50>" : {
                         "balance" : "0",
                         "nonce" : "0"
                     },
@@ -95,21 +95,21 @@
                 "storage" : {
                 }
             },
-	    "<eoa:0xe2b35478fdd26477cc576dd906e6277761246a3c>" : {
+	    "<contract:0xe2b35478fdd26477cc576dd906e6277761246a3c>" : {
                 "balance" : "1",
                 "code" : "{ (SELFDESTRUCT 0x10) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-	    "<eoa:0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01>" : {
+	    "<contract:0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01>" : {
                 "balance" : "1",
                 "code" : "{ (SELFDESTRUCT 0x10) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-	    "<eoa:0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50>" : {
+	    "<contract:0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50>" : {
                 "balance" : "1",
                 "code" : "{ (SELFDESTRUCT 0x10) }",
                 "nonce" : "0",
@@ -119,9 +119,9 @@
         },
         "transaction" : {
             "data" : [
-                "{ (CALL 50000 0xe2b35478fdd26477cc576dd906e6277761246a3c 0 0 0 0 0) (CREATE2 0 0 0 0) }",
-		        "{ (CALL 50000 0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01 0 0 0 0 0) (MSTORE 0 0x6001600155) (CREATE2 0 27 5 0) }",
-		        "{ (CALL 50000 0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50 0 0 0 0 0) (MSTORE 0 0x6460016001556000526005601bf3) (CREATE2 0 18 14 0) }"
+                "{ (CALL 50000 <contract:0xe2b35478fdd26477cc576dd906e6277761246a3c> 0 0 0 0 0) (CREATE2 0 0 0 0) }",
+		        "{ (CALL 50000 <contract:0xaf3ecba2fe09a4f6c19f16a9d119e44e08c2da01> 0 0 0 0 0) (MSTORE 0 0x6001600155) (CREATE2 0 27 5 0) }",
+		        "{ (CALL 50000 <contract:0xec2c6832d00680ece8ff9254f81fdab0a5a2ac50> 0 0 0 0 0) (MSTORE 0 0x6460016001556000526005601bf3) (CREATE2 0 18 14 0) }"
             ],
             "gasLimit" : [
                 "400000"

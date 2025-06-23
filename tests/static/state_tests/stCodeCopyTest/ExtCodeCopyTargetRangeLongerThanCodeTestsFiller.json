@@ -42,7 +42,7 @@
       },
       "<contract:target:0xaaaf5374fce5edbc8e2a8697c15331677e6ebf0b>": {
         "balance": "7000",
-        "code": "{ (MSTORE 32 0x1234) (EXTCODECOPY 0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b 0 0 64) [[0]] (MLOAD 0) [[1]] (MLOAD 32) (MSTORE 96 0x5678) (EXTCODECOPY 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b 64 0 64) [[2]] (MLOAD 64) [[3]] (MLOAD 96)}",
+        "code": "{ (MSTORE 32 0x1234) (EXTCODECOPY <contract:0xeeef5374fce5edbc8e2a8697c15331677e6ebf0b> 0 0 64) [[0]] (MLOAD 0) [[1]] (MLOAD 32) (MSTORE 96 0x5678) (EXTCODECOPY <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b> 64 0 64) [[2]] (MLOAD 64) [[3]] (MLOAD 96)}",
         "nonce": "0",
         "storage": {
         }

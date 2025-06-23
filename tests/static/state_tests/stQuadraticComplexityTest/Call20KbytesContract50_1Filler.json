@@ -28,7 +28,7 @@
                             "0x00" : "0x0e90"
                         }
                     },
-                    "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "0x00",
                         "storage" : {
                             "0x00" : "0x01",
@@ -56,7 +56,7 @@
                         "storage" : {
                         }
                     },
-                    "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "0x00",
                         "storage" : {
                         }
@@ -80,9 +80,9 @@
                 "storage" : {
                 }
             },
-            "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0xfffffffffffff",
-                "code" : "{ (def 'i 0x80) (for {} (< @i 50) [i](+ @i 1) [[ 0 ]] (CALL 88250000000 0xaaa50000fce5edbc8e2a8697c15331677e6ebf0b 0 0 0 0 0) ) [[ 1 ]] @i }",
+                "code" : "{ (def 'i 0x80) (for {} (< @i 50) [i](+ @i 1) [[ 0 ]] (CALL 88250000000 <contract:0xaaa50000fce5edbc8e2a8697c15331677e6ebf0b> 0 0 0 0 0) ) [[ 1 ]] @i }",
                 "nonce" : "0",
                 "storage" : {
                 }
@@ -98,7 +98,7 @@
             "gasPrice" : "10",
             "nonce" : "",
             "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<eoa:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:target:0xbbbf5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "10"
             ]

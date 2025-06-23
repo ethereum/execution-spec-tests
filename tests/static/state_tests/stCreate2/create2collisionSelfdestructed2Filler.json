@@ -17,7 +17,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "<eoa:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
+                    "<contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
                         "balance" : "0",
                         "nonce" : "0",
                         "code" : "0x6010ff00",
@@ -58,7 +58,7 @@
                 "storage" : {
                 }
             },
-    	    "<eoa:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
+    	    "<contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
                 "balance" : "1",
                 "code" : "{ (SELFDESTRUCT 0x10) }",
                 "nonce" : "0",
@@ -76,8 +76,8 @@
         "transaction" : {
     	    "//data" : "0 - different code,  1 - same code",
             "data" : [
-                "{ (CALL 50000 0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3 0 0 0 0 0) (MSTORE 0 0x620102036000526003601df3) (CREATE2 0 20 12 0) }",
-        		"{ (CALL 50000 0xcff64f4c5df8f436c4f2c1af4b2e3f9e3004c779 0 0 0 0 0) (MSTORE 0 0x626010ff6000526003601df3) (CREATE2 0 20 12 0) }"
+                "{ (CALL 50000 <contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3> 0 0 0 0 0) (MSTORE 0 0x620102036000526003601df3) (CREATE2 0 20 12 0) }",
+        		"{ (CALL 50000 <contract:0xcff64f4c5df8f436c4f2c1af4b2e3f9e3004c779> 0 0 0 0 0) (MSTORE 0 0x626010ff6000526003601df3) (CREATE2 0 20 12 0) }"
             ],
             "gasLimit" : [
                 "400000"

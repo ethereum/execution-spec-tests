@@ -34,7 +34,7 @@
     "pre": {
       "<contract:target:0xdeadbeef00000000000000000000000000000000>": {
         "balance": "1000000000000000000",
-        "code": "{  [[0]] (EXTCODEHASH 0xdeadbeef00000000000000000000000000000000) [[1]] (EXTCODESIZE 0xdeadbeef00000000000000000000000000000000) }",
+        "code": "{  [[0]] (EXTCODEHASH <contract:target:0xdeadbeef00000000000000000000000000000000>) [[1]] (EXTCODESIZE <contract:target:0xdeadbeef00000000000000000000000000000000>) }",
         "nonce": "0",
         "storage": {
           "0x00": "0xdeadbeef"

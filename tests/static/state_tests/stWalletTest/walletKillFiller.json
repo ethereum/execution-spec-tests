@@ -54,7 +54,7 @@
         },
         "transaction" : {
             "data" : [
-                ":raw 0xcbf0b0c0000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"
+                ":raw 0xcbf0b0c0000000000000000000000000<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>"
             ],
             "gasLimit" : [
                 "10000000"

@@ -32,7 +32,7 @@ def parse_hex_number(i: str | int) -> int:
     return int(i, 10)
 
 
-def parse_value_or_address_tag(value: Any) -> Union[HexNumber, str]:
+def parse_value_or_address_tag(value: Union[HexNumber, str]) -> Union[HexNumber, str]:
     """Parse either a hex number or an address tag for storage values."""
     if not isinstance(value, str):
         # Non-string values should be converted to HexNumber normally
