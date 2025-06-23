@@ -1295,12 +1295,10 @@ def test_worst_blobhash(
     """Test running a block with as many BLOBHASH instructions as possible."""
     env = Environment()
     max_code_size = fork.max_code_size()
+    max_stack_height = fork.max_stack_height()
 
     # Contract that contains a collection of BLOBHASH instructions.
-    code_prefix = Op.PUSH1(blob_index)
-    iter_loop = Op.POP(Op.BLOBHASH(Op.DUP1))
-    code_iter_len = (max_code_size - len(code_prefix)) // len(iter_loop)
-    opcode_sequence = code_prefix + iter_loop * code_iter_len
+    opcode_sequence = Op.BLOBHASH(blob_index) * max_stack_height
     assert len(opcode_sequence) <= max_code_size
 
     target_contract_address = pre.deploy_contract(code=opcode_sequence)
