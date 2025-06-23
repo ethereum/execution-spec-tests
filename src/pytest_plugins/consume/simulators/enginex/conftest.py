@@ -79,11 +79,11 @@ def test_suite_description() -> str:
 
 def pytest_collection_modifyitems(session, config, items):
     """
-    Build pre-allocation group test counts during collection phase.
+    Build group test counts during collection phase.
 
     This hook analyzes all collected test items to determine how many tests
-    belong to each pre-allocation group, enabling automatic client cleanup
-    when all tests in a group are complete.
+    belong to each group (pre-allocation groups or xdist subgroups), enabling
+    automatic client cleanup when all tests in a group are complete.
     """
     # Only process items for enginex simulator
     if not hasattr(config, "_supported_fixture_formats"):
@@ -101,14 +101,22 @@ def pytest_collection_modifyitems(session, config, items):
             if hasattr(item, "callspec") and "test_case" in item.callspec.params:
                 test_case = item.callspec.params["test_case"]
                 if hasattr(test_case, "pre_hash"):
-                    pre_hash = test_case.pre_hash
-                    group_counts[pre_hash] = group_counts.get(pre_hash, 0) + 1
+                    # Get group identifier from xdist marker if available
+                    group_identifier = None
+                    for marker in item.iter_markers("xdist_group"):
+                        if hasattr(marker, "kwargs") and "name" in marker.kwargs:
+                            group_identifier = marker.kwargs["name"]
+                            break
+
+                    # Fallback to pre_hash if no xdist marker (sequential execution)
+                    if group_identifier is None:
+                        group_identifier = test_case.pre_hash
+
+                    group_counts[group_identifier] = group_counts.get(group_identifier, 0) + 1
 
         # Store on session for later retrieval by test_tracker fixture
         session._pre_alloc_group_counts = group_counts
-        logger.info(
-            f"Collected {len(group_counts)} pre-allocation groups with tests: {dict(group_counts)}"
-        )
+        logger.info(f"Collected {len(group_counts)} groups with tests: {dict(group_counts)}")
     else:
         # Update tracker directly if it exists
         group_counts = {}
@@ -116,13 +124,23 @@ def pytest_collection_modifyitems(session, config, items):
             if hasattr(item, "callspec") and "test_case" in item.callspec.params:
                 test_case = item.callspec.params["test_case"]
                 if hasattr(test_case, "pre_hash"):
-                    pre_hash = test_case.pre_hash
-                    group_counts[pre_hash] = group_counts.get(pre_hash, 0) + 1
+                    # Get group identifier from xdist marker if available
+                    group_identifier = None
+                    for marker in item.iter_markers("xdist_group"):
+                        if hasattr(marker, "kwargs") and "name" in marker.kwargs:
+                            group_identifier = marker.kwargs["name"]
+                            break
 
-        for pre_hash, count in group_counts.items():
-            test_tracker.set_group_test_count(pre_hash, count)
+                    # Fallback to pre_hash if no xdist marker (sequential execution)
+                    if group_identifier is None:
+                        group_identifier = test_case.pre_hash
 
-        logger.info(f"Updated test tracker with {len(group_counts)} pre-allocation groups")
+                    group_counts[group_identifier] = group_counts.get(group_identifier, 0) + 1
+
+        for group_identifier, count in group_counts.items():
+            test_tracker.set_group_test_count(group_identifier, count)
+
+        logger.info(f"Updated test tracker with {len(group_counts)} groups")
 
 
 @pytest.fixture(scope="function")
