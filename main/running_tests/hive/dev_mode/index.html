@@ -1911,6 +1911,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#platform-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Platform Support
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       Quick Start
@@ -1935,11 +1944,53 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hive-dev-setup" class="md-nav__link">
+  <a href="#hive-dev-setup-linux" class="md-nav__link">
     <span class="md-ellipsis">
-      Hive Dev Setup
+      Hive Dev Setup (Linux)
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macos-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      macOS Setup
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="macOS Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eest-docker-development-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      EEST Docker Development Image
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eest-hive-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      eest/ Hive Directory Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Consume
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -23747,6 +23798,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#platform-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Platform Support
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       Quick Start
@@ -23771,11 +23831,53 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hive-dev-setup" class="md-nav__link">
+  <a href="#hive-dev-setup-linux" class="md-nav__link">
     <span class="md-ellipsis">
-      Hive Dev Setup
+      Hive Dev Setup (Linux)
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#macos-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      macOS Setup
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="macOS Setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eest-docker-development-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      EEST Docker Development Image
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eest-hive-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      eest/ Hive Directory Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-consume" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Consume
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -23839,13 +23941,18 @@
 <li>Provides access to a larger set of the simulator's command-line options,</li>
 <li>Runs are faster; there are no docker image rebuilds in between runs. In particular, modifications to the simulator do not require a an image rebuild.</li>
 </ol>
+<h2 id="platform-support">Platform Support<a class="headerlink" href="#platform-support" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Linux: Direct development mode supported.</li>
+<li>macOS: Must be ran from a Linux environment or use a Docker-based workaround (see macOS Setup).</li>
+</ul>
 <h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
 <ul>
 <li>EEST is installed, see <a href="../../../getting_started/installation/">Installation</a></li>
 <li>Hive is built, see <a href="../#quick-start">Hive</a>.</li>
 </ul>
-<h2 id="hive-dev-setup">Hive Dev Setup<a class="headerlink" href="#hive-dev-setup" title="Permanent link">&para;</a></h2>
+<h2 id="hive-dev-setup-linux">Hive Dev Setup (Linux)<a class="headerlink" href="#hive-dev-setup-linux" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p>Start Hive in development mode, e.g.:</p>
@@ -23871,6 +23978,69 @@
 <p>Run EEST consume commands</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>engine<span class="w"> </span>--input<span class="w"> </span>./fixtures<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;test_chainid&quot;</span>
 uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>rlp<span class="w"> </span>--input<span class="w"> </span>stable@latest
+</code></pre></div>
+</li>
+</ol>
+<h2 id="macos-setup">macOS Setup<a class="headerlink" href="#macos-setup" title="Permanent link">&para;</a></h2>
+<p>Due to Docker running within a VM on macOS, the host machine and Docker containers don't share the same network namespace, preventing direct communication with Hive's development server. To run development mode on macOS, you have the following options:</p>
+<ol>
+<li>Linux VM: Run a Linux virtual machine on your macOS and execute the standard development workflow above from within the VM.</li>
+<li>Remote Linux: SSH into a remote Linux environment (server or cloud instance) and run development mode there.</li>
+<li><strong>Docker Development Image</strong>: Create a containerized EEST environment that runs within Docker's network namespace (recommended).</li>
+</ol>
+<p>The following section details the setup and usage of option 3.</p>
+<h3 id="eest-docker-development-image">EEST Docker Development Image<a class="headerlink" href="#eest-docker-development-image" title="Permanent link">&para;</a></h3>
+<p>Within the <a href="https://github.com/ethereum/hive/tree/master/simulators/ethereum/eest"><code>eest/</code></a> directory of hive, a new dockerfile must be created: <code>Dockerfile.dev</code>, with the following contents:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ghcr.io/astral-sh/uv:python3.10-bookworm-slim</span>
+<span class="k">ARG</span><span class="w"> </span><span class="nv">branch</span><span class="o">=</span>main
+<span class="k">ENV</span><span class="w"> </span><span class="nv">GIT_REF</span><span class="o">=</span><span class="si">${</span><span class="nv">branch</span><span class="si">}</span><span class="w"> </span>
+
+<span class="k">RUN</span><span class="w"> </span>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git
+<span class="k">RUN</span><span class="w"> </span>git<span class="w"> </span>init<span class="w"> </span>execution-spec-tests<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nb">cd</span><span class="w"> </span>execution-spec-tests<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>origin<span class="w"> </span>https://github.com/ethereum/execution-spec-tests.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>git<span class="w"> </span>fetch<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>origin<span class="w"> </span><span class="nv">$GIT_REF</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>git<span class="w"> </span>checkout<span class="w"> </span>FETCH_HEAD<span class="p">;</span>
+
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/execution-spec-tests</span>
+<span class="k">RUN</span><span class="w"> </span>uv<span class="w"> </span>sync
+<span class="k">ENTRYPOINT</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/bin/bash&quot;</span><span class="p">]</span>
+</code></pre></div>
+<p>This dockerfile will be our entry point for running EEST commands.</p>
+<h3 id="eest-hive-directory-structure"><code>eest/</code> Hive Directory Structure<a class="headerlink" href="#eest-hive-directory-structure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>├── eest
+│   ├── Dockerfile.dev
+│   ├── consume-block-rlp
+│   │   └── Dockerfile
+│   └── consume-engine
+│       └── Dockerfile
+</code></pre></div>
+<h3 id="running-consume">Running Consume<a class="headerlink" href="#running-consume" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Get your local IP address:</p>
+<div class="highlight"><pre><span></span><code>ipconfig<span class="w"> </span>getifaddr<span class="w"> </span>en0
+</code></pre></div>
+</li>
+<li>
+<p>Start Hive in development mode with your local IP:</p>
+<div class="highlight"><pre><span></span><code>./hive<span class="w"> </span>--dev<span class="w"> </span>--dev.addr<span class="w"> </span>&lt;LOCAL_IP&gt;:3000<span class="w"> </span>--client<span class="w"> </span>go-ethereum<span class="w"> </span>--client-file<span class="w"> </span>clients.yaml<span class="w"> </span>
+</code></pre></div>
+</li>
+<li>
+<p>In a separate terminal session, build the EEST development image:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>simulators/ethereum/eest/
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>macos-consume-dev<span class="w"> </span>-f<span class="w"> </span>Dockerfile.dev<span class="w"> </span>.
+</code></pre></div>
+</li>
+<li>
+<p>Run the container with the Hive simulator environment:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>-e<span class="w"> </span><span class="nv">HIVE_SIMULATOR</span><span class="o">=</span>http://&lt;LOCAL_IP&gt;:3000<span class="w"> </span>macos-consume-dev
+</code></pre></div>
+</li>
+<li>
+<p>Inside the Docker container, run consume commands:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>engine<span class="w"> </span>-v
 </code></pre></div>
 </li>
 </ol>
@@ -23915,12 +24085,13 @@ uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </s
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:spencer.taylor-brown@ethereum.org">spencer</a>
     </nav>
   </span>
 
