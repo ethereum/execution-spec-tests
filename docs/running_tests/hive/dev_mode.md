@@ -11,8 +11,8 @@ This avoids running the simulator in a dockerized environment and has several ad
 
 ## Platform Support
 
-- Linux: Direct development mode supported
-- macOS: Must be ran from a Linux environment or use a Docker-based workaround (see macOS Setup)
+- Linux: Direct development mode supported.
+- macOS: Must be ran from a Linux environment or use a Docker-based workaround (see macOS Setup).
 
 ## Quick Start
 
