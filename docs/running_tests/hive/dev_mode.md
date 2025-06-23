@@ -9,6 +9,11 @@ This avoids running the simulator in a dockerized environment and has several ad
 3. Provides access to a larger set of the simulator's command-line options,
 4. Runs are faster; there are no docker image rebuilds in between runs. In particular, modifications to the simulator do not require a an image rebuild.
 
+## Platform Support
+
+- Linux: Direct development mode supported.
+- macOS: Must be ran from a Linux environment or use a Docker-based workaround (see macOS Setup).
+
 ## Quick Start
 
 ### Prerequisites
@@ -16,7 +21,7 @@ This avoids running the simulator in a dockerized environment and has several ad
 - EEST is installed, see [Installation](../../getting_started/installation.md)
 - Hive is built, see [Hive](../hive/index.md#quick-start).
 
-## Hive Dev Setup
+## Hive Dev Setup (Linux)
 
 1. Start Hive in development mode, e.g.:
 
@@ -43,6 +48,83 @@ This avoids running the simulator in a dockerized environment and has several ad
     ```bash
     uv run consume engine --input ./fixtures -k "test_chainid"
     uv run consume rlp --input stable@latest
+    ```
+
+## macOS Setup
+
+Due to Docker running within a VM on macOS, the host machine and Docker containers don't share the same network namespace, preventing direct communication with Hive's development server. To run development mode on macOS, you have the following options:
+
+1. Linux VM: Run a Linux virtual machine on your macOS and execute the standard development workflow above from within the VM.
+2. Remote Linux: SSH into a remote Linux environment (server or cloud instance) and run development mode there.
+3. **Docker Development Image**: Create a containerized EEST environment that runs within Docker's network namespace (recommended).
+
+The following section details the setup and usage of option 3.
+
+### EEST Docker Development Image
+
+Within the [`eest/`](https://github.com/ethereum/hive/tree/master/simulators/ethereum/eest) directory of hive, a new dockerfile must be created: `Dockerfile.dev`, with the following contents:
+
+```docker
+FROM ghcr.io/astral-sh/uv:python3.10-bookworm-slim
+ARG branch=main
+ENV GIT_REF=${branch} 
+
+RUN apt-get update && apt-get install -y git
+RUN git init execution-spec-tests && \
+    cd execution-spec-tests && \
+    git remote add origin https://github.com/ethereum/execution-spec-tests.git && \
+    git fetch --depth 1 origin $GIT_REF && \
+    git checkout FETCH_HEAD;
+
+WORKDIR /execution-spec-tests
+RUN uv sync
+ENTRYPOINT ["/bin/bash"]
+```
+
+This dockerfile will be our entry point for running EEST commands.
+
+### `eest/` Hive Directory Structure
+
+```tree
+├── eest
+│   ├── Dockerfile.dev
+│   ├── consume-block-rlp
+│   │   └── Dockerfile
+│   └── consume-engine
+│       └── Dockerfile
+```
+
+### Running Consume
+
+1. Get your local IP address:
+
+    ```bash
+    ipconfig getifaddr en0
+    ```
+
+2. Start Hive in development mode with your local IP:
+
+    ```bash
+    ./hive --dev --dev.addr <LOCAL_IP>:3000 --client go-ethereum --client-file clients.yaml 
+    ```
+
+3. In a separate terminal session, build the EEST development image:
+
+    ```bash
+    cd simulators/ethereum/eest/
+    docker build -t macos-consume-dev -f Dockerfile.dev .
+    ```
+
+4. Run the container with the Hive simulator environment:
+
+    ```bash
+    docker run -it -e HIVE_SIMULATOR=http://<LOCAL_IP>:3000 macos-consume-dev
+    ```
+
+5. Inside the Docker container, run consume commands:
+
+    ```bash
+    uv run consume engine -v
     ```
 
 ## How Development Mode Works
