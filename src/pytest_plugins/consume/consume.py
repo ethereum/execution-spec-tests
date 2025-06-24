@@ -114,12 +114,12 @@ class FixturesSource:
     was_cached: bool = False
 
     @classmethod
-    def from_input(cls, input_source: str) -> "FixturesSource":
+    def from_input(cls, input_source: str, no_api_calls: bool = False) -> "FixturesSource":
         """Determine the fixture source type and return an instance."""
         if input_source == "stdin":
             return cls(input_option=input_source, path=Path(), is_local=False, is_stdin=True)
         if is_release_url(input_source):
-            return cls.from_release_url(input_source)
+            return cls.from_release_url(input_source, no_api_calls=no_api_calls)
         if is_url(input_source):
             return cls.from_url(input_source)
         if ReleaseTag.is_release_string(input_source):
@@ -127,11 +127,14 @@ class FixturesSource:
         return cls.validate_local_path(Path(input_source))
 
     @classmethod
-    def from_release_url(cls, url: str) -> "FixturesSource":
+    def from_release_url(cls, url: str, no_api_calls: bool = False) -> "FixturesSource":
         """Create a fixture source from a supported github repo release URL."""
-        release_page = get_release_page_url(url)
         downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
         was_cached, path = downloader.download_and_extract()
+
+        # get_release_page_url() will use cached release_information.json when available
+        release_page = get_release_page_url(url, no_api_calls=no_api_calls)
+
         return cls(
             input_option=url,
             path=path,
@@ -159,7 +162,7 @@ class FixturesSource:
     def from_release_spec(cls, spec: str) -> "FixturesSource":
         """Create a fixture source from a release spec (e.g., develop@latest)."""
         url = get_release_url(spec)
-        release_page = get_release_page_url(url)
+        release_page = get_release_page_url(url, no_api_calls=False)
         downloader = FixtureDownloader(url, CACHED_DOWNLOADS_DIRECTORY)
         was_cached, path = downloader.download_and_extract()
         return cls(
@@ -258,6 +261,17 @@ def pytest_addoption(parser):  # noqa: D103
             f"Defaults to the following directory: '{CACHED_DOWNLOADS_DIRECTORY}'."
         ),
     )
+    consume_group.addoption(
+        "--no-api-calls",
+        action="store_true",
+        dest="no_api_calls",
+        default=False,
+        help=(
+            "Disable GitHub API calls when caching fixtures from URLs. "
+            "Useful in CI environments to avoid rate limiting. "
+            "Only affects the 'cache' command with URL inputs."
+        ),
+    )
     if "cache" in sys.argv:
         return
     consume_group.addoption(
@@ -307,7 +321,9 @@ def pytest_configure(config):  # noqa: D103
         # NOTE: Setting `type=FixturesSource.from_input` in pytest_addoption() causes the option to
         # be evaluated twice which breaks the result of `was_cached`; the work-around is to call it
         # manually here.
-        config.fixtures_source = FixturesSource.from_input(config.option.fixtures_source)
+        config.fixtures_source = FixturesSource.from_input(
+            config.option.fixtures_source, no_api_calls=config.option.no_api_calls
+        )
     config.fixture_source_flags = ["--input", config.fixtures_source.input_option]
 
     if "cache" in sys.argv and not config.fixtures_source:
@@ -319,11 +335,10 @@ def pytest_configure(config):  # noqa: D103
             reason += "Fixtures already cached."
         elif not config.fixtures_source.is_local:
             reason += "Fixtures downloaded and cached."
-        reason += (
-            f"\nPath: {config.fixtures_source.path}\n"
-            f"Input: {config.fixtures_source.url or config.fixtures_source.path}\n"
-            f"Release page: {config.fixtures_source.release_page or 'None'}"
-        )
+        reason += f"\nPath: {config.fixtures_source.path}"
+        reason += f"\nInput: {config.fixtures_source.url or config.fixtures_source.path}"
+        if config.fixtures_source.release_page:
+            reason += f"\nRelease page: {config.fixtures_source.release_page}"
         pytest.exit(
             returncode=0,
             reason=reason,
