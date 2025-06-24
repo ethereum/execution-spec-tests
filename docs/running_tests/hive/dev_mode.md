@@ -21,7 +21,7 @@ This avoids running the simulator in a dockerized environment and has several ad
 - EEST is installed, see [Installation](../../getting_started/installation.md)
 - Hive is built, see [Hive](../hive/index.md#quick-start).
 
-## Hive Dev Setup (Linux)
+## Hive Dev Setup on Linux
 
 1. Start Hive in development mode, e.g.:
 
@@ -50,7 +50,7 @@ This avoids running the simulator in a dockerized environment and has several ad
     uv run consume rlp --input stable@latest
     ```
 
-## macOS Setup
+## Hive Dev Setup on macOS
 
 Due to Docker running within a VM on macOS, the host machine and Docker containers don't share the same network namespace, preventing direct communication with Hive's development server. To run development mode on macOS, you have the following options:
 
