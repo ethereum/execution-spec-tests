@@ -131,10 +131,9 @@ def test_worst_codecopy(
     code = code_prefix + jumpdest + sum([iter_block] * max_iters_loop) + jump_back
     if len(code) > max_code_size:
         raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
-    code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
-        to=code_address,
+        to=pre.deploy_contract(code=code),
         gas_limit=env.gas_limit,
         data=b"\xff" * size,
         sender=pre.fund_eoa(),
