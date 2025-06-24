@@ -16,6 +16,8 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from .helpers import code_loop_precompile_call
+
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
@@ -58,17 +60,11 @@ def test_worst_calldatacopy(
 ):
     """Test running a block filled with CALLDATACOPY executions."""
     env = Environment()
-    max_code_size = fork.max_code_size()
 
     # We create the contract that will be doing the CALLDATACOPY multiple times.
-    jumpdest = Op.JUMPDEST
-    jump_back = Op.JUMP(Op.PUSH0)
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    iter_block = Op.CALLDATACOPY(dst, Op.PUSH0, Op.CALLDATASIZE)
-    max_iters_loop = (max_code_size - len(jumpdest) - len(jump_back)) // len(iter_block)
-    code = jumpdest + sum([iter_block] * max_iters_loop) + jump_back
-    if len(code) > max_code_size:
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
+    attack_block = Op.CALLDATACOPY(dst, Op.PUSH0, Op.CALLDATASIZE)
+    code = code_loop_precompile_call(Bytecode(), attack_block, fork)
     code_address = pre.deploy_contract(code=code)
 
     tx_target = code_address
@@ -121,16 +117,9 @@ def test_worst_codecopy(
     size = int(max_code_size * max_code_size_ratio)
 
     code_prefix = Op.PUSH32(size)
-    jumpdest = Op.JUMPDEST
-    jump_back = Op.JUMP(len(code_prefix))
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    iter_block = Op.CODECOPY(dst, Op.PUSH0, Op.DUP1)
-    max_iters_loop = (max_code_size - len(code_prefix) - len(jumpdest) - len(jump_back)) // len(
-        iter_block
-    )
-    code = code_prefix + jumpdest + sum([iter_block] * max_iters_loop) + jump_back
-    if len(code) > max_code_size:
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
+    attack_block = Op.CODECOPY(dst, Op.PUSH0, Op.DUP1)
+    code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
@@ -170,7 +159,6 @@ def test_worst_returndatacopy(
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
     env = Environment()
-    max_code_size = fork.max_code_size()
 
     # Create the contract that will RETURN the data that will be used for RETURNDATACOPY.
     # Random-ish data is injected at different points in memory to avoid making the content
@@ -185,16 +173,9 @@ def test_worst_returndatacopy(
 
     # We create the contract that will be doing the RETURNDATACOPY multiple times.
     code_prefix = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
-    jumpdest = Op.JUMPDEST
-    jump_back = Op.JUMP(len(code_prefix))
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    iter_block = Op.RETURNDATACOPY(dst, Op.PUSH0, Op.RETURNDATASIZE)
-    max_iters_loop = (max_code_size - len(code_prefix) - len(jumpdest) - len(jump_back)) // len(
-        iter_block
-    )
-    code = code_prefix + jumpdest + sum([iter_block] * max_iters_loop) + jump_back
-    if len(code) > max_code_size:
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
+    attack_block = Op.RETURNDATACOPY(dst, Op.PUSH0, Op.RETURNDATASIZE)
+    code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
@@ -233,20 +214,12 @@ def test_worst_mcopy(
 ):
     """Test running a block filled with MCOPY executions."""
     env = Environment()
-    max_code_size = fork.max_code_size()
 
     mem_init = Op.MSTORE8(0, Op.GAS) + Op.MSTORE8(size // 2, Op.GAS) + Op.MSTORE8(size - 1, Op.GAS)
     code_prefix = mem_init if size > 0 else Bytecode()
-    jumpdest = Op.JUMPDEST
-    jump_back = Op.JUMP(len(code_prefix))
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    iter_block = Op.MCOPY(dst, Op.PUSH0, size)
-    max_iters_loop = (max_code_size - len(code_prefix) - len(jumpdest) - len(jump_back)) // len(
-        iter_block
-    )
-    code = code_prefix + jumpdest + sum([iter_block] * max_iters_loop) + jump_back
-    if len(code) > max_code_size:
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
+    attack_block = Op.MCOPY(dst, Op.PUSH0, size)
+    code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
