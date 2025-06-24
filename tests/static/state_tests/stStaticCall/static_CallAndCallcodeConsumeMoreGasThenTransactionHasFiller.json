@@ -77,7 +77,7 @@
 		        "nonce" : "0",
 		        "//0 code" : "By new EIP150 rules this transaction would be executed even if call consumes more gas then transaction has.",
 		        "//1 code" : "Staticcall goes oog and eats 600k gas",
-		        "code" : "{  (SSTORE 9 (STATICCALL 600000 0x1000000000000000000000000000000000000103 0 0 0 0)) (SSTORE 10 (CALLCODE 600000 0x1000000000000000000000000000000000000103 0 0 0 0 0)) }",
+		        "code" : "{  (SSTORE 9 (STATICCALL 600000 <contract:0x1000000000000000000000000000000000000103> 0 0 0 0)) (SSTORE 10 (CALLCODE 600000 <contract:0x1000000000000000000000000000000000000103> 0 0 0 0 0)) }",
 		        "storage": {
 		        }
             },
@@ -94,7 +94,7 @@
 		        "nonce" : "0",
 		        "//0 code" : "By new EIP150 rules this transaction would be executed even if call consumes more gas then transaction has.",
 		        "//1 code" : "Staticcall goes oog and eats 600k gas",
-		        "code" : "{  (SSTORE 9 (STATICCALL 600000 <contract:0x2000000000000000000000000000000000000103> 0 0 0 0)) (SSTORE 10 (CALLCODE 600000 0x1000000000000000000000000000000000000103 0 0 0 0 0)) }",
+		        "code" : "{  (SSTORE 9 (STATICCALL 600000 <contract:0x2000000000000000000000000000000000000103> 0 0 0 0)) (SSTORE 10 (CALLCODE 600000 <contract:0x1000000000000000000000000000000000000103> 0 0 0 0 0)) }",
 		        "storage": {
 		        }
             },

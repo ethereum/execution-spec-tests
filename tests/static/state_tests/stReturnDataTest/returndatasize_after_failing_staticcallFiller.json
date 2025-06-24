@@ -16,7 +16,7 @@
             },
             "<contract:target:0x1000000000000000000000000000000000000001>" : {
                 "balance" : "0x00",
-                "code": "{ (seq (STATICCALL 60000 0x1000000000000000000000000000000000000002 0 0 0 0) (SSTORE 0 (RETURNDATASIZE)))}",
+                "code": "{ (seq (STATICCALL 60000 <contract:0x1000000000000000000000000000000000000002> 0 0 0 0) (SSTORE 0 (RETURNDATASIZE)))}",
                 "nonce" : "0x00",
                 "storage" : {
                     "0x00" : "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"

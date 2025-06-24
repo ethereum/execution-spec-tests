@@ -45,7 +45,7 @@
             },
             "<contract:target:0xc94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "10",
-                "code" : "{(CALL 22000 0x0000000000000000000000000000000000000000 1 0 0 0 0) (SELFDESTRUCT 0)}",
+                "code" : "{(CALL 22000 <contract:0x0000000000000000000000000000000000000000> 1 0 0 0 0) (SELFDESTRUCT 0)}",
                 "nonce" : "0",
                 "storage" : {
                 }

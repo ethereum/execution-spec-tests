@@ -64,6 +64,29 @@ INCOMPATIBLE_FILLERS = {
   "static_callcodecallcallcode_101_OOGMAfter2Filler.json"
 }
 
+DO_NOT_TAG_ADDRESSES = {
+  "transStorageResetFiller.yml" : {"000000000000000000000000000000003f8390d5"},
+  "transStorageOKFiller.yml" : {
+    "000000000000000000000000000000005d7935df",
+     "00000000000000000000000000000000000057a7", 
+     "00000000000000000000000000000000c54b5829", 
+     "000000000000000000000000000000007f9317bd", 
+     "000000000000000000000000000000000000add1", 
+     "000000000000000000000000000000007074a486",
+     "00000000000000000000000000000000264bb86a",
+     "000000000000000000000000000000005114e2c8",
+     "00000000000000000000000000000000ca11bacc",
+     "00000000000000000000000000000000c1c922f1",
+     "000000000000000000000000000000006e3a7204",
+     "00000000000000000000000000000000ebd141d5",
+
+     },
+}
+
+SHORT_NAME_FILLERS = {
+  "transStorageResetFiller.yml",
+}
+
 # Fillers that should have precompile check disabled
 # These tests intentionally use addresses that map to precompiles
 DISABLE_PRECOMPILE_CHECK_FILLERS = {
@@ -74,29 +97,30 @@ DISABLE_PRECOMPILE_CHECK_FILLERS = {
 # No address replacement in code or storage values
 NO_TAGS_IN_CODE = {
     # Add fillers here that should not have addresses replaced in code/storage
+    "modexpFiller.json",
 }
 
 # Fillers that should skip entropy validation entirely
 # These tests are deemed safe to convert addresses even if they don't pass entropy check
-TAGS_IN_CODE_UNCHECKED = {
+VALIDATE_ADDR_ENTROPY_IN_CODE = {
     # Add more fillers here that should skip entropy validation
-    "static_log_CallerFiller.json",
-    "OOGMAfterFiller.json",
-    "OOGMAfter2Filler.json",
-    "OOGMAfter_2Filler.json",
-    "OOGMAfter_3Filler.json",
-    "OOGMAfterFiller.json",
-    "OOGMAfter2Filler.json",
-    "OOGMBeforeFiller.json",
-    "SuicideEndFiller.json",
-    "SuicideEnd2Filler.json",
-    "SuicideMiddleFiller.json",
-    "OOGEFiller.json",
-    "static_CheckOpcodesFiller.json",
-    "static_CheckOpcodes2Filler.json",
-    "static_CheckOpcodes3Filler.json",
-    "static_CheckOpcodes4Filler.json",
-    "static_CheckOpcodes5Filler.json",
+    # "static_log_CallerFiller.json",
+    # "OOGMAfterFiller.json",
+    # "OOGMAfter2Filler.json",
+    # "OOGMAfter_2Filler.json",
+    # "OOGMAfter_3Filler.json",
+    # "OOGMAfterFiller.json",
+    # "OOGMAfter2Filler.json",
+    # "OOGMBeforeFiller.json",
+    # "SuicideEndFiller.json",
+    # "SuicideEnd2Filler.json",
+    # "SuicideMiddleFiller.json",
+    # "OOGEFiller.json",
+    # "static_CheckOpcodesFiller.json",
+    # "static_CheckOpcodes2Filler.json",
+    # "static_CheckOpcodes3Filler.json",
+    # "static_CheckOpcodes4Filler.json",
+    # "static_CheckOpcodes5Filler.json",
 }
 
 def normalize_address(addr: str) -> str:
@@ -136,15 +160,52 @@ def calculate_entropy(addr: str) -> float:
 class SimpleAddressConverter:
     """Simple two-pass converter."""
     
-    def __init__(self, skip_precompile_check: bool = False, no_tags_in_code: bool = False, skip_entropy_check: bool = False):
+    def __init__(self, skip_precompile_check: bool = False, no_tags_in_code: bool = False, validate_addr_entropy_in_code: bool = False, filename: str = ""):
         self.address_mappings: Dict[str, str] = {}  # addr -> tag
         self.addresses_with_code: Set[str] = set()
         self.coinbase_addr: Optional[str] = None
         self.target_addr: Optional[str] = None
         self.skip_precompile_check = skip_precompile_check
         self.no_tags_in_code = no_tags_in_code
-        self.skip_entropy_check = skip_entropy_check
+        self.validate_addr_entropy_in_code = validate_addr_entropy_in_code
+        self.filename = filename
         
+        # Get addresses that should not be tagged for this specific test file
+        self.do_not_tag_addresses: Set[str] = set()
+        if filename in DO_NOT_TAG_ADDRESSES:
+            self.do_not_tag_addresses = DO_NOT_TAG_ADDRESSES[filename]
+            
+        # Check if this is a short name filler
+        self.is_short_name_filler = filename in SHORT_NAME_FILLERS
+        self.short_name_mappings: Dict[str, str] = {}  # short_name -> tag
+        
+    def create_short_name(self, addr: str) -> Optional[str]:
+        """Create a short name from an address by stripping leading/trailing zeros.
+        
+        Args:
+            addr: Normalized address (40 chars, lowercase, no 0x prefix)
+            
+        Returns:
+            Short name with 0x prefix, or None if the address is all zeros or too short
+        """
+        if not addr or len(addr) != 40:
+            return None
+            
+        # Strip leading zeros
+        stripped = addr.lstrip('0')
+        
+        # If nothing left after stripping leading zeros, it's all zeros
+        if not stripped:
+            return None
+            
+        # Strip trailing zeros
+        stripped = stripped.rstrip('0')
+        
+        # If nothing left after stripping trailing zeros, or too short, return None
+        if not stripped or len(stripped) < 2:
+            return None
+            
+        return f"0x{stripped}"
     def collect_addresses(self, lines: List[str]) -> None:
         """First pass: collect all addresses from the file."""
         in_pre = False
@@ -187,6 +248,9 @@ class SimpleAddressConverter:
                 match = re.match(r'^\s*([a-fA-F0-9]{40}):\s*$', line)
                 if match:
                     addr = normalize_address(match.group(1))
+                    # Skip addresses that should not be tagged for this test file
+                    if addr in self.do_not_tag_addresses:
+                        continue
                     if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                         self.address_mappings[addr] = None  # Will assign tag later
                         current_address = addr
@@ -196,6 +260,9 @@ class SimpleAddressConverter:
                 match = re.match(r'^\s*<(?:contract|eoa)(?::[^:]+)?:0x([a-fA-F0-9]{40})>:\s*$', line)
                 if match:
                     addr = normalize_address(match.group(1))
+                    # Skip addresses that should not be tagged for this test file
+                    if addr in self.do_not_tag_addresses:
+                        continue
                     if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                         self.address_mappings[addr] = None
                         current_address = addr
@@ -217,6 +284,9 @@ class SimpleAddressConverter:
                     addr_match = re.search(r'([a-fA-F0-9]{40})', value)
                     if addr_match:
                         addr = normalize_address(addr_match.group(1))
+                        # Skip addresses that should not be tagged for this test file
+                        if addr in self.do_not_tag_addresses:
+                            continue
                         if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                             self.coinbase_addr = addr
                             if CONVERT_COINBASE:
@@ -231,6 +301,9 @@ class SimpleAddressConverter:
                     addr_match = re.search(r'([a-fA-F0-9]{40})', value)
                     if addr_match:
                         addr = normalize_address(addr_match.group(1))
+                        # Skip addresses that should not be tagged for this test file
+                        if addr in self.do_not_tag_addresses:
+                            continue
                         if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                             self.target_addr = addr
                             self.address_mappings[addr] = None
@@ -289,6 +362,9 @@ class SimpleAddressConverter:
                 match = re.search(r'"(?:0x)?([a-fA-F0-9]{40})"\s*:\s*\{', line)
                 if match:
                     addr = normalize_address(match.group(1))
+                    # Skip addresses that should not be tagged for this test file
+                    if addr in self.do_not_tag_addresses:
+                        continue
                     if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                         self.address_mappings[addr] = None
                         current_address = addr
@@ -298,6 +374,9 @@ class SimpleAddressConverter:
                 match = re.search(r'"<(?:contract|eoa)(?::[^:]+)?:0x([a-fA-F0-9]{40})>"\s*:\s*\{', line)
                 if match:
                     addr = normalize_address(match.group(1))
+                    # Skip addresses that should not be tagged for this test file
+                    if addr in self.do_not_tag_addresses:
+                        continue
                     if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                         self.address_mappings[addr] = None
                         current_address = addr
@@ -320,6 +399,9 @@ class SimpleAddressConverter:
                     addr_match = re.search(r':\s*"[^"]*([a-fA-F0-9]{40})[^"]*"', line)
                     if addr_match:
                         addr = normalize_address(addr_match.group(1))
+                        # Skip addresses that should not be tagged for this test file
+                        if addr in self.do_not_tag_addresses:
+                            continue
                         if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                             self.coinbase_addr = addr
                             if CONVERT_COINBASE:
@@ -332,6 +414,9 @@ class SimpleAddressConverter:
                     addr_match = re.search(r':\s*"[^"]*([a-fA-F0-9]{40})[^"]*"', line)
                     if addr_match:
                         addr = normalize_address(addr_match.group(1))
+                        # Skip addresses that should not be tagged for this test file
+                        if addr in self.do_not_tag_addresses:
+                            continue
                         if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                             self.target_addr = addr
                             self.address_mappings[addr] = None
@@ -353,6 +438,14 @@ class SimpleAddressConverter:
                 self.address_mappings[addr] = f"<contract:0x{addr}>"
             else:
                 self.address_mappings[addr] = f"<eoa:0x{addr}>"
+                
+        # Build short name mappings for SHORT_NAME_FILLERS
+        if self.is_short_name_filler:
+            for addr, tag in self.address_mappings.items():
+                if tag:  # Only if tag was assigned
+                    short_name = self.create_short_name(addr)
+                    if short_name:
+                        self.short_name_mappings[short_name] = tag
                 
     def convert_line(self, line: str, in_pre: bool = False, in_result: bool = False) -> str:
         """Second pass: convert addresses to tags.
@@ -417,15 +510,11 @@ class SimpleAddressConverter:
             # 3. ANY address in pre or result sections
             
             # Check entropy only for values, not keys or special fields
-            # Skip entropy check if skip_entropy_check flag is set
-            if not self.skip_entropy_check and not is_address_key and not is_transaction_to and not in_pre and not in_result and calculate_entropy(addr) < 0.5:
-                # Debug: print why we're skipping
-                # print(f"  Skipping {addr} due to low entropy: {calculate_entropy(addr)}")
+            if not is_address_key and not is_transaction_to and not in_pre and not in_result and self.validate_addr_entropy_in_code and calculate_entropy(addr) < 0.5:
                 continue
                 
             # Skip replacements in code/storage if no_tags_in_code is set
             if self.no_tags_in_code and not is_address_key:
-                # print(f"  Skipping {addr} due to no_tags_in_code flag")
                 continue
                 
             # Store positions where we've already made replacements to avoid overlaps
@@ -464,6 +553,27 @@ class SimpleAddressConverter:
                 # Also replace plain ADDR with tag (but not if followed by >)
                 line = re.sub(rf'(?<!x){addr}(?!>)', tag, line, flags=re.IGNORECASE)
                 
+        # Replace short names with tags for SHORT_NAME_FILLERS
+        if self.is_short_name_filler and self.short_name_mappings:
+            # Sort short names by length (longest first) to avoid partial replacements
+            sorted_short_names = sorted(self.short_name_mappings.items(), key=lambda x: len(x[0]), reverse=True)
+            
+            for short_name, tag in sorted_short_names:
+                # Skip if line already contains this exact tag to prevent double-tagging
+                if tag in line:
+                    continue
+                    
+                # Only replace short names in code/storage values, not in address keys
+                if not is_address_key:
+                    # Look for the short name in the line (case-insensitive)
+                    if short_name.lower() in line.lower():
+                        # Replace with exact case matching first, then case-insensitive
+                        if short_name in line:
+                            line = line.replace(short_name, tag)
+                        else:
+                            # Case-insensitive replacement
+                            line = re.sub(re.escape(short_name), tag, line, flags=re.IGNORECASE)
+                
         return line
 
 
@@ -477,9 +587,9 @@ def convert_json_file(file_path: str, dry_run: bool = False) -> bool:
         filename = Path(file_path).name
         skip_precompile_check = filename in DISABLE_PRECOMPILE_CHECK_FILLERS
         no_tags_in_code = filename in NO_TAGS_IN_CODE
-        skip_entropy_check = any(kw in filename for kw in TAGS_IN_CODE_UNCHECKED)
+        validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
         
-        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, skip_entropy_check=skip_entropy_check)
+        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, validate_addr_entropy_in_code=validate_addr_entropy_in_code, filename=filename)
         
         # First pass: collect addresses
         converter.collect_addresses_json(lines)
@@ -557,9 +667,9 @@ def convert_yaml_file(file_path: str, dry_run: bool = False) -> bool:
         filename = Path(file_path).name
         skip_precompile_check = filename in DISABLE_PRECOMPILE_CHECK_FILLERS
         no_tags_in_code = filename in NO_TAGS_IN_CODE
-        skip_entropy_check = any(kw in filename for kw in TAGS_IN_CODE_UNCHECKED)
+        validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
         
-        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, skip_entropy_check=skip_entropy_check)
+        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, validate_addr_entropy_in_code=validate_addr_entropy_in_code, filename=filename)
         
         # First pass: collect addresses
         converter.collect_addresses(lines)

@@ -44,7 +44,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "ordinal call should work but on second depth it has call that asks more gas than left",
-		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 200000 0x1000000000000000000000000000000000000107 0 0 0 0 0)) } ",
+		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 200000 <contract:0x1000000000000000000000000000000000000107> 0 0 0 0 0)) } ",
 		        "storage": {
 		        }
             },
@@ -52,7 +52,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "should work on EIP150",
-		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 600000 0x1000000000000000000000000000000000000108 0 0 0 0 0)) } ",
+		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 600000 <contract:0x1000000000000000000000000000000000000108> 0 0 0 0 0)) } ",
 		        "storage": {
 		        }
             },

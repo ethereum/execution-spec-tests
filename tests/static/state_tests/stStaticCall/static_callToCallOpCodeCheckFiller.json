@@ -32,14 +32,14 @@
 	    "<contract:0x1000000000000000000000000000000000000001>" : {
                 "balance" : "1000000000000000000",
 		"// code" : "Static call success",
-                "code" : "{  (MSTORE 0 (CALL 100000 0x1000000000000000000000000000000000000002 0 0 0 0 0)) (if (= 1 (MLOAD 0)) (MSTORE 1 1) (SSTORE 1 1) ) }",
+                "code" : "{  (MSTORE 0 (CALL 100000 <contract:0x1000000000000000000000000000000000000002> 0 0 0 0 0)) (if (= 1 (MLOAD 0)) (MSTORE 1 1) (SSTORE 1 1) ) }",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
 	    "<contract:0x1000000000000000000000000000000000000002>" : {
                 "balance" : "1000000000000000000",
-                "code" : "{  (if (= <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b> (ORIGIN)) (MSTORE 1 1) (SSTORE 1 2) ) (if (= 0x1000000000000000000000000000000000000001 (CALLER)) (MSTORE 1 1) (SSTORE 1 2) ) (if (= 0x1000000000000000000000000000000000000002 (ADDRESS)) (MSTORE 1 1) (SSTORE 1 2) )   (if (= 0 (CALLVALUE)) (MSTORE 1 1) (SSTORE 1 2) )        }",
+                "code" : "{  (if (= <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b> (ORIGIN)) (MSTORE 1 1) (SSTORE 1 2) ) (if (= <contract:0x1000000000000000000000000000000000000001> (CALLER)) (MSTORE 1 1) (SSTORE 1 2) ) (if (= <contract:0x1000000000000000000000000000000000000002> (ADDRESS)) (MSTORE 1 1) (SSTORE 1 2) )   (if (= 0 (CALLVALUE)) (MSTORE 1 1) (SSTORE 1 2) )        }",
                 "nonce" : "0",
                 "storage" : {
                 }
@@ -54,7 +54,7 @@
         },
         "transaction" : {
             "data" : [
-                ":raw 0x0000000000000000000000001000000000000000000000000000000000000001"
+                ":raw 0x000000000000000000000000<contract:0x1000000000000000000000000000000000000001>"
             ],
             "gasLimit" : [
                 "1000000"

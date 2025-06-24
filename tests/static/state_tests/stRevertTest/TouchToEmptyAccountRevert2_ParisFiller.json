@@ -36,14 +36,14 @@
     	    "<contract:target:0xba4f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
-		        "code" : "{ [[0]](CALL 130000 0x1000000000000000000000000000000000000000 0 0 0 0 0) [[1]](CALL 130000 <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b> 0 0 0 0 0) }",
+		        "code" : "{ [[0]](CALL 130000 <eoa:0x1000000000000000000000000000000000000000> 0 0 0 0 0) [[1]](CALL 130000 <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b> 0 0 0 0 0) }",
 		        "storage": {
 		        }
             },
     	    "<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
-		        "code" : "{ [[2]](CALL 130000 0x1000000000000000000000000000000000000000 0 0 0 0 0) (KECCAK256 0x00 0x2fffff) }",
+		        "code" : "{ [[2]](CALL 130000 <eoa:0x1000000000000000000000000000000000000000> 0 0 0 0 0) (KECCAK256 0x00 0x2fffff) }",
 		        "storage": {
 		        }
             }

@@ -16,7 +16,7 @@
           },
           "network": [">=Cancun"],
           "result": {
-            "1000000000000000000000000000000000000000": {
+            "<contract:target:0x1000000000000000000000000000000000000000>": {
               "storage": {
                 "0x01": "2100"
               }
@@ -25,7 +25,7 @@
         }
       ],
       "pre": {
-        "1000000000000000000000000000000000000000": {
+        "<contract:target:0x1000000000000000000000000000000000000000>": {
           "balance": "",
           "//code": "record the gas, prep and run the operation, then record the gas again.  Drop output, subtract 5 for GAS and DUP1, what is left is the cost of the operation, store in storage 0x01.",
           "code": "(asm GAS DUP1 SLOAD GAS SWAP1 POP SWAP1 SUB 5 SWAP1 SUB 0x01 SSTORE)",

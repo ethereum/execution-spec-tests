@@ -50,14 +50,14 @@
     	    "<contract:0xd94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
         		"nonce" : "0",
-            	"code" : "{ (SELFDESTRUCT 0x1000000000000000000000000000000000000000) }",
+            	"code" : "{ (SELFDESTRUCT <eoa:0x1000000000000000000000000000000000000000>) }",
 		        "storage": {
 		        }
             },
     	    "<contract:0xe94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
 		        "nonce" : "0",
-            	"code" : "{ (SELFDESTRUCT 0x1000000000000000000000000000000000000000) }",
+            	"code" : "{ (SELFDESTRUCT <eoa:0x1000000000000000000000000000000000000000>) }",
 		        "storage": {
 		        }
             }

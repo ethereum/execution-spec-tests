@@ -80,7 +80,7 @@ transStorageOK:
     #     Trans[1] += Trans[0]
     #
 
-    <contract:0x00000000000000000000000000000000ebd141d5>:
+    00000000000000000000000000000000ebd141d5:
       balance: 0
       nonce: 1
       code: |
@@ -144,7 +144,7 @@ transStorageOK:
     #     Trans[1] += Trans[0]
     #
 
-    <contract:0x000000000000000000000000000000006e3a7204>:
+    000000000000000000000000000000006e3a7204:
       balance: 0
       nonce: 1
       code: |
@@ -205,7 +205,7 @@ transStorageOK:
     #
     # for (Trans[0] = calldataload(4); Trans[0]!=0; Trans[0]--}
     #     Trans[1] += Trans[0]
-    <contract:0x00000000000000000000000000000000c1c922f1>:
+    00000000000000000000000000000000c1c922f1:
       balance: 0
       nonce: 1
       code: |
@@ -269,7 +269,7 @@ transStorageOK:
     # This contract's transient storage should be empty, and the call 
     # to it should not affect contract A's transient storage.
 
-    <contract:0x00000000000000000000000000000000ca11bacc>:
+    00000000000000000000000000000000ca11bacc:
       balance: 0
       nonce: 1
       code: |
@@ -308,7 +308,7 @@ transStorageOK:
     # for (Trans[0] = calldataload(4); Trans[0]!=0; Trans[0]--}
     #     Trans[1] += Trans[0]
     # 
-    <contract:0x000000000000000000000000000000005114e2c8>:
+    000000000000000000000000000000005114e2c8:
       balance: 0
       nonce: 1
       code: |
@@ -385,7 +385,7 @@ transStorageOK:
     #    } else
     #       Trans0 = calldataload(0)
     # }
-    <contract:0x00000000000000000000000000000000264bb86a>:
+    00000000000000000000000000000000264bb86a:
       balance: 0
       nonce: 1
       code: |
@@ -474,7 +474,7 @@ transStorageOK:
     #    } else
     #       Trans0 = calldataload(0)
     # }
-    <contract:0x000000000000000000000000000000007074a486>:
+    000000000000000000000000000000007074a486:
       balance: 0
       nonce: 1
       code: |
@@ -541,7 +541,7 @@ transStorageOK:
     # This is used by inheritTrans() below to show that 
     # 1. If you CALL a contract, it has separate transient storage
     # 2. If you CALLCODE or DELEGATECALL a contract, it is the same transient storage
-    <contract:0x000000000000000000000000000000000000add1>:
+    000000000000000000000000000000000000add1:
       balance: 0
       nonce: 1
       code: |
@@ -564,7 +564,7 @@ transStorageOK:
     # 
     # Show that CALL doesn't inherit our transient storage, but CALLCODE and
     # DELEGATECALL do
-    <contract:0x000000000000000000000000000000007f9317bd>:
+    000000000000000000000000000000007f9317bd:
       balance: 0
       nonce: 1
       code: |
@@ -614,7 +614,7 @@ transStorageOK:
     # except for that one.
     #
     # We increment Trans[0] in the first call and the last one.
-    <contract:0x00000000000000000000000000000000c54b5829>:
+    00000000000000000000000000000000c54b5829:
       balance: 0
       nonce: 1
       code: |
@@ -688,7 +688,7 @@ transStorageOK:
     # (read only). When called, it checks if there is calldata. If there is,
     # it writes to Trans[0]. Whether there is or not, it reads from Trans[0]
     # and returns that (the only way that a static call can return data).
-    <contract:0x00000000000000000000000000000000000057a7>:
+    00000000000000000000000000000000000057A7:
       balance: 0
       nonce: 1
       code: |
@@ -720,7 +720,7 @@ transStorageOK:
     # 1. Set up Trans[0]
     # 2. STATICCALL, show you can read it
     # 3. STATICCALL, shows you can't write it, even when the value is unchanged
-    <contract:0x000000000000000000000000000000005d7935df>:
+    000000000000000000000000000000005d7935df:
       balance: 0
       nonce: 1
       code: |
@@ -831,7 +831,7 @@ transStorageOK:
           storage:
             0: 0xebd141d5  # Call to sumTo(uint)
             1: 1    # Call was successful
-        <contract:0x00000000000000000000000000000000ebd141d5>:
+        00000000000000000000000000000000ebd141d5:
           storage:
             1: 16    # Sum 1+2+3+...+16
             2: 1     # Call successful
@@ -848,7 +848,7 @@ transStorageOK:
           storage:
             0: 0x6e3a7204  # Call to callcodeSumTo(uint)
             1: 1    # Call was successful
-        <contract:0x000000000000000000000000000000006e3a7204>:
+        000000000000000000000000000000006e3a7204:
           storage:
             1: 16    # Sum 1+2+3+...+16
             2: 1     # Call successful
@@ -866,7 +866,7 @@ transStorageOK:
           storage:
             0: 0xc1c922f1  # Call to delegateSumTo(uint)
             1: 1    # Call was successful
-        <contract:0x00000000000000000000000000000000c1c922f1>:
+        00000000000000000000000000000000c1c922f1:
           storage:
             1: 16    # Sum 1+2+3+...+16
             2: 1     # Call successful
@@ -883,7 +883,7 @@ transStorageOK:
           storage:
             0: 0xebd141d5  # Call to sumTo(uint)
             1: 1    # Call was successful
-        <contract:0x00000000000000000000000000000000ebd141d5>:
+        00000000000000000000000000000000ebd141d5:
           storage:
             1: 256    # Sum 1+2+3+...+256
             2: 1      # Call successful
@@ -904,14 +904,14 @@ transStorageOK:
             1: 1    # Call was successful
 
         # Sum where there's an intervening contract
-        <contract:0x000000000000000000000000000000005114e2c8>:
+        000000000000000000000000000000005114e2c8:
           storage:
             1: 10     # Sum 1+2+3+...+10
             2: 1      # Call successful
             3: 55     # Resulting sum
 
         # The transient storage of the contract in the middle is untouched
-        <contract:0x00000000000000000000000000000000ca11bacc>:
+        00000000000000000000000000000000ca11bacc:
           storage:
             0: 0
             1: 0
@@ -930,14 +930,14 @@ transStorageOK:
             1: 1    # Call was successful
 
         # Sum where there's an intervening contract
-        <contract:0x000000000000000000000000000000005114e2c8>:
+        000000000000000000000000000000005114e2c8:
           storage:
             1: 50     # Sum 1+2+3+...+50
             2: 1      # Call successful
             3: 1275   # Resulting sum
 
         # The transient storage of the contract in the middle is untouched
-        <contract:0x00000000000000000000000000000000ca11bacc>:
+        00000000000000000000000000000000ca11bacc:
           storage:
             0: 0
             1: 0
@@ -958,7 +958,7 @@ transStorageOK:
 
         # Binary tree, showing that transients work correctly when there are two
         # calls to the contract
-        <contract:0x00000000000000000000000000000000264bb86a>:
+        00000000000000000000000000000000264bb86a:
           storage:
             1: 6      # Get 2^6
             2: 1      # Call successful
@@ -981,7 +981,7 @@ transStorageOK:
 
         # Binary tree, showing that transients work correctly when there are two
         # calls to the contract
-        <contract:0x000000000000000000000000000000007074a486>:
+        000000000000000000000000000000007074a486:
           storage:
             1: 6      # Get 2^6
             2: 1      # Call successful
@@ -1002,7 +1002,7 @@ transStorageOK:
             1: 1    # Call was successful
 
         # Show when transients are inherited and then they aren't
-        <contract:0x000000000000000000000000000000007f9317bd>:
+        000000000000000000000000000000007f9317bd:
           storage:
             0x00: 0    # Initial value
             0x01: 1    # CALLCODE increments
@@ -1027,7 +1027,7 @@ transStorageOK:
 
         # Show transients are preserved even after a stack of CALLCODEs and
         # DELEGATECALLs
-        <contract:0x00000000000000000000000000000000c54b5829>:
+        00000000000000000000000000000000c54b5829:
           storage:
             0: 2   # Two updates, one at the top of the stack, one at the bottom
 
@@ -1046,7 +1046,7 @@ transStorageOK:
 
 
         # Show that static calls have access to transient storage
-        <contract:0x000000000000000000000000000000005d7935df>:
+        000000000000000000000000000000005d7935df:
           storage:
             0x00: 0x60A7  # After regular call
             0x01: 0x60A7  # After static call

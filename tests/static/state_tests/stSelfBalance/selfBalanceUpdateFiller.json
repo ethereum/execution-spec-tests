@@ -16,7 +16,7 @@
           },
           "network": [">=Cancun"],
           "result": {
-            "1000000000000000000000000000000000000000": {
+            "<contract:target:0x1000000000000000000000000000000000000000>": {
               "storage": {
                 "0x01": "0x01f4",
                 "0x02": "0x01f3",
@@ -27,7 +27,7 @@
         }
       ],
       "pre": {
-        "1000000000000000000000000000000000000000": {
+        "<contract:target:0x1000000000000000000000000000000000000000>": {
           "balance": "0x01f4",
           "code": "(asm SELFBALANCE DUP1 1 SSTORE 0 0 0 0 1 0 0 CALL POP SELFBALANCE DUP1 2 SSTORE SWAP1 SUB 3 SSTORE)",
           "nonce": "0",

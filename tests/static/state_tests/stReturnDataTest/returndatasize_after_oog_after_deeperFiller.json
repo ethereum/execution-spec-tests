@@ -17,9 +17,9 @@
                 "nonce": "0x0",
                 "storage": {}
             },
-            "0x1000000000000000000000000000000000000001": {
+            "<contract:target:0x1000000000000000000000000000000000000001>": {
                 "balance" : "0x00",
-                "code": "{ (seq (SSTORE 2 (CALL 100000 0x1000000000000000000000000000000000000002 0 0 0 0 32)) (SSTORE 0 (RETURNDATASIZE))) (SSTORE 1 (MLOAD 0))}",
+                "code": "{ (seq (SSTORE 2 (CALL 100000 <contract:0x1000000000000000000000000000000000000002> 0 0 0 0 32)) (SSTORE 0 (RETURNDATASIZE))) (SSTORE 1 (MLOAD 0))}",
                 "nonce" : "0x00",
                 "storage" : {
                     "0x00" : "0xffffffff",
@@ -29,7 +29,7 @@
             },
             "<contract:0x1000000000000000000000000000000000000002>" : {
                 "balance" : "0x6400000000",
-                "code" : "{ (seq (CALL 100000 0xbb00000000000000000000000000000000000000 0 0 0 0 0) (while 1 (SSTORE 0 1)) )}",
+                "code" : "{ (seq (CALL 100000 <contract:0xbb00000000000000000000000000000000000000> 0 0 0 0 0) (while 1 (SSTORE 0 1)) )}",
                 "nonce" : "0x00",
                 "storage" : {
                 }

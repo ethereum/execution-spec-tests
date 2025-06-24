@@ -38,7 +38,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "check gas spent on suicide to unknown contract on EIP150",
-		        "code" : "{ [0] (GAS) (CALL 60000 0x1000000000000000000000000000000000000116 0 0 0 0 0) [[1]] (SUB @0 (GAS)) }",
+		        "code" : "{ [0] (GAS) (CALL 60000 <contract:0x1000000000000000000000000000000000000116> 0 0 0 0 0) [[1]] (SUB @0 (GAS)) }",
 		        "storage": {
 		        }
             },

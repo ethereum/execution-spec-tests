@@ -49,7 +49,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "OOG Call because call goes OOG on second level",
-		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 600000 0x1000000000000000000000000000000000000110 0 0 0 0 0)) } ",
+		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 600000 <contract:0x1000000000000000000000000000000000000110> 0 0 0 0 0)) } ",
 		        "storage": {
 		        }
             },
@@ -57,7 +57,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "Inner CaLL goes OOG on EIP150",
-		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 300000 0x1000000000000000000000000000000000000111 0 0 0 0 0)) [[12]] 1} ",
+		        "code" : "{ (SSTORE 8 (GAS)) (SSTORE 9 (CALL 300000 <contract:0x1000000000000000000000000000000000000111> 0 0 0 0 0)) [[12]] 1} ",
 		        "storage": {
 		        }
             },

@@ -39,7 +39,7 @@
                 "balance" : "0",
 		        "nonce" : "0",
 		        "// code" : "should work on EIP150 rules",
-		        "code" : "{ [8] (GAS) (SSTORE 9 (DELEGATECALL 600000 0x1000000000000000000000000000000000000105 0 0 0 0)) [[8]] (SUB @8 (GAS)) }",
+		        "code" : "{ [8] (GAS) (SSTORE 9 (DELEGATECALL 600000 <contract:0x1000000000000000000000000000000000000105> 0 0 0 0)) [[8]] (SUB @8 (GAS)) }",
 		        "storage": {
 		        }
             },

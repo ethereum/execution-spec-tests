@@ -29,7 +29,7 @@
         {
 	    "<contract:target:0x1000000000000000000000000000000000000000>" : {
                 "balance" : "0",
-		"code" : "{ (DELEGATECALL 0x7ffffffffffffff 0x1000000000000000000000000000000000000001 0xffffffff 0xffffffff 0xffffffff 0xffffffff) }",
+		"code" : "{ (DELEGATECALL 0x7ffffffffffffff <contract:0x1000000000000000000000000000000000000001> 0xffffffff 0xffffffff 0xffffffff 0xffffffff) }",
                 "nonce" : "0",
                 "storage" : {
                 }
