@@ -17,7 +17,7 @@ variedContext:
     # Use delegatecall to C057, to check that the cost is lower when the caller
     # account is the one in the access list
     #
-    <contract:0x0000000000000000000000000000000000001000>:
+    0000000000000000000000000000000000001000:
       balance: '1000000000000000000'
       code: |
        {
@@ -31,7 +31,7 @@ variedContext:
 
     # Use call to C057, to check that the cost is lower when the callee
     # account is the one in the access list
-    <contract:0x0000000000000000000000000000000000001001>:
+    0000000000000000000000000000000000001001:
       balance: '1000000000000000000'
       code: |
        {
@@ -44,7 +44,7 @@ variedContext:
 
     # Use callcode to C057, to check that the cost is lower when the caller
     # account is the one in the access list
-    <contract:0x0000000000000000000000000000000000001002>:
+    0000000000000000000000000000000000001002:
       balance: '1000000000000000000'
       code: |
        {
@@ -57,7 +57,7 @@ variedContext:
 
     # Write to @@0, to verify the write cost is correct
     # Then read 0x60A7, to verify the read cost is correct
-    <contract:0x000000000000000000000000000000000000c057>:
+    000000000000000000000000000000000000C057:
       balance: '1000000000000000000'
       code: |
        {
@@ -95,7 +95,7 @@ variedContext:
 
     # Use staticcall to EAD0C057, to check that the cost is lower when the callee
     # account is the one in the access list
-    <contract:0x0000000000000000000000000000000000001003>:
+    0000000000000000000000000000000000001003:
       balance: '1000000000000000000'
       code: |
        {
@@ -113,7 +113,7 @@ variedContext:
 
     # Read 0x60A7, to verify the read cost is correct
     # Because this is STATICCALL, return the value
-    <contract:0x00000000000000000000000000000000ead0c057>:
+    00000000000000000000000000000000EAD0C057:
       balance: '1000000000000000000'
       code: |
        {
@@ -137,7 +137,7 @@ variedContext:
 
     # CALLed, read and writes storage, and then REVERTs
     # (the call is from 0xCCC...CCC)
-    <contract:0x0000000000000000000000000000000000001010>:
+    0000000000000000000000000000000000001010:
       balance: '1000000000000000000'
       code: |
        {
@@ -173,7 +173,7 @@ variedContext:
 
 
     # Call an contract that writes to storage and then commits suicide
-    <contract:0x0000000000000000000000000000000000001011>:
+    0000000000000000000000000000000000001011:
       balance: '1000000000000000000'
       code: |
        {
@@ -187,7 +187,7 @@ variedContext:
 
 
     # Write to storage and then commit suicide
-    <contract:0x00000000000000000000000000000000dead0111>:
+    00000000000000000000000000000000DEAD0111:
       balance: '1000000000000000000'
       code: |
        {
@@ -202,7 +202,7 @@ variedContext:
 
 
     # Call an contract that reads storage and then commits suicide
-    <contract:0x0000000000000000000000000000000000001012>:
+    0000000000000000000000000000000000001012:
       balance: '1000000000000000000'
       code: |
        {
@@ -216,7 +216,7 @@ variedContext:
 
 
     # Read storage and then commit suicide
-    <contract:0x00000000000000000000000000000000dead0112>:
+    00000000000000000000000000000000DEAD0112:
       balance: '1000000000000000000'
       code: |
        {
@@ -232,7 +232,7 @@ variedContext:
 
 
     # Do a static call, see if it fails on the write using what it returns
-    <contract:0x0000000000000000000000000000000000001013>:
+    0000000000000000000000000000000000001013:
       balance: '1000000000000000000'
       code: |
        {  ; STATIC_WRITE_VALID     STATIC_WRITE_INVALID
@@ -250,7 +250,7 @@ variedContext:
 
 
     # To be staticcall-ed and attempt to write
-    <contract:0x000000000000000000000000000000000000f113>:
+    000000000000000000000000000000000000F113:
       balance: '1000000000000000000'
       code: |
        {  ; STATIC_WRITE_VALID     STATIC_WRITE_INVALID
@@ -267,7 +267,7 @@ variedContext:
 
     # Check an SSTORE that only happens when the access list is valid
     # (otherwise OOG)
-    <contract:0x0000000000000000000000000000000000001014>:
+    0000000000000000000000000000000000001014:
       balance: '1000000000000000000'
       code: |
        {  ; WRITE_INVALID_OOG    WRITE_VALID_NO_OOG
@@ -279,7 +279,7 @@ variedContext:
 
     # Check an SSTORE that only happens when the access list is valid
     # (otherwise OOG)
-    <contract:0x000000000000000000000000000000000000f114>:
+    000000000000000000000000000000000000F114:
       balance: '1000000000000000000'
       code: |
        {  ; WRITE_INVALID_OOG    WRITE_VALID_NO_OOG
@@ -294,7 +294,7 @@ variedContext:
 
     # Check an SSLOAD that only happens when the access list is valid
     # (otherwise OOG)
-    <contract:0x0000000000000000000000000000000000001015>:
+    0000000000000000000000000000000000001015:
       balance: '1000000000000000000'
       code: |
        {  ; READ_INVALID_OOG    READ_VALID_NO_OOG
@@ -306,7 +306,7 @@ variedContext:
 
     # Check an SLOAD that only happens when the access list is valid
     # (otherwise OOG)
-    <contract:0x000000000000000000000000000000000000f115>:
+    000000000000000000000000000000000000F115:
       balance: '1000000000000000000'
       code: |
        {  ; READ_INVALID_OOG    READ_VALID_NO_OOG
@@ -321,7 +321,7 @@ variedContext:
 
     # Run recursively to see that it doesn't matter if we are doing the
     # access one, two, or ten levels deep
-    <contract:0x0000000000000000000000000000000000001016>:
+    0000000000000000000000000000000000001016:
       balance: '1000000000000000000'
       code: |
        {  ; RECURSE_VALID   RECURSE_INVALID
@@ -376,7 +376,7 @@ variedContext:
 
     # CREATE a contract, access storage in the constructor, see
     # what happens
-    <contract:0x0000000000000000000000000000000000001020>:
+    0000000000000000000000000000000000001020:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -430,7 +430,7 @@ variedContext:
 
     # CREATE2 a contract, access storage in the constructor, see
     # what happens
-    <contract:0x0000000000000000000000000000000000001021>:
+    0000000000000000000000000000000000001021:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -484,7 +484,7 @@ variedContext:
 
     # CREATE a contract, then CALL it. See how the this interacts with the
     # access list.
-    <contract:0x0000000000000000000000000000000000001022>:
+    0000000000000000000000000000000000001022:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -536,7 +536,7 @@ variedContext:
 
 
     # CREATE2 a contract, then CALL it. See the effects on the access list
-    <contract:0x0000000000000000000000000000000000001023>:
+    0000000000000000000000000000000000001023:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -588,7 +588,7 @@ variedContext:
 
     # CREATE a contract, then CALL it. Both times access the same storage cell,
     # see you are still only charged a high cost the first time
-    <contract:0x0000000000000000000000000000000000001024>:
+    0000000000000000000000000000000000001024:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -647,7 +647,7 @@ variedContext:
 
     # CREATE2 a contract, then CALL it. Both times access the same storage cell,
     # see you are still only charged a high cost the first time
-    <contract:0x0000000000000000000000000000000000001025>:
+    0000000000000000000000000000000000001025:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -704,7 +704,7 @@ variedContext:
 
     # Call a contract twice, see the high storage cost is only for
     # the first time
-    <contract:0x0000000000000000000000000000000000001026>:
+    0000000000000000000000000000000000001026:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -717,7 +717,7 @@ variedContext:
 
 
 
-    <contract:0x000000000000000000000000000000000000f126>:
+    000000000000000000000000000000000000F126:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -739,7 +739,7 @@ variedContext:
 
 
     # Call different contracts depending on the parameter
-    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+    cccccccccccccccccccccccccccccccccccccccc:
       code: |
         {
             ; ccc...ccc  revert and suicide contract
@@ -755,7 +755,7 @@ variedContext:
 
 
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: '1000000000000000000'
       code: 0x
       nonce: '0'
@@ -767,7 +767,7 @@ variedContext:
     # DELEGATE_VALID
     - data: :label delegateCallerInAccessList :abi f(uint) 0
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001000>
+      - address: 0x0000000000000000000000000000000000001000
         storageKeys:
         - 0x00
         - 0x60A7
@@ -775,7 +775,7 @@ variedContext:
     # DELEGATE_INVALID
     - data: :label delegateCalleeInAccessList :abi f(uint) 0
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000c057>
+      - address: 0x000000000000000000000000000000000000C057
         storageKeys:
         - 0x00
         - 0x60A7
@@ -784,7 +784,7 @@ variedContext:
     # CALLCODE_VALID
     - data: :label callcodeCallerInAccessList :abi f(uint) 2
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001002>
+      - address: 0x0000000000000000000000000000000000001002
         storageKeys:
         - 0x00
         - 0x60A7
@@ -792,7 +792,7 @@ variedContext:
     # CALLCODE_INVALID
     - data: :label callcodeCalleeInAccessList :abi f(uint) 2
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000c057>
+      - address: 0x000000000000000000000000000000000000C057
         storageKeys:
         - 0x00
         - 0x60A7
@@ -802,7 +802,7 @@ variedContext:
     # CALL_INVALID
     - data: :label callCallerInAccessList :abi f(uint) 1
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001001>
+      - address: 0x0000000000000000000000000000000000001001
         storageKeys:
         - 0x00
         - 0x60A7
@@ -810,7 +810,7 @@ variedContext:
     # CALL_VALID
     - data: :label callCalleeInAccessList :abi f(uint) 1
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000c057>
+      - address: 0x000000000000000000000000000000000000C057
         storageKeys:
         - 0x00
         - 0x60A7
@@ -819,7 +819,7 @@ variedContext:
     # STATICCALL_INVALID
     - data: :label staticcallCallerInAccessList :abi f(uint) 3
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001003>
+      - address: 0x0000000000000000000000000000000000001003
         storageKeys:
         - 0x00
         - 0x60A7
@@ -827,7 +827,7 @@ variedContext:
     # STATICCALL_VALID
     - data: :label staticcallCalleeInAccessList :abi f(uint) 3
       accessList:
-      - address: <contract:0x00000000000000000000000000000000ead0c057>
+      - address: 0x00000000000000000000000000000000EAD0C057
         storageKeys:
         - 0x00
         - 0x60A7
@@ -835,7 +835,7 @@ variedContext:
     # CALL_REVERT_VALID
     - data: :label callRevertCalleeInAccessList :abi f(uint) 0x10
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001010>
+      - address: 0x0000000000000000000000000000000000001010
         storageKeys:
         - 0x00
         - 0x60A7
@@ -843,7 +843,7 @@ variedContext:
     # CALL_REVERT_INVALID
     - data: :label callRevertCallerInAccessList :abi f(uint) 0x10
       accessList:
-      - address: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+      - address: 0xcccccccccccccccccccccccccccccccccccccccc
         storageKeys:
         - 0x00
         - 0x60A7
@@ -852,7 +852,7 @@ variedContext:
     # CALL_WRITE_SUICIDE_VALID
     - data: :label callWriteSuicideValid :abi f(uint) 0x11
       accessList:
-      - address: <contract:0x00000000000000000000000000000000dead0111>
+      - address: 0x00000000000000000000000000000000DEAD0111
         storageKeys:
         - 0x00
 
@@ -860,7 +860,7 @@ variedContext:
     # CALL_WRITE_SUICIDE_INVALID
     - data: :label callWriteSuicideInvalid :abi f(uint) 0x11
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001011>
+      - address: 0x0000000000000000000000000000000000001011
         storageKeys:
         - 0x00
 
@@ -869,7 +869,7 @@ variedContext:
     # CALL_READ_SUICIDE_VALID
     - data: :label callReadSuicideValid :abi f(uint) 0x12
       accessList:
-      - address: <contract:0x00000000000000000000000000000000dead0112>
+      - address: 0x00000000000000000000000000000000DEAD0112
         storageKeys:
         - 0x00
 
@@ -877,7 +877,7 @@ variedContext:
     # CALL_READ_SUICIDE_INVALID
     - data: :label callReadSuicideInvalid :abi f(uint) 0x12
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001012>
+      - address: 0x0000000000000000000000000000000000001012
         storageKeys:
         - 0x00
 
@@ -893,7 +893,7 @@ variedContext:
     # STATIC_WRITE_VALID
     - data: :label staticWriteValid :abi f(uint) 0x13
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000f113>
+      - address: 0x000000000000000000000000000000000000F113
         storageKeys:
         - 0x00
 
@@ -902,7 +902,7 @@ variedContext:
     # WRITE_VALID_NO_OOG
     - data: :label writeValidGas :abi f(uint) 0x14
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000f114>
+      - address: 0x000000000000000000000000000000000000F114
         storageKeys:
         - 0x00
 
@@ -910,7 +910,7 @@ variedContext:
     # WRITE_INVALID_OOG
     - data: :label writeInvalidOOG :abi f(uint) 0x14
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001014>
+      - address: 0x0000000000000000000000000000000000001014
         storageKeys:
         - 0x00
 
@@ -918,7 +918,7 @@ variedContext:
     # READ_VALID_NO_OOG
     - data: :label readValidGas :abi f(uint) 0x15
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000f115>
+      - address: 0x000000000000000000000000000000000000F115
         storageKeys:
         - 0x60A7
 
@@ -926,7 +926,7 @@ variedContext:
     # READ_INVALID_OOG
     - data: :label readInvalidOOG :abi f(uint) 0x15
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001015>
+      - address: 0x0000000000000000000000000000000000001015
         storageKeys:
         - 0x60A7
 
@@ -935,7 +935,7 @@ variedContext:
     # RECURSE_VALID
     - data: :label recurseValid :abi f(uint) 0x16
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001016>
+      - address: 0x0000000000000000000000000000000000001016
         storageKeys:
         - 0x60A7     # Read one cell
         - 0xBEEF     # Write once cell
@@ -1087,7 +1087,7 @@ variedContext:
     # CALL_TWICE_VALID
     - data: :label callTwiceValid :abi f(uint) 0x26
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000f126>
+      - address: 0x000000000000000000000000000000000000F126
         storageKeys:
         - 0x00
 
@@ -1095,7 +1095,7 @@ variedContext:
     # CALL_TWICE_InVALID
     - data: :label callTwiceInvalid :abi f(uint) 0x26
       accessList:
-      - address: <contract:0x000000000000000000000000000000000000f126>
+      - address: 0x000000000000000000000000000000000000F126
         storageKeys:
         - 0x20
 
@@ -1108,8 +1108,8 @@ variedContext:
     - '40000000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
-    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
+    to: cccccccccccccccccccccccccccccccccccccccc
 
     value:
     - '100000'
@@ -1131,7 +1131,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001000>:
+      0000000000000000000000000000000000001000:
         storage:
           0x00: 0x02
           0x01: 0x4e23
@@ -1146,7 +1146,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001000>:
+      0000000000000000000000000000000000001000:
         storage:
           0x00: 0x02
           0x01: 0x5657
@@ -1161,7 +1161,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001002>:
+      0000000000000000000000000000000000001002:
         storage:
           0x00: 0x02
           0x01: 0x4e23
@@ -1176,7 +1176,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001002>:
+      0000000000000000000000000000000000001002:
         storage:
           0x00: 0x02
           0x01: 0x5657
@@ -1193,7 +1193,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000c057>:
+      000000000000000000000000000000000000C057:
         storage:
           0x00:   0x02
           0x01:   0x5657
@@ -1208,7 +1208,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000c057>:
+      000000000000000000000000000000000000C057:
         storage:
           0x00:   0x02
           0x01:   0x4e23
@@ -1226,7 +1226,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001003>:
+      0000000000000000000000000000000000001003:
         storage:
           0x00: 0x083B
 
@@ -1239,7 +1239,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001003>:
+      0000000000000000000000000000000000001003:
         storage:
           0x00:   0x6B
 
@@ -1252,7 +1252,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+      CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC:
         storage:
           0x00:   0x4e23
           0x01:   0x0064
@@ -1266,7 +1266,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+      CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC:
         storage:
           0x00:   0x5657
           0x01:   0x0834
@@ -1281,7 +1281,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001011>:
+      0000000000000000000000000000000000001011:
         storage:
           0x00: 0x4E21
 
@@ -1298,7 +1298,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001011>:
+      0000000000000000000000000000000000001011:
         storage:
           0x00: 0x6019
 
@@ -1312,7 +1312,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001012>:
+      0000000000000000000000000000000000001012:
         storage:
           0x00: 0x64
 
@@ -1329,7 +1329,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001012>:
+      0000000000000000000000000000000000001012:
         storage:
           0x00: 0x11F8
 
@@ -1346,7 +1346,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001013>:
+      0000000000000000000000000000000000001013:
         storage:
           0x00: 0x0BAD
 
@@ -1364,7 +1364,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f114>:
+      000000000000000000000000000000000000F114:
         storage:
           0x00: 0x600D
 
@@ -1379,7 +1379,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f114>:
+      000000000000000000000000000000000000F114:
         storage:
           0x00: 0x0BAD
 
@@ -1397,7 +1397,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f115>:
+      000000000000000000000000000000000000F115:
         storage:
           0x0000: 0x600D
           0x60A7: 0xDEAD
@@ -1412,7 +1412,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f115>:
+      000000000000000000000000000000000000F115:
         storage:
           0x0000: 0x0BAD
           0x60A7: 0xDEAD
@@ -1429,7 +1429,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001016>:
+      0000000000000000000000000000000000001016:
         storage:
           0x0000: 0x0000
 
@@ -1540,7 +1540,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001016>:
+      0000000000000000000000000000000000001016:
         storage:
           0x0000: 0x0000
 
@@ -1828,7 +1828,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f126>:
+      0x000000000000000000000000000000000000F126:
         storage:
           0x00: 0x60A7
           0x01: 0x4e31
@@ -1845,7 +1845,7 @@ variedContext:
     network:
     - ">=Cancun"
     result:
-      <contract:0x000000000000000000000000000000000000f126>:
+      0x000000000000000000000000000000000000F126:
         storage:
           0x00: 0x60A7
           0x01: 0x5665

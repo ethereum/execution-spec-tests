@@ -14,7 +14,7 @@ gasCostJump:
   pre:
 
     # Baseline cost, without any jumps
-    <contract:0x0000000000000000000000000000000000001000>:
+    0000000000000000000000000000000000001000:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: :raw 0x600060005B5B00
         # 0 PUSH1 0
@@ -27,7 +27,7 @@ gasCostJump:
 
 
     # Cost with one JUMPDEST replaced with a JUMP
-    <contract:0x0000000000000000000000000000000000002000>:
+    0000000000000000000000000000000000002000:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: :raw 0x60006005565B00
         # 0 PUSH1 0
@@ -40,7 +40,7 @@ gasCostJump:
 
 
     # Cost with one JUMPDEST replaced with a JUMPI
-    <contract:0x0000000000000000000000000000000000003000>:
+    0000000000000000000000000000000000003000:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: :raw 0x60016005575B00
         # 0 PUSH1 1
@@ -53,7 +53,7 @@ gasCostJump:
 
 
     # Cost with one JUMPDEST replaced with a JUMPI that doesn't jump
-    <contract:0x0000000000000000000000000000000000004000>:
+    0000000000000000000000000000000000004000:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: :raw 0x60006005575B00
         # 0 PUSH1 0
@@ -66,7 +66,7 @@ gasCostJump:
 
 
 
-    <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+    095e7baea6a6c7c4c2dfeb977efac326af552d87:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -154,7 +154,7 @@ gasCostJump:
       storage:
          0: 60A7
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -177,10 +177,10 @@ gasCostJump:
     - 80000000
     gasPrice: 10
     nonce: 0
-    to: <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>
+    to: 095e7baea6a6c7c4c2dfeb977efac326af552d87
     value:
     - 1
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
 
 
   expect:
@@ -191,6 +191,6 @@ gasCostJump:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        095e7baea6a6c7c4c2dfeb977efac326af552d87:
           storage:
             0x00: 0

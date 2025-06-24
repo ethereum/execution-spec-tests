@@ -126,30 +126,19 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
     def _resolve_tags_in_code(self, code_str: str, test_id: str, fork: Fork) -> str:
         """Resolve address tags in code strings before compilation."""
         tag_pattern = r"<(eoa|contract):[^>]+>"
-        is_raw_hex = ":raw" in code_str
 
         def replace_tag(match):
             tag_str = match.group(0)
             parsed = parse_address_or_tag(tag_str)
             if isinstance(parsed, AddressTag):
                 address = self._resolve_address_or_tag(tag_str, test_id, fork)
-
-                # For :raw format, always return address without 0x prefix
-                if is_raw_hex:
-                    return str(address)[2:]
-
-                # For other formats, check if we're inside a hex string
                 start_pos = match.start()
-                # Find the last occurrence of '0x' before the tag
-                prefix_pos = code_str.rfind("0x", 0, start_pos)
-                if prefix_pos != -1:
-                    # Check if all characters between '0x' and the tag are hex digits
-                    between_content = code_str[prefix_pos + 2 : start_pos]
-                    if all(c in "0123456789abcdefABCDEF" for c in between_content):
-                        # We're inside bytecode, return address without 0x prefix
-                        return str(address)[2:]
-
-                # Default: return the address as hex string with 0x prefix
+                preceeding_2chars = code_str[start_pos - 2 : start_pos]
+                if not preceeding_2chars == "0x" and " " not in preceeding_2chars:
+                    # - If the tag is not preceded by 0x, we're inside a hex string
+                    # - If the tag is preceded by a space, we'd need the 0x prefix
+                    # return the address without the 0x prefix
+                    return str(address)[2:]
                 return str(address)
             return tag_str
 

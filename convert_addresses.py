@@ -38,19 +38,42 @@ PRECOMPILE_ADDRESSES = {
     '0000000000000000000000000000000000000011',
 }
 
+FALSE_POSITIVE_TESTS = {
+  # possible false positives to check
+  "staticcall_createfailsFiller.json",
+  "createInitFail_OOGduringInit2Filler.json",
+  "createInitFail_OOGduringInitFiller.json",
+  "createNameRegistratorPreStore1NotEnoughGasFiller.json",
+  # definite false positives
+  "codesizeOOGInvalidSizeFiller.json",
+}
+
 INCOMPATIBLE_FILLERS = {
+  "create2InitCodeSizeLimitFiller.yml",
+  "createInitCodeSizeLimitFiller.yml",
+  "creationTxInitCodeSizeLimitFiller.yml",
   "suicideNonConstFiller.yml",
   "createNonConstFiller.yml",
   "CrashingTransactionFiller.json",
-  "invalidAddrFiller.yml",
   "measureGasFiller.yml",
   "operationDiffGasFiller.yml",
+  "callcodeDynamicCodeFiller.json",
+  "callcodeDynamicCode2SelfCallFiller.json",
+  "callcodeInInitcodeToEmptyContractFiller.json",
+  "callcodeInInitcodeToExistingContractFiller.json",
+  "callcodeInInitcodeToExisContractWithVTransferNEMoneyFiller.json",
+  "callcodeInInitcodeToExistingContractWithValueTransferFiller.json",
+  "contractCreationMakeCallThatAskMoreGasThenTransactionProvidedFiller.json",
+  "codesizeInitFiller.json",
+  "codesizeValidFiller.json",
+  "create2CodeSizeLimitFiller.yml",
+  "createCodeSizeLimitFiller.yml",
+  "createFailBalanceTooLowFiller.json",
+  "createInitOOGforCREATEFiller.json",
+  "createNameRegistratorPerTxsFiller.json",
+  "createNameRegistratorPerTxsNotEnoughGasFiller.json",
+  "createJS_NoCollisionFiller.json",
   "undefinedOpcodeFirstByteFiller.yml",
-  "extCodeHashDeletedAccount3Filler.yml",
-  "extCodeHashDeletedAccount4Filler.yml",
-  "extCodeHashDeletedAccountCancunFiller.yml",
-  "extCodeHashDeletedAccountFiller.yml",
-  "extCodeHashSubcallSuicideFiller.yml",
   "block504980Filler.json",
   "static_CallEcrecover0Filler.json",
   "static_CallEcrecover0_completeReturnValueFiller.json",
@@ -61,30 +84,77 @@ INCOMPATIBLE_FILLERS = {
   "static_contractCreationMakeCallThatAskMoreGasThenTransactionProvidedFiller.json",
   "static_contractCreationOOGdontLeaveEmptyContractViaTransactionFiller.json",
   "callcodecallcallcode_101_SuicideMiddleFiller.json",
-  "static_callcodecallcallcode_101_OOGMAfter2Filler.json"
+  "static_callcodecallcallcode_101_OOGMAfter2Filler.json",
+  "delegatecallInInitcodeToEmptyContractFiller.json",
+  "delegatecallInInitcodeToExistingContractFiller.json",
+  "delegatecallInInitcodeToExistingContractOOGFiller.json",
+  "delegatecodeDynamicCode2SelfCallFiller.json",
+  "delegatecodeDynamicCodeFiller.json",
+  "CreateAndGasInsideCreateFiller.json",
+  "RawCreateGasFiller.json",
+  "RawCreateGasMemoryFiller.json",
+  "RawCreateGasValueTransferFiller.json",
+  "RawCreateGasValueTransferMemoryFiller.json",
+  "Transaction64Rule_integerBoundariesFiller.yml",
+  "addressOpcodesFiller.yml",
+  "baseFeeDiffPlacesFiller.yml",
+  "eip2929-ffFiller.yml",
+  "eip2929Filler.yml",
+  "eip2929OOGFiller.yml",
+  "gasCostJumpFiller.yml",
+  "gasCostMemoryFiller.yml",
+  "gasPriceDiffPlacesFiller.yml",
+  "initCollidingWithNonEmptyAccountFiller.yml",
+  "manualCreateFiller.yml",
+  "storageCostsFiller.yml",
+  "variedContextFiller.yml",
+  "vitalikTransactionTestParisFiller.json",
+  "extcodehashEmpty_ParisFiller.yml",
+  "extCodeHashSelfInInitFiller.json",
+  "extCodeHashSubcallSuicideCancunFiller.yml",
+  "extCodeHashNewAccountFiller.json",
+  "extCodeHashDeletedAccount1CancunFiller.yml",
+  "extCodeHashDeletedAccount2CancunFiller.yml",
+  "extCodeHashDeletedAccount3Filler.yml",
+  "extCodeHashDeletedAccount4Filler.yml",
+  "extCodeHashCreatedAndDeletedAccountStaticCallFiller.json",
+  "extCodeHashCreatedAndDeletedAccountRecheckInOuterCallFiller.json",
+  "dynamicAccountOverwriteEmpty_ParisFiller.yml",
+  "extCodeHashDeletedAccountCancunFiller.yml",
+  "extCodeHashDeletedAccountFiller.yml",
+  "extCodeHashSubcallSuicideFiller.yml",
+  "codeCopyZero_ParisFiller.yml",
+  "createEmptyThenExtcodehashFiller.json",
+  "extCodeHashInInitCodeFiller.json",
+  "extCodeHashSelfFiller.json",
+  "contractCreationOOGdontLeaveEmptyContractViaTransactionFiller.json",
 }
+DO_NOT_CONVERT_FILLERS = FALSE_POSITIVE_TESTS | INCOMPATIBLE_FILLERS
 
 DO_NOT_TAG_ADDRESSES = {
   "transStorageResetFiller.yml" : {"000000000000000000000000000000003f8390d5"},
   "transStorageOKFiller.yml" : {
     "000000000000000000000000000000005d7935df",
-     "00000000000000000000000000000000000057a7", 
-     "00000000000000000000000000000000c54b5829", 
-     "000000000000000000000000000000007f9317bd", 
-     "000000000000000000000000000000000000add1", 
-     "000000000000000000000000000000007074a486",
-     "00000000000000000000000000000000264bb86a",
-     "000000000000000000000000000000005114e2c8",
-     "00000000000000000000000000000000ca11bacc",
-     "00000000000000000000000000000000c1c922f1",
-     "000000000000000000000000000000006e3a7204",
-     "00000000000000000000000000000000ebd141d5",
-
-     },
+    "00000000000000000000000000000000000057a7", 
+    "00000000000000000000000000000000c54b5829", 
+    "000000000000000000000000000000007f9317bd", 
+    "000000000000000000000000000000000000add1", 
+    "000000000000000000000000000000007074a486",
+    "00000000000000000000000000000000264bb86a",
+    "000000000000000000000000000000005114e2c8",
+    "00000000000000000000000000000000ca11bacc",
+    "00000000000000000000000000000000c1c922f1",
+    "000000000000000000000000000000006e3a7204",
+    "00000000000000000000000000000000ebd141d5",
+  },
+  "invalidAddrFiller.yml" : {"0000000000000000000000000000000000dead01", "0000000000000000000000000000000000dead02"},
 }
 
 SHORT_NAME_FILLERS = {
   "transStorageResetFiller.yml",
+  "invalidAddrFiller.yml",
+  "precompsEIP2929CancunFiller.yml",
+  "addressOpcodesFiller.yml",
 }
 
 # Fillers that should have precompile check disabled
@@ -98,6 +168,7 @@ DISABLE_PRECOMPILE_CHECK_FILLERS = {
 NO_TAGS_IN_CODE = {
     # Add fillers here that should not have addresses replaced in code/storage
     "modexpFiller.json",
+    "returndatacopyPythonBug_Tue_03_48_41-1432Filler.json",
 }
 
 # Fillers that should skip entropy validation entirely
@@ -176,7 +247,7 @@ class SimpleAddressConverter:
             self.do_not_tag_addresses = DO_NOT_TAG_ADDRESSES[filename]
             
         # Check if this is a short name filler
-        self.is_short_name_filler = filename in SHORT_NAME_FILLERS
+        self.is_short_name_filler = any(kw in filename for kw in SHORT_NAME_FILLERS)
         self.short_name_mappings: Dict[str, str] = {}  # short_name -> tag
         
     def create_short_name(self, addr: str) -> Optional[str]:
@@ -204,8 +275,10 @@ class SimpleAddressConverter:
         # If nothing left after stripping trailing zeros, or too short, return None
         if not stripped or len(stripped) < 2:
             return None
-            
+        
         return f"0x{stripped}"
+
+
     def collect_addresses(self, lines: List[str]) -> None:
         """First pass: collect all addresses from the file."""
         in_pre = False
@@ -213,39 +286,54 @@ class SimpleAddressConverter:
         in_transaction = False
         current_address = None
         in_code = False
-        
+        has_been_in_pre = False
+
         for line in lines:
             stripped = line.strip()
+            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "").replace(",", "")
+
+            if (
+              in_code 
+              and len(stripped_no_spaces_or_quotes) > 0 
+              and stripped_no_spaces_or_quotes[-1] in {"}", "]"} 
+              or any(kw in stripped_no_spaces_or_quotes for kw in {"balance:", "nonce:", "storage:"})
+            ):
+                in_code = False
             
             # Track sections
-            if re.match(r'^pre:\s*$', stripped):
+            if "pre:" in stripped_no_spaces_or_quotes:
+                has_been_in_pre = True
                 in_pre = True
                 in_env = False
                 in_transaction = False
-            elif re.match(r'^env:\s*$', stripped):
+                in_code = False
+            elif "env:" in stripped_no_spaces_or_quotes:
                 in_pre = False
                 in_env = True
                 in_transaction = False
-            elif re.match(r'^transaction:\s*$', stripped):
+                in_code = False
+            elif "transaction:" in stripped_no_spaces_or_quotes:
                 in_pre = False
                 in_env = False
                 in_transaction = True
-            elif re.match(r'^\w+:', stripped) and not line.startswith(' '):
+                in_code = False
+            elif any(line.startswith(prefix) for prefix in {"expect:", "_info:"}):
                 # New top-level section
                 in_pre = False
                 in_env = False
                 in_transaction = False
+                in_code = False
                 
             # Track code subsection
-            if re.match(r'^\s*code:\s*', line):
+            if "code:" in stripped_no_spaces_or_quotes:
                 in_code = True
-            elif re.match(r'^\s*\w+:', line) and current_address:
+            elif current_address:
                 in_code = False
                 
             # In pre section, collect ALL addresses
             if in_pre:
                 # Plain address
-                match = re.match(r'^\s*([a-fA-F0-9]{40}):\s*$', line)
+                match = re.match(r'^\s*[\'"]?([a-fA-F0-9]{40})[\'"]?:\s*$', line)
                 if match:
                     addr = normalize_address(match.group(1))
                     # Skip addresses that should not be tagged for this test file
@@ -274,7 +362,10 @@ class SimpleAddressConverter:
                         self.addresses_with_code.add(current_address)
                 elif current_address and in_code and ('|' in line or '>' in line):
                     self.addresses_with_code.add(current_address)
-                    
+            
+            if not in_pre and has_been_in_pre:
+                has_been_in_pre = False
+
             # Collect coinbase
             if in_env:
                 match = re.match(r'^\s*currentCoinbase\s*:\s*(.+)$', line)
@@ -321,10 +412,19 @@ class SimpleAddressConverter:
         current_address = None
         in_code = False
         brace_depth = 0
-        
+
         for i, line in enumerate(lines):
             stripped = line.strip()
-            
+            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "").replace(",", "")
+
+            if (
+              in_code 
+              and len(stripped_no_spaces_or_quotes) > 0 
+              and stripped_no_spaces_or_quotes[-1] in {"}", "]"} 
+              or any(kw in stripped_no_spaces_or_quotes for kw in {"balance:", "nonce:", "storage:"})
+            ):
+                in_code = False
+        
             # Track sections based on JSON keys BEFORE updating brace depth
             if '"pre"' in line and ':' in line:
                 in_pre = True
@@ -380,11 +480,11 @@ class SimpleAddressConverter:
                     if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
                         self.address_mappings[addr] = None
                         current_address = addr
-                        
+            
             # Check if current address has code
             if current_address and in_code:
                 # Use the stripped line to check for code content
-                if stripped.startswith('"code"') and ':' in stripped:
+                if "code:" in stripped_no_spaces_or_quotes:
                     # Check if it's not an empty code value
                     if stripped not in ['"code": "",', '"code": "0x",', '"code": null,', '"code" : "",', '"code" : "0x",', '"code" : null,']:
                         # Extract code value from the line
@@ -428,7 +528,7 @@ class SimpleAddressConverter:
             if addr == self.coinbase_addr and not CONVERT_COINBASE:
                 continue
                 
-            if addr == KNOWN_SENDER_ADDRESS:
+            if addr == KNOWN_SENDER_ADDRESS and addr not in self.addresses_with_code:
                 self.address_mappings[addr] = f"<eoa:sender:0x{addr}>"
             elif addr == self.coinbase_addr:
                 self.address_mappings[addr] = f"<eoa:coinbase:0x{addr}>"
@@ -447,7 +547,7 @@ class SimpleAddressConverter:
                     if short_name:
                         self.short_name_mappings[short_name] = tag
                 
-    def convert_line(self, line: str, in_pre: bool = False, in_result: bool = False) -> str:
+    def convert_line(self, line: str, in_pre: bool = False, in_result: bool = False, in_code_or_tx_data_or_storage: bool = False) -> str:
         """Second pass: convert addresses to tags.
         
         IMPORTANT: This method should ONLY replace raw addresses with their tags.
@@ -457,7 +557,8 @@ class SimpleAddressConverter:
         replaces them with their assigned tags.
         """
         original_line = line
-        
+        stripped = line.strip()
+
         # Check if this line contains an address as a key in pre/result sections
         # JSON Pattern: "address" : { or "0xaddress" : {
         # YAML Pattern: address: or 0xaddress:
@@ -468,13 +569,13 @@ class SimpleAddressConverter:
                 is_address_key = True
                 break
             # YAML format - check if line starts with the address followed by colon
-            if line.strip().startswith(f'{addr}:') or line.strip().startswith(f'0x{addr}:'):
+            if stripped.startswith(f'{addr}:') or stripped.startswith(f'0x{addr}:'):
                 is_address_key = True
                 break
         
         # Check if this is a transaction "to" field
         is_transaction_to = '"to"' in line and ':' in line
-        
+
         # Handle secretKey specially (works for both YAML and JSON)
         if 'secretKey' in line and KNOWN_SECRET_KEY.lower() in line.lower():
             # Only replace if not already tagged
@@ -514,7 +615,7 @@ class SimpleAddressConverter:
                 continue
                 
             # Skip replacements in code/storage if no_tags_in_code is set
-            if self.no_tags_in_code and not is_address_key:
+            if self.no_tags_in_code and in_code_or_tx_data_or_storage:
                 continue
                 
             # Store positions where we've already made replacements to avoid overlaps
@@ -573,11 +674,11 @@ class SimpleAddressConverter:
                         else:
                             # Case-insensitive replacement
                             line = re.sub(re.escape(short_name), tag, line, flags=re.IGNORECASE)
-                
+        
         return line
 
 
-def convert_json_file(file_path: str, dry_run: bool = False) -> bool:
+def convert_json_file(file_path: str) -> bool:
     """Convert a single JSON file using line-by-line processing."""
     try:
         with open(file_path, 'r') as f:
@@ -586,7 +687,7 @@ def convert_json_file(file_path: str, dry_run: bool = False) -> bool:
         # Check if this file should skip precompile checks
         filename = Path(file_path).name
         skip_precompile_check = filename in DISABLE_PRECOMPILE_CHECK_FILLERS
-        no_tags_in_code = filename in NO_TAGS_IN_CODE
+        no_tags_in_code = any(kw in filename for kw in NO_TAGS_IN_CODE)
         validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
         
         converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, validate_addr_entropy_in_code=validate_addr_entropy_in_code, filename=filename)
@@ -600,52 +701,41 @@ def convert_json_file(file_path: str, dry_run: bool = False) -> bool:
         if not converter.address_mappings:
             return False
             
-        if dry_run:
-            print(f"\nFile: {file_path}")
-            print("Address mappings:")
-            for addr, tag in sorted(converter.address_mappings.items()):
-                print(f"  {addr} -> {tag}")
-            # Test conversion on lines with :raw
-            print("\nTesting conversion on :raw lines:")
-            for i, line in enumerate(lines):
-                if ':raw' in line:
-                    new_line = converter.convert_line(line, in_pre=False, in_result=False)
-                    if new_line != line:
-                        print(f"  Line {i+1}: CONVERTED")
-                        print(f"    Old: {line.strip()[:100]}...")
-                        print(f"    New: {new_line.strip()[:100]}...")
-                    else:
-                        # Check if any addresses should have been replaced
-                        for addr in converter.address_mappings:
-                            if addr in line.lower():
-                                print(f"  Line {i+1}: MISSED address {addr}")
-                                print(f"    Line: {line.strip()[:100]}...")
-                                break
-            return True
-            
-        # Second pass: convert (track sections for YAML)
         new_lines = []
         in_pre = False
         in_result = False
+        in_code_or_tx_data_or_storage = False
         
         for line in lines:
             stripped = line.strip()
+            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "")
+            
+            if any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "expect:", "}", "]", "secretKey:", "to:", "value:"}):
+                in_code_or_tx_data_or_storage = False
             
             # Track sections
-            if re.match(r'^pre:\s*$', stripped) or re.match(r'^\s+pre:\s*$', line):
+            if "pre:" in stripped_no_spaces_or_quotes:
                 in_pre = True
                 in_result = False
-            elif re.match(r'^result:\s*$', stripped) or re.match(r'^\s+result:\s*$', line):
-                in_pre = False
+                in_code_or_tx_data_or_storage = False
+            elif "result:" in stripped_no_spaces_or_quotes:
                 in_result = True
-            elif re.match(r'^\w+:', stripped) and not line.startswith(' '):
-                # New top-level section
+                in_pre = False
+                in_code_or_tx_data_or_storage = False
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"code:", "data:", "storage:", "raw:"}):
+                in_code_or_tx_data_or_storage = True
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "_info:"}):
+                in_code_or_tx_data_or_storage = False
                 in_pre = False
                 in_result = False
-            
-            new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result)
+
+
+            new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result, in_code_or_tx_data_or_storage=in_code_or_tx_data_or_storage)
             new_lines.append(new_line)
             
+            if len(stripped_no_spaces_or_quotes) > 0 and stripped_no_spaces_or_quotes[-1] in {"}", "]"}:
+                in_code_or_tx_data_or_storage = False
+        
         # Write back
         with open(file_path, 'w') as f:
             f.writelines(new_lines)
@@ -657,7 +747,7 @@ def convert_json_file(file_path: str, dry_run: bool = False) -> bool:
         return False
 
 
-def convert_yaml_file(file_path: str, dry_run: bool = False) -> bool:
+def convert_yaml_file(file_path: str) -> bool:
     """Convert a single YAML file."""
     try:
         with open(file_path, 'r') as f:
@@ -680,35 +770,40 @@ def convert_yaml_file(file_path: str, dry_run: bool = False) -> bool:
         if not converter.address_mappings:
             return False
             
-        if dry_run:
-            print(f"\nFile: {file_path}")
-            print("Address mappings:")
-            for addr, tag in sorted(converter.address_mappings.items()):
-                print(f"  {addr} -> {tag}")
-            return True
-            
         # Second pass: convert (track sections for YAML)
         new_lines = []
         in_pre = False
         in_result = False
-        
+        in_code_or_tx_data_or_storage = False
+
         for line in lines:
             stripped = line.strip()
+            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "")
             
+            if any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "expect:", "}", "]", "secretKey:", "to:", "value:"}):
+                in_code_or_tx_data_or_storage = False
+
             # Track sections
-            if re.match(r'^pre:\s*$', stripped) or re.match(r'^\s+pre:\s*$', line):
+            if "pre:" in stripped_no_spaces_or_quotes:
                 in_pre = True
                 in_result = False
-            elif re.match(r'^result:\s*$', stripped) or re.match(r'^\s+result:\s*$', line):
-                in_pre = False
+                in_code_or_tx_data_or_storage = False
+            elif "result:" in stripped_no_spaces_or_quotes:
                 in_result = True
-            elif re.match(r'^\w+:', stripped) and not line.startswith(' '):
-                # New top-level section
+                in_pre = False
+                in_code_or_tx_data_or_storage = False
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"code:", "data:", "storage:", "raw:"}):
+                in_code_or_tx_data_or_storage = True
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "_info:"}):
+                in_code_or_tx_data_or_storage = False
                 in_pre = False
                 in_result = False
-            
+
             new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result)
             new_lines.append(new_line)
+
+            if len(stripped_no_spaces_or_quotes) > 0 and stripped_no_spaces_or_quotes[-1] in {"}", "]"}:
+                in_code_or_tx_data_or_storage = False
             
         # Write back
         with open(file_path, 'w') as f:
@@ -724,7 +819,6 @@ def convert_yaml_file(file_path: str, dry_run: bool = False) -> bool:
 def main():
     """Main conversion function."""
     parser = argparse.ArgumentParser(description='Convert addresses to tags in static test fillers')
-    parser.add_argument('--dry-run', action='store_true', help='Show what would be changed without modifying files')
     parser.add_argument('path', nargs='?', default='tests/static', help='Path to search for filler files')
     args = parser.parse_args()
     
@@ -734,15 +828,15 @@ def main():
     json_files = []
     
     if path.is_file():
-        if path.name.endswith('Filler.yml') and path.name not in INCOMPATIBLE_FILLERS:
+        if path.name.endswith('Filler.yml') and path.name not in DO_NOT_CONVERT_FILLERS:
             yaml_files = [path]
-        elif path.name.endswith('Filler.json') and path.name not in INCOMPATIBLE_FILLERS:
+        elif path.name.endswith('Filler.json') and path.name not in DO_NOT_CONVERT_FILLERS:
             json_files = [path]
     else:
         yaml_files = list(path.rglob('*Filler.yml'))
         json_files = list(path.rglob('*Filler.json'))
-        yaml_files = [file for file in yaml_files if file.name not in INCOMPATIBLE_FILLERS]
-        json_files = [file for file in json_files if file.name not in INCOMPATIBLE_FILLERS]
+        yaml_files = [file for file in yaml_files if file.name not in DO_NOT_CONVERT_FILLERS]
+        json_files = [file for file in json_files if file.name not in DO_NOT_CONVERT_FILLERS]
         
     print(f"Found {len(yaml_files)} YAML filler files")
     print(f"Found {len(json_files)} JSON filler files")
@@ -753,17 +847,15 @@ def main():
     
     # Convert YAML files
     for file_path in yaml_files:
-        if convert_yaml_file(str(file_path), args.dry_run):
+        if convert_yaml_file(str(file_path)):
             converted_yaml += 1
-            if not args.dry_run:
-                print(f"Converted YAML: {file_path}")
+            print(f"Converted YAML: {file_path}")
     
     # Convert JSON files
     for file_path in json_files:
-        if convert_json_file(str(file_path), args.dry_run):
+        if convert_json_file(str(file_path)):
             converted_json += 1
-            if not args.dry_run:
-                print(f"Converted JSON: {file_path}")
+            print(f"Converted JSON: {file_path}")
     
     print(f"\nSummary: Converted {converted_yaml} YAML files and {converted_json} JSON files")
 

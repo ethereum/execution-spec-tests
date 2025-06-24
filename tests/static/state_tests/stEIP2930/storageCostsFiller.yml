@@ -18,7 +18,7 @@ storageCosts:
     # WRITE_ADDR_IN_LIST
     # WRITE_ADDR_NOT_IN_LIST
     # WRITE_NO_LIST
-    <contract:0x0000000000000000000000000000000000001000>:
+    0000000000000000000000000000000000001000:
       balance: '1000000000000000000'
       code: |
        {
@@ -47,7 +47,7 @@ storageCosts:
     # READ_ADDR_IN_LIST
     # READ_ADDR_NOT_IN_LIST
     # READ_NO_LIST
-    <contract:0x0000000000000000000000000000000000001001>:
+    0000000000000000000000000000000000001001:
       balance: '1000000000000000000'
       code: |
        {
@@ -71,7 +71,7 @@ storageCosts:
     # DEL_ADDR_IN_LIST
     # DEL_ADDR_NOT_IN_LIST
     # DEL_NO_LIST
-    <contract:0x0000000000000000000000000000000000001002>:
+    0000000000000000000000000000000000001002:
       balance: '1000000000000000000'
       storage:
         0x00: 0x60A7
@@ -105,7 +105,7 @@ storageCosts:
     # UPDATE_ADDR_IN_LIST
     # UPDATE_ADDR_NOT_IN_LIST
     # UPDATE_NO_LIST
-    <contract:0x0000000000000000000000000000000000001003>:
+    0000000000000000000000000000000000001003:
       balance: '1000000000000000000'
       storage:
         0x00: 0x60A7
@@ -136,7 +136,7 @@ storageCosts:
     # NOP_ADDR_IN_LIST
     # NOP_ADDR_NOT_IN_LIST
     # NOP_NO_LIST
-    <contract:0x0000000000000000000000000000000000001004>:
+    0000000000000000000000000000000000001004:
       balance: '1000000000000000000'
       storage:
         0x00: 0x60A7
@@ -165,7 +165,7 @@ storageCosts:
     # NOP0_ADDR_IN_LIST
     # NOP0_ADDR_NOT_IN_LIST
     # NOP0_NO_LIST
-    <contract:0x0000000000000000000000000000000000001005>:
+    0000000000000000000000000000000000001005:
       balance: '1000000000000000000'
       storage:
         0x00: 0x00
@@ -195,7 +195,7 @@ storageCosts:
     # Declared vs. undeclared write (SSTORE), after writing to the storage
     # STORE_THEN_WRITE_DECLARED
     # STORE_THEN_WRITE_UNDECLARED
-    <contract:0x0000000000000000000000000000000000001010>:
+    0000000000000000000000000000000000001010:
       balance: '1000000000000000000'
       code: |
        {
@@ -226,7 +226,7 @@ storageCosts:
     # Declared vs. undeclared read (SLOAD), after writing to the storage
     # STORE_THEN_READ_DECLARED
     # STORE_THEN_READ_UNDECLARED
-    <contract:0x0000000000000000000000000000000000001011>:
+    0000000000000000000000000000000000001011:
       balance: '1000000000000000000'
       code: |
        {
@@ -249,7 +249,7 @@ storageCosts:
     # Declared vs. undeclared write (SSTORE), after reading the storage
     # LOAD_THEN_WRITE_DECLARED
     # LOAD_THEN_WRITE_UNDECLARED
-    <contract:0x0000000000000000000000000000000000001020>:
+    0000000000000000000000000000000000001020:
       balance: '1000000000000000000'
       code: |
        {
@@ -279,7 +279,7 @@ storageCosts:
     # Declared vs. undeclared read (SLOAD), after already reading it
     # LOAD_THEN_READ_DECLARED
     # LOAD_THEN_READ_UNDECLARED
-    <contract:0x0000000000000000000000000000000000001021>:
+    0000000000000000000000000000000000001021:
       balance: '1000000000000000000'
       code: |
        {
@@ -303,7 +303,7 @@ storageCosts:
     # Call different contracts depending on the parameter
     #
     # Also check the cost of accessing our own storage
-    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+    cccccccccccccccccccccccccccccccccccccccc:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         { ; TO_ADDR_VALID   TO_ADDR_INVALID_ADDR    TO_ADDR_INVALID_CELL
@@ -337,7 +337,7 @@ storageCosts:
 
 
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: '1000000000000000000'
       code: 0x
       nonce: '0'
@@ -350,42 +350,42 @@ storageCosts:
     # WRITE_DECLARED
     - data: :label declaredKeyWrite :abi f(uint) 0
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001000>
+      - address: 0x0000000000000000000000000000000000001000
         storageKeys:
         - 0x00
 
     # READ_DECLARED
     - data: :label declaredKeyRead :abi f(uint) 1
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001001>
+      - address: 0x0000000000000000000000000000000000001001
         storageKeys:
         - 0x00
 
     # DEL_DECLARED
     - data: :label declaredKeyDel :abi f(uint) 2
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001002>
+      - address: 0x0000000000000000000000000000000000001002
         storageKeys:
         - 0x00
 
     # UPDATE_DECLARED
     - data: :label declaredKeyUpdate :abi f(uint) 3
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001003>
+      - address: 0x0000000000000000000000000000000000001003
         storageKeys:
         - 0x00
 
     # NOP_DECLARED
     - data: :label declaredKeyNOP :abi f(uint) 4
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001004>
+      - address: 0x0000000000000000000000000000000000001004
         storageKeys:
         - 0x00
 
     # NOP0_DECLARED
     - data: :label declaredKeyNOP0 :abi f(uint) 5
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001005>
+      - address: 0x0000000000000000000000000000000000001005
         storageKeys:
         - 0x00
 
@@ -396,42 +396,42 @@ storageCosts:
     # WRITE_ADDR_IN_LIST
     - data: :label undeclaredKeyWrite :abi f(uint) 0
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001000>
+      - address: 0x0000000000000000000000000000000000001000
         storageKeys:
         - 0x10
 
     # READ_ADDR_IN_LIST
     - data: :label undeclaredKeyRead :abi f(uint) 1
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001001>
+      - address: 0x0000000000000000000000000000000000001001
         storageKeys:
         - 0x10
 
     # DEL_ADDR_IN_LIST
     - data: :label undeclaredKeyDel :abi f(uint) 2
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001002>
+      - address: 0x0000000000000000000000000000000000001002
         storageKeys:
         - 0x10
 
     # UPDATE_ADDR_IN_LIST
     - data: :label undeclaredKeyUpdate :abi f(uint) 3
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001003>
+      - address: 0x0000000000000000000000000000000000001003
         storageKeys:
         - 0x10
 
     # NOP_ADDR_IN_LIST
     - data: :label undeclaredKeyNOP :abi f(uint) 4
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001004>
+      - address: 0x0000000000000000000000000000000000001004
         storageKeys:
         - 0x10
 
     # NOP0_ADDR_IN_LIST
     - data: :label undeclaredKeyNOP0 :abi f(uint) 5
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001005>
+      - address: 0x0000000000000000000000000000000000001005
         storageKeys:
         - 0x10
 
@@ -506,56 +506,56 @@ storageCosts:
     # STORE_THEN_WRITE_DECLARED
     - data: :label declaredKeyWrite_postSSTORE :abi f(uint) 0x10
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001010>
+      - address: 0x0000000000000000000000000000000000001010
         storageKeys:
         - 0x00
 
     # STORE_THEN_WRITE_UNDECLARED
     - data: :label undeclaredKeyWrite_postSSTORE :abi f(uint) 0x10
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001010>
+      - address: 0x0000000000000000000000000000000000001010
         storageKeys:
         - 0x10
 
     # STORE_THEN_LOAD_DECLARED
     - data: :label declaredKeyRead_postSSTORE :abi f(uint) 0x11
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001011>
+      - address: 0x0000000000000000000000000000000000001011
         storageKeys:
         - 0x00
 
     # STORE_THEN_LOAD_UNDECLARED
     - data: :label undeclaredKeyRead_postSSTORE :abi f(uint) 0x11
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001011>
+      - address: 0x0000000000000000000000000000000000001011
         storageKeys:
         - 0x10
 
     # LOAD_THEN_WRITE_DECLARED
     - data: :label declaredKeyWrite_postSLOAD :abi f(uint) 0x20
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001020>
+      - address: 0x0000000000000000000000000000000000001020
         storageKeys:
         - 0x00
 
     # LOAD_THEN_WRITE_UNDECLARED
     - data: :label undeclaredKeyWrite_postSLOAD :abi f(uint) 0x20
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001020>
+      - address: 0x0000000000000000000000000000000000001020
         storageKeys:
         - 0x10
 
     # LOAD_THEN_READ_DECLARED
     - data: :label declaredKeyRead_postSLOAD :abi f(uint) 0x21
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001021>
+      - address: 0x0000000000000000000000000000000000001021
         storageKeys:
         - 0x00
 
     # LOAD_THEN_READ_UNDECLARED
     - data: :label undeclaredKeyRead_postSLOAD :abi f(uint) 0x21
       accessList:
-      - address: <contract:0x0000000000000000000000000000000000001021>
+      - address: 0x0000000000000000000000000000000000001021
         storageKeys:
         - 0x10
 
@@ -563,7 +563,7 @@ storageCosts:
     # TO_ADDR_VALID
     - data: :label declaredTo :abi f(uint) 0xFFF  # Doesn't matter which contract we call
       accessList:
-      - address: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+      - address: 0xcccccccccccccccccccccccccccccccccccccccc
         storageKeys:
         - 0x0000
         - 0x0001
@@ -584,7 +584,7 @@ storageCosts:
     # TO_ADDR_INVALID_CELL
     - data: :label undeclaredTo :abi f(uint) 0xFFF  # Doesn't matter which contract we call
       accessList:
-      - address: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+      - address: 0xcccccccccccccccccccccccccccccccccccccccc
         storageKeys:
         - 0xF000
         - 0xF001
@@ -611,7 +611,7 @@ storageCosts:
         - 0x00ad
         - 0x123214342ad
         - 0xdeadbeef
-      - address: <contract:0x0000000000000000000000000000000000001000>
+      - address: 0x0000000000000000000000000000000000001000
         storageKeys:
         - 0xFFFFF
         - 0x00
@@ -638,8 +638,8 @@ storageCosts:
     - '400000'
     gasPrice: '10'
     nonce: '0'
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
-    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
+    to: cccccccccccccccccccccccccccccccccccccccc
 
     value:
     - '100000'
@@ -661,7 +661,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001000>:
+      0000000000000000000000000000000000001000:
         storage:
           0x00: 0x02
           0x01: 0x4e23
@@ -677,7 +677,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001000>:
+      0000000000000000000000000000000000001000:
         storage:
           0x00: 0x02
           0x01: 0x5657
@@ -693,7 +693,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001003>:
+      0000000000000000000000000000000000001003:
         storage:
           0x00: 0xBEEF
           0x01: 0x0b57
@@ -709,7 +709,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001003>:
+      0000000000000000000000000000000000001003:
         storage:
           0x00: 0xBEEF
           0x01: 0x138b
@@ -726,7 +726,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001004>:
+      0000000000000000000000000000000000001004:
         storage:
           0x00: 0x60A7
           0x01: 0x0067
@@ -744,7 +744,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001004>:
+      0000000000000000000000000000000000001004:
         storage:
           0x00: 0x60A7
           0x01: 0x089b
@@ -760,7 +760,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001005>:
+      0000000000000000000000000000000000001005:
         storage:
           0x01: 0x0067
 
@@ -777,7 +777,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001005>:
+      0000000000000000000000000000000000001005:
         storage:
           0x01: 0x089b
 
@@ -797,7 +797,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001002>:
+      0000000000000000000000000000000000001002:
         storage:
           0x00: 0x00
           0x01: 0x0b57
@@ -819,7 +819,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001002>:
+      0000000000000000000000000000000000001002:
         storage:
           0x00: 0x00
           0x01: 0x138b
@@ -835,7 +835,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001001>:
+      0000000000000000000000000000000000001001:
         storage:
           0x01: 0x0064
 
@@ -852,7 +852,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001001>:
+      0000000000000000000000000000000000001001:
         storage:
           0x01: 0x0834
 
@@ -872,7 +872,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001010>:
+      0000000000000000000000000000000000001010:
         storage:
           0x00: 0x02
           0x01: 0x0067
@@ -894,7 +894,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001011>:
+      0000000000000000000000000000000000001011:
         storage:
           0x00: 0x60A7
           0x01: 0x0064
@@ -915,7 +915,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001020>:
+      0000000000000000000000000000000000001020:
         storage:
           0x00: 0x02
           0x01: 0x4e20
@@ -936,7 +936,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:0x0000000000000000000000000000000000001021>:
+      0000000000000000000000000000000000001021:
         storage:
           0x01: 0x0061
 
@@ -954,7 +954,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+      cccccccccccccccccccccccccccccccccccccccc:
         storage:
           0x0000: 0x0002
           0x0001: 0x0064
@@ -976,7 +976,7 @@ storageCosts:
     network:
     - ">=Cancun"
     result:
-      <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+      cccccccccccccccccccccccccccccccccccccccc:
         storage:
           0x0000: 0x0002
           0x0001: 0x0834

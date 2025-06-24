@@ -25,7 +25,7 @@ gasPriceDiffPlaces:
     # It is not trivial to use the Yul compiler to get the
     # binary code for the code we're checking, so we'll use EXTCODECOPY
     # from this contract
-    <contract:0x000000000000000000000000000000000000c0de>:
+    000000000000000000000000000000000000C0DE:
       balance: 1000000000000000000
       code: |
         :yul berlin {
@@ -48,7 +48,7 @@ gasPriceDiffPlaces:
 
     # When we create a contract and then call it, we don't want the
     # zero prefix in the return value
-    <contract:0x000000000000000000000000000000000020c0de>:
+    000000000000000000000000000000000020C0DE:
       balance: 1000000000000000000
       code: |
         :yul berlin {
@@ -65,7 +65,7 @@ gasPriceDiffPlaces:
 
 
     # Code for a construct to create a contract with the template code
-    <contract:0x00000000000000000000000000000000c0dec0de>:
+    00000000000000000000000000000000C0DEC0DE:
       balance: 1000000000000000000
       code: |
         :yul berlin {
@@ -84,7 +84,7 @@ gasPriceDiffPlaces:
 
     # Perform the action (directly or indirectly). Either way,
     # store the result in sload(0).
-    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+    cccccccccccccccccccccccccccccccccccccccc:
       balance: 1000000000000000000
       code: |
           :yul berlin {
@@ -393,7 +393,7 @@ gasPriceDiffPlaces:
 
 
     # Called to perform the code snippet and return the result
-    <contract:0x000000000000000000000000000000000000ca11>:
+    000000000000000000000000000000000000ca11:
       balance: '1000000000000000000'
       code: |
           :yul berlin {
@@ -407,7 +407,7 @@ gasPriceDiffPlaces:
 
 
     # Called to CALL the code (two level call stack)
-    <contract:0x00000000000000000000000000000000ca1100f1>:
+    00000000000000000000000000000000ca1100f1:
       balance: '1000000000000000000'
       code: |
           :yul berlin {
@@ -421,7 +421,7 @@ gasPriceDiffPlaces:
 
 
     # Called to CALLCODE the code (two level call stack)
-    <contract:0x00000000000000000000000000000000ca1100f2>:
+    00000000000000000000000000000000ca1100f2:
       balance: '1000000000000000000'
       code: |
           :yul berlin {
@@ -435,7 +435,7 @@ gasPriceDiffPlaces:
 
 
     # Called to DELEGATECALL the code (two level call stack)
-    <contract:0x00000000000000000000000000000000ca1100f4>:
+    00000000000000000000000000000000ca1100f4:
       balance: '1000000000000000000'
       code: |
           :yul berlin {
@@ -449,7 +449,7 @@ gasPriceDiffPlaces:
 
 
     # Called to STATICCALL the code (two level call stack)
-    <contract:0x00000000000000000000000000000000ca1100fa>:
+    00000000000000000000000000000000ca1100fa:
       balance: '1000000000000000000'
       code: |
           :yul berlin {
@@ -465,7 +465,7 @@ gasPriceDiffPlaces:
     # Failures (to run the code after a failure, see it works)
 
     # Out of gas
-    <contract:0x0000000000000000000000000000000000060006>:
+    0000000000000000000000000000000000060006:
       balance: '1000000000000000000'
       code: |
         :yul berlin {
@@ -481,7 +481,7 @@ gasPriceDiffPlaces:
 
 
     # REVERT
-    <contract:0x000000000000000000000000000000000060bacc>:
+    000000000000000000000000000000000060BACC:
       balance: '1000000000000000000'
       code: |
         :yul berlin {
@@ -497,7 +497,7 @@ gasPriceDiffPlaces:
 
 
     # SELFDESTRUCT
-    <contract:0x00000000000000000000000000000000deaddead>:
+    00000000000000000000000000000000DEADDEAD:
       balance: '1000000000000000000'
       code: |
         :yul berlin {
@@ -510,7 +510,7 @@ gasPriceDiffPlaces:
 
 
     # Recursively call until reaching the stack depth, then run the template
-    <contract:0x00000000000000000000000000000060baccfa57>:
+    00000000000000000000000000000060BACCFA57:
       balance: 1000000000000000000
       code: |
         :yul berlin {
@@ -540,7 +540,7 @@ gasPriceDiffPlaces:
 
 
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: 1000000000000000000000
       code: '0x'
       nonce: 1
@@ -635,10 +635,10 @@ gasPriceDiffPlaces:
     gasLimit:
     - 0x10000000000000
     nonce: 1
-    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    to: cccccccccccccccccccccccccccccccccccccccc
     value:
     - 0
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
     gasPrice: 2000
 
 
@@ -652,16 +652,16 @@ gasPriceDiffPlaces:
         - '>=Cancun'
 
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             # The result we expect
             0x00: 2000
 
-        <contract:0x000000000000000000000000000000000060bacc>:
+        000000000000000000000000000000000060BACC:
           storage:
             0x00: 0x60A7  # Anything that happens should be reverted out of
 
-        <contract:0x0000000000000000000000000000000000060006>:
+        0000000000000000000000000000000000060006:
           storage:
             0x00: 0x60A7  # Anything that happens should be reverted out of
 

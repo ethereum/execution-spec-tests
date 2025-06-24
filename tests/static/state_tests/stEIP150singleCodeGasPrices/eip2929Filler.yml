@@ -15,7 +15,7 @@ eip2929:
 
   pre:
 
-    <contract:0x000000000000000000000000000000000000ca11>:
+    000000000000000000000000000000000000ca11:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: ':raw 0x00'
       nonce: '0'
@@ -26,7 +26,7 @@ eip2929:
     # that looking at an address twice, in two different
     # contracts (during the same transaction) only
     # incurs one eip2929 charge.
-    <contract:0x000000000000000000000000000000ca1100ca11>:
+    000000000000000000000000000000ca1100ca11:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
          {
@@ -37,7 +37,7 @@ eip2929:
 
 
     # Access storage 0x100 from a different account
-    <contract:0x00000000000000000000000000000000ca110100>:
+    00000000000000000000000000000000ca110100:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
          {
@@ -47,7 +47,7 @@ eip2929:
       storage: {}
 
 
-    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+    cccccccccccccccccccccccccccccccccccccccc:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         {
@@ -121,7 +121,7 @@ eip2929:
         0x100: 0x60A7
 
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: '0x'
       nonce: '0'
@@ -224,10 +224,10 @@ eip2929:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+    to: cccccccccccccccccccccccccccccccccccccccc
     value:
     - '1'
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
     
     
   expect:
@@ -241,7 +241,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 0
 
@@ -258,7 +258,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2090
             0x01: 90
@@ -275,7 +275,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 4991
             0x01: 91
@@ -292,7 +292,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2090
             0x01: 2891
@@ -311,7 +311,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2590
             0x01: 90
@@ -327,7 +327,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2597
             0x01: 97
@@ -344,7 +344,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2608
             0x01: 108
@@ -361,7 +361,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2605
             0x01: 105
@@ -377,7 +377,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2590
             0x01: 108
@@ -393,7 +393,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2711
             0x01: 211
@@ -409,7 +409,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2590
             0x01: 90
@@ -426,7 +426,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2590
             0x01: 211
@@ -443,7 +443,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2711
             0x01: 90
@@ -459,7 +459,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2211
             0x01: 211
@@ -477,7 +477,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2208
             0x01: 208
@@ -497,7 +497,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2090
             0x01: 211
@@ -515,7 +515,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2090
             0x01: 2891
@@ -534,7 +534,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2211
             0x01: 90
@@ -554,7 +554,7 @@ eip2929:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
+        cccccccccccccccccccccccccccccccccccccccc:
           storage:
             0x00: 2208
             0x01: 90
