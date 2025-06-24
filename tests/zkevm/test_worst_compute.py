@@ -762,6 +762,8 @@ def test_worst_modexp(
             ],
             id="bn128_one_pairing",
         ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353
+        pytest.param(0x08, [""], id="bn128_two_pairings_empty"),
         pytest.param(
             Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
             [
