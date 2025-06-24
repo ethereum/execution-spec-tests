@@ -43,8 +43,8 @@ class CallDataOrigin:
 @pytest.mark.parametrize(
     "origin",
     [
-        CallDataOrigin.TRANSACTION,
-        CallDataOrigin.CALL,
+        pytest.param(CallDataOrigin.TRANSACTION, id="transaction"),
+        pytest.param(CallDataOrigin.CALL, id="call"),
     ],
 )
 @pytest.mark.parametrize(
