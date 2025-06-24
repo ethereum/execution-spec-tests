@@ -1,7 +1,7 @@
 """
-abstract: Tests worst-case scenarios for memory copy opcodes.
+abstract: Tests worst-case scenarios for memory related opcodes.
 
-Tests running worst-case memory copy opcodes.
+Tests running worst-case memory related opcodes.
 """
 
 import pytest
