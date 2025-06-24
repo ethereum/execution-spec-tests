@@ -41,7 +41,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 #### `consume`
 
-- ✨ Add the`--no-api-calls` flag to `consume` for use in CI to avoid getting rate limited by the Github API for the case of release URLs ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
+- ✨ Add the `--no-api-calls` flag to `consume` for use in CI to avoid getting rate limited by the Github API for the case of release URLs ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 
 #### `execute`
 

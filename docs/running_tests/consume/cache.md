@@ -160,7 +160,7 @@ The `--no-api-calls` flag:
 - Enables faster execution: Skips unnecessary API calls when downloading direct URLs.
 - Provides cleaner output: Omits the "Release page:" line from output when using the flag.
 
-**Note:** The `--no-api-calls` only works for direct URLs:
+**Note:** The `--no-api-calls` flag only works for direct URLs:
 
 - ✅ Direct URLs work, e.g.`--input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz`.
-- ❌ Version specifiers always require API calls, e.g. `stable@latest` (the flag is ignored).
+- ❌ Version specifiers always require API calls, e.g. `--input=stable@latest` (the flag is ignored).
