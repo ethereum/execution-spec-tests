@@ -39,6 +39,8 @@ Releases can be downloaded using EEST tooling without (manually) cloning and ins
     Release page: https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0
     ```
 
+    **Note:** The "Release page:" line can be omitted by using the `--no-api-calls` flag, which is recommended for CI environments to avoid GitHub API rate limiting.
+
     **Explanation:** `uv` creates a local Python virtual environment in `~/.cache/uv/`, installs EEST and executes the `consume cache` command to resolve and download the release, which gets cached at `~/.cache/ethereum-execution-spec-tests`. Subsequent commands will use the cached version of the fixtures.
 
 ## The `--input` Flag to Specify Fixtures
@@ -106,6 +108,12 @@ All remote fixture sources are automatically cached to avoid repeated downloads:
 ~/.cache/ethereum-execution-spec-tests/cached_downloads/
 ```
 
+You can override this location with the `--cache-folder` flag:
+
+```bash
+uv run consume cache --input stable@latest --cache-folder /path/to/custom/cache
+```
+
 **Cache structure:**
 
 ```text
@@ -137,3 +145,22 @@ All remote fixture sources are automatically cached to avoid repeated downloads:
 ## The Fixture Index File
 
 The [`fill` command](../../filling_tests/index.md) generates a JSON file `<fixture_path>/.meta/index.json` that indexes the fixtures its generated. This index file is used by `consume` commands to allow fast collection of test subsets specified on the command-line, for example, via the `--sim.limit` flag. For help with `--sim.limit` when running `./hive`, see [Hive Common Options](../hive/common_options.md), for an overview of other available test selection flags when running `consume` directly, see [Useful Pytest Options](../useful_pytest_options.md).
+
+## The `--no-api-calls` Flag for CI Environments
+
+The `--no-api-calls` flag is particularly useful in CI environments to avoid GitHub API rate limiting issues:
+
+```console
+consume cache --no-api-calls --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz
+```
+
+The `--no-api-calls` flag:
+
+- Avoids rate limiting: GitHub API has rate limits that can be easily exceeded in CI pipelines with multiple parallel builds.
+- Enables faster execution: Skips unnecessary API calls when downloading direct URLs.
+- Provides cleaner output: Omits the "Release page:" line from output when using the flag.
+
+**Note:** The `--no-api-calls` only works for direct URLs:
+
+- ✅ Direct URLs work, e.g.`--input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz`.
+- ❌ Version specifiers always require API calls, e.g. `stable@latest` (the flag is ignored).
