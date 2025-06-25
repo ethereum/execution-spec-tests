@@ -25667,6 +25667,9 @@
 <li>🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException (<a href="https://github.com/ethereum/execution-spec-tests/pull/1773">#1773</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
+<ul>
+<li>🔀 <code>consume</code> now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like <code>stable@latest</code> continue to use the API for version resolution (<a href="https://github.com/ethereum/execution-spec-tests/pull/1788">#1788</a>).</li>
+</ul>
 <h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
 <ul>
 <li>✨ Add <code>blob_transaction_test</code> execute test spec, which allows tests that send blob transactions to a running client and verifying its <code>engine_getBlobsVX</code> endpoint behavior (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644">#1644</a>).</li>

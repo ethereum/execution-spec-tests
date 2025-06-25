@@ -2118,6 +2118,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ci-friendly-behavior-for-direct-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI-Friendly Behavior for Direct URLs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -23830,6 +23839,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#ci-friendly-behavior-for-direct-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI-Friendly Behavior for Direct URLs
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -23877,6 +23895,7 @@
 <span class="go">Input: https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz</span>
 <span class="go">Release page: https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0</span>
 </code></pre></div>
+<p><strong>Note:</strong> Use direct URLs to avoid GitHub API calls (better for CI environments). Version specifiers like <code>stable@latest</code> will always use the GitHub API to resolve versions. More details on the arguments to <code>--input</code> are provided below.</p>
 <p><strong>Explanation:</strong> <code>uv</code> creates a local Python virtual environment in <code>~/.cache/uv/</code>, installs EEST and executes the <code>consume cache</code> command to resolve and download the release, which gets cached at <code>~/.cache/ethereum-execution-spec-tests</code>. Subsequent commands will use the cached version of the fixtures.</p>
 </li>
 </ol>
@@ -23929,6 +23948,9 @@ uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </s
 <p><strong>Default cache location:</strong></p>
 <div class="highlight"><pre><span></span><code>~/.cache/ethereum-execution-spec-tests/cached_downloads/
 </code></pre></div>
+<p>You can override this location with the <code>--cache-folder</code> flag:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </span>cache<span class="w"> </span>--input<span class="w"> </span>stable@latest<span class="w"> </span>--cache-folder<span class="w"> </span>/path/to/custom/cache
+</code></pre></div>
 <p><strong>Cache structure:</strong></p>
 <div class="highlight"><pre><span></span><code>❯ tree ~/.cache/ethereum-execution-spec-tests/ -L 5
 /home/dtopz/.cache/ethereum-execution-spec-tests/
@@ -23956,6 +23978,22 @@ uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </s
 </code></pre></div>
 <h2 id="the-fixture-index-file">The Fixture Index File<a class="headerlink" href="#the-fixture-index-file" title="Permanent link">&para;</a></h2>
 <p>The <a href="../../../filling_tests/"><code>fill</code> command</a> generates a JSON file <code>&lt;fixture_path&gt;/.meta/index.json</code> that indexes the fixtures its generated. This index file is used by <code>consume</code> commands to allow fast collection of test subsets specified on the command-line, for example, via the <code>--sim.limit</code> flag. For help with <code>--sim.limit</code> when running <code>./hive</code>, see <a href="../../hive/common_options/">Hive Common Options</a>, for an overview of other available test selection flags when running <code>consume</code> directly, see <a href="../../useful_pytest_options/">Useful Pytest Options</a>.</p>
+<h2 id="ci-friendly-behavior-for-direct-urls">CI-Friendly Behavior for Direct URLs<a class="headerlink" href="#ci-friendly-behavior-for-direct-urls" title="Permanent link">&para;</a></h2>
+<p>When using direct GitHub release URLs (instead of version specifiers), the consume command automatically avoids unnecessary GitHub API calls to prevent rate limiting in CI environments:</p>
+<div class="highlight"><pre><span></span><code><span class="go">consume cache --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz</span>
+</code></pre></div>
+<p><strong>API Call Behavior:</strong></p>
+<ul>
+<li>✅ <strong>Direct URLs</strong>: No API calls made, cleaner output (no "Release page:" line).</li>
+<li>ℹ️ <strong>Version specifiers</strong>: API calls required to resolve versions, includes release page info.</li>
+</ul>
+<p>Examples:</p>
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>No<span class="w"> </span>API<span class="w"> </span>calls<span class="w"> </span>-<span class="w"> </span>direct<span class="w"> </span>download
+<span class="go">consume cache --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz</span>
+
+<span class="gp"># </span>API<span class="w"> </span>calls<span class="w"> </span>required<span class="w"> </span>-<span class="w"> </span>version<span class="w"> </span>resolution<span class="w">  </span>
+<span class="go">consume cache --input=stable@latest</span>
+</code></pre></div>
 
 
 
