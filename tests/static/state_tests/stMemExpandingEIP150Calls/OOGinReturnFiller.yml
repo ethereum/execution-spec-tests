@@ -13,7 +13,7 @@ OOGinReturn:
 
   pre:
 
-    <contract:0xccccccccccccccccccccccccccccccccccccccc1>:
+    ccccccccccccccccccccccccccccccccccccccc1:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {
@@ -25,7 +25,7 @@ OOGinReturn:
 
 
 
-    <contract:0xccccccccccccccccccccccccccccccccccccccc2>:
+    ccccccccccccccccccccccccccccccccccccccc2:
       balance: '0x0ba1a9ce0ba1a9ce'
       code:   | 
         {

@@ -25,7 +25,7 @@ extCodeHashNonExistingAccount:
       balance: '1000000000000000000'
       code: |
         {
-          (MSTORE 0 (EXTCODEHASH <eoa:0xdeadbeef00000000000000000000000000000001>))
+          (MSTORE 0 (EXTCODEHASH 0xdeadbeef00000000000000000000000000000001))
           (RETURN 0 32)
         }
       nonce: '0'
@@ -34,7 +34,7 @@ extCodeHashNonExistingAccount:
       balance: '1000000000000000000'
       code: |
         {
-          (MSTORE 0 (EXTCODESIZE <eoa:0xdeadbeef00000000000000000000000000000001>))
+          (MSTORE 0 (EXTCODESIZE 0xdeadbeef00000000000000000000000000000001))
           (RETURN 0 32)
         }
       nonce: '0'
@@ -58,7 +58,7 @@ extCodeHashNonExistingAccount:
             "0x00": '0',
             "0x01": '0'
           }
-        <eoa:0xdeadbeef00000000000000000000000000000001>:
+        deadbeef00000000000000000000000000000001:
           shouldnotexist: '1'
   transaction:
     data:

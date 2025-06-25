@@ -4,13 +4,13 @@ CreateTransactionCallData:
       Tests if CALLDATALOAD, CALLDATACOPY, CODECOPY and CODESIZE work correctly in initcode context:
       call data is always empty in initcode context and "code" is initcode.
   env:
-    currentCoinbase: a94f5374fce5edbc8e2a8697c15331677e6ebf0b
+    currentCoinbase: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>
     currentDifficulty: 1
     currentGasLimit: 1000000
     currentNumber: 1
     currentTimestamp: 1000
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       nonce: 0
       balance: 100000000000000
       storage: { }

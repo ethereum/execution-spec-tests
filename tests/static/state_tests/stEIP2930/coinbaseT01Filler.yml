@@ -3,7 +3,7 @@
 
 coinbaseT01:
   env:
-    currentCoinbase: 000000000000000000000000000000000000BA5E
+    currentCoinbase: <eoa:0x000000000000000000000000000000000000ba5e>
     currentDifficulty: '0x20000'
     currentGasLimit: '0xFF112233445566'
     currentNumber: '1'
@@ -23,7 +23,7 @@ coinbaseT01:
        :yul berlin
        { 
          mstore(0, gas())
-         pop(call(gas(), 0xBA5E, 1000000, 0, 0, 0, 0))
+         pop(call(gas(), <eoa:0x000000000000000000000000000000000000ba5e>, 1000000, 0, 0, 0, 0))
          mstore(0x20, gas())
 
          // The 24 is the cost of twi gas(), seven pushes(), a pop(), and an mstore()
@@ -42,7 +42,7 @@ coinbaseT01:
 
 
     # Coinbase
-    000000000000000000000000000000000000BA5E:
+    <eoa:0x000000000000000000000000000000000000ba5e>:
       balance: 0
       code: 0x
       nonce: 1
@@ -60,7 +60,7 @@ coinbaseT01:
     # Type 1 transaction, base in list
     - data: :label T1baseInList :abi f(uint) 0
       accessList:
-      - address: 0x000000000000000000000000000000000000BA5E
+      - address: <eoa:0x000000000000000000000000000000000000ba5e>
         storageKeys: []
 
 

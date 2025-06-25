@@ -1,7 +1,7 @@
 {
     "SuicidesAndSendMoneyToItselfEtherDestroyed" : {
         "env" : {
-            "currentCoinbase" : "b94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+            "currentCoinbase" : "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "currentDifficulty" : "0x020000",
             "currentGasLimit" : "1000000",
             "currentNumber" : "1",
@@ -20,7 +20,7 @@
             }
         ],
         "pre" : {
-            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "0",
                 "code" : "",
                 "nonce" : "1",

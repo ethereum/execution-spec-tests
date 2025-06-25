@@ -126,9 +126,9 @@ extCodeHashSubcallOOG:
       network:
         - '>=Cancun'
       result:
-        <eoa:0x62ae0b997c8230e321b19d06b7004f25e1ac0637>:
+        62ae0b997c8230e321b19d06b7004f25e1ac0637:
           shouldnotexist: '1'
-        <eoa:0xc566c94b132ce77d6e67add86c5a74e808578876>:
+        c566c94b132ce77d6e67add86c5a74e808578876:
           shouldnotexist: '1' 
   transaction:
     data:

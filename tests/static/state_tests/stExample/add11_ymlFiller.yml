@@ -9,7 +9,7 @@ add11_yml:
 
   env:
     # A blockinfo section (obsolete). Do not change. (only coinbase and gasLimit could be changed)
-    currentCoinbase: 2adc25665018aa1fe0e6bc666dac8fc2697ff9ba
+    currentCoinbase: <eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>
     currentDifficulty: 0x20000
     currentGasLimit: 0xFF112233445566
     currentNumber: 1
@@ -44,7 +44,7 @@ add11_yml:
             0x00: 2
 
          # could be incomplete type. only balance field would be checked.",
-        2adc25665018aa1fe0e6bc666dac8fc2697ff9ba:
+        <eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>:
            # balance 43112
           nonce: '1'
 
@@ -62,7 +62,7 @@ add11_yml:
   # Pre condition state for the test
   pre:
      # Even if this account is not involved in transaction, it will be miner-rawrd touched upon generation of a state test
-    2adc25665018aa1fe0e6bc666dac8fc2697ff9ba:
+    <eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>:
       balance: '0'
       nonce: '1'
       code: ''

@@ -16,7 +16,7 @@
                 },
                 "network" : [ ">=Cancun"],
                 "result" : {
-                    "<contract:target:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "<contract:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "code" : "0x60003560e060020a9004806361a4770614601557005b601e6004356024565b60006000f35b60008160008190555073<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>90505b600082131560bf5780600160a060020a03166000600060007f6a7573740000000000000000000000000000000000000000000000000000000081526004017f63616c6c000000000000000000000000000000000000000000000000000000008152602001600060008560155a03f150506001820391506045565b505056",
                         "nonce" : "0x00",
                         "storage" : {
@@ -32,7 +32,7 @@
             }
         ],
         "pre" : {
-            "<contract:target:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "<contract:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "//comment1" : "contract caller",
                 "//comment2" : "{",
                 "//comment3" : "    int value;",
@@ -78,7 +78,7 @@
             "gasPrice" : "10",
             "nonce" : "0",
             "secretKey" : "6a7eeac5f12b409d42028f66b0b2132535ee158cfda439e3bfdd4558e8f4bf6c",
-            "to" : "<contract:target:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "to" : "<contract:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
             "value" : [
                 "1"
             ]

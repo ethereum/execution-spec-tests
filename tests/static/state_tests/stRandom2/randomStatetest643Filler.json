@@ -4,7 +4,7 @@
             "comment" : "Return ~1 MB out of bounds of the init code. should throw codesize error after EIP158 and create empty account before EIP158"
         },
 	"env" : {
-		"currentCoinbase":"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+		"currentCoinbase":"<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
 		"currentDifficulty":"0x20000",
 		"currentGasLimit":"0x7f0d477519ac97",
 		"currentNumber":"0x01",
@@ -25,7 +25,7 @@
                             "storage" : {
                             }
                         },
-                        "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                        "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                             "code" : "",
                             "nonce" : "0x01",
                             "storage" : {
@@ -46,7 +46,7 @@
 			"nonce":"0xd2",
 			"storage" : {}
 		},
-		"0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+		"<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 			"balance":"0xa015cddab7107b04",
 			"code":"",
 			"nonce":"0x00",

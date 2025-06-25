@@ -4,7 +4,7 @@ CreateTransactionHighNonce:
       The test check if the create transaction is reject if the origin's nonce is maximum value
       (and would overflow if increased by 1).
   env:
-    currentCoinbase: a94f5374fce5edbc8e2a8697c15331677e6ebf0b
+    currentCoinbase: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>
     currentDifficulty: 1
     currentGasLimit: 1000000
     currentNumber: 1
@@ -18,7 +18,7 @@ CreateTransactionHighNonce:
         ">=Cancun": "TransactionException.NONCE_IS_MAX"
       result: {}
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       nonce: '0xffffffffffffffff'
       balance: 100000000000000
       storage: {}

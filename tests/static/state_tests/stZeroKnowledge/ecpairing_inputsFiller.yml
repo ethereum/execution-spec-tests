@@ -3,7 +3,7 @@ ecpairing_inputs:
     comment: Various inputs to the bn254_pairing precompile
 
   env:
-    currentCoinbase: 00000000000000000000000000000000c014bace
+    currentCoinbase: <eoa:0x00000000000000000000000000000000c014bace>
     currentDifficulty: 0x20000
     currentGasLimit: 15000000
     currentNumber: 1
@@ -45,7 +45,7 @@ ecpairing_inputs:
             01: 0xfe
 
   pre:
-    00000000000000000000000000000000c014bace:
+    <eoa:0x00000000000000000000000000000000c014bace>:
       nonce: 1
       balance: 0
       code: ''
@@ -69,7 +69,7 @@ ecpairing_inputs:
       storage:
         01: 0xcc  # placeholder for the result
 
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       nonce: 0
       balance: 1000000000000000000
       code: ''

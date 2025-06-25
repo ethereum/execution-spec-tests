@@ -271,7 +271,7 @@ createFailResult:
 
 
     # User account
-    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
+    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: 0x
       nonce: 1

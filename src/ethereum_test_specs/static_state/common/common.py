@@ -205,12 +205,17 @@ def parse_code_label(code) -> CodeInFillerSource:
 
 
 class AddressTag:
-    """Represents an address tag like <eoa:sender> or <contract:token>."""
+    """
+    Represents an address tag like:
+        - <eoa:sender:0x...>.
+        - <contract:target:0x...>.
+        - <coinbase:0x...>.
+    """
 
     def __init__(self, tag_type: str, tag_name: str, original_string: str):
         """Initialize address tag."""
-        self.tag_type = tag_type  # "eoa" or "contract"
-        self.tag_name = tag_name  # e.g., "sender", "token"
+        self.tag_type = tag_type  # "eoa", "contract", or "coinbase"
+        self.tag_name = tag_name  # e.g., "sender", "target", or address for 2-part tags
         self.original_string = original_string
 
     def __str__(self) -> str:
@@ -244,21 +249,32 @@ def parse_address_or_tag(value: Any) -> Union[Address, AddressTag]:
         return Address(value, left_padding=True)
 
     # Check if it matches tag pattern:
-    # - <eoa:0x...> or <contract:0x...>
-    # - <eoa:name:0x...> or <contract:name:0x...>
-    tag_pattern = r"^<(eoa|contract):(.+)>$"
-    match = re.match(tag_pattern, value.strip())
+    # - <eoa:0x...>, <contract:0x...>, <coinbase:0x...>
+    # - <eoa:name:0x...>, <contract:name:0x...>
+
+    # Try 3-part pattern first (type:name:address)
+    tag_pattern_3_part = r"^<(eoa|contract|coinbase):([^:]+):(.+)>$"
+    match = re.match(tag_pattern_3_part, value.strip())
 
     if match:
         tag_type = match.group(1)
-        # The tag_name is everything after the type and colon
-        # Could be "0x1234..." or "sender:0x1234..."
         tag_name = match.group(2)
-
+        address_part = match.group(3)
+        # For 3-part tags, the tag_name is the middle part
         return AddressTag(tag_type, tag_name, value.strip())
-    else:
-        # Regular address string
-        return Address(value, left_padding=True)
+
+    # Try 2-part pattern (type:address)
+    tag_pattern_2_part = r"^<(eoa|contract|coinbase):(.+)>$"
+    match = re.match(tag_pattern_2_part, value.strip())
+
+    if match:
+        tag_type = match.group(1)
+        address_part = match.group(2)
+        # For 2-part tags, use the address as the tag_name
+        return AddressTag(tag_type, address_part, value.strip())
+
+    # Regular address string
+    return Address(value, left_padding=True)
 
 
 def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
@@ -271,7 +287,7 @@ def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
         return Address(value, left_padding=True)
 
     # Check if it matches a tag pattern
-    tag_pattern = r"^<(eoa|contract):.+>$"
+    tag_pattern = r"^<(eoa|contract|coinbase):.+>$"
     if re.match(tag_pattern, value.strip()):
         # Return the tag string as-is for later resolution
         return value.strip()

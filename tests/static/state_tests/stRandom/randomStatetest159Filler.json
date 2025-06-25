@@ -1,7 +1,7 @@
 {
     "randomStatetest159" : {
         "env" : {
-            "currentCoinbase" : "945304eb96065b2a98b57a48a06ae28d285a71b5",
+            "currentCoinbase" : "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>",
             "currentDifficulty" : "0x20000",
             "currentGasLimit" : "0x7fffffffffffffff",
             "currentNumber" : "0x01",
@@ -22,7 +22,7 @@
                             "0xcbd00120239df2d03db2fdd9c233df848ead9d3c84d4" : "0xf327f570c11aa84a7a5480b98c51"
                         }
                     },
-                    "945304eb96065b2a98b57a48a06ae28d285a71b5" : {
+                    "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>" : {
                         "nonce" : "0x00",
                         "storage" : {
                         }
@@ -44,7 +44,7 @@
                 "storage" : {
                 }
             },
-            "945304eb96065b2a98b57a48a06ae28d285a71b5" : {
+            "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>" : {
                 "balance" : "0x2e",
                 "code" : ":raw 0x6000355415600957005b60203560003555",
                 "nonce" : "0x00",

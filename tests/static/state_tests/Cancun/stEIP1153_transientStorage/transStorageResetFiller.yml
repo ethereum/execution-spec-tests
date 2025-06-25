@@ -272,7 +272,7 @@ transStorageReset:
           storage:
             0x00: 0xBEEF # The call with tstore(0, 0xBEEF) was successful
             0x01: 1      # The call was successful
-        <contract:0x000000000000000000000000000000000000dead>:
+        000000000000000000000000000000000000dead:
           storage:
             0x10: 0x01   # call was successful
 
@@ -360,7 +360,7 @@ transStorageReset:
             0x00: 0x60A7 # The call with tstore(0, 0xBEEF) or tstore(0, 0xBAD0BEEF)
                          #  reverted
             0x01: 0      # The call failed
-        <contract:0x000000000000000000000000000000000000dead>:
+        000000000000000000000000000000000000dead:
           storage:
             # Reverted call, storage unchanged
             0x10: 0x60A7
@@ -386,7 +386,7 @@ transStorageReset:
           storage:
             0x00: 0x60A7 # The call with tstore(0, 0xBAD0BEEF) was in a different Trans
             0x01: 1      # The call was successful
-        <contract:0x000000000000000000000000000000000000dead>:
+        000000000000000000000000000000000000dead:
           storage:
             # Nothing overwrites the return value
             0x10: 0x7E57

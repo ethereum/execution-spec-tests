@@ -21,11 +21,11 @@ StaticcallToPrecompileFromCalledContract:
       <contract:target:0xb000000000000000000000000000000000000000>:
         storage:
           '0x00': '0x01'
-      <contract:0xa000000000000000000000000000000000000000>:
+      a000000000000000000000000000000000000000:
         storage:
           # precompiled contract #1 - Recovery of ECDSA signature
           '0x00': '0x01'
-          '0x01': '<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
+          '0x01': '0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b'
           '0x02': '0x01'
           # precompiled contract #2 - Hash function SHA256
           '0x03': '0x01'

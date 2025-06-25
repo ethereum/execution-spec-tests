@@ -5,7 +5,7 @@
         },
         "env" : {
             "//comment" : "A blockinfo section (obsolete). Do not change. (only coinbase and gasLimit could be changed)",
-            "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+            "currentCoinbase" : "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>",
             "currentDifficulty" : "0x20000",
             "currentGasLimit" : "0xFF112233445566",
             "currentNumber" : "1",
@@ -38,7 +38,7 @@
                         }
                     },
                     "//comment" : "could be incomplete type. only balance field would be checked.",
-                    "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba" : {
+                    "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>" : {
                         "//balance" : "43112",
                         "nonce" : "1"
                     },
@@ -58,7 +58,7 @@
         ],
         "//comment" : "Pre condition state for the test",
         "pre" : {
-            "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba" : {
+            "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>" : {
                 "balance" : "0",
                 "code" : "0x",
                 "nonce" : "1",

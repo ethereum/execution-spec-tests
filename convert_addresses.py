@@ -15,6 +15,9 @@ from pathlib import Path
 KNOWN_SECRET_KEY = '45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8'
 KNOWN_SENDER_ADDRESS = 'a94f5374fce5edbc8e2a8697c15331677e6ebf0b'
 
+# don't convert default coinbase since this is the same used in python tests
+# TODO: check if coinbase is affected in `result` section. If so, we need to tag it
+#  to generate a dynamic address for it in both the `result` and `currentCoinbase` sections
 CONVERT_COINBASE = False
 
 # Ethereum precompile addresses (0x01 through 0x11)
@@ -46,6 +49,11 @@ FALSE_POSITIVE_TESTS = {
   "createNameRegistratorPreStore1NotEnoughGasFiller.json",
   # definite false positives
   "codesizeOOGInvalidSizeFiller.json",
+  # "contractCreationOOGdontLeaveEmptyContractFiller.json",  # Temporarily enabling for testing
+  "contractCreationOOGdontLeaveEmptyContractViaTransactionFiller.json",
+  "createContractViaContractFiller.json",
+  "createContractViaContractOOGInitCodeFiller.json",
+  "createContractViaTransactionCost53000Filler.json",
 }
 
 INCOMPATIBLE_FILLERS = {
@@ -70,9 +78,9 @@ INCOMPATIBLE_FILLERS = {
   "createCodeSizeLimitFiller.yml",
   "createFailBalanceTooLowFiller.json",
   "createInitOOGforCREATEFiller.json",
+  "createJS_NoCollisionFiller.json",
   "createNameRegistratorPerTxsFiller.json",
   "createNameRegistratorPerTxsNotEnoughGasFiller.json",
-  "createJS_NoCollisionFiller.json",
   "undefinedOpcodeFirstByteFiller.yml",
   "block504980Filler.json",
   "static_CallEcrecover0Filler.json",
@@ -123,6 +131,7 @@ INCOMPATIBLE_FILLERS = {
   "extCodeHashDeletedAccountCancunFiller.yml",
   "extCodeHashDeletedAccountFiller.yml",
   "extCodeHashSubcallSuicideFiller.yml",
+  "CreateAndGasInsideCreateWithMemExpandingCallsFiller.json",
   "codeCopyZero_ParisFiller.yml",
   "createEmptyThenExtcodehashFiller.json",
   "extCodeHashInInitCodeFiller.json",
@@ -148,6 +157,7 @@ DO_NOT_TAG_ADDRESSES = {
     "00000000000000000000000000000000ebd141d5",
   },
   "invalidAddrFiller.yml" : {"0000000000000000000000000000000000dead01", "0000000000000000000000000000000000dead02"},
+  "OOGinReturnFiller.yml" : {"ccccccccccccccccccccccccccccccccccccccc1", "ccccccccccccccccccccccccccccccccccccccc2"},
 }
 
 SHORT_NAME_FILLERS = {
@@ -155,6 +165,8 @@ SHORT_NAME_FILLERS = {
   "invalidAddrFiller.yml",
   "precompsEIP2929CancunFiller.yml",
   "addressOpcodesFiller.yml",
+  "coinbaseT01Filler.yml",
+  "coinbaseT2Filler.yml",
 }
 
 # Fillers that should have precompile check disabled
@@ -231,15 +243,17 @@ def calculate_entropy(addr: str) -> float:
 class SimpleAddressConverter:
     """Simple two-pass converter."""
     
-    def __init__(self, skip_precompile_check: bool = False, no_tags_in_code: bool = False, validate_addr_entropy_in_code: bool = False, filename: str = ""):
+    def __init__(self, filename: str = ""):
         self.address_mappings: Dict[str, str] = {}  # addr -> tag
+        self.pre_addresses: Set[str] = set()  # addresses from pre section
         self.addresses_with_code: Set[str] = set()
+        self.creation_addresses: Set[str] = set()  # addresses from result section with shouldnotexist
         self.coinbase_addr: Optional[str] = None
         self.target_addr: Optional[str] = None
-        self.skip_precompile_check = skip_precompile_check
-        self.no_tags_in_code = no_tags_in_code
-        self.validate_addr_entropy_in_code = validate_addr_entropy_in_code
-        self.filename = filename
+        self.is_json = filename.lower().endswith('.json')
+        self.skip_precompile_check = any(kw in filename for kw in DISABLE_PRECOMPILE_CHECK_FILLERS)
+        self.no_tags_in_code = any(kw in filename for kw in NO_TAGS_IN_CODE)
+        self.validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
         
         # Get addresses that should not be tagged for this specific test file
         self.do_not_tag_addresses: Set[str] = set()
@@ -280,257 +294,188 @@ class SimpleAddressConverter:
 
 
     def collect_addresses(self, lines: List[str]) -> None:
-        """First pass: collect all addresses from the file."""
+        """First pass: collect all addresses from the file (unified for JSON and YAML)."""
         in_pre = False
         in_env = False
         in_transaction = False
+        in_result = False
         current_address = None
+        current_result_address = None
         in_code = False
         has_been_in_pre = False
+        looking_for_shouldnotexist = False
 
         for line in lines:
             stripped = line.strip()
             stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "").replace(",", "")
 
-            if (
-              in_code 
-              and len(stripped_no_spaces_or_quotes) > 0 
-              and stripped_no_spaces_or_quotes[-1] in {"}", "]"} 
-              or any(kw in stripped_no_spaces_or_quotes for kw in {"balance:", "nonce:", "storage:"})
-            ):
+            # End code detection - when we hit balance, nonce, storage, or closing braces
+            if (in_code and 
+                (any(kw in stripped_no_spaces_or_quotes for kw in {"balance:", "nonce:", "storage:"}) or
+                 (stripped and stripped[-1] in {"}", "]"}))):
                 in_code = False
             
-            # Track sections
-            if "pre:" in stripped_no_spaces_or_quotes:
+            # Unified section detection - works for both JSON ("pre":) and YAML (pre:)
+            if 'pre:' in stripped_no_spaces_or_quotes:
                 has_been_in_pre = True
                 in_pre = True
-                in_env = False
-                in_transaction = False
-                in_code = False
-            elif "env:" in stripped_no_spaces_or_quotes:
-                in_pre = False
+                in_env = in_transaction = in_result = in_code = False
+                looking_for_shouldnotexist = False
+                
+            elif 'env:' in stripped_no_spaces_or_quotes:
                 in_env = True
-                in_transaction = False
-                in_code = False
-            elif "transaction:" in stripped_no_spaces_or_quotes:
-                in_pre = False
-                in_env = False
+                in_pre = in_transaction = in_result = in_code = False
+                looking_for_shouldnotexist = False
+                current_address = None  # Clear when leaving pre section
+                
+            elif 'transaction:' in stripped_no_spaces_or_quotes:
                 in_transaction = True
-                in_code = False
-            elif any(line.startswith(prefix) for prefix in {"expect:", "_info:"}):
-                # New top-level section
-                in_pre = False
-                in_env = False
-                in_transaction = False
-                in_code = False
+                in_pre = in_env = in_result = in_code = False
+                looking_for_shouldnotexist = False
+                current_address = None  # Clear when leaving pre section
                 
-            # Track code subsection
-            if "code:" in stripped_no_spaces_or_quotes:
+            elif 'result:' in stripped_no_spaces_or_quotes:
+                in_result = True
+                in_pre = in_env = in_transaction = in_code = False
+                looking_for_shouldnotexist = False
+                current_address = None  # Clear when leaving pre section
+                
+            elif any(kw in stripped_no_spaces_or_quotes for kw in ['expect:', '_info:']):
+                in_pre = in_env = in_transaction = in_result = in_code = False
+                looking_for_shouldnotexist = False
+                current_address = None  # Clear when leaving pre section
+
+            # Only set in_code for YAML files, not JSON (JSON code is always single-line)
+            if 'code:' in stripped_no_spaces_or_quotes and not self.is_json:
                 in_code = True
-            elif current_address:
-                in_code = False
                 
-            # In pre section, collect ALL addresses
-            if in_pre:
-                # Plain address
-                match = re.match(r'^\s*[\'"]?([a-fA-F0-9]{40})[\'"]?:\s*$', line)
-                if match:
-                    addr = normalize_address(match.group(1))
-                    # Skip addresses that should not be tagged for this test file
-                    if addr in self.do_not_tag_addresses:
-                        continue
-                    if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                        self.address_mappings[addr] = None  # Will assign tag later
-                        current_address = addr
-                    continue
-                    
-                # Already tagged address - extract the address
-                match = re.match(r'^\s*<(?:contract|eoa)(?::[^:]+)?:0x([a-fA-F0-9]{40})>:\s*$', line)
-                if match:
-                    addr = normalize_address(match.group(1))
-                    # Skip addresses that should not be tagged for this test file
-                    if addr in self.do_not_tag_addresses:
-                        continue
-                    if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                        self.address_mappings[addr] = None
-                        current_address = addr
-                        
-                # Check if current address has code
-                if current_address and in_code and ':' in line:
-                    code_content = line.split(':', 1)[1].strip()
-                    if code_content and code_content not in ['""', "''", '0x', "'0x'", '"0x"']:
-                        self.addresses_with_code.add(current_address)
-                elif current_address and in_code and ('|' in line or '>' in line):
-                    self.addresses_with_code.add(current_address)
-            
-            if not in_pre and has_been_in_pre:
-                has_been_in_pre = False
-
-            # Collect coinbase
-            if in_env:
-                match = re.match(r'^\s*currentCoinbase\s*:\s*(.+)$', line)
-                if match:
-                    value = match.group(1).strip()
-                    # Extract address from value
-                    addr_match = re.search(r'([a-fA-F0-9]{40})', value)
-                    if addr_match:
-                        addr = normalize_address(addr_match.group(1))
-                        # Skip addresses that should not be tagged for this test file
-                        if addr in self.do_not_tag_addresses:
-                            continue
-                        if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                            self.coinbase_addr = addr
-                            if CONVERT_COINBASE:
-                                self.address_mappings[addr] = None
-                        
-            # Collect target from transaction
-            if in_transaction:
-                match = re.match(r'^\s*to:\s*(.+)$', line)
-                if match:
-                    value = match.group(1).strip()
-                    # Extract address from value
-                    addr_match = re.search(r'([a-fA-F0-9]{40})', value)
-                    if addr_match:
-                        addr = normalize_address(addr_match.group(1))
-                        # Skip addresses that should not be tagged for this test file
-                        if addr in self.do_not_tag_addresses:
-                            continue
-                        if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                            self.target_addr = addr
-                            self.address_mappings[addr] = None
-                            
-            # Check for sender address
-            if KNOWN_SENDER_ADDRESS in self.address_mappings:
-                # We found the sender address somewhere
-                pass
-                
-    def collect_addresses_json(self, lines: List[str]) -> None:
-        """First pass: collect all addresses from JSON file."""
-        in_pre = False
-        in_env = False
-        in_transaction = False
-        current_address = None
-        in_code = False
-        brace_depth = 0
-
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "").replace(",", "")
-
-            if (
-              in_code 
-              and len(stripped_no_spaces_or_quotes) > 0 
-              and stripped_no_spaces_or_quotes[-1] in {"}", "]"} 
-              or any(kw in stripped_no_spaces_or_quotes for kw in {"balance:", "nonce:", "storage:"})
-            ):
-                in_code = False
-        
-            # Track sections based on JSON keys BEFORE updating brace depth
-            if '"pre"' in line and ':' in line:
-                in_pre = True
-                in_env = False
-                in_transaction = False
-            elif '"env"' in line and ':' in line:
-                in_pre = False
-                in_env = True
-                in_transaction = False
-            elif '"transaction"' in line and ':' in line:
-                in_pre = False
-                in_env = False
-                in_transaction = True
-            
-            # Track brace depth to understand nesting
-            brace_depth += line.count('{') - line.count('}')
-            
-            # Reset sections when returning to top level
-            if brace_depth <= 1:
-                # But only if we're not on a section header line
-                if not ('"pre"' in line or '"env"' in line or '"transaction"' in line):
-                    in_pre = False
-                    in_env = False
-                    in_transaction = False
-                
-            # Track code subsection
-            if '"code"' in line and ':' in line:
-                in_code = True
-            elif in_code and '"' in line and ':' in line:
-                in_code = False
-                
-            # In pre section, collect addresses as JSON keys
+            # Unified address collection in pre section
             if in_pre and not in_code:
-                # Look for address as JSON key: "0x...": { or "...": {
-                match = re.search(r'"(?:0x)?([a-fA-F0-9]{40})"\s*:\s*\{', line)
+                # Look for address patterns (with or without quotes, with or without 0x prefix)
+                # Matches: "address": {, "0xaddress": {, address:, 0xaddress:, <tag>:
+                addr_match = None
+                
+                # Plain address pattern (40 hex chars followed by colon)
+                # Handle both JSON format ("address": {) and YAML format (address: {)
+                match = re.search(r'["\']?(?:0x)?([a-fA-F0-9]{40})["\']?\s*:\s*[{\[]?', line)
                 if match:
-                    addr = normalize_address(match.group(1))
-                    # Skip addresses that should not be tagged for this test file
-                    if addr in self.do_not_tag_addresses:
-                        continue
-                    if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                        self.address_mappings[addr] = None
+                    addr_match = match
+                else:
+                    # Tagged address pattern
+                    match = re.search(r'<(?:contract|eoa)(?::[^:]+)?:(?:0x)?([a-fA-F0-9]{40})>\s*:', line)
+                    if match:
+                        addr_match = match
+                
+                if addr_match:
+                    addr = normalize_address(addr_match.group(1))
+                    if addr not in self.do_not_tag_addresses:
+                        # and (self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES)):
+                        self.address_mappings[addr] = None  # Will assign tag later
+                        self.pre_addresses.add(addr)
                         current_address = addr
                     continue
-                    
-                # Already tagged address in JSON
-                match = re.search(r'"<(?:contract|eoa)(?::[^:]+)?:0x([a-fA-F0-9]{40})>"\s*:\s*\{', line)
-                if match:
-                    addr = normalize_address(match.group(1))
-                    # Skip addresses that should not be tagged for this test file
-                    if addr in self.do_not_tag_addresses:
-                        continue
-                    if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                        self.address_mappings[addr] = None
-                        current_address = addr
-            
-            # Check if current address has code
-            if current_address and in_code:
-                # Use the stripped line to check for code content
-                if "code:" in stripped_no_spaces_or_quotes:
-                    # Check if it's not an empty code value
-                    if stripped not in ['"code": "",', '"code": "0x",', '"code": null,', '"code" : "",', '"code" : "0x",', '"code" : null,']:
-                        # Extract code value from the line
-                        code_match = re.search(r'"code"\s*:\s*"([^"]+)"', line)
-                        if code_match and code_match.group(1) not in ['', '0x']:
-                            self.addresses_with_code.add(current_address)
                         
-            # Collect coinbase in env
+            # Unified address collection in result section
+            if in_result and not in_code:
+                addr_match = None
+                
+                # Plain address pattern
+                # Handle both JSON format ("address": {) and YAML format (address: {)
+                match = re.search(r'["\']?(?:0x)?([a-fA-F0-9]{40})["\']?\s*:\s*[{\[]?', line)
+                if match:
+                    addr_match = match
+                else:
+                    # Tagged address pattern
+                    match = re.search(r'<(?:contract|eoa)(?::[^:]+)?:(?:0x)?([a-fA-F0-9]{40})>\s*:', line)
+                    if match:
+                        addr_match = match
+                
+                if addr_match:
+                    addr = normalize_address(addr_match.group(1))
+                    if addr not in self.do_not_tag_addresses and addr not in self.address_mappings:  
+                        # and (self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES) and
+                        current_result_address = addr
+                        looking_for_shouldnotexist = True
+                    continue
+                        
+            # Check for shouldnotexist after setting current_result_address
+            if looking_for_shouldnotexist and current_result_address:
+                if "shouldnotexist:1" in stripped_no_spaces_or_quotes:
+                    # TODO: turn this back on for `CREATE`, `CREATE2`, etc logic
+                    # Only now add to address_mappings and mark as creation address
+                    # self.address_mappings[current_result_address] = None
+                    # self.creation_addresses.add(current_result_address)
+                    # looking_for_shouldnotexist = False
+                    # current_result_address = None
+                    pass
+                elif stripped and stripped[-1] in {"}", "]"}:
+                    # End of address block without finding shouldnotexist - leave address hard-coded
+                    looking_for_shouldnotexist = False
+                    current_result_address = None
+                        
+            # Check if current address (from pre) has code
+            if current_address:
+                # For YAML files (in_code=True), use the old logic
+                if in_code:
+                    # Check for code content on the code: line itself
+                    if '"code":' in line or 'code:' in stripped_no_spaces_or_quotes:
+                        # Extract content after the colon
+                        if ':' in line:
+                            code_content = line.split(':', 1)[1].strip()
+                            # Remove quotes and check if there's actual content
+                            code_content = code_content.strip('\'"')
+                            if (code_content and 
+                                code_content not in ['', '0x', '{}', '[]'] and
+                                (code_content in ['|', '>'] or len(code_content) > 2)):
+                                self.addresses_with_code.add(current_address)
+                    elif stripped and not stripped.startswith('#') and '{' not in stripped:
+                        # Any non-empty, non-comment, non-brace line in code section indicates there's code
+                        self.addresses_with_code.add(current_address)
+                
+                # For JSON files (in_code=False), check code lines directly
+                elif self.is_json and ('"code":' in line or '"code" :' in line):
+                    # Extract content after the colon
+                    if ':' in line:
+                        code_content = line.split(':', 1)[1].strip()
+                        # Remove quotes and check if there's actual content
+                        code_content = code_content.strip('\'"').strip(',')
+                        if (code_content and 
+                            code_content not in ['', '0x', '{}', '[]'] and
+                            (not code_content.startswith('0x') or len(code_content) > 3)):  # More than just "0x"
+                            self.addresses_with_code.add(current_address)
+            
             if in_env:
-                if '"currentCoinbase"' in line:
-                    # Extract address from JSON value
-                    addr_match = re.search(r':\s*"[^"]*([a-fA-F0-9]{40})[^"]*"', line)
-                    if addr_match:
-                        addr = normalize_address(addr_match.group(1))
-                        # Skip addresses that should not be tagged for this test file
-                        if addr in self.do_not_tag_addresses:
-                            continue
-                        if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                            self.coinbase_addr = addr
-                            if CONVERT_COINBASE:
-                                self.address_mappings[addr] = None
-                            
-            # Collect target from transaction
-            if in_transaction:
-                if '"to"' in line:
-                    # Extract address from JSON value
-                    addr_match = re.search(r':\s*"[^"]*([a-fA-F0-9]{40})[^"]*"', line)
-                    if addr_match:
-                        addr = normalize_address(addr_match.group(1))
-                        # Skip addresses that should not be tagged for this test file
-                        if addr in self.do_not_tag_addresses:
-                            continue
-                        if self.skip_precompile_check or addr not in PRECOMPILE_ADDRESSES:
-                            self.target_addr = addr
+                coinbase_match = re.search(r'currentCoinbase:\s*["\']?[^"\']*?([a-fA-F0-9]{40})', stripped_no_spaces_or_quotes)
+                if coinbase_match:
+                    addr = normalize_address(coinbase_match.group(1))
+                    if addr not in self.do_not_tag_addresses:
+                        self.coinbase_addr = addr
+                        if CONVERT_COINBASE and not self.address_mappings.get(addr):
                             self.address_mappings[addr] = None
-                            
+                        
+            if in_transaction:
+                if "to:" in stripped_no_spaces_or_quotes:
+                    to_match = re.search(r'to:\s*["\']?[^"\']*?([a-fA-F0-9]{40})', stripped_no_spaces_or_quotes)
+                    if to_match:
+                        addr = normalize_address(to_match.group(1))
+                        if addr not in self.do_not_tag_addresses:
+                            self.target_addr = addr
+
     def build_tags(self) -> None:
         """Build appropriate tags for each address."""
         for addr in self.address_mappings:
             # Skip coinbase if we're not converting it
-            if addr == self.coinbase_addr and not CONVERT_COINBASE:
+            if addr == self.coinbase_addr and not CONVERT_COINBASE and addr not in self.pre_addresses:
                 continue
                 
-            if addr == KNOWN_SENDER_ADDRESS and addr not in self.addresses_with_code:
+            if addr == KNOWN_SENDER_ADDRESS and addr:
+              if addr not in self.addresses_with_code:
                 self.address_mappings[addr] = f"<eoa:sender:0x{addr}>"
-            elif addr == self.coinbase_addr:
+              else:
+                self.address_mappings[addr] = f"<contract:sender:0x{addr}>"
+            elif addr in self.creation_addresses:
+                self.address_mappings[addr] = f"<contract:creation:0x{addr}>"
+            elif addr == self.coinbase_addr and addr not in self.pre_addresses:
                 self.address_mappings[addr] = f"<eoa:coinbase:0x{addr}>"
             elif addr == self.target_addr and addr in self.addresses_with_code:
                 self.address_mappings[addr] = f"<contract:target:0x{addr}>"
@@ -547,7 +492,7 @@ class SimpleAddressConverter:
                     if short_name:
                         self.short_name_mappings[short_name] = tag
                 
-    def convert_line(self, line: str, in_pre: bool = False, in_result: bool = False, in_code_or_tx_data_or_storage: bool = False) -> str:
+    def convert_line(self, line: str, in_pre: bool = False, in_result: bool = False, in_code_or_tx_data: bool = False, in_storage: bool = False) -> str:
         """Second pass: convert addresses to tags.
         
         IMPORTANT: This method should ONLY replace raw addresses with their tags.
@@ -615,7 +560,7 @@ class SimpleAddressConverter:
                 continue
                 
             # Skip replacements in code/storage if no_tags_in_code is set
-            if self.no_tags_in_code and in_code_or_tx_data_or_storage:
+            if self.no_tags_in_code and (in_code_or_tx_data or in_storage):
                 continue
                 
             # Store positions where we've already made replacements to avoid overlaps
@@ -643,16 +588,21 @@ class SimpleAddressConverter:
                 old_pattern = f': "{addr}"'
                 if old_pattern in line:
                     line = line.replace(old_pattern, new_pattern)
-            
+
             # Simple approach: just replace the address with the tag
             # Make sure it's not already part of a tag
             if addr.lower() in line.lower():
-                # Don't replace if address is followed by > (already in a tag)
-                # Replace 0xADDR with tag (tag already includes 0x)
-                line = re.sub(rf'0x{addr}(?!>)', tag, line, flags=re.IGNORECASE)
-                
-                # Also replace plain ADDR with tag (but not if followed by >)
-                line = re.sub(rf'(?<!x){addr}(?!>)', tag, line, flags=re.IGNORECASE)
+                # if in storage, only replace values and only if it's an exact match
+                # look for : "0xADDR" or : "ADDR"
+                if in_storage:
+                    if re.search(rf': "0x{addr}"', line) or re.search(rf': "{addr}"', line):
+                        line = re.sub(rf': "0x{addr}"', f': "{tag}"', line, flags=re.IGNORECASE)
+                        line = re.sub(rf': "{addr}"', f': "{tag}"', line, flags=re.IGNORECASE)
+                    else:
+                        continue
+                else:
+                  line = re.sub(rf'0x{addr}(?!>)', tag, line, flags=re.IGNORECASE)
+                  line = re.sub(rf'(?<!x){addr}(?!>)', tag, line, flags=re.IGNORECASE)
                 
         # Replace short names with tags for SHORT_NAME_FILLERS
         if self.is_short_name_filler and self.short_name_mappings:
@@ -678,133 +628,67 @@ class SimpleAddressConverter:
         return line
 
 
-def convert_json_file(file_path: str) -> bool:
-    """Convert a single JSON file using line-by-line processing."""
+def convert_file(file_path: str) -> bool:
+    """Convert a single JSON or YAML file using line-by-line processing."""
     try:
         with open(file_path, 'r') as f:
             lines = f.readlines()
             
-        # Check if this file should skip precompile checks
         filename = Path(file_path).name
-        skip_precompile_check = filename in DISABLE_PRECOMPILE_CHECK_FILLERS
-        no_tags_in_code = any(kw in filename for kw in NO_TAGS_IN_CODE)
-        validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
-        
-        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, validate_addr_entropy_in_code=validate_addr_entropy_in_code, filename=filename)
-        
-        # First pass: collect addresses
-        converter.collect_addresses_json(lines)
-        
-        # Build tags
-        converter.build_tags()
-        
-        if not converter.address_mappings:
-            return False
-            
-        new_lines = []
-        in_pre = False
-        in_result = False
-        in_code_or_tx_data_or_storage = False
-        
-        for line in lines:
-            stripped = line.strip()
-            stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "")
-            
-            if any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "expect:", "}", "]", "secretKey:", "to:", "value:"}):
-                in_code_or_tx_data_or_storage = False
-            
-            # Track sections
-            if "pre:" in stripped_no_spaces_or_quotes:
-                in_pre = True
-                in_result = False
-                in_code_or_tx_data_or_storage = False
-            elif "result:" in stripped_no_spaces_or_quotes:
-                in_result = True
-                in_pre = False
-                in_code_or_tx_data_or_storage = False
-            elif any(kw in stripped_no_spaces_or_quotes for kw in {"code:", "data:", "storage:", "raw:"}):
-                in_code_or_tx_data_or_storage = True
-            elif any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "_info:"}):
-                in_code_or_tx_data_or_storage = False
-                in_pre = False
-                in_result = False
-
-
-            new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result, in_code_or_tx_data_or_storage=in_code_or_tx_data_or_storage)
-            new_lines.append(new_line)
-            
-            if len(stripped_no_spaces_or_quotes) > 0 and stripped_no_spaces_or_quotes[-1] in {"}", "]"}:
-                in_code_or_tx_data_or_storage = False
-        
-        # Write back
-        with open(file_path, 'w') as f:
-            f.writelines(new_lines)
-            
-        return True
-        
-    except Exception as e:
-        print(f"Error converting {file_path}: {e}")
-        return False
-
-
-def convert_yaml_file(file_path: str) -> bool:
-    """Convert a single YAML file."""
-    try:
-        with open(file_path, 'r') as f:
-            lines = f.readlines()
-            
-        # Check if this file should skip precompile checks
-        filename = Path(file_path).name
-        skip_precompile_check = filename in DISABLE_PRECOMPILE_CHECK_FILLERS
-        no_tags_in_code = filename in NO_TAGS_IN_CODE
-        validate_addr_entropy_in_code = any(kw in filename for kw in VALIDATE_ADDR_ENTROPY_IN_CODE)
-        
-        converter = SimpleAddressConverter(skip_precompile_check=skip_precompile_check, no_tags_in_code=no_tags_in_code, validate_addr_entropy_in_code=validate_addr_entropy_in_code, filename=filename)
-        
-        # First pass: collect addresses
+        converter = SimpleAddressConverter(filename=filename)
         converter.collect_addresses(lines)
-        
-        # Build tags
         converter.build_tags()
         
         if not converter.address_mappings:
             return False
             
-        # Second pass: convert (track sections for YAML)
         new_lines = []
         in_pre = False
         in_result = False
-        in_code_or_tx_data_or_storage = False
-
+        in_code_or_tx_data = False
+        in_storage = False
+        
         for line in lines:
             stripped = line.strip()
             stripped_no_spaces_or_quotes = stripped.replace('"', "").replace("'", "").replace(" ", "")
+
+            if not stripped_no_spaces_or_quotes:
+                in_code_or_tx_data = False
+                in_storage = False
             
             if any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "expect:", "}", "]", "secretKey:", "to:", "value:"}):
-                in_code_or_tx_data_or_storage = False
-
+                in_code_or_tx_data = False
+                in_storage = False
+            
             # Track sections
             if "pre:" in stripped_no_spaces_or_quotes:
                 in_pre = True
                 in_result = False
-                in_code_or_tx_data_or_storage = False
+                in_code_or_tx_data = False
+                in_storage = False
             elif "result:" in stripped_no_spaces_or_quotes:
                 in_result = True
                 in_pre = False
-                in_code_or_tx_data_or_storage = False
-            elif any(kw in stripped_no_spaces_or_quotes for kw in {"code:", "data:", "storage:", "raw:"}):
-                in_code_or_tx_data_or_storage = True
+                in_code_or_tx_data = False
+                in_storage = False
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"code:", "data:", "raw:"}):
+                in_code_or_tx_data = True
+            elif any(kw in stripped_no_spaces_or_quotes for kw in {"storage:"}):
+                in_storage = True
             elif any(kw in stripped_no_spaces_or_quotes for kw in {"env:", "transaction:", "_info:"}):
-                in_code_or_tx_data_or_storage = False
+                in_code_or_tx_data = False
                 in_pre = False
                 in_result = False
+                in_storage = False
 
-            new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result)
+            # Different parameter passing based on file type
+            new_line = converter.convert_line(line, in_pre=in_pre, in_result=in_result, in_code_or_tx_data=in_code_or_tx_data, in_storage=in_storage)
             new_lines.append(new_line)
-
-            if len(stripped_no_spaces_or_quotes) > 0 and stripped_no_spaces_or_quotes[-1] in {"}", "]"}:
-                in_code_or_tx_data_or_storage = False
             
+            if len(stripped_no_spaces_or_quotes) > 0 and stripped_no_spaces_or_quotes[-1] in {"}", "]"}:
+                in_code_or_tx_data = False
+                in_storage = False
+        
         # Write back
         with open(file_path, 'w') as f:
             f.writelines(new_lines)
@@ -847,13 +731,13 @@ def main():
     
     # Convert YAML files
     for file_path in yaml_files:
-        if convert_yaml_file(str(file_path)):
+        if convert_file(str(file_path)):
             converted_yaml += 1
             print(f"Converted YAML: {file_path}")
     
     # Convert JSON files
     for file_path in json_files:
-        if convert_json_file(str(file_path)):
+        if convert_file(str(file_path)):
             converted_json += 1
             print(f"Converted JSON: {file_path}")
     

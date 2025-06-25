@@ -108,9 +108,15 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
                 if parsed.tag_type == "contract":
                     # Use deploy_contract to get next contract address
                     # We'll deploy with empty code for now, just to reserve the address
-                    address = alloc.deploy_contract(code=b"")
-                    self._tag_to_address_map[test_id][parsed.original_string] = address
-                    return address
+                    if parsed.tag_name == "sender":
+                        eoa = alloc.fund_eoa(amount=0)
+                        self._tag_to_address_map[test_id][parsed.original_string] = Address(eoa)
+                        self._tag_to_eoa_map[test_id][parsed.original_string] = eoa
+                        return Address(eoa)
+                    else:
+                        address = alloc.deploy_contract(code=b"")
+                        self._tag_to_address_map[test_id][parsed.original_string] = address
+                        return address
                 elif parsed.tag_type == "eoa":
                     # Use fund_eoa to get next EOA
                     eoa = alloc.fund_eoa(amount=0)  # Don't fund yet, just get the address
@@ -311,7 +317,7 @@ class StateStaticTest(StateTestInFiller, BaseStaticTest):
         # Get the same registry key logic as _get_alloc_for_test
         for addr_str in self.pre.keys():
             parsed = parse_address_or_tag(addr_str)
-            if isinstance(parsed, AddressTag) and parsed.tag_type == "eoa":
+            if isinstance(parsed, AddressTag) and parsed.tag_name == "sender":
                 # Found the sender EOA - get it from our registry
                 if parsed.original_string in self._tag_to_eoa_map.get(test_id, {}):
                     sender_eoa = self._tag_to_eoa_map[test_id][parsed.original_string]

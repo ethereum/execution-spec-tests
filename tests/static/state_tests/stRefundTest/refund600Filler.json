@@ -1,7 +1,7 @@
 {
     "refund600" : {
         "env" : {
-            "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+            "currentCoinbase" : "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>",
             "currentDifficulty" : "0x20000",
             "currentGasLimit" : "1000000",
             "currentNumber" : "1",
@@ -21,7 +21,7 @@
                             "0x0b" : "0x0de0b6b3a7640000"
                         }
                     },
-                    "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba" : {
+                    "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>" : {
                         "balance" : "0"
                     },
                     "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
@@ -31,7 +31,7 @@
             }
         ],
         "pre" : {
-            "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba" : {
+            "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>" : {
                 "balance" : "0",
                 "code" : "",
                 "nonce" : "1",

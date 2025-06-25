@@ -29,7 +29,7 @@ CallWithZeroValueToPrecompileFromTransaction:
           '0x01': '0xfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeed'
           # precompiled contract #1 - Recovery of ECDSA signature
           '0x0a00': '0x01'
-          '0x0a01': '<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
+          '0x0a01': '0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b'
           '0x0a02': '0x01'
           # precompiled contract #2 - Hash function SHA256
           '0x0a03': '0x01'

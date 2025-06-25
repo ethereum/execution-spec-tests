@@ -29,14 +29,14 @@ ecrecoverWeirdV:
     comment: Ori Pomerantz qbzzt1@gmail.com
 
   env:
-    currentCoinbase: 2adc25665018aa1fe0e6bc666dac8fc2697ff9ba
+    currentCoinbase: <eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>
     currentDifficulty: 0x20000
     currentGasLimit: 0xFF112233445566
     currentNumber: 1
     currentTimestamp: 1000
 
   pre:
-    2adc25665018aa1fe0e6bc666dac8fc2697ff9ba:
+    <eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>:
       balance: 0
       nonce: 1
       code: ''

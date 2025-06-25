@@ -4,7 +4,7 @@
             "comment" : "Geth Failed this test on Frontier and Homestead"
         },
 	"env":{
-		"currentCoinbase":"0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+		"currentCoinbase":"<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
 		"currentDifficulty":"0x20000",
 		"currentGasLimit":"0x2ecf1b8c64c9dc",
 		"currentNumber":"0x01",
@@ -31,7 +31,7 @@
                             "storage" : {
                             }
                         },
-                        "0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                        "<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                             "nonce" : "0xaf",
                             "storage" : {
                             }
@@ -58,7 +58,7 @@
 			"nonce":"0x00",
 			"storage":{}
 		},
-		"0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b":{
+		"<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>":{
 			"balance":"0x2be1cfd5d6d6b0b7",
 			"code":":raw 0x63cbb01282621d72de5268022948f746c938a0cb7c01ef17f23ed237d9f3262c4eb1b95112820595b127c516074df06223db7e0c396eb18074f148d96fd766dda35b6cc250661b5f83f0ed625ba68a5ff49aa1",
 			"nonce":"0xaf",

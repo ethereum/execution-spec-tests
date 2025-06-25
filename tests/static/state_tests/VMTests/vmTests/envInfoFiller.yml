@@ -240,7 +240,7 @@ envInfo:
     result:
       <contract:0x0000000000000000000000000000000000001004>:
         storage:
-          0: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
+          0: 0xcccccccccccccccccccccccccccccccccccccccc
 
 
 
@@ -294,7 +294,7 @@ envInfo:
     result:
       <contract:0x0000000000000000000000000000000000001008>:
         storage:
-          0: <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>
+          0: 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b
 
 
 

@@ -4,7 +4,7 @@
             "comment" : "stack underflow in init code"
         },
         "env" : {
-            "currentCoinbase" : "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+            "currentCoinbase" : "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>",
             "currentDifficulty" : "0x020000",
             "currentGasLimit" : "10000000000",
             "currentNumber" : "1",
@@ -23,7 +23,7 @@
                 }
             }        ],
         "pre" : {
-            "2adc25665018aa1fe0e6bc666dac8fc2697ff9ba" : {
+            "<eoa:0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba>" : {
                 "balance" : "0",
                 "code" : "",
                 "nonce" : "1",

@@ -1,7 +1,7 @@
 {
     "randomStatetest642" : {
 	"env" : {
-	    "currentCoinbase" : "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
+	    "currentCoinbase" : "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>",
 	    "currentDifficulty" : "0x20000",
 	    "currentGasLimit" : "0x406fbe7b1f887c",
 	    "currentNumber" : "0x01",
@@ -17,7 +17,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                             "code" : "",
                             "nonce" : "0x01",
                             "storage" : {
@@ -38,7 +38,7 @@
             }
 	],
 	"pre":{
-	    "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+	    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
 		"balance" : "0x26551a696cacb206",
 		"code" : "",
 		"nonce" : "0x00",

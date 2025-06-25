@@ -210,12 +210,12 @@ CREATE2_HighNonceDelegatecall:
             '2': '0'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
@@ -244,17 +244,17 @@ CREATE2_HighNonceDelegatecall:
             '1': '0x049c7fabe0954923499fd0afa1f2fbe44b5da679'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0x049c7fabe0954923499fd0afa1f2fbe44b5da679'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:0x000000000000000000000000fffffffffffffffe>,
+       # Contract Created, keccak(address=0x000000000000000000000000fffffffffffffffe,
        #                          nonce=0xfffffffffffffffe)
        049c7fabe0954923499fd0afa1f2fbe44b5da679:
           code: '0x6001600155'
@@ -285,12 +285,12 @@ CREATE2_HighNonceDelegatecall:
             '1': '0'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0'
@@ -324,16 +324,16 @@ CREATE2_HighNonceDelegatecall:
             '2': '0xd061b08a84ebc70fe797f9bd62f4269ef8274a13'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>,
+       # Contract Created, keccak(address=0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b,
        #                          nonce=0xfffffffffffffffe)
        d061b08a84ebc70fe797f9bd62f4269ef8274a13:
           code: '0x6001600155'
@@ -364,17 +364,17 @@ CREATE2_HighNonceDelegatecall:
             '1': '0x049c7fabe0954923499fd0afa1f2fbe44b5da679'
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0x049c7fabe0954923499fd0afa1f2fbe44b5da679'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:0x000000000000000000000000fffffffffffffffe>,
+       # Contract Created, keccak(address=0x000000000000000000000000fffffffffffffffe,
        #                          nonce=0xfffffffffffffffe)
        049c7fabe0954923499fd0afa1f2fbe44b5da679:
           code: '0x6001600155'
@@ -405,12 +405,12 @@ CREATE2_HighNonceDelegatecall:
             '1': '0'
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0'
@@ -444,12 +444,12 @@ CREATE2_HighNonceDelegatecall:
             '2': '0'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
@@ -478,17 +478,17 @@ CREATE2_HighNonceDelegatecall:
             '1': '0x7bce6e037b79fd6b55d5ceb57c4aeaa480736c89'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0x7bce6e037b79fd6b55d5ceb57c4aeaa480736c89'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:0x000000000000000000000000fffffffffffffffe>,
+       # Contract Created, keccak(address=0x000000000000000000000000fffffffffffffffe,
        #                          salt=0xfffffffffffffffe,
        #                          init code=0x6005600c60003960056000f36001600155)
        7bce6e037b79fd6b55d5ceb57c4aeaa480736c89:
@@ -520,12 +520,12 @@ CREATE2_HighNonceDelegatecall:
             '1': '0'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0'
@@ -559,16 +559,16 @@ CREATE2_HighNonceDelegatecall:
             '2': '0x592f5d061e7bd8f662d037189f96d0aff7ea07c2'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>,
+       # Contract Created, keccak(address=0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b,
        #                          salt=0xfffffffffffffffe,
        #                          init code=0x6005600c60003960056000f36001600155)
        592f5d061e7bd8f662d037189f96d0aff7ea07c2:
@@ -600,17 +600,17 @@ CREATE2_HighNonceDelegatecall:
             '1': '0x7bce6e037b79fd6b55d5ceb57c4aeaa480736c89'
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0x7bce6e037b79fd6b55d5ceb57c4aeaa480736c89'
             '0xffff': '0xffffffffffffffff'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '0xffff': '0xffffffffffffffff'
-       # Contract Created, keccak(address=<contract:0x000000000000000000000000fffffffffffffffe>,
+       # Contract Created, keccak(address=0x000000000000000000000000fffffffffffffffe,
        #                          salt=0xfffffffffffffffe,
        #                          init code=0x6005600c60003960056000f36001600155)
        7bce6e037b79fd6b55d5ceb57c4aeaa480736c89:
@@ -642,12 +642,12 @@ CREATE2_HighNonceDelegatecall:
             '1': '0'
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce - 1
-       <contract:0x000000000000000000000000fffffffffffffffe>:
+       000000000000000000000000fffffffffffffffe:
           nonce: '0xfffffffffffffffe'
           storage:
             '0xffff': '0xfffffffffffffffe'
        # Contract B, Max Nonce
-       <contract:0x000000000000000000000000ffffffffffffffff>:
+       000000000000000000000000ffffffffffffffff:
           nonce: '0xffffffffffffffff'
           storage:
             '2': '0'

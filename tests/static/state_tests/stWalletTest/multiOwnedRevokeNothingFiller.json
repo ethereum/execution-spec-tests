@@ -57,7 +57,7 @@
         },
         "transaction" : {
             "data" : [
-                ":raw 0xb75c7dc66e369836487c234b9e553ef3f787c2d8865520739d340c67b3d251a33986e58d"
+                ":raw 0xb75c7dc66e369836487c234b9e553ef3<eoa:0xf787c2d8865520739d340c67b3d251a33986e58d>"
             ],
             "gasLimit" : [
                 "10000000"

@@ -1,7 +1,7 @@
 {
     "randomStatetest143" : {
         "env" : {
-            "currentCoinbase" : "945304eb96065b2a98b57a48a06ae28d285a71b5",
+            "currentCoinbase" : "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>",
             "currentDifficulty" : "0x20000",
             "currentGasLimit" : "0x7fffffffffffffff",
             "currentNumber" : "1",
@@ -20,10 +20,10 @@
                         "balance" : "1000000000000100000",
                         "nonce" : "0",
                         "storage" : {
-                            "0xae72e2bf2302ebcd309e003e5be58830f96deddaf87bb89eeea159388bfe3ec1" : "0x945304eb96065b2a98b57a48a06ae28d285a71b5"
+                            "0xae72e2bf2302ebcd309e003e5be58830f96deddaf87bb89eeea159388bfe3ec1" : "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>"
                         }
                     },
-                    "945304eb96065b2a98b57a48a06ae28d285a71b5" : {
+                    "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>" : {
                         "nonce" : "0",
                         "storage" : {
                         }
@@ -45,7 +45,7 @@
                 "storage" : {
                 }
             },
-            "945304eb96065b2a98b57a48a06ae28d285a71b5" : {
+            "<contract:0x945304eb96065b2a98b57a48a06ae28d285a71b5>" : {
                 "balance" : "46",
                 "code" : ":raw 0x6000355415600957005b60203560003555",
                 "nonce" : "0",

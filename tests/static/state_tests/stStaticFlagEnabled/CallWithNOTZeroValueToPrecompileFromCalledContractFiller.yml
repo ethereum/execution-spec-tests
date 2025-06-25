@@ -33,7 +33,7 @@ CallWithNOTZeroValueToPrecompileFromCalledContract:
         storage:
           '0x00': '0xfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeed'
           '0x02': '0xfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeed'
-      <contract:target:0xb000000000000000000000000000000000000000>:
+      b000000000000000000000000000000000000000:
         balance: '1100'
         storage:
           '0x00': '0xfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeedfeed'

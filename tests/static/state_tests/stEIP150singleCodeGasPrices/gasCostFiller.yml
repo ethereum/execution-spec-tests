@@ -17,7 +17,7 @@ gasCost:
 
   pre:
 
-    <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+    <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
       balance: '0x0ba1a9ce0ba1a9ce'
       code: |
         { ; LLL doesn't let us call arbitrary code, so we craft
@@ -329,7 +329,7 @@ gasCost:
     - 80000000
     gasPrice: 10
     nonce: 0
-    to: <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>
+    to: <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>
     value:
     - 1
     secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
@@ -348,7 +348,7 @@ gasCost:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
           storage:
             0x00: 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffda8
             0x01: 'ANY'
@@ -361,7 +361,7 @@ gasCost:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
           storage:
             0x00: 700
             0x01: 'ANY'
@@ -374,7 +374,7 @@ gasCost:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
           storage:
             0x00: 1500
             0x01: 'ANY'
@@ -387,7 +387,7 @@ gasCost:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
           storage:
             0x00: 2000
             0x01: 'ANY'
@@ -401,7 +401,7 @@ gasCost:
       network:
         - '>=Cancun'
       result:
-        <contract:target:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
+        <contract:0x095e7baea6a6c7c4c2dfeb977efac326af552d87>:
           storage:
             0x00: 0x0514
             0x01: 'ANY'
