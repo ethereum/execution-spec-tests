@@ -204,7 +204,7 @@ def test_worst_returndatacopy(
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
-@pytest.mark.parametrize("fixed_dst", [False])
+@pytest.mark.parametrize("fixed_dst", [True, False])
 def test_worst_mcopy(
     state_test: StateTestFiller,
     pre: Alloc,
