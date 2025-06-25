@@ -216,7 +216,7 @@ def get_release_url_from_release_information(
     raise NoSuchReleaseError(release_string)
 
 
-def get_release_page_url(release_string: str, no_api_calls: bool = False) -> str:
+def get_release_page_url(release_string: str) -> str:
     """
     Return the GitHub Release page URL for a specific release descriptor.
 
@@ -224,13 +224,7 @@ def get_release_page_url(release_string: str, no_api_calls: bool = False) -> str
     - A standard release string (e.g., "eip7692@latest") - from execution-spec-tests only.
     - A direct asset download link (e.g.,
         "https://github.com/ethereum/execution-spec-tests/releases/download/v4.0.0/fixtures_eip7692.tar.gz").
-
-    If no_api_calls=True and release information is not cached, returns empty string.
     """
-    # Check if we can use cached data
-    if no_api_calls and not _is_release_information_cached():
-        return ""
-
     release_information = get_release_information()
 
     # Case 1: If it's a direct GitHub Releases download link,
@@ -252,14 +246,6 @@ def get_release_page_url(release_string: str, no_api_calls: bool = False) -> str
 
     # If nothing matched, raise
     raise NoSuchReleaseError(release_string)
-
-
-def _is_release_information_cached() -> bool:
-    """Check if release information is cached and fresh."""
-    if not CACHED_RELEASE_INFORMATION_FILE.exists():
-        return False
-    last_modified = CACHED_RELEASE_INFORMATION_FILE.stat().st_mtime
-    return (datetime.now().timestamp() - last_modified) < 4 * 60 * 60 or is_docker_or_ci()
 
 
 def get_release_information() -> List[ReleaseInformation]:
