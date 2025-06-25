@@ -41,6 +41,8 @@ Users can select any of the artifacts depending on their testing needs for their
 
 #### `consume`
 
+- 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
+
 #### `execute`
 
 - ✨ Add `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
