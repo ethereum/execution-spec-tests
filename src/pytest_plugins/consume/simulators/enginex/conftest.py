@@ -16,6 +16,7 @@ from ethereum_test_rpc import EngineRPC
 logger = logging.getLogger(__name__)
 
 pytest_plugins = (
+    "pytest_plugins.pytest_hive.pytest_hive",
     "pytest_plugins.consume.simulators.base",
     "pytest_plugins.consume.simulators.multi_test_client",
     "pytest_plugins.consume.simulators.test_case_description",
