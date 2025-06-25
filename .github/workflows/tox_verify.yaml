@@ -132,6 +132,9 @@ jobs:
           targets: "evmone-t8n"
       - name: Build GETH EVM
         uses: ./.github/actions/build-evm-client/geth
+      - name: Update eels_resolutions.json
+        run: |
+          sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
       - name: Run tox - run framework unit tests with pytest
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
@@ -167,6 +170,9 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ matrix.python }}
+      - name: Update eels_resolutions.json
+        run: |
+          sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
       - name: Run tox - fill tests for deployed forks
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
