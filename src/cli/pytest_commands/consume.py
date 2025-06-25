@@ -13,14 +13,14 @@ from .processors import ConsumeCommandProcessor, HelpFlagsProcessor, HiveEnviron
 class ConsumeCommand(PytestCommand):
     """Pytest command for consume operations."""
 
-    def __init__(self, command_paths: List[Path], is_hive: bool = False):
+    def __init__(self, command_paths: List[Path], is_hive: bool = False, command_name: str = ""):
         """Initialize consume command with paths and processors."""
         processors: List[ArgumentProcessor] = [HelpFlagsProcessor("consume")]
 
         if is_hive:
             processors.extend(
                 [
-                    HiveEnvironmentProcessor(),
+                    HiveEnvironmentProcessor(command_name=command_name),
                     ConsumeCommandProcessor(is_hive=True),
                 ]
             )
@@ -88,7 +88,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
         @common_pytest_options
         @functools.wraps(func)
         def command(pytest_args: List[str], **kwargs) -> None:
-            consume_cmd = ConsumeCommand(command_paths, is_hive)
+            consume_cmd = ConsumeCommand(command_paths, is_hive, command_name)
             consume_cmd.execute(list(pytest_args))
 
         return command
