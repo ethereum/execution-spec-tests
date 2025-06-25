@@ -2301,16 +2301,12 @@ def test_worst_log_opcodes(
         if empty_value
         else Op.PUSH32(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
     )
+
     topic_count = len(opcode.kwargs or []) - 2
 
-    offset = 0 if fixed_offset else Op.MOD(Op.GAS, 7)
+    offset = Op.PUSH0 if fixed_offset else Op.MOD(Op.GAS, 7)
 
-    code_sequence = (
-        Op.DUP1 * topic_count  # Push topics
-        + Op.PUSH32(size)  # Push memory size
-        + Op.PUSH32(offset)  # Push memory offset
-        + opcode  # Add the LOG opcode
-    )
+    code_sequence = Op.DUP1 * topic_count + Op.PUSH32(size) + offset + opcode
 
     code = code_loop_precompile_call(calldata, code_sequence, fork)
     assert len(code) <= max_code_size
