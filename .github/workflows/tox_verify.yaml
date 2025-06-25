@@ -118,8 +118,6 @@ jobs:
           repository: ethereum/execution-specs
           ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
           path: execution-specs
-          sparse-checkout: |
-            src/ethereum
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
         uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
@@ -134,6 +132,9 @@ jobs:
           targets: "evmone-t8n"
       - name: Build GETH EVM
         uses: ./.github/actions/build-evm-client/geth
+      - name: Update eels_resolutions.json
+        run: |
+          sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
       - name: Run tox - run framework unit tests with pytest
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
@@ -161,8 +162,6 @@ jobs:
           repository: ethereum/execution-specs
           ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
           path: execution-specs
-          sparse-checkout: |
-            src/ethereum
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
         uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182
@@ -171,6 +170,9 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ matrix.python }}
+      - name: Update eels_resolutions.json
+        run: |
+          sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
       - name: Run tox - fill tests for deployed forks
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
