@@ -23734,7 +23734,7 @@
 
 
 <h1 id="test_worst_push"><code>test_worst_push()</code><a class="headerlink" href="#test_worst_push" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64f949d08b58c3fa17cfc39a4d5b8b520785cf44/tests/zkevm/test_worst_compute.py#L1874"><code>tests/zkevm/test_worst_compute.py::test_worst_push@64f949d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8b5fedc2b9fdd9a021677679c70c7dbdbdd0c13e/tests/zkevm/test_worst_compute.py#L1882"><code>tests/zkevm/test_worst_compute.py::test_worst_push@8b5fedc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_push --fork Prague</span>
@@ -23753,15 +23753,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1874</span>
-<span class="normal">1875</span>
-<span class="normal">1876</span>
-<span class="normal">1877</span>
-<span class="normal">1878</span>
-<span class="normal">1879</span>
-<span class="normal">1880</span>
-<span class="normal">1881</span>
-<span class="normal">1882</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1882</span>
 <span class="normal">1883</span>
 <span class="normal">1884</span>
 <span class="normal">1885</span>
@@ -23821,7 +23813,15 @@
 <span class="normal">1939</span>
 <span class="normal">1940</span>
 <span class="normal">1941</span>
-<span class="normal">1942</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1942</span>
+<span class="normal">1943</span>
+<span class="normal">1944</span>
+<span class="normal">1945</span>
+<span class="normal">1946</span>
+<span class="normal">1947</span>
+<span class="normal">1948</span>
+<span class="normal">1949</span>
+<span class="normal">1950</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span><span class="p">),</span>

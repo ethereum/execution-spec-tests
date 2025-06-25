@@ -23734,7 +23734,7 @@
 
 
 <h1 id="test_worst_calldataload"><code>test_worst_calldataload()</code><a class="headerlink" href="#test_worst_calldataload" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64f949d08b58c3fa17cfc39a4d5b8b520785cf44/tests/zkevm/test_worst_compute.py#L1726"><code>tests/zkevm/test_worst_compute.py::test_worst_calldataload@64f949d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8b5fedc2b9fdd9a021677679c70c7dbdbdd0c13e/tests/zkevm/test_worst_compute.py#L1734"><code>tests/zkevm/test_worst_compute.py::test_worst_calldataload@8b5fedc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_calldataload --fork Prague</span>
@@ -23753,15 +23753,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1726</span>
-<span class="normal">1727</span>
-<span class="normal">1728</span>
-<span class="normal">1729</span>
-<span class="normal">1730</span>
-<span class="normal">1731</span>
-<span class="normal">1732</span>
-<span class="normal">1733</span>
-<span class="normal">1734</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1734</span>
 <span class="normal">1735</span>
 <span class="normal">1736</span>
 <span class="normal">1737</span>
@@ -23791,7 +23783,15 @@
 <span class="normal">1761</span>
 <span class="normal">1762</span>
 <span class="normal">1763</span>
-<span class="normal">1764</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1764</span>
+<span class="normal">1765</span>
+<span class="normal">1766</span>
+<span class="normal">1767</span>
+<span class="normal">1768</span>
+<span class="normal">1769</span>
+<span class="normal">1770</span>
+<span class="normal">1771</span>
+<span class="normal">1772</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;calldata&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;empty&quot;</span><span class="p">),</span>

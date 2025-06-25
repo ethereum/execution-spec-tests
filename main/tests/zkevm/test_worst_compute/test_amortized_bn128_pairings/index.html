@@ -23734,7 +23734,7 @@
 
 
 <h1 id="test_amortized_bn128_pairings"><code>test_amortized_bn128_pairings()</code><a class="headerlink" href="#test_amortized_bn128_pairings" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64f949d08b58c3fa17cfc39a4d5b8b520785cf44/tests/zkevm/test_worst_compute.py#L1627"><code>tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings@64f949d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8b5fedc2b9fdd9a021677679c70c7dbdbdd0c13e/tests/zkevm/test_worst_compute.py#L1635"><code>tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings@8b5fedc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_amortized_bn128_pairings --fork Prague</span>
@@ -23753,15 +23753,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/zkevm/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1627</span>
-<span class="normal">1628</span>
-<span class="normal">1629</span>
-<span class="normal">1630</span>
-<span class="normal">1631</span>
-<span class="normal">1632</span>
-<span class="normal">1633</span>
-<span class="normal">1634</span>
-<span class="normal">1635</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1635</span>
 <span class="normal">1636</span>
 <span class="normal">1637</span>
 <span class="normal">1638</span>
@@ -23819,7 +23811,15 @@
 <span class="normal">1690</span>
 <span class="normal">1691</span>
 <span class="normal">1692</span>
-<span class="normal">1693</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1693</span>
+<span class="normal">1694</span>
+<span class="normal">1695</span>
+<span class="normal">1696</span>
+<span class="normal">1697</span>
+<span class="normal">1698</span>
+<span class="normal">1699</span>
+<span class="normal">1700</span>
+<span class="normal">1701</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

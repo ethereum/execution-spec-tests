@@ -23734,7 +23734,7 @@
 
 
 <h1 id="test_worst_blobhash"><code>test_worst_blobhash()</code><a class="headerlink" href="#test_worst_blobhash" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/64f949d08b58c3fa17cfc39a4d5b8b520785cf44/tests/zkevm/test_worst_compute.py#L1278"><code>tests/zkevm/test_worst_compute.py::test_worst_blobhash@64f949d0</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8b5fedc2b9fdd9a021677679c70c7dbdbdd0c13e/tests/zkevm/test_worst_compute.py#L1278"><code>tests/zkevm/test_worst_compute.py::test_worst_blobhash@8b5fedc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_blobhash --fork Prague</span>
@@ -23807,7 +23807,15 @@
 <span class="normal">1329</span>
 <span class="normal">1330</span>
 <span class="normal">1331</span>
-<span class="normal">1332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1332</span>
+<span class="normal">1333</span>
+<span class="normal">1334</span>
+<span class="normal">1335</span>
+<span class="normal">1336</span>
+<span class="normal">1337</span>
+<span class="normal">1338</span>
+<span class="normal">1339</span>
+<span class="normal">1340</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;blob_index, blobs_present&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -23827,15 +23835,23 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many BLOBHASH instructions as possible.&quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
     <span class="n">max_code_size</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_code_size</span><span class="p">()</span>
+    <span class="n">max_stack_height</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_stack_height</span><span class="p">()</span>
 
-    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="n">blob_index</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
-    <span class="n">code_suffix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMP</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">loop_iter</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">BLOBHASH</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span>
-    <span class="n">code_body_len</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_code_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">code_suffix</span><span class="p">))</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">loop_iter</span><span class="p">)</span>
-    <span class="n">code_body</span> <span class="o">=</span> <span class="n">loop_iter</span> <span class="o">*</span> <span class="n">code_body_len</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
+    <span class="c1"># Contract that contains a collection of BLOBHASH instructions.</span>
+    <span class="n">opcode_sequence</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">BLOBHASH</span><span class="p">(</span><span class="n">blob_index</span><span class="p">)</span> <span class="o">*</span> <span class="n">max_stack_height</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">opcode_sequence</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
+
+    <span class="n">target_contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">opcode_sequence</span><span class="p">)</span>
+
+    <span class="c1"># Contract that contains a loop of STATICCALLs to the target contract.</span>
+    <span class="n">calldata</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
+    <span class="n">attack_block</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">STATICCALL</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">target_contract_address</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code_loop_precompile_call</span><span class="p">(</span><span class="n">calldata</span><span class="p">,</span> <span class="n">attack_block</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_code_size</span>
 
+    <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="c1"># Create blob transaction if blobs are present.</span>
     <span class="n">tx_type</span> <span class="o">=</span> <span class="n">TransactionType</span><span class="o">.</span><span class="n">LEGACY</span>
     <span class="n">blob_versioned_hashes</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">max_fee_per_blob_gas</span> <span class="o">=</span> <span class="kc">None</span>
@@ -23849,7 +23865,7 @@
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="n">tx_type</span><span class="p">,</span>
-        <span class="n">to</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">),</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
         <span class="n">max_fee_per_blob_gas</span><span class="o">=</span><span class="n">max_fee_per_blob_gas</span><span class="p">,</span>
         <span class="n">blob_versioned_hashes</span><span class="o">=</span><span class="n">blob_versioned_hashes</span><span class="p">,</span>
