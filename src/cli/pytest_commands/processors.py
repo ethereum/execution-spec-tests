@@ -78,7 +78,13 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
     """Processes Hive environment variables for consume commands."""
 
     def __init__(self, command_name: str):
-        """Initialize the processor with command name to determine plugin."""
+        """
+        Initialize the processor with command name to determine plugin.
+
+        Args:
+            command_name: The command name to determine which plugin to load.
+
+        """
         self.command_name = command_name
 
     def process_args(self, args: List[str]) -> List[str]:
@@ -98,6 +104,9 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
         if os.getenv("HIVE_LOGLEVEL") is not None:
             warnings.warn("HIVE_LOG_LEVEL is not yet supported.", stacklevel=2)
+
+        modified_args.extend(["-p", "pytest_plugins.pytest_hive.pytest_hive"])
+
 
         if self.command_name == "engine":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.engine.conftest"])
