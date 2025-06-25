@@ -54,13 +54,15 @@ def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
     base_path = Path("src/pytest_plugins/consume")
     if command_name == "hive":
         commands = ["rlp", "engine"]
+        command_paths = [
+            base_path / "simulators" / "hive_tests" / f"test_via_{cmd}.py" for cmd in commands
+        ]
+    elif command_name in ["engine", "rlp"]:
+        command_paths = [base_path / "simulators" / "hive_tests" / f"test_via_{command_name}.py"]
+    elif command_name == "direct":
+        command_paths = [base_path / "direct" / "test_via_direct.py"]
     else:
-        commands = [command_name]
-
-    command_paths = [
-        base_path / ("simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
-        for cmd in commands
-    ]
+        raise ValueError(f"Unexpected command: {command_name}.")
     return command_paths
 
 
