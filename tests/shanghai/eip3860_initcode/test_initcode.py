@@ -274,27 +274,12 @@ class TestContractCreationGasUsage:
     """
 
     @pytest.fixture
-    def tx_access_list(self, fork: Fork, initcode: Initcode) -> List[AccessList]:
+    def tx_access_list(self) -> List[AccessList]:
         """
         On EIP-7623, we need to use an access list to raise the intrinsic gas cost to
         be above the floor data cost.
         """
-        gas_costs = fork.gas_costs()
-        tx_intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
-        data_floor = tx_intrinsic_gas_cost_calculator(calldata=initcode)
-        intrinsic_gas_cost = tx_intrinsic_gas_cost_calculator(
-            calldata=initcode,
-            contract_creation=True,
-            return_cost_deducted_prior_execution=True,
-        )
-        if intrinsic_gas_cost > data_floor:
-            return []
-        access_list_count = (
-            (data_floor - intrinsic_gas_cost) // gas_costs.G_ACCESS_LIST_ADDRESS
-        ) + 1
-        return [
-            AccessList(address=Address(i + 1), storage_keys=[]) for i in range(access_list_count)
-        ]
+        return [AccessList(address=Address(i + 1), storage_keys=[]) for i in range(477)]
 
     @pytest.fixture
     def exact_intrinsic_gas(
