@@ -12,6 +12,7 @@ from ethereum_test_fixtures.consume import TestCaseIndexFile, TestCaseStream
 TestCase = TestCaseIndexFile | TestCaseStream
 
 pytest_plugins = (
+    "pytest_plugins.pytest_hive.pytest_hive",
     "pytest_plugins.consume.simulators.base",
     "pytest_plugins.consume.simulators.single_test_client",
     "pytest_plugins.consume.simulators.test_case_description",
