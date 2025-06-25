@@ -151,14 +151,13 @@ The [`fill` command](../../filling_tests/index.md) generates a JSON file `<fixtu
 When using direct GitHub release URLs (instead of version specifiers), the consume command automatically avoids unnecessary GitHub API calls to prevent rate limiting in CI environments:
 
 ```console
-# Direct URL - no API calls for release page info
 consume cache --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz
 ```
 
 **API Call Behavior:**
 
-- ✅ **Direct URLs**: No API calls made, cleaner output (no "Release page:" line)
-- ℹ️  **Version specifiers**: API calls required to resolve versions, includes release page info
+- ✅ **Direct URLs**: No API calls made, cleaner output (no "Release page:" line).
+- ℹ️ **Version specifiers**: API calls required to resolve versions, includes release page info.
 
 Examples:
 
