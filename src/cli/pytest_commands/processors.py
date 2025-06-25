@@ -75,13 +75,7 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
     """Processes Hive environment variables for consume commands."""
 
     def __init__(self, command_name: str):
-        """
-        Initialize the processor with command name to determine plugin.
-
-        Args:
-            command_name: The command name to determine which plugin to load.
-
-        """
+        """Initialize the processor with command name to determine plugin."""
         self.command_name = command_name
 
     def process_args(self, args: List[str]) -> List[str]:
