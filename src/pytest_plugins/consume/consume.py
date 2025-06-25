@@ -559,8 +559,8 @@ def pytest_generate_tests(metafunc):
     if "cache" in sys.argv:
         return
 
-    # Only apply to simulator test functions to avoid conflicts with other consume simulators
-    if metafunc.function.__name__ not in ["test_blockchain_via_engine", "test_via_rlp"]:
+    # Only apply to functions that have a 'test_case' parameter (consume test functions)
+    if "test_case" not in metafunc.fixturenames:
         return
 
     test_cases = metafunc.config.test_cases
