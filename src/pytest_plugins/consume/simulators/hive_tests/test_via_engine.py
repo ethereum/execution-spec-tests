@@ -5,14 +5,17 @@ from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test a
 Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
 """
 
+import pytest
+
 from ethereum_test_exceptions import UndefinedException
-from ethereum_test_fixtures import BlockchainEngineFixture
+from ethereum_test_fixtures import BlockchainEngineFixture, BlockchainEngineXFixture
+from ethereum_test_fixtures.blockchain import FixtureHeader
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.types import ForkchoiceState, JSONRPCError, PayloadStatusEnum
-from pytest_plugins.consume.hive_simulators.exceptions import GenesisBlockMismatchExceptionError
 from pytest_plugins.logging import get_logger
 
-from ..timing import TimingData
+from ..helpers.exceptions import GenesisBlockMismatchExceptionError
+from ..helpers.timing import TimingData
 
 logger = get_logger(__name__)
 
@@ -26,47 +29,76 @@ class LoggedError(Exception):
         logger.fail(str(self))
 
 
+@pytest.mark.usefixtures("hive_test")
 def test_blockchain_via_engine(
     timing_data: TimingData,
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
-    fixture: BlockchainEngineFixture,
+    fixture: BlockchainEngineFixture | BlockchainEngineXFixture,
+    genesis_header: FixtureHeader,
     strict_exception_matching: bool,
+    fcu_frequency_tracker=None,  # Optional for enginex simulator
+    request=None,  # For accessing test info
 ):
     """
-    1. Check the client genesis block hash matches `fixture.genesis.block_hash`.
+    1. Check the client genesis block hash matches `genesis.block_hash`.
     2. Execute the test case fixture blocks against the client under test using the
     `engine_newPayloadVX` method from the Engine API.
-    3. For valid payloads a forkchoice update is performed to finalize the chain.
+    3. For valid payloads a forkchoice update is performed to finalize the chain
+       (controlled by FCU frequency for enginex simulator).
     """
-    # Send a initial forkchoice update
-    with timing_data.time("Initial forkchoice update"):
-        logger.info("Sending initial forkchoice update to genesis block...")
-        forkchoice_response = engine_rpc.forkchoice_updated(
-            forkchoice_state=ForkchoiceState(
-                head_block_hash=fixture.genesis.block_hash,
-            ),
-            payload_attributes=None,
-            version=fixture.payloads[0].forkchoice_updated_version,
-        )
-        status = forkchoice_response.payload_status.status
-        logger.info(f"Initial forkchoice update response: {status}")
-        if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
-            raise LoggedError(
-                f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
-            )
+    # Determine if we should perform forkchoice updates based on frequency tracker
+    should_perform_fcus = True  # Default behavior for engine simulator
+    group_identifier = None
 
-    with timing_data.time("Get genesis block"):
-        logger.info("Calling getBlockByNumber to get genesis block...")
-        genesis_block = eth_rpc.get_block_by_number(0)
-        if genesis_block["hash"] != str(fixture.genesis.block_hash):
-            expected = fixture.genesis.block_hash
-            got = genesis_block["hash"]
-            logger.fail(f"Genesis block hash mismatch. Expected: {expected}, Got: {got}")
-            raise GenesisBlockMismatchExceptionError(
-                expected_header=fixture.genesis,
-                got_genesis_block=genesis_block,
+    if fcu_frequency_tracker is not None and hasattr(fixture, "pre_hash"):
+        # EngineX simulator with forkchoice update frequency control
+        # Use group identifier for tracking (supports both sequential and xdist execution)
+        from ..helpers.client_wrapper import get_group_identifier_from_request
+
+        group_identifier = get_group_identifier_from_request(request, fixture.pre_hash)
+        should_perform_fcus = fcu_frequency_tracker.should_perform_fcu(group_identifier)
+
+        logger.info(
+            f"Forkchoice update frequency check for group {group_identifier}: "
+            f"perform_fcu={should_perform_fcus} "
+            f"(frequency={fcu_frequency_tracker.fcu_frequency}, "
+            f"test_count={fcu_frequency_tracker.get_test_count(group_identifier)})"
+        )
+
+    # Always increment the test counter at the start for proper tracking
+    if fcu_frequency_tracker is not None and group_identifier is not None:
+        fcu_frequency_tracker.increment_test_count(group_identifier)
+
+    if not isinstance(fixture, BlockchainEngineXFixture):
+        # Skip the initial FCU update for enginex simulator
+        with timing_data.time("Initial forkchoice update"):
+            logger.info("Sending initial forkchoice update to genesis block...")
+            forkchoice_response = engine_rpc.forkchoice_updated(
+                forkchoice_state=ForkchoiceState(
+                    head_block_hash=genesis_header.block_hash,
+                ),
+                payload_attributes=None,
+                version=fixture.payloads[0].forkchoice_updated_version,
             )
+            status = forkchoice_response.payload_status.status
+            logger.info(f"Initial forkchoice update response: {status}")
+            if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
+                raise LoggedError(
+                    f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
+                )
+
+        with timing_data.time("Get genesis block"):
+            logger.info("Calling getBlockByNumber to get genesis block...")
+            client_genesis_response = eth_rpc.get_block_by_number(0)
+            if client_genesis_response["hash"] != str(genesis_header.block_hash):
+                expected = genesis_header.block_hash
+                got = client_genesis_response["hash"]
+                logger.fail(f"Genesis block hash mismatch. Expected: {expected}, Got: {got}")
+                raise GenesisBlockMismatchExceptionError(
+                    expected_header=genesis_header,
+                    got_genesis_block=client_genesis_response,
+                )
 
     with timing_data.time("Payloads execution") as total_payload_timing:
         logger.info(f"Starting execution of {len(fixture.payloads)} payloads...")
@@ -136,7 +168,7 @@ def test_blockchain_via_engine(
                                 f"Unexpected error code: {e.code}, expected: {payload.error_code}"
                             ) from e
 
-                if payload.valid():
+                if payload.valid() and should_perform_fcus:
                     with payload_timing.time(
                         f"engine_forkchoiceUpdatedV{payload.forkchoice_updated_version}"
                     ):
@@ -157,4 +189,18 @@ def test_blockchain_via_engine(
                                 f"unexpected status: want {PayloadStatusEnum.VALID},"
                                 f" got {forkchoice_response.payload_status.status}"
                             )
+                elif payload.valid() and not should_perform_fcus:
+                    logger.info(
+                        f"Skipping forkchoice update for payload {i + 1} due to frequency setting "
+                        f"(group: {group_identifier})"
+                    )
         logger.info("All payloads processed successfully.")
+
+    # Log final FCU frequency statistics for enginex simulator
+    if fcu_frequency_tracker is not None and group_identifier is not None:
+        final_count = fcu_frequency_tracker.get_test_count(group_identifier)
+        logger.info(
+            f"Test completed for group {group_identifier}. "
+            f"Total tests in group: {final_count}, "
+            f"FCU frequency: {fcu_frequency_tracker.fcu_frequency}"
+        )

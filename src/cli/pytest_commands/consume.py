@@ -13,14 +13,14 @@ from .processors import ConsumeCommandProcessor, HelpFlagsProcessor, HiveEnviron
 class ConsumeCommand(PytestCommand):
     """Pytest command for consume operations."""
 
-    def __init__(self, command_paths: List[Path], is_hive: bool = False):
+    def __init__(self, command_paths: List[Path], is_hive: bool = False, command_name: str = ""):
         """Initialize consume command with paths and processors."""
         processors: List[ArgumentProcessor] = [HelpFlagsProcessor("consume")]
 
         if is_hive:
             processors.extend(
                 [
-                    HiveEnvironmentProcessor(),
+                    HiveEnvironmentProcessor(command_name=command_name),
                     ConsumeCommandProcessor(is_hive=True),
                 ]
             )
@@ -54,13 +54,17 @@ def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
     base_path = Path("src/pytest_plugins/consume")
     if command_name == "hive":
         commands = ["rlp", "engine"]
+        command_paths = [
+            base_path / "simulators" / "hive_tests" / f"test_via_{cmd}.py" for cmd in commands
+        ]
+    elif command_name in ["engine", "enginex"]:
+        command_paths = [base_path / "simulators" / "hive_tests" / "test_via_engine.py"]
+    elif command_name == "rlp":
+        command_paths = [base_path / "simulators" / "hive_tests" / "test_via_rlp.py"]
+    elif command_name == "direct":
+        command_paths = [base_path / "direct" / "test_via_direct.py"]
     else:
-        commands = [command_name]
-
-    command_paths = [
-        base_path / ("hive_simulators" if is_hive else "") / cmd / f"test_via_{cmd}.py"
-        for cmd in commands
-    ]
+        raise ValueError(f"Unexpected command: {command_name}.")
     return command_paths
 
 
@@ -86,7 +90,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
         @common_pytest_options
         @functools.wraps(func)
         def command(pytest_args: List[str], **kwargs) -> None:
-            consume_cmd = ConsumeCommand(command_paths, is_hive)
+            consume_cmd = ConsumeCommand(command_paths, is_hive, command_name)
             consume_cmd.execute(list(pytest_args))
 
         return command
@@ -108,13 +112,45 @@ def rlp() -> None:
 
 @consume_command(is_hive=True)
 def engine() -> None:
-    """Client consumes via the Engine API."""
+    """Client consumes Engine Fixtures via the Engine API."""
     pass
+
+
+@consume.command(
+    name="enginex",
+    help="Client consumes Engine X Fixtures via the Engine API.",
+    context_settings={"ignore_unknown_options": True},
+)
+@click.option(
+    "--enginex-fcu-frequency",
+    type=int,
+    default=1,
+    help=(
+        "Control forkchoice update frequency for enginex simulator. "
+        "0=disable FCUs, 1=FCU every test (default), N=FCU every Nth test per "
+        "pre-allocation group."
+    ),
+)
+@common_pytest_options
+def enginex(enginex_fcu_frequency: int, pytest_args: List[str], **_kwargs) -> None:
+    """Client consumes Engine X Fixtures via the Engine API."""
+    command_name = "enginex"
+    command_paths = get_command_paths(command_name, is_hive=True)
+
+    # Validate the frequency parameter
+    if enginex_fcu_frequency < 0:
+        raise click.BadParameter("FCU frequency must be non-negative")
+
+    # Add the FCU frequency to pytest args as a custom config option
+    pytest_args_with_fcu = [f"--enginex-fcu-frequency={enginex_fcu_frequency}"] + list(pytest_args)
+
+    consume_cmd = ConsumeCommand(command_paths, is_hive=True, command_name=command_name)
+    consume_cmd.execute(pytest_args_with_fcu)
 
 
 @consume_command(is_hive=True)
 def hive() -> None:
-    """Client consumes via all available hive methods (rlp, engine)."""
+    """Client consumes via rlp & engine hive methods."""
     pass
 
 
