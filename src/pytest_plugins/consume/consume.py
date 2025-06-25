@@ -567,6 +567,11 @@ def pytest_generate_tests(metafunc):
     xdist_group_mapper = getattr(metafunc.config, "xdist_group_mapper", None)
     param_list = []
 
+    # Check if this is an enginex simulator (has enginex-specific enhancements)
+    is_enginex_function = (
+        hasattr(metafunc.config, "_supported_fixture_formats")
+        and "blockchain_test_engine_x" in metafunc.config._supported_fixture_formats
+    )
     for test_case in test_cases:
         # Check if _supported_fixture_formats is set, if not allow all formats
         supported_formats = getattr(metafunc.config, "_supported_fixture_formats", None)
@@ -575,36 +580,42 @@ def pytest_generate_tests(metafunc):
 
         fork_markers = get_relative_fork_markers(test_case.fork, strict_mode=False)
 
-        # Determine xdist group name first
-        if xdist_group_mapper and hasattr(test_case, "pre_hash") and test_case.pre_hash:
-            # Use the mapper to get potentially split group name
-            xdist_group_name = xdist_group_mapper.get_xdist_group_name(test_case)
-        elif hasattr(test_case, "pre_hash") and test_case.pre_hash:
-            # No mapper or not enginex, use pre_hash directly
-            xdist_group_name = test_case.pre_hash
-        else:
-            # No pre_hash, use test ID
-            xdist_group_name = test_case.id
-
-        # Create test ID showing the xdist group name for easier identification
+        # Basic test ID and markers (used by all consume tests)
         test_id = test_case.id
-        if hasattr(test_case, "pre_hash") and test_case.pre_hash:
-            # Show first 8 chars of xdist group name (includes sub-group if split)
-            group_display = xdist_group_name[:8] if len(xdist_group_name) > 8 else xdist_group_name
-            # If it's a split group (contains ':'), show that clearly
-            if ":" in xdist_group_name:
-                # Extract sub-group number for display
-                pre_hash_part, sub_group = xdist_group_name.split(":", 1)
-                group_display = f"{pre_hash_part[:8]}:{sub_group}"
-            test_id = f"{test_case.id}[{group_display}]"
+        markers = [getattr(pytest.mark, m) for m in fork_markers] + [
+            getattr(pytest.mark, test_case.format.format_name)
+        ]
 
-        param = pytest.param(
-            test_case,
-            id=test_id,
-            marks=[getattr(pytest.mark, m) for m in fork_markers]
-            + [getattr(pytest.mark, test_case.format.format_name)]
-            + [pytest.mark.xdist_group(name=xdist_group_name)],
-        )
+        # Apply enginex-specific enhancements only for enginex functions
+        if is_enginex_function:
+            # Determine xdist group name for enginex load balancing
+            if xdist_group_mapper and hasattr(test_case, "pre_hash") and test_case.pre_hash:
+                # Use the mapper to get potentially split group name
+                xdist_group_name = xdist_group_mapper.get_xdist_group_name(test_case)
+            elif hasattr(test_case, "pre_hash") and test_case.pre_hash:
+                # No mapper or not enginex, use pre_hash directly
+                xdist_group_name = test_case.pre_hash
+            else:
+                # No pre_hash, use test ID
+                xdist_group_name = test_case.id
+
+            # Create enhanced test ID showing the xdist group name for easier identification
+            if hasattr(test_case, "pre_hash") and test_case.pre_hash:
+                # Show first 8 chars of xdist group name (includes sub-group if split)
+                group_display = (
+                    xdist_group_name[:8] if len(xdist_group_name) > 8 else xdist_group_name
+                )
+                # If it's a split group (contains ':'), show that clearly
+                if ":" in xdist_group_name:
+                    # Extract sub-group number for display
+                    pre_hash_part, sub_group = xdist_group_name.split(":", 1)
+                    group_display = f"{pre_hash_part[:8]}:{sub_group}"
+                test_id = f"{test_case.id}[{group_display}]"
+
+            # Add xdist group marker for load balancing
+            markers.append(pytest.mark.xdist_group(name=xdist_group_name))
+
+        param = pytest.param(test_case, id=test_id, marks=markers)
         param_list.append(param)
 
     metafunc.parametrize("test_case", param_list)
