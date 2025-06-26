@@ -254,9 +254,9 @@ def test_worst_returndatacopy(
         + returndata_gen
         + jump_back
     )
-    if len(code) > max_code_size:
-        # Must never happen, but keep it as a sanity check.
-        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
+    assert len(code) <= max_code_size, (
+        f"Code size {len(code)} is not equal to max code size {max_code_size}."
+    )
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
@@ -301,12 +301,25 @@ def test_worst_mcopy(
 ):
     """Test running a block filled with MCOPY executions."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
-    mem_init = Op.MSTORE8(0, Op.GAS) + Op.MSTORE8(size // 2, Op.GAS) + Op.MSTORE8(size - 1, Op.GAS)
-    code_prefix = mem_init if size > 0 else Bytecode()
+    mem_touch = (
+        Op.MSTORE8(0, Op.GAS) + Op.MSTORE8(size // 2, Op.GAS) + Op.MSTORE8(size - 1, Op.GAS)
+        if size > 0
+        else Bytecode()
+    )
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
     attack_block = Op.MCOPY(src_dst, src_dst, size)
-    code = code_loop_precompile_call(code_prefix, attack_block, fork)
+
+    jumpdest = Op.JUMPDEST
+    jump_back = Op.JUMP(len(mem_touch))
+    max_iters_loop = (max_code_size - 2 * len(mem_touch) - len(jumpdest) - len(jump_back)) // len(
+        attack_block
+    )
+    code = mem_touch + jumpdest + sum([attack_block] * max_iters_loop) + mem_touch + jump_back
+    assert len(code) <= max_code_size, (
+        f"Code size {len(code)} is not equal to max code size {max_code_size}."
+    )
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
