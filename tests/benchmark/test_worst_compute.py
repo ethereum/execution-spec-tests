@@ -1136,7 +1136,6 @@ def test_worst_precompile_fixed_cost(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
@@ -1160,7 +1159,6 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):

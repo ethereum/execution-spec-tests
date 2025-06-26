@@ -12,7 +12,7 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 | Typecheck              | `uvx --with=tox-uv tox -e typecheck`            | Objects that provide typehints pass type-checking via `mypy`.                                               |
 | Framework unit tests   | `uvx --with=tox-uv tox -e pytest`               | All framework unit tests must execute correctly.                                                            |
 | EL Client test cases   | `uvx --with=tox-uv tox -e tests-deployed`       | All client test cases for deployed forks can be generated.                                                  |
-| zkEVM EL Test cases    | `uvx --with=tox-uv tox -e tests-deployed-zkevm` | All client test cases specific to zkEVMs for deployed forks can be generated.                               |
+| Benchmark EL Test cases    | `uvx --with=tox-uv tox -e tests-deployed-benchmark` | All client test cases specific to benchmarks for deployed forks can be generated.                               |
 | HTML doc build         | `uvx --with=tox-uv tox -e mkdocs`               | Documentation generated without warnings.                                                                   |
 | Spellcheck             | `uvx --with=tox-uv tox -e spellcheck`           | Code and documentation spell-check using codespell. |
 | Markdown lint          | `uvx --with=tox-uv tox -e markdownlint`         | Markdown lint (requires [additional dependency](code_standards_details.md#additional-dependencies)).        |
