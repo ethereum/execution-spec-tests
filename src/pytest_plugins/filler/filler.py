@@ -22,6 +22,7 @@ from pytest_metadata.plugin import metadata_key  # type: ignore
 from cli.gen_index import generate_fixtures_index
 from config import AppConfig
 from ethereum_clis import TransitionTool
+from ethereum_clis.clis.eels_t8n import EELST8NWrapper
 from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Account, Address, Alloc, ReferenceSpec
 from ethereum_test_fixtures import (
@@ -117,6 +118,13 @@ def default_html_report_file_path() -> str:
 def pytest_addoption(parser: pytest.Parser):
     """Add command-line options to pytest."""
     evm_group = parser.getgroup("evm", "Arguments defining evm executable behavior")
+    evm_group.addoption(
+        "--eels",
+        action="store_true",
+        dest="eels",
+        default=False,
+        help="Use eels t8n entry point",
+    )
     evm_group.addoption(
         "--evm-bin",
         action="store",
@@ -345,18 +353,21 @@ def pytest_configure(config):
 
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
-    t8n = TransitionTool.from_binary_path(
-        binary_path=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
-    )
-    if (
-        isinstance(config.getoption("numprocesses"), int)
-        and config.getoption("numprocesses") > 0
-        and "Besu" in str(t8n.detect_binary_pattern)
-    ):
-        pytest.exit(
-            "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
-            returncode=pytest.ExitCode.USAGE_ERROR,
+    if config.getoption("eels", False):
+        t8n = EELST8NWrapper.default(trace=config.getoption("evm_collect_traces"))
+    else:
+        t8n = TransitionTool.from_binary_path(
+            binary_path=config.getoption("evm_bin"), trace=config.getoption("evm_collect_traces")
         )
+        if (
+            isinstance(config.getoption("numprocesses"), int)
+            and config.getoption("numprocesses") > 0
+            and "Besu" in str(t8n.detect_binary_pattern)
+        ):
+            pytest.exit(
+                "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
+                returncode=pytest.ExitCode.USAGE_ERROR,
+            )
 
     if "Tools" not in config.stash[metadata_key]:
         config.stash[metadata_key]["Tools"] = {
@@ -555,9 +566,12 @@ def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
 @pytest.fixture(autouse=True, scope="session")
 def t8n(request: pytest.FixtureRequest, evm_bin: Path) -> Generator[TransitionTool, None, None]:
     """Return configured transition tool."""
-    t8n = TransitionTool.from_binary_path(
-        binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
-    )
+    if request.config.getoption("eels"):
+        t8n = EELST8NWrapper.default(trace=request.config.getoption("evm_collect_traces"))
+    else:
+        t8n = TransitionTool.from_binary_path(
+            binary_path=evm_bin, trace=request.config.getoption("evm_collect_traces")
+        )
     if not t8n.exception_mapper.reliable:
         warnings.warn(
             f"The t8n tool that is currently being used to fill tests ({t8n.__class__.__name__}) "

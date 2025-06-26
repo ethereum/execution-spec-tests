@@ -14,6 +14,7 @@ from _pytest.mark.structures import ParameterSet
 from pytest import Mark, Metafunc
 
 from ethereum_clis import TransitionTool
+from ethereum_clis.clis.eels_t8n import EELST8NWrapper
 from ethereum_test_forks import (
     Fork,
     get_deployed_forks,
@@ -524,11 +525,18 @@ def pytest_configure(config: pytest.Config):
         return
 
     evm_bin = config.getoption("evm_bin", None)
-    if evm_bin is not None:
+    eels = config.getoption("eels", False)
+
+    if eels:
+        t8n = EELST8NWrapper.default()
+    elif evm_bin is not None:
         t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
-        config.unsupported_forks = frozenset(  # type: ignore
-            fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
-        )
+    else:
+        pytest.exit("One of --eels or --evm-bin should be specified")
+
+    config.unsupported_forks = frozenset(  # type: ignore
+        fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
+    )
 
 
 @pytest.hookimpl(trylast=True)
