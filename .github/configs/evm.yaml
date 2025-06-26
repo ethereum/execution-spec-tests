@@ -11,7 +11,7 @@ static:
   repo: ethereum/evmone
   ref: master
   targets: ["evmone-t8n", "evmone-eofparse"]
-zkevm:
+benchmark:
   impl: evmone
   repo: ethereum/evmone
   ref: master

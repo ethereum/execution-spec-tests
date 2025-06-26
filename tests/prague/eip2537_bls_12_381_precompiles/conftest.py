@@ -14,10 +14,10 @@ from .spec import GAS_CALCULATION_FUNCTION_MAP
 
 
 def pytest_collection_modifyitems(config, items):
-    """Add the `zkevm` marker to all tests in `./tests/prague/eip2537_bls_12_381_precompiles`."""
+    """Apply the `benchmark` marker to all tests under `eip2537_bls_12_381_precompiles/`."""
     for item in items:
         if Path(__file__).parent in Path(item.fspath).parents:
-            item.add_marker(pytest.mark.zkevm)
+            item.add_marker(pytest.mark.benchmark)
 
 
 @pytest.fixture
