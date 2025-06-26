@@ -9,6 +9,7 @@ from typing import Any, ClassVar, List, Literal, cast
 
 import ckzg  # type: ignore
 import platformdirs
+from filelock import FileLock
 
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
@@ -242,14 +243,17 @@ class Blob(CamelModel):
         # determine path where this blob would be stored if it existed
         blob_file_location = CACHED_BLOBS_DIRECTORY / file_name
 
-        # check whether blob exists
-        assert blob_file_location.exists(), (
-            f"Tried to load blob from file but {blob_file_location} does not exist"
-        )
+        # use lock to avoid race conditions
+        lock_file_path = blob_file_location.with_suffix(".lock")
+        with FileLock(lock_file_path):
+            # check whether blob exists
+            assert blob_file_location.exists(), (
+                f"Tried to load blob from file but {blob_file_location} does not exist"
+            )
 
-        # read blob from file
-        with open(blob_file_location, "r", encoding="utf-8") as f:
-            json_str: str = f.read()
+            # read blob from file
+            with open(blob_file_location, "r", encoding="utf-8") as f:
+                json_str: str = f.read()
 
         # reconstruct and return blob object
         return Blob.model_validate_json(json_str)
@@ -259,12 +263,15 @@ class Blob(CamelModel):
         json_str = self.model_dump_json()
         output_location = Blob.get_filepath(self.fork, self.seed)
 
-        # warn if existing static_blob gets overwritten
-        if output_location.exists():
-            logger.debug(f"Blob {output_location} already exists. It will be overwritten.")
+        # use lock to avoid race conditions
+        lock_file_path = output_location.with_suffix(".lock")
+        with FileLock(lock_file_path):
+            # warn if existing static_blob gets overwritten
+            if output_location.exists():
+                logger.debug(f"Blob {output_location} already exists. It will be overwritten.")
 
-        with open(output_location, "w", encoding="utf-8") as f:  # overwrite existing
-            f.write(json_str)
+            with open(output_location, "w", encoding="utf-8") as f:  # overwrite existing
+                f.write(json_str)
 
     def verify_cell_kzg_proof_batch(self, cell_indices: list) -> bool:
         """Check whether all cell proofs are valid and returns True only if that is the case."""
