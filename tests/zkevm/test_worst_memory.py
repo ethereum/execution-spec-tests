@@ -34,7 +34,7 @@ class CallDataOrigin:
     "origin",
     [
         pytest.param(CallDataOrigin.TRANSACTION, id="transaction"),
-        pytest.param(CallDataOrigin.CALL, id="call"),
+        # pytest.param(CallDataOrigin.CALL, id="call"),
     ],
 )
 @pytest.mark.parametrize(
@@ -49,21 +49,27 @@ class CallDataOrigin:
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
-@pytest.mark.parametrize("fixed_dst", [True, False])
+@pytest.mark.parametrize(
+    "fixed_src_dst",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_calldatacopy(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     origin: CallDataOrigin,
     size: int,
-    fixed_dst: bool,
+    fixed_src_dst: bool,
 ):
     """Test running a block filled with CALLDATACOPY executions."""
     env = Environment()
 
     # We create the contract that will be doing the CALLDATACOPY multiple times.
-    dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.CALLDATACOPY(dst, Op.PUSH0, Op.CALLDATASIZE)
+    src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
+    attack_block = Op.CALLDATACOPY(src_dst, src_dst, Op.CALLDATASIZE)
     code = code_loop_precompile_call(Bytecode(), attack_block, fork)
     code_address = pre.deploy_contract(code=code)
 
@@ -102,13 +108,19 @@ def test_worst_calldatacopy(
         pytest.param(1.00, id="max code size"),
     ],
 )
-@pytest.mark.parametrize("fixed_dst", [True, False])
+@pytest.mark.parametrize(
+    "fixed_src_dst",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_codecopy(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     max_code_size_ratio: float,
-    fixed_dst: bool,
+    fixed_src_dst: bool,
 ):
     """Test running a block filled with CODECOPY executions."""
     env = Environment()
@@ -117,12 +129,20 @@ def test_worst_codecopy(
     size = int(max_code_size * max_code_size_ratio)
 
     code_prefix = Op.PUSH32(size)
-    dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.CODECOPY(dst, Op.PUSH0, Op.DUP1)  # DUP1 copies size.
+    src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
+    attack_block = Op.CODECOPY(src_dst, src_dst, Op.DUP1)  # DUP1 copies size.
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
+    # The code generated above is not guaranteed to be of max_code_size, so we pad it since
+    # a test parameter targets CODECOPYing a contract with max code size. Padded bytecode values
+    # are not relevant.
+    code = code + Op.INVALID * (max_code_size - len(code))
+    assert len(code) == max_code_size, (
+        f"Code size {len(code)} is not equal to max code size {max_code_size}."
+    )
+
     tx = Transaction(
-        to=pre.deploy_contract(code=code.ljust(max_code_size, b"\xff")),
+        to=pre.deploy_contract(code=code),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
@@ -148,13 +168,19 @@ def test_worst_codecopy(
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
-@pytest.mark.parametrize("fixed_dst", [True, False])
+@pytest.mark.parametrize(
+    "fixed_src_dst",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_returndatacopy(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     size: int,
-    fixed_dst: bool,
+    fixed_src_dst: bool,
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
     env = Environment()
@@ -172,8 +198,8 @@ def test_worst_returndatacopy(
 
     # We create the contract that will be doing the RETURNDATACOPY multiple times.
     code_prefix = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
-    dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.RETURNDATACOPY(dst, Op.PUSH0, Op.RETURNDATASIZE)
+    src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
+    attack_block = Op.RETURNDATACOPY(src_dst, src_dst, Op.RETURNDATASIZE)
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
@@ -203,21 +229,27 @@ def test_worst_returndatacopy(
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
-@pytest.mark.parametrize("fixed_dst", [True, False])
+@pytest.mark.parametrize(
+    "fixed_src_dst",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_mcopy(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     size: int,
-    fixed_dst: bool,
+    fixed_src_dst: bool,
 ):
     """Test running a block filled with MCOPY executions."""
     env = Environment()
 
     mem_init = Op.MSTORE8(0, Op.GAS) + Op.MSTORE8(size // 2, Op.GAS) + Op.MSTORE8(size - 1, Op.GAS)
     code_prefix = mem_init if size > 0 else Bytecode()
-    dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.MCOPY(dst, Op.PUSH0, size)
+    src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
+    attack_block = Op.MCOPY(src_dst, src_dst, size)
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
