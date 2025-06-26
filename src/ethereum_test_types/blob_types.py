@@ -59,7 +59,6 @@ class Blob(CamelModel):
             trusted_setup_path = Path(realpath(__file__)).parent / "kzg_trusted_setup.txt"
             trusted_setup = ckzg.load_trusted_setup(str(trusted_setup_path), 0)
             cls._trusted_setup = trusted_setup
-            print("I HAVE LOADED THE TRUSTED SETUP")
 
         return cls._trusted_setup
 
