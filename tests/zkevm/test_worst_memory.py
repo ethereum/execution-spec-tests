@@ -6,6 +6,7 @@ Tests running worst-case memory related opcodes.
 
 import pytest
 
+from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Alloc,
@@ -34,7 +35,7 @@ class CallDataOrigin:
     "origin",
     [
         pytest.param(CallDataOrigin.TRANSACTION, id="transaction"),
-        # pytest.param(CallDataOrigin.CALL, id="call"),
+        pytest.param(CallDataOrigin.CALL, id="call"),
     ],
 )
 @pytest.mark.parametrize(
@@ -56,6 +57,13 @@ class CallDataOrigin:
         False,
     ],
 )
+@pytest.mark.parametrize(
+    "non_zero_data",
+    [
+        True,
+        False,
+    ],
+)
 def test_worst_calldatacopy(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -63,29 +71,50 @@ def test_worst_calldatacopy(
     origin: CallDataOrigin,
     size: int,
     fixed_src_dst: bool,
+    non_zero_data: bool,
 ):
     """Test running a block filled with CALLDATACOPY executions."""
     env = Environment()
 
+    if size == 0 and non_zero_data:
+        pytest.skip("Non-zero data with size 0 is not applicable.")
+
     # We create the contract that will be doing the CALLDATACOPY multiple times.
+    #
+    # If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length. Otherwise, since we
+    # don't send zero data explicitly via calldata, PUSH the target size and use DUP1 to copy it.
+    prefix = Bytecode() if non_zero_data or size == 0 else Op.PUSH32(size)
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.CALLDATACOPY(src_dst, src_dst, Op.CALLDATASIZE)
-    code = code_loop_precompile_call(Bytecode(), attack_block, fork)
+    attack_block = Op.CALLDATACOPY(
+        src_dst, src_dst, Op.CALLDATASIZE if non_zero_data or size == 0 else Op.DUP1
+    )
+    code = code_loop_precompile_call(prefix, attack_block, fork)
     code_address = pre.deploy_contract(code=code)
 
     tx_target = code_address
+
+    # If the origin is CALL, we need to create a contract that will call the target contract with
+    # the calldata.
     if origin == CallDataOrigin.CALL:
-        # If the origin is CALL, we need to create a contract that will call the
-        # target contract with the calldata.
-        code = Op.CALLDATACOPY(Op.PUSH0, Op.PUSH0, Op.CALLDATASIZE) + Op.STATICCALL(
-            address=code_address, args_offset=Op.PUSH0, args_size=Op.CALLDATASIZE
+        # If `non_zero_data` is False we leverage just using zeroed memory. Otherwise, we
+        # copy the calldata received from the transaction.
+        prefix = (
+            Op.CALLDATACOPY(Op.PUSH0, Op.PUSH0, Op.CALLDATASIZE) if non_zero_data else Bytecode()
+        )
+        arg_size = Op.CALLDATASIZE if non_zero_data else size
+        code = prefix + Op.STATICCALL(
+            address=code_address, args_offset=Op.PUSH0, args_size=arg_size
         )
         tx_target = pre.deploy_contract(code=code)
+
+    # If `non_zero_data` is True, we fill the calldata with deterministic random data.
+    # Note that if `size == 0` and `non_zero_data` is a skipped case.
+    data = Bytes([i % 256 for i in range(size)]) if non_zero_data else Bytes()
 
     tx = Transaction(
         to=tx_target,
         gas_limit=env.gas_limit,
-        data=b"\xff" * size,
+        data=data,
         sender=pre.fund_eoa(),
     )
 
