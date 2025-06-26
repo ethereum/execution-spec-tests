@@ -213,6 +213,7 @@ def test_worst_returndatacopy(
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
     env = Environment()
+    max_code_size = fork.max_code_size()
 
     # Create the contract that will RETURN the data that will be used for RETURNDATACOPY.
     # Random-ish data is injected at different points in memory to avoid making the content
@@ -226,10 +227,36 @@ def test_worst_returndatacopy(
     helper_contract = pre.deploy_contract(code=code)
 
     # We create the contract that will be doing the RETURNDATACOPY multiple times.
-    code_prefix = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
+    returndata_gen = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.RETURNDATACOPY(src_dst, src_dst, Op.RETURNDATASIZE)
-    code = code_loop_precompile_call(code_prefix, attack_block, fork)
+    attack_iter = Op.RETURNDATACOPY(src_dst, src_dst, Op.RETURNDATASIZE)
+
+    jumpdest = Op.JUMPDEST
+    jump_back = Op.JUMP(len(returndata_gen))
+    # The attack loop is constructed as:
+    # ```
+    # JUMPDEST(#)
+    # RETURNDATACOPY(...)
+    # RETURNDATACOPY(...)
+    # ...
+    # STATICCALL(address=helper_contract)
+    # JUMP(#)
+    # ```
+    # The goal is that once per (big) loop iteration, the helper contract is called to
+    # generate fresh returndata to continue calling RETURNDATACOPY.
+    max_iters_loop = (
+        max_code_size - 2 * len(returndata_gen) - len(jumpdest) - len(jump_back)
+    ) // len(attack_iter)
+    code = (
+        returndata_gen
+        + jumpdest
+        + sum([attack_iter] * max_iters_loop)
+        + returndata_gen
+        + jump_back
+    )
+    if len(code) > max_code_size:
+        # Must never happen, but keep it as a sanity check.
+        raise ValueError(f"Code size {len(code)} exceeds maximum code size {max_code_size}")
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
