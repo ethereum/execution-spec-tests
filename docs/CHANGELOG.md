@@ -15,9 +15,11 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
 - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
 
-#### Feature `benchmark` expanded to `benchmark_36M`, `benchmark_60M`, `benchmark_90M`, `benchmark_120M`
+#### Feature `zkevm` updated to `benchmark_36M`, `benchmark_60M`, `benchmark_90M`, `benchmark_120M`
 
-Renames `benchmark` to `benchmark_36M` and further expands the benchmark features to run using 60M, 90M and 120M block gas limits in `fixtures_benchmark_36M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz` and `fixtures_benchmark_120M.tar.gz` respectively.
+Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
+
+This update renames the `zkevm` feature release to `benchmark_36M` and further expands the latter for 60M, 90M, and 120M block gas limits in `fixtures_benchmark_36M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
 
 Users can select any of the artifacts depending on their testing needs for their provers.
 
@@ -33,9 +35,9 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Add a new pytest plugin, `ported_tests`, that lists the static fillers and PRs from `ported_from` markers for use in the coverage Github Workflow ([#1634](https://github.com/ethereum/execution-spec-tests/pull/1634)).
 - ✨ Enable two-phase filling of fixtures with pre-allocation groups and add a `BlockchainEngineXFixture` format ([#1706](https://github.com/ethereum/execution-spec-tests/pull/1706), [#1760](https://github.com/ethereum/execution-spec-tests/pull/1760)).
 - 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471),[#1612](https://github.com/ethereum/execution-spec-tests/pull/1612)).
-- ✨ Don't warn about a "high Transaction gas_limit" for `benchmark` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
+- ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
 - 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
-- 🐞 benchmark marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-benchmark` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
+- 🐞 `zkevm` marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 
@@ -65,7 +67,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added automatic checklist generation for every EIP inside of the `tests` folder. The checklist is appended to each EIP in the documentation in the "Test Case Reference" section ([#1679](https://github.com/ethereum/execution-spec-tests/pull/1679), [#1718](https://github.com/ethereum/execution-spec-tests/pull/1718)).
 - 🔀 Add macOS hive development mode workaround to the docs [#1786](https://github.com/ethereum/execution-spec-tests/pull/1786).
 - 🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers [#1803](https://github.com/ethereum/execution-spec-tests/pull/1803).
-- 🔀 Rename `zkevm` tests to `benchmark` while maintaining the `zkevm` marker [#1804](https://github.com/ethereum/execution-spec-tests/pull/1804).
+- 🔀 Rename `tests/zkevm/` to `tests/benchmark/` and replace the `zkevm` pytest mark with `benchmark` [#1804](https://github.com/ethereum/execution-spec-tests/pull/1804).
 
 ### 🧪 Test Cases
 
