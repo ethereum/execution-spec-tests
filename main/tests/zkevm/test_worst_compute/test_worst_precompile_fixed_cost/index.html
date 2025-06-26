@@ -23734,7 +23734,7 @@
 
 
 <h1 id="test_worst_precompile_fixed_cost"><code>test_worst_precompile_fixed_cost()</code><a class="headerlink" href="#test_worst_precompile_fixed_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/57cd36cec3ecda653458e79584ac23062c9e2097/tests/zkevm/test_worst_compute.py#L840"><code>tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost@57cd36ce</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6ee9787d55cb6449c35a2a105a02afcd884cb9d3/tests/zkevm/test_worst_compute.py#L840"><code>tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost@6ee9787d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost --fork Prague</span>
@@ -23965,7 +23965,91 @@
 <span class="normal">1049</span>
 <span class="normal">1050</span>
 <span class="normal">1051</span>
-<span class="normal">1052</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span>
+<span class="normal">1063</span>
+<span class="normal">1064</span>
+<span class="normal">1065</span>
+<span class="normal">1066</span>
+<span class="normal">1067</span>
+<span class="normal">1068</span>
+<span class="normal">1069</span>
+<span class="normal">1070</span>
+<span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
+<span class="normal">1074</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span>
+<span class="normal">1088</span>
+<span class="normal">1089</span>
+<span class="normal">1090</span>
+<span class="normal">1091</span>
+<span class="normal">1092</span>
+<span class="normal">1093</span>
+<span class="normal">1094</span>
+<span class="normal">1095</span>
+<span class="normal">1096</span>
+<span class="normal">1097</span>
+<span class="normal">1098</span>
+<span class="normal">1099</span>
+<span class="normal">1100</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span>
+<span class="normal">1103</span>
+<span class="normal">1104</span>
+<span class="normal">1105</span>
+<span class="normal">1106</span>
+<span class="normal">1107</span>
+<span class="normal">1108</span>
+<span class="normal">1109</span>
+<span class="normal">1110</span>
+<span class="normal">1111</span>
+<span class="normal">1112</span>
+<span class="normal">1113</span>
+<span class="normal">1114</span>
+<span class="normal">1115</span>
+<span class="normal">1116</span>
+<span class="normal">1117</span>
+<span class="normal">1118</span>
+<span class="normal">1119</span>
+<span class="normal">1120</span>
+<span class="normal">1121</span>
+<span class="normal">1122</span>
+<span class="normal">1123</span>
+<span class="normal">1124</span>
+<span class="normal">1125</span>
+<span class="normal">1126</span>
+<span class="normal">1127</span>
+<span class="normal">1128</span>
+<span class="normal">1129</span>
+<span class="normal">1130</span>
+<span class="normal">1131</span>
+<span class="normal">1132</span>
+<span class="normal">1133</span>
+<span class="normal">1134</span>
+<span class="normal">1135</span>
+<span class="normal">1136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_address,parameters&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -23991,6 +24075,28 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_add&quot;</span><span class="p">,</span>
         <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x06</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_add_infinities&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x06</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000001&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000001&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_add_1_2&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x07</span><span class="p">,</span>
             <span class="p">[</span>
@@ -23999,6 +24105,66 @@
                 <span class="s2">&quot;FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&quot;</span><span class="p">,</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_infinities_2_scalar&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_infinities_32_byte_scalar&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000001&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_1_2_2_scalar&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000001&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_1_2_32_byte_scalar&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;0000000000000000000000000000000000000000000000000000000000000002&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_32_byte_coord_and_2_scalar&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="mh">0x07</span><span class="p">,</span>
+            <span class="p">[</span>
+                <span class="s2">&quot;089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_mul_32_byte_coord_and_scalar&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="mh">0x08</span><span class="p">,</span>
@@ -24033,6 +24199,8 @@
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_one_pairing&quot;</span><span class="p">,</span>
         <span class="p">),</span>
+        <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mh">0x08</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;bn128_two_pairings_empty&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Blake2bSpec</span><span class="o">.</span><span class="n">BLAKE2_PRECOMPILE_ADDRESS</span><span class="p">,</span>
             <span class="p">[</span>
@@ -24256,12 +24424,92 @@
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_add_infinities]">
+                    ...fork_Cancun-state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_add_1_2]">
+                    ...fork_Cancun-state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul]">
                     ...fork_Cancun-state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Cancun-state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -24282,6 +24530,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-state_test-bn128_two_pairings_empty]">
+                    ...fork_Cancun-state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -24406,12 +24664,92 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_add_infinities]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_add_1_2]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul]">
                     ...fork_Cancun-blockchain_test_from_state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -24432,6 +24770,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Cancun-blockchain_test_from_state_test-bn128_two_pairings_empty]">
+                    ...fork_Cancun-blockchain_test_from_state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -24556,12 +24904,92 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_add_infinities]">
+                    ...fork_Prague-state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_add_1_2]">
+                    ...fork_Prague-state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul]">
                     ...fork_Prague-state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Prague-state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -24582,6 +25010,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-state_test-bn128_two_pairings_empty]">
+                    ...fork_Prague-state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -24706,12 +25144,92 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_add_infinities]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_add_1_2]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul]">
                     ...fork_Prague-blockchain_test_from_state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -24732,6 +25250,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Prague-blockchain_test_from_state_test-bn128_two_pairings_empty]">
+                    ...fork_Prague-blockchain_test_from_state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -24856,12 +25384,92 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_add_infinities]">
+                    ...fork_Osaka-state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_add_1_2]">
+                    ...fork_Osaka-state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul]">
                     ...fork_Osaka-state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Osaka-state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -24882,6 +25490,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-state_test-bn128_two_pairings_empty]">
+                    ...fork_Osaka-state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -25006,12 +25624,92 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_add_infinities]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_add_infinities]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_add_infinities
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_add_1_2]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_add_1_2]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_add_1_2
+                </abbr>
+            </td>
+                        <td>6</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul]">
                     ...fork_Osaka-blockchain_test_from_state_test-bn128_mul
                 </abbr>
             </td>
                         <td>7</td>
                         <td>['1A87B0584CE92F4593D161480614F2989035225609F08058CCFA3D0F940FEBE3', '1A2F3C951F6DADCC7EE9007DFF81504B0FCD6D7CF59996EFDC33D92BF7F9F8F6', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_infinities_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000000', '0000000000000000000000000000000000000000000000000000000000000000', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_1_2_32_byte_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['0000000000000000000000000000000000000000000000000000000000000001', '0000000000000000000000000000000000000000000000000000000000000002', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_2_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '0000000000000000000000000000000000000000000000000000000000000002']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_mul_32_byte_coord_and_scalar
+                </abbr>
+            </td>
+                        <td>7</td>
+                        <td>['089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf', '2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36', '25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -25032,6 +25730,16 @@
             </td>
                         <td>8</td>
                         <td>['1C76476F4DEF4BB94541D57EBBA1193381FFA7AA76ADA664DD31C16024C43F59', '3034DD2920F673E204FEE2811C678745FC819B55D3E9D294E45C9B03A76AEF41', '209DD15EBFF5D46C4BD888E51A93CF99A7329636C63514396B4A452003A35BF7', '04BF11CA01483BFA8B34B43561848D28905960114C8AC04049AF4B6315A41678', '2BB8324AF6CFC93537A2AD1A445CFD0CA2A71ACD7AC41FADBF933C2A51BE344D', '120A2A4CF30C1BF9845F20C6FE39E07EA2CCE61F0C9BB048165FE5E4DE877550']</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_two_pairings_empty]" title="tests/zkevm/test_worst_compute.py::test_worst_precompile_fixed_cost[fork_Osaka-blockchain_test_from_state_test-bn128_two_pairings_empty]">
+                    ...fork_Osaka-blockchain_test_from_state_test-bn128_two_pairings_empty
+                </abbr>
+            </td>
+                        <td>8</td>
+                        <td>['']</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
