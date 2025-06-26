@@ -122,7 +122,7 @@ def test_worst_codecopy(
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
-        to=pre.deploy_contract(code=code),
+        to=pre.deploy_contract(code=code.ljust(max_code_size, b"\xff"),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
