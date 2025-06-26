@@ -9,11 +9,10 @@ from typing import Any, ClassVar, List, Literal, cast
 
 import ckzg  # type: ignore
 import platformdirs
-from pydantic import field_serializer, field_validator
 
 from ethereum_test_base_types.base_types import Bytes, Hash
 from ethereum_test_base_types.pydantic import CamelModel
-from ethereum_test_forks import Cancun, Fork, Osaka, Prague
+from ethereum_test_forks import Fork
 from pytest_plugins.logging import get_logger
 
 CACHED_BLOBS_DIRECTORY: Path = (
@@ -29,25 +28,12 @@ def clear_blob_cache(cached_blobs_folder_path: Path):
     for f in cached_blobs_folder_path.glob("*.json"):  # only delete .json files
         try:
             f.unlink()  # permanently delete this file
-        except OSError as e:
+        except Exception as e:
             print(
                 f"Critical error while trying to delete file {f}:{e}.. "
                 "Aborting clearing of blob cache folder."
             )
             return
-
-
-def fork_string_to_object(fork_name: str) -> type[Cancun] | type[Prague] | type[Osaka]:
-    """Take a fork string and return the respective fork as object."""
-    fork_name = fork_name.lower()
-
-    if fork_name == "cancun":
-        return Cancun
-    if fork_name == "prague":
-        return Prague
-    if fork_name == "osaka":
-        return Osaka
-    raise ValueError(f"Fork {fork_name} has not yet been implemented in this function.")
 
 
 class Blob(CamelModel):
@@ -72,29 +58,8 @@ class Blob(CamelModel):
         if cls._trusted_setup is None:
             trusted_setup_path = Path(realpath(__file__)).parent / "kzg_trusted_setup.txt"
             trusted_setup = ckzg.load_trusted_setup(str(trusted_setup_path), 0)
-            print(f"{trusted_setup_path} has been loaded")
             cls._trusted_setup = trusted_setup
-
-    @field_validator("fork", mode="before")
-    @classmethod
-    def validate_fork(cls, v):
-        """
-        When reading JSON file and trying to go back from fork string to fork object we must
-        tell pydantic how to do this.
-        """
-        if isinstance(v, str):
-            fork_object = fork_string_to_object(v)
-            cls.fork = fork_object
-            return fork_object
-        return v
-
-    @field_serializer("fork")
-    def serialize_fork(self, fork: Fork) -> str:
-        """
-        When trying to serialize a Blob object into a JSON file we must
-        tell pydantic how to do this.
-        """
-        return fork.name()
+            print("I HAVE LOADED THE TRUSTED SETUP")
 
     @staticmethod
     def get_filename(fork: Fork, seed: int) -> str:
@@ -107,12 +72,6 @@ class Blob(CamelModel):
         """Return the Path to the blob that would be created with these parameters."""
         # determine amount of cell proofs for this fork (0 or 128)
         would_be_filename: str = Blob.get_filename(fork, seed)
-
-        # create cached blobs dir if necessary
-        if not CACHED_BLOBS_DIRECTORY.exists():
-            CACHED_BLOBS_DIRECTORY.mkdir(
-                parents=True, exist_ok=True
-            )  # create all necessary dirs on the way
 
         # return path to blob
         return CACHED_BLOBS_DIRECTORY / would_be_filename
@@ -162,7 +121,7 @@ class Blob(CamelModel):
             )
 
             # calculate commitment
-            commitment = ckzg.blob_to_kzg_commitment(data, Blob._trusted_setup)
+            commitment = ckzg.blob_to_kzg_commitment(data, Blob.trusted_setup())
             assert len(commitment) == fork.get_blob_constant("BYTES_PER_COMMITMENT"), (
                 f"Expected {fork.get_blob_constant('BYTES_PER_COMMITMENT')} "
                 f"resulting commitments but got {len(commitment)} commitments"
@@ -215,7 +174,13 @@ class Blob(CamelModel):
                 f"cell proofs {amount_cell_proofs} but expected 128."
             )
 
-        # first, handle transition forks
+        # first, create cached blobs dir if necessary
+        if not CACHED_BLOBS_DIRECTORY.exists():
+            CACHED_BLOBS_DIRECTORY.mkdir(
+                parents=True, exist_ok=True
+            )  # create all necessary dirs on the way
+
+        # handle transition forks
         # (blob related constants are needed and only available for normal forks)
         fork = fork.fork_at(timestamp=timestamp)
 
@@ -238,7 +203,7 @@ class Blob(CamelModel):
         versioned_hash: Hash = get_versioned_hash(commitment)
         name: str = Blob.get_filename(fork, seed)
 
-        return Blob(
+        blob = Blob(
             data=data,
             commitment=commitment,
             proof=proof,
@@ -249,6 +214,10 @@ class Blob(CamelModel):
             seed=seed,
             timestamp=timestamp,
         )
+        # for most effective caching temporarily persist every blob that is created in cache
+        blob.write_to_file()
+
+        return blob
 
     @staticmethod
     def from_file(file_name: str) -> "Blob":

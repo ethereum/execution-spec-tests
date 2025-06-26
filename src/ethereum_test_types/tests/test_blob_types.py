@@ -1,9 +1,7 @@
 """Test suite for blobs."""
 
 import copy
-from pathlib import Path
 
-import platformdirs
 import pytest
 
 from ethereum_test_forks import (
@@ -17,11 +15,7 @@ from ethereum_test_forks.forks.transition import (
     ShanghaiToCancunAtTime15k,
 )
 
-from ..blob_types import Blob, clear_blob_cache
-
-CACHED_BLOBS_DIRECTORY: Path = (
-    Path(platformdirs.user_cache_dir("ethereum-execution-spec-tests")) / "cached_blobs"
-)
+from ..blob_types import CACHED_BLOBS_DIRECTORY, Blob, clear_blob_cache
 
 
 @pytest.mark.parametrize("seed", [0, 10, 100])
@@ -46,15 +40,7 @@ def test_blob_creation_and_writing_and_reading(
     restored = Blob.from_file(file_name)
 
     # ensure file you read equals file you wrote
-    assert b.data == restored.data
-    assert b.commitment == restored.commitment
-    assert b.proof == restored.proof
-    assert b.cells == restored.cells
-    assert b.versioned_hash == restored.versioned_hash
-    assert b.name == restored.name
-    assert b.fork == restored.fork
-    assert b.seed == restored.seed
-    assert b.timestamp == restored.timestamp
+    assert b.model_dump() == restored.model_dump()
 
 
 @pytest.mark.parametrize(

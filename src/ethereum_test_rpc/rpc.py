@@ -137,7 +137,7 @@ class BaseRPC:
         payload_size_bytes = len(payload_json.encode("utf-8"))
         payload_size_mb = payload_size_bytes / (1024 * 1024)
         logger.debug(
-            f"I am about to send a POST request of approximated size: {payload_size_mb:.2f} MB "
+            f"POST request of approximated size: {payload_size_mb:.2f} MB "
             f"({payload_size_bytes} bytes)"
         )
 

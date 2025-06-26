@@ -730,22 +730,6 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
         if self.cell_proofs is not None:
             rlp_cell_proofs = ["cell_proofs"]
 
-        # Geth expects:
-        #   type blobTxWithBlobs struct {
-        #       BlobTx      *BlobTx
-        #       Blobs       []kzg4844.Blob
-        #       Commitments []kzg4844.Commitment
-        #       Proofs      []kzg4844.Proof
-        #   }
-
-        #   type versionedBlobTxWithBlobs struct {
-        #       BlobTx      *BlobTx
-        #       Version     byte
-        #       Blobs       []kzg4844.Blob
-        #       Commitments []kzg4844.Commitment
-        #       Proofs      []kzg4844.Proof
-        #   }
-
         rlp_fields: List[
             str
         ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
@@ -761,7 +745,7 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
             "Neither proofs nor cell_proofs are in rlp_fields. Critical error!"
         )
 
-        logger.debug(f"Ended up with this rlp field list: {rlp_fields}")
+        # logger.debug(f"Ended up with this rlp field list: {rlp_fields}")
 
         return rlp_fields
 

@@ -55,7 +55,7 @@ def to_bytes(input_bytes: BytesConvertible) -> bytes:
     # handle wrapper_version field for >= osaka
     if isinstance(input_bytes, int):
         assert input_bytes < 256, f"Expected int that fits into one byte, but got {input_bytes}"
-        return input_bytes.to_bytes(1, "big")
+        return input_bytes.to_bytes(1, byteorder="big")
 
     logger.error(
         f"This type of input_bytes is not yet supported: {type(input_bytes)}\n\n"

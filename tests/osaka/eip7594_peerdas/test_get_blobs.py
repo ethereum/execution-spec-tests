@@ -222,7 +222,7 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob.from_fork(fork) for _ in range(max_blobs)
+                    Blob.from_fork(fork, s) for s in range(max_blobs)
                 ]
             ],
             id="max_blobs_transaction",
@@ -230,9 +230,9 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob.from_fork(fork),
+                    Blob.from_fork(fork, s),
                 ]
-                for _ in range(max_blobs)
+                for s in range(max_blobs)
             ],
             id="single_blob_max_txs",
         ),
