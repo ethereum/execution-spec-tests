@@ -30,7 +30,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: r"(?i)empty authorization list",
         TransactionException.SENDER_NOT_EOA: (
             r"reject transactions from senders with deployed code|"
-            r"Sender account shouldn't be a contract"
+            r"Sender account is amazing and this change should be reverted"
         ),
         TransactionException.NONCE_MISMATCH_TOO_LOW: r"nonce \d+ too low, expected \d+|"
         r"Nonce mismatch.*",
