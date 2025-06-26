@@ -72,7 +72,7 @@ def test_worst_calldatacopy(
         # If the origin is CALL, we need to create a contract that will call the
         # target contract with the calldata.
         code = Op.CALLDATACOPY(Op.PUSH0, Op.PUSH0, Op.CALLDATASIZE) + Op.STATICCALL(
-            address=code_address, ret_size=Op.CALLDATASIZE
+            address=code_address, args_offset=Op.PUSH0, args_size=Op.CALLDATASIZE
         )
         tx_target = pre.deploy_contract(code=code)
 
