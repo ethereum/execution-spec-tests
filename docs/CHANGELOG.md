@@ -6,7 +6,9 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 ## 🔜 [Unreleased]
 
-### 💥 Breaking Change
+### 💥 Breaking Changes
+
+- Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 
 #### 💥 Important Change for `fill` Users
 
