@@ -48,8 +48,10 @@ class EthrexExceptionMapper(ExceptionMapper):
             r"blob versioned hashes not supported|"
             r"Type 3 transactions are not supported before the Cancun fork"
         ),
+        # A type 4 Transaction without a recipient won't even reach the EVM, we can't decode it.
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
-            r"unexpected length|Contract creation in type 4 transaction"
+            r"unexpected length|Contract creation in type 4 transaction|"
+            r"Error decoding field '\D+' of type \w+.*"
         ),
         TransactionException.TYPE_4_TX_PRE_FORK: (
             r"eip 7702 transactions present in pre-prague payload|"
