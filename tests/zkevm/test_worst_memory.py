@@ -124,7 +124,6 @@ def test_worst_codecopy(
     tx = Transaction(
         to=pre.deploy_contract(code=code),
         gas_limit=env.gas_limit,
-        data=b"\xff" * size,
         sender=pre.fund_eoa(),
     )
 
