@@ -41,20 +41,19 @@ PRECOMPILE_ADDRESSES = {
     '0000000000000000000000000000000000000011',
 }
 
-FALSE_POSITIVE_TESTS = {
-  # possible false positives to check
-  "staticcall_createfailsFiller.json",
-  "createInitFail_OOGduringInit2Filler.json",
-  "createInitFail_OOGduringInitFiller.json",
-  "createNameRegistratorPreStore1NotEnoughGasFiller.json",
-  # definite false positives
-  "codesizeOOGInvalidSizeFiller.json",
-  # "contractCreationOOGdontLeaveEmptyContractFiller.json",  # Temporarily enabling for testing
-  "contractCreationOOGdontLeaveEmptyContractViaTransactionFiller.json",
-  "createContractViaContractFiller.json",
-  "createContractViaContractOOGInitCodeFiller.json",
-  "createContractViaTransactionCost53000Filler.json",
-}
+FALSE_POSITIVE_TESTS = set()
+# {
+  # "staticcall_createfailsFiller.json",
+  # "createInitFail_OOGduringInit2Filler.json",
+  # "createInitFail_OOGduringInitFiller.json",
+  # "createNameRegistratorPreStore1NotEnoughGasFiller.json",
+  # "codesizeOOGInvalidSizeFiller.json",
+  # "contractCreationOOGdontLeaveEmptyContractFiller.json",
+  # "contractCreationOOGdontLeaveEmptyContractViaTransactionFiller.json",
+  # "createContractViaContractFiller.json",
+  # "createContractViaContractOOGInitCodeFiller.json",
+  # "createContractViaTransactionCost53000Filler.json",
+# }
 
 INCOMPATIBLE_FILLERS = {
   "create2InitCodeSizeLimitFiller.yml",
