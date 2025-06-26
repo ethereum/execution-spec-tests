@@ -198,7 +198,7 @@ def test_worst_codecopy(
     ],
 )
 @pytest.mark.parametrize(
-    "fixed_src_dst",
+    "fixed_dst",
     [
         True,
         False,
@@ -209,7 +209,7 @@ def test_worst_returndatacopy(
     pre: Alloc,
     fork: Fork,
     size: int,
-    fixed_src_dst: bool,
+    fixed_dst: bool,
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
     env = Environment()
@@ -228,8 +228,8 @@ def test_worst_returndatacopy(
 
     # We create the contract that will be doing the RETURNDATACOPY multiple times.
     returndata_gen = Op.STATICCALL(address=helper_contract) if size > 0 else Bytecode()
-    src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
-    attack_iter = Op.RETURNDATACOPY(src_dst, src_dst, Op.RETURNDATASIZE)
+    dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
+    attack_iter = Op.RETURNDATACOPY(dst, Op.PUSH0, Op.RETURNDATASIZE)
 
     jumpdest = Op.JUMPDEST
     jump_back = Op.JUMP(len(returndata_gen))
