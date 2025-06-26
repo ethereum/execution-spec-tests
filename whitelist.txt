@@ -524,8 +524,6 @@ yml
 yParity
 yul
 zfill
-zkEVM
-
 addoption
 addinivalue
 argname
@@ -1060,7 +1058,6 @@ autoformat
 Typechecking
 groupstats
 SharedPreStateGroup
-zkEVMs
 qube
 aspell
 codespell
