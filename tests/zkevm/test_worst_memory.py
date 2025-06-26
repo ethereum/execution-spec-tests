@@ -118,7 +118,7 @@ def test_worst_codecopy(
 
     code_prefix = Op.PUSH32(size)
     dst = 0 if fixed_dst else Op.MOD(Op.GAS, 7)
-    attack_block = Op.CODECOPY(dst, Op.PUSH0, Op.DUP1)
+    attack_block = Op.CODECOPY(dst, Op.PUSH0, Op.DUP1)  # DUP1 copies size.
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
