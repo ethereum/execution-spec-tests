@@ -182,8 +182,8 @@ jobs:
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
         run: uvx --with=tox-uv tox -e tests-deployed
-  tests_deployed_zkevm:
-    name: Fill zkEVM test cases, deployed, ${{ matrix.os }}, ${{ matrix.python }}
+  tests_deployed_benchmark:
+    name: Fill benchmark test cases, deployed, ${{ matrix.os }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -209,4 +209,4 @@ jobs:
       - name: Run tox - fill tests for deployed forks
         env:
           EELS_RESOLUTIONS_FILE: ${{ github.workspace }}/.github/configs/eels_resolutions.json
-        run: uvx --with=tox-uv tox -e tests-deployed-zkevm
+        run: uvx --with=tox-uv tox -e tests-deployed-benchmark
