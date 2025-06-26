@@ -1,8 +1,8 @@
 """
-abstract: Tests zkEVMs worst-case compute scenarios.
-    Tests zkEVMs worst-case compute scenarios.
+abstract: Tests that benchmark EVMs in worst-case compute scenarios.
+    Tests that benchmark EVMs in worst-case compute scenarios.
 
-Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
+Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.
 """
 
 import math
