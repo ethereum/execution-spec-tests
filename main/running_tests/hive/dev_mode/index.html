@@ -23991,7 +23991,7 @@ uv<span class="w"> </span>run<span class="w"> </span>consume<span class="w"> </s
 <p>The following section details the setup and usage of option 3.</p>
 <h3 id="eest-docker-development-image">EEST Docker Development Image<a class="headerlink" href="#eest-docker-development-image" title="Permanent link">&para;</a></h3>
 <p>Within the <a href="https://github.com/ethereum/hive/tree/master/simulators/ethereum/eest"><code>eest/</code></a> directory of hive, a new dockerfile must be created: <code>Dockerfile.dev</code>, with the following contents:</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ghcr.io/astral-sh/uv:python3.10-bookworm-slim</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">ghcr.io/astral-sh/uv:python3.12-bookworm-slim</span>
 <span class="k">ARG</span><span class="w"> </span><span class="nv">branch</span><span class="o">=</span>main
 <span class="k">ENV</span><span class="w"> </span><span class="nv">GIT_REF</span><span class="o">=</span><span class="si">${</span><span class="nv">branch</span><span class="si">}</span><span class="w"> </span>
 
