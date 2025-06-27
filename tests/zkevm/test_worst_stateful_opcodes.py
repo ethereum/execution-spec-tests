@@ -250,7 +250,7 @@ def test_worst_storage_access_cold(
     execution_code = Bytecode()
 
     if isinstance(storage_action, LoadAction):
-        execution_code = sum(Op.SLOAD(i) for i in reversed(range(num_target_slots)))
+        execution_code += sum(Op.SLOAD(i) for i in reversed(range(num_target_slots)))
     elif isinstance(storage_action, StoreAction):
         if storage_action == StoreAction.WRITE_SAME_VALUE:
             # All the storage slots in the contract are initialized to their index.
@@ -268,7 +268,7 @@ def test_worst_storage_access_cold(
     slots_init = (
         Bytecode()
         if absent_slots
-        else sum(Op.SSTORE(i, i) for i in reversed(range(num_target_slots)))
+        else Bytecode() + sum(Op.SSTORE(i, i) for i in reversed(range(num_target_slots)))
     )
 
     # To create the contract, we apply the slots_init code to initialize the storage slots
@@ -346,6 +346,7 @@ def test_worst_storage_access_warm(
 
     calldata = Op.PUSH1(storage_slot_initial_value)
     execution_code = code_loop_precompile_call(calldata, execution_code_body, fork)
+    assert len(execution_code) <= fork.max_code_size()
 
     execution_code_address = pre.deploy_contract(code=execution_code)
 
