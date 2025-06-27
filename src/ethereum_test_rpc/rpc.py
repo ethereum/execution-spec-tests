@@ -3,7 +3,7 @@
 import time
 from itertools import count
 from pprint import pprint
-from typing import Any, ClassVar, Dict, List, Literal, Union
+from typing import Any, ClassVar, Dict, List, Literal
 
 import requests
 from jwt import encode
@@ -23,7 +23,7 @@ from .types import (
     TransactionByHashResponse,
 )
 
-BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
 
 class SendTransactionExceptionError(Exception):
@@ -111,7 +111,7 @@ class EthRPC(BaseRPC):
 
     transaction_wait_timeout: int = 60
 
-    BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+    BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
     def __init__(
         self,

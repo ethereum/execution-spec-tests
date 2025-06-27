@@ -13,7 +13,6 @@ from typing import (
     Sequence,
     Tuple,
     TypeVar,
-    Union,
     cast,
 )
 
@@ -75,7 +74,7 @@ EMPTY_TRIE_ROOT = Bytes32(
     bytes.fromhex("56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421")
 )
 
-Node = Union[FrontierAccount, Bytes, Uint, U256, None]
+Node = FrontierAccount | Bytes | Uint | U256 | None
 K = TypeVar("K", bound=Bytes)
 V = TypeVar(
     "V",
@@ -133,7 +132,7 @@ class BranchNode:
     value: Extended
 
 
-InternalNode = Union[LeafNode, ExtensionNode, BranchNode]
+InternalNode = LeafNode | ExtensionNode | BranchNode
 
 
 def encode_internal_node(node: Optional[InternalNode]) -> Extended:
