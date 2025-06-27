@@ -25673,6 +25673,7 @@
 <ul>
 <li>🔀 <code>consume</code> now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like <code>stable@latest</code> continue to use the API for version resolution (<a href="https://github.com/ethereum/execution-spec-tests/pull/1788">#1788</a>).</li>
 <li>🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture (<a href="https://github.com/ethereum/execution-spec-tests/pull/1801">#1801</a>).</li>
+<li>🔀 Add exponential retry logic to initial fcu within consume engine (<a href="https://github.com/ethereum/execution-spec-tests/pull/1815">#1815</a>).</li>
 </ul>
 <h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
 <ul>
