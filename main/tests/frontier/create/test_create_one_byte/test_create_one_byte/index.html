@@ -23736,7 +23736,7 @@
 
 
 <h1 id="test_create_one_byte"><code>test_create_one_byte()</code><a class="headerlink" href="#test_create_one_byte" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1bca1a25c7565667e78de0786e5abd8e5b707841/tests/frontier/create/test_create_one_byte.py#L23"><code>tests/frontier/create/test_create_one_byte.py::test_create_one_byte@1bca1a25</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f5cf060addf24a7f187d8d6fbee38569adf2959f/tests/frontier/create/test_create_one_byte.py#L23"><code>tests/frontier/create/test_create_one_byte.py::test_create_one_byte@f5cf060a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/create/test_create_one_byte.py::test_create_one_byte --fork Prague</span>
@@ -23839,11 +23839,19 @@
 <span class="normal">104</span>
 <span class="normal">105</span>
 <span class="normal">106</span>
-<span class="normal">107</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_FirstByte_loopFiller.yml&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="n">pr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/1615&quot;</span><span class="p">],</span>
+    <span class="n">coverage_missed_reason</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;coinbase is deleted in original test (tx.gas_price==env.base_fee), &quot;</span>
+        <span class="s2">&quot;opcodes lt, iszero, jump are no longer used&quot;</span>
+    <span class="p">),</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Frontier&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_create_opcodes</span>

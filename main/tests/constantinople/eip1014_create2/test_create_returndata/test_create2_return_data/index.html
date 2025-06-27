@@ -23736,7 +23736,7 @@
 
 
 <h1 id="test_create2_return_data"><code>test_create2_return_data()</code><a class="headerlink" href="#test_create2_return_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1bca1a25c7565667e78de0786e5abd8e5b707841/tests/constantinople/eip1014_create2/test_create_returndata.py#L18"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@1bca1a25</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f5cf060addf24a7f187d8d6fbee38569adf2959f/tests/constantinople/eip1014_create2/test_create_returndata.py#L18"><code>tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data@f5cf060a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/constantinople/eip1014_create2/test_create_returndata.py::test_create2_return_data --fork Prague</span>
@@ -23877,12 +23877,14 @@
 <span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
-<span class="normal">140</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
+<span class="normal">140</span>
+<span class="normal">141</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreate2/call_outsize_then_create2_successful_then_returndatasizeFiller.json&quot;</span><span class="p">,</span>
         <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreate2/call_then_create2_successful_then_returndatasizeFiller.json&quot;</span><span class="p">,</span>
     <span class="p">],</span>
     <span class="n">pr</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/497&quot;</span><span class="p">],</span>
+    <span class="n">coverage_missed_reason</span><span class="o">=</span><span class="s2">&quot;coinbase is deleted in original test (tx.gas_price==env.base_fee)&quot;</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_return_size&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
