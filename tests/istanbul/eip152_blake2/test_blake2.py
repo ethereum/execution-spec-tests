@@ -21,8 +21,7 @@ from .spec import SpecTestVectors, ref_spec_152
 REFERENCE_SPEC_GIT_PATH = ref_spec_152.git_path
 REFERENCE_SPEC_VERSION = ref_spec_152.version
 
-
-@pytest.mark.ported_from(
+pytestmark = pytest.mark.ported_from(
     [
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
@@ -33,7 +32,14 @@ REFERENCE_SPEC_VERSION = ref_spec_152.version
         "https://github.com/ethereum/execution-spec-tests/pull/1244",
         "https://github.com/ethereum/execution-spec-tests/pull/1067",
     ],
+    coverage_missed_reason=(
+        "No longer used opcodes, SUB, GT, ISZERO, AND, CODESIZE, JUMP, some PUSH opcodes."
+        "Original test calls Blake2b in ConstantinopleFix (activation test), "
+        "which results in empty account code being triggered."
+    ),
 )
+
+
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL])
 @pytest.mark.parametrize(
@@ -427,18 +433,6 @@ def test_blake2b(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.ported_from(
-    [
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
-    ],
-    pr=[
-        "https://github.com/ethereum/execution-spec-tests/pull/1244",
-        "https://github.com/ethereum/execution-spec-tests/pull/1067",
-    ],
-)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize("gas_limit", [90_000, 110_000, 200_000])
@@ -552,18 +546,6 @@ def test_blake2b_invalid_gas(
     state_test(env=env, pre=pre, post=post, tx=tx)
 
 
-@pytest.mark.ported_from(
-    [
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
-    ],
-    pr=[
-        "https://github.com/ethereum/execution-spec-tests/pull/1244",
-        "https://github.com/ethereum/execution-spec-tests/pull/1067",
-    ],
-)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize("gas_limit", [Environment().gas_limit, 90_000, 110_000, 200_000])
@@ -674,18 +656,6 @@ def test_blake2b_gas_limit(
     )
 
 
-@pytest.mark.ported_from(
-    [
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
-        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
-    ],
-    pr=[
-        "https://github.com/ethereum/execution-spec-tests/pull/1244",
-        "https://github.com/ethereum/execution-spec-tests/pull/1067",
-    ],
-)
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
 @pytest.mark.parametrize(
