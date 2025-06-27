@@ -185,21 +185,26 @@ def test_worst_address_state_warm(
     )
 
 
-class StorageAction:
-    """Enum for storage actions."""
+class LoadAction:
+    """Enum for sload actions."""
 
     READ = 1
-    WRITE_SAME_VALUE = 2
-    WRITE_NEW_VALUE = 3
+
+
+class StoreAction:
+    """Enum for sstore actions."""
+
+    WRITE_SAME_VALUE = 1
+    WRITE_NEW_VALUE = 2
 
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "storage_action",
     [
-        pytest.param(StorageAction.READ, id="SSLOAD"),
-        pytest.param(StorageAction.WRITE_SAME_VALUE, id="SSTORE same value"),
-        pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
+        pytest.param(LoadAction.READ, id="SSLOAD"),
+        pytest.param(StoreAction.WRITE_SAME_VALUE, id="SSTORE same value"),
+        pytest.param(StoreAction.WRITE_NEW_VALUE, id="SSTORE new value"),
     ],
 )
 @pytest.mark.parametrize(
@@ -214,7 +219,7 @@ def test_worst_storage_access_cold(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
-    storage_action: StorageAction,
+    storage_action: LoadAction | StoreAction,
     absent_slots: bool,
 ):
     """Test running a block with as many cold storage slot accesses as possible."""
@@ -223,17 +228,17 @@ def test_worst_storage_access_cold(
     attack_gas_limit = Environment().gas_limit
 
     cost = gas_costs.G_COLD_SLOAD  # All accesses are always cold
-    if storage_action == StorageAction.WRITE_NEW_VALUE:
+    if storage_action == StoreAction.WRITE_NEW_VALUE:
         if not absent_slots:
             cost += gas_costs.G_STORAGE_RESET
         else:
             cost += gas_costs.G_STORAGE_SET
-    elif storage_action == StorageAction.WRITE_SAME_VALUE:
+    elif storage_action == StoreAction.WRITE_SAME_VALUE:
         if absent_slots:
             cost += gas_costs.G_STORAGE_SET
         else:
             cost += gas_costs.G_WARM_SLOAD
-    elif storage_action == StorageAction.READ:
+    elif storage_action == LoadAction.READ:
         cost += gas_costs.G_WARM_SLOAD
 
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
@@ -242,30 +247,29 @@ def test_worst_storage_access_cold(
     blocks = []
 
     # Contract code
-    execution_code_body = Bytecode()
-    if storage_action == StorageAction.WRITE_SAME_VALUE:
-        # All the storage slots in the contract are initialized to their index.
-        # That is, storage slot `i` is initialized to `i`.
-        execution_code_body = Op.SSTORE(Op.DUP1, Op.DUP1)
-    elif storage_action == StorageAction.WRITE_NEW_VALUE:
-        # The new value 2^256-1 is guaranteed to be different from the initial value.
-        execution_code_body = Op.SSTORE(Op.DUP2, Op.NOT(0))
-    elif storage_action == StorageAction.READ:
-        execution_code_body = Op.POP(Op.SLOAD(Op.DUP1))
+    execution_code = Bytecode()
 
-    execution_code = Op.PUSH4(num_target_slots) + While(
-        body=execution_code_body,
-        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
-    )
+    if isinstance(storage_action, LoadAction):
+        execution_code = sum(Op.SLOAD(i) for i in reversed(range(num_target_slots)))
+    elif isinstance(storage_action, StoreAction):
+        if storage_action == StoreAction.WRITE_SAME_VALUE:
+            # All the storage slots in the contract are initialized to their index.
+            # That is, storage slot `i` is initialized to `i`.
+            execution_code += sum(Op.SSTORE(i, i) for i in reversed(range(num_target_slots)))
+        elif storage_action == StoreAction.WRITE_NEW_VALUE:
+            # The new value 2^256-1 is guaranteed to be different from the initial value.
+            execution_code += sum(
+                Op.SSTORE(i, Op.NOT(0)) for i in reversed(range(num_target_slots))
+            )
+
     execution_code_address = pre.deploy_contract(code=execution_code)
 
     # Contract creation
-    slots_init = Bytecode()
-    if not absent_slots:
-        slots_init = Op.PUSH4(num_target_slots) + While(
-            body=Op.SSTORE(Op.DUP1, Op.DUP1),
-            condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
-        )
+    slots_init = (
+        Bytecode()
+        if absent_slots
+        else sum(Op.SSTORE(i, i) for i in reversed(range(num_target_slots)))
+    )
 
     # To create the contract, we apply the slots_init code to initialize the storage slots
     # (int the case of absent_slots=False) and then copy the execution code to the contract.
@@ -310,16 +314,17 @@ def test_worst_storage_access_cold(
 @pytest.mark.parametrize(
     "storage_action",
     [
-        pytest.param(StorageAction.READ, id="SLOAD"),
-        pytest.param(StorageAction.WRITE_SAME_VALUE, id="SSTORE same value"),
-        pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
+        pytest.param(LoadAction.READ, id="SLOAD"),
+        pytest.param(StoreAction.WRITE_SAME_VALUE, id="SSTORE same value"),
+        pytest.param(StoreAction.WRITE_NEW_VALUE, id="SSTORE new value"),
     ],
 )
 @pytest.mark.slow()
 def test_worst_storage_access_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    storage_action: StorageAction,
+    storage_action: LoadAction | StoreAction,
+    fork: Fork,
 ):
     """Test running a block with as many warm storage slot accesses as possible."""
     env = Environment(gas_limit=100_000_000_000)
@@ -332,16 +337,16 @@ def test_worst_storage_access_warm(
 
     # Contract code
     execution_code_body = Bytecode()
-    if storage_action == StorageAction.WRITE_SAME_VALUE:
+    if storage_action == StoreAction.WRITE_SAME_VALUE:
         execution_code_body = Op.SSTORE(0, Op.DUP1)
-    elif storage_action == StorageAction.WRITE_NEW_VALUE:
-        execution_code_body = Op.PUSH1(1) + Op.ADD + Op.SSTORE(0, Op.DUP1)
-    elif storage_action == StorageAction.READ:
+    elif storage_action == StoreAction.WRITE_NEW_VALUE:
+        execution_code_body = Op.SSTORE(0, Op.NOT(0))
+    elif storage_action == LoadAction.READ:
         execution_code_body = Op.POP(Op.SLOAD(0))
 
-    execution_code = Op.PUSH1(storage_slot_initial_value) + While(
-        body=execution_code_body,
-    )
+    calldata = Op.PUSH1(storage_slot_initial_value)
+    execution_code = code_loop_precompile_call(calldata, execution_code_body, fork)
+
     execution_code_address = pre.deploy_contract(code=execution_code)
 
     creation_code = (
