@@ -83,7 +83,7 @@ def test_worst_calldatacopy(
     #
     # If `non_zero_data` is True, we leverage CALLDATASIZE for the copy length. Otherwise, since we
     # don't send zero data explicitly via calldata, PUSH the target size and use DUP1 to copy it.
-    prefix = Bytecode() if non_zero_data or size == 0 else Op.PUSH32(size)
+    prefix = Bytecode() if non_zero_data or size == 0 else Op.PUSH24(size)
     src_dst = 0 if fixed_src_dst else Op.MOD(Op.GAS, 7)
     attack_block = Op.CALLDATACOPY(
         src_dst, src_dst, Op.CALLDATASIZE if non_zero_data or size == 0 else Op.DUP1
