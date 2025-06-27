@@ -187,7 +187,7 @@ def encode_node(node: Node, storage_root: Optional[Bytes] = None) -> Bytes:
         raise AssertionError(f"encoding for {type(node)} is not currently implemented")
 
 
-@dataclass
+@dataclass(slots=True)
 class Trie(Generic[K, V]):
     """The Merkle Trie."""
 

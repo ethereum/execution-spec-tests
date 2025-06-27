@@ -18,7 +18,7 @@ from .consume import FixtureConsumer
 from .file import Fixtures
 
 
-@dataclass(kw_only=True)
+@dataclass(kw_only=True, slots=True)
 class TestInfo:
     """Contains test information from the current node."""
 
