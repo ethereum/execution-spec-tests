@@ -147,14 +147,16 @@ jobs:
         run: uvx --with=tox-uv tox -e pytest
 
   tests_deployed:
-    name: Fill tests, deployed, ${{ matrix.os }}, ${{ matrix.python }}
+    name: Fill tests, deployed, ${{ matrix.name }}, ${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          - os: [self-hosted-ghr, size-xl-x64]
+            name: self-hosted-ghr-xl-x64
             python: "3.11"
           - os: macos-latest
+            name: macos-latest
             python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
