@@ -1,7 +1,9 @@
 """JSON-RPC methods and helper functions for EEST consume based hive simulators."""
 
+import logging
 import time
 from itertools import count
+from pathlib import Path
 from pprint import pprint
 from typing import Any, ClassVar, Dict, List, Literal, Union
 
@@ -11,6 +13,7 @@ from pydantic import ValidationError
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
+from pytest_plugins.logging import get_logger
 
 from .types import (
     ForkchoiceState,
@@ -24,6 +27,7 @@ from .types import (
 )
 
 BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+logger = get_logger(__name__)
 
 
 class SendTransactionExceptionError(Exception):
@@ -43,7 +47,28 @@ class SendTransactionExceptionError(Exception):
         if self.tx is not None:
             f"{super().__str__()} Transaction={self.tx.model_dump_json()}"
         elif self.tx_rlp is not None:
-            return f"{super().__str__()} Transaction RLP={self.tx_rlp.hex()}"
+            tx_rlp_hex_full = self.tx_rlp.hex()
+            # always log shortened errors to console (even when debugging read full from log file)
+            tx_rlp_hex = tx_rlp_hex_full[:50]
+
+            # create ./logs/rlp folder if it does not exist already
+            rlp_logs_folder = Path(".") / "logs" / "rlp"
+            rlp_logs_folder.mkdir(parents=True, exist_ok=True)
+
+            # create and config a temporary logger that logs to file
+            timestamp = time.time_ns()
+            file_name = rlp_logs_folder / f"{timestamp}_rlp_data.log"
+            temp_logger = logging.getLogger(f"rlp_{timestamp}")
+            temp_logger.propagate = False
+            file_handler = logging.FileHandler(file_name)
+            temp_logger.addHandler(file_handler)
+            #   log rlp to file
+            temp_logger.error(tx_rlp_hex_full)
+            #   cleanup
+            temp_logger.removeHandler(file_handler)
+            file_handler.close()
+
+            return f"{super().__str__()} Transaction RLP={tx_rlp_hex}"
         return super().__str__()
 
 
