@@ -146,22 +146,23 @@ def encode_internal_node(node: Optional[InternalNode]) -> Extended:
     which is encoded to `b""`.
     """
     unencoded: Extended
-    if node is None:
-        unencoded = b""
-    elif isinstance(node, LeafNode):
-        unencoded = (
-            nibble_list_to_compact(node.rest_of_key, True),
-            node.value,
-        )
-    elif isinstance(node, ExtensionNode):
-        unencoded = (
-            nibble_list_to_compact(node.key_segment, False),
-            node.subnode,
-        )
-    elif isinstance(node, BranchNode):
-        unencoded = list(node.subnodes) + [node.value]
-    else:
-        raise AssertionError(f"Invalid internal node type {type(node)}!")
+    match node:
+        case None:
+            unencoded = b""
+        case LeafNode():
+            unencoded = (
+                nibble_list_to_compact(node.rest_of_key, True),
+                node.value,
+            )
+        case ExtensionNode():
+            unencoded = (
+                nibble_list_to_compact(node.key_segment, False),
+                node.subnode,
+            )
+        case BranchNode():
+            unencoded = list(node.subnodes) + [node.value]
+        case _:
+            raise AssertionError(f"Invalid internal node type {type(node)}!")
 
     encoded = rlp.encode(unencoded)
     if len(encoded) < 32:
@@ -176,15 +177,16 @@ def encode_node(node: Node, storage_root: Optional[Bytes] = None) -> Bytes:
 
     Currently mostly an unimplemented stub.
     """
-    if isinstance(node, FrontierAccount):
-        assert storage_root is not None
-        return encode_account(node, storage_root)
-    elif isinstance(node, U256):
-        return rlp.encode(node)
-    elif isinstance(node, Bytes):
-        return node
-    else:
-        raise AssertionError(f"encoding for {type(node)} is not currently implemented")
+    match node:
+        case FrontierAccount():
+            assert storage_root is not None
+            return encode_account(node, storage_root)
+        case U256():
+            return rlp.encode(node)
+        case Bytes():
+            return node
+        case _:
+            raise AssertionError(f"encoding for {type(node)} is not currently implemented")
 
 
 @dataclass(slots=True)
