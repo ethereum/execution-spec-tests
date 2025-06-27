@@ -71,7 +71,7 @@ class BaseRPC:
         """Set namespace of the RPC class to the lowercase of the class name."""
         namespace = cls.__name__
         if namespace.endswith("RPC"):
-            namespace = namespace[:-3]
+            namespace = namespace.removesuffix("RPC")
         cls.namespace = namespace.lower()
 
     def post_request(self, method: str, *params: Any, extra_headers: Dict | None = None) -> Any:
