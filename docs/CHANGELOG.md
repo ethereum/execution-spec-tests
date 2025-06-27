@@ -42,6 +42,7 @@ Users can select any of the artifacts depending on their testing needs for their
 #### `consume`
 
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
+- 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
 
 #### `execute`
 
