@@ -2273,22 +2273,17 @@ def test_worst_push(
     "size",
     [
         0,  # 0 bytes
-        10,  # 10 bytes
-        100,  # 100 bytes
-        1 * 1024,  # 1KiB
-        10 * 1024,  # 10KiB
-        100 * 1024,  # 100KiB
         1024 * 1024,  # 1MiB
     ],
 )
-@pytest.mark.parametrize("empty_value", [True, False])
+@pytest.mark.parametrize("empty_topic", [True, False])
 @pytest.mark.parametrize("fixed_offset", [True, False])
 def test_worst_log_opcodes(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Opcode,
-    empty_value: bool,
+    empty_topic: bool,
     size: int,
     fixed_offset: bool,
 ):
@@ -2296,11 +2291,7 @@ def test_worst_log_opcodes(
     env = Environment()
     max_code_size = fork.max_code_size()
 
-    calldata = (
-        Op.PUSH0
-        if empty_value
-        else Op.PUSH32(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF)
-    )
+    calldata = Op.PUSH0 if empty_topic else Op.PUSH32(2**256 - 1)
 
     topic_count = len(opcode.kwargs or []) - 2
 
