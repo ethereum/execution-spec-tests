@@ -38,11 +38,11 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 
 ### Problem: `CERTIFICATE_VERIFY_FAILED`
 
-!!! danger "Problem: `Failed to install solc ... CERTIFICATE_VERIFY_FAILED`"
-    When running either `uv run solc-select use 0.8.24 --always-install` or `fill` you encounter the following error:
+!!! danger "Problem: `Failed to ... CERTIFICATE_VERIFY_FAILED`"
+    When running `fill` you might encounter the following error:
 
     ```bash
-    Exit: Failed to install solc version 0.8.24: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:992)>
+    Exit: Failed to ...: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:992)>
     ```
 
 === "Ubuntu"
@@ -66,15 +66,8 @@ This page provides guidance on how to troubleshoot common issues that may arise 
 
 ### Problem: `Exception: failed to compile yul source`
 
-!!! danger "Problem: `Running fill fails with tests that contain yul source code` on ARM platforms"
-    If you're using `x86_64`, try to manually run `solc-select` to install the required version of the `solc` binary:
-
-    ```shell
-    uv run solc-select use 0.8.24 --always-install
-    ```
-
-    Otherwise, this can happen when you're using an ARM64 OS but followed the x86-64 installation guide.
-    To resolve the issue you must build solidity from source (avoid 0.8.24 as it might require building z3 from source as well).
+!!! danger "Problem: `Running fill on static_tests fails with tests that contain yul source code` on ARM platforms"
+    To resolve the issue you must acquire the `solc` binary e.g. by building solidity from source. The guide below installs v0.8.28 but you might prefer to choose a different version.
 
 !!! success "Solution: Build solc from source"
     The following steps have been tested on Ubuntu 24.04.2 LTS ARM64:
@@ -88,7 +81,7 @@ This page provides guidance on how to troubleshoot common issues that may arise 
     cp ./solc/solc $HOME/Documents/execution-spec-tests/.venv/bin/
     chmod +x $HOME/Documents/execution-spec-tests/.venv/bin/solc
     ```
-    Running `uv run solc --version` should now return the expected version. Verify that `fill` works by running `uv run fill -m yul_test` in the execution-spec-tests root folder.
+    Running `uv run solc --version` should now return the expected version.
 
 ## Problem: `ValueError: unsupported hash type ripemd160`
 

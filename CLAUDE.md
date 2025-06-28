@@ -32,7 +32,6 @@ All commands use `uv run` prefix.
 
 ```bash
 uv sync --all-extras
-uv run solc-select use 0.8.24 --always-install
 uvx pre-commit install
 ```
 

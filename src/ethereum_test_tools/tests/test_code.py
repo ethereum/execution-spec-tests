@@ -1,20 +1,19 @@
 """Test suite for `ethereum_test.code` module."""
 
 from string import Template
-from typing import Mapping, SupportsBytes
+from typing import Mapping
 
 import pytest
 from semver import Version
 
 from ethereum_clis import TransitionTool
-from ethereum_test_base_types import Account, Address, Bytes, Hash, TestAddress, TestPrivateKey
+from ethereum_test_base_types import Account, Address, Hash, TestAddress, TestPrivateKey
 from ethereum_test_fixtures import BlockchainFixture
 from ethereum_test_forks import (
     Cancun,
     Fork,
     Homestead,
     Shanghai,
-    get_closest_fork_with_solc_support,
     get_deployed_forks,
 )
 from ethereum_test_specs import StateTest
@@ -22,7 +21,7 @@ from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm import UndefinedOpcodes
 
-from ..code import CalldataCase, Case, Conditional, Initcode, Solc, Switch, Yul
+from ..code import CalldataCase, Case, Conditional, Initcode, Switch
 from .conftest import SOLC_PADDING_VERSION
 
 
@@ -30,27 +29,6 @@ from .conftest import SOLC_PADDING_VERSION
 def fork(request: pytest.FixtureRequest):
     """Return the target evm-version (fork) for solc compilation."""
     return request.param
-
-
-@pytest.fixture()
-def yul_code(
-    request: pytest.FixtureRequest,
-    fork: Fork,
-    padding_before: str | None,
-    padding_after: str | None,
-) -> bytes:
-    """Return the Yul code for the test."""
-    yul_code_snippets = request.param
-    compiled_yul_code = b""
-    if padding_before is not None:
-        compiled_yul_code += Bytes(padding_before)
-    for yul_code in yul_code_snippets:
-        compiled_yul_code += bytes(
-            Yul(yul_code, fork=get_closest_fork_with_solc_support(fork, Solc().version))
-        )
-    if padding_after is not None:
-        compiled_yul_code += Bytes(padding_after)
-    return compiled_yul_code
 
 
 @pytest.fixture()
@@ -72,83 +50,6 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
             return expected_bytes + b"\x00"
 
     raise Exception("Unsupported expected_bytes type: {}".format(type(expected_bytes)))
-
-
-@pytest.mark.parametrize(
-    ["yul_code", "padding_before", "padding_after", "expected_bytes"],
-    [
-        pytest.param(
-            (
-                """
-                {
-                    sstore(1, 2)
-                }
-                """,
-            ),
-            None,
-            None,
-            Template("6002600155${solc_padding}"),
-            id="simple",
-        ),
-        pytest.param(
-            (
-                """
-                {
-                    sstore(1, 2)
-                }
-                """,
-            ),
-            None,
-            "0x00",
-            Template("6002600155${solc_padding}00"),
-            id="simple-with-padding",
-        ),
-        pytest.param(
-            (
-                """
-                {
-                    sstore(1, 2)
-                }
-                """,
-            ),
-            "0x00",
-            None,
-            Template("006002600155${solc_padding}"),
-            id="simple-with-padding-2",
-        ),
-        pytest.param(
-            (
-                """
-                {
-                    sstore(1, 2)
-                }
-                """,
-                """
-                {
-                    sstore(3, 4)
-                }
-                """,
-            ),
-            None,
-            None,
-            Template("6002600155${solc_padding}6004600355${solc_padding}"),
-            id="multiple",
-        ),
-        pytest.param(
-            ("{\n" + "\n".join(["sstore({0}, {0})".format(i) for i in range(5000)]) + "\n}",),
-            None,
-            None,
-            b"".join([b"\x60" + i.to_bytes(1, "big") + b"\x80\x55" for i in range(256)])
-            + b"".join([b"\x61" + i.to_bytes(2, "big") + b"\x80\x55" for i in range(256, 5000)]),
-            id="large",
-        ),
-    ],
-    indirect=["yul_code", "expected_bytes"],
-)
-def test_yul(  # noqa: D103
-    yul_code: SupportsBytes, expected_bytes: bytes, padding_before: str, padding_after: str
-):
-    assert bytes(yul_code) == expected_bytes
 
 
 @pytest.mark.parametrize(

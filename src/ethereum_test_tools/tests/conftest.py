@@ -7,7 +7,7 @@ from ethereum_test_forks import Frontier
 
 from ..code import Solc
 
-SOLC_PADDING_VERSION = Version.parse("0.8.21")
+SOLC_PADDING_VERSION = Version.parse("0.8.24")
 
 
 @pytest.fixture(scope="session")

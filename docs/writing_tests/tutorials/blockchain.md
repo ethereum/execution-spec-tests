@@ -9,7 +9,6 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 - Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
 - Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [blockchain test](https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html).
-- Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).
 - Understand how to write an execution spec [state transition test](./state_transition.md).
 
@@ -26,15 +25,7 @@ A smart contract is defined that is called by each transaction in the test. It s
 ```python
 contract_addr: Account(
     balance=1000000000000000000000,
-    code=Yul(
-        """
-        {
-            let next_slot := sload(0)
-            sstore(next_slot, number())
-            sstore(0, add(next_slot, 1))
-        }
-        """
-    ),
+    code=code,
     storage={
         0x00: 0x01,
     },
