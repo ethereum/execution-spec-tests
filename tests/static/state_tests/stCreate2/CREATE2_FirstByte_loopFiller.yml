@@ -9,12 +9,12 @@ CREATE2_FirstByte_loop:
     currentTimestamp: '1000'
 
   pre:
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 1000000000
       code: ''
       nonce: 0
       storage: {}
-    b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: 0
       code: |
         :yul berlin
@@ -38,8 +38,8 @@ CREATE2_FirstByte_loop:
       - 70000000
     gasPrice: 10
     nonce: 0
-    secretKey: 45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8
-    to: 'b94f5374fce5edbc8e2a8697c15331677e6ebf0b'
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    to: '<contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>'
     value:
     - 0
 
@@ -51,9 +51,9 @@ CREATE2_FirstByte_loop:
       network:
         - '>=Cancun'
       result:
-       a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 1
-       b94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+       <contract:target:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           nonce: 256
           storage:
             'ef': '1'  # EIP-3541 forbids deploying contracts starting with 0xef

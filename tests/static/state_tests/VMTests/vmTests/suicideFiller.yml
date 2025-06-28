@@ -14,7 +14,7 @@ suicide:
 
     # suicide0, self balance to CALLER (the account
     # that called us, not the source of the transaction)
-    0000000000000000000000000000000000001000:
+    <contract:0x0000000000000000000000000000000000001000>:
       balance: 0xFF000000000000
       code: |
         {
@@ -25,7 +25,7 @@ suicide:
 
 
     # suicideNotExisting
-    0000000000000000000000000000000000001001:
+    <contract:0x0000000000000000000000000000000000001001>:
       balance: 0x100000000000
       code: |
         {
@@ -37,7 +37,7 @@ suicide:
 
 
     # suicideEtherToMe
-    0000000000000000000000000000000000001002:
+    <contract:0x0000000000000000000000000000000000001002>:
       balance: 0x100000000000
       code: |
         {
@@ -48,7 +48,7 @@ suicide:
 
 
 
-    cccccccccccccccccccccccccccccccccccccccc:
+    <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: 0x100000000000
       code: |
         {
@@ -58,7 +58,7 @@ suicide:
       storage: {}
 
 
-    a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+    <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
       balance: '100000000000000'
       code: '0x'
       nonce: '0'
@@ -76,10 +76,10 @@ suicide:
     - '80000000'
     gasPrice: '10'
     nonce: '0'
-    to: cccccccccccccccccccccccccccccccccccccccc
+    to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
     value:
     - 0
-    secretKey: "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8"
+    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
 
 
   expect:
@@ -90,9 +90,9 @@ suicide:
       network:
         - '>=Cancun'
       result:
-        a94f5374fce5edbc8e2a8697c15331677e6ebf0b:
+        <eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>:
           balance: 99999999711710
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           balance: 0xff100000000000
 
 
@@ -114,5 +114,5 @@ suicide:
       network:
         - '>=Cancun'
       result:
-        cccccccccccccccccccccccccccccccccccccccc:
+        <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
           balance: 0x100000000000

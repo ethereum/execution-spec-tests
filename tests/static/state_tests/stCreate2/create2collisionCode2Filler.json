@@ -19,7 +19,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "fce41d047b4a1d4450382dcc29ec7e5fedc5f9a3" : {
+                    "<contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
                         "balance" : "0",
 						"nonce" : "1",
 						"code" : "0x010203"
@@ -29,7 +29,7 @@
                         "nonce" : "2",
 						"code" : ""
                     },
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     }
                 }
@@ -42,7 +42,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "fce41d047b4a1d4450382dcc29ec7e5fedc5f9a3" : {
+                    "<contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
                         "balance" : "0",
 						"nonce" : "1",
 						"code" : "0x010203"
@@ -52,21 +52,21 @@
                         "nonce" : "2",
 						"code" : ""
                     },
-                    "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+                    "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                         "nonce" : "1"
                     }
                 }
             }
         ],
         "pre" : {
-            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
+            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
                 "balance" : "1000000000000000000",
                 "code" : "",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3" : {
+            "<contract:0xfce41d047b4a1d4450382dcc29ec7e5fedc5f9a3>" : {
                 "balance" : "0x00",
                 "code" : ":raw 0x010203",
                 "nonce" : "0x01",
@@ -84,7 +84,7 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+            "secretKey" : "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
             "to" : "",
             "value" : [
                 "1"

@@ -2,13 +2,13 @@
 
 from pydantic import BaseModel, Field, model_validator
 
-from .common import AddressInFiller, ValueInFiller
+from .common import AddressOrTagInFiller, ValueInFiller
 
 
 class EnvironmentInStateTestFiller(BaseModel):
     """Class that represents an environment filler."""
 
-    current_coinbase: AddressInFiller = Field(..., alias="currentCoinbase")
+    current_coinbase: AddressOrTagInFiller = Field(..., alias="currentCoinbase")
     current_gas_limit: ValueInFiller = Field(..., alias="currentGasLimit")
     current_number: ValueInFiller = Field(..., alias="currentNumber")
     current_timestamp: ValueInFiller = Field(..., alias="currentTimestamp")
