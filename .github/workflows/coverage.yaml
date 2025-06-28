@@ -133,7 +133,7 @@ jobs:
           ./.github/scripts/fill_introduced_tests.sh "$CHANGED_TEST_FILES" "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS" "${{ env.BLOCK_GAS_LIMIT }}" "${{ env.FILL_UNTIL }}"
 
       - name: Parse and fill introduced test sources from before the PR
-        if: ${{ (steps.changed-tests.outputs.tests_any_modified == 'true' || steps.changed-tests.outputs.tests_any_deleted == 'true') && steps.ported-from.outputs.any_ported == 'false' }}
+        if: ${{ (steps.changed-tests.outputs.tests_modified_files_count != '0' || steps.changed-tests.outputs.tests_deleted_files_count != '0') && steps.ported-from.outputs.any_ported == 'false' }}
         id: pre-patch-fill
         env:
           MODIFIED_TEST_FILES: ${{ steps.changed-tests.outputs.tests_modified_files }}
