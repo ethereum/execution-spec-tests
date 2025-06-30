@@ -32,15 +32,15 @@ from .helpers import code_loop_precompile_call
     ],
 )
 @pytest.mark.parametrize(
-    "size",
+    "size,non_zero_data",
     [
-        0,  # 0 bytes
-        1024 * 1024,  # 1MiB
+        pytest.param(0, False, id="0_bytes_zero_data"),
+        pytest.param(1024 * 1024, False, id="1_MiB_zero_data"),  # 1 MiB
+        pytest.param(1024 * 1024, True, id="1_MiB_non_zero_data"),  # 1 MiB
     ],
 )
 @pytest.mark.parametrize("empty_topic", [True, False])
 @pytest.mark.parametrize("fixed_offset", [True, False])
-@pytest.mark.parametrize("non_zero_data", [True, False])
 def test_worst_log_opcodes(
     state_test: StateTestFiller,
     pre: Alloc,
