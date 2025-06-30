@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_blobhash_opcode_contexts_tx_types"><code>test_blobhash_opcode_contexts_tx_types()</code><a class="headerlink" href="#test_blobhash_opcode_contexts_tx_types" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L284"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py#L288"><code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py::test_blobhash_opcode_contexts_tx_types --fork Prague</span>
@@ -23850,11 +23850,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_blobhash_opcode_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
@@ -23889,7 +23885,11 @@
 <span class="normal">320</span>
 <span class="normal">321</span>
 <span class="normal">322</span>
-<span class="normal">323</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span><span class="p">(</span><span class="n">selector</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_blobhash_opcode_contexts_tx_types</span><span class="p">(</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">tx_type</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>

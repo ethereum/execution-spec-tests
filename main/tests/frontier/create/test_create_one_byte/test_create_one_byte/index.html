@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_create_one_byte"><code>test_create_one_byte()</code><a class="headerlink" href="#test_create_one_byte" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/frontier/create/test_create_one_byte.py#L23"><code>tests/frontier/create/test_create_one_byte.py::test_create_one_byte@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/frontier/create/test_create_one_byte.py#L23"><code>tests/frontier/create/test_create_one_byte.py::test_create_one_byte@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/create/test_create_one_byte.py::test_create_one_byte --fork Prague</span>
@@ -23960,7 +23960,7 @@
     <span class="c1"># make a subcontract that deploys code, because deploy 0xef eats ALL gas</span>
     <span class="n">create_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">create_opcode</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">32</span> <span class="o">-</span> <span class="n">initcode_length</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">initcode_length</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">create_opcode</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">32</span> <span class="o">-</span> <span class="n">initcode_length</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">initcode_length</span><span class="p">))</span>
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">code</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>

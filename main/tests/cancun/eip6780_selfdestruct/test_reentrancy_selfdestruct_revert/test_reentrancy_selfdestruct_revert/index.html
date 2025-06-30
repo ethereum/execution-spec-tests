@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_reentrancy_selfdestruct_revert"><code>test_reentrancy_selfdestruct_revert()</code><a class="headerlink" href="#test_reentrancy_selfdestruct_revert" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py#L117"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py#L128"><code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py::test_reentrancy_selfdestruct_revert --fork Prague</span>
@@ -23849,18 +23849,7 @@ It is expected the S is self destructed after the transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_reentrancy_selfdestruct_revert.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
@@ -23937,7 +23926,18 @@ It is expected the S is self destructed after the transaction.</p>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
-<span class="normal">205</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;first_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;second_suicide&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DELEGATECALL</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">test_reentrancy_selfdestruct_revert</span><span class="p">(</span>

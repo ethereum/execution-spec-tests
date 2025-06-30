@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_set_code_transaction_fee_validations"><code>test_set_code_transaction_fee_validations()</code><a class="headerlink" href="#test_set_code_transaction_fee_validations" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3672"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_transaction_fee_validations@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3696"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_transaction_fee_validations@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_transaction_fee_validations --fork Prague</span>
@@ -23842,31 +23842,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3672</span>
-<span class="normal">3673</span>
-<span class="normal">3674</span>
-<span class="normal">3675</span>
-<span class="normal">3676</span>
-<span class="normal">3677</span>
-<span class="normal">3678</span>
-<span class="normal">3679</span>
-<span class="normal">3680</span>
-<span class="normal">3681</span>
-<span class="normal">3682</span>
-<span class="normal">3683</span>
-<span class="normal">3684</span>
-<span class="normal">3685</span>
-<span class="normal">3686</span>
-<span class="normal">3687</span>
-<span class="normal">3688</span>
-<span class="normal">3689</span>
-<span class="normal">3690</span>
-<span class="normal">3691</span>
-<span class="normal">3692</span>
-<span class="normal">3693</span>
-<span class="normal">3694</span>
-<span class="normal">3695</span>
-<span class="normal">3696</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3696</span>
 <span class="normal">3697</span>
 <span class="normal">3698</span>
 <span class="normal">3699</span>
@@ -23886,7 +23862,31 @@
 <span class="normal">3713</span>
 <span class="normal">3714</span>
 <span class="normal">3715</span>
-<span class="normal">3716</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3716</span>
+<span class="normal">3717</span>
+<span class="normal">3718</span>
+<span class="normal">3719</span>
+<span class="normal">3720</span>
+<span class="normal">3721</span>
+<span class="normal">3722</span>
+<span class="normal">3723</span>
+<span class="normal">3724</span>
+<span class="normal">3725</span>
+<span class="normal">3726</span>
+<span class="normal">3727</span>
+<span class="normal">3728</span>
+<span class="normal">3729</span>
+<span class="normal">3730</span>
+<span class="normal">3731</span>
+<span class="normal">3732</span>
+<span class="normal">3733</span>
+<span class="normal">3734</span>
+<span class="normal">3735</span>
+<span class="normal">3736</span>
+<span class="normal">3737</span>
+<span class="normal">3738</span>
+<span class="normal">3739</span>
+<span class="normal">3740</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;max_fee_per_gas, max_priority_fee_per_gas, expected_error&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">INSUFFICIENT_MAX_FEE_PER_GAS</span><span class="p">),</span>

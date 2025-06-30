@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_set_code_to_self_destructing_account_deployed_in_same_tx"><code>test_set_code_to_self_destructing_account_deployed_in_same_tx()</code><a class="headerlink" href="#test_set_code_to_self_destructing_account_deployed_in_same_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1673"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L1684"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_self_destructing_account_deployed_in_same_tx --fork Prague</span>
@@ -23844,18 +23844,7 @@ in both sequence orders.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1673</span>
-<span class="normal">1674</span>
-<span class="normal">1675</span>
-<span class="normal">1676</span>
-<span class="normal">1677</span>
-<span class="normal">1678</span>
-<span class="normal">1679</span>
-<span class="normal">1680</span>
-<span class="normal">1681</span>
-<span class="normal">1682</span>
-<span class="normal">1683</span>
-<span class="normal">1684</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1684</span>
 <span class="normal">1685</span>
 <span class="normal">1686</span>
 <span class="normal">1687</span>
@@ -23956,7 +23945,16 @@ in both sequence orders.</p>
 <span class="normal">1782</span>
 <span class="normal">1783</span>
 <span class="normal">1784</span>
-<span class="normal">1785</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">1785</span>
+<span class="normal">1786</span>
+<span class="normal">1787</span>
+<span class="normal">1788</span>
+<span class="normal">1789</span>
+<span class="normal">1790</span>
+<span class="normal">1791</span>
+<span class="normal">1792</span>
+<span class="normal">1793</span>
+<span class="normal">1794</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;external_sendall_recipient&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
 <span class="p">)</span>
@@ -23996,12 +23994,11 @@ in both sequence orders.</p>
     <span class="n">signer_call_return_code_slot</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">deployed_contract_call_return_code_slot</span> <span class="o">=</span> <span class="mi">3</span>
 
-    <span class="n">salt</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">call_opcode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span>
 
     <span class="n">contract_creator_code</span><span class="p">:</span> <span class="n">Bytecode</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
         <span class="n">deployed_contract_address_slot</span><span class="p">,</span>
-        <span class="n">create_opcode</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>
+        <span class="n">create_opcode</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">),</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="n">call_set_code_first</span><span class="p">:</span>
         <span class="n">contract_creator_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
@@ -24023,7 +24020,6 @@ in both sequence orders.</p>
     <span class="n">deployed_contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span>
         <span class="n">address</span><span class="o">=</span><span class="n">contract_creator_address</span><span class="p">,</span>
         <span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span>
         <span class="n">initcode</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
         <span class="n">opcode</span><span class="o">=</span><span class="n">create_opcode</span><span class="p">,</span>
     <span class="p">)</span>

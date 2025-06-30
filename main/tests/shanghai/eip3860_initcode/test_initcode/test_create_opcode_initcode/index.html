@@ -23841,7 +23841,7 @@
 
 
 <h1 id="test_create_opcode_initcode"><code>test_create_opcode_initcode()</code><a class="headerlink" href="#test_create_opcode_initcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/shanghai/eip3860_initcode/test_initcode.py#L480"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/shanghai/eip3860_initcode/test_initcode.py#L484"><code>tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3860_initcode/test_initcode.py::TestCreateInitcode::test_create_opcode_initcode --fork Prague</span>
@@ -24066,7 +24066,11 @@ that is on/over the max allowed limit.</p>
 <span class="normal">553</span>
 <span class="normal">554</span>
 <span class="normal">555</span>
-<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;initcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">INITCODE_ZEROS_MAX_LIMIT</span><span class="p">,</span>
@@ -24100,7 +24104,11 @@ that is on/over the max allowed limit.</p>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span>
-            <span class="o">+</span> <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">)</span>
+            <span class="o">+</span> <span class="p">(</span>
+                <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span>
+                <span class="k">else</span> <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">GAS</span>
             <span class="c1"># stack: [Gas 2, Call Result, Gas 1]</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span>
@@ -24300,11 +24308,7 @@ initcode that is on/over the max allowed limit.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3860_initcode/test_initcode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">484</span>
 <span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
@@ -24376,7 +24380,11 @@ initcode that is on/over the max allowed limit.</p>
 <span class="normal">553</span>
 <span class="normal">554</span>
 <span class="normal">555</span>
-<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_create_opcode_initcode</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>

@@ -23841,7 +23841,7 @@
 
 
 <h1 id="test_contract_creation"><code>test_contract_creation()</code><a class="headerlink" href="#test_contract_creation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/fbbabc6e32482762f1d85169cf06cc7774a35b2f/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L187"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@fbbabc6e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py#L196"><code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation@724131d1</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py::TestTransientStorageInContractCreation::test_contract_creation --fork Prague</span>
@@ -23966,7 +23966,16 @@
 <span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
-<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@CreateOpcodeParams</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="nd">@InitcodeTestCases</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
 <span class="k">class</span> <span class="nc">TestTransientStorageInContractCreation</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -24000,7 +24009,16 @@
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0x0200</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">TSTORE</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mh">0x0300</span><span class="p">)</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATACOPY</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
-            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">)))</span>
+            <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+                <span class="mi">4</span><span class="p">,</span>
+                <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
+                    <span class="n">address</span><span class="o">=</span><span class="p">(</span>
+                        <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">,</span> <span class="n">salt</span><span class="o">=</span><span class="n">create2_salt</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">opcode</span> <span class="o">==</span> <span class="n">Op</span><span class="o">.</span><span class="n">CREATE2</span>
+                        <span class="k">else</span> <span class="n">opcode</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATASIZE</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
             <span class="c1"># Save the state of transient storage following call to storage; the transient</span>
             <span class="c1"># storage should not have been overwritten</span>
             <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">TLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
@@ -24096,16 +24114,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip1153_tstore/test_tstorage_create_contexts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
 <span class="normal">199</span>
@@ -24134,7 +24143,16 @@
 <span class="normal">222</span>
 <span class="normal">223</span>
 <span class="normal">224</span>
-<span class="normal">225</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_contract_creation</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
