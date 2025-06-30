@@ -228,6 +228,30 @@ def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: F
     state_test(pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.parametrize("bit", list(range(1, 33)))
+@pytest.mark.valid_from("Osaka")
+def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc, bit: int):
+    """Test CLZ opcode returns the same value via different push operations."""
+    code = Bytecode()
+
+    for i in range(bit, 32):
+        op = getattr(Op, f"PUSH{i}")
+        code += Op.SSTORE(op[i], Op.CLZ(1 << bit))
+
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=6_000_000,
+    )
+
+    post = {}
+    post[code_address] = Account(storage={i: 255 - bit for i in range(bit, 32)})
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
 @pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
 def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """Test CLZ opcode behavior at fork transition."""
