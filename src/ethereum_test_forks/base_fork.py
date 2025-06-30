@@ -102,6 +102,18 @@ class ExcessBlobGasCalculator(Protocol):
         pass
 
 
+class LargeContractAccessGasCalculator(Protocol):
+    """A protocol to calculate the extra gas cost of accessing a large contract at a given fork."""
+
+    def __call__(
+        self,
+        *,
+        size: int,
+    ) -> int:
+        """Return the extra gas cost of accessing a large contract given its size."""
+        pass
+
+
 class BaseForkMeta(ABCMeta):
     """Metaclass for BaseFork."""
 
@@ -273,6 +285,28 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
         """Return a callable that calculates the excess blob gas for a block at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def large_contract_size(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """
+        Return the size of a large contract at a given fork, at which the extra gas cost of
+        accessing a large contract is applied.
+
+        If `None`, the extra gas cost of accessing a large contract does not exist.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def large_contract_access_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> LargeContractAccessGasCalculator:
+        """
+        Return a callable that calculates the extra gas cost of accessing a large contract at a
+        given fork.
+        """
         pass
 
     @classmethod
