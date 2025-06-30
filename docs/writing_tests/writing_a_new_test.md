@@ -154,13 +154,60 @@ The code can be in either of the following formats:
 
 - `bytes` object, representing the raw opcodes in binary format.
 - `str`, representing an hexadecimal format of the opcodes.
-- `Code` compilable object.
+- `Code` compilable object (see below for supported types).
 
-Currently supported built-in compilable objects are:
+### Using the Python Opcode Minilang (RECOMMENDED)
 
-- `Yul` object containing [Yul source code](https://docs.soliditylang.org/en/latest/yul.html).
+The recommended way to write EVM bytecode for tests is to use the Python-based minilang provided by the `Opcodes` class in [`src/ethereum_test_vm/opcode.py`](../../src/ethereum_test_vm/opcode.py). This allows you to construct bytecode using symbolic opcodes as Python objects.
 
-`Code` objects can be concatenated together by using the `+` operator.
+#### Example: Simple Addition Contract
+
+```python
+from ethereum_test_vm.opcode import Opcodes
+
+code = (
+    Opcodes.PUSH1(0x02)
+    + Opcodes.PUSH1(0x03)
+    + Opcodes.ADD()
+    + Opcodes.PUSH1(0x00)
+    + Opcodes.SSTORE()
+    + Opcodes.STOP()
+)
+```
+
+You can assign this `code` to the `code` field of an account in your test's `pre` or `post` state.
+
+For a full list of available opcodes and their usage, see [`src/ethereum_test_vm/opcode.py`](../../src/ethereum_test_vm/opcode.py).
+
+### Higher-Level Constructs
+
+For more complex control flow, you can use constructs like `Switch` and `Case` from [`src/ethereum_test_tools/code/generators.py`](../../src/ethereum_test_tools/code/generators.py):
+
+```python
+from ethereum_test_tools.code.generators import Switch, Case
+from ethereum_test_vm.opcode import Opcodes as Op
+
+code = Switch(
+    cases=[
+        Case(condition=Op.EQ(Op.CALLDATALOAD(0), 1), action=Op.PUSH1(0x01) + Op.STOP()),
+        Case(condition=Op.EQ(Op.CALLDATALOAD(0), 2), action=Op.PUSH1(0x02) + Op.STOP()),
+    ],
+    default_action=Op.PUSH1(0x00) + Op.STOP(),
+)
+```
+
+See [`src/ethereum_test_tools/code/generators.py`](../../src/ethereum_test_tools/code/generators.py) for more details and additional constructs like `While` and `Conditional`.
+
+### Converting Bytecode to Minilang
+
+If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI tool](../library/cli/evm_bytes.md) to convert it to the EEST Python opcode minilang automatically:
+
+- [evm_bytes CLI documentation](../library/cli/evm_bytes.md)
+- [Online reference](https://eest.ethereum.org/main/library/cli/evm_bytes/)
+
+### Restrictions: No Yul in Python Test Cases
+
+**Note:** As of [PR #1779](https://github.com/ethereum/execution-spec-tests/pull/1779), the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.
 
 ## Verifying the Accounts' Post States
 
