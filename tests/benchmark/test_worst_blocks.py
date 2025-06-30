@@ -20,9 +20,9 @@ from ethereum_test_tools import (
 
 
 @pytest.fixture
-def iteration_count(eth_transfer_cost: int):
+def iteration_count(intrinsic_cost: int):
     """Calculate the number of iterations based on the gas limit and intrinsic cost."""
-    return Environment().gas_limit // eth_transfer_cost
+    return Environment().gas_limit // intrinsic_cost
 
 
 @pytest.fixture
@@ -32,8 +32,8 @@ def transfer_amount():
 
 
 @pytest.fixture
-def eth_transfer_cost(fork: Fork):
-    """Transaction gas limit."""
+def intrinsic_cost(fork: Fork):
+    """Transaction intrinsic cost."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     return intrinsic_cost()
 
@@ -113,7 +113,7 @@ def test_block_full_of_ether_transfers(
     ether_transfer_case,
     iteration_count: int,
     transfer_amount: int,
-    eth_transfer_cost: int,
+    intrinsic_cost: int,
 ):
     """
     Single test for ether transfer scenarios.
@@ -137,7 +137,7 @@ def test_block_full_of_ether_transfers(
             Transaction(
                 to=receiver,
                 value=transfer_amount,
-                gas_limit=eth_transfer_cost,
+                gas_limit=intrinsic_cost,
                 sender=next(senders),
             )
         )
