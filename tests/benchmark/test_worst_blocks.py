@@ -15,6 +15,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Environment,
+    StateTestFiller,
     Transaction,
 )
 
@@ -155,4 +156,36 @@ def test_block_full_of_ether_transfers(
         post=post_state,
         blocks=[Block(txs=txs)],
         exclude_full_post_state_in_output=True,
+    )
+
+
+def calldata_cost_per_byte(byte_data: bytes):
+    """Calculate the cost of calldata per byte."""
+    return 4 if byte_data == b"\x00" else 16
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize("byte_data", [b"\x00", b"\xff"])
+def test_block_full_of_empty_payload(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    byte_data: bytes,
+    intrinsic_cost: int,
+):
+    """Test a block with empty payload."""
+    attack_gas_limit = Environment().gas_limit
+    number_of_bytes = (attack_gas_limit - intrinsic_cost) // calldata_cost_per_byte(byte_data)
+
+    tx = Transaction(
+        to=pre.fund_eoa(),
+        data=byte_data * number_of_bytes,
+        gas_limit=attack_gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        post={},
+        tx=tx,
     )
