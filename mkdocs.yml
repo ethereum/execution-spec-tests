@@ -13,6 +13,7 @@ plugins:
         - navigation.md
         - getting_started/contributing.md
         - getting_started/security.md
+        - filling_tests/filling_tests_command_line_options.md
   - glightbox
   - mkdocstrings:
       handlers:
@@ -27,6 +28,7 @@ plugins:
       scripts:
         - docs/scripts/copy_repo_docs_to_mkdocs.py
         - docs/scripts/gen_test_case_reference.py
+        - docs/scripts/generate_fill_help.py
   - literate-nav:
       nav_file: navigation.md
 

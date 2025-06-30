@@ -96,6 +96,7 @@ class ExcessBlobGasCalculator(Protocol):
         parent_excess_blobs: int | None = None,
         parent_blob_gas_used: int | None = None,
         parent_blob_count: int | None = None,
+        parent_base_fee_per_gas: int,
     ) -> int:
         """Return the excess blob gas given the parent's excess blob gas and blob gas used."""
         pass
@@ -345,6 +346,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def block_rlp_size_limit(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Return the maximum RLP size of a block in bytes, or None if no limit is imposed."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """Return list pre-compiles supported by the fork."""
         pass
@@ -478,6 +485,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def max_code_size(cls) -> int:
         """Return the maximum code size allowed to be deployed in a contract creation."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_stack_height(cls) -> int:
+        """Return the maximum stack height allowed in the EVM stack."""
         pass
 
     @classmethod

@@ -88,3 +88,22 @@ Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. H
     Also note that yul tests and possibly other tests used `CALLDATALOAD` that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.
 
     For example, review the [discussion in this PR.](https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
+
+## Resolving Coverage Gaps from Yul Compilation
+
+When porting tests from ethereum/tests, you may encounter coverage gaps that are false positives. This commonly occurs because:
+
+- **Original tests** often used Yul to define smart contracts, and solc compilation introduces additional opcodes that aren't specifically under test
+- **EEST ports** typically use the explicit EEST Opcode mini-language, which is more precise in opcode definition
+
+If coverage analysis shows missing opcodes that were only present due to Yul compilation artifacts (not the actual feature being tested), this can be resolved during PR review by adding the `coverage_missed_reason` parameter:
+
+```python
+@pytest.mark.ported_from(
+    ["path/to/original_test.json"],
+    coverage_missed_reason="Missing opcodes are Yul compilation artifacts, not part of tested feature"
+)
+```
+
+!!! note "Add coverage_missed_reason only after PR review"
+    Only add `coverage_missed_reason` after PR review determines the coverage gap is acceptable, never preemptively. This helps maintain test coverage integrity while accounting for legitimate differences between Yul-based and EEST opcode-based implementations.

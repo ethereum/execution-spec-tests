@@ -10,16 +10,16 @@ name = "ethereum-execution-spec-tests"
 version = "1.0.0"
 description = "Ethereum execution client test authoring framework"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 license = { file = "LICENSE" }
 keywords = ["ethereum", "testing", "blockchain"]
 classifiers = [
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
     "click>=8.1.0,<9",
-    "ethereum-execution==1.17.0rc6.dev1",
     "hive.py @ git+https://github.com/marioevz/hive.py",
     "ethereum-spec-evm-resolver",
     "gitpython>=3.1.31,<4",
@@ -91,6 +91,7 @@ check_eip_versions = "cli.pytest_commands.check_eip_versions:check_eip_versions"
 consume = "cli.pytest_commands.consume:consume"
 protec = "cli.pytest_commands.consume:consume"
 checklist = "cli.pytest_commands.checklist:checklist"
+generate_checklist_stubs = "cli.generate_checklist_stubs:generate_checklist_stubs"
 genindex = "cli.gen_index:generate_fixtures_index_cli"
 gentest = "cli.gentest:generate"
 eofwrap = "cli.eofwrap:eof_wrap"
@@ -102,6 +103,7 @@ hasher = "cli.hasher:main"
 eest = "cli.eest.cli:eest"
 fillerconvert = "cli.fillerconvert.fillerconvert:main"
 groupstats = "cli.show_pre_alloc_group_stats:main"
+extract_config = "cli.extract_config:extract_config"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -124,6 +126,19 @@ ignore = ["D205", "D203", "D212", "D415", "C901", "A005", "C420"]
 
 [tool.mypy]
 mypy_path = ["src", "$MYPY_CONFIG_FILE_DIR/stubs"]
+files = ["src", "tests"]
+exclude = [
+    '^\.cache/',
+    '^\.git/',
+    '^\.pytest_cache/',
+    '^\.ruff_cache/',
+    '^\.tox/',
+    '^\.venv/',
+    '^\.vscode/',
+    '^fixtures/',
+    '^logs/',
+    '^site/',
+]
 plugins = ["pydantic.mypy"]
 
 [tool.codespell]
@@ -132,4 +147,4 @@ check-filenames = true
 ignore-words-list = "ingenuous"
 
 [tool.uv.sources]
-ethereum-spec-evm-resolver = { git = "https://github.com/petertdavies/ethereum-spec-evm-resolver", rev = "0e5609737ce4f86dc98cca1a5cf0eb64b8cddef2" }
+ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "ee273e7344e24a739ebfbf0ea1f758530c4d032b" }

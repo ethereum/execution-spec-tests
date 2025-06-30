@@ -47,7 +47,7 @@ uvx --with=tox-uv tox -e lint,typecheck,spellcheck,pytest
 #### For Documentation Changes (`./docs/`)
 
 ```console
-uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs
+uvx --with=tox-uv tox -e spellcheck,markdownlint,mkdocs,changelog
 ```
 
 !!! note "Tox Virtual Environment"

@@ -7,23 +7,20 @@ import subprocess
 import tempfile
 import textwrap
 from pathlib import Path
-from typing import ClassVar, Dict, List, Optional
+from typing import ClassVar, Dict, Optional
 
-import requests
+import requests  # type: ignore
 
-from ethereum_test_base_types import BlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
-    EOFException,
     ExceptionBase,
     ExceptionMapper,
     TransactionException,
 )
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
 
 from ..transition_tool import TransitionTool, dump_files_to_directory, model_dump_config
-from ..types import TransitionToolInput, TransitionToolOutput
+from ..types import TransitionToolOutput
 
 
 class BesuTransitionTool(TransitionTool):
@@ -99,36 +96,20 @@ class BesuTransitionTool(TransitionTool):
     def evaluate(
         self,
         *,
-        alloc: Alloc,
-        txs: List[Transaction],
-        env: Environment,
-        fork: Fork,
-        chain_id: int,
-        reward: int,
-        blob_schedule: BlobSchedule | None = None,
+        transition_tool_data: TransitionTool.TransitionToolData,
         debug_output_path: str = "",
-        state_test: bool = False,
         slow_request: bool = False,
     ) -> TransitionToolOutput:
         """Execute `evm t8n` with the specified arguments."""
         if not self.process:
             self.start_server()
 
-        fork_name = fork.transition_tool_name(
-            block_number=env.number,
-            timestamp=env.timestamp,
-        )
-
-        input_json = TransitionToolInput(
-            alloc=alloc,
-            txs=txs,
-            env=env,
-        ).model_dump(mode="json", **model_dump_config)
+        input_json = transition_tool_data.to_input().model_dump(mode="json", **model_dump_config)
 
         state_json = {
-            "fork": fork_name,
-            "chainid": chain_id,
-            "reward": reward,
+            "fork": transition_tool_data.fork_name,
+            "chainid": transition_tool_data.chain_id,
+            "reward": transition_tool_data.reward,
         }
 
         post_data = {"state": state_json, "input": input_json}
@@ -262,46 +243,6 @@ class BesuExceptionMapper(ExceptionMapper):
             "Payload BlobGasUsed does not match calculated BlobGasUsed"
         ),
         BlockException.INVALID_GAS_USED_ABOVE_LIMIT: "Header validation failed (FULL)",
-        # TODO EVMONE needs to differentiate when the section is missing in the header or body
-        EOFException.MISSING_STOP_OPCODE: "err: no_terminating_instruction",
-        EOFException.MISSING_CODE_HEADER: "err: code_section_missing",
-        EOFException.MISSING_TYPE_HEADER: "err: type_section_missing",
-        # TODO EVMONE these exceptions are too similar, this leeds to ambiguity
-        EOFException.MISSING_TERMINATOR: "err: header_terminator_missing",
-        EOFException.MISSING_HEADERS_TERMINATOR: "err: section_headers_not_terminated",
-        EOFException.INVALID_VERSION: "err: eof_version_unknown",
-        EOFException.INVALID_NON_RETURNING_FLAG: "err: invalid_non_returning_flag",
-        EOFException.INVALID_MAGIC: "err: invalid_prefix",
-        EOFException.INVALID_FIRST_SECTION_TYPE: "err: invalid_first_section_type",
-        EOFException.INVALID_SECTION_BODIES_SIZE: "err: invalid_section_bodies_size",
-        EOFException.INVALID_TYPE_SECTION_SIZE: "err: invalid_type_section_size",
-        EOFException.INCOMPLETE_SECTION_SIZE: "err: incomplete_section_size",
-        EOFException.INCOMPLETE_SECTION_NUMBER: "err: incomplete_section_number",
-        EOFException.TOO_MANY_CODE_SECTIONS: "err: too_many_code_sections",
-        EOFException.ZERO_SECTION_SIZE: "err: zero_section_size",
-        EOFException.MISSING_DATA_SECTION: "err: data_section_missing",
-        EOFException.UNDEFINED_INSTRUCTION: "err: undefined_instruction",
-        EOFException.INPUTS_OUTPUTS_NUM_ABOVE_LIMIT: "err: inputs_outputs_num_above_limit",
-        EOFException.UNREACHABLE_INSTRUCTIONS: "err: unreachable_instructions",
-        EOFException.INVALID_RJUMP_DESTINATION: "err: invalid_rjump_destination",
-        EOFException.UNREACHABLE_CODE_SECTIONS: "err: unreachable_code_sections",
-        EOFException.STACK_UNDERFLOW: "err: stack_underflow",
-        EOFException.MAX_STACK_INCREASE_ABOVE_LIMIT: "err: max_stack_increase_above_limit",
-        EOFException.STACK_HIGHER_THAN_OUTPUTS: "err: stack_higher_than_outputs_required",
-        EOFException.JUMPF_DESTINATION_INCOMPATIBLE_OUTPUTS: (
-            "err: jumpf_destination_incompatible_outputs"
-        ),
-        EOFException.INVALID_MAX_STACK_INCREASE: "err: invalid_max_stack_increase",
-        EOFException.INVALID_DATALOADN_INDEX: "err: invalid_dataloadn_index",
-        EOFException.TRUNCATED_INSTRUCTION: "err: truncated_instruction",
-        EOFException.TOPLEVEL_CONTAINER_TRUNCATED: "err: toplevel_container_truncated",
-        EOFException.ORPHAN_SUBCONTAINER: "err: unreferenced_subcontainer",
-        EOFException.CONTAINER_SIZE_ABOVE_LIMIT: "err: container_size_above_limit",
-        EOFException.INVALID_CONTAINER_SECTION_INDEX: "err: invalid_container_section_index",
-        EOFException.INCOMPATIBLE_CONTAINER_KIND: "err: incompatible_container_kind",
-        EOFException.STACK_HEIGHT_MISMATCH: "err: stack_height_mismatch",
-        EOFException.TOO_MANY_CONTAINERS: "err: too_many_container_sections",
-        EOFException.INVALID_CODE_SECTION_INDEX: "err: invalid_code_section_index",
     }
     mapping_regex = {
         BlockException.INVALID_REQUESTS: (
@@ -316,6 +257,14 @@ class BesuExceptionMapper(ExceptionMapper):
         ),
         BlockException.SYSTEM_CONTRACT_EMPTY: (
             r"(Invalid system call, no code at address)|" r"(Invalid system call address:)"
+        ),
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+            r"Invalid (amount|index|pubKey|signature|withdrawalCred) (offset|size): "
+            r"expected (\d+), but got (-?\d+)|"
+            r"Invalid deposit log length\. Must be \d+ bytes, but is \d+ bytes"
+        ),
+        BlockException.RLP_BLOCK_LIMIT_EXCEEDED: (
+            r"Block size of \d+ bytes exceeds limit of \d+ bytes"
         ),
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"transaction invalid Initcode size of \d+ exceeds maximum size of \d+"
@@ -336,11 +285,6 @@ class BesuExceptionMapper(ExceptionMapper):
         ),
         TransactionException.NONCE_MISMATCH_TOO_LOW: (
             r"transaction invalid transaction nonce \d+ below sender account nonce \d+"
-        ),
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
-            r"Invalid (amount|index|pubKey|signature|withdrawalCred) (offset|size): "
-            r"expected (\d+), but got (-?\d+)|"
-            r"Invalid deposit log length\. Must be \d+ bytes, but is \d+ bytes"
         ),
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
             r"transaction invalid Transaction gas limit must be at most \d+"

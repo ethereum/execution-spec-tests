@@ -395,11 +395,6 @@ class TransactionException(ExceptionBase):
     """
     Transaction type 4 included before activation fork.
     """
-    INVALID_DEPOSIT_EVENT_LAYOUT = auto()
-    """
-    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout
-    of the event does not match the required layout.
-    """
 
 
 @unique
@@ -548,6 +543,10 @@ class BlockException(ExceptionBase):
     """
     Block withdrawals address is rlp of invalid address != 20 bytes.
     """
+    RLP_BLOCK_LIMIT_EXCEEDED = auto()
+    """
+    Block's rlp encoding is larger than the allowed limit.
+    """
     INVALID_REQUESTS = auto()
     """
     Block's requests are invalid.
@@ -603,6 +602,11 @@ class BlockException(ExceptionBase):
     INVALID_BLOCK_HASH = auto()
     """
     Block header's hash does not match the actually computed hash of the block.
+    """
+    INVALID_DEPOSIT_EVENT_LAYOUT = auto()
+    """
+    Transaction emits a `DepositEvent` in the deposit contract (EIP-6110), but the layout
+    of the event does not match the required layout.
     """
 
 

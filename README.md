@@ -1,7 +1,7 @@
 # Execution Spec Tests
 
 [![latest version](https://img.shields.io/github/v/release/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/releases/latest)
-![Python Versions](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue)
+![Python Versions](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![License](https://img.shields.io/github/license/ethereum/execution-spec-tests)](https://github.com/ethereum/execution-spec-tests/blob/main/LICENSE)
@@ -21,25 +21,25 @@ flowchart LR
   style H stroke:#F9A825,stroke-width:2px
   
   subgraph "ethereum/go-ethereum, ..."
-    C[<code>evm t8n</code>\nexternal executable]
+    C[<code>evm t8n</code><br/>external executable]
   end
 
   subgraph ethereum/solidity
-    D[<code>solc</code>\nexternal executable]
+    D[<code>solc</code><br/>external executable]
   end
 
   subgraph ethereum/EIPs
-    E(<code>EIPS/EIP-*.md</code>\nSHA digest via Github API)
+    E(<code>EIPS/EIP-*.md</code><br/>SHA digest via Github API)
   end
 
   subgraph "ethereum/execution-spec-tests"
-    A(<code>./tests/**/*.py</code>\nPython Test Cases)
-    B([<code>$ fill ./tests/</code>\nPython Framework])
+    A(<code>./tests/**/*.py</code><br/>Python Test Cases)
+    B([<code>$ fill ./tests/</code><br/>Python Framework])
   end
 
   subgraph Test Fixture Consumers
     subgraph ethereum/hive
-      G([<code>$ hive ...</code>\nGo Test Framework])
+      G([<code>$ hive ...</code><br/>Go Test Framework])
     end
     H([Client executables])
   end
@@ -83,7 +83,7 @@ All current tags, their t8n implementation and branch they point to, are listed 
 
 ### Prerequisites
 
-The tools provided by ethereum/execution-spec-tests use `uv` ([docs.astral.sh/uv](https://docs.astral.sh/uv/)) to manage their dependencies and virtual environment. `uv` downloads Python for your target platform if one of the required versions (Python 3.10, 3.11 or 3.12) is not available natively.
+The tools provided by ethereum/execution-spec-tests use `uv` ([docs.astral.sh/uv](https://docs.astral.sh/uv/)) to manage their dependencies and virtual environment. `uv` downloads Python for your target platform if one of the required versions (Python 3.11 or 3.12) is not available natively.
 
 `uv` can be installed via curl (recommended; can self-update):
 

@@ -29,7 +29,7 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "eip 7702 transactions present in pre-prague payload"
         ),
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "failed to decode deposit requests from receipts"
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
@@ -37,6 +37,7 @@ class RethExceptionMapper(ExceptionMapper):
         BlockException.INVALID_STATE_ROOT: "mismatched block state root",
         BlockException.INVALID_BLOCK_HASH: "block hash mismatch",
         BlockException.INVALID_GAS_USED: "block gas used mismatch",
+        BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block is too large: ",
     }
     mapping_regex = {
         TransactionException.NONCE_MISMATCH_TOO_LOW: r"nonce \d+ too low, expected \d+",
