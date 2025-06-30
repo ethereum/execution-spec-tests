@@ -10,6 +10,7 @@ import pytest
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Alloc,
+    Bytecode,
     Environment,
     StateTestFiller,
     Transaction,
@@ -39,6 +40,7 @@ from .helpers import code_loop_precompile_call
 )
 @pytest.mark.parametrize("empty_topic", [True, False])
 @pytest.mark.parametrize("fixed_offset", [True, False])
+@pytest.mark.parametrize("non_zero_data", [True, False])
 def test_worst_log_opcodes(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -47,18 +49,32 @@ def test_worst_log_opcodes(
     empty_topic: bool,
     size: int,
     fixed_offset: bool,
+    non_zero_data: bool,
 ):
     """Test running a block with as many LOG opcodes as possible."""
     env = Environment()
     max_code_size = fork.max_code_size()
 
-    calldata = Op.PUSH0 if empty_topic else Op.PUSH32(2**256 - 1)
+    calldata = Bytecode()
+
+    # For non-zero data, load  into memory.
+    if non_zero_data:
+        calldata += Op.CODECOPY(dest_offset=0, offset=0, size=Op.CODESIZE)
+
+    # Push the size value onto the stack and access it using the DUP opcode.
+    calldata += Op.PUSH3(size)
+
+    # For non-empty topic, push a non-zero value for topic.
+    calldata += Op.PUSH0 if empty_topic else Op.PUSH32(2**256 - 1)
 
     topic_count = len(opcode.kwargs or []) - 2
-
     offset = Op.PUSH0 if fixed_offset else Op.MOD(Op.GAS, 7)
 
-    code_sequence = Op.DUP1 * topic_count + Op.PUSH32(size) + offset + opcode
+    # Calculate the appropriate DUP opcode based on topic count
+    # 0 topics -> DUP1, 1 topic -> DUP2, N topics -> DUP(N+1)
+    size_op = getattr(Op, f"DUP{topic_count + 2}")
+
+    code_sequence = Op.DUP1 * topic_count + size_op + offset + opcode
 
     code = code_loop_precompile_call(calldata, code_sequence, fork)
     assert len(code) <= max_code_size
