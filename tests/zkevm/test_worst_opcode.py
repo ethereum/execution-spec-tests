@@ -34,19 +34,21 @@ from .helpers import code_loop_precompile_call
 @pytest.mark.parametrize(
     "size,non_zero_data",
     [
-        pytest.param(0, False, id="0_bytes_zero_data"),
-        pytest.param(1024 * 1024, False, id="1_MiB_zero_data"),  # 1 MiB
+        pytest.param(0, False, id="0_bytes_data"),
+        pytest.param(1024 * 1024, False, id="1_MiB_zeros_data"),  # 1 MiB
         pytest.param(1024 * 1024, True, id="1_MiB_non_zero_data"),  # 1 MiB
     ],
 )
-@pytest.mark.parametrize("empty_topic", [True, False])
+@pytest.mark.parametrize(
+    "zeros_topic", [pytest.param(True, id="zeros_topic"), pytest.param(False, id="non_zero_topic")]
+)
 @pytest.mark.parametrize("fixed_offset", [True, False])
 def test_worst_log_opcodes(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Opcode,
-    empty_topic: bool,
+    zeros_topic: bool,
     size: int,
     fixed_offset: bool,
     non_zero_data: bool,
@@ -64,8 +66,8 @@ def test_worst_log_opcodes(
     # Push the size value onto the stack and access it using the DUP opcode.
     calldata += Op.PUSH3(size)
 
-    # For non-empty topic, push a non-zero value for topic.
-    calldata += Op.PUSH0 if empty_topic else Op.PUSH32(2**256 - 1)
+    # For non-zeros topic, push a non-zero value for topic.
+    calldata += Op.PUSH0 if zeros_topic else Op.PUSH32(2**256 - 1)
 
     topic_count = len(opcode.kwargs or []) - 2
     offset = Op.PUSH0 if fixed_offset else Op.MOD(Op.GAS, 7)
