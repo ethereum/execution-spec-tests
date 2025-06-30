@@ -129,37 +129,31 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 class ExecutionSpecsExceptionMapper(ExceptionMapper):
     """Translate between EEST exceptions and error strings returned by ExecutionSpecs."""
 
-    reliable: ClassVar[bool] = False
-    """
-    TODO: Exception messages returned from ExecutionSpecs are not reliable because most of the
-    exceptions consist of the same string without indication of the particular exception type.
-    """
-
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
-        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "Failed transaction: InvalidBlock()",
+        TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "Failed transaction: EmptyAuthorizationListError('empty authorization list')",
         TransactionException.SENDER_NOT_EOA: "Failed transaction: InvalidSenderError('not EOA')",
-        TransactionException.TYPE_4_TX_CONTRACT_CREATION: "Failed transaction: ",
-        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "ailed transaction: ",
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "iled transaction: ",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "led transaction: ",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "ed transaction: ",
+        TransactionException.TYPE_4_TX_CONTRACT_CREATION: "Failed transaction: TransactionTypeContractCreationError('transaction type `SetCodeTransaction` not allowed to create contracts')",
+        TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "Failed transaction: InsufficientBalanceError('insufficient sender balance')",
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Failed transaction: BlobGasLimitExceededError('blob gas limit exceeded')",
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "Failed transaction: InsufficientMaxFeePerBlobGasError('insufficient max fee per blob gas')",
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "Failed transaction: InsufficientMaxFeePerGasError('Insufficient max fee per gas",
         TransactionException.TYPE_3_TX_PRE_FORK: (
             "module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'"
         ),
         TransactionException.TYPE_4_TX_PRE_FORK: "Unknown transaction type: 0x4",
-        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "d transaction: ",
+        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "Failed transaction: InvalidBlobVersionedHashError('invalid blob versioned hash')",
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: " transaction: ",
-        TransactionException.TYPE_3_TX_ZERO_BLOBS: "transaction: ",
-        TransactionException.INTRINSIC_GAS_TOO_LOW: "ransaction: ",
-        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "ransaction: ",
-        TransactionException.INITCODE_SIZE_EXCEEDED: "ansaction: ",
-        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "nsaction: ",
-        TransactionException.NONCE_MISMATCH_TOO_HIGH: "saction: ",
-        TransactionException.NONCE_MISMATCH_TOO_LOW: "action: ",
-        TransactionException.TYPE_3_TX_CONTRACT_CREATION: "ction: ",
-        TransactionException.NONCE_IS_MAX: "tion: ",
-        TransactionException.GAS_ALLOWANCE_EXCEEDED: "ion: ",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Failed transaction: BlobGasLimitExceededError('blob gas limit exceeded')",
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: "Failed transaction: NoBlobDataError('no blob data in transaction')",
+        TransactionException.INTRINSIC_GAS_TOO_LOW: "Failed transaction: InsufficientTransactionGasError('Insufficient gas')",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "Failed transaction: InsufficientTransactionGasError('Insufficient gas')",
+        TransactionException.INITCODE_SIZE_EXCEEDED: "Failed transaction: InitCodeTooLargeError('Code size too large')",
+        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "Failed transaction: PriorityFeeGreaterThanMaxFeeError('priority fee greater than max fee')",
+        TransactionException.NONCE_MISMATCH_TOO_HIGH: "Failed transaction: NonceMismatchError('nonce too high')",
+        TransactionException.NONCE_MISMATCH_TOO_LOW: "Failed transaction: NonceMismatchError('nonce too low')",
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: "Failed transaction: TransactionTypeContractCreationError('transaction type `BlobTransaction` not allowed to create contracts')",
+        TransactionException.NONCE_IS_MAX: "Failed transaction: NonceTooHighError('Nonce too high')",
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: "Failed transaction: GasUsedExceedsLimitError('gas used exceeds limit')",
         BlockException.SYSTEM_CONTRACT_EMPTY: "System contract address",
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "call failed:",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "deposit",
