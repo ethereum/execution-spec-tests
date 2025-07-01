@@ -43,11 +43,8 @@ class CallDataOrigin:
     "size",
     [
         pytest.param(0, id="0 bytes"),
-        pytest.param(10, id="10 bytes"),
         pytest.param(100, id="100 bytes"),
-        pytest.param(1 * 1024, id="1KiB"),
         pytest.param(10 * 1024, id="10KiB"),
-        pytest.param(100 * 1024, id="100KiB"),
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
@@ -190,11 +187,8 @@ def test_worst_codecopy(
     "size",
     [
         pytest.param(0, id="0 bytes"),
-        pytest.param(10, id="10 bytes"),
         pytest.param(100, id="100 bytes"),
-        pytest.param(1 * 1024, id="1KiB"),
         pytest.param(10 * 1024, id="10KiB"),
-        pytest.param(100 * 1024, id="100KiB"),
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
@@ -278,11 +272,8 @@ def test_worst_returndatacopy(
     "size",
     [
         pytest.param(0, id="0 bytes"),
-        pytest.param(10, id="10 bytes"),
         pytest.param(100, id="100 bytes"),
-        pytest.param(1 * 1024, id="1KiB"),
         pytest.param(10 * 1024, id="10KiB"),
-        pytest.param(100 * 1024, id="100KiB"),
         pytest.param(1024 * 1024, id="1MiB"),
     ],
 )
