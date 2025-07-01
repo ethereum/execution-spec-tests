@@ -18,6 +18,7 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -467,5 +468,44 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
         sender=pre.fund_eoa(),
         gas_limit=200_000,
     )
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc, bits: int):
+    """Test CLZ opcode behavior when creating a contract."""
+    code = Op.SSTORE(1, Op.CLZ(1 << bits)) + Op.STOP
+
+    code_address = pre.deploy_contract(code=code)
+
+    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
+
+    creation_code = (
+        init_code
+        + Op.EXTCODECOPY(
+            address=code_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(code_address),
+        )
+        + Op.RETURN(0, Op.MSIZE)
+    )
+
+    sender_address = pre.fund_eoa()
+    contract_address = compute_create_address(address=sender_address, nonce=0)
+    tx = Transaction(
+        to=None,
+        gas_limit=6_000_000,
+        data=creation_code,
+        sender=sender_address,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        contract_address: Account(storage={"0x00": expected_clz}),
+    }
 
     state_test(pre=pre, post=post, tx=tx)
