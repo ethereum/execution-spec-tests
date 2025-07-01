@@ -23823,7 +23823,7 @@
 
 
 <h1 id="test_blake2b_gas_limit"><code>test_blake2b_gas_limit()</code><a class="headerlink" href="#test_blake2b_gas_limit" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/724131d1a4732c57a17416c0e8341d462011b301/tests/istanbul/eip152_blake2/test_blake2.py#L557"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit@724131d1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/c9b54e396cb86ee67816e6d3a7087f8b6bf56ccc/tests/istanbul/eip152_blake2/test_blake2.py#L549"><code>tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit@c9b54e39</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip152_blake2/test_blake2.py::test_blake2b_gas_limit --fork Prague</span>
@@ -23842,7 +23842,15 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/istanbul/eip152_blake2/test_blake2.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">557</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
 <span class="normal">558</span>
 <span class="normal">559</span>
 <span class="normal">560</span>
@@ -23941,39 +23949,7 @@
 <span class="normal">653</span>
 <span class="normal">654</span>
 <span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">pr</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/1244&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;https://github.com/ethereum/execution-spec-tests/pull/1067&quot;</span><span class="p">,</span>
-    <span class="p">],</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="normal">656</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;call_opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALLCODE</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;gas_limit&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span> <span class="mi">90_000</span><span class="p">,</span> <span class="mi">110_000</span><span class="p">,</span> <span class="mi">200_000</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
@@ -24045,7 +24021,7 @@
     <span class="n">call_opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">blake2b_contract_bytecode</span><span class="p">:</span> <span class="n">Bytecode</span><span class="p">,</span>
     <span class="n">gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Blake2bInput</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">Blake2bInput</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">bytes</span><span class="p">,</span>
     <span class="n">output</span><span class="p">:</span> <span class="n">ExpectedOutput</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test BLAKE2b precompile with different gas limits.&quot;&quot;&quot;</span>
