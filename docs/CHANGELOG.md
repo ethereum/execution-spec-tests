@@ -54,7 +54,8 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 📋 Misc
 
-- Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
+- 🔀 Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
+- 🔀 Modernize codebase with Python 3.11 language features ([#1812](https://github.com/ethereum/execution-spec-tests/pull/1812)).
 - ✨ Add changelog formatting validation to CI to ensure consistent punctuation in bullet points [#1691](https://github.com/ethereum/execution-spec-tests/pull/1691).
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
