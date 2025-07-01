@@ -541,3 +541,62 @@ def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op
     }
 
     state_test(pre=pre, post=post, tx=tx)
+
+
+class CallingContext:
+    """Context for calling operations."""
+
+    callee_context = 1  # CALL
+    caller_context = 2  # DELEGATECALL
+    no_context = 3  # STATICCALL
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+@pytest.mark.parametrize(
+    "opcode,context",
+    [
+        pytest.param(Op.CALL, CallingContext.callee_context, id="call"),
+        pytest.param(Op.DELEGATECALL, CallingContext.caller_context, id="delegatecall"),
+        pytest.param(Op.CALLCODE, CallingContext.caller_context, id="callcode"),
+        pytest.param(Op.STATICCALL, CallingContext.no_context, id="staticcall"),
+    ],
+)
+def test_clz_call_operation(
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, context: CallingContext, bits: int
+):
+    """Test CLZ opcode with call operation."""
+    callee_code = Op.PUSH32(1 << bits) + Op.DUP1
+
+    if context != CallingContext.no_context:
+        callee_code += Op.CLZ + Op.PUSH0 + Op.SSTORE
+
+    callee_code += Op.CLZ + Op.PUSH0 + Op.MSTORE + Op.RETURN(0, 32)
+
+    callee_address = pre.deploy_contract(code=callee_code)
+
+    caller_code = opcode(gas=0xFFFF, address=callee_address, ret_offset=0, ret_size=0x20)
+    caller_code += Op.RETURNDATACOPY(dest=0, offset=0, size=Op.RETURNDATASIZE)
+    caller_code += Op.SSTORE(key=1, value=Op.MLOAD(0))
+
+    caller_address = pre.deploy_contract(code=caller_code)
+
+    tx = Transaction(
+        to=caller_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {}
+
+    if context == CallingContext.caller_context:
+        post[caller_address] = Account(storage={"0x00": expected_clz, "0x01": expected_clz})
+    elif context == CallingContext.callee_context:
+        post[callee_address] = Account(storage={"0x00": expected_clz})
+        post[caller_address] = Account(storage={"0x01": expected_clz})
+    elif context == CallingContext.no_context:
+        post[caller_address] = Account(storage={"0x01": expected_clz})
+
+    state_test(pre=pre, post=post, tx=tx)
