@@ -85,7 +85,7 @@ class Blob(CamelModel):
         def generate_blob_data(rng_seed: int = 0) -> Bytes:
             """Calculate blob data deterministically via provided seed."""
             # create local (independent) RNG object seeded with rng_seed
-            rng = random.Random(seed)
+            rng = random.Random(rng_seed)
 
             # generate blob
             ints: list[int] = [
@@ -141,13 +141,13 @@ class Blob(CamelModel):
                 z_valid_size: bytes = z.to_bytes(
                     cast(int, fork.get_blob_constant("BYTES_PER_FIELD_ELEMENT")), byteorder="big"
                 )
-                proof, _ = ckzg.compute_kzg_proof(data, z_valid_size, Blob._trusted_setup)
+                proof, _ = ckzg.compute_kzg_proof(data, z_valid_size, Blob.trusted_setup())
                 return proof
 
             # >=osaka
             if amount_cell_proofs == 128:
                 _, proofs = ckzg.compute_cells_and_kzg_proofs(
-                    data, Blob._trusted_setup
+                    data, Blob.trusted_setup()
                 )  # returns List[byte] of length 128
                 return proofs
 
@@ -167,7 +167,7 @@ class Blob(CamelModel):
             # >=osaka
             if amount_cell_proofs == 128:
                 cells, _ = ckzg.compute_cells_and_kzg_proofs(
-                    data, Blob._trusted_setup
+                    data, Blob.trusted_setup()
                 )  # returns List[byte] of length 128
                 return cells  # List[bytes]
 
@@ -193,9 +193,6 @@ class Blob(CamelModel):
             return Blob.from_file(Blob.get_filename(fork, seed))
 
         assert fork.supports_blobs(), f"Provided fork {fork.name()} does not support blobs!"
-
-        # loaded trusted setup if it is not already loaded
-        Blob.trusted_setup()
 
         # get data for blob parameters
         data: Bytes = generate_blob_data(seed)
@@ -233,9 +230,6 @@ class Blob(CamelModel):
             f"You provided an invalid blob filename. Expected it to start with 'blob_' "
             f"but got: {file_name}"
         )
-
-        # loaded trusted setup if it is not already loaded
-        Blob.trusted_setup()
 
         if ".json" not in file_name:
             file_name = file_name + ".json"
@@ -292,7 +286,7 @@ class Blob(CamelModel):
         commitments: list[bytes] = [self.commitment] * len(cell_indices)
 
         is_valid = ckzg.verify_cell_kzg_proof_batch(
-            commitments, cell_indices, self.cells, self.proof, Blob._trusted_setup
+            commitments, cell_indices, self.cells, self.proof, Blob.trusted_setup()
         )
 
         return is_valid
@@ -339,7 +333,7 @@ class Blob(CamelModel):
         remaining_cells = [c for i, c in enumerate(self.cells) if i not in deletion_indices]
 
         recovered_cells, recovered_proofs = ckzg.recover_cells_and_kzg_proofs(
-            remaining_indices, remaining_cells, Blob._trusted_setup
+            remaining_indices, remaining_cells, Blob.trusted_setup()
         )  # on success returns two lists of len 128
 
         # determine success/failure
