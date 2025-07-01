@@ -11,7 +11,7 @@ import json
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, LiteralString, Optional, Tuple, cast
+from typing import Dict, Optional, Tuple, cast
 
 import click
 from hive.simulation import Simulation
@@ -26,21 +26,9 @@ from ethereum_test_forks import Fork
 from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
 
-def safe_docker_exec(container_id: str, command: LiteralString, *args: LiteralString) -> list[str]:
-    """Safely construct docker exec commands with literal strings."""
-    return ["docker", "exec", container_id, command] + list(args)
-
-
-def safe_docker_command(command: LiteralString, *args: LiteralString) -> list[str]:
-    """Safely construct docker commands with literal strings."""
-    return ["docker", command] + list(args)
-
-
 def get_docker_containers() -> set[str]:
     """Get the current list of Docker container IDs."""
-    result = subprocess.run(
-        safe_docker_command("ps", "-q"), capture_output=True, text=True, check=True
-    )
+    result = subprocess.run(["docker", "ps", "-q"], capture_output=True, text=True, check=True)
     return set(result.stdout.strip().split("\n")) if result.stdout.strip() else set()
 
 
@@ -68,12 +56,12 @@ def extract_client_files(
         try:
             # Use docker exec to read the file from the container
             # First check if file exists
-            check_cmd = safe_docker_exec(container_id, "test", "-f", container_path)
+            check_cmd = ["docker", "exec", container_id, "test", "-f", container_path]
             check_result = subprocess.run(check_cmd, capture_output=True)
 
             if check_result.returncode == 0:
                 # File exists, now read it
-                read_cmd = safe_docker_exec(container_id, "cat", container_path)
+                read_cmd = ["docker", "exec", container_id, "cat", container_path]
                 result = subprocess.run(read_cmd, capture_output=True, text=True)
 
                 if result.returncode == 0 and result.stdout:
@@ -279,7 +267,7 @@ def extract_config(
                 # Optionally list files in container
                 if list_files:
                     click.echo("\nListing files in container root:")
-                    list_cmd = safe_docker_exec(container_id, "ls", "-la", "/")
+                    list_cmd = ["docker", "exec", container_id, "ls", "-la", "/"]
                     result = subprocess.run(list_cmd, capture_output=True, text=True)
                     if result.returncode == 0:
                         click.echo(result.stdout)
