@@ -225,18 +225,16 @@ def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
 
 
 @pytest.mark.valid_from("Osaka")
-@pytest.mark.parametrize("cond_jump", [True, False])
+@pytest.mark.parametrize("opcode", [Op.JUMPI, Op.JUMP])
 @pytest.mark.parametrize("success", [True, False])
 @pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
 def test_clz_jump_operation(
-    state_test: StateTestFiller, pre: Alloc, cond_jump: bool, success: bool, bits: int
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, success: bool, bits: int
 ):
     """Test CLZ opcode with valid and invalid jump."""
-    opcode = Op.JUMPI if cond_jump else Op.JUMP
-
     code = Op.PUSH32(1 << bits)
 
-    if cond_jump:
+    if opcode == Op.JUMPI:
         code += Op.PUSH1(1)
 
     code += Op.PUSH1(len(code) + 3) + opcode
