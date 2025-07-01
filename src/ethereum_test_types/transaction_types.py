@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import cached_property
-from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence, Union
+from typing import Any, ClassVar, Dict, Generic, List, Literal, Sequence
 
 import ethereum_rlp as eth_rlp
 from coincurve.keys import PrivateKey, PublicKey
