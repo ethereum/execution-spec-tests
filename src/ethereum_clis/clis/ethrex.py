@@ -74,6 +74,9 @@ class EthrexExceptionMapper(ExceptionMapper):
         TransactionException.INITCODE_SIZE_EXCEEDED: (
             r"create initcode size limit|Initcode size exceeded.*"
         ),
+        TransactionException.GAS_ALLOWANCE_EXCEEDED: (
+            r"Gas allowance exceeded.*"
+        ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"System call failed.*"),
         BlockException.SYSTEM_CONTRACT_EMPTY: (r"System contract:.* has no code after deployment"),
         BlockException.INCORRECT_BLOB_GAS_USED: (r"Blob gas used doesn't match value in header"),
