@@ -23846,7 +23846,7 @@
 
 
 <h1 id="test_clz_fork_transition"><code>test_clz_fork_transition()</code><a class="headerlink" href="#test_clz_fork_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/71b4a5772445df18a4ff8f197fd76cf1230b8eb8/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L158"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition@71b4a577</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ad7cb1b7609ec98d42f0d5a83689d05b51d211be/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L158"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition@ad7cb1b7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition --fork Prague</span>
@@ -23936,12 +23936,12 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode behavior at fork transition.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">callee_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">100</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
-        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x00&quot;</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">},</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">100</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">14_999</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">},</span>
     <span class="p">)</span>
     <span class="n">caller_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mh">0xFFFF</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">callee_address</span><span class="p">)),</span>
-        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x00&quot;</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">},</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span><span class="n">gas</span><span class="o">=</span><span class="mh">0xFFFF</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="n">callee_address</span><span class="p">)),</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">14_999</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">},</span>
     <span class="p">)</span>
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Block</span><span class="p">(</span>
@@ -23984,16 +23984,16 @@
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
             <span class="n">caller_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                    <span class="mi">14_999</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-                    <span class="mi">15_000</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                    <span class="mi">15_001</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="mi">14_999</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="c1"># Call fails as opcode not valid before Osaka</span>
+                    <span class="mi">15_000</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Call succeeds on fork transition block</span>
+                    <span class="mi">15_001</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Call continues to succeed after transition</span>
                 <span class="p">}</span>
             <span class="p">),</span>
             <span class="n">callee_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                    <span class="mi">14_999</span><span class="p">:</span> <span class="mi">155</span><span class="p">,</span>
-                    <span class="mi">15_000</span><span class="p">:</span> <span class="mi">155</span><span class="p">,</span>
-                    <span class="mi">15_001</span><span class="p">:</span> <span class="mi">155</span><span class="p">,</span>
+                    <span class="mi">14_999</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">,</span>  <span class="c1"># CLZ not valid before fork, storage unchanged</span>
+                    <span class="mi">15_000</span><span class="p">:</span> <span class="mi">155</span><span class="p">,</span>  <span class="c1"># CLZ valid on transition block, CLZ(1 &lt;&lt; 100) = 155</span>
+                    <span class="mi">15_001</span><span class="p">:</span> <span class="mi">155</span><span class="p">,</span>  <span class="c1"># CLZ continues to be valid after transition</span>
                 <span class="p">}</span>
             <span class="p">),</span>
         <span class="p">},</span>
