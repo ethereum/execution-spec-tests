@@ -1,8 +1,8 @@
 """
-abstract: Tests zkEVMs worst-case compute scenarios.
-    Tests zkEVMs worst-case compute scenarios.
+abstract: Tests that benchmark EVMs in worst-case compute scenarios.
+    Tests that benchmark EVMs in worst-case compute scenarios.
 
-Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
+Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.
 """
 
 import math
@@ -863,6 +863,28 @@ def test_worst_modexp(
             ],
             id="bn128_add",
         ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L326
+        pytest.param(
+            0x06,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+            ],
+            id="bn128_add_infinities",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L329
+        pytest.param(
+            0x06,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000001",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+                "0000000000000000000000000000000000000000000000000000000000000001",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+            ],
+            id="bn128_add_1_2",
+        ),
         pytest.param(
             0x07,
             [
@@ -871,6 +893,66 @@ def test_worst_modexp(
                 "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
             ],
             id="bn128_mul",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L335
+        pytest.param(
+            0x07,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+            ],
+            id="bn128_mul_infinities_2_scalar",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L338
+        pytest.param(
+            0x07,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "0000000000000000000000000000000000000000000000000000000000000000",
+                "25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585",
+            ],
+            id="bn128_mul_infinities_32_byte_scalar",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L341
+        pytest.param(
+            0x07,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000001",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+            ],
+            id="bn128_mul_1_2_2_scalar",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L344
+        pytest.param(
+            0x07,
+            [
+                "0000000000000000000000000000000000000000000000000000000000000001",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+                "25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585",
+            ],
+            id="bn128_mul_1_2_32_byte_scalar",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L347
+        pytest.param(
+            0x07,
+            [
+                "089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf",
+                "2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36",
+                "0000000000000000000000000000000000000000000000000000000000000002",
+            ],
+            id="bn128_mul_32_byte_coord_and_2_scalar",
+        ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L350
+        pytest.param(
+            0x07,
+            [
+                "089142debb13c461f61523586a60732d8b69c5b38a3380a74da7b2961d867dbf",
+                "2d5fc7bbc013c16d7945f190b232eacc25da675c0eb093fe6b9f1b4b4e107b36",
+                "25f8c89ea3437f44f8fc8b6bfbb6312074dc6f983809a5e809ff4e1d076dd585",
+            ],
+            id="bn128_mul_32_byte_coord_and_scalar",
         ),
         pytest.param(
             0x08,
@@ -905,6 +987,8 @@ def test_worst_modexp(
             ],
             id="bn128_one_pairing",
         ),
+        # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCase.cs#L353
+        pytest.param(0x08, [""], id="bn128_two_pairings_empty"),
         pytest.param(
             Blake2bSpec.BLAKE2_PRECOMPILE_ADDRESS,
             [
@@ -1052,7 +1136,6 @@ def test_worst_precompile_fixed_cost(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
@@ -1076,7 +1159,6 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):

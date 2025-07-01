@@ -25,6 +25,10 @@ from ethereum_test_types import compute_create_address
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_FirstByte_loopFiller.yml",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/1615"],
+    coverage_missed_reason=(
+        "coinbase is deleted in original test (tx.gas_price==env.base_fee), "
+        "opcodes lt, iszero, jump are no longer used"
+    ),
 )
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.with_all_create_opcodes
@@ -46,7 +50,7 @@ def test_create_one_byte(
     # make a subcontract that deploys code, because deploy 0xef eats ALL gas
     create_contract = pre.deploy_contract(
         code=Op.MSTORE(0, Op.CALLDATALOAD(0))
-        + Op.MSTORE(32, create_opcode(offset=32 - initcode_length, salt=0, size=initcode_length))
+        + Op.MSTORE(32, create_opcode(offset=32 - initcode_length, size=initcode_length))
         + Op.RETURN(32, 32)
     )
     code = pre.deploy_contract(

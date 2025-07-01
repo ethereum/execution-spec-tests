@@ -65,7 +65,7 @@ The following section details the setup and usage of option 3.
 Within the [`eest/`](https://github.com/ethereum/hive/tree/master/simulators/ethereum/eest) directory of hive, a new dockerfile must be created: `Dockerfile.dev`, with the following contents:
 
 ```docker
-FROM ghcr.io/astral-sh/uv:python3.10-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 ARG branch=main
 ENV GIT_REF=${branch} 
 
