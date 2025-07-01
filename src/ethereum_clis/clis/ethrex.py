@@ -25,7 +25,7 @@ class EthrexExceptionMapper(ExceptionMapper):
     }
     mapping_regex = {
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
-            r"(?i)priority fee is greater than max fee"
+            r"(?i)priority fee.* is greater than max fee.*"
         ),
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: r"(?i)empty authorization list",
         TransactionException.SENDER_NOT_EOA: (
@@ -66,10 +66,10 @@ class EthrexExceptionMapper(ExceptionMapper):
         ),
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
             r"blob gas price is greater than max fee per blob gas|"
-            r"Insufficient max fee per blob gas"
+            r"Insufficient max fee per blob gas.*"
         ),
         TransactionException.INITCODE_SIZE_EXCEEDED: (
-            r"create initcode size limit|Initcode size exceeded"
+            r"create initcode size limit|Initcode size exceeded.*"
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (r"failed to apply .* requests contract call"),
         BlockException.INCORRECT_BLOB_GAS_USED: (r"Blob gas used doesn't match value in header"),
