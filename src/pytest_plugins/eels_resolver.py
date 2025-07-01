@@ -59,7 +59,7 @@ def pytest_configure(config: pytest.Config) -> None:
     config._eels_resolutions_file = eels_resolutions_file  # type: ignore
 
 
-def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
+def pytest_report_header(config: pytest.Config) -> str:
     """
     Report the EELS_RESOLUTIONS_FILE path to the pytest report header.
 
