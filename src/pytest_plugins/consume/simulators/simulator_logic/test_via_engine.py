@@ -76,15 +76,22 @@ def test_blockchain_via_engine(
         # Skip the initial FCU update for enginex simulator
         with timing_data.time("Initial forkchoice update"):
             logger.info("Sending initial forkchoice update to genesis block...")
-            forkchoice_response = engine_rpc.forkchoice_updated(
-                forkchoice_state=ForkchoiceState(
-                    head_block_hash=genesis_header.block_hash,
-                ),
-                payload_attributes=None,
-                version=fixture.payloads[0].forkchoice_updated_version,
-            )
-            status = forkchoice_response.payload_status.status
-            logger.info(f"Initial forkchoice update response: {status}")
+            delay = 0.5
+            for attempt in range(3):
+                forkchoice_response = engine_rpc.forkchoice_updated(
+                    forkchoice_state=ForkchoiceState(
+                        head_block_hash=genesis_header.block_hash,
+                    ),
+                    payload_attributes=None,
+                    version=fixture.payloads[0].forkchoice_updated_version,
+                )
+                status = forkchoice_response.payload_status.status
+                logger.info(f"Initial forkchoice update response attempt {attempt + 1}: {status}")
+                if status != PayloadStatusEnum.SYNCING:
+                    break
+                if attempt < 2:
+                    time.sleep(delay)
+                    delay *= 2
             if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
                 raise LoggedError(
                     f"unexpected status on forkchoice updated to genesis: {forkchoice_response}"
