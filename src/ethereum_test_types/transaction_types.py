@@ -665,7 +665,7 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
     tx: Transaction
     blob_objects: Sequence[Blob]
-    wrapper_version: Union[Bytes | None] = None  # only exists in >= osaka
+    wrapper_version: int | None = None  # only exists in >= osaka
 
     @computed_field  # type: ignore[prop-decorator]
     @property

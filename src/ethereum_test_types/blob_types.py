@@ -123,7 +123,7 @@ class Blob(CamelModel):
             )
 
             # calculate commitment
-            commitment = ckzg.blob_to_kzg_commitment(data, Blob._trusted_setup)
+            commitment = ckzg.blob_to_kzg_commitment(data, Blob.trusted_setup())
             assert len(commitment) == fork.get_blob_constant("BYTES_PER_COMMITMENT"), (
                 f"Expected {fork.get_blob_constant('BYTES_PER_COMMITMENT')} "
                 f"resulting commitments but got {len(commitment)} commitments"
