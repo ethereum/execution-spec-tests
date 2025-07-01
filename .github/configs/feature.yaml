@@ -11,24 +11,24 @@ static:
   evm-type: static
   fill-params: --until=Prague --fill-static-tests ./tests/static
   solc: 0.8.21
-zkevm_36M:
-  evm-type: zkevm
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 36000000 -m zkevm ./tests
+benchmark_30M:
+  evm-type: benchmark
+  fill-params: --from=Cancun --until=Prague --block-gas-limit 30000000 -m benchmark ./tests
   solc: 0.8.21
   feature_only: true
-zkevm_60M:
-  evm-type: zkevm
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 60000000 -m zkevm ./tests
+benchmark_60M:
+  evm-type: benchmark
+  fill-params: --from=Cancun --until=Prague --block-gas-limit 60000000 -m benchmark ./tests
   solc: 0.8.21
   feature_only: true
-zkevm_90M:
-  evm-type: zkevm
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 90000000 -m zkevm ./tests
+benchmark_90M:
+  evm-type: benchmark
+  fill-params: --from=Cancun --until=Prague --block-gas-limit 90000000 -m benchmark ./tests
   solc: 0.8.21
   feature_only: true
-zkevm_120M:
-  evm-type: zkevm
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 120000000 -m zkevm ./tests
+benchmark_120M:
+  evm-type: benchmark
+  fill-params: --from=Cancun --until=Prague --block-gas-limit 120000000 -m benchmark ./tests
   solc: 0.8.21
   feature_only: true
 eip7692:
