@@ -17,7 +17,7 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
 - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
 
-#### Feature `zkevm` updated to `benchmark_36M`, `benchmark_60M`, `benchmark_90M`, `benchmark_120M`
+#### Feature `zkevm` updated to `benchmark`
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
 
