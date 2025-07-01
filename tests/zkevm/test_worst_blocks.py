@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    AuthorizationTuple,
     Block,
     BlockchainTestFiller,
     Environment,
@@ -153,6 +154,47 @@ def test_block_full_of_ether_transfers(
         genesis_environment=Environment(),
         pre=pre,
         post=post_state,
+        blocks=[Block(txs=txs)],
+        exclude_full_post_state_in_output=True,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_block_full_of_7702_set_code(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    iteration_count: int,
+):
+    """
+    Test worst-case block scenario with 7702 set code.
+
+    This test is designed to test the worst-case block scenario with 7702 set code.
+    """
+    env = Environment()
+    attack_gas_limit = env.gas_limit
+    sender = pre.fund_eoa()
+
+    txs = []
+    for i in range(iteration_count):
+        txs.append(
+            Transaction(
+                gas_limit=attack_gas_limit,
+                to=sender,
+                authorization_list=[
+                    AuthorizationTuple(
+                        address=Address(0x0),
+                        nonce=i + 1,
+                        signer=sender,
+                    ),
+                ],
+                sender=sender,
+            )
+        )
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
         blocks=[Block(txs=txs)],
         exclude_full_post_state_in_output=True,
     )
