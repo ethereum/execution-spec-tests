@@ -1776,6 +1776,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_jump_operation/</loc>
+         <lastmod>2025-07-01</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_opcode_scenarios/</loc>
          <lastmod>2025-07-01</lastmod>
          <changefreq>daily</changefreq>
