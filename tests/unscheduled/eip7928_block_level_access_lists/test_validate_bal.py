@@ -9,8 +9,8 @@ from ethereum_test_tools import (
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListValidity:
-    """Test block access list validity and data structure integrity."""
+class TestBALValidity:
+    """Test BAL validity and data structure integrity."""
 
     def test_bal_hash_basic_transaction(
         self,
@@ -104,8 +104,8 @@ class TestBlockAccessListValidity:
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListSSZEncoding:
-    """Test SSZ encoding/decoding of block access list data structures."""
+class TestBALEncoding:
+    """Test SSZ encoding/decoding of BAL data structures."""
 
     def test_ssz_encoding_storage_changes(
         self,
@@ -154,8 +154,8 @@ class TestBlockAccessListSSZEncoding:
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListEdgeCases:
-    """Test edge cases and error conditions for block access lists."""
+class TestBALEdgeCases:
+    """Test edge cases and error conditions for BAL."""
 
     def test_bal_large_storage_operations(
         self,
@@ -204,7 +204,7 @@ class TestBlockAccessListEdgeCases:
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListValidationFailures:
+class TestBALValidationFailures:
     """Test validation failure scenarios for malformed or incorrect BALs."""
 
     def test_invalid_bal_hash_rejection(
@@ -245,7 +245,7 @@ class TestBlockAccessListValidationFailures:
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListLimits:
+class TestBALLimits:
     """Test EIP-7928 specification limits and boundaries."""
 
     def test_max_transactions_limit(
@@ -358,7 +358,7 @@ class TestBlockAccessListLimits:
 
 
 @pytest.mark.valid_from("Amsterdam")
-class TestBlockAccessListBoundaryConditions:
+class TestBALBoundaryConditions:
     """Test boundary conditions and edge cases for EIP-7928 limits."""
 
     def test_exceed_max_transactions(
