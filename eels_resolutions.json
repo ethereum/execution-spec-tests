@@ -40,8 +40,8 @@
         "commit": "bb0eb750d643ced0ebf5dec732cdd23558d0b7f2"
     },
     "Osaka": {
-        "git_url": "https://github.com/spencer-tb/execution-specs.git",
+        "git_url": "https://github.com/ethereum/execution-specs.git",
         "branch": "forks/osaka",
-        "commit": "99734284b89766883ecb680e57b07fbca47da51b"
+        "commit": "f947ab1744aaf12f652a85e28ac5d155af26dd25"
     }
 }

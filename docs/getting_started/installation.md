@@ -20,7 +20,7 @@ The latest version of `uv` can be installed via `curl` (recommended; can self-up
     pip install uv
     ```
 
-If installed via `curl`, `uv` will download Python for your target platform if one of the required versions (Python 3.10, 3.11 or 3.12) is not available natively.
+If installed via `curl`, `uv` will download Python for your target platform if one of the required versions (Python 3.11 or 3.12) is not available natively.
 
 ## Installation Commands
 
