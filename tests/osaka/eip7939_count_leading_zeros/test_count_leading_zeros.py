@@ -509,3 +509,47 @@ def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc, bits: int
     }
 
     state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 1, 4, 8, 16])
+@pytest.mark.parametrize("opcode", [Op.CREATE])
+def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+    """Test CLZ opcode behavior when creating a contract."""
+    code_address = pre.deploy_contract(code=Op.SSTORE(1, Op.CLZ(1 << bits)))
+
+    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
+
+    creation_code = Op.MSTORE(0, init_code.hex()) + Op.EXTCODECOPY(
+        address=code_address,
+        dest_offset=len(init_code),
+        offset=0,
+        size=Op.EXTCODESIZE(code_address),
+    )
+
+    sender_address = pre.fund_eoa()
+
+    if opcode == Op.CREATE:
+        create_contract = creation_code + opcode(
+            offset=len(init_code), size=len(creation_code) - len(init_code)
+        )
+
+    create_contract_address = pre.deploy_contract(code=create_contract)
+
+    if opcode == Op.CREATE:
+        contract_address = compute_create_address(address=create_contract_address, nonce=0)
+
+    tx = Transaction(
+        to=create_contract_address,
+        gas_limit=6_000_000,
+        data=creation_code,
+        sender=sender_address,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        contract_address: Account(storage={"0x01": expected_clz}),
+    }
+
+    state_test(pre=pre, post=post, tx=tx)
