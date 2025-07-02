@@ -9,7 +9,7 @@ import math
 
 import pytest
 
-from ethereum_test_base_types.base_types import Address
+from ethereum_test_base_types.base_types import Address, Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -421,6 +421,64 @@ def test_worst_create(
     tx = Transaction(
         # Set enough balance in the pre-alloc for `value > 0` configurations.
         to=pre.deploy_contract(code=code, balance=1_000_000_000),
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+def test_worst_create2_collisions(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test the CREATE2 collisions performance."""
+    env = Environment()
+
+    # We deploy a "proxy contract" which is the contract that will be called in a loop
+    # using all the gas in the block. This "proxy contract" is the one executing CREATE2
+    # failing with a collision.
+    # The reason why we need a "proxy contract" is that CREATE2 failing with a collision will
+    # consume all the available gas. If we try to execute the CREATE2 directly without being
+    # wrapped **and capped in gas** in a previous CALL, we would run out of gas very fast!
+    init_code = Op.PUSH0 + Op.PUSH0 + Op.RETURN
+    init_code_size = len(init_code)
+    padded_init_code = init_code + b"\x00" * (32 - init_code_size)
+    # The proxy contract basically does a quick MSTORE to configure the init code and
+    # calls CREATE2 with such init code. The current call frame gas will be exhausted because of
+    # the collission. For this reason the caller will carefully give us the minimal gas necessary
+    # to execute the CREATE2 and not waste any extra gas in the CREATE2-failure.
+    proxy_contract = pre.deploy_contract(
+        code=Op.MSTORE(0, Bytes(padded_init_code))
+        + Op.CREATE2(value=Op.PUSH0, salt=Op.PUSH0, offset=Op.PUSH0, size=init_code_size)
+    )
+
+    gas_costs = fork.gas_costs()
+    # The CALL to the proxy contract needs at a minimum the (Pectra-current) 32k of gas of the
+    # CREATE2, plus some extra gas for satellite opcodes that we configured in that contract.
+    # The current value  was determined by inspecting the trace.
+    code_prefix = Op.PUSH3(gas_costs.G_CREATE + 29)
+    attack_block = Op.POP(
+        Op.CALL(gas=Op.DUP7, address=proxy_contract)
+    )  # DUP7 refers to the PUSH3 above.
+    code = code_loop_precompile_call(code_prefix, attack_block, fork)
+    tx_target = pre.deploy_contract(code=code)
+
+    # We deploy the contract that CREATE2 will attempt to create so any attempt will fail.
+    existing_contract_addr = compute_create2_address(
+        address=proxy_contract, salt=0, initcode=init_code
+    )
+    pre.deploy_contract(address=existing_contract_addr, code=Op.INVALID)
+
+    tx = Transaction(
+        to=tx_target,
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
