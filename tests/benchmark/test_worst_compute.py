@@ -2764,3 +2764,54 @@ def test_worst_clz_same_input(
             post={},
             blocks=[Block(txs=txs)],
         )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_diff_input(
+    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test running a block with as many CLZ with different input as possible."""
+    env = Environment()
+    attack_gas_limit = env.gas_limit
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    code_suffix = Op.PUSH0 + Op.JUMP
+
+    iteration = (max_code_size - len(code_prefix) - len(code_suffix)) // 2
+
+    code_seq = Bytecode()
+
+    for i in range(2 * iteration):
+        value = i if i % 2 else 2**256 - 1 - i
+        code_seq += Op.CLZ(value) + Op.POP
+
+    code_address = pre.deploy_contract(code=code_prefix + code_seq + code_suffix)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    if (tx_gas_limit is None) or (tx_gas_limit > attack_gas_limit):
+        state_test(
+            env=env,
+            pre=pre,
+            post={},
+            tx=tx,
+        )
+    else:
+        tx_count = attack_gas_limit // tx_gas_limit
+        txs = [tx for _ in range(tx_count)]
+
+        blockchain_test(
+            genesis_environment=Environment(),
+            pre=pre,
+            post={},
+            blocks=[Block(txs=txs)],
+        )
