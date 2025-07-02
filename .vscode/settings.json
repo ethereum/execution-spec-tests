@@ -59,10 +59,8 @@
     "extensions.ignoreRecommendations": false,
     "search.exclude": {
       "tests/static": true,
-      "tests/unscheduled": true,
     },
     "files.watcherExclude": {
       "tests/static": true,
-      "tests/unscheduled": true,
     }
 }
