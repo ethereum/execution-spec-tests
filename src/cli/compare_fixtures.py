@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
 """
 Compare two fixture folders and remove duplicates based on fixture hashes.
 
 This tool reads the .meta/index.json files from two fixture directories and identifies
-fixtures with identical hashes, then removes the duplicates from both of the folders.
+fixtures with identical hashes on a test case basis, then removes the duplicates from
+both of the folders. Used within the coverage workflow.
 """
 
 import json
@@ -59,10 +59,15 @@ def pop_by_hash(index: IndexFile, fixture_hash: HexNumber) -> TestCaseIndexFile:
 
 def remove_fixture_from_file(file: Path, test_case_id: str):
     """Remove a single fixture by its ID from a generic fixture file."""
-    # Load from json to a dict
-    full_file = json.loads(file.read_text())
-    full_file.pop(test_case_id)
-    file.write_text(json.dumps(full_file, indent=2))
+    try:
+        # Load from json to a dict
+        full_file = json.loads(file.read_text())
+        full_file.pop(test_case_id)
+        file.write_text(json.dumps(full_file, indent=2))
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Fixture file not found: {file}") from None
+    except KeyError:
+        raise KeyError(f"Test case {test_case_id} not found in {file}") from None
 
 
 def remove_fixture(
@@ -118,34 +123,38 @@ def main(
     abort_on_empty_patch: bool,
 ):
     """Compare two fixture folders and remove duplicates based on fixture hashes."""
-    # Load indices
-    base_index = load_index(base)
-    base_hashes = get_fixture_hashes(base_index)
+    try:
+        # Load indices
+        base_index = load_index(base)
+        base_hashes = get_fixture_hashes(base_index)
 
-    patch_index = load_index(patch)
-    patch_hashes = get_fixture_hashes(patch_index)
+        patch_index = load_index(patch)
+        patch_hashes = get_fixture_hashes(patch_index)
 
-    # Find duplicates
-    duplicate_hashes = find_duplicates(base_hashes, patch_hashes)
+        # Find duplicates
+        duplicate_hashes = find_duplicates(base_hashes, patch_hashes)
 
-    if not duplicate_hashes:
-        click.echo("No duplicates found.")
-        sys.exit(0)
-    else:
-        click.echo(f"Found {len(duplicate_hashes)} duplicates.")
+        if not duplicate_hashes:
+            click.echo("No duplicates found.")
+            sys.exit(0)
+        else:
+            click.echo(f"Found {len(duplicate_hashes)} duplicates.")
 
-    if abort_on_empty_patch and duplicate_hashes == patch_hashes:
-        click.echo("Patch folder would be empty after fixture removal.")
-        sys.exit(0)
+        if abort_on_empty_patch and duplicate_hashes == patch_hashes:
+            click.echo("Patch folder would be empty after fixture removal.")
+            sys.exit(0)
 
-    for duplicate_hash in duplicate_hashes:
-        # Remove from both folders
-        remove_fixture(base, base_index, duplicate_hash, dry_run)
-        remove_fixture(patch, patch_index, duplicate_hash, dry_run)
+        for duplicate_hash in duplicate_hashes:
+            # Remove from both folders
+            remove_fixture(base, base_index, duplicate_hash, dry_run)
+            remove_fixture(patch, patch_index, duplicate_hash, dry_run)
 
-    # Rewrite indices if necessary
-    rewrite_index(base, base_index, dry_run)
-    rewrite_index(patch, patch_index, dry_run)
+        # Rewrite indices if necessary
+        rewrite_index(base, base_index, dry_run)
+        rewrite_index(patch, patch_index, dry_run)
+    except Exception as e:
+        click.echo(f"Error: {e}", err=True)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
