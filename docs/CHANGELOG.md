@@ -29,6 +29,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
+- 🐞 Clean up unused parameters in various functions
 
 #### `fill`
 
