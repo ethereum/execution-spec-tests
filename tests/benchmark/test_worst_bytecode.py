@@ -321,6 +321,13 @@ def test_worst_initcode_jumpdest_analysis(
 
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
+    "opcode",
+    [
+        Op.CREATE,
+        Op.CREATE2,
+    ],
+)
+@pytest.mark.parametrize(
     "max_code_size_ratio, non_zero_data, value",
     [
         # To avoid a blowup of combinations, the value dimension is only explored for
@@ -341,11 +348,12 @@ def test_worst_create(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
+    opcode: Op,
     max_code_size_ratio: float,
     non_zero_data: bool,
     value: int,
 ):
-    """Test the CREATE performance with different configurations."""
+    """Test the CREATE and CREATE2 performance with different configurations."""
     env = Environment()
     max_code_size = fork.max_code_size()
 
@@ -353,8 +361,8 @@ def test_worst_create(
 
     initcode_template_contract: Address
     if non_zero_data:
-        # Create a template contract used as a template for the CREATE opcode. The bytecode content
-        # is not relevant, thus we use a simple pattern.
+        # Create a template contract used as a template for the CREATE/CREATE2 opcode.
+        # The bytecode content is not relevant, thus we use a simple pattern.
         template_code = [i % 256 for i in range(max_code_size)]
         template_contract = pre.deploy_contract(code=template_code)
 
@@ -364,7 +372,7 @@ def test_worst_create(
     # [EXTCODECOPY(template_contract, code_size) -- Conditional that non_zero_data is True]
     # RETURN(0, code_size)
     # ```
-    target_code_copy = (
+    code_prefix = (
         Op.EXTCODECOPY(
             address=template_contract,
             size=Op.DUP1,  # DUP1s refers to the PUSH3(code_size) value done below.
@@ -374,7 +382,7 @@ def test_worst_create(
     )
     code = (
         Op.PUSH3(code_size)
-        + target_code_copy
+        + code_prefix
         + Op.RETURN(0, Op.DUP1)  # DUP1 refers to PUSH3(code_size) above.
     )
     initcode_template_contract = pre.deploy_contract(code=code)
@@ -384,20 +392,31 @@ def test_worst_create(
     # PUSH(value)
     # [EXTCODECOPY(full initcode_template_contract) -- Conditional that non_zero_data is True]`
     # JUMPDEST (#)
-    # CREATE
-    # CREATE
+    # (CREATE|CREATE2)
+    # (CREATE|CREATE2)
     # ...
     # JUMP(#)
     # ```
-    target_code_copy = Op.PUSH1(value) + Op.EXTCODECOPY(
+    code_prefix = Op.PUSH1(value) + Op.EXTCODECOPY(
         address=initcode_template_contract,
         size=Op.EXTCODESIZE(address=initcode_template_contract),
     )
 
-    # DUP3 refers to PUSH1(value) above. MSIZE should match full initcode size resulted from
-    # EXTCODECOPY above.
-    attack_block = Op.POP(Op.CREATE(value=Op.DUP3, offset=0, size=Op.MSIZE))
-    code = code_loop_precompile_call(target_code_copy, attack_block, fork)
+    if opcode == Op.CREATE2:
+        # For CREATE2, we provide an initial salt.
+        code_prefix = code_prefix + Op.PUSH1(42)
+
+    attack_block = (
+        # For CREATE: DUP3 refers to PUSH1(value) above. MSIZE should match full initcode size
+        # resulted from EXTCODECOPY above.
+        Op.POP(Op.CREATE(value=Op.DUP3, offset=0, size=Op.MSIZE))
+        if opcode == Op.CREATE
+        # For CREATE2: we manually push the arguments because we leverage the return value of
+        # previous CREATE2 calls as salt for the next CREATE2 call. The DUP4 is targeting the
+        # PUSH1(value) from the code_prefix.
+        else Op.MSIZE + Op.PUSH0 + Op.DUP4 + Op.CREATE2
+    )
+    code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
     tx = Transaction(
         # Set enough balance in the pre-alloc for `value > 0` configurations.
