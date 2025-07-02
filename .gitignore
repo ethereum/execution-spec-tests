@@ -3,7 +3,6 @@
 .LSOverride
 
 .python-version
-__pycache__/
 *.py[cod]
 *$py.class
 .venv/
@@ -58,23 +57,40 @@ verify_kzg_proof
 .vscode/launch.json
 
 # docs
-.cache
 _readthedocs
 site
 venv-docs/
 .pyspelling_en.dict
 
-# cached fixture downloads (consume)
+# cache-related
 cached_downloads/
+.cache
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+
 # pytest report
 assets
 *.html
 
 # Environment
 env.yaml
+.env
+.env.*
 
 # Framework logs
 logs/
+*.log
+
+# node
+node_modules/
+package-lock.json
 
 # Running github actions locally with act
 .act_github_vars
+
+# temporary files
+*.tmp
+*.temp
