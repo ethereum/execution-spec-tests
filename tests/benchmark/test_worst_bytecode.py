@@ -9,6 +9,7 @@ import math
 
 import pytest
 
+from ethereum_test_base_types.base_types import Address
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -24,6 +25,7 @@ from ethereum_test_tools import (
     compute_create2_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from tests.benchmark.helpers import code_loop_precompile_call
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
@@ -305,6 +307,101 @@ def test_worst_initcode_jumpdest_analysis(
     tx = Transaction(
         to=pre.deploy_contract(code=code),
         data=tx_data,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Cancun")
+@pytest.mark.parametrize(
+    "max_code_size_ratio, non_zero_data, value",
+    [
+        # To avoid a blowup of combinations, the value dimension is only explored for
+        # the non-zero data case, so isn't affected by code size influence.
+        pytest.param(0, False, 0, id="0 bytes without value"),
+        pytest.param(0, False, 1, id="0 bytes with value"),
+        pytest.param(0.25, True, 0, id="0.25x max code size with non-zero data"),
+        pytest.param(0.25, False, 0, id="0.25x max code size with zero data"),
+        pytest.param(0.50, True, 0, id="0.50x max code size with non-zero data"),
+        pytest.param(0.50, False, 0, id="0.50x max code size with zero data"),
+        pytest.param(0.75, True, 0, id="0.75x max code size with non-zero data"),
+        pytest.param(0.75, False, 0, id="0.75x max code size with zero data"),
+        pytest.param(1.00, True, 0, id="max code size with non-zero data"),
+        pytest.param(1.00, False, 0, id="max code size with zero data"),
+    ],
+)
+def test_worst_create(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    max_code_size_ratio: float,
+    non_zero_data: bool,
+    value: int,
+):
+    """Test the CREATE performance with different configurations."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    code_size = int(max_code_size * max_code_size_ratio)
+
+    initcode_template_contract: Address
+    if non_zero_data:
+        # Create a template contract used as a template for the CREATE opcode. The bytecode content
+        # is not relevant, thus we use a simple pattern.
+        template_code = [i % 256 for i in range(max_code_size)]
+        template_contract = pre.deploy_contract(code=template_code)
+
+    # Deploy the initcode template which has following design:
+    # ```
+    # PUSH3(code_size)
+    # [EXTCODECOPY(template_contract, code_size) -- Conditional that non_zero_data is True]
+    # RETURN(0, code_size)
+    # ```
+    target_code_copy = (
+        Op.EXTCODECOPY(
+            address=template_contract,
+            size=Op.DUP1,  # DUP1s refers to the PUSH3(code_size) value done below.
+        )
+        if non_zero_data
+        else Bytecode()
+    )
+    code = (
+        Op.PUSH3(code_size)
+        + target_code_copy
+        + Op.RETURN(0, Op.DUP1)  # DUP1 refers to PUSH3(code_size) above.
+    )
+    initcode_template_contract = pre.deploy_contract(code=code)
+
+    # Create the benchmark contract which has the following design:
+    # ```
+    # PUSH(value)
+    # [EXTCODECOPY(full initcode_template_contract) -- Conditional that non_zero_data is True]`
+    # JUMPDEST (#)
+    # CREATE
+    # CREATE
+    # ...
+    # JUMP(#)
+    # ```
+    target_code_copy = Op.PUSH1(value) + Op.EXTCODECOPY(
+        address=initcode_template_contract,
+        size=Op.EXTCODESIZE(address=initcode_template_contract),
+    )
+
+    # DUP3 refers to PUSH1(value) above. MSIZE should match full initcode size resulted from
+    # EXTCODECOPY above.
+    attack_block = Op.POP(Op.CREATE(value=Op.DUP3, offset=0, size=Op.MSIZE))
+    code = code_loop_precompile_call(target_code_copy, attack_block, fork)
+
+    tx = Transaction(
+        # Set enough balance in the pre-alloc for `value > 0` configurations.
+        to=pre.deploy_contract(code=code, balance=1_000_000_000),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
