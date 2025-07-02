@@ -526,6 +526,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_compute/test_worst_return_revert/</loc>
+         <lastmod>2025-07-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_compute/test_worst_returndatasize_nonzero/</loc>
          <lastmod>2025-07-02</lastmod>
          <changefreq>daily</changefreq>
