@@ -109,7 +109,6 @@ cd execution-spec-tests
 uv python install 3.11
 uv python pin 3.11
 uv sync --all-extras
-uv run solc-select use 0.8.24 --always-install
 ```
 
 See [Installation Troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting/) in the online docs if you encounter issues.

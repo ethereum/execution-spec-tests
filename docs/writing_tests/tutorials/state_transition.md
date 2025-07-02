@@ -9,27 +9,12 @@ Before proceeding with this tutorial, it is assumed that you have prior knowledg
 - Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
 - Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [static state transition test](https://ethereum-tests.readthedocs.io/en/latest/state-transition-tutorial.html#the-source-code).
-- Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
+- Know the basics of the [EVM](https://www.evm.codes/).
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).
 
-## Example Tests
+## Example Test
 
-The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/tests/homestead/yul/test_yul_example.py#L19) state test.
-
-### Yul Test
-
-You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../../tests/homestead/yul/test_yul_example/index.md).
-It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml).
-
-Lets examine each section.
-
-```python
-"""
-Test Yul Source Code Examples
-"""
-```
-
-In Python, multi-line strings are denoted using `"""`. As a convention, a file's purpose is often described in the opening string of the file.
+The most effective method of learning how to write tests is to study a straightforward example. In this tutorial we will go over a simple state test that adds two numbers and stores them in the storage.
 
 ```python
 from ethereum_test_forks import Fork, Frontier, Homestead
@@ -39,7 +24,6 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     Transaction,
-    YulCompiler,
 )
 ```
 
@@ -57,19 +41,19 @@ In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org
     To fill this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
 
     ```console
-    fill -k test_yul
+    fill -k test_example
     ```
 
     and to fill it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
 
     ```console
-    fill -k test_yul --from London --until Paris
+    fill -k test_example --from London --until Paris
     ```
 
 ```python
-def test_yul(state_test: StateTestFiller, pre: Alloc, yul: YulCompiler, fork: Fork):
+def test_example(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """
-    Test YUL compiled bytecode.
+    Test that adds two numbers and stores the result in storage at key 0.
     """
 ```
 
@@ -93,7 +77,7 @@ In most tests the defaults are good enough.
 
 For more information, [see the static test documentation](../../running_tests/test_formats/state_test.md).
 
-#### Pre State
+### Pre State
 
 For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the transaction is executed.
 It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_eoa`, `deploy_contract` or `fund_address` from the `Alloc` object.
@@ -102,23 +86,18 @@ In this example we are using the `deploy_contract` method to deploy a contract t
 
 ```python
     contract_address = pre.deploy_contract(
-        code=yul(
-            """
-            {
-                function f(a, b) -> c {
-                    c := add(a, b)
-                }
-
-                sstore(0, f(1, 2))
-                return(0, 32)
-            }
-            """
-        ),
+        code = Op.PUSH1(0)
+                + Op.PUSH1(2)
+                + Op.PUSH1(1)
+                + Op.ADD
+                + Op.SSTORE
+                + Op.STOP
+        ,
         balance=0x0BA1A9CE0BA1A9CE,
     )
 ```
 
-Specifically we deploy a contract with yul code that adds two numbers and stores the result in storage.
+Specifically we deploy a contract with EVM bytecode that adds two numbers and stores the result in storage.
 
 ```python
             balance=0x0BA1A9CE0BA1A9CE,
@@ -134,38 +113,13 @@ As return value of the `deploy_contract` method we get the address where the con
 
 ```python
         storage={
-            0x00: 0x00,
+            0x00: 0x03,
         },
 ```
 
 We could also specify a starting storage for the contract, which is done by adding a `storage` parameter to the `deploy_contract` method.
 
-```python
-            code=yul(
-```
-
-Here we define the [Yul](https://docs.soliditylang.org/en/v0.8.17/yul.html) code for the contract. It is defined as a multi-line string and starts and ends with curly braces (`{ <yul> }`).
-
-When running the test filler `fill`, the solidity compiler `solc` will automatically translate the Yul to EVM opcode at runtime.
-
-!!! note
-    Currently Yul and direct EVM opcode are supported in execution spec tests.
-
-```python
-                """
-                {
-                    function f(a, b) -> c {
-                        c := add(a, b)
-                    }
-                    sstore(0, f(1, 2))
-                    return(0, 32)
-                }
-                """
-```
-
-Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the `ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilized with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
-
-Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.
+Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the code has run successfully.
 
 ```python
     sender = pre.fund_eoa(amount=0x0BA1A9CE0BA1A9CE)
@@ -223,7 +177,7 @@ For more information, [see the static test documentation](../../running_tests/te
 
 This is the post-state which is equivalent to [`expect`](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#expect) in static tests, but without the indexes. It is similar to the pre-state, except that we do not need to specify everything, only those accounts and fields we wish to test.
 
-In this case, we look at the storage of the contract we called and add to it what we expect to see. In this example storage cell `0x00` should be `0x03` as in the pre-state we essentially stored the result of the Yul instruction `add(1, 2)`.
+In this case, we look at the storage of the contract we called and add to it what we expect to see. In this example storage cell `0x00` should be `0x03` as in the pre-state we essentially stored the result of the instruction `add(1, 2)`.
 
 #### State Test
 
@@ -231,7 +185,7 @@ In this case, we look at the storage of the contract we called and add to it wha
     state_test(env=env, pre=pre, post=post, tx=tx)
 ```
 
-This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/yul_example/test_yul.json`).
+This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/test_example.json`).
 
 ## Conclusion
 

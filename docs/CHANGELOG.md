@@ -10,6 +10,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 
+#### 💥 Important Change for test contributors
+
+- EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the "static tests" located in `./tests/static/` (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in [ethereum/tests](https://github.com/ethereum/tests)).
+- In order to fill the static tests (which is not the case by default), please ensure that `solc` is located in your `PATH`.
+
 #### 💥 Important Change for `fill` Users
 
 The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
@@ -26,6 +31,12 @@ This update renames the `zkevm` feature release to `benchmark_30M` and further e
 Users can select any of the artifacts depending on their testing needs for their provers.
 
 ### 🛠️ Framework
+
+#### 🔀 Refactoring
+
+- 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
+- ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
+- 🔀 This PR removes the `solc` requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with `solc` and, as such, the `solc-select` dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (`./tests/static/`) locally, `solc` (ideally v0.8.24) must be available in your PATH.
 
 #### `fill`
 
