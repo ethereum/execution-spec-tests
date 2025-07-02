@@ -2256,6 +2256,7 @@ def test_worst_push(
         tx=tx,
     )
 
+
 @pytest.mark.parametrize(
     "opcode",
     [Op.RETURN, Op.REVERT],
@@ -2316,4 +2317,3 @@ def test_worst_return_revert(
         post={},
         tx=tx,
     )
-
