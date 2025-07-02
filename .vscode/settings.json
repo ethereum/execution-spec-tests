@@ -58,7 +58,7 @@
     "ruff.logLevel": "error",
     "extensions.ignoreRecommendations": false,
     "search.exclude": {
-      "tests/static": true,
+      "tests/static": true
     },
     "files.watcherExclude": {
       "tests/static": true,
