@@ -61,6 +61,6 @@
       "tests/static": true
     },
     "files.watcherExclude": {
-      "tests/static": true,
+      "tests/static": true
     }
 }
