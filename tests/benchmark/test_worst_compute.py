@@ -2274,7 +2274,7 @@ def test_worst_return_revert(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    opcode : Op,
+    opcode: Op,
     return_size: int,
     return_non_zero_data: bool,
 ):
@@ -2294,7 +2294,9 @@ def test_worst_return_revert(
     # relevant for the benchmark.
     mem_preparation = Op.CODECOPY(size=return_size) if return_non_zero_data else Bytecode()
     executable_code = mem_preparation + opcode(size=return_size)
-    code = executable_code + Op.INVALID * (max_code_size - len(executable_code))
+    code = executable_code
+    if return_non_zero_data:
+        code += Op.INVALID * (max_code_size - len(executable_code))
     target_contract_address = pre.deploy_contract(code=code)
 
     calldata = Bytecode()
