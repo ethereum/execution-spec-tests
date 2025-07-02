@@ -7,7 +7,7 @@ import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 from semver import Version
 
-from ethereum_test_forks import Frontier
+SOLC_EXPECTED_MIN_VERSION: Version = Version.parse("0.8.24")
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -53,7 +53,6 @@ def pytest_configure(config: pytest.Config):
             stderr=subprocess.STDOUT,
             text=True,
             check=True,
-            timeout=10,
         )
     except subprocess.CalledProcessError as e:
         pytest.exit(
@@ -86,7 +85,7 @@ def pytest_configure(config: pytest.Config):
 
     # Extract version number
     try:
-        # Format is typically "Version: 0.8.24+commit.e11b9ed9.Linux.g++"
+        # --version format is typically something like "0.8.24+commit.e11b9ed9.Linux.g++"
         version_str = version_line.split()[1].split("+")[0]
         solc_version_semver = Version.parse(version_str)
     except (IndexError, ValueError) as e:
@@ -104,10 +103,11 @@ def pytest_configure(config: pytest.Config):
         config.stash[metadata_key]["Tools"]["solc"] = str(solc_version_semver)
 
     # Check minimum version requirement
-    if solc_version_semver < Frontier.solc_min_version():
+    solc_version_semver = Version.parse(str(solc_version_semver).split()[0].split("-")[0])
+    if solc_version_semver < SOLC_EXPECTED_MIN_VERSION:
         pytest.exit(
             f"Unsupported solc version: {solc_version_semver}. Minimum required version is "
-            f"{Frontier.solc_min_version()}",
+            f"{SOLC_EXPECTED_MIN_VERSION}",
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
 

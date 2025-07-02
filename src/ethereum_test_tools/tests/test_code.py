@@ -20,9 +20,9 @@ from ethereum_test_specs import StateTest
 from ethereum_test_types import Alloc, Environment, Transaction
 from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm import UndefinedOpcodes
+from pytest_plugins.solc.solc import SOLC_EXPECTED_MIN_VERSION
 
 from ..code import CalldataCase, Case, Conditional, Initcode, Switch
-from .conftest import SOLC_PADDING_VERSION
 
 
 @pytest.fixture(params=get_deployed_forks())
@@ -36,7 +36,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
     """Return the expected bytes for the test."""
     expected_bytes = request.param
     if isinstance(expected_bytes, Template):
-        if solc_version < SOLC_PADDING_VERSION or fork <= Homestead:
+        if solc_version < SOLC_EXPECTED_MIN_VERSION or fork <= Homestead:
             solc_padding = ""
         else:
             solc_padding = "00"
@@ -44,7 +44,7 @@ def expected_bytes(request: pytest.FixtureRequest, solc_version: Version, fork: 
     if isinstance(expected_bytes, bytes):
         if fork >= Shanghai:
             expected_bytes = b"\x5f" + expected_bytes[2:]
-        if solc_version < SOLC_PADDING_VERSION or fork <= Homestead:
+        if solc_version < SOLC_EXPECTED_MIN_VERSION or fork <= Homestead:
             return expected_bytes
         else:
             return expected_bytes + b"\x00"

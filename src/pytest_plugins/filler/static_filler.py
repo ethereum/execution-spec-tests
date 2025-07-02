@@ -17,11 +17,7 @@ from _pytest.mark import ParameterSet
 from _pytest.python import Module
 
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
-from ethereum_test_forks import (
-    Fork,
-    get_closest_fork_with_solc_support,
-    get_forks_with_solc_support,
-)
+from ethereum_test_forks import Fork, get_closest_fork
 from ethereum_test_specs import BaseStaticTest, BaseTest
 from ethereum_test_tools.code.yul import Yul
 
@@ -356,9 +352,8 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
                 break
         else:
             pytest.fail(f"{request.node.name}: Fork {marker.args[0]} not found in forks list.")
-        assert solc_target_fork in get_forks_with_solc_support(request.config.solc_version)
     else:
-        solc_target_fork = get_closest_fork_with_solc_support(fork, request.config.solc_version)
+        solc_target_fork = get_closest_fork(fork, request.config.solc_version)
         assert solc_target_fork is not None, "No fork supports provided solc version."
         if solc_target_fork != fork and request.config.getoption("verbose") >= 1:
             warnings.warn(

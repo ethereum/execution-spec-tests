@@ -170,7 +170,7 @@ Finally, we execute the test by calling the state test wrapper with all our defi
 
 This line calls the wrapper to the `StateTest` object that provides all the objects required in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/state_test_example/test_state_test_example.json`).
 
-Note that even though we defined a `StateTest`, the `fill` command will also generate other derivative test fixtures: `BlockchainTest`, `BlockchainTestEngine`, and `BlockchainTestEngineX`. For more information about test types and when to use each, see [Test Types: Prefer StateTest for Single Transactions](../../writing_tests/types_of_tests/#prefer-state_test-for-single-transactions).
+Note that even though we defined a `StateTest`, the `fill` command will also generate other derivative test fixtures: `BlockchainTest`, `BlockchainTestEngine`, and `BlockchainTestEngineX`. For more information about test types and when to use each, see [Test Types: Prefer StateTest for Single Transactions](../types_of_tests.md#prefer-state_test-for-single-transactions).
 
 ## Conclusion
 
