@@ -76,6 +76,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Add macOS hive development mode workaround to the docs [#1786](https://github.com/ethereum/execution-spec-tests/pull/1786).
 - 🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers [#1803](https://github.com/ethereum/execution-spec-tests/pull/1803).
 - 🔀 Rename `tests/zkevm/` to `tests/benchmark/` and replace the `zkevm` pytest mark with `benchmark` [#1804](https://github.com/ethereum/execution-spec-tests/pull/1804).
+- 🔀 Add fixture comparison check to optimize coverage workflow in CI ([#1833](https://github.com/ethereum/execution-spec-tests/pull/1833)).
 
 ### 🧪 Test Cases
 
