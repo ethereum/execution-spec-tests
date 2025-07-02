@@ -445,7 +445,7 @@ def test_worst_create(
     "opcode",
     [
         Op.CREATE,
-        # Op.CREATE2,
+        Op.CREATE2,
     ],
 )
 def test_worst_creates_collisions(
