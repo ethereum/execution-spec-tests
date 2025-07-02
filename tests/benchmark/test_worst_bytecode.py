@@ -397,9 +397,13 @@ def test_worst_create(
     # ...
     # JUMP(#)
     # ```
-    code_prefix = Op.PUSH1(value) + Op.EXTCODECOPY(
-        address=initcode_template_contract,
-        size=Op.EXTCODESIZE(address=initcode_template_contract),
+    code_prefix = (
+        Op.EXTCODESIZE(address=initcode_template_contract)
+        + Op.PUSH1(value)
+        + Op.EXTCODECOPY(
+            address=initcode_template_contract,
+            size=Op.DUP2,  # DUP2 refers to the EXTCODESIZE value above.
+        )
     )
 
     if opcode == Op.CREATE2:
@@ -407,14 +411,16 @@ def test_worst_create(
         code_prefix = code_prefix + Op.PUSH1(42)
 
     attack_block = (
-        # For CREATE: DUP3 refers to PUSH1(value) above. MSIZE should match full initcode size
-        # resulted from EXTCODECOPY above.
-        Op.POP(Op.CREATE(value=Op.DUP3, offset=0, size=Op.MSIZE))
+        # For CREATE:
+        # - DUP2 refers to the EXTOCODESIZE value  pushed in code_prefix.
+        # - DUP3 refers to PUSH1(value) above.
+        Op.POP(Op.CREATE(value=Op.DUP3, offset=0, size=Op.DUP2))
         if opcode == Op.CREATE
         # For CREATE2: we manually push the arguments because we leverage the return value of
-        # previous CREATE2 calls as salt for the next CREATE2 call. The DUP4 is targeting the
-        # PUSH1(value) from the code_prefix.
-        else Op.MSIZE + Op.PUSH0 + Op.DUP4 + Op.CREATE2
+        # previous CREATE2 calls as salt for the next CREATE2 call.
+        #  - DUP4 is targeting the PUSH1(value) from the code_prefix.
+        #  - DUP3 is targeting the EXTCODESIZE value pushed in code_prefix.
+        else Op.DUP3 + Op.PUSH0 + Op.DUP4 + Op.CREATE2
     )
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
 
