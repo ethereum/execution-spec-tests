@@ -2290,7 +2290,8 @@ def test_worst_return_revert(
     # <Fill with INVALID opcodes up to the max contract size>
     # ```
     # Filling the contract up to the max size is a cheap way of leveraging CODECOPY to return
-    # non-zero bytes if requested.
+    # non-zero bytes if requested. Note that since this is a pre-deploy this cost isn't 
+    # relevant for the benchmark.
     mem_preparation = Bytecode() if not return_non_zero_data else Op.CODECOPY(size=return_size)
     executable_code = mem_preparation + opcode(size=return_size)
     code = executable_code + Op.INVALID * (max_code_size - len(executable_code))
