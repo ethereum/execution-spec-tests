@@ -18,7 +18,8 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
+            "source.organizeImports": "explicit",
+            "source.fixAll.ruff": "explicit",
         },
     },
     "python.analysis.autoFormatStrings": true,
@@ -57,9 +58,9 @@
     "ruff.logLevel": "error",
     "extensions.ignoreRecommendations": false,
     "search.exclude": {
-      "tests/legacy": true
+      "tests/static": true
     },
     "files.watcherExclude": {
-      "tests/legacy": true
+      "tests/static": true
     }
 }
