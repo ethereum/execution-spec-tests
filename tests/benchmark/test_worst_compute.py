@@ -2723,3 +2723,44 @@ def test_worst_return_revert(
         post={},
         tx=tx,
     )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_same_input(
+    state_test: StateTestFiller, blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork
+):
+    """Test running a block with as many CLZ with same input as possible."""
+    env = Environment()
+    attack_gas_limit = env.gas_limit
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+
+    magic_value = 248  # CLZ(248) = 248
+
+    calldata = Op.PUSH1(magic_value)
+    attack_block = Op.CLZ
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=tx_gas_limit if tx_gas_limit else attack_gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    if (tx_gas_limit is None) or (tx_gas_limit > attack_gas_limit):
+        state_test(
+            env=env,
+            pre=pre,
+            post={},
+            tx=tx,
+        )
+    else:
+        tx_count = attack_gas_limit // tx_gas_limit
+        txs = [tx for _ in range(tx_count)]
+
+        blockchain_test(
+            genesis_environment=Environment(),
+            pre=pre,
+            post={},
+            blocks=[Block(txs=txs)],
+        )
