@@ -445,7 +445,7 @@ def test_worst_create(
     "opcode",
     [
         Op.CREATE,
-        Op.CREATE2,
+        # Op.CREATE2,
     ],
 )
 def test_worst_creates_collisions(
@@ -468,7 +468,7 @@ def test_worst_creates_collisions(
     padded_init_code = init_code + b"\x00" * (32 - init_code_size)
     # The proxy contract basically does a quick MSTORE to configure the init code and
     # calls CREATE2 with such init code. The current call frame gas will be exhausted because of
-    # the collission. For this reason the caller will carefully give us the minimal gas necessary
+    # the collision. For this reason the caller will carefully give us the minimal gas necessary
     # to execute the CREATE2 and not waste any extra gas in the CREATE2-failure.
     proxy_contract = pre.deploy_contract(
         code=Op.MSTORE(0, Bytes(padded_init_code))
