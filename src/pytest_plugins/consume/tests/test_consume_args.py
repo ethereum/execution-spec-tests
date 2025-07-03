@@ -75,7 +75,7 @@ def fill_tests(
 
 
 @pytest.fixture(autouse=True, scope="function")
-def test_fixtures(pytester: Pytester, fixtures_dir: Path, fill_tests: None) -> List[Path]:
+def test_fixtures(pytester: Pytester, fixtures_dir: Path) -> List[Path]:
     """
     Copy test fixtures from the regular temp path to the pytester temporary dir.
 
