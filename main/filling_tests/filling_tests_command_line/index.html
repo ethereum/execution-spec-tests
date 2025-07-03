@@ -1625,8 +1625,6 @@
       
         
       
-        
-      
     
     
       
@@ -1743,27 +1741,6 @@
   
   <span class="md-ellipsis">
     Blockchain Engine X Tests
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../running_tests/test_formats/eof_test/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    EOF Tests
   </span>
   
 
@@ -24098,67 +24075,67 @@
 <div class="admonition note">
 <p class="admonition-title">Options specific to execution-spec-tests</p>
 <p>The command-line options specific to filling tests can be listed via:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --help</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --help</span>
 </code></pre></div>
 <p>See <a href="#custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options</a> for all options.</p>
 </div>
 <h2 id="collection-test-exploration">Collection - Test Exploration<a class="headerlink" href="#collection-test-exploration" title="Permanent link">&para;</a></h2>
 <p>The test cases implemented in the <code>./tests</code> sub-directory can be listed in the console using:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --collect-only</span>
 </code></pre></div>
 <p>and can be filtered (by test path, function and parameter substring):</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -k warm_coinbase</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --collect-only -k warm_coinbase</span>
 </code></pre></div>
 <p>Docstrings are additionally displayed when ran verbosely:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -k warm_coinbase -vv</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --collect-only -k warm_coinbase -vv</span>
 </code></pre></div>
 <h2 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">&para;</a></h2>
 <p>By default, test cases are filled for all forks already deployed to mainnet, but not for forks still under active development, i.e., as of time of writing, Q2 2023:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill</span>
 </code></pre></div>
 <p>will generate fixtures for test cases from Frontier to Shanghai.</p>
 <p>To generate all the test fixtures defined in the <code>./tests/shanghai</code> sub-directory and write them to the <code>./fixtures-shanghai</code> directory, run <code>fill</code> in the top-level directory as:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill ./tests/shanghai --output=&quot;fixtures-shanghai&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill ./tests/shanghai --output=&quot;fixtures-shanghai&quot;</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Test case verification</p>
 <p>Note, that the (limited set of) test <code>post</code> conditions are tested against the output of the <code>evm t8n</code> command during test generation.</p>
 </div>
 <p>To generate all the test fixtures in the <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code> module, for example, run:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</span>
 </code></pre></div>
 <p>To generate specific test fixtures from a specific test function or even test function and parameter set, obtain the corresponding test ID using:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --collect-only -q -k test_warm_coinbase</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --collect-only -q -k test_warm_coinbase</span>
 </code></pre></div>
 <p>This filters the tests by <code>test_warm_coinbase</code>. Then find the relevant test ID in the console output and provide it to fill, for example, for a test function:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage</span>
 </code></pre></div>
 <p>or, for a test function and specific parameter combination:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Paris-DELEGATECALL]</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage[fork_Paris-DELEGATECALL]</span>
 </code></pre></div>
 <h2 id="execution-for-development-forks">Execution for Development Forks<a class="headerlink" href="#execution-for-development-forks" title="Permanent link">&para;</a></h2>
 <div class="admonition note">
 <p>By default, test cases are not filled for upcoming Ethereum forks so that they can be readily filled using the <code>evm</code> tool from the latest <code>geth</code> release.</p>
 <p>In order to fill test cases for an upcoming fork, ensure that the <code>evm</code> tool used supports that fork and features under test and use the <code>--until</code> or <code>--fork</code> flag.</p>
 <p>For example, as of Q2 2023, the current fork under active development is <code>Cancun</code>:
-<div class="highlight"><pre><span></span><code><span class="go">fill --until Cancun</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --until Cancun</span>
 </code></pre></div></p>
 <p>See: <a href="../filling_tests_dev_fork/">Filling Tests for Features under Development</a>.</p>
 </div>
 <h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
 <p>The <code>--evm-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>
 <h2 id="other-useful-pytest-command-line-options">Other Useful Pytest Command-Line Options<a class="headerlink" href="#other-useful-pytest-command-line-options" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="go">fill -vv            # More verbose output</span>
-<span class="go">fill -x             # Exit instantly on first error or failed test case</span>
-<span class="go">fill --pdb -nauto   # Drop into the debugger upon error in a test case</span>
-<span class="go">fill -s             # Print stdout from tests to the console during execution</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill -vv            # More verbose output</span>
+<span class="go">uv run fill -x             # Exit instantly on first error or failed test case</span>
+<span class="go">uv run fill --pdb -nauto   # Drop into the debugger upon error in a test case</span>
+<span class="go">uv run fill -s             # Print stdout from tests to the console during execution</span>
 </code></pre></div>
 <h2 id="custom-fill-command-line-options">Custom <code>fill</code> Command-Line Options<a class="headerlink" href="#custom-fill-command-line-options" title="Permanent link">&para;</a></h2>
 <p>To see all the options available to fill, including pytest and pytest plugin options, use <code>--pytest-help</code>.</p>
 <p>To list the options that only specific to fill, use:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill --help</span>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --help</span>
 </code></pre></div>
-<p>For a complete, up-to-date list of all command-line options, see the <a href="../filling_tests_command_line_options/">Fill Command-Line Options</a> page, which is automatically generated from the current <code>fill --help</code> output.</p>
+<p>For a complete, up-to-date list of all command-line options, see the <a href="../filling_tests_command_line_options/">Fill Command-Line Options</a> page, which is automatically generated from the current <code>uv run fill --help</code> output.</p>
 
 
 
@@ -24185,8 +24162,8 @@
     <nav>
       
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
-        <a href="mailto:mukulkolpe45@gmail.com">Mukul Kolpe</a>, 
-        <a href="mailto:danceratopz@gmail.com">danceratopz</a>
+        <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:kclowes@users.noreply.github.com">kclowes</a>
     </nav>
   </span>
 
@@ -24211,6 +24188,46 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../getting_started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Getting Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../filling_tests_command_line_options/" class="md-footer__link md-footer__link--next" aria-label="Next: Fill Command-Line Options">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Fill Command-Line Options
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -24238,7 +24255,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "search.suggest", "search.highlight", "content.tabs.link", "navigation.indexes", "navigation.instant", "navigation.tabs", "navigation.footer"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.af256bd8.min.js"></script>
