@@ -26,7 +26,7 @@ Please see below for an explanation of the optional `<pre_release_name>` that is
 
 ### Standard Releases
 
-Releases are published on the @ethereum/execution-spec-tests [releases](https://github.com/ethereum/execution-spec-tests/releases) page. Standard releases are tagged using the format `vX.Y.Z` (they don't have a don't `<pre_release_name>`).
+Releases are published on the @ethereum/execution-spec-tests [releases](https://github.com/ethereum/execution-spec-tests/releases) page. Standard releases are tagged using the format `vX.Y.Z` (they don't have a `<pre_release_name>`).
 
 For standard releases, two tarballs are available:
 
