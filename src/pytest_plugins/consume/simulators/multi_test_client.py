@@ -7,7 +7,7 @@ from typing import Dict, Generator, Mapping, cast
 
 import pytest
 from hive.client import Client, ClientType
-from hive.testing import HiveTestSuite
+from hive.testing import HiveTest, HiveTestSuite
 
 from ethereum_test_base_types import to_json
 from ethereum_test_fixtures import BlockchainEngineXFixture
@@ -115,6 +115,7 @@ def genesis_header(pre_alloc_group: PreAllocGroup) -> FixtureHeader:
 @pytest.fixture(scope="function")
 def client(
     test_suite: HiveTestSuite,
+    hive_test: HiveTest,
     client_type: ClientType,
     total_timing_data: TimingData,
     fixture: BlockchainEngineXFixture,
@@ -146,6 +147,7 @@ def client(
     existing_client = multi_test_client_manager.get_client_for_test(group_identifier, test_id)
     if existing_client is not None:
         logger.info(f"Reusing multi-test client for group {group_identifier}")
+        hive_test.register_shared_client(existing_client)
         try:
             yield existing_client
         finally:
@@ -173,6 +175,7 @@ def client(
         client_type=client_type,
     )
     multi_test_client.set_client(hive_client)
+    hive_test.register_shared_client(hive_client)
 
     logger.info(f"Multi-test client ready for group {group_identifier}")
     try:
