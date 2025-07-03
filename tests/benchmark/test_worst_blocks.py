@@ -159,26 +159,60 @@ def test_block_full_of_ether_transfers(
     )
 
 
-def calldata_cost_per_byte(byte_data: bytes):
-    """Calculate the cost of calldata per byte."""
-    return 4 if byte_data == b"\x00" else 16
+@pytest.fixture
+def total_cost_floor_per_token():
+    """Total cost floor per token."""
+    return 10
 
 
-@pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("byte_data", [b"\x00", b"\xff"])
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_of_empty_payload(
     state_test: StateTestFiller,
     pre: Alloc,
-    byte_data: bytes,
+    zero_byte: bool,
     intrinsic_cost: int,
+    total_cost_floor_per_token: int,
 ):
     """Test a block with empty payload."""
     attack_gas_limit = Environment().gas_limit
-    number_of_bytes = (attack_gas_limit - intrinsic_cost) // calldata_cost_per_byte(byte_data)
+
+    # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
+    #
+    #   tx.gasUsed = 21000 + max(
+    #       STANDARD_TOKEN_COST * tokens_in_calldata
+    #       + execution_gas_used
+    #       + isContractCreation * (32000 + INITCODE_WORD_COST * words(calldata)),
+    #       TOTAL_COST_FLOOR_PER_TOKEN * tokens_in_calldata)
+    #
+    # Simplified in this test case:
+    # - No execution gas used (no opcodes are executed)
+    # - Not a contract creation (no initcode)
+    #
+    # Therefore:
+    #   max_token_cost = max(STANDARD_TOKEN_COST, TOTAL_COST_FLOOR_PER_TOKEN)
+    #   tx.gasUsed = 21000 + tokens_in_calldata * max_token_cost
+    #
+    # Since max(STANDARD_TOKEN_COST, TOTAL_COST_FLOOR_PER_TOKEN) = 10:
+    #   tx.gasUsed = 21000 + tokens_in_calldata * 10
+    #
+    # Token accounting:
+    #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
+    #
+    # So we calculate how many bytes we can fit into calldata based on available gas.
+
+    gas_available = attack_gas_limit - intrinsic_cost
+
+    # Calculate the token_in_calldata
+    gas_available //= total_cost_floor_per_token
+
+    # Calculate the number of bytes that can be stored in the calldata
+    num_of_bytes = gas_available // 4 if zero_byte else attack_gas_limit
+    byte_data = b"\x00" if zero_byte else b"\xff"
 
     tx = Transaction(
         to=pre.fund_eoa(),
-        data=byte_data * number_of_bytes,
+        data=byte_data * num_of_bytes,
         gas_limit=attack_gas_limit,
         sender=pre.fund_eoa(),
     )
