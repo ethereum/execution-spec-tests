@@ -2,13 +2,22 @@
 
 import pytest
 
+from ethereum_test_base_types import Bytes
 from ethereum_test_tools import (
+    Account,
     Alloc,
+    Block,
     BlockchainTestFiller,
+    Transaction,
 )
 
+from .spec import ACTIVATION_FORK_NAME, ref_spec_7928
 
-@pytest.mark.valid_from("Amsterdam")
+REFERENCE_SPEC_GIT_PATH = ref_spec_7928.git_path
+REFERENCE_SPEC_VERSION = ref_spec_7928.version
+
+
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALValidity:
     """Test BAL validity and data structure integrity."""
 
@@ -18,8 +27,41 @@ class TestBALValidity:
         blockchain_test: BlockchainTestFiller,
     ):
         """Test BAL hash generation for basic ETH transfer."""
-        # TODO: Implement BAL hash validation for basic ETH transfer
-        pass
+        # Setup accounts for basic ETH transfer
+
+        transfer_amount = 1000
+        sender = pre.fund_eoa()
+        recipient = pre.fund_eoa(amount=0)
+
+        # Create a basic ETH transfer transaction
+        tx = Transaction(
+            sender=sender,
+            to=recipient,
+            value=1000,
+        )
+
+        # This represents a mock SSZ-encoded Block Access List
+        mock_bal = Bytes(b"Mock BAL DATA")
+        bal_hash = mock_bal.keccak256()
+
+        # Create block with custom header that includes BAL hash
+        block = Block(txs=[tx], bal_hash=bal_hash)
+
+        # Execute the blockchain test
+        blockchain_test(
+            pre=pre,
+            blocks=[block],
+            post={
+                sender: Account(
+                    nonce=1,
+                ),
+                recipient: Account(balance=transfer_amount),
+            },
+        )
+
+        # Note: In the generated fixture, the block header will include:
+        # - bal_hash: the computed hash of the Block Access List
+        # - bal_data: the SSZ-encoded Block Access List data (when framework supports it)
 
     def test_bal_hash_storage_operations(
         self,
@@ -103,7 +145,7 @@ class TestBALValidity:
         pass
 
 
-@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALEncoding:
     """Test SSZ encoding/decoding of BAL data structures."""
 
@@ -153,7 +195,7 @@ class TestBALEncoding:
         pass
 
 
-@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALEdgeCases:
     """Test edge cases and error conditions for BAL."""
 
@@ -203,7 +245,7 @@ class TestBALEdgeCases:
         pass
 
 
-@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALValidationFailures:
     """Test validation failure scenarios for malformed or incorrect BALs."""
 
@@ -244,7 +286,7 @@ class TestBALValidationFailures:
         pass
 
 
-@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALLimits:
     """Test EIP-7928 specification limits and boundaries."""
 
@@ -357,7 +399,7 @@ class TestBALLimits:
         pass
 
 
-@pytest.mark.valid_from("Amsterdam")
+@pytest.mark.valid_from(ACTIVATION_FORK_NAME)
 class TestBALBoundaryConditions:
     """Test boundary conditions and edge cases for EIP-7928 limits."""
 

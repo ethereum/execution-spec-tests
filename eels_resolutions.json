@@ -40,8 +40,7 @@
         "commit": "bb0eb750d643ced0ebf5dec732cdd23558d0b7f2"
     },
     "Osaka": {
-        "git_url": "https://github.com/spencer-tb/execution-specs.git",
-        "branch": "forks/osaka",
-        "commit": "99734284b89766883ecb680e57b07fbca47da51b"
+        "git_url": "https://github.com/nerolation/execution-specs.git",
+        "branch": "bals"
     }
 }

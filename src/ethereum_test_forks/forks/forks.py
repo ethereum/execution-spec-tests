@@ -1473,3 +1473,12 @@ class EOFv1(Prague, solc_name="cancun"):
     def solc_min_version(cls) -> Version:
         """Return minimum version of solc that supports this fork."""
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+
+class BlockAccessLists(Prague):
+    """A development fork for Block Access Lists."""
+
+    @classmethod
+    def header_withdrawals_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Withdrawals are required starting from Shanghai."""
+        return True

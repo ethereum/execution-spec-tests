@@ -50,6 +50,7 @@ dependencies = [
     "pytest-regex>=0.2.0,<0.3",
     "eth-abi>=5.2.0",
     "joblib>=1.4.2",
+    "ethereum-execution",
 ]
 
 [project.urls]
@@ -148,3 +149,4 @@ ignore-words-list = "ingenuous"
 
 [tool.uv.sources]
 ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "ee273e7344e24a739ebfbf0ea1f758530c4d032b" }
+ethereum-execution = { git = "https://github.com/nerolation/execution-specs", rev = "bals" }
