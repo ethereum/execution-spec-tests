@@ -101,6 +101,16 @@ This flag automatically performs a two-phase execution:
 1. **Phase 1**: Generates pre-allocation groups for optimization.
 2. **Phase 2**: Generates all supported fixture formats (`StateFixture`, `BlockchainFixture`, `BlockchainEngineFixture`, `BlockchainEngineXFixture`, etc.).
 
+!!! tip "Automatic enabling with tarball output"
+    When using tarball output (`.tar.gz` files), the `--generate-all-formats` flag is automatically enabled:
+    ```console
+    # Automatically enables --generate-all-formats due to .tar.gz output
+    uv run fill --output=fixtures.tar.gz tests/shanghai/
+
+    # Equivalent to:
+    uv run fill --generate-all-formats --output=fixtures.tar.gz tests/shanghai/
+    ```
+
 !!! note "Alternative approach"
     You can still use the legacy approach, but this will only generate the `BlockchainEngineXFixture` format:
     ```console
