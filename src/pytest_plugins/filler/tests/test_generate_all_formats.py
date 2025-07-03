@@ -41,3 +41,78 @@ def test_fixture_output_from_config_includes_generate_all_formats():
 
     assert fixture_output.generate_all_formats is True
     assert fixture_output.output_path.name == "test"
+
+
+def test_tarball_output_auto_enables_generate_all_formats():
+    """Test that tarball output (.tar.gz) automatically enables generate_all_formats."""
+
+    # Mock pytest config object with tarball output
+    class MockConfig:
+        def getoption(self, option):
+            option_values = {
+                "output": "/tmp/fixtures.tar.gz",  # Tarball output
+                "flat_output": False,
+                "single_fixture_per_file": False,
+                "clean": False,
+                "generate_pre_alloc_groups": False,
+                "use_pre_alloc_groups": False,
+                "generate_all_formats": False,  # Explicitly False
+            }
+            return option_values.get(option, False)
+
+    config = MockConfig()
+    fixture_output = FixtureOutput.from_config(config)
+
+    # Should auto-enable generate_all_formats due to tarball output
+    assert fixture_output.generate_all_formats is True
+    assert fixture_output.is_tarball is True
+
+
+def test_regular_output_does_not_auto_enable_generate_all_formats():
+    """Test that regular directory output doesn't auto-enable generate_all_formats."""
+
+    # Mock pytest config object with regular output
+    class MockConfig:
+        def getoption(self, option):
+            option_values = {
+                "output": "/tmp/fixtures",  # Regular directory output
+                "flat_output": False,
+                "single_fixture_per_file": False,
+                "clean": False,
+                "generate_pre_alloc_groups": False,
+                "use_pre_alloc_groups": False,
+                "generate_all_formats": False,  # Explicitly False
+            }
+            return option_values.get(option, False)
+
+    config = MockConfig()
+    fixture_output = FixtureOutput.from_config(config)
+
+    # Should remain False for regular directory output
+    assert fixture_output.generate_all_formats is False
+    assert fixture_output.is_tarball is False
+
+
+def test_explicit_generate_all_formats_overrides_tarball_auto_enable():
+    """Test that explicitly setting generate_all_formats=True works with tarball output."""
+
+    # Mock pytest config object with tarball output and explicit flag
+    class MockConfig:
+        def getoption(self, option):
+            option_values = {
+                "output": "/tmp/fixtures.tar.gz",  # Tarball output
+                "flat_output": False,
+                "single_fixture_per_file": False,
+                "clean": False,
+                "generate_pre_alloc_groups": False,
+                "use_pre_alloc_groups": False,
+                "generate_all_formats": True,  # Explicitly True
+            }
+            return option_values.get(option, False)
+
+    config = MockConfig()
+    fixture_output = FixtureOutput.from_config(config)
+
+    # Should be True (both explicitly set and auto-enabled)
+    assert fixture_output.generate_all_formats is True
+    assert fixture_output.is_tarball is True
