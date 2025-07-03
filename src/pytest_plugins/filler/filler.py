@@ -178,7 +178,8 @@ def pytest_addoption(parser: pytest.Parser):
             "Directory path to store the generated test fixtures. Must be empty if it exists. "
             "If the specified path ends in '.tar.gz', then the specified tarball is additionally "
             "created (the fixtures are still written to the specified path without the '.tar.gz' "
-            f"suffix). Can be deleted. Default: '{default_output_directory()}'."
+            f"suffix). Tarball output automatically enables --generate-all-formats. "
+            f"Can be deleted. Default: '{default_output_directory()}'."
         ),
     )
     test_group.addoption(

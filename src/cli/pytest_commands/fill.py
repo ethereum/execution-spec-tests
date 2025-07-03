@@ -31,10 +31,15 @@ class FillCommand(PytestCommand):
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
+        is_tarball_output = self._is_tarball_output(processed_args)
         if (
             "--generate-pre-alloc-groups" in processed_args
             or "--generate-all-formats" in processed_args
+            or is_tarball_output
         ):
+            # Auto-add --generate-all-formats for tarball output
+            if is_tarball_output and "--generate-all-formats" not in processed_args:
+                processed_args = processed_args + ["--generate-all-formats"]
             return self._create_two_phase_executions(processed_args)
         elif "--use-pre-alloc-groups" in processed_args:
             # Only phase 2: using existing pre-allocation groups
@@ -147,6 +152,19 @@ class FillCommand(PytestCommand):
     def _add_use_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
         """Add --use-pre-alloc-groups flag to argument list."""
         return args + ["--use-pre-alloc-groups"]
+
+    def _is_tarball_output(self, args: List[str]) -> bool:
+        """Check if output argument specifies a tarball (.tar.gz) path."""
+        from pathlib import Path
+
+        for i, arg in enumerate(args):
+            if arg.startswith("--output="):
+                output_path = Path(arg.split("=", 1)[1])
+                return str(output_path).endswith(".tar.gz")
+            elif arg == "--output" and i + 1 < len(args):
+                output_path = Path(args[i + 1])
+                return str(output_path).endswith(".tar.gz")
+        return False
 
 
 class PhilCommand(FillCommand):

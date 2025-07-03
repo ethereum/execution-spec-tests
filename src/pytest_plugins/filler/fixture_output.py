@@ -206,12 +206,19 @@ class FixtureOutput(BaseModel):
     @classmethod
     def from_config(cls, config: pytest.Config) -> "FixtureOutput":
         """Create a FixtureOutput instance from pytest configuration."""
+        output_path = Path(config.getoption("output"))
+        generate_all_formats = config.getoption("generate_all_formats")
+
+        # Auto-enable --generate-all-formats for tarball output
+        if cls.strip_tarball_suffix(output_path) != output_path:
+            generate_all_formats = True
+
         return cls(
-            output_path=config.getoption("output"),
+            output_path=output_path,
             flat_output=config.getoption("flat_output"),
             single_fixture_per_file=config.getoption("single_fixture_per_file"),
             clean=config.getoption("clean"),
             generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
             use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
-            generate_all_formats=config.getoption("generate_all_formats"),
+            generate_all_formats=generate_all_formats,
         )
