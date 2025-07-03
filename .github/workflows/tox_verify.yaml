@@ -83,7 +83,7 @@ jobs:
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: DavidAnson/markdownlint-cli2-action@b4c9feab76d8025d1e83c653fa3990936df0e6c8
+      - uses: DavidAnson/markdownlint-cli2-action@05f32210e84442804257b2a6f20b273450ec8265
         with:
           globs: |
             README.md
