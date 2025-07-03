@@ -57,6 +57,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 📋 Misc
 
+- 🔀 Misc. doc updates, including a navigation footer ([#1846](https://github.com/ethereum/execution-spec-tests/pull/1846)).
 - 🔀 Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 - 🔀 Modernize codebase with Python 3.11 language features ([#1812](https://github.com/ethereum/execution-spec-tests/pull/1812)).
 - ✨ Add changelog formatting validation to CI to ensure consistent punctuation in bullet points [#1691](https://github.com/ethereum/execution-spec-tests/pull/1691).
