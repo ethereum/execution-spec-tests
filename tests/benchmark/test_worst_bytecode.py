@@ -427,7 +427,7 @@ def test_worst_create(
 
     tx = Transaction(
         # Set enough balance in the pre-alloc for `value > 0` configurations.
-        to=pre.deploy_contract(code=code, balance=1_000_000_000),
+        to=pre.deploy_contract(code=code, balance=1_000_000_000 if value > 0 else 0),
         gas_limit=env.gas_limit,
         sender=pre.fund_eoa(),
     )
