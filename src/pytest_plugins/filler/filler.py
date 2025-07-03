@@ -255,6 +255,17 @@ def pytest_addoption(parser: pytest.Parser):
         default=False,
         help="Fill tests using existing pre-allocation groups (phase 2 only).",
     )
+    test_group.addoption(
+        "--generate-all-formats",
+        action="store_true",
+        dest="generate_all_formats",
+        default=False,
+        help=(
+            "Generate all fixture formats including BlockchainEngineXFixture. "
+            "This enables two-phase execution: Phase 1 generates pre-allocation groups, "
+            "phase 2 generates all supported fixture formats."
+        ),
+    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -983,9 +994,13 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                 "generate_pre_alloc_groups", False
             )
             use_pre_alloc_groups = metafunc.config.getoption("use_pre_alloc_groups", False)
+            generate_all_formats = metafunc.config.getoption("generate_all_formats", False)
 
-            if generate_pre_alloc_groups or use_pre_alloc_groups:
-                # When pre-allocation group flags are set, only generate BlockchainEngineXFixture
+            if generate_all_formats and use_pre_alloc_groups:
+                # Phase 2 of --generate-all-formats: Generate ALL fixture formats
+                supported_formats = test_type.supported_fixture_formats
+            elif generate_pre_alloc_groups or use_pre_alloc_groups or generate_all_formats:
+                # Phase 1 of pre-allocation groups or legacy mode: only BlockchainEngineXFixture
                 supported_formats = [
                     format_item
                     for format_item in test_type.supported_fixture_formats

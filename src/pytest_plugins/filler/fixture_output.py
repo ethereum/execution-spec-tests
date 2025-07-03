@@ -37,6 +37,10 @@ class FixtureOutput(BaseModel):
         default=False,
         description="Use existing pre-allocation groups (phase 2).",
     )
+    generate_all_formats: bool = Field(
+        default=False,
+        description="Generate all fixture formats including BlockchainEngineXFixture.",
+    )
 
     @property
     def directory(self) -> Path:
@@ -209,4 +213,5 @@ class FixtureOutput(BaseModel):
             clean=config.getoption("clean"),
             generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
             use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
+            generate_all_formats=config.getoption("generate_all_formats"),
         )
