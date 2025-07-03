@@ -18,6 +18,8 @@ from typing import (
 
 import ethereum_rlp as eth_rlp
 import pytest
+
+from ethereum.osaka.ssz_types import BlockAccessList
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -165,6 +167,7 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    bal_hash: Annotated[Hash, HeaderForkRequirement("bal")] | None = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -261,6 +264,8 @@ class FixtureExecutionPayload(CamelModel):
 
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
+
+    # block_access_lists: BlockAccessList | None = Field(None, description="Block Access List")
 
     @classmethod
     def from_fixture_header(
