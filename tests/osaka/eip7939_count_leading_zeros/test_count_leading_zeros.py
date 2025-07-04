@@ -319,54 +319,39 @@ def test_clz_jump_operation(
 def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
     """Test CLZ opcode with code copy operation."""
     storage = Storage()
-    post = {}
 
     expected_value = 255 - bits
-    clz_op = 0x1E
-    mload_value = clz_op << 248  # Right-padded with 31 zero bytes for memory loading operation
+    clz_code_offset = len(Op.CLZ(1 << bits)) - 1  # Offset to CLZ opcode
 
-    clz_code = Op.CLZ(1 << bits)
-    clz_code_offset = len(clz_code) - 1
+    mload_value = Spec.CLZ << 248  # CLZ opcode in MSB position (0x1E000...000)
 
-    # Store the CLZ result
-    clz_code += Op.SSTORE(storage.store_next(expected_value), expected_value)
+    target_address = pre.deploy_contract(code=Op.CLZ(1 << bits))
 
-    # Copy one byte into memory and store the loaded word
-    clz_code += Op.CODECOPY(dest_offset=0, offset=clz_code_offset, size=1)
-    clz_code += Op.SSTORE(storage.store_next(clz_op), Op.MLOAD(0))
-
-    clz_contract_address = pre.deploy_contract(code=clz_code)
-
-    post[clz_contract_address] = Account(
-        storage={
-            "0x00": expected_value,
-            "0x01": mload_value,
-        }
+    clz_contract_address = pre.deploy_contract(
+        code=(
+            Op.CLZ(1 << bits)  # Calculate CLZ of the value
+            + Op.SSTORE(storage.store_next(expected_value), expected_value)  # Store CLZ result
+            + (  # Load CLZ byte from code with CODECOPY or EXTCODECOPY
+                Op.CODECOPY(dest_offset=0, offset=clz_code_offset, size=1)
+                if opcode == Op.CODECOPY
+                else Op.EXTCODECOPY(
+                    address=target_address, dest_offset=0, offset=clz_code_offset, size=1
+                )
+            )
+            + Op.SSTORE(storage.store_next(Spec.CLZ), Op.MLOAD(0))  # Store loaded CLZ byte
+        )
     )
 
-    call_code = Op.CALL(gas=0xFFFF, address=clz_contract_address)
-
-    if opcode == Op.EXTCODECOPY:
-        ext_code = Op.EXTCODECOPY(
-            address=clz_contract_address,
-            dest_offset=0,
-            offset=clz_code_offset,
-            size=1,
-        ) + Op.SSTORE(storage.store_next(clz_op), Op.MLOAD(0))
-
-        ext_code_address = pre.deploy_contract(code=ext_code)
-        post[ext_code_address] = Account(
+    post = {
+        clz_contract_address: Account(
             storage={
-                "0x02": mload_value,
+                "0x00": expected_value,
+                "0x01": mload_value,
             }
         )
-
-        call_code += Op.CALL(gas=0xFFFF, address=ext_code_address)
-
-    call_code_address = pre.deploy_contract(code=call_code)
-
+    }
     tx = Transaction(
-        to=call_code_address,
+        to=clz_contract_address,
         sender=pre.fund_eoa(),
         gas_limit=200_000,
     )
