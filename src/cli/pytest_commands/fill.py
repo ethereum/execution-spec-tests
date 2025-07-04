@@ -31,15 +31,8 @@ class FillCommand(PytestCommand):
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
-        is_tarball_output = self._is_tarball_output(processed_args)
-        if (
-            "--generate-pre-alloc-groups" in processed_args
-            or "--generate-all-formats" in processed_args
-            or is_tarball_output
-        ):
-            # Auto-add --generate-all-formats for tarball output
-            if is_tarball_output and "--generate-all-formats" not in processed_args:
-                processed_args = processed_args + ["--generate-all-formats"]
+        if self._should_use_two_phase_execution(processed_args):
+            processed_args = self._ensure_generate_all_formats_for_tarball(processed_args)
             return self._create_two_phase_executions(processed_args)
         elif "--use-pre-alloc-groups" in processed_args:
             # Only phase 2: using existing pre-allocation groups
@@ -152,6 +145,20 @@ class FillCommand(PytestCommand):
     def _add_use_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
         """Add --use-pre-alloc-groups flag to argument list."""
         return args + ["--use-pre-alloc-groups"]
+
+    def _should_use_two_phase_execution(self, args: List[str]) -> bool:
+        """Determine if two-phase execution is needed."""
+        return (
+            "--generate-pre-alloc-groups" in args
+            or "--generate-all-formats" in args
+            or self._is_tarball_output(args)
+        )
+
+    def _ensure_generate_all_formats_for_tarball(self, args: List[str]) -> List[str]:
+        """Auto-add --generate-all-formats for tarball output."""
+        if self._is_tarball_output(args) and "--generate-all-formats" not in args:
+            return args + ["--generate-all-formats"]
+        return args
 
     def _is_tarball_output(self, args: List[str]) -> bool:
         """Check if output argument specifies a tarball (.tar.gz) path."""
