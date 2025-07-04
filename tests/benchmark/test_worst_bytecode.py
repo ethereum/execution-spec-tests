@@ -9,7 +9,7 @@ import math
 
 import pytest
 
-from ethereum_test_base_types.base_types import Address, Bytes
+from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -360,32 +360,21 @@ def test_worst_create(
 
     code_size = int(max_code_size * max_code_size_ratio)
 
-    initcode_template_contract: Address
-    if non_zero_data:
-        # Create a template contract used as a template for the CREATE/CREATE2 opcode.
-        # The bytecode content is not relevant, thus we use a simple pattern.
-        template_code = [i % 256 for i in range(max_code_size)]
-        template_contract = pre.deploy_contract(code=template_code)
-
     # Deploy the initcode template which has following design:
     # ```
     # PUSH3(code_size)
-    # [EXTCODECOPY(template_contract, code_size) -- Conditional that non_zero_data is True]
-    # RETURN(0, code_size)
+    # [CODECOPY(DUP1) -- Conditional that non_zero_data is True]
+    # RETURN(0, DUP1)
+    # [<pad to code_size>] -- Conditional that non_zero_data is True]
     # ```
-    code_prefix = (
-        Op.EXTCODECOPY(
-            address=template_contract,
-            size=Op.DUP1,  # DUP1s refers to the PUSH3(code_size) value done below.
-        )
-        if non_zero_data
-        else Bytecode()
-    )
     code = (
         Op.PUSH3(code_size)
-        + code_prefix
-        + Op.RETURN(0, Op.DUP1)  # DUP1 refers to PUSH3(code_size) above.
+        + (Op.CODECOPY(size=Op.DUP1) if non_zero_data else Bytecode())
+        + Op.RETURN(0, Op.DUP1)
     )
+    if non_zero_data:  # Pad to code_size.
+        code += bytes([i % 256 for i in range(code_size - len(code))])
+
     initcode_template_contract = pre.deploy_contract(code=code)
 
     # Create the benchmark contract which has the following design:
@@ -467,9 +456,12 @@ def test_worst_creates_collisions(
     init_code_size = len(init_code)
     padded_init_code = init_code + b"\x00" * (32 - init_code_size)
     # The proxy contract basically does a quick MSTORE to configure the init code and
-    # calls CREATE2 with such init code. The current call frame gas will be exhausted because of
+    # calls CREATE(2) with such init code. The current call frame gas will be exhausted because of
     # the collision. For this reason the caller will carefully give us the minimal gas necessary
-    # to execute the CREATE2 and not waste any extra gas in the CREATE2-failure.
+    # to execute the CREATE(2) and not waste any extra gas in the CREATE(2)-failure.
+    #
+    # Note that these CREATE(2) calls will fail because in (**) below we pre-alloc contracts
+    # with the same address as the ones that CREATE(2) will try to create.
     proxy_contract = pre.deploy_contract(
         code=Op.MSTORE(0, Bytes(padded_init_code))
         + Op.CREATE2(value=Op.PUSH0, salt=Op.PUSH0, offset=Op.PUSH0, size=init_code_size)
@@ -488,7 +480,7 @@ def test_worst_creates_collisions(
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
     tx_target = pre.deploy_contract(code=code)
 
-    # We deploy the contract that CREATE(2) will attempt to create so any attempt will fail.
+    # (**) We deploy the contract that CREATE(2) will attempt to create so any attempt will fail.
     if opcode == Op.CREATE2:
         addr = compute_create2_address(address=proxy_contract, salt=0, initcode=init_code)
         pre.deploy_contract(address=addr, code=Op.INVALID)
