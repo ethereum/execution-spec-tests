@@ -388,7 +388,7 @@ def test_worst_create(
     # JUMP(#)
     # ```
     code_prefix = (
-        Op.EXTCODESIZE(address=initcode_template_contract)
+        Op.PUSH3(code_size)
         + Op.PUSH1(value)
         + Op.EXTCODECOPY(
             address=initcode_template_contract,
@@ -452,21 +452,18 @@ def test_worst_creates_collisions(
     # The reason why we need a "proxy contract" is that CREATE(2) failing with a collision will
     # consume all the available gas. If we try to execute the CREATE(2) directly without being
     # wrapped **and capped in gas** in a previous CALL, we would run out of gas very fast!
-    init_code = Op.PUSH0 + Op.PUSH0 + Op.RETURN
-    init_code_size = len(init_code)
-    padded_init_code = init_code + b"\x00" * (32 - init_code_size)
-    # The proxy contract basically does a quick MSTORE to configure the init code and
-    # calls CREATE(2) with such init code. The current call frame gas will be exhausted because of
-    # the collision. For this reason the caller will carefully give us the minimal gas necessary
-    # to execute the CREATE(2) and not waste any extra gas in the CREATE(2)-failure.
+    #
+    # The proxy contract calls CREATE(2) with empty initcode. The current call frame gas will 
+    # be exhausted because of the collision. For this reason the caller will carefully give us 
+    # the minimal gas necessary to execute the CREATE(2) and not waste any extra gas in the 
+    # CREATE(2)-failure.
     #
     # Note that these CREATE(2) calls will fail because in (**) below we pre-alloc contracts
     # with the same address as the ones that CREATE(2) will try to create.
     proxy_contract = pre.deploy_contract(
-        code=Op.MSTORE(0, Bytes(padded_init_code))
-        + Op.CREATE2(value=Op.PUSH0, salt=Op.PUSH0, offset=Op.PUSH0, size=init_code_size)
+        code=Op.CREATE2(value=Op.PUSH0, salt=Op.PUSH0, offset=Op.PUSH0, size=Op.PUSH0)
         if opcode == Op.CREATE2
-        else Op.CREATE(value=Op.PUSH0, offset=Op.PUSH0, size=init_code_size)
+        else Op.CREATE(value=Op.PUSH0, offset=Op.PUSH0, size=Op.PUSH0)
     )
 
     gas_costs = fork.gas_costs()
@@ -482,7 +479,7 @@ def test_worst_creates_collisions(
 
     # (**) We deploy the contract that CREATE(2) will attempt to create so any attempt will fail.
     if opcode == Op.CREATE2:
-        addr = compute_create2_address(address=proxy_contract, salt=0, initcode=init_code)
+        addr = compute_create2_address(address=proxy_contract, salt=0, initcode=[])
         pre.deploy_contract(address=addr, code=Op.INVALID)
     else:
         # Heuristic to have an upper bound.
