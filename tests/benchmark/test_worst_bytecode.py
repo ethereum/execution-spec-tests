@@ -467,13 +467,15 @@ def test_worst_creates_collisions(
     )
 
     gas_costs = fork.gas_costs()
-    # The CALL to the proxy contract needs at a minimum the (Pectra-current) 32k of gas of the
-    # CREATE(2), plus some extra gas for satellite opcodes that we configured in that contract.
-    # The current value  was determined by inspecting the trace.
-    code_prefix = Op.PUSH3(gas_costs.G_CREATE + 29)
+    # The CALL to the proxy contract needs at a minimum gas corresponding to the CREATE(2)
+    # plus extra required PUSH0s for arguments.
+    min_gas_required = gas_costs.G_CREATE + gas_costs.G_BASE * (3 if opcode == Op.CREATE else 4)
+    code_prefix = Op.PUSH20(proxy_contract) + Op.PUSH3(min_gas_required)
     attack_block = Op.POP(
-        Op.CALL(gas=Op.DUP7, address=proxy_contract)
-    )  # DUP7 refers to the PUSH3 above.
+        # DUP7 refers to the PUSH3 above.
+        # DUP7 refers to the proxy contract address.
+        Op.CALL(gas=Op.DUP7, address=Op.DUP7)
+    )  
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
     tx_target = pre.deploy_contract(code=code)
 
