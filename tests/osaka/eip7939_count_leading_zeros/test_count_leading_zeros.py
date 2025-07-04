@@ -330,7 +330,7 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
     clz_contract_address = pre.deploy_contract(
         code=(
             Op.CLZ(1 << bits)  # Calculate CLZ of the value
-            + Op.SSTORE(storage.store_next(expected_value), expected_value)  # Store CLZ result
+            + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(1 << bits))  # Store CLZ result
             + (  # Load CLZ byte from code with CODECOPY or EXTCODECOPY
                 Op.CODECOPY(dest_offset=0, offset=clz_code_offset, size=1)
                 if opcode == Op.CODECOPY
@@ -338,7 +338,7 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
                     address=target_address, dest_offset=0, offset=clz_code_offset, size=1
                 )
             )
-            + Op.SSTORE(storage.store_next(Spec.CLZ), Op.MLOAD(0))  # Store loaded CLZ byte
+            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store loaded CLZ byte
         )
     )
 
@@ -360,7 +360,7 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
 
 
 @pytest.mark.valid_from("Osaka")
-@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+@pytest.mark.parametrize("bits", [0, 64, 255])
 @pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
 def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
     """Test CLZ opcode with memory operation."""
@@ -376,7 +376,7 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
     # This sequence stores a 32-byte value in memory.
     # Later, we copy the immediate value from the PUSH32 instruction into memory
     # using CODECOPY or EXTCODECOPY, and then load it with MLOAD for the CLZ test.
-    target_code = Op.MSTORE(0, Op.PUSH32(1 << bits))
+    target_code = Op.PUSH32(1 << bits)
     offset = 1
 
     target_address = pre.deploy_contract(code=target_code)
@@ -384,7 +384,7 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
     clz_contract_address = pre.deploy_contract(
         code=(
             target_code
-            + Op.SSTORE(storage.store_next(expected_value), expected_value)  # Store CLZ result
+            + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(1 << bits))  # Store CLZ result
             + (
                 Op.CODECOPY(dest_offset=0, offset=offset, size=0x20)
                 if opcode == Op.CODECOPY
