@@ -5,6 +5,7 @@ abstract: Tests [EIP-7939: Count leading zeros (CLZ) opcode](https://eips.ethere
 
 import pytest
 
+from ethereum_test_base_types import Storage
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -308,5 +309,120 @@ def test_clz_jump_operation(
 
     if valid_jump or not jumpi_condition:
         post[callee_address] = Account(storage={"0x00": expected_clz})
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("opcode", [Op.JUMPI, Op.JUMP])
+@pytest.mark.parametrize("valid_jump", [True, False])
+@pytest.mark.parametrize("jumpi_condition", [True, False])
+@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+def test_clz_jump_operation(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    valid_jump: bool,
+    jumpi_condition: bool,
+    bits: int,
+):
+    """Test CLZ opcode with valid and invalid jump."""
+    if opcode == Op.JUMP and not jumpi_condition:
+        pytest.skip("Duplicate case for JUMP.")
+
+    code = Op.PUSH32(1 << bits)
+
+    if opcode == Op.JUMPI:
+        code += Op.PUSH1(jumpi_condition)
+
+    code += Op.PUSH1(len(code) + 3) + opcode
+
+    if valid_jump:
+        code += Op.JUMPDEST
+
+    code += Op.CLZ + Op.PUSH0 + Op.SSTORE + Op.RETURN(0, 0)
+
+    callee_address = pre.deploy_contract(code=code)
+
+    caller_address = pre.deploy_contract(
+        code=Op.SSTORE(0, Op.CALL(gas=0xFFFF, address=callee_address)),
+        storage={"0x00": "0xdeadbeef"},
+    )
+
+    tx = Transaction(
+        to=caller_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        caller_address: Account(storage={"0x00": 1 if valid_jump or not jumpi_condition else 0}),
+    }
+
+    if valid_jump or not jumpi_condition:
+        post[callee_address] = Account(storage={"0x00": expected_clz})
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 64, 255])
+@pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
+def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+    """Test CLZ opcode with code copy operation."""
+    storage = Storage()
+    post = {}
+
+    expected_value = 255 - bits
+    clz_op = 0x1E
+    mload_value = clz_op << 248  # Right-padded with 31 zero bytes for memory loading operation
+
+    clz_code = Op.CLZ(1 << bits)
+    clz_code_offset = len(clz_code) - 1
+
+    # Store the CLZ result
+    clz_code += Op.SSTORE(storage.store_next(expected_value), expected_value)
+
+    # Copy one byte into memory and store the loaded word
+    clz_code += Op.CODECOPY(dest_offset=0, offset=clz_code_offset, size=1)
+    clz_code += Op.SSTORE(storage.store_next(clz_op), Op.MLOAD(0))
+
+    clz_contract_address = pre.deploy_contract(code=clz_code)
+
+    post[clz_contract_address] = Account(
+        storage={
+            "0x00": expected_value,
+            "0x01": mload_value,
+        }
+    )
+
+    call_code = Op.CALL(gas=0xFFFF, address=clz_contract_address)
+
+    if opcode == Op.EXTCODECOPY:
+        ext_code = Op.EXTCODECOPY(
+            address=clz_contract_address,
+            dest_offset=0,
+            offset=clz_code_offset,
+            size=1,
+        ) + Op.SSTORE(storage.store_next(clz_op), Op.MLOAD(0))
+
+        ext_code_address = pre.deploy_contract(code=ext_code)
+        post[ext_code_address] = Account(
+            storage={
+                "0x02": mload_value,
+            }
+        )
+
+        call_code += Op.CALL(gas=0xFFFF, address=ext_code_address)
+
+    call_code_address = pre.deploy_contract(code=call_code)
+
+    tx = Transaction(
+        to=call_code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
 
     state_test(pre=pre, post=post, tx=tx)
