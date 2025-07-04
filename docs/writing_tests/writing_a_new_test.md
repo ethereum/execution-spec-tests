@@ -158,7 +158,7 @@ The code can be in either of the following formats:
 
 ### Using the Python Opcode Minilang (RECOMMENDED)
 
-The recommended way to write EVM bytecode for tests is to use the Python-based minilang provided by the `Opcodes` class in [`src/ethereum_test_vm/opcode.py`](../../src/ethereum_test_vm/opcode.py). This allows you to construct bytecode using symbolic opcodes as Python objects.
+The recommended way to write EVM bytecode for tests is to use the Python-based minilang provided by the [Opcodes][ethereum_test_vm.opcode.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
 
 #### Example: Simple Addition Contract
 
@@ -177,11 +177,11 @@ code = (
 
 You can assign this `code` to the `code` field of an account in your test's `pre` or `post` state.
 
-For a full list of available opcodes and their usage, see [`src/ethereum_test_vm/opcode.py`](../../src/ethereum_test_vm/opcode.py).
+For a full list of available opcodes and their usage, see the [Opcodes][ethereum_test_vm.opcode.Opcodes] reference.
 
 ### Higher-Level Constructs
 
-For more complex control flow, you can use constructs like `Switch` and `Case` from [`src/ethereum_test_tools/code/generators.py`](../../src/ethereum_test_tools/code/generators.py):
+For more complex control flow, you can use constructs like [Switch][ethereum_test_tools.code.generators.Switch] and [Case][ethereum_test_tools.code.generators.Case] from the [ethereum_test_tools.code.generators][ethereum_test_tools.code.generators] module:
 
 ```python
 from ethereum_test_tools.code.generators import Switch, Case
@@ -196,7 +196,7 @@ code = Switch(
 )
 ```
 
-See [`src/ethereum_test_tools/code/generators.py`](../../src/ethereum_test_tools/code/generators.py) for more details and additional constructs like `While` and `Conditional`.
+See the [ethereum_test_tools.code.generators][ethereum_test_tools.code.generators] reference for more details and additional constructs like [While][ethereum_test_tools.code.generators.While] and [Conditional][ethereum_test_tools.code.generators.Conditional].
 
 ### Converting Bytecode to Minilang
 
