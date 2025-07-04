@@ -167,7 +167,7 @@ def total_cost_floor_per_token():
 
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("zero_byte", [True, False])
-def test_block_full_of_empty_payload(
+def test_block_full_data(
     state_test: StateTestFiller,
     pre: Alloc,
     zero_byte: bool,
