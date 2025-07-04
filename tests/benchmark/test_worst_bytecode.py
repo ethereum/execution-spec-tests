@@ -9,7 +9,6 @@ import math
 
 import pytest
 
-from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -453,9 +452,9 @@ def test_worst_creates_collisions(
     # consume all the available gas. If we try to execute the CREATE(2) directly without being
     # wrapped **and capped in gas** in a previous CALL, we would run out of gas very fast!
     #
-    # The proxy contract calls CREATE(2) with empty initcode. The current call frame gas will 
-    # be exhausted because of the collision. For this reason the caller will carefully give us 
-    # the minimal gas necessary to execute the CREATE(2) and not waste any extra gas in the 
+    # The proxy contract calls CREATE(2) with empty initcode. The current call frame gas will
+    # be exhausted because of the collision. For this reason the caller will carefully give us
+    # the minimal gas necessary to execute the CREATE(2) and not waste any extra gas in the
     # CREATE(2)-failure.
     #
     # Note that these CREATE(2) calls will fail because in (**) below we pre-alloc contracts
@@ -475,7 +474,7 @@ def test_worst_creates_collisions(
         # DUP7 refers to the PUSH3 above.
         # DUP7 refers to the proxy contract address.
         Op.CALL(gas=Op.DUP7, address=Op.DUP7)
-    )  
+    )
     code = code_loop_precompile_call(code_prefix, attack_block, fork)
     tx_target = pre.deploy_contract(code=code)
 
