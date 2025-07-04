@@ -108,7 +108,7 @@ def test_clz_opcode_scenarios(
 
 
 @pytest.mark.valid_from("Osaka")
-def test_clz_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_clz_gas_cost(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test CLZ opcode gas cost."""
     contract_address = pre.deploy_contract(
         Op.SSTORE(
