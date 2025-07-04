@@ -204,10 +204,9 @@ def test_block_full_of_empty_payload(
     gas_available = attack_gas_limit - intrinsic_cost
 
     # Calculate the token_in_calldata
-    gas_available //= total_cost_floor_per_token
-
+    max_tokens_in_calldata = gas_available // total_cost_floor_per_token
     # Calculate the number of bytes that can be stored in the calldata
-    num_of_bytes = gas_available // 4 if zero_byte else attack_gas_limit
+    num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
     byte_data = b"\x00" if zero_byte else b"\xff"
 
     tx = Transaction(
