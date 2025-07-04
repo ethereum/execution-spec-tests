@@ -132,15 +132,17 @@ def test_clz_gas_cost(state_test: StateTestFiller, pre: Alloc, fork: Fork):
 
 
 @pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 64, 128, 255])
 @pytest.mark.parametrize("gas_cost_delta", [-2, -1, 0, 1, 2])
 def test_clz_gas_cost_boundary(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
+    bits: int,
     gas_cost_delta: int,
 ):
     """Test CLZ opcode gas cost boundary."""
-    code = Op.PUSH32(1 << 128) + Op.CLZ
+    code = Op.PUSH32(1 << bits) + Op.CLZ
 
     contract_address = pre.deploy_contract(code=code)
 
