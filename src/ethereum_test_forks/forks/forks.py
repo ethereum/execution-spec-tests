@@ -1479,6 +1479,6 @@ class BlockAccessLists(Prague):
     """A development fork for Block Access Lists."""
 
     @classmethod
-    def header_withdrawals_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Withdrawals are required starting from Shanghai."""
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Hash of the block access list is required starting from this fork."""
         return True
