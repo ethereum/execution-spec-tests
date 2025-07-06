@@ -1846,3 +1846,12 @@ class Amsterdam(Osaka):
     def is_deployed(cls) -> bool:
         """Return True if this fork is deployed."""
         return False
+
+
+class BlockAccessLists(Prague):
+    """A development fork for Block Access Lists."""
+
+    @classmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Hash of the block access list is required starting from this fork."""
+        return True

@@ -112,6 +112,7 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     ommers: List[Hash] = Field(default_factory=list)
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
+    bal_hash: Hash | None = Field(None)
 
     @computed_field  # type: ignore[misc]
     @cached_property
@@ -170,6 +171,10 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
             and self.parent_beacon_block_root is None
         ):
             updated_values["parent_beacon_block_root"] = 0
+
+        if fork.header_bal_hash_required(number, timestamp) and self.bal_hash is None:
+            # TODO:(@BAL): This should be set to the actual bal_hash value.
+            updated_values["bal_hash"] = Hash(0)
 
         return self.copy(**updated_values)
 
