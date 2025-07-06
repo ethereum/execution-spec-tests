@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-ACTIVATION_FORK_NAME = "Cancun"
+ACTIVATION_FORK_NAME = "BlockAccessLists"
 """The fork name for EIP-7928 activation."""
 
 
