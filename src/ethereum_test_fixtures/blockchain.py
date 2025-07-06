@@ -266,8 +266,6 @@ class FixtureExecutionPayload(CamelModel):
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
 
-    # block_access_lists: BlockAccessList | None = Field(None, description="Block Access List")
-
     @classmethod
     def from_fixture_header(
         cls,
@@ -415,7 +413,9 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
-    # access_lists: Bytes | None = Field(None, description="SSZ-encoded Block Access List data")
+    block_access_lists: Bytes | None = Field(
+        None, description="Serialized EIP-7928 Block Access Lists"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
