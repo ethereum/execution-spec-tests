@@ -166,7 +166,7 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
-    bal_hash: Annotated[Hash, HeaderForkRequirement("bal")] | None = Field(None)
+    bal_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -233,7 +233,9 @@ class FixtureHeader(CamelModel):
         extras = {
             "state_root": state_root,
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "bal_hash": Hash(0) if fork.header_bal_hash_required(0, 0) else None,
             "fork": fork,
+
         }
         return FixtureHeader(**environment_values, **extras)
 

@@ -247,7 +247,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
-    def header_bal_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """Return true if the header must contain block access list hash."""
         pass
 
