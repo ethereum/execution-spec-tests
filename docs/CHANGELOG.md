@@ -27,11 +27,6 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 🛠️ Framework
 
-#### 🔀 Refactoring
-
-- 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
-- ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
-
 #### `fill`
 
 - ✨ Add the `ported_from` test marker to track Python test cases that were converted from static fillers in [ethereum/tests](https://github.com/ethereum/tests) repository ([#1590](https://github.com/ethereum/execution-spec-tests/pull/1590)).
@@ -80,6 +75,8 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers [#1803](https://github.com/ethereum/execution-spec-tests/pull/1803).
 - 🔀 Rename `tests/zkevm/` to `tests/benchmark/` and replace the `zkevm` pytest mark with `benchmark` [#1804](https://github.com/ethereum/execution-spec-tests/pull/1804).
 - 🔀 Add fixture comparison check to optimize coverage workflow in CI ([#1833](https://github.com/ethereum/execution-spec-tests/pull/1833)).
+- 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability ([#1763](https://github.com/ethereum/execution-spec-tests/pull/1673)).
+- ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 
 ### 🧪 Test Cases
 
