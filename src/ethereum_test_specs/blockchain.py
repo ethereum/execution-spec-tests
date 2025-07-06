@@ -121,6 +121,7 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
+    bal_hash: Removable | Hash | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -269,6 +270,8 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
+        if not isinstance(self.requests_hash, Removable):
+            new_env_values["bal_hash"] = self.bal_hash
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
