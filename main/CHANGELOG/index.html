@@ -2563,15 +2563,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#refactoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔀 Refactoring
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#fill" class="md-nav__link">
     <span class="md-ellipsis">
       fill
@@ -24965,15 +24956,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#refactoring" class="md-nav__link">
-    <span class="md-ellipsis">
-      🔀 Refactoring
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#fill" class="md-nav__link">
     <span class="md-ellipsis">
       fill
@@ -25920,11 +25902,6 @@
 <p>This update renames the <code>zkevm</code> feature release to <code>benchmark_30M</code> and further expands the latter for 60M, 90M, and 120M block gas limits in <code>fixtures_benchmark_30M.tar.gz</code>, <code>fixtures_benchmark_60M.tar.gz</code>, <code>fixtures_benchmark_90M.tar.gz</code>, and <code>fixtures_benchmark_120M.tar.gz</code> respectively.</p>
 <p>Users can select any of the artifacts depending on their testing needs for their provers.</p>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
-<h4 id="refactoring">🔀 Refactoring<a class="headerlink" href="#refactoring" title="Permanent link">&para;</a></h4>
-<ul>
-<li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability.</li>
-<li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages.</li>
-</ul>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
 <li>✨ Add the <code>ported_from</code> test marker to track Python test cases that were converted from static fillers in <a href="https://github.com/ethereum/tests">ethereum/tests</a> repository (<a href="https://github.com/ethereum/execution-spec-tests/pull/1590">#1590</a>).</li>
@@ -25973,6 +25950,8 @@
 <li>🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers <a href="https://github.com/ethereum/execution-spec-tests/pull/1803">#1803</a>.</li>
 <li>🔀 Rename <code>tests/zkevm/</code> to <code>tests/benchmark/</code> and replace the <code>zkevm</code> pytest mark with <code>benchmark</code> <a href="https://github.com/ethereum/execution-spec-tests/pull/1804">#1804</a>.</li>
 <li>🔀 Add fixture comparison check to optimize coverage workflow in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/1833">#1833</a>).</li>
+<li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability (<a href="https://github.com/ethereum/execution-spec-tests/pull/1673">#1763</a>).</li>
+<li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856">#1856</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
