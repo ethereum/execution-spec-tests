@@ -55,6 +55,12 @@ remote = _create_execute_subcommand(
     "Execute tests using a remote RPC endpoint.",
 )
 
+eth_config = _create_execute_subcommand(
+    "eth-config",
+    "pytest-execute-eth-config.ini",
+    "Test a client configuration using a remote RPC endpoint.",
+)
+
 recover = _create_execute_subcommand(
     "recover",
     "pytest-execute-recover.ini",
