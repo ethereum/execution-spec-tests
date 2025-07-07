@@ -38,7 +38,6 @@ dependencies = [
     "semver>=3.0.1,<4",
     "pydantic>=2.10.0,<3",
     "rich>=13.7.0,<14",
-    "solc-select>=1.0.4,<2",
     "filelock>=3.15.1,<4",
     "ethereum-types>=0.2.1,<0.3",
     "pyyaml>=6.0.2,<7",

@@ -85,7 +85,6 @@ We welcome contributions via pull requests! This section will guide you through 
     uv python install 3.12
     uv python pin 3.12
     uv sync --all-extras
-    uv run solc-select use 0.8.24 --always-install
     ```
 
     See [installation troubleshooting](https://eest.ethereum.org/main/getting_started/installation_troubleshooting) if you encounter issues.

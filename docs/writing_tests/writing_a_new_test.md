@@ -156,10 +156,6 @@ The code can be in either of the following formats:
 - `str`, representing an hexadecimal format of the opcodes.
 - `Code` compilable object.
 
-Currently supported built-in compilable objects are:
-
-- `Yul` object containing [Yul source code](https://docs.soliditylang.org/en/latest/yul.html).
-
 `Code` objects can be concatenated together by using the `+` operator.
 
 ## Verifying the Accounts' Post States
@@ -201,9 +197,6 @@ It can verify the following properties of an account:
 
 - `code`: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".
-  
-  It is not recommended to verify Yul compiled code in the output account,
-  because the bytecode can change from version to version.
 
 - `storage`: Storage within the account represented as a `dict` object.
   All storage keys that are expected to be set must be specified, and if a
