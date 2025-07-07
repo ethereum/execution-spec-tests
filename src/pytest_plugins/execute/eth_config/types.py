@@ -1,12 +1,15 @@
 """Types used to test `eth_config`."""
 
-from typing import Dict, Tuple
+from binascii import crc32
+from pathlib import Path
+from typing import Dict, Self, Set
 
+import yaml
 from pydantic import BaseModel, Field
 
-from ethereum_test_base_types import Address, EthereumTestRootModel
+from ethereum_test_base_types import Address, CamelModel, EthereumTestRootModel, ForkHash, Hash
 from ethereum_test_forks import Fork
-from ethereum_test_rpc import ForkConfig, ForkConfigBlobSchedule
+from ethereum_test_rpc import EthConfigResponse, ForkConfig, ForkConfigBlobSchedule
 
 
 class AddressOverrideDict(EthereumTestRootModel):
@@ -19,7 +22,7 @@ class AddressOverrideDict(EthereumTestRootModel):
     root: Dict[Address, Address]
 
 
-class Config(BaseModel):
+class ForkConfigBuilder(BaseModel):
     """Class to describe a current or next fork + bpo configuration."""
 
     fork: Fork
@@ -27,6 +30,36 @@ class Config(BaseModel):
     chain_id: int
     address_overrides: AddressOverrideDict
     blob_schedule: ForkConfigBlobSchedule | None = None
+
+    def add(
+        self, fork_or_blob_schedule: Fork | ForkConfigBlobSchedule, activation_time: int
+    ) -> Self:
+        """Add or change the base fork or blob schedule."""
+        if isinstance(fork_or_blob_schedule, ForkConfigBlobSchedule):
+            blob_schedule: ForkConfigBlobSchedule = fork_or_blob_schedule
+            return self.__class__(
+                fork=self.fork,
+                activation_time=activation_time,
+                chain_id=self.chain_id,
+                address_overrides=self.address_overrides,
+                blob_schedule=blob_schedule,
+            )
+        else:
+            fork: Fork = fork_or_blob_schedule
+            blob_schedule_or_none = (
+                ForkConfigBlobSchedule(
+                    **fork.blob_schedule()[fork.name()].model_dump(mode="python"),
+                )
+                if fork.blob_schedule() is not None and fork.name() in fork.blob_schedule()
+                else self.blob_schedule
+            )
+            return self.__class__(
+                fork=fork,
+                activation_time=activation_time,
+                chain_id=self.chain_id,
+                address_overrides=self.address_overrides,
+                blob_schedule=blob_schedule_or_none,
+            )
 
     def get_config(self) -> ForkConfig:
         """
@@ -65,83 +98,81 @@ class Config(BaseModel):
         )
 
 
-class NetworkConfig(BaseModel):
+def calculate_fork_id(genesis_hash: Hash, activation_times: Set[int]) -> ForkHash:
+    """Calculate the fork Id given the genesis hash and each fork activation times."""
+    buffer = bytes(genesis_hash)
+    for activation_time in sorted(activation_times):
+        buffer += activation_time.to_bytes(length=8, byteorder="big")
+    return ForkHash(crc32(buffer))
+
+
+class NetworkConfig(CamelModel):
     """Ethereum network config."""
 
     chain_id: int
-    fork_activation_times: Dict[Fork, int]
-    blob_parameter_only_forks: Dict[int, ForkConfigBlobSchedule] = {}
+    genesis_hash: Hash
+    fork_activation_times: Dict[int, Fork]
+    bpo_fork_activation_times: Dict[int, ForkConfigBlobSchedule] = {}
     address_overrides: AddressOverrideDict = Field(default_factory=lambda: AddressOverrideDict({}))
 
-    def get_current_next_forks(self, current_time: int) -> Tuple[ForkConfig, ForkConfig | None]:
+    def get_eth_config(self, current_time: int) -> EthConfigResponse:
         """Get the current and next forks based on the given time."""
-        current_config: Config | None = None
-        next_config: Config | None = None
+        all_activations: Dict[int, Fork | ForkConfigBlobSchedule] = {
+            **self.fork_activation_times,
+            **self.bpo_fork_activation_times,
+        }
         network_kwargs = {
             "chain_id": self.chain_id,
             "address_overrides": self.address_overrides,
         }
-        for fork in reversed(self.fork_activation_times.keys()):
-            fork_activation_time = self.fork_activation_times[fork]
-            if fork_activation_time > current_time:
-                next_config = Config(
-                    fork=fork,
-                    activation_time=fork_activation_time,
-                    **network_kwargs,
-                )
-            else:
-                current_config = Config(
-                    fork=fork,
-                    activation_time=fork_activation_time,
-                    **network_kwargs,
-                )
-                break
-        assert current_config is not None, f"Unable to determine current fork at {current_time}"
-        for bpo_activation_time in reversed(self.blob_parameter_only_forks.keys()):
-            blob_schedule = self.blob_parameter_only_forks[bpo_activation_time]
-            if bpo_activation_time > current_time:
-                # The BPO activates at some point in the future.
-                if next_config is None:
-                    # The BPO is activated in the future and there's no other fork planned.
-                    # BPO is next.
-                    next_config = Config(
-                        fork=current_config.fork,
-                        activation_time=bpo_activation_time,
-                        **network_kwargs,
-                        blob_schedule=blob_schedule,
-                    )
-                else:
-                    # The BPO is acttivated in the future but there's already a fork (or other BPO)
-                    # scheduled.
-                    if bpo_activation_time > next_config.activation_time:
-                        # The BPO happens after the next scheduled fork, next fork happens first
-                        # so this BPO does not appear until next becomes current.
-                        pass
-                    elif bpo_activation_time == next_config.activation_time:
-                        # The BPO happens at the same time as the next scheduled fork,
-                        # so this blob configuration overrides the fork's one.
-                        next_config = Config(
-                            fork=next_config.fork,
-                            activation_time=bpo_activation_time,
-                            **network_kwargs,
-                            blob_schedule=blob_schedule,
-                        )
-                    else:
-                        # This BPO happens before the next fork, this BPO is next
-                        next_config = Config(
-                            fork=current_config.fork,
-                            activation_time=bpo_activation_time,
-                            **network_kwargs,
-                            blob_schedule=blob_schedule,
-                        )
-            else:
-                # The BPO is currently active
-                if bpo_activation_time >= current_config.activation_time:
-                    current_config.blob_schedule = blob_schedule
-                else:
-                    break
-
-        return (
-            current_config.get_config(),
-            next_config.get_config() if next_config is not None else None,
+        current_config_builder: ForkConfigBuilder = ForkConfigBuilder(
+            fork=all_activations[0],
+            activation_time=0,
+            **network_kwargs,
         )
+        current_activation_times: Set[int] = set()
+        next_config_builder: ForkConfigBuilder | None = None
+        next_activation_times: Set[int] = set()
+
+        for activation_time in all_activations.keys():
+            if activation_time == 0:
+                continue
+            if activation_time <= current_time:
+                current_config_builder = current_config_builder.add(
+                    all_activations[activation_time], activation_time
+                )
+                current_activation_times.add(activation_time)
+                next_activation_times.add(activation_time)
+            else:
+                next_config_builder = current_config_builder.add(
+                    all_activations[activation_time], activation_time
+                )
+                next_activation_times.add(activation_time)
+                break
+
+        current_config = current_config_builder.get_config()
+        kwargs = {
+            "current": current_config,
+            "currentHash": current_config.get_hash(),
+            "currentForkId": calculate_fork_id(self.genesis_hash, current_activation_times),
+        }
+        if next_config_builder is not None:
+            next_config = next_config_builder.get_config()
+            kwargs["next"] = next_config
+            kwargs["nextHash"] = next_config.get_hash()
+            kwargs["nextForkId"] = calculate_fork_id(self.genesis_hash, next_activation_times)
+
+        return EthConfigResponse(**kwargs)
+
+
+class NetworkConfigFile(EthereumTestRootModel):
+    """Root model to describe a file that contains network configurations."""
+
+    root: Dict[str, NetworkConfig]
+
+    @classmethod
+    def from_yaml(cls, path: Path) -> Self:
+        """Read the network configuration from a yaml file."""
+        with path.open("r") as file:
+            config_data = yaml.safe_load(file)
+            return cls.model_validate(config_data)

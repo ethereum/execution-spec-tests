@@ -1,5 +1,7 @@
 """Pytest plugin to test the `eth_config` RPC endpoint in a node."""
 
+from pathlib import Path
+
 import pytest
 from pydantic import TypeAdapter
 
@@ -26,6 +28,15 @@ def pytest_addoption(parser):
         type=str,
         default=None,
         help="Name of the network to verify for the RPC client.",
+    )
+    eth_config_group.addoption(
+        "--network-file",
+        action="store",
+        dest="network_file",
+        required=False,
+        type=Path,
+        default=None,
+        help="Path to the yml file that contains custom network configuration.",
     )
     eth_config_group.addoption(
         "--rpc-endpoint",

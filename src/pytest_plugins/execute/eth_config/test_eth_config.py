@@ -1,13 +1,19 @@
 """Pytest test to verify a client's configuration using `eth_config` RPC endpoint."""
 
 import time
+from os.path import realpath
+from pathlib import Path
 
 import pytest
 
 from ethereum_test_rpc import EthConfigResponse, EthRPC, ForkConfig
 
-from .networks import NETWORK_CONFIGS
-from .types import NetworkConfig
+from .types import NetworkConfig, NetworkConfigFile
+
+CURRENT_FILE = Path(realpath(__file__))
+CURRENT_FOLDER = CURRENT_FILE.parent
+
+DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
 
 
 @pytest.fixture(scope="session")
@@ -17,9 +23,31 @@ def eth_config_response(eth_rpc: EthRPC) -> EthConfigResponse | None:
 
 
 @pytest.fixture(scope="session")
-def network(request: pytest.FixtureRequest) -> NetworkConfig:
+def network_configs_path(request: pytest.FixtureRequest) -> Path:
+    """Get the path to the networks config file to be used."""
+    network_configs_file = request.config.getoption("network_file")
+    if network_configs_file is None:
+        return DEFAULT_NETWORK_CONFIGS_FILE
+    else:
+        return network_configs_file
+
+
+@pytest.fixture(scope="session")
+def network_configs(network_configs_path: Path) -> NetworkConfigFile:
+    """Get the file contents from the provided network configs file."""
+    return NetworkConfigFile.from_yaml(network_configs_path)
+
+
+@pytest.fixture(scope="session")
+def network(
+    request: pytest.FixtureRequest, network_configs: NetworkConfigFile, network_configs_path: Path
+) -> NetworkConfig:
     """Get the `eth_config` response from the client to be verified by all tests."""
-    return NETWORK_CONFIGS[request.config.getoption("network")]
+    network_name = request.config.getoption("network")
+    assert network_name in network_configs.root, (
+        f"Network {network_name} could not be found in file {network_configs_path}"
+    )
+    return network_configs.root[network_name]
 
 
 @pytest.fixture(scope="session")
@@ -28,25 +56,18 @@ def current_time() -> int:
     return int(time.time())
 
 
-@pytest.fixture
-def expected_current(network: NetworkConfig, current_time: int) -> ForkConfig:
+@pytest.fixture(scope="session")
+def expected_eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
     """Calculate the current fork value to verify against the client's response."""
-    expected_current, _ = network.get_current_next_forks(current_time)
-    return expected_current
-
-
-@pytest.fixture
-def expected_next(network: NetworkConfig, current_time: int) -> ForkConfig | None:
-    """Calculate the next fork value to verify against the client's response."""
-    _, expected_next = network.get_current_next_forks(current_time)
-    return expected_next
+    return network.get_eth_config(current_time)
 
 
 def test_eth_config_current(
     eth_config_response: EthConfigResponse | None,
-    expected_current: ForkConfig,
+    expected_eth_config: EthConfigResponse,
 ) -> None:
     """Validate `current` and `currentHash` field of the `eth_config` RPC endpoint."""
+    expected_current = expected_eth_config.current
     assert eth_config_response is not None, "Client did not return a valid `eth_config` response."
     assert eth_config_response.current is not None, (
         "Client did not return a valid `current` fork config."
@@ -64,9 +85,10 @@ def test_eth_config_current(
 
 def test_eth_config_next(
     eth_config_response: EthConfigResponse | None,
-    expected_next: ForkConfig | None,
+    expected_eth_config: EthConfigResponse,
 ) -> None:
     """Validate `next` and `nextHash` field of the `eth_config` RPC endpoint."""
+    expected_next: ForkConfig | None = expected_eth_config.next
     assert eth_config_response is not None, "Client did not return a valid `eth_config` response."
     if expected_next is None:
         assert eth_config_response.next is None, (
