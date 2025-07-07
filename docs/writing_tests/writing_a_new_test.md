@@ -146,17 +146,66 @@ which allows checking for an exact `gas_used` value.
 
 ## Writing code for the accounts in the test
 
-Account bytecode can be embedded in the test accounts by adding it to the `code`
-field of the `account` object, or the `data` field of the `tx` object if the
-bytecode is meant to be treated as init code or call data.
+Account bytecode can be "deployed" in a test's pre-state using the `pre` pytest fixture. The @ethereum/execution-spec-tests Python [`Opcodes`][ethereum_test_vm.Opcodes] minilang can be used to help write the bytecode in a readable form.
 
-The code can be in either of the following formats:
+### Using the Python Opcode Minilang
 
-- `bytes` object, representing the raw opcodes in binary format.
-- `str`, representing an hexadecimal format of the opcodes.
-- `Code` compilable object.
+EVM bytecode for tests should be written using the Python-based minilang provided by the [`Opcodes`][ethereum_test_vm.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
 
-`Code` objects can be concatenated together by using the `+` operator.
+#### Example: Simple Addition Contract
+
+```python
+from ethereum_test_vm.opcode import Opcodes
+
+code = (
+    Opcodes.PUSH1(0x02)
+    + Opcodes.PUSH1(0x03)
+    + Opcodes.ADD()
+    + Opcodes.PUSH1(0x00)
+    + Opcodes.SSTORE()
+    + Opcodes.STOP()
+)
+
+# within a test function, using the "pre" fixture
+contract_address = pre.deploy_contract(code=code)
+```
+
+You add this contract to the test's pre-state using the `pre` fixture or assign this `code` to the `code` field of an account in your test's `post` state. See the [state test tutorial](./tutorials/state_transition.md) for more help.
+
+For a full list of available opcodes and their usage, see [`Opcodes`][ethereum_test_vm.Opcodes].
+
+#### Higher-Level Constructs
+
+For more complex control flow, you can use constructs like [`Switch`][ethereum_test_tools.code.generators.Switch] and [`Case`][ethereum_test_tools.code.generators.Case] from the `ethereum_test_tools.code.generators` module:
+
+```python
+from ethereum_test_tools.code.generators import Switch, Case
+from ethereum_test_vm.opcode import Opcodes as Op
+
+code = Switch(
+    cases=[
+        Case(condition=Op.EQ(Op.CALLDATALOAD(0), 1), action=Op.PUSH1(0x01) + Op.STOP()),
+        Case(condition=Op.EQ(Op.CALLDATALOAD(0), 2), action=Op.PUSH1(0x02) + Op.STOP()),
+    ],
+    default_action=Op.PUSH1(0x00) + Op.STOP(),
+)
+```
+
+The `ethereum_test_tools.code.generators` module also defines other high-level constructs like [`While`][ethereum_test_tools.code.generators.While] and [`Conditional`][ethereum_test_tools.code.generators.Conditional].
+
+#### Converting Bytecode to Minilang
+
+If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI tool](../library/cli/evm_bytes.md) to convert it to the EEST Python opcode minilang automatically, for example:
+
+```console
+uv run evm_bytes hex-string 0x604260005260206000F3
+# ->
+# Op.PUSH1[0x42] + Op.PUSH1[0x0] + Op.MSTORE + Op.PUSH1[0x20] + Op.PUSH1[0x0] + Op.RETURN
+```
+
+#### Restrictions: No Yul in Python Test Cases
+
+As of [PR #1779](https://github.com/ethereum/execution-spec-tests/pull/1779), the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.
 
 ## Verifying the Accounts' Post States
 
