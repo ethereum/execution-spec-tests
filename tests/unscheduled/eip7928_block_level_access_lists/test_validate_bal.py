@@ -1,8 +1,8 @@
 """Tests for validating EIP-7928: Block-level Access Lists (BAL)."""
 
 import pytest
+from pokebal.bal.types import BlockAccessList
 
-from ethereum_test_base_types import Bytes
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -29,6 +29,9 @@ class TestBALValidity:
         """Test BAL hash generation for basic ETH transfer."""
         # Setup accounts for basic ETH transfer
 
+        # TODO: Populate BAL.
+        bal = BlockAccessList()
+
         transfer_amount = 1000
         sender = pre.fund_eoa()
         recipient = pre.fund_eoa(amount=0)
@@ -40,12 +43,8 @@ class TestBALValidity:
             value=1000,
         )
 
-        # This represents a mock SSZ-encoded Block Access List
-        mock_bal = Bytes(b"Mock BAL DATA")
-        bal_hash = mock_bal.keccak256()
-
         # Create block with custom header that includes BAL hash
-        block = Block(txs=[tx], bal_hash=bal_hash)
+        block = Block(txs=[tx], block_access_lists=bal.serialize())
 
         # Execute the blockchain test
         blockchain_test(
