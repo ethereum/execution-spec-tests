@@ -23,19 +23,19 @@ coinbaseWarmAccountCallGasFail:
 
            let callgas := 100
            switch calladdr
-           case 0x1000 {
+           case <contract:0x0000000000000000000000000000000000001000> {
              // Extra: COINBASE + 6xPUSH1 + DUP6 + 2xPOP
              callgas := add(callgas, 27)
            }
-           case 0x2000 {
+           case <contract:0x0000000000000000000000000000000000002000> {
              // Extra: COINBASE + 6xPUSH1 + DUP6 + 2xPOP
              callgas := add(callgas, 27)
            }
-           case 0x3000 {
+           case <contract:0x0000000000000000000000000000000000003000> {
              // Extra: COINBASE + 5xPUSH1 + DUP6 + 2xPOP
              callgas := add(callgas, 24)
            }
-           case 0x4000 {
+           case <contract:0x0000000000000000000000000000000000004000> {
              // Extra: COINBASE + 5xPUSH1 + DUP6 + 2xPOP
              callgas := add(callgas, 24)
            }
@@ -105,13 +105,13 @@ coinbaseWarmAccountCallGasFail:
   transaction:
     data:
     # CALL - WRMCB0009
-    - :abi f(uint) 0x1000
+    - :abi f(uint) <contract:0x0000000000000000000000000000000000001000>
     # CALLCODE - WRMCB0010
-    - :abi f(uint) 0x2000
+    - :abi f(uint) <contract:0x0000000000000000000000000000000000002000>
     # DELEGATECALL - WRMCB0011
-    - :abi f(uint) 0x3000
+    - :abi f(uint) <contract:0x0000000000000000000000000000000000003000>
     # STATICCALL - WRMCB0012
-    - :abi f(uint) 0x4000
+    - :abi f(uint) <contract:0x0000000000000000000000000000000000004000>
     gasLimit:
     - 80000
     gasPrice: 10

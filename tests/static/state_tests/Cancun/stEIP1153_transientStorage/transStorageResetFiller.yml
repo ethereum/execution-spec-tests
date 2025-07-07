@@ -86,15 +86,15 @@ transStorageReset:
     # reverter(uint)
     # 
     # Show that a TSTORE followed by a revert does not affect subsequent TLOADs.
-    # This works by calling 0x00..<contract:0x000000000000000000000000000000000000dead>, which itself calls back this contract
+    # This works by calling 0x00..0dead, which itself calls back this contract
     # and then reverts.
     # 
     # The parameter includes three bytes:
     # 
     # 0xAABBCC
     #
-    # 0xAA - type of call between this contract and <contract:0x000000000000000000000000000000000000dead>
-    # 0xBB - the type of call between <contract:0x000000000000000000000000000000000000dead> and back to this contract
+    # 0xAA - type of call between this contract and 0xDEAD
+    # 0xBB - the type of call between 0xDEAD and back to this contract
     # 0xCC - the type of revert (or stop, invalid, etc.)
     000000000000000000000000000000003f8390d5:
       balance: 0
@@ -277,7 +277,7 @@ transStorageReset:
             0x10: 0x01   # call was successful
 
 
-    # Because the first call is CALLCODE or DELEGATECALL, the SSTORE in <contract:0x000000000000000000000000000000000000dead> 
+    # Because the first call is CALLCODE or DELEGATECALL, the SSTORE in 0xDEAD 
     # Writes to the storage of 0x003f8390d5
     - indexes:
         data:
@@ -298,7 +298,7 @@ transStorageReset:
           storage:
             0x00: 0xBEEF # The call with tstore(0, 0xBEEF) was successful
             0x01: 1      # The call was successful
-            0x10: 0x01   # <contract:0x000000000000000000000000000000000000dead>'s call was successful
+            0x10: 0x01   # 0xDEAD's call was successful
 
 
 
@@ -317,12 +317,12 @@ transStorageReset:
           storage:
             0x00: 0xBAD0BEEF # The call with tstore(0, 0xBAD0BEEF) was successful
             0x01: 1      # The call was successful
-            0x10: 0x7E57 # <contract:0x000000000000000000000000000000000000dead> didn't have any call, so the result stayed 0x7E57
+            0x10: 0x7E57 # 0xDEAD didn't have any call, so the result stayed 0x7E57
 
 
 
 
-    # The main test. If <contract:0x000000000000000000000000000000000000dead> reverts, the call inside it that changed the transient
+    # The main test. If 0xDEAD reverts, the call inside it that changed the transient
     # storage does not have any effect.
     - indexes:
         data: 
@@ -368,8 +368,8 @@ transStorageReset:
 
 
 
-    # The reverter calls <contract:0x000000000000000000000000000000000000dead>, which then stops (no revert). However, 
-    # because it was a CALL, <contract:0x000000000000000000000000000000000000dead> has different transient storage from 
+    # The reverter calls 0xDEAD, which then stops (no revert). However, 
+    # because it was a CALL, 0xDEAD has different transient storage from 
     # the reverter.
     - indexes:
         data: 

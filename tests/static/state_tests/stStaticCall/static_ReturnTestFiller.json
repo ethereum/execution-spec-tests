@@ -16,7 +16,7 @@
                 },
                 "network" : [">=Cancun"],
                 "result" : {
-                    "<contract:target:0x194f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+                    "194f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
                         "storage" : {
                             "0x00" : "0x15"
                         }
@@ -25,21 +25,21 @@
             }
         ],
         "pre" : {
-            "<contract:target:0x194f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "194f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
                 "balance" : "0",
-                "code" : "{(STATICCALL 2000 <contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b> 30 1 31 1) [[0]](MLOAD 0) (RETURN 30 2)}",
+                "code" : "{(STATICCALL 2000 0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b 30 1 31 1) [[0]](MLOAD 0) (RETURN 30 2)}",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "<eoa:sender:0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "a94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
                 "balance" : "100000000",
                 "code" : "",
                 "nonce" : "0",
                 "storage" : {
                 }
             },
-            "<contract:0xb94f5374fce5edbc8e2a8697c15331677e6ebf0b>" : {
+            "b94f5374fce5edbc8e2a8697c15331677e6ebf0b" : {
                 "balance" : "100000",
                 "code" : "{(MSTORE 0 0x15) (RETURN 31 1)}",
                 "nonce" : "0",
@@ -56,8 +56,8 @@
             ],
             "gasPrice" : "10",
             "nonce" : "0",
-            "secretKey" : "<eoa:sender:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>",
-            "to" : "<contract:target:0x194f5374fce5edbc8e2a8697c15331677e6ebf0b>",
+            "secretKey" : "45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8",
+            "to" : "194f5374fce5edbc8e2a8697c15331677e6ebf0b",
             "value" : [
                 "0"
             ]

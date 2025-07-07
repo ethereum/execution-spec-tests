@@ -20,6 +20,7 @@ class Tag(BaseModel, Generic[T]):
     name: str
     type: ClassVar[str] = ""
     regex_pattern: ClassVar[re.Pattern] = re.compile(r"<\w+:(\w+)(:[^>]+)?")
+    original_string: str | None = None  # Store the original tag string for replacement
 
     def __hash__(self) -> int:
         """Hash based on original string for use as dict key."""
@@ -32,7 +33,7 @@ class Tag(BaseModel, Generic[T]):
         if isinstance(data, str):
             if m := cls.regex_pattern.match(data):
                 name = m.group(1)
-                return {"name": name}
+                return {"name": name, "original_string": data}
         return data
 
     def resolve(self, tags: TagDict) -> T:
@@ -62,7 +63,34 @@ class ContractTag(AddressTag):
     """Contract tag."""
 
     type: ClassVar[str] = "contract"
-    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<contract:(\w+)(:0x.+)?>")
+    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<contract:([^:>]+)(?::(0x[a-fA-F0-9]+))?>")
+    debug_address: Address | None = None  # Optional hard-coded address for debugging
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_from_string(cls, data: Any) -> Any:
+        """Validate the contract tag from string: <contract:name:0x...> or <contract:0x...>."""
+        if isinstance(data, str):
+            if m := cls.regex_pattern.match(data):
+                name_or_addr = m.group(1)
+                debug_addr = m.group(2) if m.lastindex and m.lastindex >= 2 else None
+
+                # Check if it's a 2-part format with an address
+                if name_or_addr.startswith("0x") and len(name_or_addr) == 42:
+                    # For 2-part format, use the full address as the name
+                    # This ensures all references to the same address get the same tag name
+                    return {
+                        "name": name_or_addr,
+                        "debug_address": Address(name_or_addr),
+                        "original_string": data,
+                    }
+                else:
+                    # Normal 3-part format - use the name as-is
+                    result = {"name": name_or_addr, "original_string": data}
+                    if debug_addr:
+                        result["debug_address"] = Address(debug_addr)
+                    return result
+        return data
 
 
 class CreateTag(AddressTag):
@@ -87,6 +115,7 @@ class CreateTag(AddressTag):
                 kwargs = {
                     "create_type": create_type,
                     "name": name,
+                    "original_string": data,
                 }
                 if create_type == "create":
                     kwargs["nonce"] = m.group(3)
@@ -116,18 +145,50 @@ class SenderTag(AddressTag):
     """Sender tag."""
 
     type: ClassVar[str] = "eoa"
-    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(:0x.+)?>")
+    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(?::(0x[a-fA-F0-9]+))?>")
+    debug_address: Address | None = None  # Optional hard-coded address for debugging
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_from_string(cls, data: Any) -> Any:
+        """Validate the sender tag from string: <eoa:name:0x...>."""
+        if isinstance(data, str):
+            if m := cls.regex_pattern.match(data):
+                name = m.group(1)
+                debug_addr = m.group(2) if m.lastindex and m.lastindex >= 2 else None
+
+                result = {"name": name, "original_string": data}
+                if debug_addr:
+                    result["debug_address"] = Address(debug_addr)
+                return result
+        return data
 
 
 class SenderKeyTag(Tag[EOA]):
     """Sender eoa tag."""
 
     type: ClassVar[str] = "eoa"
-    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(:0x.+)?>")
+    regex_pattern: ClassVar[re.Pattern] = re.compile(r"<eoa:(\w+)(?::(0x[a-fA-F0-9]+))?>")
+    debug_key: str | None = None  # Optional hard-coded key for debugging
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_from_string(cls, data: Any) -> Any:
+        """Validate the sender key tag from string: <eoa:name:0xkey...>."""
+        if isinstance(data, str):
+            if m := cls.regex_pattern.match(data):
+                name = m.group(1)
+                debug_key = m.group(2) if m.lastindex and m.lastindex >= 2 else None
+
+                result = {"name": name, "original_string": data}
+                if debug_key:
+                    result["debug_key"] = debug_key
+                return result
+        return data
 
     def resolve(self, tags: TagDict) -> EOA:
         """Resolve the tag."""
         assert self.name in tags, f"Tag {self.name} not found in tags"
-        eoa = tags[self.name]
-        assert isinstance(eoa, EOA), f"Tag {self.name} is not an EOA"
-        return eoa
+        result = tags[self.name]
+        assert isinstance(result, EOA), f"Expected EOA but got {type(result)} for tag {self.name}"
+        return result

@@ -186,7 +186,8 @@ class GeneralTransactionInFiller(BaseModel, TagDependentData):
         kwargs["gas_limit"] = self.gas_limit[g]
 
         if isinstance(self.secret_key, Tag):
-            kwargs["sender"] = self.secret_key.resolve(tags)
+            sender = self.secret_key.resolve(tags)
+            kwargs["secret_key"] = sender.key
         else:
             kwargs["secret_key"] = self.secret_key
 

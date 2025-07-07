@@ -1,15 +1,13 @@
 """Ethereum General State Test filler static test spec parser."""
 
-from typing import Callable, ClassVar, Dict, List, Self, Union
+from typing import Callable, ClassVar, List, Self, Union
 
 import pytest
 from _pytest.mark.structures import ParameterSet
 from pydantic import BaseModel, Field, model_validator
 
-from ethereum_test_base_types import Address
 from ethereum_test_forks import Fork
-from ethereum_test_types import EOA, Alloc
-from ethereum_test_types import Alloc as BaseAlloc
+from ethereum_test_types import Alloc
 
 from ..base_static import BaseStaticTest
 from ..state import StateTestFiller
@@ -37,11 +35,6 @@ class StateStaticTest(BaseStaticTest):
     pre: PreInFiller
     transaction: GeneralTransactionInFiller
     expect: List[ExpectSectionInStateTestFiller]
-
-    _alloc_registry: Dict[str, BaseAlloc] = {}
-    _tag_to_address_map: Dict[str, Dict[str, Address]] = {}
-    _tag_to_eoa_map: Dict[str, Dict[str, EOA]] = {}
-    _request: pytest.FixtureRequest | None = None
 
     class Config:
         """Model Config."""

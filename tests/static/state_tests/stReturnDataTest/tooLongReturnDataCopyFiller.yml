@@ -58,7 +58,7 @@ tooLongReturnDataCopy:
       storage: {}
 
 
-    # Call <contract:0x000000000000000000000000000000000000c0de> or <contract:0x0000000000000000000000000000000000000bad> and then copy return data (possibly an excessive
+    # Call 0xC0DE or 0x0BAD and then copy return data (possibly an excessive
     # amount of it)
     <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>:
       balance: 1000000000000000000

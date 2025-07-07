@@ -66,20 +66,29 @@ class CodeInFiller(BaseModel, TagDependentData):
     @model_validator(mode="before")
     @classmethod
     def validate_from_string(cls, code: Any) -> Any:
-        """Validate the sender tag from string: <eoa:name:0x...>."""
+        """Validate from string, separating label from code source."""
         if isinstance(code, str):
             label_marker = ":label"
-            label_index = code.find(label_marker)
+            # Only look for label at the beginning of the string (possibly after whitespace)
+            stripped_code = code.lstrip()
 
             # Parse :label into code options
             label = None
-            if label_index != -1:
+            source = code
+
+            # Check if the code starts with :label
+            if stripped_code.startswith(label_marker):
+                # Calculate the position in the original string
+                label_index = code.find(label_marker)
                 space_index = code.find(" ", label_index + len(label_marker) + 1)
                 if space_index == -1:
                     label = code[label_index + len(label_marker) + 1 :]
+                    source = ""  # No source after label
                 else:
                     label = code[label_index + len(label_marker) + 1 : space_index]
-            return {"label": label, "source": code}
+                    source = code[space_index + 1 :].strip()
+
+            return {"label": label, "source": source}
         return code
 
     def model_post_init(self, context):
@@ -101,18 +110,11 @@ class CodeInFiller(BaseModel, TagDependentData):
             return bytes.fromhex(hex_str)
 
         if not isinstance(raw_code, str):
-            raise ValueError(f"parse_code(code: str) code is not string: {raw_code}")
+            raise ValueError(f"code is of type {type(raw_code)} but expected a string: {raw_code}")
         if len(raw_code) == 0:
             return b""
 
         compiled_code = ""
-
-        raw_marker = ":raw 0x"
-        raw_index = raw_code.find(raw_marker)
-        abi_marker = ":abi"
-        abi_index = raw_code.find(abi_marker)
-        yul_marker = ":yul"
-        yul_index = raw_code.find(yul_marker)
 
         def replace_tags(raw_code, keep_prefix: bool) -> str:
             for tag in self._dependencies.values():
@@ -121,8 +123,21 @@ class CodeInFiller(BaseModel, TagDependentData):
                 substitution_address = f"{tag.resolve(tags)}"
                 if not keep_prefix and substitution_address.startswith("0x"):
                     substitution_address = substitution_address[2:]
-                raw_code = re.sub(f"<\\w+:{tag.name}(:0x.+)?>", substitution_address, raw_code)
+                # Use the original string if available, otherwise construct a pattern
+                if hasattr(tag, "original_string") and tag.original_string:
+                    raw_code = raw_code.replace(tag.original_string, substitution_address)
+                else:
+                    raw_code = re.sub(f"<\\w+:{tag.name}(:0x.+)?>", substitution_address, raw_code)
             return raw_code
+
+        raw_marker = ":raw 0x"
+        raw_index = raw_code.find(raw_marker)
+        if raw_index == -1:
+            raw_index = replace_tags(raw_code, True).find(raw_marker)
+        abi_marker = ":abi"
+        abi_index = raw_code.find(abi_marker)
+        yul_marker = ":yul"
+        yul_index = raw_code.find(yul_marker)
 
         # Parse :raw or 0x
         if raw_index != -1 or raw_code.lstrip().startswith("0x"):
@@ -190,7 +205,11 @@ class CodeInFiller(BaseModel, TagDependentData):
                 return function_signature
 
             # Parse lllc code
-            elif raw_code.lstrip().startswith("{") or raw_code.lstrip().startswith("(asm"):
+            elif (
+                raw_code.lstrip().startswith("{")
+                or raw_code.lstrip().startswith("(asm")
+                or raw_code.lstrip().startswith(":raw 0x")
+            ):
                 with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
                     tmp.write(raw_code)
                     tmp_path = tmp.name
@@ -199,8 +218,9 @@ class CodeInFiller(BaseModel, TagDependentData):
                 result = subprocess.run(["lllc", tmp_path], capture_output=True, text=True)
 
                 # - using docker:
-                #   If the running machine does not have lllc installed, we can use docker to run lllc,
-                #   but we need to start a container first, and the process is generally slower.
+                #   If the running machine does not have lllc installed, we can use docker to
+                #   run lllc, but we need to start a container first, and the process is generally
+                #   slower.
                 # from .docker import get_lllc_container_id
                 # result = subprocess.run(
                 #     ["docker", "exec", get_lllc_container_id(), "lllc", tmp_path[5:]],
