@@ -642,6 +642,24 @@ class Homestead(Frontier):
         return fn
 
 
+class DAOFork(Homestead, ignore=True):
+    """DAO fork."""
+
+    pass
+
+
+class Tangerine(DAOFork, ignore=True):
+    """Tangerine fork (EIP-150)."""
+
+    pass
+
+
+class SpuriousDragon(Tangerine, ignore=True):
+    """SpuriousDragon fork (EIP-155, EIP-158)."""
+
+    pass
+
+
 class Byzantium(Homestead):
     """Byzantium fork."""
 
