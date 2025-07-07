@@ -20171,8 +20171,6 @@
       
         
       
-        
-      
     
     
       
@@ -20338,155 +20336,6 @@
   
   <span class="md-ellipsis">
     <code>test_coverage</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Yul
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3" id="__nav_9_11_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_11_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3">
-            <span class="md-nav__icon md-icon"></span>
-            Yul
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/test_yul_example/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Yul Example
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3_2" id="__nav_9_11_3_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_9_11_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            Test Yul Example
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tests/homestead/yul/test_yul_example/test_yul/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_yul</code>
   </span>
   
 
@@ -22508,6 +22357,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -22582,6 +22435,48 @@
   
   <span class="md-ellipsis">
     <code>test_worst_initcode_jumpdest_analysis</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_create</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_creates_collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_creates_collisions</code>
   </span>
   
 
@@ -24162,14 +24057,13 @@
 <p class="admonition-title">Expected coverage loss</p>
 <p>EEST uses <a href="https://docs.pytest.org/en/stable/">pytest</a>, a popular Python testing framework, to help orchestrate testing Ethereum specifications, while <em>original tests</em> relied on large, static contracts and the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while <em>original tests</em> preferred a single static contract with multiple test vectors determined by transaction input data.</p>
 <p>It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.</p>
-<p>Also note that yul tests and possibly other tests used <code>CALLDATALOAD</code> that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.</p>
-<p>For example, review the <a href="https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289">discussion in this PR.</a></p>
+<p>For example, review the [discussion in this PR] to see an example of why and how coverage loss can occur.(<a href="https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289">https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289</a>)</p>
 </div>
 <h2 id="resolving-coverage-gaps-from-yul-compilation">Resolving Coverage Gaps from Yul Compilation<a class="headerlink" href="#resolving-coverage-gaps-from-yul-compilation" title="Permanent link">&para;</a></h2>
 <p>When porting tests from ethereum/tests, you may encounter coverage gaps that are false positives. This commonly occurs because:</p>
 <ul>
 <li><strong>Original tests</strong> often used Yul to define smart contracts, and solc compilation introduces additional opcodes that aren't specifically under test</li>
-<li><strong>EEST ports</strong> typically use the explicit EEST Opcode mini-language, which is more precise in opcode definition</li>
+<li><strong>EEST ports</strong> use the explicit EEST Opcode mini-language, which is more precise in opcode definition</li>
 </ul>
 <p>If coverage analysis shows missing opcodes that were only present due to Yul compilation artifacts (not the actual feature being tested), this can be resolved during PR review by adding the <code>coverage_missed_reason</code> parameter:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">ported_from</span><span class="p">(</span>
@@ -24207,6 +24101,7 @@
     <nav>
       
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
+        <a href="mailto:felix314159@users.noreply.github.com">felix</a>, 
         <a href="mailto:10168946+raxhvl@users.noreply.github.com">raxhvl</a>
     </nav>
   </span>

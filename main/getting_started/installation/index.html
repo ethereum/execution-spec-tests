@@ -20144,8 +20144,6 @@
       
         
       
-        
-      
     
     
       
@@ -20311,155 +20309,6 @@
   
   <span class="md-ellipsis">
     <code>test_coverage</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Yul
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3" id="__nav_9_11_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_11_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3">
-            <span class="md-nav__icon md-icon"></span>
-            Yul
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/test_yul_example/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Yul Example
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3_2" id="__nav_9_11_3_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_9_11_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            Test Yul Example
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tests/homestead/yul/test_yul_example/test_yul/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_yul</code>
   </span>
   
 
@@ -22481,6 +22330,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -22555,6 +22408,48 @@
   
   <span class="md-ellipsis">
     <code>test_worst_initcode_jumpdest_analysis</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_create</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_creates_collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_creates_collisions</code>
   </span>
   
 
@@ -24036,7 +23931,7 @@
 <p>If installed via <code>curl</code>, <code>uv</code> will download Python for your target platform if one of the required versions (Python 3.11 or 3.12) is not available natively.</p>
 <h2 id="installation-commands">Installation Commands<a class="headerlink" href="#installation-commands" title="Permanent link">&para;</a></h2>
 <p>Clone <a href="https://github.com/ethereum/execution-spec-tests">execution-spec-tests</a> and install its dependencies. We recommend using Python 3.12, the following uses <code>uv</code> to download and configures 3.12 to be the Python version used in execution-spec-tests:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">All x86-64 platforms and ARM64 macOS</label><label for="__tabbed_2_2">ARM64 Linux</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">All platforms</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
@@ -24044,20 +23939,11 @@
 <span class="go">uv python install 3.12</span>
 <span class="go">uv python pin 3.12</span>
 <span class="go">uv sync --all-extras</span>
-<span class="go">uv run solc-select use 0.8.24 --always-install</span>
 </code></pre></div>
 </div>
-<div class="tabbed-block">
-<p><div class="highlight"><pre><span></span><code><span class="go">git clone https://github.com/ethereum/execution-spec-tests</span>
-<span class="go">uv python install 3.12</span>
-<span class="go">uv python pin 3.12</span>
-<span class="go">cd execution-spec-tests</span>
-<span class="go">uv sync --all-extras</span>
-</code></pre></div>
-Then follow <a href="../installation_troubleshooting/#problem-exception-failed-to-compile-yul-source">this guide</a> to build the <code>solc</code> binary from source and copy it to the expected location.</p>
 </div>
 </div>
-</div>
+<p>Static tests/maintainers only: To learn how to build the <code>solc</code> binary from source (optional) follow <a href="../installation_troubleshooting/#problem-exception-failed-to-compile-yul-source">this guide</a>.</p>
 <h2 id="installation-troubleshooting">Installation Troubleshooting<a class="headerlink" href="#installation-troubleshooting" title="Permanent link">&para;</a></h2>
 <p>If you encounter issues during installation, see the <a href="../installation_troubleshooting/">Installation Troubleshooting</a> guide.</p>
 

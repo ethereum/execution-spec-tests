@@ -20066,8 +20066,6 @@
       
         
       
-        
-      
     
     
       
@@ -20233,155 +20231,6 @@
   
   <span class="md-ellipsis">
     <code>test_coverage</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../tests/homestead/yul/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Yul
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3" id="__nav_9_11_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_11_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3">
-            <span class="md-nav__icon md-icon"></span>
-            Yul
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../tests/homestead/yul/test_yul_example/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Yul Example
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3_2" id="__nav_9_11_3_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_9_11_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            Test Yul Example
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../tests/homestead/yul/test_yul_example/test_yul/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_yul</code>
   </span>
   
 
@@ -22403,6 +22252,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -22477,6 +22330,48 @@
   
   <span class="md-ellipsis">
     <code>test_worst_initcode_jumpdest_analysis</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/benchmark/test_worst_bytecode/test_worst_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_create</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/benchmark/test_worst_bytecode/test_worst_creates_collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_creates_collisions</code>
   </span>
   
 
@@ -23988,7 +23883,6 @@
 <li>Repository set-up, see <a href="../../../getting_started/installation/">installation</a>.and run an execution specification test as outlined in the .</li>
 <li>Able to run <code>fill</code>, see <a href="../../../filling_tests/getting_started/">Getting Started: Filling Tests</a>.</li>
 <li>Understand how to read a <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html">blockchain test</a>.</li>
-<li>Know the basics of <a href="https://docs.soliditylang.org/en/latest/yul.html">Yul</a>, which is an EVM assembly language.</li>
 <li>Familiarity with <a href="https://docs.python.org/3/tutorial/">Python</a>.</li>
 <li>Understand how to write an execution spec <a href="../state_transition/">state transition test</a>.</li>
 </ul>
@@ -23999,15 +23893,7 @@
 <p>A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at <code>storage[0]</code>. When it is called storage cell <code>0</code> gets the current block <a href="https://www.evm.codes/#43?fork=merge">number</a>, and the pointer is incremented to the next value.</p>
 <div class="highlight"><pre><span></span><code><span class="n">contract_addr</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
     <span class="n">balance</span><span class="o">=</span><span class="mi">1000000000000000000000</span><span class="p">,</span>
-    <span class="n">code</span><span class="o">=</span><span class="n">Yul</span><span class="p">(</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        {</span>
-<span class="sd">            let next_slot := sload(0)</span>
-<span class="sd">            sstore(next_slot, number())</span>
-<span class="sd">            sstore(0, add(next_slot, 1))</span>
-<span class="sd">        }</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-    <span class="p">),</span>
+    <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
     <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
         <span class="mh">0x00</span><span class="p">:</span> <span class="mh">0x01</span><span class="p">,</span>
     <span class="p">},</span>
@@ -24120,6 +24006,7 @@
       
         <a href="mailto:qbzzt1@gmail.com">Ori Pomerantz</a>, 
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:felix314159@users.noreply.github.com">felix</a>, 
         <a href="mailto:73983677+omahs@users.noreply.github.com">omahs</a>, 
         <a href="mailto:spencer@spencertaylorbrown.uk">spencer-tb</a>
     </nav>

@@ -20273,8 +20273,6 @@
       
         
       
-        
-      
     
     
       
@@ -20440,155 +20438,6 @@
   
   <span class="md-ellipsis">
     <code>test_coverage</code>
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Yul
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3" id="__nav_9_11_3_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_11_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3">
-            <span class="md-nav__icon md-icon"></span>
-            Yul
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_11_3_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../tests/homestead/yul/test_yul_example/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    Test Yul Example
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_9_11_3_2" id="__nav_9_11_3_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_9_11_3_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9_11_3_2">
-            <span class="md-nav__icon md-icon"></span>
-            Test Yul Example
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../tests/homestead/yul/test_yul_example/test_yul/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    <code>test_yul</code>
   </span>
   
 
@@ -22610,6 +22459,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -22684,6 +22537,48 @@
   
   <span class="md-ellipsis">
     <code>test_worst_initcode_jumpdest_analysis</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_create/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_create</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/benchmark/test_worst_bytecode/test_worst_creates_collisions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_worst_creates_collisions</code>
   </span>
   
 
@@ -24415,10 +24310,6 @@ bytecode is meant to be treated as init code or call data.</p>
 <li><code>str</code>, representing an hexadecimal format of the opcodes.</li>
 <li><code>Code</code> compilable object.</li>
 </ul>
-<p>Currently supported built-in compilable objects are:</p>
-<ul>
-<li><code>Yul</code> object containing <a href="https://docs.soliditylang.org/en/latest/yul.html">Yul source code</a>.</li>
-</ul>
 <p><code>Code</code> objects can be concatenated together by using the <code>+</code> operator.</p>
 <h2 id="verifying-the-accounts-post-states">Verifying the Accounts' Post States<a class="headerlink" href="#verifying-the-accounts-post-states" title="Permanent link">&para;</a></h2>
 <p>The state of the accounts after all blocks/transactions have been executed is
@@ -24457,15 +24348,13 @@ verified in the post state.</p>
 <p><code>code</code>: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".</p>
 </li>
-</ul>
-<p>It is not recommended to verify Yul compiled code in the output account,
-  because the bytecode can change from version to version.</p>
-<ul>
-<li><code>storage</code>: Storage within the account represented as a <code>dict</code> object.
+<li>
+<p><code>storage</code>: Storage within the account represented as a <code>dict</code> object.
   All storage keys that are expected to be set must be specified, and if a
   key is skipped, it is implied that its expected value is zero.
   Setting this property to <code>{}</code> (empty <code>dict</code>), means that all the keys in the
-  account must be unset (equal to zero).</li>
+  account must be unset (equal to zero).</p>
+</li>
 </ul>
 <p>All account's properties are optional, and they can be skipped or set to <code>None</code>,
 which means that no check will be performed on that specific account property.</p>
