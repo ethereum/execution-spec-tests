@@ -1,9 +1,20 @@
 """Abstract base class for Ethereum forks."""
 
 from abc import ABC, ABCMeta, abstractmethod
-from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Sized, Tuple, Type
-
-from semver import Version
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Protocol,
+    Sized,
+    Tuple,
+    Type,
+    Union,
+)
 
 from ethereum_test_base_types import AccessList, Address, BlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
@@ -154,6 +165,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     _transition_tool_name: ClassVar[Optional[str]] = None
     _solc_name: ClassVar[Optional[str]] = None
     _ignore: ClassVar[bool] = False
+
+    # make mypy happy
+    BLOB_CONSTANTS: ClassVar[Dict[str, Union[int, Literal["big"]]]] = {}
+
+    @classmethod
+    def get_blob_constant(cls, name: str) -> int | Literal["big"]:
+        """Return value of requested blob constant."""
+        raise NotImplementedError
 
     def __init_subclass__(
         cls,
@@ -553,12 +572,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def solc_name(cls) -> str:
         """Return fork name as it's meant to be passed to the solc compiler."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
         pass
 
     @classmethod

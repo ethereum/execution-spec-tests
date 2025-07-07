@@ -74,7 +74,7 @@ uv run codespell *.md *.ini .github/ src/ tests/ docs/ --write-changes
 
 ```console
 sudo apt install nodejs
-sudo npm install markdownlint-cli2 --global
+sudo npm install -g markdownlint-cli2@0.17.2  # the version used in ci
 ```
 
 Or use a specific node version using `nvm`.

@@ -16,9 +16,10 @@ FILL_UNTIL="${5:-Cancun}"
 echo "--------------------"
 echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
 
+PATCH_COMMIT=$(git rev-parse HEAD)
 git checkout main
-PREV_COMMIT=$(git rev-parse HEAD)
-echo "Checkout head $PREV_COMMIT"
+BASE_COMMIT=$(git rev-parse HEAD)
+echo "Checkout head $BASE_COMMIT"
 
 echo "Select files that were changed and exist on the main branch:"
 echo "$MODIFIED_DELETED_FILES"
@@ -38,7 +39,19 @@ if grep -q "ERROR collecting test session" filloutput.log; then
     exit 1
 fi
 
-# TODO: Here we can inspect $BASE_TEST_PATH vs $PATCH_TEST_PATH and remove fixtures with the same hash in both directories, to only leave fixtures that have been modified or removed,
-#       and then set any_modified_fixtures=false if the fixture set before the PR is empty after this check.
-echo "any_modified_fixtures=true" >> "$GITHUB_OUTPUT"
+git checkout $PATCH_COMMIT
+echo "Checkout back to patch $PATCH_COMMIT"
+# abort-on-empty-patch is used to ensure that the patch folder is not empty after fixture removal.
+# If the patch folder would be empty, it means that fixtures were removed in the PR, in which case we still want to run the coverage check.
+uv run compare_fixtures --abort-on-empty-patch $BASE_TEST_PATH $PATCH_TEST_PATH
+
+if [ -d $BASE_TEST_PATH ]; then
+    # If the base folder is not empty, it means there's at least one fixture that was modified in the PR, continue with the coverage check.
+    echo "Base folder is not empty after fixture comparison, continuing with coverage check."
+    echo "any_modified_fixtures=true" >> "$GITHUB_OUTPUT"
+else
+    # If the base folder is empty, it means there were no fixtures that were modified in the PR, or fixtures were only added, so we can skip the coverage check.
+    echo "Base folder is empty after fixture comparison, skipping coverage check."
+    echo "any_modified_fixtures=false" >> "$GITHUB_OUTPUT"
+fi
 exit 0

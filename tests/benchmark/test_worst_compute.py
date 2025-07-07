@@ -1,8 +1,8 @@
 """
-abstract: Tests zkEVMs worst-case compute scenarios.
-    Tests zkEVMs worst-case compute scenarios.
+abstract: Tests that benchmark EVMs in worst-case compute scenarios.
+    Tests that benchmark EVMs in worst-case compute scenarios.
 
-Tests running worst-case compute opcodes and precompile scenarios for zkEVMs.
+Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.
 """
 
 import math
@@ -30,15 +30,15 @@ from ethereum_test_tools import (
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import TransactionType
 from ethereum_test_vm.opcode import Opcode
-from tests.byzantium.eip198_modexp_precompile.test_modexp import ModExpInput
-from tests.cancun.eip4844_blobs.spec import Spec as BlobsSpec
-from tests.istanbul.eip152_blake2.common import Blake2bInput
-from tests.istanbul.eip152_blake2.spec import Spec as Blake2bSpec
-from tests.osaka.eip7951_p256verify_precompiles import spec as p256verify_spec
-from tests.osaka.eip7951_p256verify_precompiles.spec import FieldElement
-from tests.prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
-from tests.prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 
+from ..byzantium.eip198_modexp_precompile.test_modexp import ModExpInput
+from ..cancun.eip4844_blobs.spec import Spec as BlobsSpec
+from ..istanbul.eip152_blake2.common import Blake2bInput
+from ..istanbul.eip152_blake2.spec import Spec as Blake2bSpec
+from ..osaka.eip7951_p256verify_precompiles import spec as p256verify_spec
+from ..osaka.eip7951_p256verify_precompiles.spec import FieldElement
+from ..prague.eip2537_bls_12_381_precompiles import spec as bls12381_spec
+from ..prague.eip2537_bls_12_381_precompiles.spec import BytesConcatenation
 from .helpers import code_loop_precompile_call
 
 REFERENCE_SPEC_GIT_PATH = "TODO"
@@ -1136,7 +1136,6 @@ def test_worst_precompile_fixed_cost(
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
@@ -1160,7 +1159,6 @@ def test_worst_jumps(state_test: StateTestFiller, pre: Alloc):
     )
 
 
-@pytest.mark.zkevm
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumpdests(state_test: StateTestFiller, pre: Alloc, fork: Fork):
@@ -2242,6 +2240,68 @@ def test_worst_push(
     calldata = Bytecode()
     attack_block = Op.POP(Op.STATICCALL(Op.GAS, target_contract_address, 0, 0, 0, 0))
 
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=env,
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "opcode",
+    [Op.RETURN, Op.REVERT],
+)
+@pytest.mark.parametrize(
+    "return_size, return_non_zero_data",
+    [
+        pytest.param(0, False, id="empty"),
+        pytest.param(1024, True, id="1KiB of non-zero data"),
+        pytest.param(1024, False, id="1KiB of zero data"),
+        pytest.param(1024 * 1024, True, id="1MiB of non-zero data"),
+        pytest.param(1024 * 1024, False, id="1MiB of zero data"),
+    ],
+)
+def test_worst_return_revert(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    opcode: Op,
+    return_size: int,
+    return_non_zero_data: bool,
+):
+    """Test running a block with as many RETURN or REVERT as possible."""
+    env = Environment()
+    max_code_size = fork.max_code_size()
+
+    # Create the contract that will be called repeatedly.
+    # The bytecode of the contract is:
+    # ```
+    # [CODECOPY(returned_size) -- Conditional if return_non_zero_data]
+    # opcode(returned_size)
+    # <Fill with INVALID opcodes up to the max contract size>
+    # ```
+    # Filling the contract up to the max size is a cheap way of leveraging CODECOPY to return
+    # non-zero bytes if requested. Note that since this is a pre-deploy this cost isn't
+    # relevant for the benchmark.
+    mem_preparation = Op.CODECOPY(size=return_size) if return_non_zero_data else Bytecode()
+    executable_code = mem_preparation + opcode(size=return_size)
+    code = executable_code
+    if return_non_zero_data:
+        code += Op.INVALID * (max_code_size - len(executable_code))
+    target_contract_address = pre.deploy_contract(code=code)
+
+    calldata = Bytecode()
+    attack_block = Op.POP(Op.STATICCALL(address=target_contract_address))
     code = code_loop_precompile_call(calldata, attack_block, fork)
     code_address = pre.deploy_contract(code=code)
 

@@ -2,7 +2,7 @@
 
 from enum import Enum
 from hashlib import sha256
-from typing import Annotated, Any, List, Union
+from typing import Annotated, Any, List
 
 from pydantic import AliasChoices, Field, model_validator
 
@@ -97,7 +97,7 @@ class PayloadStatusEnum(str, Enum):
 
 
 class BlockTransactionExceptionWithMessage(
-    ExceptionWithMessage[Union[BlockException, TransactionException]]  # type: ignore
+    ExceptionWithMessage[BlockException | TransactionException]  # type: ignore
 ):
     """Exception returned from the execution client with a message."""
 
@@ -152,14 +152,14 @@ class BlobsBundle(CamelModel):
 
 
 class BlobAndProofV1(CamelModel):
-    """Represents a blob and single-proof structure."""
+    """Represents a blob and single-proof structure (< Osaka)."""
 
     blob: Bytes
     proof: Bytes
 
 
 class BlobAndProofV2(CamelModel):
-    """Represents a blob and proof structure."""
+    """Represents a blob and cell proof structure (>= Osaka)."""
 
     blob: Bytes
     proofs: List[Bytes]

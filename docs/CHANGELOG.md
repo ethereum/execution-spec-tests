@@ -10,6 +10,11 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 
+#### 💥 Important Change for test contributors
+
+- EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the "static tests" located in `./tests/static/` (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in [ethereum/tests](https://github.com/ethereum/tests)).
+- In order to fill the static tests (which is not the case by default), please ensure that `solc` is located in your `PATH`.
+
 #### 💥 Important Change for `fill` Users
 
 The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)):
@@ -17,9 +22,11 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
 - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
 
-#### Feature `zkevm` expanded to `zkevm_36M`, `zkevm_60M`, `zkevm_90M`, `zkevm_120M`
+#### Feature `zkevm` updated to `benchmark`
 
-Renames `zkevm` to `zkevm_36M` and further expands the zkEVM features to run using 60M, 90M and 120M block gas limits in `fixtures_zkevm_36M.tar.gz`, `fixtures_zkevm_60M.tar.gz`, `fixtures_zkevm_90M.tar.gz` and `fixtures_zkevm_120M.tar.gz` respectively.
+Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
+
+This update renames the `zkevm` feature release to `benchmark_30M` and further expands the latter for 60M, 90M, and 120M block gas limits in `fixtures_benchmark_30M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
 
 Users can select any of the artifacts depending on their testing needs for their provers.
 
@@ -28,6 +35,8 @@ Users can select any of the artifacts depending on their testing needs for their
 #### 🔀 Refactoring
 
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
+- ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
+- 🔀 This PR removes the `solc` requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with `solc` and, as such, the `solc-select` dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (`./tests/static/`) locally, `solc` (ideally v0.8.24) must be available in your PATH.
 
 #### `fill`
 
@@ -37,23 +46,28 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Refactor: Encapsulate `fill`'s fixture output options (`--output`, `--flat-output`, `--single-fixture-per-file`) into a `FixtureOutput` class ([#1471](https://github.com/ethereum/execution-spec-tests/pull/1471),[#1612](https://github.com/ethereum/execution-spec-tests/pull/1612)).
 - ✨ Don't warn about a "high Transaction gas_limit" for `zkevm` tests ([#1598](https://github.com/ethereum/execution-spec-tests/pull/1598)).
 - 🐞 `fill` no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or `--clean` must be used to delete it first ([#1608](https://github.com/ethereum/execution-spec-tests/pull/1608)).
-- 🐞 zkEVM marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
+- 🐞 `zkevm` marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 
 #### `consume`
 
+- 🐞 Fix `consume cache --cache-folder` parameter being ignored, now properly caches fixtures in the specified directory instead of always using the default system cache location.
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
 - 🔀 Add exponential retry logic to initial fcu within consume engine ([#1815](https://github.com/ethereum/execution-spec-tests/pull/1815)).
 
 #### `execute`
 
-- ✨ Add `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+- ✨ Added new `Blob` class which can use the ckzg library to generate valid blobs at runtime ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
+- ✨ Added `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 
 ### 📋 Misc
 
-- Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
+- 🔀 Use only relative imports in `tests/` directory ([#1848](https://github.com/ethereum/execution-spec-tests/pull/1848)).
+- 🔀 Misc. doc updates, including a navigation footer ([#1846](https://github.com/ethereum/execution-spec-tests/pull/1846)).
+- 🔀 Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
+- 🔀 Modernize codebase with Python 3.11 language features ([#1812](https://github.com/ethereum/execution-spec-tests/pull/1812)).
 - ✨ Add changelog formatting validation to CI to ensure consistent punctuation in bullet points [#1691](https://github.com/ethereum/execution-spec-tests/pull/1691).
 - ✨ Added the [EIP checklist template](https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/) that serves as a reference to achieve better coverage when implementing tests for new EIPs ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
 - ✨ Added [Post-Mortems of Missed Test Scenarios](https://eest.ethereum.org/main/writing_tests/post_mortems/) to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future ([#1327](https://github.com/ethereum/execution-spec-tests/pull/1327)).
@@ -70,6 +84,10 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added automatic checklist generation for every EIP inside of the `tests` folder. The checklist is appended to each EIP in the documentation in the "Test Case Reference" section ([#1679](https://github.com/ethereum/execution-spec-tests/pull/1679), [#1718](https://github.com/ethereum/execution-spec-tests/pull/1718)).
 - 🔀 Add macOS hive development mode workaround to the docs [#1786](https://github.com/ethereum/execution-spec-tests/pull/1786).
 - 🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers [#1803](https://github.com/ethereum/execution-spec-tests/pull/1803).
+- 🔀 Rename `tests/zkevm/` to `tests/benchmark/` and replace the `zkevm` pytest mark with `benchmark` [#1804](https://github.com/ethereum/execution-spec-tests/pull/1804).
+- 🔀 Add fixture comparison check to optimize coverage workflow in CI ([#1833](https://github.com/ethereum/execution-spec-tests/pull/1833)).
+- 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability ([#1763](https://github.com/ethereum/execution-spec-tests/pull/1673)).
+- ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 
 ### 🧪 Test Cases
 
@@ -80,7 +98,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ EIP-7823, EIP-7883: Add test cases for ModExp precompile gas-cost updates and input limits on Osaka ([#1579](https://github.com/ethereum/execution-spec-tests/pull/1579), [#1729](https://github.com/ethereum/execution-spec-tests/pull/1729)).
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Add test cases for the transaction gas limit of 30M gas ([#1711](https://github.com/ethereum/execution-spec-tests/pull/1711)).
 - ✨ [EIP-7951](https://eips.ethereum.org/EIPS/eip-7951): add test cases for `P256VERIFY` precompile to support secp256r1 curve [#1670](https://github.com/ethereum/execution-spec-tests/pull/1670).
-- ✨ Introduce blockchain tests for ZKEVM to cover the scenario of pure ether transfers [#1742](https://github.com/ethereum/execution-spec-tests/pull/1742).
+- ✨ Introduce blockchain tests for benchmark to cover the scenario of pure ether transfers [#1742](https://github.com/ethereum/execution-spec-tests/pull/1742).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
@@ -107,12 +125,12 @@ A new fork `EOFv1` has additionally been created to fill and consume EOF related
 - ✨ Engine API updates for Osaka, add `get_blobs` rpc method ([#1510](https://github.com/ethereum/execution-spec-tests/pull/1510)).
 - ✨ The EIP Version checker has been moved from `fill` and `execute` to it's own command-line tool `check_eip_versions` that gets ran daily as a Github Action ([#1537](https://github.com/ethereum/execution-spec-tests/pull/1537)).
 - 🔀 Add new `tests/unscheduled` folder, move EOF from Osaka to unscheduled, add `EOFv1` fork name for EOF tests ([#1507](https://github.com/ethereum/execution-spec-tests/pull/1507)).
-- ✨ CI features now contain an optional field to skip them from EEST full releases, `zkevm` and EOF features are now feature only ([#1596](https://github.com/ethereum/execution-spec-tests/pull/1596)).
+- ✨ CI features now contain an optional field to skip them from EEST full releases, `benchmark` and EOF features are now feature only ([#1596](https://github.com/ethereum/execution-spec-tests/pull/1596)).
 - 🐞 Don't attempt to install `solc` via `solc-select` on ARM (official Linux ARM builds of `solc` are not available at the time of writing, cf [ethereum/solidity#11351](https://github.com/ethereum/solidity/issues/11351)) and add a version sanity check ([#1556](https://github.com/ethereum/execution-spec-tests/pull/1556)).
 
 ### 🧪 Test Cases
 
-- 🔀 Automatically apply the `zkevm` marker to all tests under `./tests/zkevm/` and `./tests/prague/eip2537_bls_12_381_precompiles/` via conftest configuration ([#1534](https://github.com/ethereum/execution-spec-tests/pull/1534)).
+- 🔀 Automatically apply the `benchmark` marker to all tests under `./tests/benchmark/` and `./tests/prague/eip2537_bls_12_381_precompiles/` via conftest configuration ([#1534](https://github.com/ethereum/execution-spec-tests/pull/1534)).
 - ✨ Port [calldataload](https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml) and [calldatasize](https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml) tests ([#1236](https://github.com/ethereum/execution-spec-tests/pull/1236)).
 
 ## [v4.4.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0) - 2025-04-29
@@ -129,9 +147,9 @@ The tests have been filled using the new static test filler introduced in [#1336
 
 Users can expect that all tests currently living in [ethereum/tests](https://github.com/ethereum/tests/tree/develop/src) should eventually make its way into [`./tests/static`](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static) and can rely that these tests, filled for new forks even, will be included in `fixtures_static.tar.gz`.
 
-#### `fixtures_zkevm`
+#### `fixtures_benchmark`
 
-Another new fixture tarball has been included in this release: `fixtures_zkevm.tar.gz`.
+Another new fixture tarball has been included in this release: `fixtures_benchmark.tar.gz`.
 
 Includes tests that are tailored specifically to test the execution layer proof generators.
 

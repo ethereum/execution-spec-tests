@@ -156,6 +156,8 @@ The code can be in either of the following formats:
 - `str`, representing an hexadecimal format of the opcodes.
 - `Code` compilable object (see below for supported types).
 
+`Code` objects can be concatenated together by using the `+` operator.
+
 ### Using the Python Opcode Minilang (RECOMMENDED)
 
 The recommended way to write EVM bytecode for tests is to use the Python-based minilang provided by the [Opcodes][ethereum_test_vm.opcode.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
@@ -248,9 +250,6 @@ It can verify the following properties of an account:
 
 - `code`: Bytecode contained by the account. To verify that an account contains
   no code, this property needs to be set to "0x" or "".
-  
-  It is not recommended to verify Yul compiled code in the output account,
-  because the bytecode can change from version to version.
 
 - `storage`: Storage within the account represented as a `dict` object.
   All storage keys that are expected to be set must be specified, and if a

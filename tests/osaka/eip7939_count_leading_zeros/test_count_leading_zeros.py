@@ -160,12 +160,12 @@ def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """Test CLZ opcode behavior at fork transition."""
     sender = pre.fund_eoa()
     callee_address = pre.deploy_contract(
-        code=Op.SSTORE(Op.NUMBER, Op.CLZ(1 << 100)) + Op.STOP,
-        storage={"0x00": "0xdeadbeef"},
+        code=Op.SSTORE(Op.TIMESTAMP, Op.CLZ(1 << 100)) + Op.STOP,
+        storage={14_999: "0xdeadbeef"},
     )
     caller_address = pre.deploy_contract(
-        code=Op.SSTORE(Op.NUMBER, Op.CALL(gas=0xFFFF, address=callee_address)),
-        storage={"0x00": "0xdeadbeef"},
+        code=Op.SSTORE(Op.TIMESTAMP, Op.CALL(gas=0xFFFF, address=callee_address)),
+        storage={14_999: "0xdeadbeef"},
     )
     blocks = [
         Block(
@@ -208,17 +208,71 @@ def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
         post={
             caller_address: Account(
                 storage={
-                    14_999: 0,
-                    15_000: 1,
-                    15_001: 1,
+                    14_999: 0,  # Call fails as opcode not valid before Osaka
+                    15_000: 1,  # Call succeeds on fork transition block
+                    15_001: 1,  # Call continues to succeed after transition
                 }
             ),
             callee_address: Account(
                 storage={
-                    14_999: 155,
-                    15_000: 155,
-                    15_001: 155,
+                    14_999: "0xdeadbeef",  # CLZ not valid before fork, storage unchanged
+                    15_000: 155,  # CLZ valid on transition block, CLZ(1 << 100) = 155
+                    15_001: 155,  # CLZ continues to be valid after transition
                 }
             ),
         },
     )
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("opcode", [Op.JUMPI, Op.JUMP])
+@pytest.mark.parametrize("valid_jump", [True, False])
+@pytest.mark.parametrize("jumpi_condition", [True, False])
+@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+def test_clz_jump_operation(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    valid_jump: bool,
+    jumpi_condition: bool,
+    bits: int,
+):
+    """Test CLZ opcode with valid and invalid jump."""
+    if opcode == Op.JUMP and not jumpi_condition:
+        pytest.skip("Duplicate case for JUMP.")
+
+    code = Op.PUSH32(1 << bits)
+
+    if opcode == Op.JUMPI:
+        code += Op.PUSH1(jumpi_condition)
+
+    code += Op.PUSH1(len(code) + 3) + opcode
+
+    if valid_jump:
+        code += Op.JUMPDEST
+
+    code += Op.CLZ + Op.PUSH0 + Op.SSTORE + Op.RETURN(0, 0)
+
+    callee_address = pre.deploy_contract(code=code)
+
+    caller_address = pre.deploy_contract(
+        code=Op.SSTORE(0, Op.CALL(gas=0xFFFF, address=callee_address)),
+        storage={"0x00": "0xdeadbeef"},
+    )
+
+    tx = Transaction(
+        to=caller_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        caller_address: Account(storage={"0x00": 1 if valid_jump or not jumpi_condition else 0}),
+    }
+
+    if valid_jump or not jumpi_condition:
+        post[callee_address] = Account(storage={"0x00": expected_clz})
+
+    state_test(pre=pre, post=post, tx=tx)
