@@ -32,7 +32,7 @@ HighGasPriceParis:
     # ((gasPrice * 21000) & (2**256-1)) + value < balance
     gasPrice: 5513909011300771210646237381366090850155713555506693525688456381329244268
     nonce: 0
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    secretKey: "<eoa:sender:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     to: '<eoa:0xd0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0>'
     value:
       - 1

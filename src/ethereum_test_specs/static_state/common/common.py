@@ -3,19 +3,26 @@
 import re
 import subprocess
 import tempfile
-from functools import cached_property
-from typing import Any, List, Union
+from typing import Any, Dict, List, Mapping, Union
 
 from eth_abi import encode
 from eth_utils import function_signature_to_4byte_selector
-from pydantic import BaseModel, Field, field_validator
-from pydantic.functional_validators import BeforeValidator
+from pydantic import BaseModel, BeforeValidator, Field, PrivateAttr, model_validator
 from pydantic_core import core_schema
 from typing_extensions import Annotated
 
-from ethereum_test_base_types import Address, Hash, HexNumber
+from ethereum_test_base_types import AccessList, Address, CamelModel, Hash, HexNumber
 
 from .compile_yul import compile_yul
+from .tags import (
+    ContractTag,
+    CreateTag,
+    SenderKeyTag,
+    SenderTag,
+    Tag,
+    TagDependentData,
+    TagDict,
+)
 
 
 def parse_hex_number(i: str | int) -> int:
@@ -30,22 +37,6 @@ def parse_hex_number(i: str | int) -> int:
     if i.startswith("0x") or any(char in "abcdef" for char in i.lower()):
         return int(i, 16)
     return int(i, 10)
-
-
-def parse_value_or_address_tag(value: Union[HexNumber, str]) -> Union[HexNumber, str]:
-    """Parse either a hex number or an address tag for storage values."""
-    if not isinstance(value, str):
-        # Non-string values should be converted to HexNumber normally
-        return HexNumber(parse_hex_number(value))
-
-    # Check if it matches address tag pattern: <type:name:0xaddress> or <type:0xaddress>
-    tag_pattern = r"^<(eoa|contract):.+>$"
-    if re.match(tag_pattern, value.strip()):
-        # Return the tag string as-is for later resolution
-        return value.strip()
-    else:
-        # Parse as hex number
-        return HexNumber(parse_hex_number(value))
 
 
 def parse_args_from_string_into_array(stream: str, pos: int, delim: str = " "):
@@ -65,143 +56,170 @@ def parse_args_from_string_into_array(stream: str, pos: int, delim: str = " "):
     return args, pos
 
 
-class CodeInFillerSource:
+class CodeInFiller(BaseModel, TagDependentData):
     """Not compiled code source in test filler."""
 
-    code_label: str | None
-    code_raw: Any
+    label: str | None
+    source: str
+    _dependencies: Dict[str, Tag] = PrivateAttr(default_factory=dict)
 
-    def __init__(self, code: Any, label: str | None = None):
-        """Instantiate."""
-        self.code_label = label
-        self.code_raw = code
+    @model_validator(mode="before")
+    @classmethod
+    def validate_from_string(cls, code: Any) -> Any:
+        """Validate the sender tag from string: <eoa:name:0x...>."""
+        if isinstance(code, str):
+            label_marker = ":label"
+            label_index = code.find(label_marker)
 
-    @cached_property
-    def compiled(self) -> bytes:
+            # Parse :label into code options
+            label = None
+            if label_index != -1:
+                space_index = code.find(" ", label_index + len(label_marker) + 1)
+                if space_index == -1:
+                    label = code[label_index + len(label_marker) + 1 :]
+                else:
+                    label = code[label_index + len(label_marker) + 1 : space_index]
+            return {"label": label, "source": code}
+        return code
+
+    def model_post_init(self, context):
+        """Initialize StateStaticTest."""
+        super().model_post_init(context)
+        tag_dependencies = {}
+        for tag_type in {ContractTag, SenderTag}:
+            for m in tag_type.regex_pattern.finditer(self.source):
+                new_tag = tag_type.model_validate(m.group(0))
+                tag_dependencies[new_tag.name] = new_tag
+        self._dependencies = tag_dependencies
+
+    def compiled(self, tags: TagDict) -> bytes:
         """Compile the code from source to bytes."""
-        if isinstance(self.code_raw, int):
+        raw_code = self.source
+        if isinstance(raw_code, int):
             # Users pass code as int (very bad)
-            hex_str = format(self.code_raw, "02x")
+            hex_str = format(raw_code, "02x")
             return bytes.fromhex(hex_str)
 
-        if not isinstance(self.code_raw, str):
-            raise ValueError(f"parse_code(code: str) code is not string: {self.code_raw}")
-        if len(self.code_raw) == 0:
+        if not isinstance(raw_code, str):
+            raise ValueError(f"parse_code(code: str) code is not string: {raw_code}")
+        if len(raw_code) == 0:
             return b""
 
         compiled_code = ""
 
         raw_marker = ":raw 0x"
-        raw_index = self.code_raw.find(raw_marker)
+        raw_index = raw_code.find(raw_marker)
         abi_marker = ":abi"
-        abi_index = self.code_raw.find(abi_marker)
+        abi_index = raw_code.find(abi_marker)
         yul_marker = ":yul"
-        yul_index = self.code_raw.find(yul_marker)
+        yul_index = raw_code.find(yul_marker)
 
-        # Parse :raw
-        if raw_index != -1:
-            compiled_code = self.code_raw[raw_index + len(raw_marker) :]
+        def replace_tags(raw_code, keep_prefix: bool) -> str:
+            for tag in self._dependencies.values():
+                if tag.name not in tags:
+                    raise ValueError(f"Tag {tag} not found in tags")
+                substitution_address = f"{tag.resolve(tags)}"
+                if not keep_prefix and substitution_address.startswith("0x"):
+                    substitution_address = substitution_address[2:]
+                raw_code = re.sub(f"<\\w+:{tag.name}(:0x.+)?>", substitution_address, raw_code)
+            return raw_code
 
-        # Parse :yul
-        elif yul_index != -1:
-            option_start = yul_index + len(yul_marker)
-            options: list[str] = []
-            native_yul_options: str = ""
-
-            if self.code_raw[option_start:].lstrip().startswith("{"):
-                # No yul options, proceed to code parsing
-                source_start = option_start
-            else:
-                opt, source_start = parse_args_from_string_into_array(
-                    self.code_raw, option_start + 1
-                )
-                for arg in opt:
-                    if arg == "object" or arg == '"C"':
-                        native_yul_options += arg + " "
-                    else:
-                        options.append(arg)
-
-            with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".yul") as tmp:
-                tmp.write(native_yul_options + self.code_raw[source_start:])
-                tmp_path = tmp.name
-            compiled_code = compile_yul(
-                source_file=tmp_path,
-                evm_version=options[0] if len(options) >= 1 else None,
-                optimize=options[1] if len(options) >= 2 else None,
-            )[2:]
-
-        # Parse :abi
-        elif abi_index != -1:
-            abi_encoding = self.code_raw[abi_index + len(abi_marker) + 1 :]
-            tokens = abi_encoding.strip().split()
-            abi = tokens[0]
-            function_signature = function_signature_to_4byte_selector(abi)
-            parameter_str = re.sub(r"^\w+", "", abi).strip()
-
-            parameter_types = parameter_str.strip("()").split(",")
-            if len(tokens) > 1:
-                function_parameters = encode(
-                    [parameter_str],
-                    [
-                        [
-                            int(t.lower(), 0) & ((1 << 256) - 1)  # treat big ints as 256bits
-                            if parameter_types[t_index] == "uint"
-                            else int(t.lower(), 0) > 0  # treat positive values as True
-                            if parameter_types[t_index] == "bool"
-                            else False and ValueError("unhandled parameter_types")
-                            for t_index, t in enumerate(tokens[1:])
-                        ]
-                    ],
-                )
-                return function_signature + function_parameters
-            return function_signature
-
-        # Parse plain code 0x
-        elif self.code_raw.lstrip().startswith("0x"):
-            compiled_code = self.code_raw[2:].lower()
-
-        # Parse lllc code
-        elif self.code_raw.lstrip().startswith("{") or self.code_raw.lstrip().startswith("(asm"):
-            with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
-                tmp.write(self.code_raw)
-                tmp_path = tmp.name
-
-            # - using lllc
-            result = subprocess.run(["lllc", tmp_path], capture_output=True, text=True)
-
-            # - using docker:
-            #   If the running machine does not have lllc installed, we can use docker to run lllc,
-            #   but we need to start a container first, and the process is generally slower.
-            # from .docker import get_lllc_container_id
-            # result = subprocess.run(
-            #     ["docker", "exec", get_lllc_container_id(), "lllc", tmp_path[5:]],
-            #     capture_output=True,
-            #     text=True,
-            # )
-            compiled_code = "".join(result.stdout.splitlines())
+        # Parse :raw or 0x
+        if raw_index != -1 or raw_code.lstrip().startswith("0x"):
+            raw_code = replace_tags(raw_code, False)
+            # Parse :raw
+            if raw_index != -1:
+                compiled_code = raw_code[raw_index + len(raw_marker) :]
+            # Parse plain code 0x
+            elif raw_code.lstrip().startswith("0x"):
+                compiled_code = raw_code[2:].lower()
         else:
-            raise Exception(f'Error parsing code: "{self.code_raw}"')
+            raw_code = replace_tags(raw_code, True)
+            # Parse :yul
+            if yul_index != -1:
+                option_start = yul_index + len(yul_marker)
+                options: list[str] = []
+                native_yul_options: str = ""
+
+                if raw_code[option_start:].lstrip().startswith("{"):
+                    # No yul options, proceed to code parsing
+                    source_start = option_start
+                else:
+                    opt, source_start = parse_args_from_string_into_array(
+                        raw_code, option_start + 1
+                    )
+                    for arg in opt:
+                        if arg == "object" or arg == '"C"':
+                            native_yul_options += arg + " "
+                        else:
+                            options.append(arg)
+
+                with tempfile.NamedTemporaryFile(mode="w+", delete=False, suffix=".yul") as tmp:
+                    tmp.write(native_yul_options + raw_code[source_start:])
+                    tmp_path = tmp.name
+                compiled_code = compile_yul(
+                    source_file=tmp_path,
+                    evm_version=options[0] if len(options) >= 1 else None,
+                    optimize=options[1] if len(options) >= 2 else None,
+                )[2:]
+
+            # Parse :abi
+            elif abi_index != -1:
+                abi_encoding = raw_code[abi_index + len(abi_marker) + 1 :]
+                tokens = abi_encoding.strip().split()
+                abi = tokens[0]
+                function_signature = function_signature_to_4byte_selector(abi)
+                parameter_str = re.sub(r"^\w+", "", abi).strip()
+
+                parameter_types = parameter_str.strip("()").split(",")
+                if len(tokens) > 1:
+                    function_parameters = encode(
+                        [parameter_str],
+                        [
+                            [
+                                int(t.lower(), 0) & ((1 << 256) - 1)  # treat big ints as 256bits
+                                if parameter_types[t_index] == "uint"
+                                else int(t.lower(), 0) > 0  # treat positive values as True
+                                if parameter_types[t_index] == "bool"
+                                else False and ValueError("unhandled parameter_types")
+                                for t_index, t in enumerate(tokens[1:])
+                            ]
+                        ],
+                    )
+                    return function_signature + function_parameters
+                return function_signature
+
+            # Parse lllc code
+            elif raw_code.lstrip().startswith("{") or raw_code.lstrip().startswith("(asm"):
+                with tempfile.NamedTemporaryFile(mode="w+", delete=False) as tmp:
+                    tmp.write(raw_code)
+                    tmp_path = tmp.name
+
+                # - using lllc
+                result = subprocess.run(["lllc", tmp_path], capture_output=True, text=True)
+
+                # - using docker:
+                #   If the running machine does not have lllc installed, we can use docker to run lllc,
+                #   but we need to start a container first, and the process is generally slower.
+                # from .docker import get_lllc_container_id
+                # result = subprocess.run(
+                #     ["docker", "exec", get_lllc_container_id(), "lllc", tmp_path[5:]],
+                #     capture_output=True,
+                #     text=True,
+                # )
+                compiled_code = "".join(result.stdout.splitlines())
+
+            else:
+                raise Exception(f'Error parsing code: "{raw_code}"')
 
         try:
             return bytes.fromhex(compiled_code)
         except ValueError as e:
-            raise Exception(f'Error parsing compile code: "{self.code_raw}"') from e
+            raise Exception(f'Error parsing compile code: "{raw_code}"') from e
 
-
-def parse_code_label(code) -> CodeInFillerSource:
-    """Parse label from code."""
-    label_marker = ":label"
-    label_index = code.find(label_marker)
-
-    # Parse :label into code options
-    label = None
-    if label_index != -1:
-        space_index = code.find(" ", label_index + len(label_marker) + 1)
-        if space_index == -1:
-            label = code[label_index + len(label_marker) + 1 :]
-        else:
-            label = code[label_index + len(label_marker) + 1 : space_index]
-    return CodeInFillerSource(code, label)
+    def tag_dependencies(self) -> Mapping[str, Tag]:
+        """Get tag dependencies."""
+        return self._dependencies
 
 
 class AddressTag:
@@ -296,45 +314,35 @@ def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
         return Address(value, left_padding=True)
 
 
-def validate_address_or_tag_string(value: Union[Address, str]) -> Union[Address, str]:
-    """Validate and normalize address or tag as string for later resolution."""
-    if isinstance(value, str):
-        return value.strip()
-    else:
-        return Address(value, left_padding=True)
-
-
-def parse_hash32_or_sender_key_tag(value: Any) -> Union[Hash, str]:
-    """Parse either a regular hash or a sender key tag for later resolution."""
-    if isinstance(value, str) and value.strip().startswith("<sender:key:"):
-        return value.strip()
-    return Hash(value, left_padding=True)
-
-
 AddressInFiller = Annotated[Address, BeforeValidator(lambda a: Address(a, left_padding=True))]
-AddressOrTagInFiller = Annotated[
-    Union[Address, str], BeforeValidator(validate_address_or_tag_string)
-]
-ValueOrTagInFiller = Annotated[Union[HexNumber, str], BeforeValidator(parse_value_or_address_tag)]
-Hash32OrTagInFiller = Annotated[Union[Hash, str], BeforeValidator(parse_hash32_or_sender_key_tag)]
+AddressOrTagInFiller = ContractTag | SenderTag | Address
+AddressOrCreateTagInFiller = ContractTag | SenderTag | CreateTag | Address
 ValueInFiller = Annotated[HexNumber, BeforeValidator(parse_hex_number)]
-CodeInFiller = Annotated[CodeInFillerSource, BeforeValidator(parse_code_label)]
-Hash32InFiller = Annotated[Hash, BeforeValidator(lambda h: Hash(h, left_padding=True))]
+ValueOrTagInFiller = ContractTag | SenderTag | ValueInFiller
+ValueOrCreateTagInFiller = ContractTag | SenderTag | CreateTag | ValueInFiller
+HashOrTagInFiller = SenderKeyTag | Hash
 
 
-class AccessListInFiller(BaseModel):
+class AccessListInFiller(CamelModel, TagDependentData):
     """Access List for transactions in fillers that can contain address tags."""
 
-    address: Union[Address, str]  # Can be an address or a tag string
-    storage_keys: List[Hash] = Field([], alias="storageKeys")
+    address: AddressOrTagInFiller
+    storage_keys: List[Hash] = Field(default_factory=list)
 
-    @field_validator("address", mode="before")
-    @classmethod
-    def validate_address(cls, v):
-        """Allow both addresses and tags."""
-        return parse_address_or_tag_for_access_list(v)
+    def tag_dependencies(self) -> Mapping[str, Tag]:
+        """Get tag dependencies."""
+        if isinstance(self.address, Tag):
+            return {
+                self.address.name: self.address,
+            }
+        return {}
 
-    class Config:
-        """Model config."""
-
-        populate_by_name = True
+    def resolve(self, tags: TagDict) -> AccessList:
+        """Resolve the access list."""
+        kwargs: Dict[str, Address | List[Hash]] = {}
+        if isinstance(self.address, Tag):
+            kwargs["address"] = self.address.resolve(tags)
+        else:
+            kwargs["address"] = self.address
+        kwargs["storageKeys"] = [Hash(key, left_padding=True) for key in self.storage_keys]
+        return AccessList(**kwargs)

@@ -69,7 +69,7 @@ doubleSelfdestructTouch_Paris:
     gasPrice: 10
     nonce: 0
     to: <contract:target:0x000000000000000000000000000000000000c0de>
-    secretKey: "<sender:key:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
+    secretKey: "<eoa:sender:0x45a915e4d060149eb4365960e6a7a45f334393093061116b197e3240065ff2d8>"
     value:
       - 0  # Sends no value
       - 1  # Sends 1 value to the second empty account 0xe49702
