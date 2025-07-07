@@ -1,19 +1,12 @@
 """Pytest test to verify a client's configuration using `eth_config` RPC endpoint."""
 
 import time
-from os.path import realpath
-from pathlib import Path
 
 import pytest
 
 from ethereum_test_rpc import EthConfigResponse, EthRPC, ForkConfig
 
-from .types import NetworkConfig, NetworkConfigFile
-
-CURRENT_FILE = Path(realpath(__file__))
-CURRENT_FOLDER = CURRENT_FILE.parent
-
-DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
+from .types import NetworkConfig
 
 
 @pytest.fixture(scope="session")
@@ -23,31 +16,9 @@ def eth_config_response(eth_rpc: EthRPC) -> EthConfigResponse | None:
 
 
 @pytest.fixture(scope="session")
-def network_configs_path(request: pytest.FixtureRequest) -> Path:
-    """Get the path to the networks config file to be used."""
-    network_configs_file = request.config.getoption("network_file")
-    if network_configs_file is None:
-        return DEFAULT_NETWORK_CONFIGS_FILE
-    else:
-        return network_configs_file
-
-
-@pytest.fixture(scope="session")
-def network_configs(network_configs_path: Path) -> NetworkConfigFile:
-    """Get the file contents from the provided network configs file."""
-    return NetworkConfigFile.from_yaml(network_configs_path)
-
-
-@pytest.fixture(scope="session")
-def network(
-    request: pytest.FixtureRequest, network_configs: NetworkConfigFile, network_configs_path: Path
-) -> NetworkConfig:
-    """Get the `eth_config` response from the client to be verified by all tests."""
-    network_name = request.config.getoption("network")
-    assert network_name in network_configs.root, (
-        f"Network {network_name} could not be found in file {network_configs_path}"
-    )
-    return network_configs.root[network_name]
+def network(request: pytest.FixtureRequest) -> NetworkConfig:
+    """Get the network that will be used to verify all tests."""
+    return request.config.network  # type: ignore
 
 
 @pytest.fixture(scope="session")

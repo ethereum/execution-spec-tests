@@ -1,20 +1,16 @@
 """Pytest plugin to test the `eth_config` RPC endpoint in a node."""
 
+from os.path import realpath
 from pathlib import Path
 
 import pytest
-from pydantic import TypeAdapter
 
-from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
 
-COMMAND_EXAMPLE = """
-uv run execute eth-config --chain-id 0x88bb0
- --current Prague --current-activation-time 0 --next Osaka --next-activation-time 1742999832
- --next-blob-schedule '{"baseFeeUpdateFraction": 5007716, "max": 9, "target": 6}'
-"""
+from .types import NetworkConfigFile
 
-ForkAdapter = TypeAdapter(Fork)  # type: ignore
+CURRENT_FILE = Path(realpath(__file__))
+CURRENT_FOLDER = CURRENT_FILE.parent
 
 
 def pytest_addoption(parser):
@@ -30,9 +26,9 @@ def pytest_addoption(parser):
         help="Name of the network to verify for the RPC client.",
     )
     eth_config_group.addoption(
-        "--network-file",
+        "--network-config-file",
         action="store",
-        dest="network_file",
+        dest="network_config_file",
         required=False,
         type=Path,
         default=None,
@@ -45,6 +41,32 @@ def pytest_addoption(parser):
         dest="rpc_endpoint",
         help="RPC endpoint to an execution client",
     )
+
+
+DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config: pytest.Config) -> None:
+    """
+    Load the network configuration file and load the specific network to be used for
+    the test.
+    """
+    network_configs_path = config.getoption("network_config_file", default=None)
+    if network_configs_path is None:
+        network_configs_path = DEFAULT_NETWORK_CONFIGS_FILE
+    if not network_configs_path.exists():
+        pytest.exit(f'Specified networks file "{network_configs_path}" does not exist.')
+    try:
+        network_configs = NetworkConfigFile.from_yaml(network_configs_path)
+    except Exception as e:
+        pytest.exit(f"Could not load file {network_configs_path}: {e}")
+    network_name = config.getoption("network")
+    if network_name not in network_configs.root:
+        pytest.exit(
+            f'Network "{network_name}" could not be found in file "{network_configs_path}".'
+        )
+    config.network = network_configs.root[network_name]  # type: ignore
 
 
 @pytest.fixture(autouse=True, scope="session")
