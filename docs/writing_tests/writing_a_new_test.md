@@ -160,7 +160,7 @@ The code can be in either of the following formats:
 
 ### Using the Python Opcode Minilang (RECOMMENDED)
 
-The recommended way to write EVM bytecode for tests is to use the Python-based minilang provided by the [Opcodes][ethereum_test_vm.opcode.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
+EVM bytecode for tests should be written using the Python-based minilang provided by the [Opcodes][ethereum_test_vm.opcode.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
 
 #### Example: Simple Addition Contract
 
@@ -183,7 +183,7 @@ For a full list of available opcodes and their usage, see the [Opcodes][ethereum
 
 ### Higher-Level Constructs
 
-For more complex control flow, you can use constructs like [Switch][ethereum_test_tools.code.generators.Switch] and [Case][ethereum_test_tools.code.generators.Case] from the [ethereum_test_tools.code.generators][ethereum_test_tools.code.generators] module:
+For more complex control flow, you can use constructs like [Switch][ethereum_test_tools.code.generators.Switch] and [Case][ethereum_test_tools.code.generators.Case] from the `ethereum_test_tools.code.generators` module:
 
 ```python
 from ethereum_test_tools.code.generators import Switch, Case
@@ -198,7 +198,7 @@ code = Switch(
 )
 ```
 
-See the [ethereum_test_tools.code.generators][ethereum_test_tools.code.generators] reference for more details and additional constructs like [While][ethereum_test_tools.code.generators.While] and [Conditional][ethereum_test_tools.code.generators.Conditional].
+The `ethereum_test_tools.code.generators` module also defines other high-level constructs like [While][ethereum_test_tools.code.generators.While] and [Conditional][ethereum_test_tools.code.generators.Conditional].
 
 ### Converting Bytecode to Minilang
 
@@ -209,7 +209,7 @@ If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI to
 
 ### Restrictions: No Yul in Python Test Cases
 
-**Note:** As of [PR #1779](https://github.com/ethereum/execution-spec-tests/pull/1779), the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.
+As of [PR #1779](https://github.com/ethereum/execution-spec-tests/pull/1779), the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.
 
 ## Verifying the Accounts' Post States
 
