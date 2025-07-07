@@ -566,17 +566,16 @@ def test_clz_call_operation(
     state_test: StateTestFiller, pre: Alloc, opcode: Op, context: CallingContext, bits: int
 ):
     """Test CLZ opcode with call operation."""
-    callee_code = Op.PUSH32(1 << bits) + Op.DUP1
+    callee_code = Op.PUSH32(1 << bits) + Op.CLZ
 
     if context != CallingContext.no_context:
-        callee_code += Op.CLZ + Op.PUSH0 + Op.SSTORE
+        callee_code += Op.DUP1 + Op.PUSH0 + Op.SSTORE
 
-    callee_code += Op.CLZ + Op.PUSH0 + Op.MSTORE + Op.RETURN(0, 32)
+    callee_code += Op.PUSH0 + Op.MSTORE + Op.RETURN(0, 32)
 
     callee_address = pre.deploy_contract(code=callee_code)
 
     caller_code = opcode(gas=0xFFFF, address=callee_address, ret_offset=0, ret_size=0x20)
-    caller_code += Op.RETURNDATACOPY(dest=0, offset=0, size=Op.RETURNDATASIZE)
     caller_code += Op.SSTORE(key=1, value=Op.MLOAD(0))
 
     caller_address = pre.deploy_contract(code=caller_code)
