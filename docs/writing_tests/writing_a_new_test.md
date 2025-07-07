@@ -204,9 +204,6 @@ The `ethereum_test_tools.code.generators` module also defines other high-level c
 
 If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI tool](../library/cli/evm_bytes.md) to convert it to the EEST Python opcode minilang automatically:
 
-- [evm_bytes CLI documentation](../library/cli/evm_bytes.md)
-- [Online reference](https://eest.ethereum.org/main/library/cli/evm_bytes/)
-
 ### Restrictions: No Yul in Python Test Cases
 
 As of [PR #1779](https://github.com/ethereum/execution-spec-tests/pull/1779), the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.
