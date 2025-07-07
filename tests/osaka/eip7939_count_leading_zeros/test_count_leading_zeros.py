@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     CodeGasMeasure,
     Environment,
     StateTestFiller,
@@ -286,18 +287,20 @@ auth_account_start_balance = 0
 
 
 @pytest.mark.valid_from("Osaka")
-@pytest.mark.parametrize("bits", [0, 1, 128, 255])
 def test_clz_from_set_code(
     state_test: StateTestFiller,
     pre: Alloc,
-    bits: int,
 ):
     """Test the address opcode in a set-code transaction."""
     storage = Storage()
     auth_signer = pre.fund_eoa(auth_account_start_balance)
 
-    expected_clz = 255 - bits
-    set_code = Op.SSTORE(storage.store_next(expected_clz), Op.CLZ(1 << bits)) + Op.STOP
+    set_code = Bytecode()
+    for bits in [0, 1, 128, 255]:
+        expected_clz = 255 - bits
+        set_code += Op.SSTORE(storage.store_next(expected_clz), Op.CLZ(1 << bits))
+    set_code += Op.STOP
+
     set_code_to_address = pre.deploy_contract(set_code)
 
     tx = Transaction(
