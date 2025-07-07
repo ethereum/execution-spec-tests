@@ -48,7 +48,7 @@ class TestHtmlReportFlags:
     """Test html report generation and output options."""
 
     @pytest.fixture
-    def fill_args(self):
+    def fill_args(self, default_t8n):
         """
         Provide default arguments for the `fill` command when testing html report
         generation.
@@ -56,7 +56,13 @@ class TestHtmlReportFlags:
         Specifies a single existing example test case for faster fill execution,
         and to allow for tests to check for the fixture generation location.
         """
-        return ["-k", "test_dup and state_test-DUP16", "--fork", "Frontier"]
+        return [
+            "-k",
+            "test_dup and state_test-DUP16",
+            "--fork",
+            "Frontier",
+            f"--t8n-server-url={default_t8n.server_url}",
+        ]
 
     @pytest.fixture()
     def default_html_report_file_path(self):

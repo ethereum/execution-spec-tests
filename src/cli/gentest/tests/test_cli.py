@@ -89,7 +89,7 @@ def transaction_hash(tx_type: int) -> str:  # noqa: D103
 
 
 @pytest.mark.parametrize("tx_type", list(transactions_by_type.keys()))
-def test_tx_type(pytester, tmp_path, monkeypatch, tx_type, transaction_hash):
+def test_tx_type(pytester, tmp_path, monkeypatch, tx_type, transaction_hash, default_t8n):
     """Generates a test case for any transaction type."""
     ## Arrange ##
     # This test is run in a CI environment, where connection to a node could be
@@ -123,6 +123,8 @@ def test_tx_type(pytester, tmp_path, monkeypatch, tx_type, transaction_hash):
         "state_test",
         "--fork",
         "Cancun",
+        "--t8n-server-url",
+        default_t8n.server_url,
     ]
     result = pytester.runpytest("-v", *args)
     assert result.ret == pytest.ExitCode.OK, f"Fill command failed:\n{result}"
