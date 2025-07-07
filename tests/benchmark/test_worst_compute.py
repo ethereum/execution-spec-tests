@@ -2739,6 +2739,8 @@ def test_worst_clz_same_input(
     calldata = Op.PUSH1(magic_value)
     attack_block = Op.CLZ
     code = code_loop_precompile_call(calldata, attack_block, fork)
+    assert len(code) <= fork.max_code_size()
+
     code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
@@ -2782,15 +2784,21 @@ def test_worst_clz_diff_input(
     code_prefix = Op.JUMPDEST
     code_suffix = Op.PUSH0 + Op.JUMP
 
-    iteration = (max_code_size - len(code_prefix) - len(code_suffix)) // 2
+    available_code_size = max_code_size - len(code_prefix) - len(code_suffix)
 
     code_seq = Bytecode()
 
-    for i in range(2 * iteration):
-        value = i if i % 2 else 2**256 - 1 - i
-        code_seq += Op.CLZ(value) + Op.POP
+    for i in range(available_code_size):
+        value = (2**256 - 1) >> (i % 256)
+        clz_op = Op.CLZ(value) + Op.POP
+        if len(code_seq) + len(clz_op) > available_code_size:
+            break
+        code_seq += clz_op
 
-    code_address = pre.deploy_contract(code=code_prefix + code_seq + code_suffix)
+    attack_code = code_prefix + code_seq + code_suffix
+    assert len(attack_code) <= max_code_size
+
+    code_address = pre.deploy_contract(code=attack_code)
 
     tx = Transaction(
         to=code_address,
