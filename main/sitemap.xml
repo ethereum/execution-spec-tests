@@ -2026,7 +2026,12 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas/</loc>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost/</loc>
+         <lastmod>2025-07-07</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost_boundary/</loc>
          <lastmod>2025-07-07</lastmod>
          <changefreq>daily</changefreq>
     </url>

@@ -10,10 +10,10 @@
       
       
       
-        <link rel="canonical" href="https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas/">
+        <link rel="canonical" href="https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost_boundary/">
       
       
-        <link rel="prev" href="../test_clz_opcode_scenarios/">
+        <link rel="prev" href="../test_clz_gas_cost/">
       
       
         <link rel="next" href="../test_clz_stack_underflow/">
@@ -24,7 +24,7 @@
     
     
       
-        <title>test_clz_gas - Ethereum Execution Spec Tests</title>
+        <title>test_clz_gas_cost_boundary - Ethereum Execution Spec Tests</title>
       
     
     
@@ -66,11 +66,11 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="<code>test_clz_gas</code> - Ethereum Execution Spec Tests" >
+        <meta  property="og:title"  content="<code>test_clz_gas_cost_boundary</code> - Ethereum Execution Spec Tests" >
       
         <meta  property="og:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas.png" >
+        <meta  property="og:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost_boundary.png" >
       
         <meta  property="og:image:type"  content="image/png" >
       
@@ -78,15 +78,15 @@
       
         <meta  property="og:image:height"  content="630" >
       
-        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas/" >
+        <meta  property="og:url"  content="https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost_boundary/" >
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="<code>test_clz_gas</code> - Ethereum Execution Spec Tests" >
+        <meta  name="twitter:title"  content="<code>test_clz_gas_cost_boundary</code> - Ethereum Execution Spec Tests" >
       
         <meta  name="twitter:description"  content="A collection of test cases implemented in Python for Ethereum execution clients" >
       
-        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas.png" >
+        <meta  name="twitter:image"  content="https://eest.ethereum.org/main/assets/images/social/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_gas_cost_boundary.png" >
       
     
     
@@ -111,7 +111,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#test_clz_gas" class="md-skip">
+        <a href="#test_clz_gas_cost_boundary" class="md-skip">
           Skip to content
         </a>
       
@@ -148,7 +148,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              <code>test_clz_gas</code>
+              <code>test_clz_gas_cost_boundary</code>
             
           </span>
         </div>
@@ -4064,6 +4064,8 @@
       
         
       
+        
+      
     
     
       
@@ -4130,6 +4132,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_gas_cost/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_gas_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -4146,7 +4169,7 @@
           
   
   <span class="md-ellipsis">
-    <code>test_clz_gas</code>
+    <code>test_clz_gas_cost_boundary</code>
   </span>
   
 
@@ -4157,7 +4180,7 @@
         
   
   <span class="md-ellipsis">
-    <code>test_clz_gas</code>
+    <code>test_clz_gas_cost_boundary</code>
   </span>
   
 
@@ -4179,9 +4202,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas" class="md-nav__link">
+  <a href="#tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas_cost_boundary" class="md-nav__link">
     <span class="md-ellipsis">
-      test_clz_gas
+      test_clz_gas_cost_boundary
     </span>
   </a>
   
@@ -23864,9 +23887,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas" class="md-nav__link">
+  <a href="#tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas_cost_boundary" class="md-nav__link">
     <span class="md-ellipsis">
-      test_clz_gas
+      test_clz_gas_cost_boundary
     </span>
   </a>
   
@@ -23896,11 +23919,11 @@
                   
 
 
-<h1 id="test_clz_gas"><code>test_clz_gas()</code><a class="headerlink" href="#test_clz_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f62890fe35e2da4b36d8586522567f4d28227813/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L110"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas@f62890fe</code></a>.</p>
+<h1 id="test_clz_gas_cost_boundary"><code>test_clz_gas_cost_boundary()</code><a class="headerlink" href="#test_clz_gas_cost_boundary" title="Permanent link">&para;</a></h1>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e88a2113f6d93ded665a15e8e4de448c03453175/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L134"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary@e88a2113</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
-<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas --fork Osaka</span>
+<div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary --fork Osaka</span>
 </code></pre></div>
 </div>
 
@@ -23909,62 +23932,82 @@
 
 
 
-<a id="tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas"></a>
+<a id="tests.osaka.eip7939_count_leading_zeros.test_count_leading_zeros.test_clz_gas_cost_boundary"></a>
     <div class="doc doc-contents first">
 
-      <p>Test CLZ opcode gas cost.</p>
+      <p>Test CLZ opcode gas cost boundary.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">test_clz_gas</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode gas cost.&quot;&quot;&quot;</span>
-    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
-            <span class="mi">0</span><span class="p">,</span>
-            <span class="n">CodeGasMeasure</span><span class="p">(</span>
-                <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
-                <span class="n">extra_stack_items</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">overhead_cost</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span><span class="o">.</span><span class="n">G_VERY_LOW</span><span class="p">,</span>
-            <span class="p">),</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">255</span><span class="p">])</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;gas_cost_delta&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">test_clz_gas_cost_boundary</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">gas_cost_delta</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode gas cost boundary.&quot;&quot;&quot;</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH32</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">bits</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">CLZ</span>
+
+    <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+
+    <span class="n">call_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
+            <span class="n">gas</span><span class="o">=</span><span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">CLZ_GAS_COST</span> <span class="o">+</span> <span class="n">gas_cost_delta</span><span class="p">,</span>
+            <span class="n">address</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
         <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">call_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">call_code</span><span class="p">,</span>
         <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x00&quot;</span><span class="p">:</span> <span class="s2">&quot;0xdeadbeef&quot;</span><span class="p">},</span>
     <span class="p">)</span>
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">200_000</span><span class="p">)</span>
-    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>  <span class="c1"># Cost measured is CLZ + PUSH1</span>
-            <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x00&quot;</span><span class="p">:</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span><span class="o">.</span><span class="n">G_VERY_LOW</span><span class="p">}</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="n">call_address</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span> <span class="n">gas_limit</span><span class="o">=</span><span class="mi">200_000</span><span class="p">)</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span><span class="n">call_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x00&quot;</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">gas_cost_delta</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">1</span><span class="p">})}</span>
+
     <span class="n">state_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_clz_gas_cost_boundary.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -24007,24 +24050,410 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>gas_cost_delta</th>
+                        <th>bits</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas[fork_Osaka-state_test]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_0]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-2-bits_0
                 </abbr>
             </td>
+                        <td>-2</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_64]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-2-bits_64
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_128]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-2-bits_128
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_255]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-2-bits_255
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_0]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-1-bits_0
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_64]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-1-bits_64
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_128]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-1-bits_128
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_255]">
+                    ...fork_Osaka-state_test-gas_cost_delta_-1-bits_255
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_0]">
+                    ...fork_Osaka-state_test-gas_cost_delta_0-bits_0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_64]">
+                    ...fork_Osaka-state_test-gas_cost_delta_0-bits_64
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_128]">
+                    ...fork_Osaka-state_test-gas_cost_delta_0-bits_128
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_255]">
+                    ...fork_Osaka-state_test-gas_cost_delta_0-bits_255
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_0]">
+                    ...fork_Osaka-state_test-gas_cost_delta_1-bits_0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_64]">
+                    ...fork_Osaka-state_test-gas_cost_delta_1-bits_64
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_128]">
+                    ...fork_Osaka-state_test-gas_cost_delta_1-bits_128
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_255]">
+                    ...fork_Osaka-state_test-gas_cost_delta_1-bits_255
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_0]">
+                    ...fork_Osaka-state_test-gas_cost_delta_2-bits_0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_64]">
+                    ...fork_Osaka-state_test-gas_cost_delta_2-bits_64
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_128]">
+                    ...fork_Osaka-state_test-gas_cost_delta_2-bits_128
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_255]">
+                    ...fork_Osaka-state_test-gas_cost_delta_2-bits_255
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>255</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas[fork_Osaka-blockchain_test_from_state_test]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_0
                 </abbr>
             </td>
+                        <td>-2</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_64]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_64
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_128]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_128
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-2-bits_255
+                </abbr>
+            </td>
+                        <td>-2</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_0
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_64]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_64
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_128]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_128
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_-1-bits_255
+                </abbr>
+            </td>
+                        <td>-1</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_0
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_64]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_64
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_128]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_128
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_0-bits_255
+                </abbr>
+            </td>
+                        <td>0</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_0
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_64]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_64
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_128]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_128
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_1-bits_255
+                </abbr>
+            </td>
+                        <td>1</td>
+                        <td>255</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_0]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_0]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_0
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_64]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_64]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_64
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>64</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_128]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_128]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_128
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>128</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_255]">
+                    ...fork_Osaka-blockchain_test_from_state_test-gas_cost_delta_2-bits_255
+                </abbr>
+            </td>
+                        <td>2</td>
+                        <td>255</td>
                     </tr>
             </tbody>
 </table>
@@ -24062,7 +24491,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../test_clz_opcode_scenarios/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code&gt;test_clz_opcode_scenarios&lt;/code&gt;">
+          <a href="../test_clz_gas_cost/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code&gt;test_clz_gas_cost&lt;/code&gt;">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -24072,7 +24501,7 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                <code>test_clz_opcode_scenarios</code>
+                <code>test_clz_gas_cost</code>
               </div>
             </div>
           </a>

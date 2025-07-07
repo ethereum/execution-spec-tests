@@ -4064,6 +4064,8 @@
       
         
       
+        
+      
     
     
       
@@ -4133,11 +4135,32 @@
   
   
     <li class="md-nav__item">
-      <a href="test_clz_gas/" class="md-nav__link">
+      <a href="test_clz_gas_cost/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    <code>test_clz_gas</code>
+    <code>test_clz_gas_cost</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_clz_gas_cost_boundary/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_gas_cost_boundary</code>
   </span>
   
 
@@ -23839,7 +23862,7 @@
 
 
 <h1 id="test-count-leading-zeros">Test Count Leading Zeros<a class="headerlink" href="#test-count-leading-zeros" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f62890fe35e2da4b36d8586522567f4d28227813/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L69"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py@f62890fe</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e88a2113f6d93ded665a15e8e4de448c03453175/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L69"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py@e88a2113</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py --fork Osaka</span>
@@ -23890,10 +23913,16 @@
 <td>Test CLZ opcode functionality.</td>
 </tr>
 <tr>
-<td><a href="test_clz_gas/"><code>test_clz_gas</code></a></td>
+<td><a href="test_clz_gas_cost/"><code>test_clz_gas_cost</code></a></td>
 <td>state_test</td>
 <td>1</td>
 <td>Test CLZ opcode gas cost.</td>
+</tr>
+<tr>
+<td><a href="test_clz_gas_cost_boundary/"><code>test_clz_gas_cost_boundary</code></a></td>
+<td>state_test</td>
+<td>20</td>
+<td>Test CLZ opcode gas cost boundary.</td>
 </tr>
 <tr>
 <td><a href="test_clz_stack_underflow/"><code>test_clz_stack_underflow</code></a></td>
