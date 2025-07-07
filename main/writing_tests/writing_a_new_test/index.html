@@ -984,6 +984,63 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Writing code for the accounts in the test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-python-opcode-minilang" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Python Opcode Minilang
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Python Opcode Minilang">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-simple-addition-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Simple Addition Contract
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#higher-level-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Higher-Level Constructs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-bytecode-to-minilang" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting Bytecode to Minilang
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restrictions-no-yul-in-python-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Restrictions: No Yul in Python Test Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -24103,6 +24160,63 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Writing code for the accounts in the test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-python-opcode-minilang" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using the Python Opcode Minilang
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Using the Python Opcode Minilang">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-simple-addition-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Simple Addition Contract
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#higher-level-constructs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Higher-Level Constructs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#converting-bytecode-to-minilang" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting Bytecode to Minilang
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restrictions-no-yul-in-python-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Restrictions: No Yul in Python Test Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -24324,16 +24438,48 @@ test.</p>
 <p>They can also contain a <code>TransactionReceipt</code> object in field <code>expected_receipt</code>
 which allows checking for an exact <code>gas_used</code> value.</p>
 <h2 id="writing-code-for-the-accounts-in-the-test">Writing code for the accounts in the test<a class="headerlink" href="#writing-code-for-the-accounts-in-the-test" title="Permanent link">&para;</a></h2>
-<p>Account bytecode can be embedded in the test accounts by adding it to the <code>code</code>
-field of the <code>account</code> object, or the <code>data</code> field of the <code>tx</code> object if the
-bytecode is meant to be treated as init code or call data.</p>
-<p>The code can be in either of the following formats:</p>
-<ul>
-<li><code>bytes</code> object, representing the raw opcodes in binary format.</li>
-<li><code>str</code>, representing an hexadecimal format of the opcodes.</li>
-<li><code>Code</code> compilable object.</li>
-</ul>
-<p><code>Code</code> objects can be concatenated together by using the <code>+</code> operator.</p>
+<p>Account bytecode can be "deployed" in a test's pre-state using the <code>pre</code> pytest fixture. The <a class="magiclink magiclink-github magiclink-repository" href="https://github.com/ethereum/execution-spec-tests" title="GitHub Repository: ethereum/execution-spec-tests">ethereum/execution-spec-tests</a> Python <a class="autorefs autorefs-internal" href="../../library/ethereum_test_vm/#ethereum_test_vm.Opcodes"><code>Opcodes</code></a> minilang can be used to help write the bytecode in a readable form.</p>
+<h3 id="using-the-python-opcode-minilang">Using the Python Opcode Minilang<a class="headerlink" href="#using-the-python-opcode-minilang" title="Permanent link">&para;</a></h3>
+<p>EVM bytecode for tests should be written using the Python-based minilang provided by the <a class="autorefs autorefs-internal" href="../../library/ethereum_test_vm/#ethereum_test_vm.Opcodes"><code>Opcodes</code></a> class. This allows you to construct bytecode using symbolic opcodes as Python objects.</p>
+<h4 id="example-simple-addition-contract">Example: Simple Addition Contract<a class="headerlink" href="#example-simple-addition-contract" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ethereum_test_vm.opcode</span> <span class="kn">import</span> <span class="n">Opcodes</span>
+
+<span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Opcodes</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x02</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x03</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">ADD</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x00</span><span class="p">)</span>
+    <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">()</span>
+    <span class="o">+</span> <span class="n">Opcodes</span><span class="o">.</span><span class="n">STOP</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="c1"># within a test function, using the &quot;pre&quot; fixture</span>
+<span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">)</span>
+</code></pre></div>
+<p>You add this contract to the test's pre-state using the <code>pre</code> fixture or assign this <code>code</code> to the <code>code</code> field of an account in your test's <code>post</code> state. See the <a href="../tutorials/state_transition/">state test tutorial</a> for more help.</p>
+<p>For a full list of available opcodes and their usage, see <a class="autorefs autorefs-internal" href="../../library/ethereum_test_vm/#ethereum_test_vm.Opcodes"><code>Opcodes</code></a>.</p>
+<h4 id="higher-level-constructs">Higher-Level Constructs<a class="headerlink" href="#higher-level-constructs" title="Permanent link">&para;</a></h4>
+<p>For more complex control flow, you can use constructs like <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.Switch"><code>Switch</code></a> and <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.Case"><code>Case</code></a> from the <code>ethereum_test_tools.code.generators</code> module:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ethereum_test_tools.code.generators</span> <span class="kn">import</span> <span class="n">Switch</span><span class="p">,</span> <span class="n">Case</span>
+<span class="kn">from</span> <span class="nn">ethereum_test_vm.opcode</span> <span class="kn">import</span> <span class="n">Opcodes</span> <span class="k">as</span> <span class="n">Op</span>
+
+<span class="n">code</span> <span class="o">=</span> <span class="n">Switch</span><span class="p">(</span>
+    <span class="n">cases</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">Case</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="n">action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x01</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">()),</span>
+        <span class="n">Case</span><span class="p">(</span><span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">EQ</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALLDATALOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="n">action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x02</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">()),</span>
+    <span class="p">],</span>
+    <span class="n">default_action</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mh">0x00</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">(),</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>The <code>ethereum_test_tools.code.generators</code> module also defines other high-level constructs like <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.While"><code>While</code></a> and <a class="autorefs autorefs-internal" href="../../library/ethereum_test_tools/#ethereum_test_tools.Conditional"><code>Conditional</code></a>.</p>
+<h4 id="converting-bytecode-to-minilang">Converting Bytecode to Minilang<a class="headerlink" href="#converting-bytecode-to-minilang" title="Permanent link">&para;</a></h4>
+<p>If you have EVM bytecode (as hex or binary), you can use the <a href="../../library/cli/evm_bytes/"><code>evm_bytes</code> CLI tool</a> to convert it to the EEST Python opcode minilang automatically, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run evm_bytes hex-string 0x604260005260206000F3</span>
+<span class="gp"># </span>-&gt;
+<span class="gp"># </span>Op.PUSH1<span class="o">[</span>0x42<span class="o">]</span><span class="w"> </span>+<span class="w"> </span>Op.PUSH1<span class="o">[</span>0x0<span class="o">]</span><span class="w"> </span>+<span class="w"> </span>Op.MSTORE<span class="w"> </span>+<span class="w"> </span>Op.PUSH1<span class="o">[</span>0x20<span class="o">]</span><span class="w"> </span>+<span class="w"> </span>Op.PUSH1<span class="o">[</span>0x0<span class="o">]</span><span class="w"> </span>+<span class="w"> </span>Op.RETURN
+</code></pre></div>
+<h4 id="restrictions-no-yul-in-python-test-cases">Restrictions: No Yul in Python Test Cases<a class="headerlink" href="#restrictions-no-yul-in-python-test-cases" title="Permanent link">&para;</a></h4>
+<p>As of <a href="https://github.com/ethereum/execution-spec-tests/pull/1779">PR #1779</a>, the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.</p>
 <h2 id="verifying-the-accounts-post-states">Verifying the Accounts' Post States<a class="headerlink" href="#verifying-the-accounts-post-states" title="Permanent link">&para;</a></h2>
 <p>The state of the accounts after all blocks/transactions have been executed is
 the way of verifying that the execution client actually behaves like the test
@@ -24849,6 +24995,7 @@ function and are passed through unchanged.</p>
     <nav>
       
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
+        <a href="mailto:dmitriymozir@gmail.com">MozirDmitriy</a>, 
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
         <a href="mailto:10168946+raxhvl@users.noreply.github.com">raxhvl</a>, 
         <a href="mailto:spencer@spencertaylorbrown.uk">spencer-tb</a>
