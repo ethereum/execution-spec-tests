@@ -153,7 +153,10 @@ def test_clz_gas_cost_boundary(
             address=contract_address,
         ),
     )
-    call_address = pre.deploy_contract(code=call_code)
+    call_address = pre.deploy_contract(
+        code=call_code,
+        storage={"0x00": "0xdeadbeef"},
+    )
 
     tx = Transaction(to=call_address, sender=pre.fund_eoa(), gas_limit=200_000)
 
