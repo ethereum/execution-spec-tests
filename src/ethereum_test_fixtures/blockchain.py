@@ -160,6 +160,7 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    bal_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -243,6 +244,7 @@ class FixtureHeader(CamelModel):
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
+            bal_hash=Hash(0) if fork.header_bal_hash_required(0, 0) else None,
             fork=fork,
         )
 
@@ -420,6 +422,9 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
+    block_access_lists: Bytes | None = Field(
+        None, description="Serialized EIP-7928 Block Access Lists"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
