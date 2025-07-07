@@ -67,8 +67,7 @@ uv run ruff check --fix src tests .github/scripts
 uv run mypy src tests .github/scripts
 
 # Framework unit tests
-uv run pytest -c pytest-framework.ini -n auto -m "not run_in_serial"
-uv run pytest -c pytest-framework.ini -m run_in_serial
+uv run pytest -c pytest-framework.ini -n auto
 
 # Run specific checks (fast checks)
 uvx --with=tox-uv tox -e lint,typecheck,spellcheck

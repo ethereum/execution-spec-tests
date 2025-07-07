@@ -44,7 +44,6 @@ def test_fill_with_invalid_option(runner):
     assert "unrecognized arguments" in result.output
 
 
-@pytest.mark.run_in_serial
 class TestHtmlReportFlags:
     """Test html report generation and output options."""
 
