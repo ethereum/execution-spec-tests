@@ -31,6 +31,7 @@ eth_config_json_data = """
       }
     },
     "currentHash": "243c27d1",
+    "currentForkId": "bef71d30",
     "next": {
       "activationTime": 1742999832,
       "blobSchedule": {
@@ -66,7 +67,8 @@ eth_config_json_data = """
         "WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS": "0x00000961ef480eb55e80d19ad83579a64c007002"
       }
     },
-    "nextHash": "10368496"
+    "nextHash": "10368496",
+    "nextForkId": "0929e24e"
 }
 """
 

@@ -13,7 +13,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     EthereumTestRootModel,
-    ForkConfigHash,
+    ForkHash,
     Hash,
     HexNumber,
 )
@@ -207,18 +207,18 @@ class ForkConfig(CamelModel):
     precompiles: Dict[Address, str]
     system_contracts: Dict[str, Address]
 
-    def get_hash(self) -> ForkConfigHash:
+    def get_hash(self) -> ForkHash:
         """Return the hash of the fork config."""
         obj = self.model_dump(mode="json", by_alias=True, exclude_none=True)
-        return ForkConfigHash(
-            crc32(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode())
-        )
+        return ForkHash(crc32(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()))
 
 
 class EthConfigResponse(CamelModel):
     """Response of the `eth_config` RPC endpoint."""
 
-    current: ForkConfig | None = None
-    current_hash: ForkConfigHash | None = None
+    current: ForkConfig
+    current_hash: ForkHash
+    current_fork_id: ForkHash
     next: ForkConfig | None = None
-    next_hash: ForkConfigHash | None = None
+    next_hash: ForkHash | None = None
+    next_fork_id: ForkHash | None = None

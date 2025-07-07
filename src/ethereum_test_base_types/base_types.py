@@ -350,8 +350,8 @@ class FixedSizeBytes(Bytes):
         )
 
 
-class ForkConfigHash(FixedSizeBytes[4]):  # type: ignore
-    """Class that helps represent the CRC config hash of a fork."""
+class ForkHash(FixedSizeBytes[4]):  # type: ignore
+    """Class that helps represent the CRC config hashes and identifiers of a fork."""
 
     pass
 
