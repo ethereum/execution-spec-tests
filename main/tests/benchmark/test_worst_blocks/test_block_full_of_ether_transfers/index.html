@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../test_worst_bytecode/">
+        <link rel="next" href="../test_block_full_data/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -22203,6 +22203,8 @@
       
         
       
+        
+      
     
     
       
@@ -22318,6 +22320,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_block_full_data/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_block_full_data</code>
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -23918,7 +23941,7 @@
 
 
 <h1 id="test_block_full_of_ether_transfers"><code>test_block_full_of_ether_transfers()</code><a class="headerlink" href="#test_block_full_of_ether_transfers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/70a0a820fb659f51dd8e79db05277a95e8aeaa2c/tests/benchmark/test_worst_blocks.py#L104"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@70a0a820</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6e56978b083bb29c23c49181a598b063c52c1420/tests/benchmark/test_worst_blocks.py#L105"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@6e56978b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers --fork Prague</span>
@@ -23943,8 +23966,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
@@ -23997,7 +24019,8 @@
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">158</span>
+<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;case_id&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="s2">&quot;a_to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_diff_acc&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_diff_acc&quot;</span><span class="p">],</span>
@@ -24009,7 +24032,7 @@
     <span class="n">ether_transfer_case</span><span class="p">,</span>
     <span class="n">iteration_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">transfer_amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">eth_transfer_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">intrinsic_cost</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Single test for ether transfer scenarios.</span>
@@ -24033,7 +24056,7 @@
             <span class="n">Transaction</span><span class="p">(</span>
                 <span class="n">to</span><span class="o">=</span><span class="n">receiver</span><span class="p">,</span>
                 <span class="n">value</span><span class="o">=</span><span class="n">transfer_amount</span><span class="p">,</span>
-                <span class="n">gas_limit</span><span class="o">=</span><span class="n">eth_transfer_cost</span><span class="p">,</span>
+                <span class="n">gas_limit</span><span class="o">=</span><span class="n">intrinsic_cost</span><span class="p">,</span>
                 <span class="n">sender</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">senders</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -24293,13 +24316,13 @@
         
         
           
-          <a href="../../test_worst_bytecode/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Worst Bytecode">
+          <a href="../test_block_full_data/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_block_full_data&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Worst Bytecode
+                <code>test_block_full_data</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

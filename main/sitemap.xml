@@ -401,6 +401,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_blocks/test_block_full_data/</loc>
+         <lastmod>2025-07-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_blocks/test_block_full_of_ether_transfers/</loc>
          <lastmod>2025-07-08</lastmod>
          <changefreq>daily</changefreq>
