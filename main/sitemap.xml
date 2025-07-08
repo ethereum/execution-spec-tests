@@ -61,11 +61,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/dev/porting_legacy_tests/</loc>
-         <lastmod>2025-07-08</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://eest.ethereum.org/main/dev/precommit/</loc>
          <lastmod>2025-07-08</lastmod>
          <changefreq>daily</changefreq>
@@ -3512,6 +3507,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/writing_tests/fork_methods/</loc>
+         <lastmod>2025-07-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/writing_tests/porting_legacy_tests/</loc>
          <lastmod>2025-07-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
