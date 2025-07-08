@@ -49,6 +49,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🐞 `zkevm` marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
+- 🔀 Disabled default EVM dump directory to improve performance. Debug output via `--evm-dump-dir` now requires explicit specification. Also removed redundant `--skip-evm-dump` option as debug output is now opt-in by default. ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)).
 
 #### `consume`
 

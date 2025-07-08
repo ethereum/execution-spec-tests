@@ -16,7 +16,7 @@ FILL_UNTIL="${4:-Cancun}"
 # As when we translate from yul/solidity some dup/push opcodes could become untouched
 files="$CHANGED_TEST_FILES tests/homestead/coverage/test_coverage.py"
 
-uv run fill $files --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $PATCH_TEST_PATH > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+uv run fill $files --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $PATCH_TEST_PATH > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
 if grep -q "FAILURES" filloutput.log; then
     echo "Error: failed to generate .py tests."
