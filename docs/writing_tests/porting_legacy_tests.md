@@ -31,7 +31,7 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
         pr=["https://github.com/ethereum/execution-spec-tests/pull/1871"],
         # coverage_missed_reason="Converting solidity code result in following opcode not being used:",
         ```
-        Replace test names with your choosen tests and PR number.
+        Replace test names with your chosen tests and PR number.
         Uncomment coverage_missed_reason when all the missed coverage lines are approved, usually some opcodes end up not used after translating test logic from lllc, yul.
         But sometimes missed coverage line could hint that you forgot to account important test logic.
         If no coverage is missed, you are good!
