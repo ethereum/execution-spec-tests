@@ -46,10 +46,7 @@ def _create_execute_subcommand(
 hive = _create_execute_subcommand(
     "hive",
     "pytest-execute-hive.ini",
-    (
-        "Execute tests using hive in dev-mode as backend, requires hive to be running "
-        "(using command: `./hive --dev`)."
-    ),
+    "Execute tests using hive as a backend (`./hive --dev`).",
 )
 
 remote = _create_execute_subcommand(
@@ -61,5 +58,5 @@ remote = _create_execute_subcommand(
 recover = _create_execute_subcommand(
     "recover",
     "pytest-execute-recover.ini",
-    "Recover funds from a failed test execution using a remote RPC endpoint.",
+    "Recover funds from test executions using a remote RPC endpoint.",
 )
