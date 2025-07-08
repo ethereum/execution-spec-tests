@@ -23925,8 +23925,9 @@ to fill (including the standard pytest and plugin command-line options) use <cod
 <p><em>This page is automatically generated from the current <code>fill --help</code> output.</em></p>
 <h2 id="command-help-output">Command Help Output<a class="headerlink" href="#command-help-output" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>usage: fill [-h] [--strict-alloc] [--ca-start CA_START] [--ca-incr CA_INCR]
-            [--evm-code-type EVM_CODE_TYPE] [--evm-bin EVM_BIN] [--traces]
-            [--verify-fixtures] [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
+            [--evm-code-type EVM_CODE_TYPE] [--evm-bin EVM_BIN]
+            [--t8n-server-url T8N_SERVER_URL] [--traces] [--verify-fixtures]
+            [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--clean]
             [--flat-output] [--single-fixture-per-file] [--no-html]
             [--build-name BUILD_NAME] [--skip-index SKIP_INDEX]
@@ -23957,6 +23958,10 @@ Arguments defining evm executable behavior:
   --evm-bin EVM_BIN     Path to an evm executable (or name of an executable in
                         the PATH) that provides `t8n`. Default: `ethereum-
                         spec-evm-resolver`.
+  --t8n-server-url T8N_SERVER_URL
+                        [INTERNAL USE ONLY] URL of the t8n server to use. Used
+                        by framework tests/ci; not intended for regular CLI
+                        use.
   --traces              Collect traces of the execution information from the
                         transition tool.
   --verify-fixtures     Verify generated fixture JSON files using geth&#39;s evm
