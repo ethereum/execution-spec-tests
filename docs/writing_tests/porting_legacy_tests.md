@@ -15,7 +15,7 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
 
 ## Porting an original test
 
-1. Select one or more test cases from .tests/static/state_tests to port and create an issue in this repository AND comment on [this tracker issue.](https://github.com/ethereum/execution-spec-tests/issues/972)
+1. Select one or more test cases from `./tests/static/state_tests/` to port and create an issue in this repository AND comment on [this tracker issue.](https://github.com/ethereum/execution-spec-tests/issues/972)
 
 2. [Add a new test](../writing_tests/index.md) in the appropriate fork folder, following the guidelines for [choosing a test type.](../writing_tests/types_of_tests.md#deciding-on-a-test-type)
 
