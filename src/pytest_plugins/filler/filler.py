@@ -134,7 +134,10 @@ def pytest_addoption(parser: pytest.Parser):
         dest="t8n_server_url",
         type=str,
         default=None,
-        help="URL of the t8n server to use.",
+        help=(
+            "[INTERNAL USE ONLY] URL of the t8n server to use. Used by framework tests/ci; not "
+            "intended for regular CLI use."
+        ),
     )
     evm_group.addoption(
         "--traces",
