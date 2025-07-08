@@ -14,6 +14,8 @@ from ethereum_test_tools import (
     CodeGasMeasure,
     StateTestFiller,
     Transaction,
+    compute_create2_address,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -308,5 +310,97 @@ def test_clz_jump_operation(
 
     if valid_jump or not jumpi_condition:
         post[callee_address] = Account(storage={"0x00": expected_clz})
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
+def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc, bits: int):
+    """Test CLZ opcode behavior when creating a contract."""
+    code = Op.SSTORE(1, Op.CLZ(1 << bits)) + Op.STOP
+
+    code_address = pre.deploy_contract(code=code)
+
+    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
+
+    creation_code = (
+        init_code
+        + Op.EXTCODECOPY(
+            address=code_address,
+            dest_offset=0,
+            offset=0,
+            size=Op.EXTCODESIZE(code_address),
+        )
+        + Op.RETURN(0, Op.MSIZE)
+    )
+
+    sender_address = pre.fund_eoa()
+    contract_address = compute_create_address(address=sender_address, nonce=0)
+    tx = Transaction(
+        to=None,
+        gas_limit=6_000_000,
+        data=creation_code,
+        sender=sender_address,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        contract_address: Account(storage={"0x00": expected_clz}),
+    }
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 1, 4, 8, 16])
+@pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+    """Test CLZ opcode behavior when creating a contract."""
+    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
+
+    ext_code = Op.SSTORE(1, Op.CLZ(1 << bits))
+    ext_code_address = pre.deploy_contract(code=ext_code)
+
+    creation_code = init_code + Op.EXTCODECOPY(
+        address=ext_code_address,
+        dest_offset=0,
+        offset=0,
+        size=Op.EXTCODESIZE(ext_code_address),
+    )
+
+    sender_address = pre.fund_eoa()
+
+    if opcode == Op.CREATE:
+        create_contract = creation_code + opcode(offset=0, size=len(ext_code))
+    elif opcode == Op.CREATE2:
+        create_contract = creation_code + opcode(
+            offset=0,
+            size=len(ext_code),
+            salt="00" * 32,
+        )
+
+    create_contract_address = pre.deploy_contract(code=create_contract)
+
+    if opcode == Op.CREATE:
+        contract_address = compute_create_address(address=create_contract_address, nonce=1)
+    elif opcode == Op.CREATE2:
+        contract_address = compute_create2_address(
+            address=create_contract_address, salt="00" * 32, initcode=ext_code
+        )
+
+    tx = Transaction(
+        to=create_contract_address,
+        gas_limit=6_000_000,
+        data=create_contract,
+        sender=sender_address,
+    )
+
+    expected_clz = 255 - bits
+
+    post = {
+        contract_address: Account(storage={"0x01": expected_clz}),
+    }
 
     state_test(pre=pre, post=post, tx=tx)
