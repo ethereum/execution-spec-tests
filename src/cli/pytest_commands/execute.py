@@ -27,6 +27,7 @@ def _create_execute_subcommand(
 
     @execute.command(
         name=command_name,
+        help=help_text,
         context_settings={"ignore_unknown_options": True},
     )
     @common_pytest_options
