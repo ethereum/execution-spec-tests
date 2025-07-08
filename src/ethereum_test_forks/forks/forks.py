@@ -4,9 +4,7 @@ from dataclasses import replace
 from hashlib import sha256
 from os.path import realpath
 from pathlib import Path
-from typing import List, Mapping, Optional, Sized, Tuple
-
-from semver import Version
+from typing import List, Literal, Mapping, Optional, Sized, Tuple
 
 from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes, ForkBlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
@@ -45,11 +43,6 @@ class Frontier(BaseFork, solc_name="homestead"):
         if cls._solc_name is not None:
             return cls._solc_name
         return cls.name().lower()
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("0.8.20")
 
     @classmethod
     def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -332,6 +325,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         return cls.engine_new_payload_version(block_number, timestamp)
 
     @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At genesis, blobs cannot be retrieved through the engine API."""
+        return None
+
+    @classmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
         At Genesis the expected reward amount in wei is
@@ -350,6 +348,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         return [0]
 
     @classmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Genesis, no transaction gas limit cap is imposed."""
+        return None
+
+    @classmethod
+    def block_rlp_size_limit(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Genesis, no RLP block size limit is imposed."""
+        return None
+
+    @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """At Genesis, no pre-compiles are present."""
         return []
@@ -363,6 +371,23 @@ class Frontier(BaseFork, solc_name="homestead"):
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """At Genesis, only legacy EVM code is supported."""
         return [EVMCodeType.LEGACY]
+
+    @classmethod
+    def max_code_size(cls) -> int:
+        """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
+        """However, the default is set to the limit of EIP-170 (Spurious Dragon)"""
+        return 0x6000
+
+    @classmethod
+    def max_stack_height(cls) -> int:
+        """At genesis, the maximum stack height is 1024."""
+        return 1024
+
+    @classmethod
+    def max_initcode_size(cls) -> int:
+        """At genesis, there is no upper bound for initcode size."""
+        """However, the default is set to the limit of EIP-3860 (Shanghai)"""
+        return 0xC000
 
     @classmethod
     def call_opcodes(
@@ -630,6 +655,12 @@ class Byzantium(Homestead):
         )
 
     @classmethod
+    def max_code_size(cls) -> int:
+        # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
+        """At Spurious Dragon, an upper bound was introduced for max contract code size."""
+        return 0x6000
+
+    @classmethod
     def call_opcodes(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> List[Tuple[Opcodes, EVMCodeType]]:
@@ -813,7 +844,6 @@ class GrayGlacier(ArrowGlacier, solc_name="london", ignore=True):
 class Paris(
     London,
     transition_tool_name="Merge",
-    blockchain_test_network_name="Paris",
 ):
     """Paris (Merge) fork."""
 
@@ -856,6 +886,11 @@ class Shanghai(Paris):
         return 2
 
     @classmethod
+    def max_initcode_size(cls) -> int:
+        """From Shanghai, the initcode size is now limited. See EIP-3860."""
+        return 0xC000
+
+    @classmethod
     def valid_opcodes(
         cls,
     ) -> List[Opcodes]:
@@ -866,10 +901,26 @@ class Shanghai(Paris):
 class Cancun(Shanghai):
     """Cancun fork."""
 
+    BLOB_CONSTANTS = {  # every value is an int or a Literal
+        "FIELD_ELEMENTS_PER_BLOB": 4096,
+        "BYTES_PER_FIELD_ELEMENT": 32,
+        "CELL_LENGTH": 2048,
+        "BLS_MODULUS": 0x73EDA753299D7D483339D80809A1D80553BDA402FFFE5BFEFFFFFFFF00000001,  # EIP-2537: Main subgroup order = q, due to this BLS_MODULUS every blob byte (uint256) must be smaller than 116  # noqa: E501
+        # https://github.com/ethereum/consensus-specs/blob/cc6996c22692d70e41b7a453d925172ee4b719ad/specs/deneb/polynomial-commitments.md?plain=1#L78
+        "BYTES_PER_PROOF": 48,
+        "BYTES_PER_COMMITMENT": 48,
+        "KZG_ENDIANNESS": "big",
+        "AMOUNT_CELL_PROOFS": 0,
+    }
+
     @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("0.8.24")
+    def get_blob_constant(cls, name: str) -> int | Literal["big"]:
+        """Return blob constant if it exists."""
+        retrieved_constant = cls.BLOB_CONSTANTS.get(name)
+        assert retrieved_constant is not None, (
+            f"You tried to retrieve the blob constant {name} but it does not exist!"
+        )
+        return retrieved_constant
 
     @classmethod
     def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -918,6 +969,7 @@ class Cancun(Shanghai):
             parent_excess_blobs: int | None = None,
             parent_blob_gas_used: int | None = None,
             parent_blob_count: int | None = None,
+            parent_base_fee_per_gas: int,  # Required for Osaka as using this as base
         ) -> int:
             if parent_excess_blob_gas is None:
                 assert parent_excess_blobs is not None, "Parent excess blobs are required"
@@ -1018,6 +1070,11 @@ class Cancun(Shanghai):
         return 3
 
     @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At Cancun, the engine get blobs version is 1."""
+        return 1
+
+    @classmethod
     def engine_new_payload_blob_hashes(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """From Cancun, payloads must have blob hashes."""
         return True
@@ -1044,6 +1101,16 @@ class Cancun(Shanghai):
 class Prague(Cancun):
     """Prague fork."""
 
+    # update some blob constants
+    BLOB_CONSTANTS = {
+        **Cancun.BLOB_CONSTANTS,  # same base constants as cancun
+        "MAX_BLOBS_PER_BLOCK": 9,  # but overwrite or add these
+        "TARGET_BLOBS_PER_BLOCK": 6,
+        "MAX_BLOB_GAS_PER_BLOCK": 1179648,
+        "TARGET_BLOB_GAS_PER_BLOCK": 786432,
+        "BLOB_BASE_FEE_UPDATE_FRACTION": 5007716,
+    }
+
     @classmethod
     def is_deployed(cls) -> bool:
         """
@@ -1051,11 +1118,6 @@ class Prague(Cancun):
         development.
         """
         return False
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown
 
     @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
@@ -1073,6 +1135,11 @@ class Prague(Cancun):
         return [Address(i) for i in range(0xB, 0x11 + 1)] + super(Prague, cls).precompiles(
             block_number, timestamp
         )
+
+    @classmethod
+    def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
+        """At Prague, set-code type transactions are introduced."""
+        return [4] + super(Prague, cls).tx_types(block_number, timestamp)
 
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
@@ -1290,12 +1357,35 @@ class Prague(Cancun):
 class Osaka(Prague, solc_name="cancun"):
     """Osaka fork."""
 
+    # update some blob constants
+    BLOB_CONSTANTS = {
+        **Prague.BLOB_CONSTANTS,  # same base constants as prague
+        "AMOUNT_CELL_PROOFS": 128,
+    }
+
     @classmethod
     def engine_get_payload_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
         """From Osaka, get payload calls must use version 5."""
         return 5
+
+    @classmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """At Osaka, the engine get blobs version is 2."""
+        return 2
+
+    @classmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """At Osaka, transaction gas limit is capped at 30 million."""
+        return 30_000_000
+
+    @classmethod
+    def block_rlp_size_limit(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """From Osaka, block RLP size is limited as specified in EIP-7934."""
+        max_block_size = 10_485_760
+        safety_margin = 2_097_152
+        return max_block_size - safety_margin
 
     @classmethod
     def is_deployed(cls) -> bool:
@@ -1306,9 +1396,71 @@ class Osaka(Prague, solc_name="cancun"):
         return False
 
     @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown
+    def valid_opcodes(
+        cls,
+    ) -> List[Opcodes]:
+        """Return list of Opcodes that are valid to work on this fork."""
+        return [
+            Opcodes.CLZ,
+        ] + super(Prague, cls).valid_opcodes()
+
+    @classmethod
+    def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
+        """
+        At Osaka, pre-compile for p256verify operation is added.
+
+        P256VERIFY = 0x100
+        """
+        return [Address(0x100)] + super(Osaka, cls).precompiles(block_number, timestamp)
+
+    @classmethod
+    def excess_blob_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> ExcessBlobGasCalculator:
+        """Return a callable that calculates the excess blob gas for a block."""
+        target_blobs_per_block = cls.target_blobs_per_block(block_number, timestamp)
+        blob_gas_per_blob = cls.blob_gas_per_blob(block_number, timestamp)
+        target_blob_gas_per_block = target_blobs_per_block * blob_gas_per_blob
+        max_blobs_per_block = cls.max_blobs_per_block(block_number, timestamp)
+        blob_base_cost = 2**14  # EIP-7918 new parameter
+
+        def fn(
+            *,
+            parent_excess_blob_gas: int | None = None,
+            parent_excess_blobs: int | None = None,
+            parent_blob_gas_used: int | None = None,
+            parent_blob_count: int | None = None,
+            parent_base_fee_per_gas: int,  # EIP-7918 additional parameter
+        ) -> int:
+            if parent_excess_blob_gas is None:
+                assert parent_excess_blobs is not None, "Parent excess blobs are required"
+                parent_excess_blob_gas = parent_excess_blobs * blob_gas_per_blob
+            if parent_blob_gas_used is None:
+                assert parent_blob_count is not None, "Parent blob count is required"
+                parent_blob_gas_used = parent_blob_count * blob_gas_per_blob
+            if parent_excess_blob_gas + parent_blob_gas_used < target_blob_gas_per_block:
+                return 0
+
+            # EIP-7918: Apply reserve price when execution costs dominate blob costs
+            current_blob_base_fee = cls.blob_gas_price_calculator()(
+                excess_blob_gas=parent_excess_blob_gas
+            )
+            reserve_price_active = (
+                blob_base_cost * parent_base_fee_per_gas
+                > blob_gas_per_blob * current_blob_base_fee
+            )
+            if reserve_price_active:
+                blob_excess_adjustment = (
+                    parent_blob_gas_used
+                    * (max_blobs_per_block - target_blobs_per_block)
+                    // max_blobs_per_block
+                )
+                return parent_excess_blob_gas + blob_excess_adjustment
+
+            # Original EIP-4844 calculation
+            return parent_excess_blob_gas + parent_blob_gas_used - target_blob_gas_per_block
+
+        return fn
 
 
 class EOFv1(Prague, solc_name="cancun"):
@@ -1340,8 +1492,3 @@ class EOFv1(Prague, solc_name="cancun"):
         development.
         """
         return False
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown

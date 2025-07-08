@@ -20,29 +20,23 @@ The latest version of `uv` can be installed via `curl` (recommended; can self-up
     pip install uv
     ```
 
-If installed via `curl`, `uv` will download Python for your target platform if one of the required versions (Python 3.10, 3.11 or 3.12) is not available natively.
+If installed via `curl`, `uv` will download Python for your target platform if one of the required versions (Python 3.11 or 3.12) is not available natively.
 
 ## Installation Commands
 
-Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies.
+Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) and install its dependencies. We recommend using Python 3.12, the following uses `uv` to download and configures 3.12 to be the Python version used in execution-spec-tests:
 
-=== "All x86-64 platforms and ARM64 macOS"
-
-    ```console
-    git clone https://github.com/ethereum/execution-spec-tests
-    cd execution-spec-tests
-    uv sync --all-extras
-    uv run solc-select use 0.8.24 --always-install
-    ```
-
-=== "ARM64 Linux"
+=== "All platforms"
 
     ```console
     git clone https://github.com/ethereum/execution-spec-tests
     cd execution-spec-tests
+    uv python install 3.12
+    uv python pin 3.12
     uv sync --all-extras
     ```
-    Then follow [this guide](./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source) to build the `solc` binary from source and copy it to the expected location.
+
+Static tests/maintainers only: To learn how to build the `solc` binary from source (optional) follow [this guide](./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source).
 
 ## Installation Troubleshooting
 

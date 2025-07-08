@@ -14,6 +14,7 @@ class ErigonExceptionMapper(ExceptionMapper):
         ),
         TransactionException.NONCE_IS_MAX: "nonce has max value",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "intrinsic gas too low",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "fee cap less than block base fee",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "tip higher than fee cap",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "max fee per blob gas too low",
@@ -34,13 +35,17 @@ class ErigonExceptionMapper(ExceptionMapper):
         ),
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "wrong size for To: 0",
         TransactionException.TYPE_4_TX_PRE_FORK: "setCode tx is not supported by signer",
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: "could not parse requests logs",
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "could not parse requests logs",
         BlockException.SYSTEM_CONTRACT_EMPTY: "Syscall failure: Empty Code at",
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "Unprecedented Syscall failure",
         BlockException.INVALID_REQUESTS: "invalid requests root hash in header",
         BlockException.INVALID_BLOCK_HASH: "invalid block hash",
+        BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block exceeds max rlp size",
     }
     mapping_regex = {
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            r"invalid block, txnIdx=\d+, gas limit too high"
+        ),
         BlockException.INCORRECT_BLOB_GAS_USED: r"blobGasUsed by execution: \d+, in header: \d+",
         BlockException.INCORRECT_EXCESS_BLOB_GAS: r"invalid excessBlobGas: have \d+, want \d+",
         BlockException.INVALID_GAS_USED: r"gas used by execution: \w+, in header: \w+",

@@ -3,8 +3,6 @@ abstract: Tests [EIP-152: BLAKE2b compression precompile](https://eips.ethereum.
     Test cases for [EIP-152: BLAKE2b compression precompile](https://eips.ethereum.org/EIPS/eip-152).
 """
 
-from typing import Union
-
 import pytest
 
 from ethereum_test_tools import (
@@ -22,6 +20,24 @@ from .spec import SpecTestVectors, ref_spec_152
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_152.git_path
 REFERENCE_SPEC_VERSION = ref_spec_152.version
+
+pytestmark = pytest.mark.ported_from(
+    [
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/blake2BFiller.yml",
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLBlake2fFiller.json",
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts2/CALLCODEBlake2fFiller.json",
+        "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stPreCompiledContracts/delegatecall09UndefinedFiller.yml",
+    ],
+    pr=[
+        "https://github.com/ethereum/execution-spec-tests/pull/1244",
+        "https://github.com/ethereum/execution-spec-tests/pull/1067",
+    ],
+    coverage_missed_reason=(
+        "No longer used opcodes, SUB, GT, ISZERO, AND, CODESIZE, JUMP, some PUSH opcodes."
+        "Original test calls Blake2b in ConstantinopleFix (activation test), "
+        "which results in empty account code being triggered."
+    ),
+)
 
 
 @pytest.mark.valid_from("Istanbul")
@@ -376,7 +392,7 @@ def test_blake2b(
     pre: Alloc,
     call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
-    data: Union[Blake2bInput, str, bytes],
+    data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
 ):
     """Test BLAKE2b precompile."""
@@ -493,7 +509,7 @@ def test_blake2b_invalid_gas(
     call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
     gas_limit: int,
-    data: Union[Blake2bInput, str, bytes],
+    data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
 ):
     """Test BLAKE2b precompile invalid calls using different gas limits."""
@@ -602,7 +618,7 @@ def test_blake2b_gas_limit(
     call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
     gas_limit: int,
-    data: Union[Blake2bInput, str, bytes],
+    data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
 ):
     """Test BLAKE2b precompile with different gas limits."""
@@ -727,7 +743,7 @@ def test_blake2b_large_gas_limit(
     pre: Alloc,
     call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
-    data: Union[Blake2bInput, str, bytes],
+    data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
 ):
     """Test BLAKE2b precompile with large gas limit."""

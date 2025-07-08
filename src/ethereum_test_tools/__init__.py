@@ -9,6 +9,7 @@ from ethereum_test_base_types import (
     Address,
     Bytes,
     Hash,
+    Storage,
     TestAddress,
     TestAddress2,
     TestPrivateKey,
@@ -23,8 +24,9 @@ from ethereum_test_exceptions import (
 )
 from ethereum_test_fixtures import BaseFixture, FixtureCollector
 from ethereum_test_specs import (
-    SPEC_TYPES,
     BaseTest,
+    BlobsTest,
+    BlobsTestFiller,
     BlockchainTest,
     BlockchainTestFiller,
     EOFStateTest,
@@ -41,13 +43,13 @@ from ethereum_test_types import (
     EOA,
     Alloc,
     AuthorizationTuple,
+    Blob,
     ConsolidationRequest,
     DepositRequest,
     Environment,
     NetworkWrappedTransaction,
     Removable,
     Requests,
-    Storage,
     TestParameterGroup,
     Transaction,
     TransactionReceipt,
@@ -80,8 +82,6 @@ from .code import (
     Initcode,
     Switch,
     While,
-    Yul,
-    YulCompiler,
 )
 from .utility.generators import (
     DeploymentTestType,
@@ -91,7 +91,6 @@ from .utility.generators import (
 from .utility.pytest import extend_with_defaults
 
 __all__ = (
-    "SPEC_TYPES",
     "AccessList",
     "Account",
     "Address",
@@ -99,6 +98,9 @@ __all__ = (
     "AuthorizationTuple",
     "BaseFixture",
     "BaseTest",
+    "Blob",
+    "BlobsTest",
+    "BlobsTestFiller",
     "Block",
     "BlockchainTest",
     "BlockchainTestFiller",
@@ -153,8 +155,6 @@ __all__ = (
     "While",
     "Withdrawal",
     "WithdrawalRequest",
-    "Yul",
-    "YulCompiler",
     "add_kzg_version",
     "call_return_code",
     "ceiling_division",

@@ -1,33 +1,33 @@
 {
     "Frontier": {
-        "path": "../../execution-specs/src/ethereum/frontier"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Homestead": {
-        "path": "../../execution-specs/src/ethereum/homestead"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Byzantium": {
-        "path": "../../execution-specs/src/ethereum/byzantium"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "ConstantinopleFix": {
-        "path": "../../execution-specs/src/ethereum/constantinople"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Istanbul": {
-        "path": "../../execution-specs/src/ethereum/istanbul"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Berlin": {
-        "path": "../../execution-specs/src/ethereum/berlin"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "London": {
-        "path": "../../execution-specs/src/ethereum/london"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Merge": {
-        "path": "../../execution-specs/src/ethereum/paris"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Shanghai": {
-        "path": "../../execution-specs/src/ethereum/shanghai"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Cancun": {
-        "path": "../../execution-specs/src/ethereum/cancun"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Prague": {
         "git_url": "https://github.com/ethereum/execution-specs.git",

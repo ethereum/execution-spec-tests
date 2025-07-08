@@ -23,12 +23,13 @@ class RethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_CONTRACT_CREATION: "unexpected length",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: "unexpected list",
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "blob version not supported",
+        TransactionException.TYPE_3_TX_ZERO_BLOBS: "empty blobs",
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "empty authorization list",
         TransactionException.TYPE_4_TX_CONTRACT_CREATION: "unexpected length",
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "eip 7702 transactions present in pre-prague payload"
         ),
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "failed to decode deposit requests from receipts"
         ),
         BlockException.INVALID_REQUESTS: "mismatched block requests hash",
@@ -36,20 +37,27 @@ class RethExceptionMapper(ExceptionMapper):
         BlockException.INVALID_STATE_ROOT: "mismatched block state root",
         BlockException.INVALID_BLOCK_HASH: "block hash mismatch",
         BlockException.INVALID_GAS_USED: "block gas used mismatch",
+        BlockException.RLP_BLOCK_LIMIT_EXCEEDED: "block is too large: ",
     }
     mapping_regex = {
         TransactionException.NONCE_MISMATCH_TOO_LOW: r"nonce \d+ too low, expected \d+",
         TransactionException.INTRINSIC_GAS_TOO_LOW: (
-            r"(call gas cost|gas floor) \(\d+\) exceeds the gas limit \(\d+\)"
+            r"call gas cost \(\d+\) exceeds the gas limit \(\d+\)"
+        ),
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: (
+            r"gas floor \(\d+\) exceeds the gas limit \(\d+\)"
         ),
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
-        TransactionException.TYPE_3_TX_ZERO_BLOBS: (
+        TransactionException.TYPE_3_TX_PRE_FORK: (
             r"blob transactions present in pre-cancun payload|empty blobs"
         ),
         TransactionException.GAS_ALLOWANCE_EXCEEDED: (
             r"transaction gas limit \w+ is more than blocks available gas \w+"
+        ),
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            r"transaction gas limit \(\d+\) is greater than the cap \(\d+\)"
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: r"failed to apply .* requests contract call",
         BlockException.INCORRECT_BLOB_GAS_USED: (

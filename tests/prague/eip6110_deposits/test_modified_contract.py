@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_exceptions.exceptions import TransactionException
+from ethereum_test_exceptions.exceptions import BlockException
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -59,6 +59,9 @@ DEFAULT_REQUEST_LOG = create_deposit_log_bytes(**DEFAULT_DEPOSIT_REQUEST_LOG_DAT
         pytest.param(True),
         pytest.param(False),
     ],
+)
+@pytest.mark.pre_alloc_group(
+    "separate", reason="Deploys custom deposit contract with different bytecode"
 )
 def test_extra_logs(
     blockchain_test: BlockchainTestFiller,
@@ -145,6 +148,9 @@ def test_extra_logs(
     [(log_argument, value) for log_argument in EVENT_ARGUMENTS for value in EVENT_ARGUMENT_VALUES],
 )
 @pytest.mark.exception_test
+@pytest.mark.pre_alloc_group(
+    "modified_deposit_contract", reason="Deploys custom deposit contract with different bytecode"
+)
 def test_invalid_layout(
     blockchain_test: BlockchainTestFiller, pre: Alloc, log_argument: str, value: str
 ):
@@ -172,13 +178,12 @@ def test_invalid_layout(
         to=Spec.DEPOSIT_CONTRACT_ADDRESS,
         sender=sender,
         gas_limit=100_000,
-        error=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT,
     )
 
     blockchain_test(
         pre=pre,
         blocks=[
-            Block(txs=[tx], exception=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT),
+            Block(txs=[tx], exception=BlockException.INVALID_DEPOSIT_EVENT_LAYOUT),
         ],
         post={},
     )
@@ -192,6 +197,9 @@ def test_invalid_layout(
     ],
 )
 @pytest.mark.exception_test
+@pytest.mark.pre_alloc_group(
+    "modified_deposit_contract", reason="Deploys custom deposit contract with different bytecode"
+)
 def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
     """Test deposit contract emitting logs with invalid log length (one byte more or less)."""
     changed_log = DEFAULT_REQUEST_LOG[:-1] if slice_bytes else DEFAULT_REQUEST_LOG + b"\x00"
@@ -214,13 +222,12 @@ def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, s
         to=Spec.DEPOSIT_CONTRACT_ADDRESS,
         sender=sender,
         gas_limit=100_000,
-        error=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT,
     )
 
     blockchain_test(
         pre=pre,
         blocks=[
-            Block(txs=[tx], exception=TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT),
+            Block(txs=[tx], exception=BlockException.INVALID_DEPOSIT_EVENT_LAYOUT),
         ],
         post={},
     )

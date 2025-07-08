@@ -16,7 +16,15 @@ and modify the generated test module to suit your needs.
 
 For help deciding which test format to select, see [Types of Tests](./types_of_tests.md), in particular [Deciding on a Test Type](./types_of_tests.md#deciding-on-a-test-type). Otherwise, some simple test case examples to get started with are:
 
-- [tests.berlin.eip2930_access_list.test_acl.test_access_list](../tests/berlin/eip2930_access_list/test_acl/test_access_list.md).
+- [tests.berlin.eip2930_access_list.test_acl.test_account_storage_warm_cold_state](../tests/berlin/eip2930_access_list/test_acl/test_account_storage_warm_cold_state.md).
 - [tests.istanbul.eip1344_chainid.test_chainid.test_chainid](../tests/istanbul/eip1344_chainid/test_chainid/test_chainid.md).
 
-Please check that your code adheres to the repo's [Coding Standards](./code_standards.md) and read the other pages in this section for more background and an explanation of how to implement state transition and blockchain tests.
+## Key Resources
+
+- [Coding Standards](./code_standards.md) - Code style and standards for this repository
+- [Adding a New Test](./adding_a_new_test.md) - Step-by-step guide to adding new tests
+- [Writing a New Test](./writing_a_new_test.md) - Detailed guide on writing different test types
+- [Using and Extending Fork Methods](./fork_methods.md) - How to use fork methods to write fork-adaptive tests
+- [Porting tests](./porting_legacy_tests.md): A guide to porting @ethereum/tests to EEST.
+
+Please check that your code adheres to the repo's coding standards and read the other pages in this section for more background and an explanation of how to implement state transition and blockchain tests.

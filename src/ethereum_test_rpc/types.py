@@ -1,11 +1,19 @@
 """Types used in the RPC module for `eth` and `engine` namespaces' requests."""
 
 from enum import Enum
-from typing import Annotated, Any, List, Union
+from hashlib import sha256
+from typing import Annotated, Any, List
 
 from pydantic import AliasChoices, Field, model_validator
 
-from ethereum_test_base_types import Address, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_base_types import (
+    Address,
+    Bytes,
+    CamelModel,
+    EthereumTestRootModel,
+    Hash,
+    HexNumber,
+)
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -14,7 +22,7 @@ from ethereum_test_exceptions import (
     UndefinedException,
 )
 from ethereum_test_fixtures.blockchain import FixtureExecutionPayload
-from ethereum_test_types import Transaction, Withdrawal
+from ethereum_test_types import EOA, Transaction, Withdrawal
 
 
 class JSONRPCError(Exception):
@@ -41,8 +49,10 @@ class TransactionByHashResponse(Transaction):
 
     gas_limit: HexNumber = Field(HexNumber(21_000), alias="gas")
     transaction_hash: Hash = Field(..., alias="hash")
-    from_address: Address = Field(..., alias="from")
-    to_address: Address | None = Field(..., alias="to")
+    sender: EOA | None = Field(None, alias="from")
+
+    # The to field can have different names in different clients, so we use AliasChoices.
+    to: Address | None = Field(..., validation_alias=AliasChoices("to_address", "to", "toAddress"))
 
     v: HexNumber = Field(0, validation_alias=AliasChoices("v", "yParity"))  # type: ignore
 
@@ -87,7 +97,7 @@ class PayloadStatusEnum(str, Enum):
 
 
 class BlockTransactionExceptionWithMessage(
-    ExceptionWithMessage[Union[BlockException, TransactionException]]  # type: ignore
+    ExceptionWithMessage[BlockException | TransactionException]  # type: ignore
 ):
     """Exception returned from the execution client with a message."""
 
@@ -131,18 +141,28 @@ class BlobsBundle(CamelModel):
     proofs: List[Bytes]
     blobs: List[Bytes]
 
-    def blob_versioned_hashes(self) -> List[Hash]:
+    def blob_versioned_hashes(self, versioned_hash_version: int = 1) -> List[Hash]:
         """Return versioned hashes of the blobs."""
-        return [Hash(b"\1" + commitment[1:]) for commitment in self.commitments]
+        versioned_hashes: List[Hash] = []
+        for commitment in self.commitments:
+            commitment_hash = sha256(commitment).digest()
+            versioned_hash = Hash(bytes([versioned_hash_version]) + commitment_hash[1:])
+            versioned_hashes.append(versioned_hash)
+        return versioned_hashes
 
 
-class BlobAndProof(CamelModel):
-    """Represents a blob and proof structure."""
+class BlobAndProofV1(CamelModel):
+    """Represents a blob and single-proof structure (< Osaka)."""
 
     blob: Bytes
-    proofs: List[Bytes] | None = None  # >= Osaka (V2)
+    proof: Bytes
 
-    proof: Bytes | None = None  # <= Prague (V1)
+
+class BlobAndProofV2(CamelModel):
+    """Represents a blob and cell proof structure (>= Osaka)."""
+
+    blob: Bytes
+    proofs: List[Bytes]
 
 
 class GetPayloadResponse(CamelModel):
@@ -153,7 +173,15 @@ class GetPayloadResponse(CamelModel):
     execution_requests: List[Bytes] | None = None
 
 
-class GetBlobsResponse(CamelModel):
+class GetBlobsResponse(EthereumTestRootModel):
     """Represents the response of a get blobs request."""
 
-    result: List[BlobAndProof | None]
+    root: List[BlobAndProofV1 | BlobAndProofV2 | None]
+
+    def __len__(self) -> int:
+        """Return the number of blobs in the response."""
+        return len(self.root)
+
+    def __getitem__(self, index: int) -> BlobAndProofV1 | BlobAndProofV2 | None:
+        """Return the blob at the given index."""
+        return self.root[index]

@@ -324,6 +324,7 @@ class NethermindExceptionMapper(ExceptionMapper):
     mapping_substring = {
         TransactionException.SENDER_NOT_EOA: "sender has deployed code",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "intrinsic gas too low",
+        TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "intrinsic gas too low",
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "miner premium is negative",
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
             "InvalidMaxPriorityFeePerGas: Cannot be higher than maxFeePerGas"
@@ -359,7 +360,10 @@ class NethermindExceptionMapper(ExceptionMapper):
         BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (
             "ExceededGasLimit: Gas used exceeds gas limit."
         ),
-        TransactionException.INVALID_DEPOSIT_EVENT_LAYOUT: (
+        BlockException.RLP_BLOCK_LIMIT_EXCEEDED: (
+            "ExceededBlockSizeLimit: Exceeded block size limit"
+        ),
+        BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: (
             "DepositsInvalid: Invalid deposit event layout:"
         ),
     }
@@ -376,6 +380,9 @@ class NethermindExceptionMapper(ExceptionMapper):
             r"BlockBlobGasExceeded: A block cannot have more than \d+ blob gas, blobs count \d+, "
             r"blobs gas used: \d+"
         ),
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
+            r"TxGasLimitCapExceeded: Gas limit \d+ \w+ cap of \d+\.?"
+        ),
         BlockException.INCORRECT_EXCESS_BLOB_GAS: (
             r"HeaderExcessBlobGasMismatch: Excess blob gas in header does not match calculated"
             r"|Overflow in excess blob gas"
@@ -384,9 +391,9 @@ class NethermindExceptionMapper(ExceptionMapper):
             r"Invalid block hash 0x[0-9a-f]+ does not match calculated hash 0x[0-9a-f]+"
         ),
         BlockException.SYSTEM_CONTRACT_EMPTY: (
-            r"(Withdrawals|Consolidations)Empty\: Contract is not deployed\."
+            r"(Withdrawals|Consolidations)Empty: Contract is not deployed\."
         ),
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: (
-            r"(Withdrawals|Consolidations)Failed\: Contract execution failed\."
+            r"(Withdrawals|Consolidations)Failed: Contract execution failed\."
         ),
     }

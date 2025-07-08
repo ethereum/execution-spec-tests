@@ -15,8 +15,8 @@ from ethereum_test_tools.vm.opcode import Opcodes
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_types.helpers import compute_create_address
-from tests.prague.eip7702_set_code_tx.spec import Spec
 
+from ....prague.eip7702_set_code_tx.spec import Spec
 from .. import EOF_FORK_NAME
 from .helpers import (
     slot_all_subcall_gas_gone,
@@ -66,7 +66,7 @@ def test_cross_version_creates_fail_light(
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
-        # Aproximates whether code until here consumed the 63/64th gas given to subcall
+        # Approximates whether code until here consumed the 63/64th gas given to subcall
         + Op.SSTORE(slot_all_subcall_gas_gone, Op.LT(Op.GAS, tx_gas_limit // 64))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP
@@ -138,7 +138,7 @@ def test_cross_version_creates_fail_hard(
     contract_address = pre.deploy_contract(
         code=Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
         + Op.SSTORE(slot_create_address, legacy_create_opcode(size=Op.CALLDATASIZE))
-        # Aproximates whether code until here consumed the 63/64th gas given to subcall
+        # Approximates whether code until here consumed the 63/64th gas given to subcall
         + Op.SSTORE(slot_all_subcall_gas_gone, Op.LT(Op.GAS, tx_gas_limit // 64))
         + Op.SSTORE(slot_code_worked, value_code_worked)
         + Op.STOP

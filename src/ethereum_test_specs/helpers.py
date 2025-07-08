@@ -1,7 +1,7 @@
 """Helper functions."""
 
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 from typing import Any, Dict, List
 
 from ethereum_clis import Result
@@ -15,7 +15,7 @@ from ethereum_test_exceptions import (
 from ethereum_test_types import Transaction, TransactionReceipt
 
 
-class ExecutionContext(Enum):
+class ExecutionContext(StrEnum):
     """The execution context in which a test case can fail."""
 
     BLOCK = "Block"
@@ -290,13 +290,13 @@ def verify_block(
     | TransactionException
     | BlockException
     | None,
-    result: Result,
+    got_exception: ExceptionWithMessage | UndefinedException | None,
     transition_tool_exceptions_reliable: bool,
 ):
     """Verify the block exception against the expected one."""
     info = BlockExceptionInfo(
         block_number=block_number,
         want_exception=want_exception,
-        got_exception=result.block_exception,
+        got_exception=got_exception,
     )
     info.verify(strict_match=transition_tool_exceptions_reliable)

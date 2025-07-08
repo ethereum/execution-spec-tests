@@ -1,6 +1,5 @@
 """Shared pytest definitions local to EIP-2537 tests."""
 
-from pathlib import Path
 from typing import SupportsBytes
 
 import pytest
@@ -11,13 +10,6 @@ from ethereum_test_tools import Opcodes as Op
 
 from .helpers import BLSPointGenerator
 from .spec import GAS_CALCULATION_FUNCTION_MAP
-
-
-def pytest_collection_modifyitems(config, items):
-    """Add the `zkevm` marker to all tests in `./tests/prague/eip2537_bls_12_381_precompiles`."""
-    for item in items:
-        if Path(__file__).parent in Path(item.fspath).parents:
-            item.add_marker(pytest.mark.zkevm)
 
 
 @pytest.fixture
@@ -90,7 +82,7 @@ def call_succeeds(
 @pytest.fixture
 def call_contract_code(
     precompile_address: int,
-    precompile_gas: int,
+    precompile_gas: int | None,
     precompile_gas_modifier: int,
     expected_output: bytes | SupportsBytes,
     call_succeeds: bool,
@@ -126,12 +118,18 @@ def call_contract_code(
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
+    precompile_gas_value_opcode: int | Op
+    if precompile_gas is None:
+        precompile_gas_value_opcode = Op.GAS
+    else:
+        precompile_gas_value_opcode = precompile_gas + precompile_gas_modifier
+
     code = (
         Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
         + Op.SSTORE(
             call_contract_post_storage.store_next(call_succeeds),
             call_opcode(
-                precompile_gas + precompile_gas_modifier,
+                precompile_gas_value_opcode,
                 precompile_address,
                 *value,  # Optional, only used for CALL and CALLCODE.
                 0,

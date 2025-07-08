@@ -11,6 +11,7 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    AuthorizationTuple,
     Bytecode,
     Environment,
     Hash,
@@ -40,7 +41,8 @@ def beacon_roots() -> Iterator[bytes]:
             self._counter = count(1)
 
         def __iter__(self) -> "BeaconRoots":
-            return self
+            # Create a fresh iterator with a new counter each time
+            return BeaconRoots()
 
         def __next__(self) -> bytes:
             return keccak256(int.to_bytes(next(self._counter), length=8, byteorder="big"))
@@ -236,7 +238,17 @@ def tx(
         kwargs["max_fee_per_blob_gas"] = fork.min_base_fee_per_blob_gas()
         kwargs["blob_versioned_hashes"] = add_kzg_version([0], BLOB_COMMITMENT_VERSION_KZG)
 
-    if tx_type > 3:
+    if tx_type == 4:
+        signer = pre.fund_eoa(amount=0)
+        kwargs["authorization_list"] = [
+            AuthorizationTuple(
+                signer=signer,
+                address=Address(0),
+                nonce=0,
+            )
+        ]
+
+    if tx_type > 4:
         raise Exception(f"Unexpected transaction type: '{tx_type}'. Test requires update.")
 
     return Transaction(**kwargs)

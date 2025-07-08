@@ -41,7 +41,7 @@ This check accomplished by adding the following two global variables anywhere in
 | Variable Name             | Explanation                                                                                                                                                     |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `REFERENCE_SPEC_GIT_PATH` | The relative path of the EIP markdown file in the [ethereum/EIPs](https://github.com/ethereum/EIPs/) repository, e.g. "`EIPS/eip-1234.md`"                      |
-| `REFERENCE_SPEC_VERSION`  | The SHA hash of the latest version of the file retrieved from the Github API:<br>`https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-<EIP Number>.md` |
+| `REFERENCE_SPEC_VERSION`  | The SHA hash of the latest version of the file retrieved from the Github API:<br/>`https://api.github.com/repos/ethereum/EIPs/contents/EIPS/eip-<EIP Number>.md` |
 
 ## Running the `check_eip_versions` Command Locally
 

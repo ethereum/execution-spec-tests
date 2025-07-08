@@ -10,7 +10,6 @@ from random import randint
 from typing import Any, Dict, Generator, List, Mapping, Tuple, cast
 
 import pytest
-from ethereum.crypto.hash import keccak256
 from filelock import FileLock
 from hive.client import Client, ClientType
 from hive.simulation import Simulation
@@ -39,7 +38,8 @@ from ethereum_test_tools import (
     Withdrawal,
 )
 from ethereum_test_types import Requests
-from pytest_plugins.consume.hive_simulators.ruleset import ruleset
+from ethereum_test_types.trie import keccak256
+from pytest_plugins.consume.simulators.helpers.ruleset import ruleset
 
 
 class HashList(RootModel[List[Hash]]):
@@ -156,8 +156,10 @@ def pytest_addoption(parser):
     )
 
 
+@pytest.hookimpl(trylast=True)
 def pytest_configure(config):  # noqa: D103
     config.test_suite_scope = "session"
+    config.engine_rpc_supported = True
 
 
 @pytest.fixture(scope="session")
@@ -297,12 +299,12 @@ def environment(base_fork: Fork) -> dict:
     Define the environment that hive will start the client with using the fork
     rules specific for the simulator.
     """
-    assert base_fork.name() in ruleset, f"fork '{base_fork.name()}' missing in hive ruleset"
+    assert base_fork in ruleset, f"fork '{base_fork}' missing in hive ruleset"
     return {
         "HIVE_CHAIN_ID": "1",
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
-        **{k: f"{v:d}" for k, v in ruleset[base_fork.name()].items()},
+        **{k: f"{v:d}" for k, v in ruleset[base_fork].items()},
     }
 
 
@@ -540,6 +542,7 @@ class EthRPC(BaseEthRPC):
         *,
         client: Client,
         fork: Fork,
+        engine_rpc: EngineRPC,
         base_genesis_header: FixtureHeader,
         transactions_per_block: int,
         session_temp_folder: Path,
@@ -553,7 +556,7 @@ class EthRPC(BaseEthRPC):
             transaction_wait_timeout=transaction_wait_timeout,
         )
         self.fork = fork
-        self.engine_rpc = EngineRPC(f"http://{client.ip}:8551")
+        self.engine_rpc = engine_rpc
         self.transactions_per_block = transactions_per_block
         self.pending_tx_hashes = PendingTxHashes(session_temp_folder)
         self.get_payload_wait_time = get_payload_wait_time
@@ -817,10 +820,17 @@ def chain_id() -> int:
     return 1
 
 
+@pytest.fixture(scope="session")
+def engine_rpc(client: Client) -> EngineRPC | None:
+    """Return the engine RPC client."""
+    return EngineRPC(f"http://{client.ip}:8551")
+
+
 @pytest.fixture(autouse=True, scope="session")
 def eth_rpc(
     request: pytest.FixtureRequest,
     client: Client,
+    engine_rpc: EngineRPC,
     base_genesis_header: FixtureHeader,
     base_fork: Fork,
     transactions_per_block: int,
@@ -832,6 +842,7 @@ def eth_rpc(
     return EthRPC(
         client=client,
         fork=base_fork,
+        engine_rpc=engine_rpc,
         base_genesis_header=base_genesis_header,
         transactions_per_block=transactions_per_block,
         session_temp_folder=session_temp_folder,

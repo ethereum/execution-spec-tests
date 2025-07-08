@@ -1,6 +1,6 @@
 """Ethereum test fork definitions."""
 
-from .base_fork import Fork, ForkAttribute
+from .base_fork import ForkAttribute
 from .forks.forks import (
     ArrowGlacier,
     Berlin,
@@ -24,23 +24,24 @@ from .forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,
     ParisToShanghaiAtTime15k,
+    PragueToOsakaAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from .gas_costs import GasCosts
 from .helpers import (
+    Fork,
     ForkRangeDescriptor,
     InvalidForkError,
+    TransitionFork,
     forks_from,
     forks_from_until,
-    get_closest_fork_with_solc_support,
+    get_closest_fork,
     get_deployed_forks,
     get_development_forks,
     get_fork_by_name,
     get_forks,
     get_forks_with_no_descendants,
     get_forks_with_no_parents,
-    get_forks_with_solc_support,
-    get_forks_without_solc_support,
     get_from_until_fork_set,
     get_last_descendants,
     get_relative_fork_markers,
@@ -53,6 +54,7 @@ from .helpers import (
 
 __all__ = [
     "Fork",
+    "TransitionFork",
     "ForkAttribute",
     "ArrowGlacier",
     "Berlin",
@@ -76,11 +78,12 @@ __all__ = [
     "Cancun",
     "CancunToPragueAtTime15k",
     "Prague",
+    "PragueToOsakaAtTime15k",
     "Osaka",
     "get_transition_forks",
     "forks_from",
     "forks_from_until",
-    "get_closest_fork_with_solc_support",
+    "get_closest_fork",
     "get_deployed_forks",
     "get_development_forks",
     "get_transition_fork_predecessor",
@@ -88,8 +91,6 @@ __all__ = [
     "get_fork_by_name",
     "get_forks_with_no_descendants",
     "get_forks_with_no_parents",
-    "get_forks_with_solc_support",
-    "get_forks_without_solc_support",
     "get_relative_fork_markers",
     "get_forks",
     "get_from_until_fork_set",

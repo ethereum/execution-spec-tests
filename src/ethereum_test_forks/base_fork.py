@@ -1,9 +1,20 @@
 """Abstract base class for Ethereum forks."""
 
 from abc import ABC, ABCMeta, abstractmethod
-from typing import Any, ClassVar, List, Mapping, Optional, Protocol, Sized, Tuple, Type
-
-from semver import Version
+from typing import (
+    Any,
+    ClassVar,
+    Dict,
+    List,
+    Literal,
+    Mapping,
+    Optional,
+    Protocol,
+    Sized,
+    Tuple,
+    Type,
+    Union,
+)
 
 from ethereum_test_base_types import AccessList, Address, BlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
@@ -96,6 +107,7 @@ class ExcessBlobGasCalculator(Protocol):
         parent_excess_blobs: int | None = None,
         parent_blob_gas_used: int | None = None,
         parent_blob_count: int | None = None,
+        parent_base_fee_per_gas: int,
     ) -> int:
         """Return the excess blob gas given the parent's excess blob gas and blob gas used."""
         pass
@@ -151,21 +163,26 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     """
 
     _transition_tool_name: ClassVar[Optional[str]] = None
-    _blockchain_test_network_name: ClassVar[Optional[str]] = None
     _solc_name: ClassVar[Optional[str]] = None
     _ignore: ClassVar[bool] = False
+
+    # make mypy happy
+    BLOB_CONSTANTS: ClassVar[Dict[str, Union[int, Literal["big"]]]] = {}
+
+    @classmethod
+    def get_blob_constant(cls, name: str) -> int | Literal["big"]:
+        """Return value of requested blob constant."""
+        raise NotImplementedError
 
     def __init_subclass__(
         cls,
         *,
         transition_tool_name: Optional[str] = None,
-        blockchain_test_network_name: Optional[str] = None,
         solc_name: Optional[str] = None,
         ignore: bool = False,
     ) -> None:
         """Initialize new fork with values that don't carry over to subclass forks."""
         cls._transition_tool_name = transition_tool_name
-        cls._blockchain_test_network_name = blockchain_test_network_name
         cls._solc_name = solc_name
         cls._ignore = ignore
 
@@ -342,6 +359,18 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Return the transaction gas limit cap, or None if no limit is imposed."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def block_rlp_size_limit(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Return the maximum RLP size of a block in bytes, or None if no limit is imposed."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """Return list pre-compiles supported by the fork."""
         pass
@@ -452,7 +481,16 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     def engine_get_payload_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
-        """Return `None` if the forks canonical chain cannot be set using the forkchoice method."""
+        """
+        Return `None` if the forks canonical chain cannot build a payload using the engine
+        API.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_get_blobs_version(cls, block_number: int = 0, timestamp: int = 0) -> Optional[int]:
+        """Return `None` if the fork does not support the engine get blobs version."""
         pass
 
     # EVM information abstract methods
@@ -460,6 +498,24 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def evm_code_types(cls, block_number: int = 0, timestamp: int = 0) -> List[EVMCodeType]:
         """Return list of EVM code types supported by the fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_code_size(cls) -> int:
+        """Return the maximum code size allowed to be deployed in a contract creation."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_stack_height(cls) -> int:
+        """Return the maximum stack height allowed in the EVM stack."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def max_initcode_size(cls) -> int:
+        """Return the maximum initcode size allowed to be used in a contract creation."""
         pass
 
     @classmethod
@@ -519,19 +575,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         pass
 
     @classmethod
-    @abstractmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        pass
-
-    @classmethod
-    def blockchain_test_network_name(cls) -> str:
-        """Return network configuration name to be used in BlockchainTests for this fork."""
-        if cls._blockchain_test_network_name is not None:
-            return cls._blockchain_test_network_name
-        return cls.name()
-
-    @classmethod
     def is_deployed(cls) -> bool:
         """
         Return whether the fork has been deployed to mainnet, or not.
@@ -554,7 +597,3 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         if base_class == BaseFork:
             return None
         return base_class
-
-
-# Fork Type
-Fork = Type[BaseFork]

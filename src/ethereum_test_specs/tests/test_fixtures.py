@@ -2,7 +2,6 @@
 
 import json
 import os
-from enum import IntEnum
 from typing import Any, List, Mapping
 
 import pytest
@@ -20,7 +19,7 @@ from ethereum_test_fixtures import (
     StateFixture,
 )
 from ethereum_test_forks import Berlin, Cancun, Fork, Istanbul, London, Paris, Shanghai
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import Alloc, Environment, Transaction, TransactionType
 from ethereum_test_vm import Opcodes as Op
 
 from ..blockchain import Block, BlockchainTest, Header
@@ -93,16 +92,6 @@ def test_make_genesis(fork: Fork, fixture_hash: bytes, default_t8n: TransitionTo
 
     assert fixture.genesis.block_hash is not None
     assert fixture.genesis.block_hash.startswith(fixture_hash)
-
-
-class TransactionType(IntEnum):
-    """Transaction types."""
-
-    LEGACY = 0
-    ACCESS_LIST = 1
-    BASE_FEE = 2
-    BLOB_TRANSACTION = 3
-    SET_CODE = 4
 
 
 @pytest.mark.parametrize(
@@ -518,7 +507,13 @@ class TestFillBlockchainValidTxs:
         blockchain_test_fixture: BlockchainFixture,
     ):
         assert blockchain_test_fixture.__class__ == fixture_format
-        assert isinstance(blockchain_test_fixture, BlockchainFixtureCommon)
+        # BlockchainEngineFixture inherits from BlockchainEngineFixtureCommon
+        # (not BlockchainFixtureCommon)
+        from ethereum_test_fixtures.blockchain import BlockchainEngineFixtureCommon
+
+        assert isinstance(
+            blockchain_test_fixture, (BlockchainFixtureCommon, BlockchainEngineFixtureCommon)
+        )
 
         fixture_name = f"000/my_blockchain_test/{fork.name()}"
 
@@ -885,7 +880,11 @@ def test_fill_blockchain_invalid_txs(
         genesis_environment=genesis_environment,
     ).generate(t8n=default_t8n, fork=fork, fixture_format=fixture_format)
     assert generated_fixture.__class__ == fixture_format
-    assert isinstance(generated_fixture, BlockchainFixtureCommon)
+    # BlockchainEngineFixture inherits from BlockchainEngineFixtureCommon
+    # (not BlockchainFixtureCommon)
+    from ethereum_test_fixtures.blockchain import BlockchainEngineFixtureCommon
+
+    assert isinstance(generated_fixture, (BlockchainFixtureCommon, BlockchainEngineFixtureCommon))
 
     fixture_name = f"000/my_blockchain_test/{fork.name()}"
 

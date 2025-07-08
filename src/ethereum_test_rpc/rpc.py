@@ -3,7 +3,7 @@
 import time
 from itertools import count
 from pprint import pprint
-from typing import Any, ClassVar, Dict, List, Literal, Union
+from typing import Any, ClassVar, Dict, List, Literal
 
 import requests
 from jwt import encode
@@ -23,7 +23,7 @@ from .types import (
     TransactionByHashResponse,
 )
 
-BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
 
 class SendTransactionExceptionError(Exception):
@@ -71,7 +71,7 @@ class BaseRPC:
         """Set namespace of the RPC class to the lowercase of the class name."""
         namespace = cls.__name__
         if namespace.endswith("RPC"):
-            namespace = namespace[:-3]
+            namespace = namespace.removesuffix("RPC")
         cls.namespace = namespace.lower()
 
     def post_request(self, method: str, *params: Any, extra_headers: Dict | None = None) -> Any:
@@ -111,7 +111,7 @@ class EthRPC(BaseRPC):
 
     transaction_wait_timeout: int = 60
 
-    BlockNumberType = Union[int, Literal["latest", "earliest", "pending"]]
+    BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
     def __init__(
         self,
@@ -348,7 +348,7 @@ class EngineRPC(BaseRPC):
 
     def get_blobs(
         self,
-        params: List[Hash],
+        versioned_hashes: List[Hash],
         *,
         version: int,
     ) -> GetBlobsResponse:
@@ -356,7 +356,7 @@ class EngineRPC(BaseRPC):
         return GetBlobsResponse.model_validate(
             self.post_request(
                 f"getBlobsV{version}",
-                *[to_json(param) for param in params],
+                [f"{h}" for h in versioned_hashes],
             ),
             context=self.response_validation_context,
         )

@@ -25,6 +25,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     EmptyOmmersRoot,
+    EmptyTrieRoot,
     Hash,
     HeaderNonce,
     HexNumber,
@@ -33,16 +34,57 @@ from ethereum_test_base_types import (
 )
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
-from ethereum_test_types.types import (
+from ethereum_test_types import (
+    Environment,
+    Requests,
     Transaction,
-    TransactionFixtureConverter,
-    TransactionGeneric,
     Withdrawal,
-    WithdrawalGeneric,
 )
+from ethereum_test_types.block_types import WithdrawalGeneric
+from ethereum_test_types.transaction_types import TransactionFixtureConverter, TransactionGeneric
 
 from .base import BaseFixture
 from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
+
+
+def post_state_validator(alternate_field: str | None = None, mode: str = "after"):
+    """
+    Create a validator to ensure exactly one post-state field is provided.
+
+    Args:
+        alternate_field: Alternative field name to post_state_hash (e.g., 'post_state_diff').
+        mode: Pydantic validation mode.
+
+    """
+
+    def decorator(cls):
+        @model_validator(mode=mode)
+        def validate_post_state_fields(self):
+            """Ensure exactly one post-state field is provided."""
+            if mode == "after":
+                # Determine which fields to check
+                if alternate_field:
+                    # For engine x fixtures: check post_state vs post_state_diff
+                    field1_name, field2_name = "post_state", alternate_field
+                else:
+                    # For standard fixtures: check post_state vs post_state_hash
+                    field1_name, field2_name = "post_state", "post_state_hash"
+
+                field1_value = getattr(self, field1_name, None)
+                field2_value = getattr(self, field2_name, None)
+
+                if field1_value is None and field2_value is None:
+                    raise ValueError(f"Either {field1_name} or {field2_name} must be provided.")
+                if field1_value is not None and field2_value is not None:
+                    raise ValueError(
+                        f"Only one of {field1_name} or {field2_name} must be provided."
+                    )
+            return self
+
+        # Apply the validator to the class
+        return cls
+
+    return decorator
 
 
 class HeaderForkRequirement(str):
@@ -173,6 +215,36 @@ class FixtureHeader(CamelModel):
     def block_hash(self) -> Hash:
         """Compute the RLP of the header."""
         return self.rlp.keccak256()
+
+    @classmethod
+    def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> "FixtureHeader":
+        """Get the genesis header for the given fork."""
+        return FixtureHeader(
+            parent_hash=0,
+            ommers_hash=EmptyOmmersRoot,
+            fee_recipient=0,
+            state_root=state_root,
+            transactions_trie=EmptyTrieRoot,
+            receipts_root=EmptyTrieRoot,
+            logs_bloom=0,
+            difficulty=0x20000 if env.difficulty is None else env.difficulty,
+            number=0,
+            gas_limit=env.gas_limit,
+            gas_used=0,
+            timestamp=0,
+            extra_data=b"\x00",
+            prev_randao=0,
+            nonce=0,
+            base_fee_per_gas=env.base_fee_per_gas,
+            blob_gas_used=env.blob_gas_used,
+            excess_blob_gas=env.excess_blob_gas,
+            withdrawals_root=(
+                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
+            ),
+            parent_beacon_block_root=env.parent_beacon_block_root,
+            requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
+            fork=fork,
+        )
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -387,7 +459,7 @@ class FixtureBlock(FixtureBlockBase):
 class FixtureConfig(CamelModel):
     """Chain configuration for a fixture."""
 
-    fork: str = Field(..., alias="network")
+    fork: Fork = Field(..., alias="network")
     chain_id: ZeroPaddedHexNumber = Field(ZeroPaddedHexNumber(1), alias="chainid")
     blob_schedule: FixtureBlobSchedule | None = None
 
@@ -400,13 +472,15 @@ class InvalidFixtureBlock(CamelModel):
     rlp_decoded: FixtureBlockBase | None = Field(None, alias="rlp_decoded")
 
 
+@post_state_validator()
 class BlockchainFixtureCommon(BaseFixture):
     """Base blockchain test fixture model."""
 
-    fork: str = Field(..., alias="network")
+    fork: Fork = Field(..., alias="network")
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     pre: Alloc
     post_state: Alloc | None = Field(None)
+    post_state_hash: Hash | None = Field(None)
     last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
     config: FixtureConfig
 
@@ -427,7 +501,7 @@ class BlockchainFixtureCommon(BaseFixture):
                     data["config"]["chainid"] = "0x01"
         return data
 
-    def get_fork(self) -> str | None:
+    def get_fork(self) -> Fork | None:
         """Return fork of the fixture as a string."""
         return self.fork
 
@@ -443,16 +517,23 @@ class BlockchainFixture(BlockchainFixtureCommon):
     seal_engine: Literal["NoProof"] = Field("NoProof")
 
 
-class BlockchainEngineFixture(BlockchainFixtureCommon):
-    """Engine specific test fixture information."""
+@post_state_validator()
+class BlockchainEngineFixtureCommon(BaseFixture):
+    """
+    Base blockchain test fixture model for Engine API based execution.
 
-    format_name: ClassVar[str] = "blockchain_test_engine"
-    description: ClassVar[str] = (
-        "Tests that generate a blockchain test fixture in Engine API format."
-    )
+    Similar to BlockchainFixtureCommon but excludes the 'pre' field to avoid
+    duplicating large pre-allocations.
+    """
 
-    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    sync_payload: FixtureEngineNewPayload | None = None
+    fork: Fork = Field(..., alias="network")
+    post_state_hash: Hash | None = Field(None)
+    last_block_hash: Hash = Field(..., alias="lastblockhash")  # FIXME: lastBlockHash
+    config: FixtureConfig
+
+    def get_fork(self) -> Fork | None:
+        """Return fixture's `Fork`."""
+        return self.fork
 
     @classmethod
     def supports_fork(cls, fork: Fork) -> bool:
@@ -462,3 +543,42 @@ class BlockchainEngineFixture(BlockchainFixtureCommon):
         The Engine API is available only on Paris and afterwards.
         """
         return fork >= Paris
+
+
+class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
+    """Engine specific test fixture information."""
+
+    format_name: ClassVar[str] = "blockchain_test_engine"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture in Engine API format."
+    )
+    pre: Alloc
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
+    post_state: Alloc | None = Field(None)
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    sync_payload: FixtureEngineNewPayload | None = None
+
+
+@post_state_validator(alternate_field="post_state_diff")
+class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
+    """
+    Engine X specific test fixture information.
+
+    Uses pre-allocation groups (and a single client instance) for efficient
+    test execution without client restarts.
+    """
+
+    format_name: ClassVar[str] = "blockchain_test_engine_x"
+    description: ClassVar[str] = "Tests that generate a Blockchain Test Engine X fixture."
+
+    pre_hash: str
+    """Hash of the pre-allocation group this test belongs to."""
+
+    post_state_diff: Alloc | None = None
+    """State difference from genesis after test execution (efficiency optimization)."""
+
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    """Engine API payloads for blockchain execution."""
+
+    sync_payload: FixtureEngineNewPayload | None = None
+    """Optional sync payload for blockchain synchronization."""

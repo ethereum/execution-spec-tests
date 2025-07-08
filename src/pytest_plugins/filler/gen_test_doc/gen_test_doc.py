@@ -54,7 +54,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from pytest import Item
 
 from ethereum_test_forks import get_forks
-from ethereum_test_specs import SPEC_TYPES
+from ethereum_test_specs import BaseTest
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -218,7 +218,9 @@ def get_docstring_one_liner(item: pytest.Item) -> str:
 
 def get_test_function_test_type(item: pytest.Item) -> str:
     """Get the test type for the test function based on its fixtures."""
-    test_types: List[str] = [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]
+    test_types: List[str] = [
+        spec_type.pytest_parameter_name() for spec_type in BaseTest.spec_types.values()
+    ]
     item = cast(pytest.Function, item)  # help mypy infer type
     fixture_names = item.fixturenames
     for test_type in test_types:
@@ -252,7 +254,7 @@ class TestDocsGenerator:
         self.page_props: PagePropsLookup = {}
 
     @pytest.hookimpl(hookwrapper=True, trylast=True)
-    def pytest_collection_modifyitems(self, session, config, items):
+    def pytest_collection_modifyitems(self, config: pytest.Config, items: List[pytest.Item]):
         """Generate html doc for each test item that pytest has collected."""
         yield
 
@@ -262,11 +264,15 @@ class TestDocsGenerator:
         for item in items:  # group test case by test function
             functions[get_test_function_id(item)].append(item)
 
+        if hasattr(config, "checklist_props"):
+            checklist_props = config.checklist_props
+            self.page_props = {**self.page_props, **checklist_props}
+
         # the heavy work
         self.create_function_page_props(functions)
         self.create_module_page_props()
         # add the pages to the page_props dict
-        self.page_props = {**self.function_page_props, **self.module_page_props}
+        self.page_props = {**self.page_props, **self.function_page_props, **self.module_page_props}
         # this adds pages for the intermediate directory structure (tests, tests/berlin)
         self.add_directory_page_props()
         # add other interesting pages
@@ -350,7 +356,9 @@ class TestDocsGenerator:
 
         To do: Needs refactor.
         """
-        skip_params = ["fork"] + [spec_type.pytest_parameter_name() for spec_type in SPEC_TYPES]
+        skip_params = ["fork"] + [
+            spec_type.pytest_parameter_name() for spec_type in BaseTest.spec_types.values()
+        ]
         for function_id, function_items in test_functions.items():
             assert all(isinstance(item, pytest.Function) for item in function_items)
             items = cast(List[pytest.Function], function_items)  # help mypy infer type
@@ -588,4 +596,4 @@ class TestDocsGenerator:
     def write_pages(self) -> None:
         """Write all pages to the target directory."""
         for page in self.page_props.values():
-            page.write_page(self.jinja2_env)
+            page.write_page(mkdocs_gen_files, self.jinja2_env)  # type: ignore[arg-type]

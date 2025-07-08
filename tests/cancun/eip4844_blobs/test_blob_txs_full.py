@@ -8,10 +8,12 @@ from typing import List, Optional
 
 import pytest
 
+from ethereum_test_base_types.base_types import Hash
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
+    Blob,
     Block,
     BlockchainTestFiller,
     BlockException,
@@ -22,8 +24,7 @@ from ethereum_test_tools import (
     TransactionException,
 )
 
-from .common import INF_POINT, Blob
-from .spec import Spec, SpecHelpers, ref_spec_4844
+from .spec import Spec, ref_spec_4844
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
 REFERENCE_SPEC_VERSION = ref_spec_4844.version
@@ -90,9 +91,12 @@ def tx_max_priority_fee_per_gas() -> int:
 
 
 @pytest.fixture
-def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
+def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[Hash]]:
     """List of blob versioned hashes derived from the blobs."""
-    return [[blob.versioned_hash() for blob in blob_tx] for blob_tx in txs_blobs]
+    version_hashes: List[List[Hash]] = [
+        [blob.versioned_hash for blob in blob_tx] for blob_tx in txs_blobs
+    ]
+    return version_hashes
 
 
 @pytest.fixture(autouse=True)
@@ -149,7 +153,7 @@ def txs(  # noqa: D103
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_max_priority_fee_per_gas: int,
-    txs_versioned_hashes: List[List[bytes]],
+    txs_versioned_hashes: List[List[Hash]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
     txs_wrapped_blobs: List[bool],
@@ -178,13 +182,7 @@ def txs(  # noqa: D103
             wrapped_blob_transaction=tx_wrapped_blobs,
         )
         if tx_wrapped_blobs:
-            blobs_info = Blob.blobs_to_transaction_input(tx_blobs)
-            network_wrapped_tx = NetworkWrappedTransaction(
-                tx=tx,
-                blobs=blobs_info[0],
-                blob_kzg_commitments=blobs_info[1],
-                blob_kzg_proofs=blobs_info[2],
-            )
+            network_wrapped_tx = NetworkWrappedTransaction(tx=tx, blob_objects=tx_blobs)
             tx.rlp_override = network_wrapped_tx.rlp()
         txs.append(tx)
     return txs
@@ -242,17 +240,12 @@ def generate_full_blob_tests(
     Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
     parametrized for each different fork.
     """
-    blob_size = Spec.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
     max_blobs = fork.max_blobs_per_block()
     return [
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        blob=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    ),
+                    Blob.from_fork(fork),
                 ]
             ],
             [True],
@@ -261,13 +254,9 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        blob=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_fork(fork, s),
                 ]
-                for _ in range(max_blobs)
+                for s in range(max_blobs)
             ],
             [True] + ([False] * (max_blobs - 1)),
             id="one_full_blob_max_txs",
@@ -275,13 +264,9 @@ def generate_full_blob_tests(
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        blob=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_proof=INF_POINT,
-                    )
+                    Blob.from_fork(fork, s),
                 ]
-                for _ in range(max_blobs)
+                for s in range(max_blobs)
             ],
             ([False] * (max_blobs - 1)) + [True],
             id="one_full_blob_at_the_end_max_txs",
