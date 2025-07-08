@@ -99,7 +99,7 @@ We welcome contributions via pull requests! This section will guide you through 
 
 7. **For EVM Tests**: Review the cases in the [EIP checklist template](./docs/writing_tests/checklist_templates/eip_testing_checklist_template.md).
 
-8. **For Porting Tests**: If you're porting tests from ethereum/tests, see the [porting guide](https://eest.ethereum.org/main/dev/porting_legacy_tests) for coverage analysis and using `--skip-coverage-missed-reason` when needed.
+8. **For Porting Tests**: If you're porting tests from ethereum/tests, see the [porting guide](https://eest.ethereum.org/main/writing_tests/porting_legacy_tests) for coverage analysis and using `--skip-coverage-missed-reason` when needed.
 
 9. **Verify your changes** by running the appropriate checks:
 
