@@ -26,7 +26,7 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
 
-This update renames the `zkevm` feature release to `benchmark_30M` and further expands the latter for 60M, 90M, and 120M block gas limits in `fixtures_benchmark_30M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
+This update renames the `zkevm` feature release to `benchmark_30M` and further expands the latter for 1M, 10M, 60M, 90M, and 120M block gas limits in `fixtures_benchmark_1M.tar.gz`, `fixtures_benchmark_10M.tar.gz`, `fixtures_benchmark_30M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
 
 Users can select any of the artifacts depending on their testing needs for their provers.
 
