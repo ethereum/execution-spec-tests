@@ -87,7 +87,7 @@ class ForkConfigBuilder(BaseModel):
             label = a.label
             if a in self.address_overrides.root:
                 a = self.address_overrides.root[a]
-            system_contracts[f"{label}"] = a
+            system_contracts[a] = f"{label}"
 
         return ForkConfig(
             activation_time=self.activation_time,

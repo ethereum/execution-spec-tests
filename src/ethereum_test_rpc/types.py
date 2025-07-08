@@ -205,7 +205,7 @@ class ForkConfig(CamelModel):
     blob_schedule: ForkConfigBlobSchedule | None = None
     chain_id: HexNumber
     precompiles: Dict[Address, str]
-    system_contracts: Dict[str, Address]
+    system_contracts: Dict[Address, str]
 
     def get_hash(self) -> ForkHash:
         """Return the hash of the fork config."""
