@@ -31,7 +31,7 @@ def _create_execute_subcommand(
         context_settings={"ignore_unknown_options": True},
     )
     @common_pytest_options
-    def command(pytest_args: List[str], **kwargs) -> None:
+    def command(pytest_args: List[str], **_kwargs) -> None:
         pytest_command = PytestCommand(
             config_file=config_file,
             argument_processors=[HelpFlagsProcessor(f"execute-{command_name}")],
