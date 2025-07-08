@@ -21,8 +21,11 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
 
 3. Submit a PR with the ported tests:
 
-     1. Add the list of ported files using python marker to the head of your python test. Example:
-         ```
+     1. Add the list of ported files using python marker to the head of your python test.
+
+        Example:
+
+        ```python
          @pytest.mark.ported_from(
         [
             "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInit_ThenStoreThenReturnFiller.json",
@@ -31,10 +34,15 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
         pr=["https://github.com/ethereum/execution-spec-tests/pull/1871"],
         # coverage_missed_reason="Converting solidity code result in following opcode not being used:",
         ```
+
         Replace test names with your chosen tests and PR number.
+
         Uncomment coverage_missed_reason when all the missed coverage lines are approved, usually some opcodes end up not used after translating test logic from lllc, yul.
+
         But sometimes missed coverage line could hint that you forgot to account important test logic.
+
         If no coverage is missed, you are good!
+
      2. Remove the ported files from .tests/static/state_tests in your PR
 
 > See also: 📄 [Getting started with EEST.](../getting_started/repository_overview.md)
@@ -59,7 +67,7 @@ By default, EVM logs are stored in the `logs` folder at the repository root. You
 
 It's crucial that ported tests maintain coverage parity with _original tests_. This ensures that no critical functions are left untested and prevents the introduction of bugs. A CI workflow automatically checks for coverage.
 
-If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
+If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](../dev/test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
 
 ```console
 ❯ tree evmtest_coverage  -L 2
