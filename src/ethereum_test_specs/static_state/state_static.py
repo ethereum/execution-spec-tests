@@ -101,6 +101,19 @@ class StateStaticTest(BaseStaticTest):
 
     def fill_function(self) -> Callable:
         """Return a StateTest spec from a static file."""
+        # Check if this test uses tags
+        has_tags = False
+        tx_tag_dependencies = self.transaction.tag_dependencies()
+        if tx_tag_dependencies:
+            has_tags = True
+        else:
+            # Check expect sections for tags
+            for expect in self.expect:
+                result_tag_dependencies = expect.result.tag_dependencies()
+                if result_tag_dependencies:
+                    has_tags = True
+                    break
+
         d_g_v_parameters: List[ParameterSet] = []
         for d in self.transaction.data:
             for g in range(len(self.transaction.gas_limit)):
@@ -161,6 +174,11 @@ class StateStaticTest(BaseStaticTest):
             for mark in self.info.pytest_marks:
                 apply_mark = getattr(pytest.mark, mark)
                 test_state_vectors = apply_mark(test_state_vectors)
+
+        if has_tags:
+            test_state_vectors = pytest.mark.tagged(test_state_vectors)
+        else:
+            test_state_vectors = pytest.mark.untagged(test_state_vectors)
 
         return test_state_vectors
 
