@@ -2021,6 +2021,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_code_copy_operation/</loc>
+         <lastmod>2025-07-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_fork_transition/</loc>
          <lastmod>2025-07-09</lastmod>
          <changefreq>daily</changefreq>
@@ -2047,6 +2052,11 @@
     </url>
     <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_stack_underflow/</loc>
+         <lastmod>2025-07-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_with_memory_operation/</loc>
          <lastmod>2025-07-09</lastmod>
          <changefreq>daily</changefreq>
     </url>

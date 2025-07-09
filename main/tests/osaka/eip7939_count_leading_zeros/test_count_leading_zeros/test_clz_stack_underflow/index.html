@@ -4066,6 +4066,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -4282,6 +4286,48 @@
   
   <span class="md-ellipsis">
     <code>test_clz_jump_operation</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_code_copy_operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_code_copy_operation</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_with_memory_operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_with_memory_operation</code>
   </span>
   
 
@@ -23943,7 +23989,7 @@
 
 
 <h1 id="test_clz_stack_underflow"><code>test_clz_stack_underflow()</code><a class="headerlink" href="#test_clz_stack_underflow" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dac366d60c2fa5a2f3f5b0dbd2b722109c301f1f/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L168"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_underflow@dac366d6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e203df790cc0300322a76e51e246b595a7714aae/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L169"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_underflow@e203df79</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_underflow --fork Osaka</span>
@@ -23962,8 +24008,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
-<span class="normal">169</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
@@ -23983,7 +24028,8 @@
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">189</span>
+<span class="normal">190</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_clz_stack_underflow</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode with empty stack (should revert due to stack underflow).&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>

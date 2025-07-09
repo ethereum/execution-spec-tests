@@ -4066,6 +4066,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -4282,6 +4286,48 @@
   
   <span class="md-ellipsis">
     <code>test_clz_jump_operation</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_code_copy_operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_code_copy_operation</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_with_memory_operation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>test_clz_with_memory_operation</code>
   </span>
   
 
@@ -23943,7 +23989,7 @@
 
 
 <h1 id="test_clz_fork_transition"><code>test_clz_fork_transition()</code><a class="headerlink" href="#test_clz_fork_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dac366d60c2fa5a2f3f5b0dbd2b722109c301f1f/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L192"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition@dac366d6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e203df790cc0300322a76e51e246b595a7714aae/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L193"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition@e203df79</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition --fork Prague</span>
@@ -23962,8 +24008,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
-<span class="normal">193</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
 <span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
@@ -24028,7 +24073,8 @@
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">258</span>
+<span class="normal">259</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">test_clz_fork_transition</span><span class="p">(</span><span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode behavior at fork transition.&quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
