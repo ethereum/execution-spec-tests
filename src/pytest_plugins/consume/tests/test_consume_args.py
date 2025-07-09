@@ -156,12 +156,12 @@ def test_consume_simlimit_collectonly(
     expected_filter_pattern: re.Pattern,
 ) -> None:
     """Test consume's --sim.limit argument in collect-only mode."""
-    ini_file = "pytest-consume.ini"
+    ini_file = "src/cli/pytest_commands/pytest_ini_files/pytest-consume.ini"
     pytester.copy_example(name=ini_file)
     consume_test_path = "src/pytest_plugins/consume/direct/test_via_direct.py"
     args = [
         "-c",
-        ini_file,
+        "pytest-consume.ini",
         "--input",
         str(fixtures_dir),
         consume_test_path,

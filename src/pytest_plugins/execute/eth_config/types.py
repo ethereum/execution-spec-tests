@@ -7,7 +7,14 @@ from typing import Dict, Self, Set
 import yaml
 from pydantic import BaseModel, Field
 
-from ethereum_test_base_types import Address, CamelModel, EthereumTestRootModel, ForkHash, Hash
+from ethereum_test_base_types import (
+    Address,
+    CamelModel,
+    EthereumTestRootModel,
+    ForkHash,
+    Hash,
+    HexNumber,
+)
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthConfigResponse, ForkConfig, ForkConfigBlobSchedule
 
@@ -111,7 +118,7 @@ def calculate_fork_id(genesis_hash: Hash, activation_times: Set[int]) -> ForkHas
 class NetworkConfig(CamelModel):
     """Ethereum network config."""
 
-    chain_id: int
+    chain_id: HexNumber
     genesis_hash: Hash
     fork_activation_times: Dict[int, Fork]
     bpo_fork_activation_times: Dict[int, ForkConfigBlobSchedule] = {}
