@@ -43,7 +43,7 @@ def env() -> Environment:  # noqa: D103
 def pre_fork_blobs_per_block(fork: Fork) -> int:
     """Amount of blobs to produce with the pre-fork rules."""
     if fork.supports_blobs(timestamp=0):
-        return fork.max_blobs_per_block(timestamp=0)
+        return fork.max_blobs_per_tx(timestamp=0)
     return 0
 
 
@@ -110,8 +110,8 @@ def post_fork_block_count(fork: Fork) -> int:
 
 @pytest.fixture
 def post_fork_blobs_per_block(fork: Fork) -> int:
-    """Amount of blocks to produce with the post-fork rules."""
-    return fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP) + 1
+    """Amount of blobs per block to produce with the post-fork rules."""
+    return fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP)
 
 
 @pytest.fixture
@@ -302,11 +302,13 @@ def test_invalid_post_fork_block_without_blob_fields(
                 - fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)
             )
             + 2,
-            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP),
             id="max_blobs",
         ),
         pytest.param(10, 0, id="no_blobs"),
-        pytest.param(10, fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP), id="target_blobs"),
+        pytest.param(
+            10, fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP) // 2, id="half_max_blobs_per_tx"
+        ),
     ],
 )
 def test_fork_transition_excess_blob_gas_at_blob_genesis(
@@ -342,39 +344,39 @@ def test_fork_transition_excess_blob_gas_at_blob_genesis(
                 - fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)
             )
             + 2,
-            fork.max_blobs_per_block(timestamp=0),
-            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
-            id="max_blobs",
+            fork.max_blobs_per_tx(timestamp=0),
+            fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP),
+            id="max_blobs_per_tx",
         ),
         pytest.param(
             10,
             0,
-            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
+            fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP),
             id="no_blobs_before",
         ),
         pytest.param(
             10,
-            fork.max_blobs_per_block(timestamp=0),
+            fork.max_blobs_per_tx(timestamp=0),
             0,
             id="no_blobs_after",
         ),
         pytest.param(
             10,
-            fork.target_blobs_per_block(timestamp=0),
-            fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP),
-            id="target_blobs",
+            fork.max_blobs_per_tx(timestamp=0) // 2,
+            fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP) // 2,
+            id="half_max_blobs_per_tx",
         ),
         pytest.param(
             10,
             1,
-            fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
-            id="single_blob_to_max_blobs",
+            fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP),
+            id="single_blob_to_max_blobs_per_tx",
         ),
         pytest.param(
             10,
-            fork.max_blobs_per_block(timestamp=0),
+            fork.max_blobs_per_tx(timestamp=0),
             1,
-            id="max_blobs_to_single_blob",
+            id="max_blobs_per_tx_to_single_blob",
         ),
     ],
 )

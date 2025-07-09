@@ -27,6 +27,12 @@ def max_blobs_per_block(fork: Fork) -> int:
 
 
 @pytest.fixture
+def max_blobs_per_tx(fork: Fork) -> int:
+    """Return max number of blobs per transaction."""
+    return fork.max_blobs_per_tx()
+
+
+@pytest.fixture
 def blob_gas_per_blob(fork: Fork) -> int:
     """Return default blob gas cost per blob."""
     return fork.blob_gas_per_blob()

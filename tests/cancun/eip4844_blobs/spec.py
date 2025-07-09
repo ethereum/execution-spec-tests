@@ -163,26 +163,11 @@ class SpecHelpers:
         """
         Return invalid blob tx combinations for a given block that use up to
         MAX_BLOBS_PER_BLOCK+1 blobs.
-
-        Includes cases where:
-            - Total blobs exceed MAX_BLOBS_PER_BLOCK
-            - Individual transaction exceeds MAX_BLOBS_PER_TX
         """
         max_blobs_per_block = fork.max_blobs_per_block()
         max_blobs_per_tx = fork.max_blobs_per_tx()
-        invalid_combinations: List[Tuple[int, ...]] = []
-
-        # Total blobs exceed MAX_BLOBS_PER_BLOCK
-        invalid_combinations += cls.get_blob_combinations(
-            max_blobs_per_block + 1, max_blobs_per_tx
+        invalid_combinations = cls.get_blob_combinations(
+            max_blobs_per_block + 1,
+            max_blobs_per_tx,
         )
-
-        # Individual transaction exceeds MAX_BLOBS_PER_TX (total might be < MAX_BLOBS_PER_BLOCK)
-        if max_blobs_per_tx < max_blobs_per_block:
-            invalid_combinations.append((max_blobs_per_tx + 1,))
-            # Add combinations where one tx exceeds per tx limit but total is valid
-            for total_blobs in range(max_blobs_per_tx + 2, max_blobs_per_block + 1):
-                invalid_combinations.append(
-                    (max_blobs_per_tx + 1, total_blobs - (max_blobs_per_tx + 1))
-                )
         return invalid_combinations

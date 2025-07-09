@@ -148,7 +148,13 @@ def tx(  # noqa: D103
     tx_max_fee_per_blob_gas: int,
     tx_gas_limit: int,
     destination_account: Address,
+    fork: Fork,
 ):
+    if new_blobs > 0 and new_blobs > fork.max_blobs_per_tx():
+        raise ValueError(
+            f"new_blobs ({new_blobs}) exceeds max_blobs_per_tx ({fork.max_blobs_per_tx()})"
+        )
+
     if new_blobs == 0:
         # Send a normal type two tx instead
         return Transaction(
@@ -424,7 +430,8 @@ def test_invalid_zero_excess_blob_gas_in_header(
 def all_invalid_blob_gas_used_combinations(fork: Fork) -> Iterator[Tuple[int, int]]:
     """Return all invalid blob gas used combinations."""
     gas_per_blob = fork.blob_gas_per_blob()
-    for new_blobs in range(0, fork.max_blobs_per_block() + 1):
+    max_blobs_per_tx = fork.max_blobs_per_tx()
+    for new_blobs in range(0, min(fork.max_blobs_per_block(), max_blobs_per_tx) + 1):
         for header_blob_gas_used in range(0, fork.max_blobs_per_block() + 1):
             if new_blobs != header_blob_gas_used:
                 yield (new_blobs, header_blob_gas_used * gas_per_blob)
