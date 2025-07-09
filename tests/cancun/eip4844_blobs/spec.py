@@ -120,6 +120,7 @@ class SpecHelpers:
     def get_blob_combinations(
         cls,
         blob_count: int,
+        max_blobs_per_tx: int,
     ) -> List[Tuple[int, ...]]:
         """Get all possible combinations of blobs that result in a given blob count."""
         combinations = [
@@ -128,10 +129,11 @@ class SpecHelpers:
                 blob_count + 1, 0, -1
             )  # We can have from 1 to at most MAX_BLOBS_PER_BLOCK blobs per block
             for seq in itertools.combinations_with_replacement(
-                range(1, blob_count + 2), i
+                range(1, min(blob_count + 1, max_blobs_per_tx) + 1), i
             )  # We iterate through all possible combinations
-            if sum(seq) == blob_count  # And we only keep the ones that match the
-            # expected invalid blob count
+            if sum(seq)
+            == blob_count  # And we only keep the ones that match the expected blob count
+            and all(tx_blobs <= max_blobs_per_tx for tx_blobs in seq)  # Validate each tx
         ]
 
         # We also add the reversed version of each combination, only if it's not
@@ -146,12 +148,14 @@ class SpecHelpers:
     def all_valid_blob_combinations(cls, fork: Fork) -> List[Tuple[int, ...]]:
         """
         Return all valid blob tx combinations for a given block,
-        assuming the given MAX_BLOBS_PER_BLOCK.
+        assuming the given MAX_BLOBS_PER_BLOCK, whilst respecting MAX_BLOBS_PER_TX.
         """
         max_blobs_per_block = fork.max_blobs_per_block()
+        max_blobs_per_tx = fork.max_blobs_per_tx()
+
         combinations: List[Tuple[int, ...]] = []
         for i in range(1, max_blobs_per_block + 1):
-            combinations += cls.get_blob_combinations(i)
+            combinations += cls.get_blob_combinations(i, max_blobs_per_tx)
         return combinations
 
     @classmethod
@@ -159,6 +163,26 @@ class SpecHelpers:
         """
         Return invalid blob tx combinations for a given block that use up to
         MAX_BLOBS_PER_BLOCK+1 blobs.
+
+        Includes cases where:
+            - Total blobs exceed MAX_BLOBS_PER_BLOCK
+            - Individual transaction exceeds MAX_BLOBS_PER_TX
         """
         max_blobs_per_block = fork.max_blobs_per_block()
-        return cls.get_blob_combinations(max_blobs_per_block + 1)
+        max_blobs_per_tx = fork.max_blobs_per_tx()
+        invalid_combinations: List[Tuple[int, ...]] = []
+
+        # Total blobs exceed MAX_BLOBS_PER_BLOCK
+        invalid_combinations += cls.get_blob_combinations(
+            max_blobs_per_block + 1, max_blobs_per_tx
+        )
+
+        # Individual transaction exceeds MAX_BLOBS_PER_TX (total might be < MAX_BLOBS_PER_BLOCK)
+        if max_blobs_per_tx < max_blobs_per_block:
+            invalid_combinations.append((max_blobs_per_tx + 1,))
+            # Add combinations where one tx exceeds per tx limit but total is valid
+            for total_blobs in range(max_blobs_per_tx + 2, max_blobs_per_block + 1):
+                invalid_combinations.append(
+                    (max_blobs_per_tx + 1, total_blobs - (max_blobs_per_tx + 1))
+                )
+        return invalid_combinations
