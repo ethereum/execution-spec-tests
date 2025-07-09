@@ -35,7 +35,6 @@ class Spec:
 
     WORD_SIZE = 8
     EXPONENT_THRESHOLD = 32
-    GAS_DIVISOR = 3
 
     @classmethod
     def calculate_multiplication_complexity(cls, base_length: int, modulus_length: int) -> int:
@@ -73,7 +72,7 @@ class Spec:
             base_length, modulus_length
         )
         iteration_count = cls.calculate_iteration_count(exponent_length, exponent)
-        return max(cls.MIN_GAS, (multiplication_complexity * iteration_count // cls.GAS_DIVISOR))
+        return max(cls.MIN_GAS, multiplication_complexity * iteration_count)
 
 
 @dataclass(frozen=True)
