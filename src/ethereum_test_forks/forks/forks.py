@@ -1325,11 +1325,6 @@ class Prague(Cancun):
         return 9
 
     @classmethod
-    def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs in Prague, have a static max of 6 blobs per tx. Differs from the max per block."""
-        return 6
-
-    @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
         Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
@@ -1533,6 +1528,11 @@ class Osaka(Prague, solc_name="cancun"):
             return parent_excess_blob_gas + parent_blob_gas_used - target_blob_gas_per_block
 
         return fn
+
+    @classmethod
+    def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in Osaka, have a static max of 6 blobs per tx. Differs from the max per block."""
+        return 6
 
 
 class EOFv1(Prague, solc_name="cancun"):
