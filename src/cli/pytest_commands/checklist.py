@@ -1,29 +1,10 @@
 """CLI entry point for the `checklist` pytest-based command."""
 
-from typing import List
+from pathlib import Path
 
 import click
 
 from .base import PytestCommand
-
-
-class ChecklistCommand(PytestCommand):
-    """Pytest command for generating EIP checklists."""
-
-    def __init__(self):
-        """Initialize checklist command with processors."""
-        super().__init__(
-            config_file="pytest.ini",
-        )
-
-    def process_arguments(self, pytest_args: List[str]) -> List[str]:
-        """Process arguments, ensuring checklist generation is enabled."""
-        processed_args = super().process_arguments(pytest_args)
-
-        # Add collect-only flag to avoid running tests
-        processed_args.extend(["-p", "pytest_plugins.filler.eip_checklist"])
-
-        return processed_args
 
 
 @click.command()
@@ -69,7 +50,11 @@ def checklist(output: str, eip: tuple, **kwargs) -> None:
     for eip_num in eip:
         args.extend(["--checklist-eip", str(eip_num)])
 
-    command = ChecklistCommand()
+    command = PytestCommand(
+        config_file="pytest.ini",
+        pytest_ini_folder=Path("."),
+        plugins=["pytest_plugins.filler.eip_checklist"],
+    )
     command.execute(args)
 
 

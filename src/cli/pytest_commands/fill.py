@@ -1,5 +1,6 @@
 """CLI entry point for the `fill` pytest-based command."""
 
+from pathlib import Path
 from typing import List
 
 import click
@@ -40,7 +41,7 @@ class FillCommand(PytestCommand):
             # Normal single-phase execution
             return [
                 PytestExecution(
-                    config_file=self.config_file,
+                    config_file=Path(self.config_file),
                     args=processed_args,
                 )
             ]
@@ -55,12 +56,12 @@ class FillCommand(PytestCommand):
 
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=Path(self.config_file),
                 args=phase1_args,
                 description="generating pre-allocation groups",
             ),
             PytestExecution(
-                config_file=self.config_file,
+                config_file=Path(self.config_file),
                 args=phase2_args,
                 description="filling test fixtures",
             ),
@@ -70,7 +71,7 @@ class FillCommand(PytestCommand):
         """Create single execution using existing pre-allocation groups."""
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=Path(self.config_file),
                 args=args,
             )
         ]
@@ -169,7 +170,7 @@ class PhilCommand(FillCommand):
 
         return [
             PytestExecution(
-                config_file=self.config_file,
+                config_file=Path(self.config_file),
                 args=emoji_args,
             )
         ]
