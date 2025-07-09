@@ -29,72 +29,74 @@ class ForkConfigBuilder(BaseModel):
     activation_time: int
     chain_id: int
     address_overrides: AddressOverrideDict
-    blob_schedule: ForkConfigBlobSchedule | None = None
+    bpo_blob_schedule_override: ForkConfigBlobSchedule | None = None
+
+    @property
+    def blob_schedule(self) -> ForkConfigBlobSchedule | None:
+        """Get the blob schedule."""
+        if self.bpo_blob_schedule_override is not None:
+            return self.bpo_blob_schedule_override
+        return ForkConfigBlobSchedule.from_fork_blob_schedule(
+            self.fork.blob_schedule()[self.fork.name()]
+        )
 
     def add(
         self, fork_or_blob_schedule: Fork | ForkConfigBlobSchedule, activation_time: int
     ) -> Self:
         """Add or change the base fork or blob schedule."""
         if isinstance(fork_or_blob_schedule, ForkConfigBlobSchedule):
-            blob_schedule: ForkConfigBlobSchedule = fork_or_blob_schedule
             return self.__class__(
                 fork=self.fork,
                 activation_time=activation_time,
                 chain_id=self.chain_id,
                 address_overrides=self.address_overrides,
-                blob_schedule=blob_schedule,
+                bpo_blob_schedule_override=fork_or_blob_schedule,
             )
         else:
             fork: Fork = fork_or_blob_schedule
-            blob_schedule_or_none = (
-                ForkConfigBlobSchedule(
-                    **fork.blob_schedule()[fork.name()].model_dump(mode="python"),
-                )
-                if fork.blob_schedule() is not None and fork.name() in fork.blob_schedule()
-                else self.blob_schedule
-            )
             return self.__class__(
                 fork=fork,
                 activation_time=activation_time,
                 chain_id=self.chain_id,
                 address_overrides=self.address_overrides,
-                blob_schedule=blob_schedule_or_none,
+                bpo_blob_schedule_override=None
+                if fork.blob_schedule() is not None
+                else self.bpo_blob_schedule_override,
             )
 
-    def get_config(self) -> ForkConfig:
-        """
-        Get the current and next fork configurations given the current time and the network
-        configuration.
-        """
-        if self.blob_schedule is None:
-            # Get from the fork
-            forks_blob_schedules = self.fork.blob_schedule()
-            fork_blob_schedule = forks_blob_schedules[self.fork.name()]
-            if fork_blob_schedule is not None:
-                blob_schedule = ForkConfigBlobSchedule(
-                    **fork_blob_schedule.model_dump(mode="python"),
-                )
-
+    @property
+    def precompiles(self) -> Dict[Address, str]:
+        """Get the precompiles."""
         precompiles = {}
         for a in self.fork.precompiles():
             label = a.label
             if a in self.address_overrides.root:
                 a = self.address_overrides.root[a]
             precompiles[a] = f"{label}"
+        return precompiles
 
+    @property
+    def system_contracts(self) -> Dict[str, Address]:
+        """Get the system contracts."""
         system_contracts = {}
         for a in self.fork.system_contracts():
             label = a.label
             if a in self.address_overrides.root:
                 a = self.address_overrides.root[a]
-            system_contracts[a] = f"{label}"
+            system_contracts[f"{label}"] = a
+        return system_contracts
 
+    def get_config(self) -> ForkConfig:
+        """
+        Get the current and next fork configurations given the current time and the network
+        configuration.
+        """
         return ForkConfig(
             activation_time=self.activation_time,
-            blob_schedule=blob_schedule,
+            blob_schedule=self.blob_schedule,
             chain_id=self.chain_id,
-            precompiles=precompiles,
-            system_contracts=system_contracts,
+            precompiles=self.precompiles,
+            system_contracts=self.system_contracts,
         )
 
 
@@ -131,8 +133,13 @@ class NetworkConfig(CamelModel):
             **network_kwargs,
         )
         current_activation_times: Set[int] = set()
+
         next_config_builder: ForkConfigBuilder | None = None
         next_activation_times: Set[int] = set()
+        next_processed: bool = False
+
+        last_config_builder: ForkConfigBuilder | None = None
+        last_activation_times: Set[int] = set()
 
         for activation_time in all_activations.keys():
             if activation_time == 0:
@@ -143,12 +150,25 @@ class NetworkConfig(CamelModel):
                 )
                 current_activation_times.add(activation_time)
                 next_activation_times.add(activation_time)
+                last_activation_times.add(activation_time)
             else:
-                next_config_builder = current_config_builder.add(
-                    all_activations[activation_time], activation_time
-                )
-                next_activation_times.add(activation_time)
-                break
+                if not next_processed:
+                    next_config_builder = current_config_builder.add(
+                        all_activations[activation_time], activation_time
+                    )
+                    next_activation_times.add(activation_time)
+                    next_processed = True
+
+                    last_config_builder = current_config_builder.add(
+                        all_activations[activation_time], activation_time
+                    )
+                    last_activation_times.add(activation_time)
+                else:
+                    assert last_config_builder is not None, "Last config builder is None"
+                    last_config_builder = last_config_builder.add(
+                        all_activations[activation_time], activation_time
+                    )
+                    last_activation_times.add(activation_time)
 
         current_config = current_config_builder.get_config()
         kwargs = {
@@ -161,6 +181,11 @@ class NetworkConfig(CamelModel):
             kwargs["next"] = next_config
             kwargs["nextHash"] = next_config.get_hash()
             kwargs["nextForkId"] = calculate_fork_id(self.genesis_hash, next_activation_times)
+        if last_config_builder is not None:
+            last_config = last_config_builder.get_config()
+            kwargs["last"] = last_config
+            kwargs["lastHash"] = last_config.get_hash()
+            kwargs["lastForkId"] = calculate_fork_id(self.genesis_hash, last_activation_times)
 
         return EthConfigResponse(**kwargs)
 

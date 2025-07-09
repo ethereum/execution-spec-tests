@@ -4,7 +4,7 @@ import json
 from binascii import crc32
 from enum import Enum
 from hashlib import sha256
-from typing import Annotated, Any, Dict, List
+from typing import Annotated, Any, Dict, List, Self
 
 from pydantic import AliasChoices, Field, model_validator
 
@@ -13,6 +13,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     EthereumTestRootModel,
+    ForkBlobSchedule,
     ForkHash,
     Hash,
     HexNumber,
@@ -197,6 +198,15 @@ class ForkConfigBlobSchedule(CamelModel):
     max_blobs_per_block: int = Field(..., alias="max")
     base_fee_update_fraction: int
 
+    @classmethod
+    def from_fork_blob_schedule(cls, fork_blob_schedule: ForkBlobSchedule) -> Self:
+        """Create a ForkConfigBlobSchedule from a ForkBlobSchedule."""
+        return cls(
+            target_blobs_per_block=fork_blob_schedule.target_blobs_per_block,
+            max_blobs_per_block=fork_blob_schedule.max_blobs_per_block,
+            base_fee_update_fraction=fork_blob_schedule.base_fee_update_fraction,
+        )
+
 
 class ForkConfig(CamelModel):
     """Current or next fork config information."""
@@ -205,7 +215,7 @@ class ForkConfig(CamelModel):
     blob_schedule: ForkConfigBlobSchedule | None = None
     chain_id: HexNumber
     precompiles: Dict[Address, str]
-    system_contracts: Dict[Address, str]
+    system_contracts: Dict[str, Address]
 
     def get_hash(self) -> ForkHash:
         """Return the hash of the fork config."""
@@ -222,3 +232,6 @@ class EthConfigResponse(CamelModel):
     next: ForkConfig | None = None
     next_hash: ForkHash | None = None
     next_fork_id: ForkHash | None = None
+    last: ForkConfig | None = None
+    last_hash: ForkHash | None = None
+    last_fork_id: ForkHash | None = None
