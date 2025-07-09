@@ -68,12 +68,12 @@ eth_config = _create_execute_subcommand(
     "eth-config",
     "pytest-execute-eth-config.ini",
     "Test a client configuration using a remote RPC endpoint.",
-    test_paths=[Path("pytest_plugins/execute/eth_config/test_eth_config.py")],
+    test_paths=[Path("pytest_plugins/execute/eth_config/execute_eth_config.py")],
 )
 
 recover = _create_execute_subcommand(
     "recover",
     "pytest-execute-recover.ini",
     "Recover funds from test executions using a remote RPC endpoint.",
-    test_paths=[Path("pytest_plugins/execute/test_recover.py")],
+    test_paths=[Path("pytest_plugins/execute/execute_recover.py")],
 )
