@@ -339,7 +339,8 @@ def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: 
                 )
             )
             + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store loaded CLZ byte
-        )
+        ),
+        storage={"0x00": "0xdeadbeef"},
     )
 
     post = {
@@ -393,7 +394,8 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
                 )
             )
             + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(Op.MLOAD(0)))
-        )
+        ),
+        storage={"0x00": "0xdeadbeef"},
     )
 
     post = {
