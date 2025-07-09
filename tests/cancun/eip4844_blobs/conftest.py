@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import Alloc, Block, Environment, Hash, Transaction, add_kzg_version
 
 from .spec import Spec
@@ -24,6 +24,12 @@ def target_blobs_per_block(fork: Fork) -> int:
 def max_blobs_per_block(fork: Fork) -> int:
     """Return default number of blobs to be included in the block."""
     return fork.max_blobs_per_block()
+
+
+@pytest.fixture
+def max_blobs_per_tx(fork: Fork) -> int:
+    """Return max number of blobs per transaction."""
+    return fork.max_blobs_per_tx()
 
 
 @pytest.fixture
@@ -269,6 +275,10 @@ def non_zero_blob_gas_used_genesis_block(
     genesis value, expecting an appropriate drop to the intermediate block.
     Similarly, we must add parent_blobs to the intermediate block within
     a blob tx such that an equivalent blobGasUsed field is wrote.
+
+    For forks >= Osaka where the MAX_BLOBS_PER_TX is introduced, we
+    split the blobs across multiple transactions to respect the
+    MAX_BLOBS_PER_TX limit.
     """
     if parent_blobs == 0:
         return None
@@ -287,30 +297,38 @@ def non_zero_blob_gas_used_genesis_block(
     )
 
     sender = pre.fund_eoa(10**27)
-
-    # Address that contains no code, nor balance and is not a contract.
     empty_account_destination = pre.fund_eoa(0)
-
     blob_gas_price_calculator = fork.blob_gas_price_calculator(block_number=1)
 
-    return Block(
-        txs=[
-            Transaction(
-                ty=Spec.BLOB_TX_TYPE,
-                sender=sender,
-                to=empty_account_destination,
-                value=1,
-                gas_limit=21_000,
-                max_fee_per_gas=tx_max_fee_per_gas,
-                max_priority_fee_per_gas=0,
-                max_fee_per_blob_gas=blob_gas_price_calculator(
-                    excess_blob_gas=parent_excess_blob_gas
-                ),
-                access_list=[],
-                blob_versioned_hashes=add_kzg_version(
-                    [Hash(x) for x in range(parent_blobs)],
-                    Spec.BLOB_COMMITMENT_VERSION_KZG,
-                ),
-            )
-        ]
-    )
+    # Split blobs into chunks for forks >= Osaka only to respect MAX_BLOBS_PER_TX limits.
+    # This allows us to keep the creation of single transactions for Cancun/Prague where the
+    # MAX_BLOBS_PER_TX is not enforced, hitting coverage for block level blob gas validation
+    # when parent_blobs > MAX_BLOBS_PER_BLOCK.
+    max_blobs_per_tx = fork.max_blobs_per_tx() if fork >= Osaka else parent_blobs
+    blob_chunks = [
+        range(i, min(i + max_blobs_per_tx, parent_blobs))
+        for i in range(0, parent_blobs, max_blobs_per_tx)
+    ]
+
+    def create_blob_transaction(blob_range):
+        return Transaction(
+            ty=Spec.BLOB_TX_TYPE,
+            sender=sender,
+            to=empty_account_destination,
+            value=1,
+            gas_limit=21_000,
+            max_fee_per_gas=tx_max_fee_per_gas,
+            max_priority_fee_per_gas=0,
+            max_fee_per_blob_gas=blob_gas_price_calculator(
+                excess_blob_gas=parent_excess_blob_gas,
+            ),
+            access_list=[],
+            blob_versioned_hashes=add_kzg_version(
+                [Hash(x) for x in blob_range],
+                Spec.BLOB_COMMITMENT_VERSION_KZG,
+            ),
+        )
+
+    txs = [create_blob_transaction(chunk) for chunk in blob_chunks]
+
+    return Block(txs=txs)
