@@ -116,6 +116,7 @@ exclude = ["tests/static/**"]
 
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
+"pytest_plugins.execute" = ["eth_config/networks.yml"]
 "cli.eest.make" = ["templates/*.j2"]
 
 [tool.ruff]
