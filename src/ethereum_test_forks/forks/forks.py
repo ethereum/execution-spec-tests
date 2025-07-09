@@ -1039,18 +1039,23 @@ class Cancun(Shanghai):
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs are enabled starting from Cancun, with a static target of 3 blobs."""
+        """Blobs are enabled starting from Cancun, with a static target of 3 blobs per block."""
         return 3
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs are enabled starting from Cancun, with a static max of 6 blobs."""
+        """Blobs are enabled starting from Cancun, with a static max of 6 blobs per block."""
         return 6
 
     @classmethod
     def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
         """Pre-Osaka forks don't use tx wrapper versions for full blob transactions."""
         return None
+
+    @classmethod
+    def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs are enabled starting from Cancun, with a static max equal to the max per block."""
+        return cls.max_blobs_per_block(block_number, timestamp)
 
     @classmethod
     def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
@@ -1306,13 +1311,18 @@ class Prague(Cancun):
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Target blob count of 6 for Prague."""
+        """Blobs in Prague, have a static target of 6 blobs per block."""
         return 6
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Max blob count of 9 for Prague."""
+        """Blobs in Prague, have a static max of 9 blobs per block."""
         return 9
+
+    @classmethod
+    def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in Prague, have a static max of 6 blobs per tx. Differs from the max per block."""
+        return 6
 
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
