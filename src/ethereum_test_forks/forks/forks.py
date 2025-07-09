@@ -258,6 +258,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         )
 
     @classmethod
+    def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the max number of blobs per tx at a given fork."""
+        raise NotImplementedError(f"Max blobs per tx is not supported in {cls.name()}")
+
+    @classmethod
     def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
         """At genesis, no blob schedule is used."""
         return None
