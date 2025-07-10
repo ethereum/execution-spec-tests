@@ -143,6 +143,10 @@ class EthRPC(BaseRPC):
             pprint(e.errors())
             raise e
 
+    def chain_id(self) -> int:
+        """`eth_chainId`: Returns the current chain id."""
+        return int(self.post_request("chainId"), 16)
+
     def get_block_by_number(self, block_number: BlockNumberType = "latest", full_txs: bool = True):
         """`eth_getBlockByNumber`: Returns information about a block by block number."""
         block = hex(block_number) if isinstance(block_number, int) else block_number
