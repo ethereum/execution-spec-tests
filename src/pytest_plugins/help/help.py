@@ -71,7 +71,7 @@ def pytest_configure(config):
     elif config.getoption("show_fill_help"):
         show_specific_help(
             config,
-            "pytest.ini",
+            "pytest-fill.ini",
             [
                 "evm",
                 "solc",

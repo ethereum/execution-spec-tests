@@ -12,7 +12,6 @@ import logging
 import subprocess
 import sys
 import textwrap
-from pathlib import Path
 
 import mkdocs_gen_files
 
@@ -21,17 +20,12 @@ logger = logging.getLogger("mkdocs")
 
 def get_fill_help_output() -> str:
     """Run 'fill --help' and capture its output."""
-    # Get the repository root (assuming script is in docs/scripts/)
-    script_dir = Path(__file__).parent
-    repo_root = script_dir.parent.parent
-
     try:
         result = subprocess.run(
             ["uv", "run", "fill", "--help"],
             capture_output=True,
             text=True,
             check=True,
-            cwd=repo_root,  # Run from repo root where pytest.ini exists
         )
         return result.stdout
     except subprocess.CalledProcessError as e:
