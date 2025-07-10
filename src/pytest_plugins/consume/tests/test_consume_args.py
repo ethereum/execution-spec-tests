@@ -59,8 +59,6 @@ def fill_tests(
     fill_result = CliRunner().invoke(
         fill,
         [
-            "-c",
-            "pytest.ini",
             "-m",
             "not blockchain_test_engine",
             f"--from={fill_fork_from}",

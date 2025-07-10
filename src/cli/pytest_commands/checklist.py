@@ -1,10 +1,8 @@
 """CLI entry point for the `checklist` pytest-based command."""
 
-from pathlib import Path
-
 import click
 
-from .base import PytestCommand
+from .fill import FillCommand
 
 
 @click.command()
@@ -50,9 +48,7 @@ def checklist(output: str, eip: tuple, **kwargs) -> None:
     for eip_num in eip:
         args.extend(["--checklist-eip", str(eip_num)])
 
-    command = PytestCommand(
-        config_file="pytest.ini",
-        pytest_ini_folder=Path("."),
+    command = FillCommand(
         plugins=["pytest_plugins.filler.eip_checklist"],
     )
     command.execute(args)

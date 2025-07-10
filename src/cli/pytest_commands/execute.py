@@ -23,20 +23,14 @@ def _create_execute_subcommand(
     command_name: str,
     config_file: str,
     help_text: str,
-    test_paths: List[Path] | None = None,
+    static_test_paths: List[Path] | None = None,
 ) -> click.Command:
     """Create an execute subcommand with standardized structure."""
-    if test_paths:
-        pytest_command = PytestCommand(
-            config_file=config_file,
-            argument_processors=[HelpFlagsProcessor(f"execute-{command_name}")],
-            test_paths=test_paths,
-        )
-    else:
-        pytest_command = PytestCommand(
-            config_file=config_file,
-            argument_processors=[HelpFlagsProcessor(f"execute-{command_name}")],
-        )
+    pytest_command = PytestCommand(
+        config_file=config_file,
+        argument_processors=[HelpFlagsProcessor(f"execute-{command_name}")],
+        static_test_paths=static_test_paths,
+    )
 
     @execute.command(
         name=command_name,
@@ -68,12 +62,12 @@ eth_config = _create_execute_subcommand(
     "eth-config",
     "pytest-execute-eth-config.ini",
     "Test a client configuration using a remote RPC endpoint.",
-    test_paths=[Path("pytest_plugins/execute/eth_config/execute_eth_config.py")],
+    static_test_paths=[Path("pytest_plugins/execute/eth_config/execute_eth_config.py")],
 )
 
 recover = _create_execute_subcommand(
     "recover",
     "pytest-execute-recover.ini",
     "Recover funds from test executions using a remote RPC endpoint.",
-    test_paths=[Path("pytest_plugins/execute/execute_recover.py")],
+    static_test_paths=[Path("pytest_plugins/execute/execute_recover.py")],
 )

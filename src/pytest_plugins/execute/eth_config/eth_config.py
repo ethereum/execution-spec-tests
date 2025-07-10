@@ -46,7 +46,6 @@ def pytest_addoption(parser):
 DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
 
 
-@pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config) -> None:
     """
     Load the network configuration file and load the specific network to be used for
