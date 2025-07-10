@@ -501,12 +501,12 @@ dependencies = [
     { name = "coincurve" },
     { name = "colorlog" },
     { name = "eth-abi" },
+    { name = "ethereum-hive" },
     { name = "ethereum-rlp" },
     { name = "ethereum-spec-evm-resolver" },
     { name = "ethereum-types" },
     { name = "filelock" },
     { name = "gitpython" },
-    { name = "hive-py" },
     { name = "joblib" },
     { name = "pydantic" },
     { name = "pyjwt" },
@@ -566,12 +566,12 @@ requires-dist = [
     { name = "coincurve", specifier = ">=20.0.0,<21" },
     { name = "colorlog", specifier = ">=6.7.0,<7" },
     { name = "eth-abi", specifier = ">=5.2.0" },
+    { name = "ethereum-hive", specifier = ">=0.1.0a1,<1.0.0" },
     { name = "ethereum-rlp", specifier = ">=0.1.3,<0.2" },
     { name = "ethereum-spec-evm-resolver", git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver?rev=ee273e7344e24a739ebfbf0ea1f758530c4d032b" },
     { name = "ethereum-types", specifier = ">=0.2.1,<0.3" },
     { name = "filelock", specifier = ">=3.15.1,<4" },
     { name = "gitpython", specifier = ">=3.1.31,<4" },
-    { name = "hive-py", git = "https://github.com/marioevz/hive.py" },
     { name = "joblib", specifier = ">=1.4.2" },
     { name = "mike", marker = "extra == 'docs'", specifier = ">=1.1.2,<2" },
     { name = "mkdocs", marker = "extra == 'docs'", specifier = ">=1.4.3,<2" },
@@ -612,6 +612,18 @@ requires-dist = [
     { name = "typing-extensions", specifier = ">=4.12.2,<5" },
 ]
 provides-extras = ["test", "lint", "docs"]
+
+[[package]]
+name = "ethereum-hive"
+version = "0.1.0a1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/db/e8/da004286abff126b7e56268f7930bdc23437f4ae21c42ed57da090444d8b/ethereum_hive-0.1.0a1.tar.gz", hash = "sha256:36c5c6f1a6c231054d7fa9cee25180488a362fedb4c0570ba09e3d725f1b51c9", size = 73831, upload-time = "2025-07-09T10:36:51.192Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/fa/fa7a5980cb88f467e2ca9946f52c7a0a3568481260f57d43dbb1a510e95b/ethereum_hive-0.1.0a1-py3-none-any.whl", hash = "sha256:f3c878eba5dcf25151410db3f68412a15934d79c0cf212eb9784746c6f346785", size = 37126, upload-time = "2025-07-09T10:36:25.665Z" },
+]
 
 [[package]]
 name = "ethereum-rlp"
@@ -729,14 +741,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/4e/51/06836a542b773bfc60ab871fa08d4a7963e7df6754ca57169e2654287cc1/hexbytes-1.2.1.tar.gz", hash = "sha256:515f00dddf31053db4d0d7636dd16061c1d896c3109b8e751005db4ca46bcca7", size = 7722, upload-time = "2024-06-17T18:49:49.716Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/39/c6/20f25ea73e4ceffb3eb4e38347f2992cb25e5ff6eb644d52e753a7a72f57/hexbytes-1.2.1-py3-none-any.whl", hash = "sha256:e64890b203a31f4a23ef11470ecfcca565beaee9198df623047df322b757471a", size = 5160, upload-time = "2024-06-17T18:49:43.364Z" },
-]
-
-[[package]]
-name = "hive-py"
-version = "0.1.0"
-source = { git = "https://github.com/marioevz/hive.py#8874cb30904b00098bb6b696b2fd3c0f5a12e119" }
-dependencies = [
-    { name = "requests" },
 ]
 
 [[package]]
