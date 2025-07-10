@@ -22,3 +22,4 @@ class Spec:
     """
 
     MAX_BLOBS_PER_TX = 6
+    BLOB_COMMITMENT_VERSION_KZG = 1
