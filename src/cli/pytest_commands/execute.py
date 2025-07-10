@@ -23,7 +23,7 @@ def _create_execute_subcommand(
     command_name: str,
     config_file: str,
     help_text: str,
-    required_args: List[str] = None,
+    required_args: List[str] | None = None,
     static_test_paths: List[Path] | None = None,
 ) -> click.Command:
     """Create an execute subcommand with standardized structure."""

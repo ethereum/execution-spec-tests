@@ -13,7 +13,7 @@ from .base import ArgumentProcessor
 class HelpFlagsProcessor(ArgumentProcessor):
     """Processes help-related flags to provide cleaner help output."""
 
-    def __init__(self, command_type: str, required_args: List[str] = None):
+    def __init__(self, command_type: str, required_args: List[str] | None = None):
         """
         Initialize the help processor.
 

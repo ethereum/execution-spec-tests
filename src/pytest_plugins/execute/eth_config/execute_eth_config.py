@@ -131,7 +131,8 @@ def test_eth_config_next_fork_id(
 ) -> None:
     """Validate `nextForkId` field of the `eth_config` RPC endpoint."""
     assert eth_config_response is not None, "Client did not return a valid `eth_config` response."
-    if expected_eth_config.next is None:
+    expected_next_fork_id = expected_eth_config.next_fork_id
+    if expected_next_fork_id is None:
         assert eth_config_response.next_fork_id is None, (
             "Client returned a `nextForkId` fork config but expected None."
         )
@@ -140,10 +141,10 @@ def test_eth_config_next_fork_id(
         assert received_fork_id is not None, (
             "Client did not return a valid `nextForkId` fork config."
         )
-        assert received_fork_id == expected_eth_config.next_fork_id, (
+        assert received_fork_id == expected_next_fork_id, (
             "Client's `nextForkId` fork config does not match expected value: "
             f"{received_fork_id.hex()} != "
-            f"{expected_eth_config.next_fork_id.hex()}"
+            f"{expected_next_fork_id.hex()}"
         )
 
 
@@ -195,7 +196,8 @@ def test_eth_config_last_fork_id(
 ) -> None:
     """Validate `lastForkId` field of the `eth_config` RPC endpoint."""
     assert eth_config_response is not None, "Client did not return a valid `eth_config` response."
-    if expected_eth_config.last is None:
+    expected_last_fork_id = expected_eth_config.last_fork_id
+    if expected_last_fork_id is None:
         assert eth_config_response.last_fork_id is None, (
             "Client returned a `lastForkId` fork config but expected None."
         )
@@ -204,8 +206,8 @@ def test_eth_config_last_fork_id(
         assert received_fork_id is not None, (
             "Client did not return a valid `lastForkId` fork config."
         )
-        assert received_fork_id == expected_eth_config.last_fork_id, (
+        assert received_fork_id == expected_last_fork_id, (
             "Client's `lastForkId` fork config does not match expected value: "
             f"{received_fork_id.hex()} != "
-            f"{expected_eth_config.last_fork_id.hex()}"
+            f"{expected_last_fork_id.hex()}"
         )
