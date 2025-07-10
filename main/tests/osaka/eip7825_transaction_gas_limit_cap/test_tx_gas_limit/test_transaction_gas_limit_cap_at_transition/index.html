@@ -23989,7 +23989,7 @@
 
 
 <h1 id="test_transaction_gas_limit_cap_at_transition"><code>test_transaction_gas_limit_cap_at_transition()</code><a class="headerlink" href="#test_transaction_gas_limit_cap_at_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5878612b86c055c883917447b2af79dd3eb16584/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L118"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap_at_transition@5878612b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/d53769f9527891a435195246b21ca15badbd1e40/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L118"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap_at_transition@d53769f9</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Prague with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap_at_transition --fork Prague</span>
@@ -24005,8 +24005,8 @@
     <div class="doc doc-contents first">
 
       <p>Test transaction gas limit cap behavior at the Osaka transition.</p>
-<p>Before timestamp 15000: No gas limit cap (transactions with gas &gt; 30M are valid)
-At/after timestamp 15000: Gas limit cap of 30M is enforced</p>
+<p>Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are valid)
+At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
@@ -24099,8 +24099,8 @@ At/after timestamp 15000: Gas limit cap of 30M is enforced</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transaction gas limit cap behavior at the Osaka transition.</span>
 
-<span class="sd">    Before timestamp 15000: No gas limit cap (transactions with gas &gt; 30M are valid)</span>
-<span class="sd">    At/after timestamp 15000: Gas limit cap of 30M is enforced</span>
+<span class="sd">    Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are valid)</span>
+<span class="sd">    At/after timestamp 15000: Gas limit cap of 2^24 is enforced</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
@@ -24111,7 +24111,7 @@ At/after timestamp 15000: Gas limit cap of 30M is enforced</p>
     <span class="k">if</span> <span class="n">pre_cap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">pre_cap</span> <span class="o">=</span> <span class="n">TX_GAS_LIMIT</span>
 
-    <span class="c1"># Transaction with gas limit above 30M</span>
+    <span class="c1"># Transaction with gas limit above the cap before transition</span>
     <span class="n">high_gas_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Legacy transaction</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
