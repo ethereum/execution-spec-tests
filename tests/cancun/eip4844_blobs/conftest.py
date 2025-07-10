@@ -275,6 +275,10 @@ def non_zero_blob_gas_used_genesis_block(
     genesis value, expecting an appropriate drop to the intermediate block.
     Similarly, we must add parent_blobs to the intermediate block within
     a blob tx such that an equivalent blobGasUsed field is wrote.
+
+    For forks >= Osaka where the MAX_BLOBS_PER_TX is introduced, we
+    split the blobs across multiple transactions to respect the
+    MAX_BLOBS_PER_TX limit.
     """
     if parent_blobs == 0:
         return None
@@ -299,8 +303,15 @@ def non_zero_blob_gas_used_genesis_block(
 
     blob_gas_price_calculator = fork.blob_gas_price_calculator(block_number=1)
 
-    return Block(
-        txs=[
+    # Split blobs across multiple transactions respecting MAX_BLOBS_PER_TX
+    max_blobs_per_tx = fork.max_blobs_per_tx()
+    txs = []
+    remaining_blobs = parent_blobs
+    blob_index = 0
+
+    while remaining_blobs > 0:
+        blobs_in_this_tx = min(remaining_blobs, max_blobs_per_tx)
+        txs.append(
             Transaction(
                 ty=Spec.BLOB_TX_TYPE,
                 sender=sender,
@@ -314,9 +325,12 @@ def non_zero_blob_gas_used_genesis_block(
                 ),
                 access_list=[],
                 blob_versioned_hashes=add_kzg_version(
-                    [Hash(x) for x in range(parent_blobs)],
+                    [Hash(x) for x in range(blob_index, blob_index + blobs_in_this_tx)],
                     Spec.BLOB_COMMITMENT_VERSION_KZG,
                 ),
             )
-        ]
-    )
+        )
+        remaining_blobs -= blobs_in_this_tx
+        blob_index += blobs_in_this_tx
+
+    return Block(txs=txs)
