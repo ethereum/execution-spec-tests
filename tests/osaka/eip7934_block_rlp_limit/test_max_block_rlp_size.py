@@ -22,6 +22,7 @@ from ethereum_test_tools import (
     Bytes,
     Transaction,
 )
+from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import EOA, AuthorizationTuple, Environment, add_kzg_version
 
 from .spec import Spec, ref_spec_7934
@@ -138,16 +139,52 @@ def exact_size_transactions(
     sender: EOA,
     block_size_limit: int,
     fork: Fork,
+    pre: Optional[Alloc],
     tx_type: Optional[int] = None,
+    emit_logs: bool = False,
 ) -> Tuple[List[Transaction], int]:
     """
     Generate transactions that fill a block to exactly the RLP size limit.
 
     The calculation uses caching to avoid recalculating the same block rlp for each
     fork. Calculate the block and fill with real sender for testing.
+
+    Args:
+        sender: The sender account
+        block_size_limit: The target block RLP size limit
+        fork: The fork to generate transactions for
+        tx_type: Optional transaction type to include
+        emit_logs: If True, transactions will call a contract that emits logs
+        pre: Required if emit_logs is True, used to deploy the log contract
+
     """
+    log_contract = None
+    if emit_logs:
+        if pre is None:
+            raise ValueError("pre is required when emit_logs is True")
+        # Deploy a contract that emits logs
+        log_contract_code = Op.SSTORE(1, 1)
+        # Emit multiple LOG4 events with maximum data and topics
+        for _ in range(3):
+            log_contract_code += Op.PUSH32(
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+            )  # topic 4
+            log_contract_code += Op.PUSH32(
+                0xEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+            )  # topic 3
+            log_contract_code += Op.PUSH32(
+                0xDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+            )  # topic 2
+            log_contract_code += Op.PUSH32(
+                0xCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+            )  # topic 1
+            log_contract_code += Op.PUSH1(32)  # size
+            log_contract_code += Op.PUSH1(0)  # offset
+            log_contract_code += Op.LOG4
+        log_contract = pre.deploy_contract(log_contract_code)
+
     stubbed_transactions, gas_used = _exact_size_transactions_calculation(
-        block_size_limit, fork, tx_type
+        block_size_limit, fork, tx_type, emit_logs_contract=log_contract
     )
     test_transactions = []
     for tx in stubbed_transactions:
@@ -166,6 +203,7 @@ def _exact_size_transactions_calculation(
     block_size_limit: int,
     fork: Fork,
     tx_type: Optional[int] = None,
+    emit_logs_contract: Optional[Address] = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Generate transactions that fill a block to exactly the RLP size limit. Abstracted
@@ -185,8 +223,10 @@ def _exact_size_transactions_calculation(
     # block with 16 transactions + large calldata remains safely below the limit
     # add 15 generic transactions to fill the block and one typed transaction
     # if tx_type is specified, otherwise just add 16 generic transactions
-    generic_txs = 15 if tx_type is not None else 16
-    for _ in range(generic_txs):
+    not_all_generic_txs = any(kwarg is not None for kwarg in {tx_type, emit_logs_contract})
+
+    generic_tx_num = 15 if not_all_generic_txs else 16
+    for _ in range(generic_tx_num):
         tx = Transaction(
             sender=sender,
             nonce=nonce,
@@ -200,26 +240,36 @@ def _exact_size_transactions_calculation(
         nonce += 1
 
     # append a typed transaction to fill the block if tx_type is specified
-    if tx_type is not None:
-        typed_tx = create_typed_transaction(tx_type)
-        typed_tx.sender = sender
-        typed_tx.nonce = HexNumber(nonce)
-        typed_tx.data = Bytes(b"\x00" * 200_000)
-        typed_tx.gas_limit = HexNumber(
-            calculator(
-                calldata=typed_tx.data,
-                access_list=typed_tx.access_list if hasattr(typed_tx, "access_list") else None,
-                authorization_list_or_count=(
-                    typed_tx.authorization_list
-                    if hasattr(typed_tx, "authorization_list")
-                    else None
-                ),
+    if not_all_generic_txs:
+        if tx_type is not None:
+            last_tx = create_typed_transaction(tx_type)
+            last_tx.sender = sender
+            last_tx.nonce = HexNumber(nonce)
+            last_tx.data = Bytes(b"\x00" * 200_000)
+            last_tx.gas_limit = HexNumber(
+                calculator(
+                    calldata=last_tx.data,
+                    access_list=last_tx.access_list if hasattr(last_tx, "access_list") else None,
+                    authorization_list_or_count=(
+                        last_tx.authorization_list
+                        if hasattr(last_tx, "authorization_list")
+                        else None
+                    ),
+                )
             )
-        )
+        elif emit_logs_contract is not None:
+            last_tx = Transaction(
+                sender=sender,
+                nonce=nonce,
+                max_fee_per_gas=10**11,
+                max_priority_fee_per_gas=10**11,
+                gas_limit=calculator(calldata=b""),
+                to=emit_logs_contract,
+            )
 
-        transactions.append(typed_tx)
+        transactions.append(last_tx)
         nonce += 1
-        total_gas_used += typed_tx.gas_limit
+        total_gas_used += last_tx.gas_limit
 
     current_size = get_block_rlp_size(transactions, gas_used=total_gas_used)
     remaining_bytes = block_size_limit - current_size
@@ -349,6 +399,7 @@ def test_block_at_rlp_size_limit_boundary(
         sender,
         block_size_limit,
         fork,
+        pre,
         tx_type=None,
     )
     block_rlp_size = get_block_rlp_size(transactions, gas_used=gas_used)
@@ -395,6 +446,7 @@ def test_block_rlp_size_at_limit_with_all_tx_types(
         sender,
         block_size_limit,
         fork,
+        pre,
         tx_type=tx_type,
     )
     block_rlp_size = get_block_rlp_size(transactions, gas_used=gas_used)
@@ -405,8 +457,46 @@ def test_block_rlp_size_at_limit_with_all_tx_types(
 
     block = Block(txs=transactions)
     block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT)
-
     block.timestamp = ZeroPaddedHexNumber(HEADER_TIMESTAMP)
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post=post,
+        blocks=[block],
+        verify_sync=True,
+    )
+
+
+def test_block_at_rlp_limit_with_logs(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    post: Alloc,
+    env: Environment,
+    sender: EOA,
+    fork: Fork,
+    block_size_limit: int,
+):
+    """Test that a block at the RLP size limit is valid even when transactions emit logs."""
+    transactions, gas_used = exact_size_transactions(
+        sender,
+        block_size_limit,
+        fork,
+        pre,
+        tx_type=None,
+        emit_logs=True,
+    )
+
+    block_rlp_size = get_block_rlp_size(transactions, gas_used=gas_used)
+    assert block_rlp_size == block_size_limit, (
+        f"Block RLP size {block_rlp_size} does not exactly match limit {block_size_limit}, "
+        f"difference: {block_rlp_size - block_size_limit} bytes"
+    )
+
+    block = Block(txs=transactions)
+    block.extra_data = Bytes(EXTRA_DATA_AT_LIMIT)
+    block.timestamp = ZeroPaddedHexNumber(HEADER_TIMESTAMP)
+
     blockchain_test(
         genesis_environment=env,
         pre=pre,
