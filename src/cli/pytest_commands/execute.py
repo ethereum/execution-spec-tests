@@ -23,12 +23,13 @@ def _create_execute_subcommand(
     command_name: str,
     config_file: str,
     help_text: str,
+    required_args: List[str] = None,
     static_test_paths: List[Path] | None = None,
 ) -> click.Command:
     """Create an execute subcommand with standardized structure."""
     pytest_command = PytestCommand(
         config_file=config_file,
-        argument_processors=[HelpFlagsProcessor(f"execute-{command_name}")],
+        argument_processors=[HelpFlagsProcessor(f"execute-{command_name}", required_args)],
         static_test_paths=static_test_paths,
     )
 
@@ -56,12 +57,18 @@ remote = _create_execute_subcommand(
     "remote",
     "pytest-execute.ini",
     "Execute tests using a remote RPC endpoint.",
+    required_args=[
+        "--rpc-endpoint=http://localhost:8545",
+        "--rpc-chain-id=1",
+        "--rpc-seed-key=1",
+    ],
 )
 
 eth_config = _create_execute_subcommand(
     "eth-config",
     "pytest-execute-eth-config.ini",
-    "Test a client configuration using a remote RPC endpoint.",
+    "Test a client's configuration using the `eth_config` RPC endpoint.",
+    required_args=["--network=Mainnet", "--rpc-endpoint=http://localhost:8545"],
     static_test_paths=[Path("pytest_plugins/execute/eth_config/execute_eth_config.py")],
 )
 
@@ -69,5 +76,11 @@ recover = _create_execute_subcommand(
     "recover",
     "pytest-execute-recover.ini",
     "Recover funds from test executions using a remote RPC endpoint.",
+    required_args=[
+        "--rpc-endpoint=http://localhost:8545",
+        "--rpc-chain-id=1",
+        "--start-eoa-index=1",
+        "--destination=0x0000000000000000000000000000000000000000",
+    ],
     static_test_paths=[Path("pytest_plugins/execute/execute_recover.py")],
 )

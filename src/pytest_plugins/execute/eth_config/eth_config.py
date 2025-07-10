@@ -12,6 +12,9 @@ from .types import NetworkConfigFile
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
 
+DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
+DEFAULT_NETWORKS = NetworkConfigFile.from_yaml(DEFAULT_NETWORK_CONFIGS_FILE)
+
 
 def pytest_addoption(parser):
     """Add command-line options to pytest."""
@@ -23,7 +26,10 @@ def pytest_addoption(parser):
         required=True,
         type=str,
         default=None,
-        help="Name of the network to verify for the RPC client.",
+        help=(
+            "Name of the network to verify for the RPC client. Supported networks by default: "
+            f"{', '.join(DEFAULT_NETWORKS.root.keys())}."
+        ),
     )
     eth_config_group.addoption(
         "--network-config-file",
@@ -39,11 +45,8 @@ def pytest_addoption(parser):
         required=True,
         action="store",
         dest="rpc_endpoint",
-        help="RPC endpoint to an execution client",
+        help="RPC endpoint to the execution client that will be tested.",
     )
-
-
-DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
 
 
 def pytest_configure(config: pytest.Config) -> None:
@@ -66,6 +69,22 @@ def pytest_configure(config: pytest.Config) -> None:
             f'Network "{network_name}" could not be found in file "{network_configs_path}".'
         )
     config.network = network_configs.root[network_name]  # type: ignore
+
+    if config.getoption("collectonly", default=False):
+        return
+
+    # Test out the RPC endpoint to be able to fail fast if it's not working
+    eth_rpc = EthRPC(config.getoption("rpc_endpoint"))
+    try:
+        eth_rpc.chain_id()
+    except Exception as e:
+        pytest.exit(f"Could not connect to RPC endpoint {config.getoption('rpc_endpoint')}: {e}")
+    try:
+        eth_rpc.config()
+    except Exception as e:
+        pytest.exit(
+            f"RPC endpoint {config.getoption('rpc_endpoint')} does not support `eth_config`: {e}"
+        )
 
 
 @pytest.fixture(autouse=True, scope="session")
