@@ -451,11 +451,11 @@ def test_opcode_kwargs_validation():
         Op.MSTORE(offset=0, value=1, wrong_arg=2)
 
     with pytest.raises(
-        ValueError, match=r"Invalid keyword argument\(s\) \['addres'\] for opcode CALL"
+        ValueError, match=r"Invalid keyword argument\(s\) \['address'\] for opcode CALL"
     ):
         Op.CALL(
             gas=1,
-            addres=2,  # codespell:ignore
+            address=2,  # codespell:ignore
             value=3,
             args_offset=4,
             args_size=5,
