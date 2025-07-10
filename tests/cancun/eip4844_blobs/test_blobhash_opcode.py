@@ -154,7 +154,6 @@ def test_blobhash_gas_cost(
     tx_type: int,
     blobhash_index: int,
     state_test: StateTestFiller,
-    target_blobs_per_block: int,
 ):
     """
     Tests `BLOBHASH` opcode gas cost using a variety of indexes.
@@ -179,9 +178,7 @@ def test_blobhash_gas_cost(
         "data": Hash(0),
         "gas_limit": 500_000,
         "max_fee_per_blob_gas": (fork.min_base_fee_per_blob_gas() * 10) if tx_type == 3 else None,
-        "blob_versioned_hashes": random_blob_hashes[
-            0 : min(target_blobs_per_block, fork.max_blobs_per_tx())
-        ]
+        "blob_versioned_hashes": random_blob_hashes[0 : fork.max_blobs_per_tx()]
         if tx_type == 3
         else None,
     }
