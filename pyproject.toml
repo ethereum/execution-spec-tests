@@ -122,6 +122,9 @@ ethereum_test_forks = ["forks/contracts/*.bin"]
     "simulators/hive_tests/test_via_*.py",
     "direct/test_via_direct.py"
 ]
+"pytest_plugins" = [
+    "eels_resolutions.json"
+]
 "cli.eest.make" = ["templates/*.j2"]
 "cli.pytest_commands" = ["pytest_ini_files/*.ini"]
 
