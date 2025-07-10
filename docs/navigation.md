@@ -61,6 +61,7 @@
       * [Execute Commands](./running_tests/execute/index.md)
           * [Execute Hive](./running_tests/execute/hive.md)
           * [Execute Remote](./running_tests/execute/remote.md)
+          * [Execute Eth Config](./running_tests/execute/eth_config.md)
       * [Useful Pytest Options](running_tests/useful_pytest_options.md)
   * [Developer Doc](dev/index.md)
       * [Managing Configurations](dev/configurations.md)
