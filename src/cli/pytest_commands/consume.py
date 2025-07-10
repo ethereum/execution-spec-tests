@@ -36,7 +36,7 @@ def create_consume_command(
     )
 
 
-def get_command_paths(command_name: str, is_hive: bool) -> List[Path]:
+def get_static_test_paths(command_name: str, is_hive: bool) -> List[Path]:
     """Determine the command paths based on the command name and hive flag."""
     base_path = Path("pytest_plugins/consume")
     if command_name == "hive":
@@ -67,7 +67,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     def decorator(func: Callable[..., Any]) -> click.Command:
         command_name = func.__name__
         command_help = func.__doc__
-        static_test_paths = get_command_paths(command_name, is_hive)
+        static_test_paths = get_static_test_paths(command_name, is_hive)
 
         @consume.command(
             name=command_name,

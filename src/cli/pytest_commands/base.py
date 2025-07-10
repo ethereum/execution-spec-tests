@@ -152,16 +152,6 @@ class PytestCommand:
     """Folder where the pytest configuration files are located."""
 
     @property
-    def changes_working_directory(self) -> bool:
-        """
-        Whether the working directory should be changed when the command is executed.
-
-        By default, if the pytest command uses static test paths,
-        it changes the working directory to the appropriate folder.
-        """
-        return self.static_test_paths is not None
-
-    @property
     def config_path(self) -> Path:
         """Path to the pytest configuration file."""
         return self.pytest_ini_folder / self.config_file
@@ -169,7 +159,7 @@ class PytestCommand:
     def execute(self, pytest_args: List[str]) -> None:
         """Execute the command with the given pytest arguments."""
         executions = self.create_executions(pytest_args)
-        if self.changes_working_directory:
+        if self.static_test_paths:
             self.runner.pytest_working_directory = STATIC_TESTS_WORKING_DIRECTORY
         else:
             self.runner.pytest_working_directory = None
