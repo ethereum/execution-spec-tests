@@ -242,7 +242,7 @@ def generate_full_blob_tests(
     fork: Fork,
 ) -> List:
     """Return a list of test cases for full blob transactions."""
-    max_blobs = fork.max_blobs_per_block()
+    max_blobs = fork.max_blobs_per_tx()
     return [
         pytest.param(
             [  # Txs
