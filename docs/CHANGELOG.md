@@ -64,6 +64,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 - ✨ Added new `Blob` class which can use the ckzg library to generate valid blobs at runtime ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
 - ✨ Added `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+- ✨ Added `execute eth-config` command to test the `eth_config` RPC endpoint of a client, and includes configurations by default for Mainnet, Sepolia, Holesky, and Hoodi ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
 
 ### 📋 Misc
 
@@ -91,6 +92,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Add fixture comparison check to optimize coverage workflow in CI ([#1833](https://github.com/ethereum/execution-spec-tests/pull/1833)).
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability ([#1763](https://github.com/ethereum/execution-spec-tests/pull/1673)).
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
+- ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
 
 ### 🧪 Test Cases
 
