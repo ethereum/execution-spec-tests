@@ -116,7 +116,12 @@ exclude = ["tests/static/**"]
 
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
+"pytest_plugins.execute" = ["eth_config/networks.yml"]
+"pytest_plugins" = [
+    "eels_resolutions.json"
+]
 "cli.eest.make" = ["templates/*.j2"]
+"cli.pytest_commands" = ["pytest_ini_files/*.ini"]
 
 [tool.ruff]
 line-length = 99

@@ -6,6 +6,7 @@ See:
 
 - [Execute Hive](./hive.md) for help with the `execute` simulator in order to run tests on a single-client local network.
 - [Execute Remote](./remote.md) for help with executing tests on a remote network such as a devnet, or even mainnet.
+- [Execute Eth Config](./eth_config.md) for help verifying client configurations on a remote network such as a devnet, or even mainnet.
 
 The rest of this page describes how `execute` works and explains its architecture.
 

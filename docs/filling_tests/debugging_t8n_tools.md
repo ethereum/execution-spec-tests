@@ -178,4 +178,4 @@ where the `verify_fixtures.sh` script can be used to reproduce the `evm blocktes
     This means, by default, that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per parametrized test case use `--single-fixture-per-file`.
 
 [^1]: <!-- markdownlint-disable MD053 (53=link-image-reference-definitions) -->
-    This limitation is required to enable support of the [`pytest-xdist` plugin](https://github.com/pytest-dev/pytest-xdist) for concurrent test execution across multiple CPUs. To achieve this we use the we apply the `--dist loadscope` xdist flag in our `pytest.ini`.
+    This limitation is required to enable support of the [`pytest-xdist` plugin](https://github.com/pytest-dev/pytest-xdist) for concurrent test execution across multiple CPUs. To achieve this we use the we apply the `--dist loadscope` xdist flag in our `pytest-fill.ini`.
