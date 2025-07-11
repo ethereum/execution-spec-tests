@@ -2231,6 +2231,8 @@
       
         
       
+        
+      
     
     
     
@@ -2310,6 +2312,29 @@
   
   <span class="md-ellipsis">
     Execute Remote
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running_tests/execute/eth_config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Execute Eth Config
     
   </span>
   
@@ -27358,6 +27383,7 @@
 <ul>
 <li>✨ Added new <code>Blob</code> class which can use the ckzg library to generate valid blobs at runtime (<a href="https://github.com/ethereum/execution-spec-tests/pull/1614">#1614</a>).</li>
 <li>✨ Added <code>blob_transaction_test</code> execute test spec, which allows tests that send blob transactions to a running client and verifying its <code>engine_getBlobsVX</code> endpoint behavior (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644">#1644</a>).</li>
+<li>✨ Added <code>execute eth-config</code> command to test the <code>eth_config</code> RPC endpoint of a client, and includes configurations by default for Mainnet, Sepolia, Holesky, and Hoodi (<a href="https://github.com/ethereum/execution-spec-tests/pull/1863">#1863</a>).</li>
 </ul>
 <h3 id="misc">📋 Misc<a class="headerlink" href="#misc" title="Permanent link">&para;</a></h3>
 <ul>
@@ -27385,6 +27411,7 @@
 <li>🔀 Add fixture comparison check to optimize coverage workflow in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/1833">#1833</a>).</li>
 <li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability (<a href="https://github.com/ethereum/execution-spec-tests/pull/1673">#1763</a>).</li>
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856">#1856</a>).</li>
+<li>✨ All commands (<code>fill</code>, <code>consume</code>, <code>execute</code>) now work without having to clone the repository, e.g. <code>uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume</code> now works from any folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/1863">#1863</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
