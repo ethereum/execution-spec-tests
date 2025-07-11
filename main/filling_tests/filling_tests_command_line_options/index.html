@@ -25376,7 +25376,7 @@ to fill (including the standard pytest and plugin command-line options) use <cod
             [--build-name BUILD_NAME] [--skip-index SKIP_INDEX]
             [--block-gas-limit BLOCK_GAS_LIMIT] [--generate-pre-alloc-groups]
             [--use-pre-alloc-groups] [--evm-dump-dir EVM_DUMP_DIR]
-            [--skip-evm-dump] [--show-ported-from [SHOW_PORTED_FROM]]
+            [--show-ported-from [SHOW_PORTED_FROM]]
             [--skip-coverage-missed-reason]
             [--ported-from-output-file PORTED_FROM_OUTPUT_FILE]
             [--links-as-filled] [--forks] [--fork FORK] [--from FROM]
@@ -25456,11 +25456,8 @@ Arguments defining filler location and output:
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
-                        Path to dump the transition tool debug output.
-                        (Default: /home/runner/work/execution-spec-
-                        tests/execution-spec-tests/logs/evm)
-  --skip-evm-dump, --skip-t8n-dump
-                        Skip dumping the the transition tool debug output.
+                        Path to dump the transition tool debug output. Only
+                        creates debug output when explicitly specified.
 
 Arguments for showing ported_from marker information:
   --show-ported-from [SHOW_PORTED_FROM]
