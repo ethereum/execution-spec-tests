@@ -35,11 +35,13 @@
         "same_as": "EELSMaster"
     },
     "Prague": {
-        "same_as": "EELSMaster"
+        "git_url": "https://github.com/spencer-tb/execution-specs.git",
+        "branch": "master",
+        "commit": "0963d1f9d88cdffe850ae0c1fa7babb00050c410"
     },
     "Osaka": {
-        "git_url": "https://github.com/ethereum/execution-specs.git",
+        "git_url": "https://github.com/spencer-tb/execution-specs.git",
         "branch": "forks/osaka",
-        "commit": "f947ab1744aaf12f652a85e28ac5d155af26dd25"
+        "commit": "07699170182691533023fa5d83086258c3edcfd3"
     }
 }
