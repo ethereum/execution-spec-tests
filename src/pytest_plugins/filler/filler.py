@@ -284,7 +284,10 @@ def pytest_addoption(parser: pytest.Parser):
         dest="gas_benchmark_value",
         type=str,
         default=None,
-        help="Specify gas benchmark values for tests as a comma-separated list.",
+        help=(
+            "Fill benchmark tests using a comma-separated list of gas values in millions "
+            "(e.g., '30,50,100'), enabling reuse of a single genesis fixture across all tests."
+        ),
     )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
