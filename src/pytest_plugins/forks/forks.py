@@ -25,6 +25,16 @@ from ethereum_test_forks import (
     transition_fork_to,
 )
 
+# Import transaction fixtures to make them available when this plugin is loaded
+from .transaction_fixtures import (  # noqa: F401
+    type_0_default_transaction,
+    type_1_default_transaction,
+    type_2_default_transaction,
+    type_3_default_transaction,
+    type_4_default_transaction,
+    typed_transaction,
+)
+
 
 def pytest_addoption(parser):
     """Add command-line options to pytest."""
@@ -338,6 +348,13 @@ fork_covariant_decorators: List[Type[CovariantDecorator]] = [
         " of type int",
         fork_attribute_name="tx_types",
         argnames=["tx_type"],
+    ),
+    covariant_decorator(
+        marker_name="with_all_typed_transactions",
+        description="marks a test to be parametrized with transaction types, the typed_tx fixture "
+        "will provide the corresponding Transaction object for each type",
+        fork_attribute_name="tx_types",
+        argnames=["typed_transaction"],
     ),
     covariant_decorator(
         marker_name="with_all_contract_creating_tx_types",
@@ -972,9 +989,26 @@ def add_fork_covariant_parameters(
     metafunc: Metafunc, fork_parametrizers: List[ForkParametrizer]
 ) -> None:
     """Iterate over the fork covariant descriptors and add their values to the test function."""
-    for covariant_descriptor in fork_covariant_decorators:
+    # Special handling for with_all_typed_transactions
+    if list(metafunc.definition.iter_markers("with_all_typed_transactions")):
+        # This marker needs special handling for indirect parametrization
         for fork_parametrizer in fork_parametrizers:
-            covariant_descriptor(metafunc=metafunc).add_values(fork_parametrizer=fork_parametrizer)
+            fork = fork_parametrizer.fork
+            tx_types = fork.tx_types(block_number=0, timestamp=0)
+            values = [pytest.param(tx_type) for tx_type in tx_types]
+            fork_parametrizer.fork_covariant_parameters.append(
+                ForkCovariantParameter(names=["typed_transaction"], values=values)
+            )
+    else:
+        # Regular covariant descriptors
+        for covariant_descriptor in fork_covariant_decorators:
+            # Skip with_all_typed_transactions as it's handled above
+            if covariant_descriptor.marker_name == "with_all_typed_transactions":
+                continue
+            for fork_parametrizer in fork_parametrizers:
+                covariant_descriptor(metafunc=metafunc).add_values(
+                    fork_parametrizer=fork_parametrizer
+                )
 
     for marker in metafunc.definition.iter_markers():
         if marker.name == "parametrize_by_fork":
@@ -1029,6 +1063,11 @@ def parameters_from_fork_parametrizer_list(
 
 def parametrize_fork(metafunc: Metafunc, fork_parametrizers: List[ForkParametrizer]) -> None:
     """Add the fork parameters to the test function."""
-    metafunc.parametrize(
-        *parameters_from_fork_parametrizer_list(fork_parametrizers), scope="function"
-    )
+    param_names, param_values = parameters_from_fork_parametrizer_list(fork_parametrizers)
+
+    # Check if typed_transaction is in the parameters and needs indirect parametrization
+    indirect = []
+    if "typed_transaction" in param_names:
+        indirect.append("typed_transaction")
+
+    metafunc.parametrize(param_names, param_values, scope="function", indirect=indirect)
