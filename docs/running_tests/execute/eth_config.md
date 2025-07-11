@@ -1,6 +1,6 @@
 # Execute eth-config Command
 
-The `execute eth-config` command is a specialized testing tool that validates an Ethereum client's configuration against expected network parameters using the `eth_config` RPC endpoint.
+The `execute eth-config` command is a specialized testing tool that validates an Ethereum client's configuration against expected network parameters using the `eth_config` RPC endpoint as specified by [EIP-7910](https://eips.ethereum.org/EIPS/eip-7910).
 
 The goal is to test baked-in configurations primarily but it can be used to test that genesis and config files were successfully parsed, in devnets for example.
 
@@ -8,14 +8,24 @@ The goal is to test baked-in configurations primarily but it can be used to test
 
 This command verifies that a client is correctly configured for a specific network by checking:
 
-- Current fork configuration
-- Fork activation times
-- Chain ID
-- Precompile addresses
-- System contract addresses
-- Fork hashes and IDs
+- Current fork configuration.
+- Fork activation times.
+- Chain ID.
+- Precompile addresses.
+- System contract addresses.
+- Fork hashes and IDs.
 
 ## Usage
+
+### Standalone, Direct Usage
+
+The `eth-config` sub-command can be ran directly, without cloning @ethereum/execution-spec-tests, by [installing uv](https://docs.astral.sh/uv/getting-started/installation/) and running:
+
+```bash
+uv run --with git+https://github.com/ethereum/execution-spec-tests.git execute eth-config --network Mainnet --rpc-endpoint http://<ETH_RPC_ENDPOINT>
+```
+
+### From within the EEST Repository
 
 ```bash
 uv run execute eth-config --network <NETWORK_NAME> --rpc-endpoint <RPC_URL> [OPTIONS]
@@ -79,20 +89,20 @@ MyCustomNet:
 
 The default configuration file includes:
 
-- **Mainnet**: Ethereum mainnet
-- **Sepolia**: Public testnet
-- **Hoodi**: Public testnet
-- **Holesky**: Public testnet
+- **Mainnet**: Ethereum mainnet.
+- **Sepolia**: Public testnet.
+- **Hoodi**: Public testnet.
+- **Holesky**: Public testnet.
 
 ## How It Works
 
-1. **Configuration Loading**: The command loads the network configuration from the YAML file
-2. **RPC Connection**: Connects to the specified client RPC endpoint
-3. **eth_config Call**: Calls the `eth_config` RPC method to get the client's current configuration
+1. **Configuration Loading**: The command loads the network configuration from the YAML file.
+2. **RPC Connection**: Connects to the specified client RPC endpoint.
+3. **eth_config Call**: Calls the `eth_config` RPC method to get the client's current configuration.
 4. **Validation**: Compares the client's response against the expected configuration based on:
-   - Current system timestamp
-   - Fork activation schedule
-   - Address overrides (if any)
+   - Current system timestamp.
+   - Fork activation schedule.
+   - Address overrides (if any).
 
 ## `eth_config` Expected Response Details
 
