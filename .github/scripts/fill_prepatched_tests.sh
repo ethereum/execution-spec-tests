@@ -27,7 +27,7 @@ echo "$MODIFIED_DELETED_FILES"
 rm -rf fixtures
 rm -f filloutput.log
 
-uv run fill $MODIFIED_DELETED_FILES --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --skip-evm-dump --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $BASE_TEST_PATH > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
+uv run fill $MODIFIED_DELETED_FILES --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $BASE_TEST_PATH > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
 
 if grep -q "FAILURES" filloutput.log; then
     echo "Error: failed to generate .py tests from before the PR."

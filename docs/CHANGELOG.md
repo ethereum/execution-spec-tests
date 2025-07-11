@@ -22,6 +22,8 @@ The output behavior of `fill` has changed ([#1608](https://github.com/ethereum/e
 - Before: `fill` wrote fixtures into the directory specified by the `--output` flag (default: `fixtures`). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see [#1030](https://github.com/ethereum/execution-spec-tests/issues/1030)).
 - Now: `fill` will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the `--clean` flag, which will first remove the specified directory.
 
+Additionally, writing debugging information to the EVM "dump directory" by default has been disabled. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)). This undoes functionality originally introduced in [#999](https://github.com/ethereum/execution-spec-tests/pull/999) and [#1150](https://github.com/ethereum/execution-spec-tests/pull/1150).
+
 #### Feature `zkevm` updated to `benchmark`
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
@@ -49,6 +51,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🐞 `zkevm` marked tests have been removed from `tests-deployed` tox environment into its own separate workflow `tests-deployed-zkevm` and are filled by `evmone-t8n` ([#1617](https://github.com/ethereum/execution-spec-tests/pull/1617)).
 - ✨ Field `postStateHash` is now added to all `blockchain_test` and `blockchain_test_engine` tests that use `exclude_full_post_state_in_output` in place of `postState`. Fixes `evmone-blockchaintest` test consumption and indirectly fixes coverage runs for these tests ([#1667](https://github.com/ethereum/execution-spec-tests/pull/1667)).
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
+- 🔀 Disabled writing debugging information to the EVM "dump directory" to improve performance. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)).
 
 #### `consume`
 
