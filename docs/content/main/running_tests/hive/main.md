@@ -1,3 +1,13 @@
++++
+title = 'Hive'
+date = 2025-07-09T12:42:33Z
+draft = false
+[menus]
+  [menus.main]
+    parent = 'Running Tests'
+
++++
+
 # Hive
 
 @ethereum/hive is a containerized testing framework that helps orchestrate test execution against Ethereum clients. Hive is incredibly extensible; new test suites can be implemented in a module manner as "simulators" that interact with clients to test certain aspects of their behavior. EEST implements several simulators, see [Running Tests](../running.md) for an overview.

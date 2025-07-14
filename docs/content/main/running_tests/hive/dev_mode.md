@@ -18,7 +18,7 @@ This avoids running the simulator in a dockerized environment and has several ad
 
 ### Prerequisites
 
-- EEST is installed, see [Installation](../../getting_started/installation.md)
+- EEST is installed, see [Installation](../../getting_started/main.md)
 - Hive is built, see [Hive](../hive/main.md#quick-start).
 
 ## Hive Dev Setup on Linux

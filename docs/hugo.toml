@@ -2,6 +2,11 @@ baseURL = 'https://example.org/'
 languageCode = 'en-us'
 title = 'EEST Docs'
 theme = "minimal"
+sectionPagesMenu = 'main'
 [markup]
 [markup.goldmark.renderer]
       unsafe = true
+
+# Configure permalinks
+[permalinks]
+  main = "/:sections/"

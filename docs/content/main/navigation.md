@@ -2,7 +2,7 @@
 <!-- Contributing and Security: included via mkdocs-gen-files and docs/include_contributing.py -->
   * [Home](main.md)
   * Getting Started
-      * [Installation](getting_started/installation.md)
+      * [Installation](getting_started/main.md)
       * [Installation Troubleshooting](getting_started/installation_troubleshooting.md)
       * [Contributing](getting_started/contributing.md)
       * [Security Policy](getting_started/security.md)

@@ -2,6 +2,10 @@
 title = 'Running Tests'
 date = 2025-07-09T12:42:33Z
 draft = false
+[menus]
+  [menus.main]
+    parent = 'Main'
+
 +++
 
 This section documents how EL clients can run EEST tests to verify their implementations. The information is organized as follows:

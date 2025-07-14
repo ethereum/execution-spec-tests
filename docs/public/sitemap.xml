@@ -2,162 +2,170 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/main/writing_tests/code_standards/</loc>
-    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/main/dev_docs/main/</loc>
-    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/main/main/</loc>
-    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/main/filling_tests/main/</loc>
-    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/main/getting_started/installation/</loc>
+    <loc>http://localhost:1313/main/</loc>
     <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/main/</loc>
     <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
     <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
     <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/changelog/</loc>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/changelog_section_template/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/coding_style/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/configurations/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/deps_and_packaging/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/docs/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/documenting_clis/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/interactive_usage/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/logging/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/precommit/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/dev_docs/test_actions_locally/</loc>
+    <loc>http://localhost:1313/main/</loc>
+    <lastmod>2025-07-09T12:42:33+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/debugging_t8n_tools/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/filling_tests_command_line/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/filling_tests_dev_fork/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/filling_tests_vs_code/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/getting_started/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/test_ids/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/filling_tests/transition_tool_support/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/code_standards/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/code_standards_details/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/getting_help/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/installation_troubleshooting/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/repository_overview/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/getting_started/setup_vs_code/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/navigation/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/consume/cache/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/consume/direct/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/consume/exceptions/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/consume/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/consume/simulators/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/execute/hive/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/execute/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/execute/remote/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/ci_integration/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/client_config/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/common_options/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/dev_mode/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/hiveview/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/hive/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/releases/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/running/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/blockchain_test/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/blockchain_test_engine/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/blockchain_test_engine_x/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/common_types/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/exceptions/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/state_test/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/test_formats/transaction_test/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/useful_pytest_options/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/adding_a_new_test/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/checklist_templates/eip_testing_checklist_template/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/checklist_templates/main/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/eip_checklist/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/exception_tests/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/fork_methods/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/porting_legacy_tests/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/post_mortems/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/reference_specification/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/test_markers/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/tutorials/blockchain/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/tutorials/state_transition/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/types_of_tests/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/verifying_changes/</loc>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/writing_tests/writing_a_new_test/</loc>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/</loc>
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

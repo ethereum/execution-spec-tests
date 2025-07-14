@@ -1,3 +1,13 @@
++++
+title = 'Execute'
+date = 2025-07-09T12:42:33Z
+draft = false
+[menus]
+  [menus.main]
+    parent = 'Running Tests'
+
++++
+
 # Executing Tests on Local Networks or Hive
 
 @ethereum/execution-spec-tests is capable of running tests on local networks or on Hive with a few considerations. The `execute` command runs test cases directly from the Python source (without the use of JSON fixtures).

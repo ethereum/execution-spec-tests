@@ -6,7 +6,7 @@ This tutorial teaches you to create a blockchain execution specification test. T
 
 Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
 
-- Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
+- Repository set-up, see [installation](../../getting_started/main.md).and run an execution specification test as outlined in the .
 - Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Understand how to read a [blockchain test](https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html).
 - Familiarity with [Python](https://docs.python.org/3/tutorial/).

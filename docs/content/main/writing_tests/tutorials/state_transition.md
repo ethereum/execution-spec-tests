@@ -8,7 +8,7 @@ For an overview of different test types available, see [Types of Tests](../../wr
 
 This tutorial will require some prior knowledge and experience with the following:
 
-- Repository set-up, see [installation](../../getting_started/installation.md).
+- Repository set-up, see [installation](../../getting_started/main.md).
 - Ability to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
 - Basic familiarity with [Python](https://docs.python.org/3/tutorial/).
 

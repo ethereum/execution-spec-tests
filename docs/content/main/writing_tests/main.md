@@ -2,6 +2,10 @@
 title = 'Writing Tests'
 date = 2025-07-09T12:42:33Z
 draft = false
+[menus]
+  [menus.main]
+    parent = 'Main'
+
 +++
 
 The easiest way to get started is to use the interactive CLI:
