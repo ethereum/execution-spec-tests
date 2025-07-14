@@ -2723,6 +2723,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#important-change-for-eest-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      💥 Important Change for EEST developers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#important-change-for-test-contributors" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Important Change for test contributors
@@ -26349,6 +26358,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#important-change-for-eest-developers" class="md-nav__link">
+    <span class="md-ellipsis">
+      💥 Important Change for EEST developers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#important-change-for-test-contributors" class="md-nav__link">
     <span class="md-ellipsis">
       💥 Important Change for test contributors
@@ -27336,6 +27354,17 @@
 <ul>
 <li>Python 3.10 support was removed in this release (<a href="https://github.com/ethereum/execution-spec-tests/pull/1808">#1808</a>).</li>
 </ul>
+<h4 id="important-change-for-eest-developers">💥 Important Change for EEST developers<a class="headerlink" href="#important-change-for-eest-developers" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a class="magiclink magiclink-github magiclink-repository" href="https://github.com/ethereum/execution-spec-tests" title="GitHub Repository: ethereum/execution-spec-tests">ethereum/execution-spec-tests</a> now requires <code>uv&gt;=0.7.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1904">#1904</a>). If your version of <code>uv</code> is too old, please proceed as following.</li>
+</ul>
+<p>If <code>uv</code> was curl-installed (recommended), please run:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>self<span class="w"> </span>update
+</code></pre></div>
+<p>If <code>uv</code> was pip-installed, then:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>uninstall<span class="w"> </span>uv
+curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+</code></pre></div>
 <h4 id="important-change-for-test-contributors">💥 Important Change for test contributors<a class="headerlink" href="#important-change-for-test-contributors" title="Permanent link">&para;</a></h4>
 <ul>
 <li>EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the "static tests" located in <code>./tests/static/</code> (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in <a href="https://github.com/ethereum/tests">ethereum/tests</a>).</li>
@@ -27412,6 +27441,7 @@
 <li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability (<a href="https://github.com/ethereum/execution-spec-tests/pull/1673">#1763</a>).</li>
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856">#1856</a>).</li>
 <li>✨ All commands (<code>fill</code>, <code>consume</code>, <code>execute</code>) now work without having to clone the repository, e.g. <code>uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume</code> now works from any folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/1863">#1863</a>).</li>
+<li>🔀 Enforce a minimum version of <code>uv&gt;=0.7.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1904">#1904</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
