@@ -151,5 +151,8 @@ skip = ".venv,__pycache__,.git,build,dist,*.pyc,*.lock"
 check-filenames = true
 ignore-words-list = "ingenuous"
 
+[tool.uv]
+required-version = ">=0.7.0"
+
 [tool.uv.sources]
 ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "ee273e7344e24a739ebfbf0ea1f758530c4d032b" }
