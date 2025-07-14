@@ -1427,6 +1427,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#generating-all-fixture-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating All Fixture Formats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#debugging-the-t8n-command" class="md-nav__link">
     <span class="md-ellipsis">
       Debugging the t8n Command
@@ -25434,6 +25443,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#generating-all-fixture-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating All Fixture Formats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#debugging-the-t8n-command" class="md-nav__link">
     <span class="md-ellipsis">
       Debugging the t8n Command
@@ -25530,6 +25548,33 @@
 <div class="highlight"><pre><span></span><code><span class="go">uv run fill --until Cancun</span>
 </code></pre></div></p>
 <p>See: <a href="../filling_tests_dev_fork/">Filling Tests for Features under Development</a>.</p>
+</div>
+<h2 id="generating-all-fixture-formats">Generating All Fixture Formats<a class="headerlink" href="#generating-all-fixture-formats" title="Permanent link">&para;</a></h2>
+<p>The <code>--generate-all-formats</code> flag enables generation of all fixture formats including the optimized <code>BlockchainEngineXFixture</code> in a single command:</p>
+<div class="highlight"><pre><span></span><code><span class="go">uv run fill --generate-all-formats tests/shanghai/</span>
+</code></pre></div>
+<p>This flag automatically performs a two-phase execution:</p>
+<ol>
+<li><strong>Phase 1</strong>: Generates pre-allocation groups for optimization.</li>
+<li><strong>Phase 2</strong>: Generates all supported fixture formats (<code>StateFixture</code>, <code>BlockchainFixture</code>, <code>BlockchainEngineFixture</code>, <code>BlockchainEngineXFixture</code>, etc.).</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">Automatic enabling with tarball output</p>
+<p>When using tarball output (<code>.tar.gz</code> files), the <code>--generate-all-formats</code> flag is automatically enabled:
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>Automatically<span class="w"> </span>enables<span class="w"> </span>--generate-all-formats<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>.tar.gz<span class="w"> </span>output
+<span class="go">uv run fill --output=fixtures.tar.gz tests/shanghai/</span>
+
+<span class="gp"># </span>Equivalent<span class="w"> </span>to:
+<span class="go">uv run fill --generate-all-formats --output=fixtures.tar.gz tests/shanghai/</span>
+</code></pre></div></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Alternative approach</p>
+<p>You can still use the legacy approach, but this will only generate the <code>BlockchainEngineXFixture</code> format:
+<div class="highlight"><pre><span></span><code><span class="gp"># </span>Single<span class="w"> </span><span class="nb">command</span><span class="w"> </span>that<span class="w"> </span>automatically<span class="w"> </span>does<span class="w"> </span><span class="m">2</span>-phase<span class="w"> </span>execution
+<span class="gp"># </span>but<span class="w"> </span>only<span class="w"> </span>generates<span class="w"> </span>BlockchainEngineXFixture
+<span class="go">uv run fill --generate-pre-alloc-groups tests/shanghai/</span>
+</code></pre></div></p>
 </div>
 <h2 id="debugging-the-t8n-command">Debugging the <code>t8n</code> Command<a class="headerlink" href="#debugging-the-t8n-command" title="Permanent link">&para;</a></h2>
 <p>The <code>--evm-dump-dir</code> flag can be used to dump the inputs and outputs of every call made to the <code>t8n</code> command for debugging purposes, see <a href="../debugging_t8n_tools/">Debugging Transition Tools</a>.</p>

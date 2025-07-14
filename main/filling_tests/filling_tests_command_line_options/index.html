@@ -25400,7 +25400,8 @@ to fill (including the standard pytest and plugin command-line options) use <cod
             [--flat-output] [--single-fixture-per-file] [--no-html]
             [--build-name BUILD_NAME] [--skip-index SKIP_INDEX]
             [--block-gas-limit BLOCK_GAS_LIMIT] [--generate-pre-alloc-groups]
-            [--use-pre-alloc-groups] [--evm-dump-dir EVM_DUMP_DIR]
+            [--use-pre-alloc-groups] [--generate-all-formats]
+            [--evm-dump-dir EVM_DUMP_DIR]
             [--show-ported-from [SHOW_PORTED_FROM]]
             [--skip-coverage-missed-reason]
             [--ported-from-output-file PORTED_FROM_OUTPUT_FILE]
@@ -25451,7 +25452,8 @@ Arguments defining filler location and output:
                         in &#39;.tar.gz&#39;, then the specified tarball is
                         additionally created (the fixtures are still written
                         to the specified path without the &#39;.tar.gz&#39; suffix).
-                        Can be deleted. Default: &#39;./fixtures&#39;.
+                        Tarball output automatically enables --generate-all-
+                        formats. Can be deleted. Default: &#39;./fixtures&#39;.
   --clean               Clean (remove) the output directory before filling
                         fixtures.
   --flat-output         Output each test case in the directory without the
@@ -25478,6 +25480,11 @@ Arguments defining filler location and output:
   --use-pre-alloc-groups
                         Fill tests using existing pre-allocation groups (phase
                         2 only).
+  --generate-all-formats
+                        Generate all fixture formats including
+                        BlockchainEngineXFixture. This enables two-phase
+                        execution: Phase 1 generates pre-allocation groups,
+                        phase 2 generates all supported fixture formats.
 
 Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR

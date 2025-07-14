@@ -25795,7 +25795,7 @@
 
 <h1 id="blockchain-engine-x-tests">Blockchain Engine X Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") --><a class="headerlink" href="#blockchain-engine-x-tests" title="Permanent link">&para;</a></h1>
 <p>The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory <code>blockchain_tests_engine_x</code>, and use Engine API directives with optimized pre-allocation groups for improved execution performance.</p>
-<p>These are produced by the <code>StateTest</code> and <code>BlockchainTest</code> test specs when using the <code>--generate-pre-alloc-groups</code> and <code>--use-pre-alloc-groups</code> flags.</p>
+<p>These are produced by the <code>StateTest</code> and <code>BlockchainTest</code> test specs when using the <code>--generate-pre-alloc-groups</code> and <code>--use-pre-alloc-groups</code> flags, or by using the <code>--generate-all-formats</code> flag which generates all fixture formats including <code>BlockchainEngineXFixture</code> in a single command.</p>
 <h2 id="description">Description<a class="headerlink" href="#description" title="Permanent link">&para;</a></h2>
 <p>The Blockchain Engine X Test fixture format is an optimized variant of the <a href="../blockchain_test_engine/">Blockchain Engine Test</a> format designed for large-scale test execution with performance optimizations.</p>
 <p>It uses the Engine API to test block validation and consensus rules while leveraging <strong>pre-allocation groups</strong> to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation). Each group is executed against the same client instance using a common genesis state.</p>
@@ -25902,7 +25902,11 @@
 <p>Engine API payload structure identical to the one defined in <a href="../blockchain_test_engine/#fixtureenginenewpayload">Blockchain Engine Tests</a>. Includes execution payload, versioned hashes, parent beacon block root, validation errors, version, and error codes.</p>
 <h2 id="usage-notes">Usage Notes<a class="headerlink" href="#usage-notes" title="Permanent link">&para;</a></h2>
 <ul>
-<li>This format is only generated when using <code>--generate-pre-alloc-groups</code> and <code>--use-pre-alloc-groups</code> flags</li>
+<li>This format is generated when using:<ul>
+<li><code>--generate-pre-alloc-groups</code> flag (automatically triggers 2-phase execution, generates only <code>BlockchainEngineXFixture</code>)</li>
+<li><code>--generate-all-formats</code> flag (automatically triggers 2-phase execution, generates all fixture formats)</li>
+</ul>
+</li>
 <li>The <code>pre_alloc</code> folder is essential and must be distributed with the test fixtures</li>
 <li>Tests are grouped by identical (fork + environment + pre-allocation) combinations</li>
 <li>The format is optimized for Engine API testing (post-Paris forks)</li>
