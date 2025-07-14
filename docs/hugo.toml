@@ -1,0 +1,7 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'EEST Docs'
+theme = "minimal"
+[markup]
+[markup.goldmark.renderer]
+      unsafe = true

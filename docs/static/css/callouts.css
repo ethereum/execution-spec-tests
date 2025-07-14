@@ -1,0 +1,57 @@
+.callout {
+    margin: 1.5em 0;
+    padding: 0;
+    border-left: 4px solid;
+    border-radius: 4px;
+    background-color: #f7f7f7;
+  }
+  
+  .callout-title {
+    padding: 0.75em 1em;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.05);
+  }
+  
+  .callout-content {
+    padding: 1em;
+  }
+  
+  .callout-warning {
+    border-color: #ff9800;
+    background-color: #fff3e0;
+  }
+  
+  .callout-warning .callout-title {
+    color: #e65100;
+    background-color: #ffe0b2;
+  }
+  
+  .callout-info {
+    border-color: #2196f3;
+    background-color: #e3f2fd;
+  }
+  
+  .callout-info .callout-title {
+    color: #0d47a1;
+    background-color: #bbdefb;
+  }
+  
+  .callout-danger {
+    border-color: #f44336;
+    background-color: #ffebee;
+  }
+  
+  .callout-danger .callout-title {
+    color: #b71c1c;
+    background-color: #ffcdd2;
+  }
+  
+  .callout-success {
+    border-color: #4caf50;
+    background-color: #e8f5e9;
+  }
+  
+  .callout-success .callout-title {
+    color: #1b5e20;
+    background-color: #c8e6c9;
+  }
