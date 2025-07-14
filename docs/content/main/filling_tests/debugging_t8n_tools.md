@@ -1,4 +1,6 @@
-# Debugging Transition Tools
++++
+title = 'Debugging Transition Tools'
++++
 
 There are two flags that can help debugging `t8n` tools or the execution-spec-tests framework:
 

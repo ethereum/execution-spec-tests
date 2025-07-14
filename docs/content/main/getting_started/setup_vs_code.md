@@ -1,4 +1,6 @@
-# VS Code Setup
++++
+title = 'VS Code Setup'
++++
 
 VS Code setup is optional, but does offer the following advantages:
 

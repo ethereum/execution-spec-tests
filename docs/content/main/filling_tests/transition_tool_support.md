@@ -1,4 +1,6 @@
-# Transition Tool Support
++++
+title = 'Transition Tool Support'
++++
 
 The following transition tools are supported by the framework:
 

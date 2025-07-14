@@ -1,4 +1,6 @@
-# Installation Troubleshooting
++++
+title = 'Installation Troubleshooting'
++++
 
 This page provides guidance on how to troubleshoot common issues that may arise when installing [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests).
 

@@ -1,4 +1,6 @@
-# Detailed Code Standards
++++
+title = 'Detailed Code Standards'
++++
 
 This page provides in-depth information about the code standards and verification processes in @ethereum/execution-spec-tests.
 
