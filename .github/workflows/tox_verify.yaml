@@ -111,7 +111,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-latest
+          - os: macos-15
             python: "3.11"
           - os: ubuntu-latest
             python: "3.12"
@@ -155,8 +155,8 @@ jobs:
           - os: [self-hosted-ghr, size-xl-x64]
             name: self-hosted-ghr-xl-x64
             python: "3.11"
-          - os: macos-latest
-            name: macos-latest
+          - os: macos-15
+            name: macos-15
             python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
@@ -190,7 +190,7 @@ jobs:
         include:
           - os: ubuntu-latest
             python: "3.11"
-          - os: macos-latest
+          - os: macos-15
             python: "3.12"
     steps:
       - name: Checkout ethereum/execution-spec-tests
