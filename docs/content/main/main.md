@@ -2,6 +2,11 @@
 title = 'Execution Spec Tests'
 date = 2025-07-09T12:42:33Z
 draft = false
+[menu]
+  [menu.main]
+    name = 'Execution Spec Tests'
+    weight = 10
+    
 +++
 
 ![Execution Spec Tests Logo](/images/main/execution_spec_tests.jpg)

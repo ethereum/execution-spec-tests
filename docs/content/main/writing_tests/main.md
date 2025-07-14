@@ -5,6 +5,7 @@ draft = false
 [menus]
   [menus.main]
     parent = 'Main'
+    weight = 10
 
 +++
 

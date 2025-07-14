@@ -2,9 +2,9 @@
 title = 'Developer Documentation'
 date = 2025-07-09T12:42:33Z
 draft = false
-[menus]
-  [menus.main]
-    parent = 'Main'
+
+    name = 'Developer Documentation'
+    weight = 10
 
 +++
 

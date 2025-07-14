@@ -2,9 +2,10 @@
 title = 'Consume'
 date = 2025-07-09T12:42:33Z
 draft = false
-[menus]
-  [menus.main]
+[menu]
+  [menu.main]
     parent = 'Running Tests'
+    weight = 10
 
 +++
 
