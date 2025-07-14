@@ -4,7 +4,7 @@
 
 The tools provided by [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) use `uv` ([docs.astral.sh/uv](https://docs.astral.sh/uv/)) to manage their dependencies and virtual environment.
 
-It's typically recommended to use the latest version of `uv`, currently `uv>=0.5.22` is required.
+It's typically recommended to use the latest version of `uv`, currently `uv>=0.7.0` is required.
 
 The latest version of `uv` can be installed via `curl` (recommended; can self-update via `uv self update`) or pip (requires Python, can't self-update):
 
