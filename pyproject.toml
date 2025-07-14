@@ -117,9 +117,7 @@ exclude = ["tests/static/**"]
 [tool.setuptools.package-data]
 ethereum_test_forks = ["forks/contracts/*.bin"]
 "pytest_plugins.execute" = ["eth_config/networks.yml"]
-"pytest_plugins" = [
-    "eels_resolutions.json"
-]
+"pytest_plugins" = ["eels_resolutions.json"]
 "cli.eest.make" = ["templates/*.j2"]
 "cli.pytest_commands" = ["pytest_ini_files/*.ini"]
 
@@ -152,6 +150,9 @@ plugins = ["pydantic.mypy"]
 skip = ".venv,__pycache__,.git,build,dist,*.pyc,*.lock"
 check-filenames = true
 ignore-words-list = "ingenuous"
+
+[tool.uv]
+required-version = ">=0.7.0"
 
 [tool.uv.sources]
 ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "ee273e7344e24a739ebfbf0ea1f758530c4d032b" }
