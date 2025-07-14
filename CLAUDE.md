@@ -48,7 +48,7 @@ uv run fill --fork=Prague path/to/test.py --clean -v -m "not slow"
 uv run consume direct --bin=evm fixtures/
 
 # Framework testing
-uv run pytest -c pytest-framework.ini path/to/test.py::test_function
+uv run pytest path/to/test.py::test_function
 ```
 
 ### Quality Checks
@@ -67,7 +67,7 @@ uv run ruff check --fix src tests .github/scripts
 uv run mypy src tests .github/scripts
 
 # Framework unit tests
-uv run pytest -c pytest-framework.ini -n auto
+uv run pytest -n auto
 
 # Run specific checks (fast checks)
 uvx --with=tox-uv tox -e lint,typecheck,spellcheck
