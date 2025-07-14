@@ -1,0 +1,11 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'EEST Docs'
+theme = "minimal"
+sectionPagesMenu = ""
+[markup]
+[markup.goldmark.renderer]
+      unsafe = true
+
+[params]
+  sectionPagesMenu = ""  # Disable auto menu generation

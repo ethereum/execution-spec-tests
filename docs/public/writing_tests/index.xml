@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Writing_tests on EEST Docs</title>
+    <link>http://localhost:1313/writing_tests/</link>
+    <description>Recent content in Writing_tests on EEST Docs</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 09 Jul 2025 12:42:33 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/writing_tests/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding Standards</title>
+      <link>http://localhost:1313/writing_tests/code_standards/</link>
+      <pubDate>Wed, 09 Jul 2025 12:42:33 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/code_standards/</guid>
+      <description>&lt;h1 id=&#34;code-standards&#34;&gt;&lt;a href=&#34;#test-abc&#34;&gt;Code Standards&lt;/a&gt;&lt;/h1&gt;&#xA;&lt;p&gt;This documentation has been relocated.&lt;/p&gt;&#xA;&lt;h2 id=&#34;yyyyyyyyyy&#34;&gt;yyyyyyyyyy&lt;/h2&gt;&#xA;&lt;p&gt;yeet&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Writing Tests</title>
+      <link>http://localhost:1313/writing_tests/main/</link>
+      <pubDate>Wed, 09 Jul 2025 12:42:33 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/main/</guid>
+      <description>&lt;p&gt;The easiest way to get started is to use the interactive CLI:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-console&#34; data-lang=&#34;console&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;uv run eest make test&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;and modify the generated test module to suit your needs.&lt;/p&gt;&#xA;&lt;p&gt;For help deciding which test format to select, see &lt;a href=&#34;types_of_tests.md&#34;&gt;Types of Tests&lt;/a&gt;, in particular &lt;a href=&#34;types_of_tests.md#deciding-on-a-test-type&#34;&gt;Deciding on a Test Type&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;key-resources&#34;&gt;Key Resources&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://localhost:1313/writing_tests/code_standards/#test-abc&#34;&gt;Coding Standards&lt;/a&gt; - Code style and standards for this repository&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;adding_a_new_test.md&#34;&gt;Adding a New Test&lt;/a&gt; - Step-by-step guide to adding new tests&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;writing_a_new_test.md&#34;&gt;Writing a New Test&lt;/a&gt; - Detailed guide on writing different test types&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;fork_methods.md&#34;&gt;Using and Extending Fork Methods&lt;/a&gt; - How to use fork methods to write fork-adaptive tests&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;porting_legacy_tests.md&#34;&gt;Porting tests&lt;/a&gt;: A guide to porting @ethereum/tests to EEST.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Please check that your code adheres to the repo&amp;rsquo;s coding standards and read the other pages in this section for more background and an explanation of how to implement state transition and blockchain tests.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/adding_a_new_test/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/adding_a_new_test/</guid>
+      <description>&lt;h1 id=&#34;adding-a-new-test&#34;&gt;Adding a New Test&lt;/h1&gt;&#xA;&lt;p&gt;All test cases are located underneath the &lt;code&gt;tests&lt;/code&gt; directory, which are then organized by fork. Each fork contains sub-directories containing test sub-categories.&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;📁 execution-test-specs/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;├─╴📁 tests/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   ├── 📄 __init__.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│   ├── 📁 cancun/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    ├── 📄 __init__.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│   |    └── 📁 eip4844_blobs/&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |        ├── 📄 __init__.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |        ├── 📄 test_blobhash_opcode.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |        ├── 📄 test_excess_blob_gas.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |        └── 📄 ...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   ├── 📁 shanghai&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    ├── 📁 eip3651_warm_coinbase&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    |   ├── 📄 __init__.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    |   └── 📄 test_warm_coinbase.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    ├── 📁 eip3855_push0&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    |   ├── 📄 __init__.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    |   └── 📄 test_push0.py&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    ├── 📁...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;|   |    ...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;│   └── 📁 ...&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Each category/sub-directory may have multiple Python test modules (&lt;code&gt;*.py&lt;/code&gt;) which in turn may contain many test functions. The test functions themselves are always parametrized by fork (by the framework).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/checklist_templates/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/checklist_templates/</guid>
+      <description>&lt;h1 id=&#34;testing-checklist-templates&#34;&gt;Testing Checklist Templates&lt;/h1&gt;&#xA;&lt;p&gt;This page includes checklist templates that must be followed to guarantee a minimum base testing coverage of new EIP feature.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/eip_checklist/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/eip_checklist/</guid>
+      <description>&lt;h1 id=&#34;eip-checklist-generation&#34;&gt;EIP Checklist Generation&lt;/h1&gt;&#xA;&lt;p&gt;The EIP checklist feature helps track test coverage for EIP implementations by automatically generating filled checklists based on test markers.&lt;/p&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;When implementing tests for an EIP, you can mark specific tests as covering checklist items from the &lt;a href=&#34;../writing_tests/checklist_templates/eip_testing_checklist_template.md&#34;&gt;EIP testing checklist template&lt;/a&gt;. The framework will then generate a filled checklist showing which items have been implemented.&lt;/p&gt;&#xA;&lt;h2 id=&#34;marking-tests-as-implementing-eip-checklist-items&#34;&gt;Marking Tests as implementing EIP Checklist Items&lt;/h2&gt;&#xA;&lt;p&gt;To mark a test as implementing a specific checklist item, use the structured &lt;code&gt;EIPChecklist&lt;/code&gt; class:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/exception_tests/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/exception_tests/</guid>
+      <description>&lt;h1 id=&#34;exception-tests&#34;&gt;Exception Tests&lt;/h1&gt;&#xA;&lt;p&gt;Exception tests are a special type of test which verify that an invalid transaction or an invalid block are correctly rejected with the expected error.&lt;/p&gt;&#xA;&lt;h2 id=&#34;creating-an-exception-test&#34;&gt;Creating an Exception Test&lt;/h2&gt;&#xA;&lt;p&gt;To test for an exception, the test can use either of the following types from &lt;code&gt;ethereum_test_exceptions&lt;/code&gt; library:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;a href=&#34;../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException&#34;&gt;&lt;code&gt;TransactionException&lt;/code&gt;&lt;/a&gt;: To be added to the &lt;code&gt;error&lt;/code&gt; field of the &lt;code&gt;Transaction&lt;/code&gt; object, and to the &lt;code&gt;exception&lt;/code&gt; field of the &lt;code&gt;Block&lt;/code&gt; object that includes the transaction; this exception type is used when a transaction is invalid, and therefore when included in a block, the block is expected to be invalid too. This is different from valid transactions where an exception during EVM execution is expected (e.g. a revert, or out-of-gas), which can be included in valid blocks.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/fork_methods/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/fork_methods/</guid>
+      <description>&lt;h1 id=&#34;using-and-extending-fork-methods&#34;&gt;Using and Extending Fork Methods&lt;/h1&gt;&#xA;&lt;p&gt;This document describes the Fork class in the Ethereum execution spec tests framework, which provides a standardized way to define properties of Ethereum forks. Understanding how to use and extend these fork methods is essential for writing flexible tests that can automatically adapt to different forks.&lt;/p&gt;&#xA;&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;The &lt;code&gt;BaseFork&lt;/code&gt; class is an abstract base class that defines the interface for all Ethereum forks. Each implemented fork (like Frontier, Homestead, etc.) extends this class and implements its abstract methods to provide fork-specific behavior.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/porting_legacy_tests/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/porting_legacy_tests/</guid>
+      <description>&lt;h1 id=&#34;a-guide-to-porting-original-ethereum-tests-to-eest&#34;&gt;A Guide to Porting Original Ethereum Tests to EEST&lt;/h1&gt;&#xA;&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;&#xA;&lt;p&gt;EEST is the successor to &lt;a href=&#34;https://github.com/ethereum/tests&#34;&gt;ethereum/tests&lt;/a&gt; (aka &amp;ldquo;original tests&amp;rdquo;), a repository that defined EVM test cases from the &lt;a href=&#34;https://ethereum.org/en/history/#frontier&#34;&gt;Frontier&lt;/a&gt; phase up to and including &lt;a href=&#34;https://ethereum.org/en/history/#paris&#34;&gt;The Merge&lt;/a&gt;. These test cases are specified as YAML (and occasionally JSON) files in the &lt;a href=&#34;https://github.com/ethereum/tests/tree/develop/src&#34;&gt;&lt;code&gt;./src/&lt;/code&gt;&lt;/a&gt; sub-directory. JSON test fixtures, which are fully-populated tests that can be executed against clients, are generated using &lt;a href=&#34;https://github.com/ethereum/retesteth&#34;&gt;ethereum/retesteth&lt;/a&gt;. These JSON artifacts are regenerated when needed and added to the repository, typically in the &lt;a href=&#34;https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests&#34;&gt;&lt;code&gt;tests/static/state_tests&lt;/code&gt;&lt;/a&gt; sub-directory.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/post_mortems/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/post_mortems/</guid>
+      <description>&lt;h1 id=&#34;post-mortems-of-missed-test-scenarios&#34;&gt;Post-Mortems of Missed Test Scenarios&lt;/h1&gt;&#xA;&lt;p&gt;This page contains a collection of post-mortem analyses for test cases that were not initially identified by the testing process.&lt;/p&gt;&#xA;&lt;p&gt;The objective is to document and learn from missed scenarios — including those that were caught on the client side due to consensus issue, client developer raised issues, external reviewers, or external bug bounties — in order to improve test coverage and reduce the likelihood of similar omissions in the future.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/reference_specification/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/reference_specification/</guid>
+      <description>&lt;h1 id=&#34;referencing-an-eip-spec-version&#34;&gt;Referencing an EIP Spec Version&lt;/h1&gt;&#xA;&lt;p&gt;Tests that implement features from an Ethereum Improvement Proposal (&lt;a href=&#34;https://github.com/ethereum/EIPs/tree/master/EIPS&#34;&gt;ethereum/EIPs&lt;/a&gt;) must define the EIP&amp;rsquo;s markdown SHA digest within the test&amp;rsquo;s Python module. This ensures our tests stay up-to-date with any changes to the EIP specifications.&lt;/p&gt;&#xA;&lt;p&gt;The &lt;code&gt;check_eip_versions&lt;/code&gt; command-line utility automatically verifies that all EIP references in the codebase are current. It works by comparing the SHA specified in the test against the latest version in the ethereum/EIPs repository. This utility uses pytest to generate test cases for every module that includes &amp;ldquo;eip&amp;rdquo; in its path.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/test_markers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/test_markers/</guid>
+      <description>&lt;h1 id=&#34;test-markers&#34;&gt;Test Markers&lt;/h1&gt;&#xA;&lt;p&gt;Test markers are used to categorize tests and to run specific subsets of tests. They are defined in the test files using the &lt;code&gt;pytest.mark&lt;/code&gt; decorator.&lt;/p&gt;&#xA;&lt;p&gt;The examples below use &lt;code&gt;StateTestFiller&lt;/code&gt; tests, but the same markers can also be applied to &lt;code&gt;BlockchainTestFiller&lt;/code&gt; tests.&lt;/p&gt;&#xA;&lt;h2 id=&#34;fork-markers&#34;&gt;Fork Markers&lt;/h2&gt;&#xA;&lt;p&gt;These markers are used to specify the forks for which a test is valid.&lt;/p&gt;&#xA;&lt;h3 id=&#34;pytestmarkvalid_fromfork_name&#34;&gt;&lt;code&gt;@pytest.mark.valid_from(&amp;quot;FORK_NAME&amp;quot;)&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;p&gt;:::pytest_plugins.forks.forks.ValidFrom&lt;/p&gt;&#xA;&lt;h3 id=&#34;pytestmarkvalid_untilfork_name&#34;&gt;&lt;code&gt;@pytest.mark.valid_until(&amp;quot;FORK_NAME&amp;quot;)&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;p&gt;:::pytest_plugins.forks.forks.ValidUntil&lt;/p&gt;&#xA;&lt;h3 id=&#34;pytestmarkvalid_atfork_name_1-fork_name_2-&#34;&gt;&lt;code&gt;@pytest.mark.valid_at(&amp;quot;FORK_NAME_1&amp;quot;, &amp;quot;FORK_NAME_2&amp;quot;, ...)&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;p&gt;:::pytest_plugins.forks.forks.ValidAt&lt;/p&gt;&#xA;&lt;h3 id=&#34;pytestmarkvalid_at_transition_tofork_name&#34;&gt;&lt;code&gt;@pytest.mark.valid_at_transition_to(&amp;quot;FORK_NAME&amp;quot;)&lt;/code&gt;&lt;/h3&gt;&#xA;&lt;p&gt;:::pytest_plugins.forks.forks.ValidAtTransitionTo&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/tutorials/blockchain/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/tutorials/blockchain/</guid>
+      <description>&lt;h1 id=&#34;blockchain-tests&#34;&gt;Blockchain Tests&lt;/h1&gt;&#xA;&lt;p&gt;This tutorial teaches you to create a blockchain execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will process given blocks and arrive at a defined post-state.&lt;/p&gt;&#xA;&lt;h2 id=&#34;pre-requisites&#34;&gt;Pre-requisites&lt;/h2&gt;&#xA;&lt;p&gt;Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Repository set-up, see &lt;a href=&#34;../../getting_started/installation.md&#34;&gt;installation&lt;/a&gt;.and run an execution specification test as outlined in the .&lt;/li&gt;&#xA;&lt;li&gt;Able to run &lt;code&gt;fill&lt;/code&gt;, see &lt;a href=&#34;../../filling_tests/getting_started.md&#34;&gt;Getting Started: Filling Tests&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Understand how to read a &lt;a href=&#34;https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html&#34;&gt;blockchain test&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Familiarity with &lt;a href=&#34;https://docs.python.org/3/tutorial/&#34;&gt;Python&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Understand how to write an execution spec &lt;a href=&#34;./state_transition.md&#34;&gt;state transition test&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;example-tests&#34;&gt;Example Tests&lt;/h2&gt;&#xA;&lt;p&gt;In this tutorial we will go over [test_block_number] in &lt;code&gt;test_block_example.py&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/tutorials/state_transition/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/tutorials/state_transition/</guid>
+      <description>&lt;h1 id=&#34;state-transition-tests&#34;&gt;State Transition Tests&lt;/h1&gt;&#xA;&lt;p&gt;This tutorial teaches you to create a state transition execution specification test using the Python Opcodes minilang for writing EVM bytecode. These tests verify that a starting pre-state will reach a specified post-state after executing a single transaction. In this example, we&amp;rsquo;ll create a simple contract using bytecode and then interact with it through a transaction to verify the expected state changes.&lt;/p&gt;&#xA;&lt;p&gt;For an overview of different test types available, see &lt;a href=&#34;../../writing_tests/types_of_tests.md&#34;&gt;Types of Tests&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/types_of_tests/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/types_of_tests/</guid>
+      <description>&lt;h1 id=&#34;types-of-tests&#34;&gt;Types of tests&lt;/h1&gt;&#xA;&lt;p&gt;There are currently three types of tests that can be produced by a test spec:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;State Tests&lt;/li&gt;&#xA;&lt;li&gt;Blockchain Tests&lt;/li&gt;&#xA;&lt;li&gt;Transaction Tests&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;state-tests&#34;&gt;State Tests&lt;/h2&gt;&#xA;&lt;h3 id=&#34;purpose&#34;&gt;Purpose&lt;/h3&gt;&#xA;&lt;p&gt;Tests the effects of individual transactions (ideally a single one) that span a single block in a controlled environment.&lt;/p&gt;&#xA;&lt;h3 id=&#34;use-cases&#34;&gt;Use cases&lt;/h3&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Test a single opcode behavior.&lt;/li&gt;&#xA;&lt;li&gt;Verify opcode gas costs.&lt;/li&gt;&#xA;&lt;li&gt;Test interactions between multiple smart contracts.&lt;/li&gt;&#xA;&lt;li&gt;Test creation of smart contracts.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;!!! info&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/verifying_changes/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/verifying_changes/</guid>
+      <description>&lt;h1 id=&#34;verifying-changes&#34;&gt;Verifying Changes&lt;/h1&gt;&#xA;&lt;p&gt;!!! warning &amp;ldquo;Documentation Moved&amp;rdquo;&#xA;This documentation has been relocated to &lt;a href=&#34;../getting_started/code_standards_details.md&#34;&gt;Detailed Code Standards&lt;/a&gt;. Please use the new location for the most up-to-date information.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>http://localhost:1313/writing_tests/writing_a_new_test/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/writing_tests/writing_a_new_test/</guid>
+      <description>&lt;h1 id=&#34;writing-a-new-test&#34;&gt;Writing a New Test&lt;/h1&gt;&#xA;&lt;h2 id=&#34;test-functions&#34;&gt;Test Functions&lt;/h2&gt;&#xA;&lt;p&gt;Every test case is defined as a Python function that implements a single &lt;code&gt;StateTest&lt;/code&gt; or &lt;code&gt;BlockchainTest&lt;/code&gt; using the &lt;code&gt;state_test&lt;/code&gt; or &lt;code&gt;blockchain_test&lt;/code&gt; objects made available by the framework (&lt;a href=&#34;./types_of_tests.md#deciding-on-a-test-type&#34;&gt;learn how to decide on a test type&lt;/a&gt;). Test cases, and the respective test modules, must fulfill the following requirements:&lt;/p&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;Requirement&lt;/th&gt;&#xA;          &lt;th&gt;When&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Be &lt;a href=&#34;#specifying-which-forks-tests-are-valid-for&#34;&gt;decorated with validity markers&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;If the test case is not valid for all forks&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Use one of &lt;code&gt;state_test&lt;/code&gt; or &lt;code&gt;blockchain_test&lt;/code&gt; &lt;a href=&#34;#the-state_test-and-blockchain_test-test-function-arguments&#34;&gt;in its function arguments&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;Always&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Call the &lt;code&gt;state_test&lt;/code&gt; or &lt;code&gt;blockchain_test&lt;/code&gt; in its test body&lt;/td&gt;&#xA;          &lt;td&gt;Always&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Add a &lt;a href=&#34;./reference_specification.md&#34;&gt;reference version of the EIP spec&lt;/a&gt; under test&lt;/td&gt;&#xA;          &lt;td&gt;Test path contains &lt;code&gt;eip&lt;/code&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h3 id=&#34;specifying-which-forks-tests-are-valid-for&#34;&gt;Specifying which Forks Tests are Valid For&lt;/h3&gt;&#xA;&lt;p&gt;Test cases can (and it most cases should) be decorated with one or more &amp;ldquo;validity markers&amp;rdquo; that define which the forks the test is valid for. This is achieved by applying:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
