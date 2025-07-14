@@ -10,6 +10,23 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 
+#### 💥 Important Change for EEST developers
+
+- @ethereum/execution-spec-tests now requires `uv>=0.7.0` ([#1904](https://github.com/ethereum/execution-spec-tests/pull/1904)). If your version of `uv` is too old, please proceed as following.
+
+   If `uv` was curl-installed (recommended), please run:
+
+   ```bash
+   uv self update
+   ```
+
+   If `uv` was pip-installed, then:
+
+   ```bash
+   pip uninstall uv
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
 #### 💥 Important Change for test contributors
 
 - EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the "static tests" located in `./tests/static/` (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in [ethereum/tests](https://github.com/ethereum/tests)).
@@ -93,6 +110,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability ([#1763](https://github.com/ethereum/execution-spec-tests/pull/1673)).
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 - ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
+- 🔀 Enforce a minimum version of `uv>=0.7.0` ([#1904](https://github.com/ethereum/execution-spec-tests/pull/1904)).
 
 ### 🧪 Test Cases
 
