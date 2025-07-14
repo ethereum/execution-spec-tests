@@ -2,7 +2,7 @@
 
 The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory `blockchain_tests_engine_x`, and use Engine API directives with optimized pre-allocation groups for improved execution performance.
 
-These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags.
+These are produced by the `StateTest` and `BlockchainTest` test specs when using the `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags, or by using the `--generate-all-formats` flag which generates all fixture formats including `BlockchainEngineXFixture` in a single command.
 
 ## Description
 
@@ -138,7 +138,9 @@ Engine API payload structure identical to the one defined in [Blockchain Engine 
 
 ## Usage Notes
 
-- This format is only generated when using `--generate-pre-alloc-groups` and `--use-pre-alloc-groups` flags
+- This format is generated when using:
+    - `--generate-pre-alloc-groups` flag (automatically triggers 2-phase execution, generates only `BlockchainEngineXFixture`)
+    - `--generate-all-formats` flag (automatically triggers 2-phase execution, generates all fixture formats)
 - The `pre_alloc` folder is essential and must be distributed with the test fixtures
 - Tests are grouped by identical (fork + environment + pre-allocation) combinations
 - The format is optimized for Engine API testing (post-Paris forks)

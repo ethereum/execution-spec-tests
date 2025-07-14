@@ -37,6 +37,14 @@ For standard releases, two tarballs are available:
 
 I.e., `fixtures_develop` are a superset of `fixtures_stable`.
 
+!!! tip "Generating tarballs directly via `--output` includes all fixture formats"
+    When generating fixtures for release, specifying tarball output automatically enables all fixture formats:
+    ```console
+    # Automatically enables --generate-all-formats due to .tar.gz output
+    uv run fill --output=fixtures_stable.tar.gz tests/
+    ```
+    This ensures that all fixture formats are included in the tarball release.
+
 ### Pre-Release and Devnet Releases
 
 Intermediate releases that target specific subsets of features or tests under active development are published at @ethereum/execution-spec-tests [releases](https://github.com/ethereum/execution-spec-tests/releases).
