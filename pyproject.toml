@@ -151,6 +151,23 @@ skip = ".venv,__pycache__,.git,build,dist,*.pyc,*.lock"
 check-filenames = true
 ignore-words-list = "ingenuous"
 
+[tool.pytest.ini_options]
+console_output_style = "count"
+minversion = "7.0"
+python_files = [
+    "test_*.py"
+]
+testpaths = [
+    "src"
+]
+addopts = [
+    "-p", "pytester",
+    "-p", "pytest_plugins.eels_resolver",
+    "--ignore=src/pytest_plugins/consume/test_cache.py",
+    "--ignore=src/pytest_plugins/consume/direct/",
+    "--ignore=src/pytest_plugins/consume/simulators/",
+]
+
 [tool.uv]
 required-version = ">=0.7.0"
 
