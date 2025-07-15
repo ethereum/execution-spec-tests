@@ -22,7 +22,7 @@ Tests the effects of individual transactions (ideally a single one) that span a 
 - Test interactions between multiple smart contracts.
 - Test creation of smart contracts.
 
-{{< callout info "Note" >}}
+{{< callout info "Info" >}}
 The fill function will automatically generate a `blockchain_test` fixture from `state_tests`, consisting of one block and one transaction.
 {{< /callout >}}
 

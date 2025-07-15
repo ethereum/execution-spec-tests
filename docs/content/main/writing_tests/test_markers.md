@@ -13,19 +13,120 @@ These markers are used to specify the forks for which a test is valid.
 
 ### `@pytest.mark.valid_from("FORK_NAME")`
 
-:::pytest_plugins.forks.forks.ValidFrom
+Bases: `ValidityMarker`
 
+Marker used to specify the fork from which the test is valid. The test will not be filled for forks before the specified fork.
+
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, StateTestFiller
+
+@pytest.mark.valid_from("London")
+def test_something_only_valid_after_london(
+    state_test: StateTestFiller,
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will only be filled for the London fork and after, e.g. London, Paris, Shanghai, Cancun, etc.
+
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.valid_until("FORK_NAME")`
+Bases: `ValidityMarker`
 
-:::pytest_plugins.forks.forks.ValidUntil
+Marker to specify the fork until which the test is valid. The test will not be filled for forks after the specified fork.
 
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, StateTestFiller
+
+@pytest.mark.valid_until("London")
+def test_something_only_valid_until_london(
+    state_test: StateTestFiller,
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will only be filled for the London fork and before, e.g. London, Berlin, Istanbul, etc.
+
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.valid_at("FORK_NAME_1", "FORK_NAME_2", ...)`
+Bases: `ValidityMarker`
 
-:::pytest_plugins.forks.forks.ValidAt
+Marker to specify each fork individually for which the test is valid.
 
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, StateTestFiller
+
+@pytest.mark.valid_at("London", "Cancun")
+def test_something_only_valid_at_london_and_cancun(
+    state_test: StateTestFiller,
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will only be filled for the London and Cancun forks.
+
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.valid_at_transition_to("FORK_NAME")`
+Bases: `ValidityMarker`
 
-:::pytest_plugins.forks.forks.ValidAtTransitionTo
+Marker to specify that a test is only meant to be filled at the transition to the specified fork.
+
+The test usually starts at the fork prior to the specified fork at genesis and at block 5 (for pre-merge forks) or at timestamp 15,000 (for post-merge forks) the fork transition occurs.
+
+```python
+import pytest
+
+from ethereum_test_tools import Alloc, BlockchainTestFiller
+
+@pytest.mark.valid_at_transition_to("London")
+def test_something_that_happens_during_the_fork_transition_to_london(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc
+):
+    pass
+```
+
+In this example, the test will only be filled for the fork that transitions to London at block number 5, BerlinToLondonAt5, and no other forks.
+
+To see or add a new transition fork, see the ethereum_test_forks.forks.transition module.
+
+Note that the test uses a BlockchainTestFiller fixture instead of a StateTestFiller, as the transition forks are used to test changes throughout the blockchain progression, and not just the state change of a single transaction.
+
+This marker also accepts the following keyword arguments:
+
+- subsequent_transitions: Force the test to also fill for subsequent fork transitions.
+- until: Implies subsequent_transitions and puts a limit on which transition fork will the test filling will be limited to.
+
+For example:
+```python
+@pytest.mark.valid_at_transition_to("Cancun", subsequent_transitions=True)
+```
+produces tests on `ShanghaiToCancunAtTime15k` and `CancunToPragueAtTime15k`, and any transition fork after that.
+And:
+```python
+@pytest.mark.valid_at_transition_to("Cancun", subsequent_transitions=True, until="Prague")
+```
+produces tests on ShanghaiToCancunAtTime15k and CancunToPragueAtTime15k, but no forks after Prague.
+
+<!-- ------------------------------------------------------------------------ -->
 
 ## Fork Covariant Markers
 
@@ -52,12 +153,20 @@ def test_something_with_all_tx_types(
 
 In this example, the test will be parameterized for parameter `tx_type` with values `[0, 1]` for fork Berlin, but with values `[0, 1, 2]` for fork London (because of EIP-1559).
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_contract_creating_tx_types`
 
 This marker is used to automatically parameterize a test with all contract creating transaction types that are valid for the fork being tested.
 
 This marker only differs from `pytest.mark.with_all_tx_types` in that it does not include transaction type 3 (Blob Transaction type) on fork Cancun and after.
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_precompiles`
 
 This marker is used to automatically parameterize a test with all precompiles that are valid for the fork being tested.
@@ -79,6 +188,10 @@ def test_something_with_all_precompiles(
 
 In this example, the test will be parameterized for parameter `precompile` with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]` for fork Shanghai, but with values `[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]` for fork Cancun which introduced the [point evaluation precompile](https://eips.ethereum.org/EIPS/eip-4844#point-evaluation-precompile) defined in EIP-4844.
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_evm_code_types`
 
 This marker is used to automatically parameterize a test with all EVM code types that are valid for the fork being tested.
@@ -132,6 +245,10 @@ def test_something_with_all_evm_code_types(
     ...
 ```
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_call_opcodes`
 
 This marker is used to automatically parameterize a test with all EVM call opcodes that are valid for the fork being tested.
@@ -156,6 +273,10 @@ In this example, the test will be parametrized for parameter `call_opcode` with 
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_create_opcodes`
 
 This marker is used to automatically parameterize a test with all EVM create opcodes that are valid for the fork being tested.
@@ -180,6 +301,10 @@ In this example, the test will be parametrized for parameter `create_opcode` wit
 
 Parameter `evm_code_type` will also be parametrized with the correct EVM code type for the opcode under test.
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### `@pytest.mark.with_all_system_contracts`
 
 This marker is used to automatically parameterize a test with all system contracts that are valid for the fork being tested.
@@ -203,6 +328,10 @@ def test_something_with_all_system_contracts(
 
 In this example, the test will be parameterized for parameter `system_contract` with value `[0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02]` for fork Cancun.
 
+<br>
+
+---
+<!-- ------------------------------------------------------------------------ -->
 ### Covariant Marker Keyword Arguments
 
 All fork covariant markers accept the following keyword arguments:
@@ -332,7 +461,7 @@ In this example, the test will be marked as expected to fail when it is being ex
 
 ### `@pytest.mark.slow`
 
-This marker is used to mark tests that are slow to run. These tests are not run during [`tox` checks](./verifying_changes.md), and are only run when a release is being prepared.
+This marker is used to mark tests that are slow to run. These tests are not run during [`tox` checks]({{< ref "../getting_started/code_standards_details.md" >}}), and are only run when a release is being prepared.
 
 ### `@pytest.mark.pre_alloc_modify`
 

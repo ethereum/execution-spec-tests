@@ -5,14 +5,14 @@ weight = 15
 
 ## Test Functions
 
-Every test case is defined as a Python function that implements a single `StateTest` or `BlockchainTest` using the `state_test` or `blockchain_test` objects made available by the framework ([learn how to decide on a test type](./types_of_tests.md#deciding-on-a-test-type)). Test cases, and the respective test modules, must fulfill the following requirements:
+Every test case is defined as a Python function that implements a single `StateTest` or `BlockchainTest` using the `state_test` or `blockchain_test` objects made available by the framework ([learn how to decide on a test type]({{< ref "./types_of_tests.md#deciding-on-a-test-type" >}})). Test cases, and the respective test modules, must fulfill the following requirements:
 
-| Requirement                                                            | When                                        |
-| -----------------------------------------------------------------------|---------------------------------------------|
-| Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for) | If the test case is not valid for all forks |
-| Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always |
-| Call the `state_test` or `blockchain_test` in its test body                                                                           | Always |
-| Add a [reference version of the EIP spec](./reference_specification.md) under test | Test path contains `eip`  |
+{{< table headers="Requirement|When" >}}
+Be [decorated with validity markers](#specifying-which-forks-tests-are-valid-for) | If the test case is not valid for all forks ||
+Use one of `state_test` or `blockchain_test` [in its function arguments](#the-state_test-and-blockchain_test-test-function-arguments) | Always ||
+Call the `state_test` or `blockchain_test` in its test body | Always ||
+Add a [reference version of the EIP spec]({{< ref "./reference_specification.md" >}}) under test | Test path contains `eip`  ||
+{{< /table >}}
 
 ### Specifying which Forks Tests are Valid For
 
@@ -26,38 +26,42 @@ or
 
 markers on either the test function, test class or test module level:
 
-=== "Function"
+{{< tabs >}}
 
-    ```python
-    import pytest
+{{< tab "Function" >}}
+```python
+import pytest
 
-    @pytest.mark.valid_from("Berlin")
-    @pytest.mark.valid_until("London")
-    def test_access_list(state_test: StateTestFiller, fork: Fork):
-    ```
+@pytest.mark.valid_from("Berlin")
+@pytest.mark.valid_until("London")
+def test_access_list(state_test: StateTestFiller, fork: Fork):
+```
+{{< /tab >}}
 
-=== "Class"
+{{< tab "Class" >}}
+```python
+import pytest
 
-    ```python
-    import pytest
 
+@pytest.mark.valid_from("Shanghai")
+class TestMultipleWithdrawalsSameAddress:
+```
+{{< /tab >}}
 
-    @pytest.mark.valid_from("Shanghai")
-    class TestMultipleWithdrawalsSameAddress:
-    ```
+{{< tab "Module" >}}
+```python
+import pytest
 
-=== "Module"
+pytestmark = pytest.mark.valid_from("Shanghai")
+```
+{{< /tab >}}
 
-    ```python
-    import pytest
+{{< /tabs >}}
+<!-- TODO: add links to below when it is re-added to the docs -->
+The ethereum_test_forks package defines the available forks and provides the following helpers that return all forks within the specified range:
 
-    pytestmark = pytest.mark.valid_from("Shanghai")
-    ```
-
-The [`ethereum_test_forks`](../library/ethereum_test_forks.md) package defines the available forks and provides the following helpers that return all forks within the specified range:
-
-- [forks_from](../library/ethereum_test_forks.md#ethereum_test_forks.forks_from)
-- [forks_from_until](../library/ethereum_test_forks.md#ethereum_test_forks.forks_from_until)
+- forks_from
+- forks_from_until
 
 ### The `state_test` and `blockchain_test` Test Function Arguments
 
@@ -149,11 +153,11 @@ which allows checking for an exact `gas_used` value.
 
 ## Writing code for the accounts in the test
 
-Account bytecode can be "deployed" in a test's pre-state using the `pre` pytest fixture. The @ethereum/execution-spec-tests Python [`Opcodes`][ethereum_test_vm.Opcodes] minilang can be used to help write the bytecode in a readable form.
+Account bytecode can be "deployed" in a test's pre-state using the `pre` pytest fixture. The execution-spec-tests Python [`Opcodes`](https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/ethereum_test_vm/opcode.py) minilang can be used to help write the bytecode in a readable form.
 
 ### Using the Python Opcode Minilang
 
-EVM bytecode for tests should be written using the Python-based minilang provided by the [`Opcodes`][ethereum_test_vm.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.
+EVM bytecode for tests should be written using the Python-based minilang provided by the `Opcodes` class. This allows you to construct bytecode using symbolic opcodes as Python objects.
 
 #### Example: Simple Addition Contract
 
@@ -173,13 +177,13 @@ code = (
 contract_address = pre.deploy_contract(code=code)
 ```
 
-You add this contract to the test's pre-state using the `pre` fixture or assign this `code` to the `code` field of an account in your test's `post` state. See the [state test tutorial](./tutorials/state_transition.md) for more help.
+You add this contract to the test's pre-state using the `pre` fixture or assign this `code` to the `code` field of an account in your test's `post` state. See the [state test tutorial]({{< ref "./tutorials/state_transition.md" >}}) for more help.
 
-For a full list of available opcodes and their usage, see [`Opcodes`][ethereum_test_vm.Opcodes].
+For a full list of available opcodes and their usage, see [`Opcodes`](https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/ethereum_test_vm/opcode.py).
 
 #### Higher-Level Constructs
 
-For more complex control flow, you can use constructs like [`Switch`][ethereum_test_tools.code.generators.Switch] and [`Case`][ethereum_test_tools.code.generators.Case] from the `ethereum_test_tools.code.generators` module:
+For more complex control flow, you can use constructs like `Switch` and `Case` from the `ethereum_test_tools.code.generators` module:
 
 ```python
 from ethereum_test_tools.code.generators import Switch, Case
@@ -194,11 +198,11 @@ code = Switch(
 )
 ```
 
-The `ethereum_test_tools.code.generators` module also defines other high-level constructs like [`While`][ethereum_test_tools.code.generators.While] and [`Conditional`][ethereum_test_tools.code.generators.Conditional].
+The `ethereum_test_tools.code.generators` module also defines other high-level constructs like `While` and `Conditional`.
 
 #### Converting Bytecode to Minilang
 
-If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI tool](../library/cli/evm_bytes.md) to convert it to the EEST Python opcode minilang automatically, for example:
+If you have EVM bytecode (as hex or binary), you can use the [`evm_bytes` CLI tool](https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/cli/evm_bytes.py) to convert it to the EEST Python opcode minilang automatically, for example:
 
 ```console
 uv run evm_bytes hex-string 0x604260005260206000F3
@@ -326,8 +330,6 @@ current fork under test, and does not need to be parametrized.
 
 Tests can also be automatically parametrized with appropriate fork covariant
 values using the `with_all_*` markers listed in the
-[Test Markers](./test_markers.md#fork-covariant-markers) page.
+[Test Markers]({{< ref "./test_markers.md#fork-covariant-markers" >}}) page.
 
-### The `extend_with_defaults` Utility
-
-::: ethereum_test_tools.utility.pytest.extend_with_defaults
+<!-- TODO: add auto-gen part below back -->

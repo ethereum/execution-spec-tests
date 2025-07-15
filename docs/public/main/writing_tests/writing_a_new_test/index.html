@@ -402,22 +402,6 @@
       
       
       
-        
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
     
   
     
@@ -815,26 +799,6 @@
       </li>
     
       <li style="margin:.5rem 0;">
-        <a href="/main/writing_tests/verifying_changes/"
-           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
-                  
-                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
-                  ">
-          📄 Verifying Changes
-        </a>
-      </li>
-    
-      <li style="margin:.5rem 0;">
-        <a href="/main/writing_tests/code_standards/"
-           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
-                  
-                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
-                  ">
-          📄 Code Standards
-        </a>
-      </li>
-    
-      <li style="margin:.5rem 0;">
         <a href="/main/writing_tests/exception_tests/"
            style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
                   
@@ -984,22 +948,6 @@
   
     
       
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
       
     
   
@@ -1416,33 +1364,108 @@
     
   </div>
   <div align="start" class="content"><h2 id="test-functions">Test Functions</h2>
-<p>Every test case is defined as a Python function that implements a single <code>StateTest</code> or <code>BlockchainTest</code> using the <code>state_test</code> or <code>blockchain_test</code> objects made available by the framework (<a href="./types_of_tests.md#deciding-on-a-test-type">learn how to decide on a test type</a>). Test cases, and the respective test modules, must fulfill the following requirements:</p>
-<table>
+<p>Every test case is defined as a Python function that implements a single <code>StateTest</code> or <code>BlockchainTest</code> using the <code>state_test</code> or <code>blockchain_test</code> objects made available by the framework (<a href="http://localhost:1313/main/writing_tests/types_of_tests/#deciding-on-a-test-type">learn how to decide on a test type</a>). Test cases, and the respective test modules, must fulfill the following requirements:</p>
+
+
+
+
+<table class="styled-table">
   <thead>
-      <tr>
-          <th>Requirement</th>
-          <th>When</th>
-      </tr>
+    <tr>
+      
+        <th>Requirement</th>
+      
+        <th>When</th>
+      
+    </tr>
   </thead>
   <tbody>
-      <tr>
-          <td>Be <a href="#specifying-which-forks-tests-are-valid-for">decorated with validity markers</a></td>
-          <td>If the test case is not valid for all forks</td>
-      </tr>
-      <tr>
-          <td>Use one of <code>state_test</code> or <code>blockchain_test</code> <a href="#the-state_test-and-blockchain_test-test-function-arguments">in its function arguments</a></td>
-          <td>Always</td>
-      </tr>
-      <tr>
-          <td>Call the <code>state_test</code> or <code>blockchain_test</code> in its test body</td>
-          <td>Always</td>
-      </tr>
-      <tr>
-          <td>Add a <a href="./reference_specification.md">reference version of the EIP spec</a> under test</td>
-          <td>Test path contains <code>eip</code></td>
-      </tr>
+    
+      
+      
+        <tr>
+          
+          
+            <td>Be <a href="#specifying-which-forks-tests-are-valid-for">decorated with validity markers</a></td>
+          
+            <td>If the test case is not valid for all forks</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Use one of <code>state_test</code> or <code>blockchain_test</code> <a href="#the-state_test-and-blockchain_test-test-function-arguments">in its function arguments</a></td>
+          
+            <td>Always</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Call the <code>state_test</code> or <code>blockchain_test</code> in its test body</td>
+          
+            <td>Always</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Add a <a href="http://localhost:1313/main/writing_tests/reference_specification/" target="_blank" rel="noopener">reference version of the EIP spec</a> under test</td>
+          
+            <td>Test path contains <code>eip</code></td>
+          
+        </tr>
+      
+    
+      
+      
+    
   </tbody>
 </table>
+
+<style>
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border: 1px solid #ddd;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table code {
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+</style>
 <h3 id="specifying-which-forks-tests-are-valid-for">Specifying which Forks Tests are Valid For</h3>
 <p>Test cases can (and it most cases should) be decorated with one or more &ldquo;validity markers&rdquo; that define which the forks the test is valid for. This is achieved by applying:</p>
 <ul>
@@ -1453,35 +1476,202 @@
 <li><code>pytest.mark.valid_at_transition_to(FORK)</code></li>
 </ul>
 <p>markers on either the test function, test class or test module level:</p>
-<p>=== &ldquo;Function&rdquo;</p>
-<pre><code>```python
-import pytest
-
-@pytest.mark.valid_from(&quot;Berlin&quot;)
-@pytest.mark.valid_until(&quot;London&quot;)
-def test_access_list(state_test: StateTestFiller, fork: Fork):
-```
-</code></pre>
-<p>=== &ldquo;Class&rdquo;</p>
-<pre><code>```python
-import pytest
 
 
-@pytest.mark.valid_from(&quot;Shanghai&quot;)
-class TestMultipleWithdrawalsSameAddress:
-```
-</code></pre>
-<p>=== &ldquo;Module&rdquo;</p>
-<pre><code>```python
-import pytest
 
-pytestmark = pytest.mark.valid_from(&quot;Shanghai&quot;)
-```
-</code></pre>
-<p>The <a href="../library/ethereum_test_forks.md"><code>ethereum_test_forks</code></a> package defines the available forks and provides the following helpers that return all forks within the specified range:</p>
+
+
+
+
+  
+  
+  
+
+
+
+  
+  
+  
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+<div class="tab-container" data-tab-group="tabs-2">
+  <div class="tab-header">
+    
+      <button class="tab-button active" 
+              onclick="switchTab('tabs-2',  0 )">
+        Function
+      </button>
+    
+      <button class="tab-button " 
+              onclick="switchTab('tabs-2',  1 )">
+        Class
+      </button>
+    
+      <button class="tab-button " 
+              onclick="switchTab('tabs-2',  2 )">
+        Module
+      </button>
+    
+  </div>
+  
+  <div class="tab-panels">
+    
+      <div class="tab-panel active">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest.mark.valid_from</span>(<span style="color:#e6db74">&#34;Berlin&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest.mark.valid_until</span>(<span style="color:#e6db74">&#34;London&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_access_list</span>(state_test: StateTestFiller, fork: Fork):
+</span></span></code></pre></div>
+      </div>
+    
+      <div class="tab-panel ">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest.mark.valid_from</span>(<span style="color:#e6db74">&#34;Shanghai&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestMultipleWithdrawalsSameAddress</span>:
+</span></span></code></pre></div>
+      </div>
+    
+      <div class="tab-panel ">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>pytestmark <span style="color:#f92672">=</span> pytest<span style="color:#f92672">.</span>mark<span style="color:#f92672">.</span>valid_from(<span style="color:#e6db74">&#34;Shanghai&#34;</span>)
+</span></span></code></pre></div>
+      </div>
+    
+  </div>
+</div>
+
+
+
+
+<style>
+    .tab-container {
+      margin: 1.5rem 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .tab-header {
+      display: flex;
+      background: #e9ecef;
+       
+    }
+    
+    .tab-button {
+      flex: 1;  
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      position: relative;
+      text-align: center;  
+      overflow: hidden;  
+      text-overflow: ellipsis;  
+    }
+    
+    .tab-button:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .tab-button.active {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #007bff;
+    }
+    
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #007bff;
+    }
+    
+    .tab-button code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    
+    .tab-panel {
+      display: none;
+      padding: 1.5rem;
+      background: white;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+    
+    .tab-panel pre {
+      margin: 0;
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+    }
+    
+     
+    @media (max-width: 768px) {
+      .tab-header {
+        flex-wrap: wrap;  
+      }
+      
+      .tab-button {
+        flex: 1 1 50%;  
+        padding: 0.5rem 0.75rem;
+        font-size: 13px;
+      }
+      
+       
+      @media (max-width: 480px) {
+        .tab-button {
+          flex: 1 1 100%;  
+        }
+      }
+    }
+</style>
+
+<script>
+function switchTab(groupId, tabIndex) {
+  const container = document.querySelector(`[data-tab-group="${groupId}"]`);
+  
+  
+  container.querySelectorAll('.tab-button').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === tabIndex);
+  });
+  
+  
+  container.querySelectorAll('.tab-panel').forEach((panel, idx) => {
+    panel.classList.toggle('active', idx === tabIndex);
+  });
+}
+</script>
+<!-- TODO: add links to below when it is re-added to the docs -->
+<p>The ethereum_test_forks package defines the available forks and provides the following helpers that return all forks within the specified range:</p>
 <ul>
-<li><a href="../library/ethereum_test_forks.md#ethereum_test_forks.forks_from">forks_from</a></li>
-<li><a href="../library/ethereum_test_forks.md#ethereum_test_forks.forks_from_until">forks_from_until</a></li>
+<li>forks_from</li>
+<li>forks_from_until</li>
 </ul>
 <h3 id="the-state_test-and-blockchain_test-test-function-arguments">The <code>state_test</code> and <code>blockchain_test</code> Test Function Arguments</h3>
 <p>The test function&rsquo;s signature <em>must</em> contain exactly one of either a <code>state_test</code> or <code>blockchain_test</code> argument.</p>
@@ -1543,9 +1733,9 @@ test.</p>
 <p>They can also contain a <code>TransactionReceipt</code> object in field <code>expected_receipt</code>
 which allows checking for an exact <code>gas_used</code> value.</p>
 <h2 id="writing-code-for-the-accounts-in-the-test">Writing code for the accounts in the test</h2>
-<p>Account bytecode can be &ldquo;deployed&rdquo; in a test&rsquo;s pre-state using the <code>pre</code> pytest fixture. The @ethereum/execution-spec-tests Python [<code>Opcodes</code>][ethereum_test_vm.Opcodes] minilang can be used to help write the bytecode in a readable form.</p>
+<p>Account bytecode can be &ldquo;deployed&rdquo; in a test&rsquo;s pre-state using the <code>pre</code> pytest fixture. The execution-spec-tests Python <a href="https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/ethereum_test_vm/opcode.py" target="_blank" rel="noopener"><code>Opcodes</code></a> minilang can be used to help write the bytecode in a readable form.</p>
 <h3 id="using-the-python-opcode-minilang">Using the Python Opcode Minilang</h3>
-<p>EVM bytecode for tests should be written using the Python-based minilang provided by the [<code>Opcodes</code>][ethereum_test_vm.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.</p>
+<p>EVM bytecode for tests should be written using the Python-based minilang provided by the <code>Opcodes</code> class. This allows you to construct bytecode using symbolic opcodes as Python objects.</p>
 <h4 id="example-simple-addition-contract">Example: Simple Addition Contract</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_vm.opcode <span style="color:#f92672">import</span> Opcodes
 </span></span><span style="display:flex;"><span>
@@ -1560,10 +1750,10 @@ which allows checking for an exact <code>gas_used</code> value.</p>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># within a test function, using the &#34;pre&#34; fixture</span>
 </span></span><span style="display:flex;"><span>contract_address <span style="color:#f92672">=</span> pre<span style="color:#f92672">.</span>deploy_contract(code<span style="color:#f92672">=</span>code)
-</span></span></code></pre></div><p>You add this contract to the test&rsquo;s pre-state using the <code>pre</code> fixture or assign this <code>code</code> to the <code>code</code> field of an account in your test&rsquo;s <code>post</code> state. See the <a href="./tutorials/state_transition.md">state test tutorial</a> for more help.</p>
-<p>For a full list of available opcodes and their usage, see [<code>Opcodes</code>][ethereum_test_vm.Opcodes].</p>
+</span></span></code></pre></div><p>You add this contract to the test&rsquo;s pre-state using the <code>pre</code> fixture or assign this <code>code</code> to the <code>code</code> field of an account in your test&rsquo;s <code>post</code> state. See the <a href="http://localhost:1313/main/writing_tests/tutorials/state_transition/">state test tutorial</a> for more help.</p>
+<p>For a full list of available opcodes and their usage, see <a href="https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/ethereum_test_vm/opcode.py" target="_blank" rel="noopener"><code>Opcodes</code></a>.</p>
 <h4 id="higher-level-constructs">Higher-Level Constructs</h4>
-<p>For more complex control flow, you can use constructs like [<code>Switch</code>][ethereum_test_tools.code.generators.Switch] and [<code>Case</code>][ethereum_test_tools.code.generators.Case] from the <code>ethereum_test_tools.code.generators</code> module:</p>
+<p>For more complex control flow, you can use constructs like <code>Switch</code> and <code>Case</code> from the <code>ethereum_test_tools.code.generators</code> module:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_tools.code.generators <span style="color:#f92672">import</span> Switch, Case
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_vm.opcode <span style="color:#f92672">import</span> Opcodes <span style="color:#66d9ef">as</span> Op
 </span></span><span style="display:flex;"><span>
@@ -1574,9 +1764,9 @@ which allows checking for an exact <code>gas_used</code> value.</p>
 </span></span><span style="display:flex;"><span>    ],
 </span></span><span style="display:flex;"><span>    default_action<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x00</span>) <span style="color:#f92672">+</span> Op<span style="color:#f92672">.</span>STOP(),
 </span></span><span style="display:flex;"><span>)
-</span></span></code></pre></div><p>The <code>ethereum_test_tools.code.generators</code> module also defines other high-level constructs like [<code>While</code>][ethereum_test_tools.code.generators.While] and [<code>Conditional</code>][ethereum_test_tools.code.generators.Conditional].</p>
+</span></span></code></pre></div><p>The <code>ethereum_test_tools.code.generators</code> module also defines other high-level constructs like <code>While</code> and <code>Conditional</code>.</p>
 <h4 id="converting-bytecode-to-minilang">Converting Bytecode to Minilang</h4>
-<p>If you have EVM bytecode (as hex or binary), you can use the <a href="../library/cli/evm_bytes.md"><code>evm_bytes</code> CLI tool</a> to convert it to the EEST Python opcode minilang automatically, for example:</p>
+<p>If you have EVM bytecode (as hex or binary), you can use the <a href="https://github.com/ethereum/execution-spec-tests/blob/28d2299f4260d38d98215ab3f28aee8aa6340bae/src/cli/evm_bytes.py" target="_blank" rel="noopener"><code>evm_bytes</code> CLI tool</a> to convert it to the EEST Python opcode minilang automatically, for example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run evm_bytes hex-string 0x604260005260206000F3
 </span></span><span style="display:flex;"><span># -&gt;
 </span></span><span style="display:flex;"><span># Op.PUSH1<span style="color:#f92672">[</span>0x42<span style="color:#f92672">]</span> + Op.PUSH1<span style="color:#f92672">[</span>0x0<span style="color:#f92672">]</span> + Op.MSTORE + Op.PUSH1<span style="color:#f92672">[</span>0x20<span style="color:#f92672">]</span> + Op.PUSH1<span style="color:#f92672">[</span>0x0<span style="color:#f92672">]</span> + Op.RETURN
@@ -1676,10 +1866,8 @@ set to <code>0</code>, and once with <code>tx_value</code> set to <code>100</cod
 current fork under test, and does not need to be parametrized.</p>
 <p>Tests can also be automatically parametrized with appropriate fork covariant
 values using the <code>with_all_*</code> markers listed in the
-<a href="./test_markers.md#fork-covariant-markers">Test Markers</a> page.</p>
-<h3 id="the-extend_with_defaults-utility">The <code>extend_with_defaults</code> Utility</h3>
-<p>::: ethereum_test_tools.utility.pytest.extend_with_defaults</p>
-</div>
+<a href="http://localhost:1313/main/writing_tests/test_markers/#fork-covariant-markers">Test Markers</a> page.</p>
+<!-- TODO: add auto-gen part below back --></div>
 
         </main>
     </div>
