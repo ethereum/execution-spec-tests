@@ -10,7 +10,7 @@ import configparser
 import datetime
 import os
 import warnings
-from enum import Enum
+from enum import Enum, StrEnum, unique
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
 
@@ -49,6 +49,14 @@ from ..shared.helpers import (
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
+
+
+@unique
+class FillMode(StrEnum):
+    """Fill mode for the filler."""
+
+    CONSENSUS = "consensus"
+    BENCHMARKING = "benchmarking"
 
 
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
@@ -335,6 +343,9 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
+    if not hasattr(config, "fill_mode"):
+        config.fill_mode = FillMode.CONSENSUS
+
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
