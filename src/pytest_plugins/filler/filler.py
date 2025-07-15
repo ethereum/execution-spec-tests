@@ -36,6 +36,7 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
+from ethereum_test_tools import Environment
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -566,6 +567,11 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
+
+
+@pytest.fixture
+def env(request: pytest.FixtureRequest) -> Environment:  # noqa: D103
+    return Environment()
 
 
 @pytest.fixture(autouse=True, scope="session")
