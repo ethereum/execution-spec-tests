@@ -278,17 +278,6 @@ def pytest_addoption(parser: pytest.Parser):
             "phase 2 generates all supported fixture formats."
         ),
     )
-    test_group.addoption(
-        "--gas-benchmark-values",
-        action="store",
-        dest="gas_benchmark_value",
-        type=str,
-        default=None,
-        help=(
-            "Fill benchmark tests using a comma-separated list of gas values in millions "
-            "(e.g., '30,50,100'), enabling reuse of a single genesis fixture across all tests."
-        ),
-    )
 
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
@@ -349,12 +338,6 @@ def pytest_configure(config):
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
-
-    if config.getoption("gas_benchmark_value"):
-        benchmark_values = [
-            int(x) for x in config.getoption("gas_benchmark_value").replace(" ", "").split(",")
-        ]
-        EnvironmentDefaults.gas_limit = max(benchmark_values) * 1_000_000
 
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
@@ -572,14 +555,6 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
-
-
-@pytest.fixture(scope="function")
-def gas_benchmark_value(request: pytest.FixtureRequest) -> int:
-    """Return a single gas benchmark value for the current test."""
-    if hasattr(request, "param"):
-        return request.param
-    return EnvironmentDefaults.gas_limit
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -1113,22 +1088,6 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                 scope="function",
                 indirect=True,
             )
-
-            # Handle gas benchmark values parametrization
-            if "gas_benchmark_value" in metafunc.fixturenames:
-                gas_benchmark_values = metafunc.config.getoption("gas_benchmark_value")
-                if gas_benchmark_values:
-                    gas_values = [int(x) for x in gas_benchmark_values.replace(" ", "").split(",")]
-                    gas_parameters = [
-                        pytest.param(gas_value * 1_000_000, id=f"benchmark-gas-value_{gas_value}M")
-                        for gas_value in gas_values
-                    ]
-                    metafunc.parametrize(
-                        ["gas_benchmark_value"],
-                        gas_parameters,
-                        scope="function",
-                        indirect=True,
-                    )
 
 
 def pytest_collection_modifyitems(
