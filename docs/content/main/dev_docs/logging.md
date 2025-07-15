@@ -1,4 +1,7 @@
-# Logging
++++
+title = 'Logging'
+weight = 30
++++
 
 This document describes the logging system used in the Ethereum Execution Spec Tests project. Currently, logging is only supported for `consume` commands.
 

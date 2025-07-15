@@ -1,4 +1,7 @@
-# Exception Tests
++++
+title = 'Exception Tests'
+weight = 35
++++
 
 Exception tests are a special type of test which verify that an invalid transaction or an invalid block are correctly rejected with the expected error.
 

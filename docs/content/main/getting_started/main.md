@@ -1,11 +1,11 @@
 +++
-title = 'Getting Started'
+title = 'Installation'
 date = 2025-07-09T12:42:33Z
 draft = false
 [menu]
   [menu.main]
     name = 'Getting Started'
-    weight = 10
+    weight = 5
     pageRef = "/main/getting_started/main"
     
 +++
@@ -14,9 +14,9 @@ draft = false
 
 ## Prerequisites
 
-The tools provided by [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) use `uv` ([docs.astral.sh/uv](https://docs.astral.sh/uv/)) to manage their dependencies and virtual environment.
+The tools provided by [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) use [`uv`](https://docs.astral.sh/uv/) to manage their dependencies and virtual environment.<br><br>
 
-It's typically recommended to use the latest version of `uv`, currently `uv>=0.5.22` is required.
+It's typically recommended to use the latest version of `uv`, currently `uv>=0.5.22` is required.<br><br>
 
 The latest version of `uv` can be installed via `curl` (recommended; can self-update via `uv self update`) or pip (requires Python, can't self-update):
 
@@ -57,8 +57,8 @@ Clone [execution-spec-tests](https://github.com/ethereum/execution-spec-tests) a
 {{< /tabs >}}
 
 
-Static tests/maintainers only: To learn how to build the `solc` binary from source (optional) follow [this guide](./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source).
+Static tests/maintainers only: To learn how to build the `solc` binary from source (optional) follow [this guide]({{< ref "./installation_troubleshooting.md#problem-exception-failed-to-compile-yul-source" >}}).
 
 ## Installation Troubleshooting
 
-If you encounter issues during installation, see the [Installation Troubleshooting](./installation_troubleshooting.md) guide.
+If you encounter issues during installation, see the [Installation Troubleshooting]({{< ref "./installation_troubleshooting.md" >}}) guide.

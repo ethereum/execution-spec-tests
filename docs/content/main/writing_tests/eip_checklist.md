@@ -1,4 +1,7 @@
-# EIP Checklist Generation
++++
+title = 'EIP Checklist Generation'
+weight = 50
++++
 
 The EIP checklist feature helps track test coverage for EIP implementations by automatically generating filled checklists based on test markers.
 

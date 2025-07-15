@@ -1,8 +1,11 @@
-# EEST Dependency Management and Packaging
++++
+title = 'Dependency Management and Packaging'
+weight = 45
++++
 
 EEST uses [`uv`](https://docs.astral.sh/uv/) to manage and pin its dependencies.
 
-Please use `uv>=0.7.0` to ensure `uv` writes `uv.lock` files with consistent fields and formatting (see [ethereum/execution-spec-tests#1597]https://github.com/ethereum/execution-spec-tests/pull/1597).
+Please use `uv>=0.7.0` to ensure `uv` writes `uv.lock` files with consistent fields and formatting (see [ethereum/execution-spec-tests#1597](https://github.com/ethereum/execution-spec-tests/pull/1597)).
 
 ## Managing Dependencies
 

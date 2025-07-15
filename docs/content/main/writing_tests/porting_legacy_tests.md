@@ -1,4 +1,7 @@
-# A Guide to Porting Original Ethereum Tests to EEST
++++
+title = 'Porting Legacy Tests'
+weight = 65
++++
 
 ## Background
 

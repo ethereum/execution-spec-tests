@@ -1,4 +1,7 @@
-# Writing a New Test
++++
+title = 'Writing a New Test'
+weight = 15
++++
 
 ## Test Functions
 

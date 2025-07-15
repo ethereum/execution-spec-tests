@@ -2,10 +2,10 @@
 title = 'Writing Tests'
 date = 2025-07-09T12:42:33Z
 draft = false
-[menus]
-  [menus.main]
-    parent = 'Main'
-    weight = 10
+[menu]
+  [menu.main]
+    name = 'Writing Tests'
+    weight = 12
 
 +++
 
@@ -21,7 +21,7 @@ For help deciding which test format to select, see [Types of Tests](types_of_tes
 
 ## Key Resources
 
-- [Coding Standards]({{< ref "code_standards.md#test-abc" >}}) - Code style and standards for this repository
+- [Coding Standards]({{< ref "code_standards.md#code-standards" >}}) - Code style and standards for this repository
 - [Adding a New Test](adding_a_new_test.md) - Step-by-step guide to adding new tests
 - [Writing a New Test](writing_a_new_test.md) - Detailed guide on writing different test types
 - [Using and Extending Fork Methods](fork_methods.md) - How to use fork methods to write fork-adaptive tests

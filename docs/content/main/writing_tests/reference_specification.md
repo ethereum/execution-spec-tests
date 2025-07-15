@@ -1,4 +1,7 @@
-# Referencing an EIP Spec Version
++++
+title = 'Referencing an EIP Spec Version'
+weight = 45
++++
 
 Tests that implement features from an Ethereum Improvement Proposal ([ethereum/EIPs](https://github.com/ethereum/EIPs/tree/master/EIPS)) must define the EIP's markdown SHA digest within the test's Python module. This ensures our tests stay up-to-date with any changes to the EIP specifications.
 

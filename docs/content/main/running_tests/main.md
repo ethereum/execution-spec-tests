@@ -5,7 +5,7 @@ draft = false
 [menu]
   [menu.main]
     name = 'Running Tests'
-    weight = 10
+    weight = 20
 
 +++
 

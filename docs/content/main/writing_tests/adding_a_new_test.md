@@ -1,4 +1,7 @@
-# Adding a New Test
++++
+title = 'Adding a New Test'
+weight = 5
++++
 
 All test cases are located underneath the `tests` directory, which are then organized by fork. Each fork contains sub-directories containing test sub-categories.
 

@@ -1,12 +1,8 @@
 +++
-title = 'Coding Standards'
-date = 2025-07-09T12:42:33Z
-draft = false
+title = 'Code Standards'
+weight = 30
 +++
 
-# [Code Standards]({{< ref "#test-abc" >}})
+# [Code Standards]({{< ref "#code-standards" >}})
 
 This documentation has been relocated.
-
-## yyyyyyyyyy
-yeet

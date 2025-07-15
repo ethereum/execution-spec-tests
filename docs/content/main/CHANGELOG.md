@@ -1,4 +1,13 @@
-# Changelog
++++
+title = 'Changelog'
+date = 2025-07-09T12:42:33Z
+draft = false
+[menu]
+  [menu.main]
+    name = 'Changelog'
+    weight = 30
+    
++++
 
 Test fixtures for use by clients are available for each release on the [Github releases page](https://github.com/ethereum/execution-spec-tests/releases).
 
@@ -103,6 +112,10 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
 
+<br>
+
+---
+
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
 ### 💥 Breaking Change
@@ -132,6 +145,10 @@ A new fork `EOFv1` has additionally been created to fill and consume EOF related
 
 - 🔀 Automatically apply the `benchmark` marker to all tests under `./tests/benchmark/` and `./tests/prague/eip2537_bls_12_381_precompiles/` via conftest configuration ([#1534](https://github.com/ethereum/execution-spec-tests/pull/1534)).
 - ✨ Port [calldataload](https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml) and [calldatasize](https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml) tests ([#1236](https://github.com/ethereum/execution-spec-tests/pull/1236)).
+
+<br>
+
+---
 
 ## [v4.4.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0) - 2025-04-29
 
@@ -172,6 +189,10 @@ Includes tests that are tailored specifically to test the execution layer proof 
 - ✨ [EIP-2573](https://eips.ethereum.org/EIPS/eip-2537): Includes a BLS12 point generator, alongside additional coverage many of the precompiles ([#1350](https://github.com/ethereum/execution-spec-tests/pull/1350)), ([#1505](https://github.com/ethereum/execution-spec-tests/pull/1505)).
 - ✨ Add all [`GeneralStateTests` from `ethereum/tests`](https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller) to `execution-spec-tests` located now at [tests/static/state_tests](https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests) ([#1442](https://github.com/ethereum/execution-spec-tests/pull/1442)).
 - ✨ [EIP-2929](https://eips.ethereum.org/EIPS/eip-2929): Test that precompile addresses are cold/warm depending on the fork they are activated ([#1495](https://github.com/ethereum/execution-spec-tests/pull/1495)).
+
+<br>
+
+---
 
 ## [v4.3.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0) - 2025-04-18
 
@@ -229,6 +250,10 @@ This feature can be disabled by using `--disable-strict-exception-matching` for 
 
 - 🐞 Configure `markdownlint` to expect an indent of 4 with unordered lists (otherwise HTML documentation is rendered incorrectly, [#1460](https://github.com/ethereum/execution-spec-tests/pull/1460)).
 - 🔀 Update `eels_resolutions.json` to point to temporary commit `bb0eb750d643ced0ebf5dec732cdd23558d0b7f2`, which is based on `forks/prague` branch, commit `d9a7ee24db359aacecd636349b4f3ac95a4a6e71`, with PRs <https://github.com/ethereum/execution-specs/pull/1182>, <https://github.com/ethereum/execution-specs/pull/1183> and <https://github.com/ethereum/execution-specs/pull/1191> merged ([#1394](https://github.com/ethereum/execution-spec-tests/pull/1394)).
+
+<br>
+
+---
 
 ## [v4.2.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0) - 2025-04-08
 
@@ -296,6 +321,10 @@ consume cache --help
 - ✨ Add more tests for EIP-7702: max-fee-per-gas verification, delegation-designation as initcode tests ([#1372](https://github.com/ethereum/execution-spec-tests/pull/1372)).
 - ✨ Add converted Identity precompile tests ([#1344](https://github.com/ethereum/execution-spec-tests/pull/1344)).
 
+<br>
+
+---
+
 ## [v4.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0) - 2025-03-11
 
 ### 💥 Breaking Changes
@@ -335,6 +364,10 @@ The following changes may be potentially breaking (all clients were tested with 
 - ✨ Add EIP-2537 additional pairing precompile tests cases, and then update all BLS12 test vectors ([#1275](https://github.com/ethereum/execution-spec-tests/pull/1275), [#1289](https://github.com/ethereum/execution-spec-tests/pull/1289)).
 - ✨ Add EIP-7685 and EIP-7002 test cases for additional request type combinations and modified withdrawal contract that allows more withdrawals ([#1340](https://github.com/ethereum/execution-spec-tests/pull/1340)).
 - ✨ Add test cases for EIP-152 Blake2 and Identity precompiles ([#1244](https://github.com/ethereum/execution-spec-tests/pull/1244)).
+
+<br>
+
+---
 
 ## [v4.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.0.0) - 2025-02-14 - 💕
 
@@ -548,6 +581,10 @@ The following changes may be potentially breaking (all clients were tested with 
 - ✨ Add tests for multiple EOF type sections ([#1195](https://github.com/ethereum/execution-spec-tests/pull/1195)).
 - ✨ Add EIP-7698 legacy EOF creation prevention tests ([#1206](https://github.com/ethereum/execution-spec-tests/pull/1206)).
 
+<br>
+
+---
+
 ## [v3.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0) - 2024-07-22
 
 ### 🧪 Test Cases
@@ -622,6 +659,10 @@ The following changes may be potentially breaking (all clients were tested with 
 - The "Blockchain Test Hive" fixture format has been renamed to "Blockchain Test Engine" and updated to more closely resemble the `engine_newPayload` format in the `execution-apis` specification (<https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request>) and now contains a single `"params"` field instead of multiple fields for each parameter ([#687](https://github.com/ethereum/execution-spec-tests/pull/687)).
 - Output folder for fixtures has been renamed from "blockchain_tests_hive" to "blockchain_tests_engine" ([#687](https://github.com/ethereum/execution-spec-tests/pull/687)).
 
+<br>
+
+---
+
 ## [v2.1.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1) - 2024-03-09
 
 ### 🧪 Test Cases
@@ -653,6 +694,10 @@ The following changes may be potentially breaking (all clients were tested with 
 - 🐞 Fix deprecation warnings due to outdated config in recommended VS Code project settings ([#420](https://github.com/ethereum/execution-spec-tests/pull/420)).
 - 🐞 Fix typo in the selfdestruct revert tests module ([#421](https://github.com/ethereum/execution-spec-tests/pull/421)).
 
+<br>
+
+---
+
 ## [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) - 2024-01-29: 🐍🏖️ Cancun
 
 Release [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0) primarily fixes a small bug introduced within the previous release where transition forks are used within the new `StateTest` format. This was highlighted by @chfast within #405 (<https://github.com/ethereum/execution-spec-tests/issues/405>), where the fork name `ShanghaiToCancunAtTime15k` was found within state tests.
@@ -668,6 +713,10 @@ Release [v2.1.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v
 ### 📋 Misc
 
 - ✨ Use `run-parallel` and shared wheel packages for `tox` ([#408](https://github.com/ethereum/execution-spec-tests/pull/408)).
+
+<br>
+
+---
 
 ## [v2.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0) - 2024-01-25: 🐍🏖️ Cancun
 
@@ -780,6 +829,10 @@ The fixture renaming provides a more consistent naming scheme between the pytest
      - `fixtures/blockchain_tests/frontier/opcodes/dup/dup.json` (`BlockChainTest` format).
      - `fixtures/blockchain_tests_hive/frontier/opcodes/dup/dup.json` (a blockchain test in `HiveFixture` format).
 
+<br>
+
+---
+
 ## [v1.0.6](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6) - 2023-10-19: 🐍🏖️ Cancun Devnet 10
 
 ### 🧪 Test Cases
@@ -808,6 +861,10 @@ The fixture renaming provides a more consistent naming scheme between the pytest
 
 - Fixtures now use the Mainnet Trusted Setup merged on [consensus-specs#3521](https://github.com/ethereum/consensus-specs/pull/3521) ([#336](https://github.com/ethereum/execution-spec-tests/pull/336)).
 
+<br>
+
+---
+
 ## [v1.0.5](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.5) - 2023-09-26: 🐍🏖️ Cancun Devnet 9 Release 3
 
 This release mainly serves to update the EIP-4788 beacon roots address to `0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02`, as updated in [ethereum/EIPs/pull/7672](https://github.com/ethereum/EIPs/pull/7672).
@@ -832,6 +889,10 @@ Please use development fixtures from now on when testing Cancun. These refer to 
 - fixtures_hive: All tests until the last stable fork (Shanghai) in hive format (Engine API directives instead of the usual BlockchainTest format).
 - fixtures_develop_hive: All tests until the last development fork (Cancun) in hive format.
 
+<br>
+
+---
+
 ## [v1.0.4](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.4) - 2023-09-21: 🐍 Cancun Devnet 9 Release 2
 
 This release adds additional coverage to the current set of Cancun tests, up to the [Devnet-9 Cancun specification](https://notes.ethereum.org/@ethpandaops/dencun-devnet-9).
@@ -852,6 +913,10 @@ This release adds additional coverage to the current set of Cancun tests, up to 
 - 💥 `fill`: `--disable-hive` flag removed; replaced by `--enable-hive` (@spencer-tb in [#301](https://github.com/ethereum/execution-spec-tests/pull/301)).
 - ✨ Add engine API forkchoice updated information in fixtures (@spencer-tb in [#256](https://github.com/ethereum/execution-spec-tests/pull/256)).
 
+<br>
+
+---
+
 ## [v1.0.3](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.3) - 2023-09-14: 🐍 Cancun Devnet 9 Release
 
 See [v1.0.3](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.3).
@@ -867,5 +932,11 @@ See [v1.0.1](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.
 ## [v1.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.0) - 2023-06-27: 🧪 Welcome to the Pytest Era
 
 See [v1.0.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.0).
+
+<br>
+
+---
+
+<br>
 
 Older releases can be found on [the releases page](https://github.com/ethereum/execution-spec-tests/releases).

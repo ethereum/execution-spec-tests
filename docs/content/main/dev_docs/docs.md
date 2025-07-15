@@ -1,4 +1,7 @@
-# Documentation
++++
+title = 'Documentation'
+weight = 15
++++
 
 The `execution-spec-tests` documentation is generated via [`hugo`](https://github.com/gohugoio/hugo) and hosted remotely on Github Pages at [eest.ethereum.org](https://eest.ethereum.org/).
 

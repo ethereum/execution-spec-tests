@@ -1,4 +1,7 @@
-# Using and Extending Fork Methods
++++
+title = 'Using and Extending Fork Methods'
+weight = 40
++++
 
 This document describes the Fork class in the Ethereum execution spec tests framework, which provides a standardized way to define properties of Ethereum forks. Understanding how to use and extend these fork methods is essential for writing flexible tests that can automatically adapt to different forks.
 

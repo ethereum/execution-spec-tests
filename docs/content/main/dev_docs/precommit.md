@@ -1,4 +1,7 @@
-# Enabling Pre-Commit Checks
++++
+title = 'Enabling Pre-Commit Checks'
+weight = 35
++++
 
 There's a [pre-commit](https://pre-commit.com/) config file available in the repository root (`.pre-commit-config.yaml`) that can be used to enable automatic checks upon commit - the commit will not go through if the checks don't pass.
 

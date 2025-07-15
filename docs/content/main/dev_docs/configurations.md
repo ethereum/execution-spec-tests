@@ -1,4 +1,7 @@
-# Managing Configurations
++++
+title = 'Managing Configurations'
+weight = 5
++++ 
 
 Configurations are managed by the `config` package. It provides both environment and application configurations.
 

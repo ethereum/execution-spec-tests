@@ -1,4 +1,7 @@
-# Running Github Actions Locally
++++
+title = 'Running Github Actions Locally'
+weight = 40
++++
 
 The Github Actions workflows can be tested locally using [nektos/act](https://github.com/nektos/act) without pushing changes to the remote. The local repository state will be used in the executed workflow.
 

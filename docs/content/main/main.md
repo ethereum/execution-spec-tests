@@ -5,7 +5,7 @@ draft = false
 [menu]
   [menu.main]
     name = 'Execution Spec Tests'
-    weight = 10
+    weight = 1
     
 +++
 
@@ -34,8 +34,8 @@ The motivation to implement test cases in [ethereum/execution-spec-tests](https:
 
 1. To implement test cases as code and ensure that changes, due to spec changes, for example, can be easily made. Moreover, changes are easily understandable and available in version control.
 2. To avoid the 2-step approach often used in [ethereum/tests](https://github.com/ethereum/tests):
-    1. Code (often unavailable) -> Test case (YAML).
-    2. Test case (YAML) -> Fixtures (JSON).
+    * Code (often unavailable) -> Test case (YAML).
+    * Test case (YAML) -> Fixtures (JSON).
 
 {{< callout success "Contributing" >}}
 Contributions via [PR](https://github.com/ethereum/execution-spec-tests/pulls) are welcome!

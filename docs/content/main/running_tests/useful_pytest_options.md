@@ -1,5 +1,6 @@
 +++
 title = 'Useful Pytest Options'
+weight = 15
 +++
 
 The EEST commands to run tests are customizations to the pytest framework, which provides many helpful options for test selection, parallel execution, report output and debugging. This section provides the most relevant options, a full overview is available in the [pytest docs](https://docs.pytest.org/en/8.3.x/).

@@ -2,9 +2,10 @@
 title = 'Developer Documentation'
 date = 2025-07-09T12:42:33Z
 draft = false
-
-    name = 'Developer Documentation'
-    weight = 10
+[menu]
+  [menu.main]
+    name = 'Developer Doc'
+    weight = 25
 
 +++
 

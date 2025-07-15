@@ -1,4 +1,7 @@
-# Working with EEST Libraries Interactively
++++
+title = 'Interactive Library Usage'
+weight = 10
++++
 
 You can work with EEST Python packages interactively with `ipython` using:
 

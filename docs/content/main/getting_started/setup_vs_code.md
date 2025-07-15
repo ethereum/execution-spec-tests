@@ -1,5 +1,6 @@
 +++
 title = 'VS Code Setup'
+weight = 35
 +++
 
 VS Code setup is optional, but does offer the following advantages:

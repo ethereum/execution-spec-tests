@@ -1,4 +1,7 @@
-# Types of tests
++++
+title = 'Types of Test'
+weight = 10
++++
 
 There are currently three types of tests that can be produced by a test spec:
 

@@ -1,5 +1,6 @@
 +++
 title = 'EEST Fixture Releases'
+weight = 10
 +++
 
 ## Formats and Release Layout
