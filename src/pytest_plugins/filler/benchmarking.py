@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_tools import Environment
 from ethereum_test_types import EnvironmentDefaults
 
 from .filler import FillMode
@@ -47,3 +48,15 @@ def gas_benchmark_value(request: pytest.FixtureRequest) -> int:
         return request.param
 
     return EnvironmentDefaults.gas_limit
+
+
+GIGA_GAS = 1_000_000_000
+
+
+@pytest.fixture
+def env(request: pytest.FixtureRequest) -> Environment:  # noqa: D103
+    """Return an Environment instance with appropriate gas limit based on fill mode."""
+    if request.config.fill_mode == FillMode.BENCHMARKING:  # type: ignore[attr-defined]
+        return Environment(gas_limit=GIGA_GAS)
+    else:
+        return Environment()
