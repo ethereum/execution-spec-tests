@@ -55,3 +55,33 @@
     color: #1b5e20;
     background-color: #c8e6c9;
   }
+
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  .callout-info {
+      background-color: rgba(33, 150, 243, 0.1);
+      color: #90caf9;
+  }
+  
+  .callout-warning {
+      background-color: rgba(255, 152, 0, 0.1);
+      color: #ffb74d;
+  }
+  
+  .callout-danger,
+  .callout-error {
+      background-color: rgba(244, 67, 54, 0.1);
+      color: #ef5350;
+  }
+  
+  .callout-success {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: #81c784;
+  }
+  
+  .callout-note {
+      background-color: rgba(158, 158, 158, 0.1);
+      color: #e0e0e0;
+  }
+}

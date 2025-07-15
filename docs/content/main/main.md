@@ -20,9 +20,9 @@ The framework collects and executes the test cases in order to generate _test fi
 The generated test fixtures can be used:
 
 1. Directly by client teams' test frameworks, and,
-2. In the integration tests executed in the @ethereum/hive framework.
+2. In the integration tests executed in the [ethereum/hive](https://github.com/ethereum/hive) framework.
 
-More information on how to use and download the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found [here](running_tests/main.md).
+More information on how to use and download the [released test fixtures](https://github.com/ethereum/execution-spec-tests/releases) can be found [here]({{< ref "/main/running_tests/releases.md" >}}).
 
 ## Relationship to ethereum/tests
 
@@ -42,7 +42,7 @@ Contributions via [PR](https://github.com/ethereum/execution-spec-tests/pulls) a
 {{< /callout >}}
 
 {{< callout danger "Reporting a Vulnerability" >}}
-Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet. Please report vulnerabilities and verify bounty eligibility via the [bug bounty program](https://bounty.ethereum.org).
+Care is required when adding PRs or issues for functionality that is live on Ethereum mainnet. Please report vulnerabilities and verify bounty eligibility via the [bug bounty program](https://ethereum.org/en/bug-bounty/).
 - **Please do not create a PR with a vulnerability visible.**
 - **Please do not file a public ticket mentioning the vulnerability.**
 {{< /callout >}}

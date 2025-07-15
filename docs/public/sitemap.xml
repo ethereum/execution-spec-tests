@@ -89,10 +89,6 @@
   </url><url>
     <loc>http://localhost:1313/main/running_tests/hive/hiveview/</loc>
   </url><url>
-    <loc>http://localhost:1313/main/running_tests/releases/</loc>
-  </url><url>
-    <loc>http://localhost:1313/main/running_tests/running/</loc>
-  </url><url>
     <loc>http://localhost:1313/main/running_tests/test_formats/blockchain_test/</loc>
   </url><url>
     <loc>http://localhost:1313/main/running_tests/test_formats/blockchain_test_engine/</loc>
@@ -106,8 +102,6 @@
     <loc>http://localhost:1313/main/running_tests/test_formats/state_test/</loc>
   </url><url>
     <loc>http://localhost:1313/main/running_tests/test_formats/transaction_test/</loc>
-  </url><url>
-    <loc>http://localhost:1313/main/running_tests/useful_pytest_options/</loc>
   </url><url>
     <loc>http://localhost:1313/main/writing_tests/adding_a_new_test/</loc>
   </url><url>
@@ -147,6 +141,8 @@
   </url><url>
     <loc>http://localhost:1313/main/getting_started/code_standards_details/</loc>
   </url><url>
+    <loc>http://localhost:1313/main/running_tests/releases/</loc>
+  </url><url>
     <loc>http://localhost:1313/main/filling_tests/filling_tests_command_line/</loc>
   </url><url>
     <loc>http://localhost:1313/main/filling_tests/filling_tests_dev_fork/</loc>
@@ -159,11 +155,15 @@
   </url><url>
     <loc>http://localhost:1313/main/getting_started/installation_troubleshooting/</loc>
   </url><url>
+    <loc>http://localhost:1313/main/running_tests/running/</loc>
+  </url><url>
     <loc>http://localhost:1313/main/getting_started/repository_overview/</loc>
   </url><url>
     <loc>http://localhost:1313/tags/</loc>
   </url><url>
     <loc>http://localhost:1313/main/filling_tests/transition_tool_support/</loc>
+  </url><url>
+    <loc>http://localhost:1313/main/running_tests/useful_pytest_options/</loc>
   </url><url>
     <loc>http://localhost:1313/main/getting_started/setup_vs_code/</loc>
   </url>
