@@ -1,0 +1,1492 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Running Tests</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Running Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/releases/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 releases
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 running
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/useful_pytest_options/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 useful_pytest_options
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Subsections</h4>
+    <ul style="list-style:none;padding:0;">
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/consume/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Consume
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/execute/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Execute
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/hive/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Hive
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/test_formats/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Test formats
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="useful-pytest-options">Useful Pytest Options</h1>
+<p>The EEST commands to run tests are customizations to the pytest framework, which provides many helpful options for test selection, parallel execution, report output and debugging. This section provides the most relevant options, a full overview is available in the <a href="https://docs.pytest.org/en/8.3.x/" target="_blank" rel="noopener">pytest docs</a>.</p>
+<h2 id="fixture-inputs-consume-commands">Fixture Inputs (Consume Commands)</h2>
+<p>See <a href="./consume/cache.md">Consume Cache and Fixture Inputs</a>.</p>
+<h2 id="dry-run">Dry-Run</h2>
+<p>List collected tests, <code>-q</code> restricts output to <a href="../filling_tests/test_ids.md">test IDs</a> only:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --collect-only -q
+</span></span></code></pre></div><p>In <code>./hive</code> <a href="./hive/main.md">standalone mode</a>, this can be achieved via EEST&rsquo;s <a href="./hive/common_options.md#collect-onlydry-run"><code>--sim.limit</code> &ldquo;collectonly&rdquo; prefix</a>.</p>
+<h2 id="output-control">Output Control</h2>
+<ul>
+<li><code>-v</code> - verbose output.</li>
+<li><code>-vv</code> - more verbose output.</li>
+<li><code>-s</code> - print stdout to the terminal during execution (don&rsquo;t capture it).</li>
+<li><code>--eest-log-level=&lt;LOG_LEVEL&gt;</code> - write logs during test (helpful in combination with <code>-s</code>).</li>
+</ul>
+<h2 id="report-generation">Report Generation</h2>
+<p>JSON, HTML and XML reports can be generated with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    --json-report <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --json-report-file<span style="color:#f92672">=</span>report.json <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --html<span style="color:#f92672">=</span>report.html <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --junitxml<span style="color:#f92672">=</span>report.xml
+</span></span></code></pre></div><h2 id="test-case-selection-using-test-ids">Test Case Selection Using Test IDs</h2>
+<p>In addition to Hive&rsquo;s regex-based <code>--sim.limit</code> option, running in dev mode supports pytest&rsquo;s <code>-k</code> syntax:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume rlp -k <span style="color:#e6db74">&#34;test_chainid and fork_London&#34;</span>
+</span></span><span style="display:flex;"><span>uv run consume engine -k <span style="color:#e6db74">&#34;eip1559 or eip4844&#34;</span> -m cancun
+</span></span></code></pre></div><p>Use <code>--collect-only -q</code> to see which tests would run without executing them:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --collect-only -q -k <span style="color:#e6db74">&#34;fork_Prague&#34;</span>
+</span></span></code></pre></div><h2 id="test-case-selection-using-marks">Test Case Selection using Marks</h2>
+<p>Select tests based on pytest <a href="../writing_tests/test_markers.md">marks</a>.</p>
+<p>Run only state tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume direct --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -m state_test
+</span></span></code></pre></div><p>Run blockchain tests for specific fork:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -m <span style="color:#e6db74">&#34;blockchain_test and cancun&#34;</span>
+</span></span></code></pre></div><p>Combine marks with keyword filtering:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -m <span style="color:#e6db74">&#34;blockchain_test&#34;</span> -k <span style="color:#e6db74">&#34;eip4844 or blob&#34;</span>
+</span></span></code></pre></div>
+
+<div class="callout callout-info">
+  <div class="callout-title">Mark Availability</div>
+  <div class="callout-content">
+    Not all test marks are available with consume commands. Fork and test type marks work reliably.
+  </div>
+</div>
+<h2 id="parallel-execution">Parallel Execution</h2>
+<p>Speed up test execution by running tests in parallel using pytest-xdist.</p>
+<p>Auto-detect CPU count:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -n auto
+</span></span></code></pre></div><p>Specify worker count:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume direct --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -n <span style="color:#ae81ff">4</span>
+</span></span></code></pre></div><h2 id="dropping-in-the-python-debugger">Dropping in the Python Debugger</h2>
+<p>Dropping into the Python debugger can be helpful to inspect EEST simulator state or ssh to a client container. Adding the <code>--pdb</code> option will drop into Python debugger upon test failure, <code>-x</code> tells pytest to exit after the first fail:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --pdb -x ...
+</span></span></code></pre></div><h3 id="pdb-cheatsheet">PDB Cheatsheet</h3>
+<ul>
+<li>u  →  up the stack</li>
+<li>d → down the stack</li>
+<li>l  → list lines around current position</li>
+<li>ll → list entire function body</li>
+<li>p  → print expression</li>
+<li>pp → pretty-print expression</li>
+</ul>
+<p>Sometimes <code>pp</code> is not enough and it&rsquo;s worth importing rich (<code>import rich</code>) in pdb and doing a <code>rich.print(obj)</code>.</p>
+<h2 id="early-exit-options">Early Exit Options</h2>
+<p>Stop after first failure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; -x
+</span></span></code></pre></div><p>Stop after N failures:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume rlp --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --maxfail<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><h2 id="performance-and-timing">Performance and Timing</h2>
+<p>Show slowest tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --durations<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><p>Show all test durations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume rlp --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --durations<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>Timeout control (per test):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume direct --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+</span></span></code></pre></div><p>Print relevant test stage timings such as client start-up, payload response time (<code>consume</code> only):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input<span style="color:#f92672">=</span>&lt;fixture_input&gt; --timing-data
+</span></span></code></pre></div></div>
+
+        </main>
+    </div>
+</body>
+</html>

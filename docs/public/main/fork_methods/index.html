@@ -1,0 +1,1625 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Writing Tests</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Writing Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/code_standards/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 Coding Standards
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/adding_a_new_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 adding_a_new_test
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/eip_checklist/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 eip_checklist
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/exception_tests/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 exception_tests
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/fork_methods/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 fork_methods
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/porting_legacy_tests/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 porting_legacy_tests
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/post_mortems/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 post_mortems
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/reference_specification/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 reference_specification
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/test_markers/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 test_markers
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/types_of_tests/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 types_of_tests
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/verifying_changes/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 verifying_changes
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/writing_a_new_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 writing_a_new_test
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Subsections</h4>
+    <ul style="list-style:none;padding:0;">
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/writing_tests/checklist_templates/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Checklist templates
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/writing_tests/tutorials/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Tutorials
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="using-and-extending-fork-methods">Using and Extending Fork Methods</h1>
+<p>This document describes the Fork class in the Ethereum execution spec tests framework, which provides a standardized way to define properties of Ethereum forks. Understanding how to use and extend these fork methods is essential for writing flexible tests that can automatically adapt to different forks.</p>
+<h2 id="overview">Overview</h2>
+<p>The <code>BaseFork</code> class is an abstract base class that defines the interface for all Ethereum forks. Each implemented fork (like Frontier, Homestead, etc.) extends this class and implements its abstract methods to provide fork-specific behavior.</p>
+<p>The fork system allows:</p>
+<ol>
+<li>Defining fork-specific behaviors and parameters</li>
+<li>Comparing forks chronologically (<code>Paris &lt; Shanghai</code>)</li>
+<li>Supporting automatic fork transitions</li>
+<li>Writing tests that automatically adapt to different forks</li>
+</ol>
+<h2 id="using-fork-methods-in-tests">Using Fork Methods in Tests</h2>
+<p>Fork methods are powerful tools that allow your tests to adapt to different Ethereum forks automatically. Here are common patterns for using them:</p>
+<h3 id="1-check-fork-support-for-features">1. Check Fork Support for Features</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_some_feature</span>(fork):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> fork<span style="color:#f92672">.</span>supports_blobs(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Test blob-related functionality</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Test alternative or skip</span>
+</span></span><span style="display:flex;"><span>        pytest<span style="color:#f92672">.</span>skip(<span style="color:#e6db74">&#34;Fork does not support blobs&#34;</span>)
+</span></span></code></pre></div><h3 id="2-get-fork-specific-parameters">2. Get Fork-Specific Parameters</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_transaction_gas</span>(fork, state_test):
+</span></span><span style="display:flex;"><span>    gas_cost <span style="color:#f92672">=</span> fork<span style="color:#f92672">.</span>gas_costs(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>G_TRANSACTION
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create a transaction with the correct gas parameters for this fork</span>
+</span></span><span style="display:flex;"><span>    tx <span style="color:#f92672">=</span> Transaction(
+</span></span><span style="display:flex;"><span>        gas_limit<span style="color:#f92672">=</span>gas_cost <span style="color:#f92672">+</span> <span style="color:#ae81ff">10000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># ...</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    state_test(
+</span></span><span style="display:flex;"><span>        env<span style="color:#f92672">=</span>Environment(),
+</span></span><span style="display:flex;"><span>        pre<span style="color:#f92672">=</span>pre,
+</span></span><span style="display:flex;"><span>        tx<span style="color:#f92672">=</span>tx,
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># ...</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span></code></pre></div><h3 id="3-determine-valid-transaction-types">3. Determine Valid Transaction Types</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_transaction_types</span>(fork, state_test):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> tx_type <span style="color:#f92672">in</span> fork<span style="color:#f92672">.</span>tx_types(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Test each transaction type supported by this fork</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># ...</span>
+</span></span></code></pre></div><h3 id="4-determine-valid-opcodes">4. Determine Valid Opcodes</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_opcodes</span>(fork, state_test):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create bytecode using only opcodes valid for this fork</span>
+</span></span><span style="display:flex;"><span>    valid_opcodes <span style="color:#f92672">=</span> fork<span style="color:#f92672">.</span>valid_opcodes()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use these opcodes to create test bytecode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ...</span>
+</span></span></code></pre></div><h3 id="5-test-fork-transitions">5. Test Fork Transitions</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_fork_transition</span>(transition_fork, blockchain_test):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># The transition_fork is a special fork type that changes behavior</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># based on block number or timestamp</span>
+</span></span><span style="display:flex;"><span>    fork_before <span style="color:#f92672">=</span> transition_fork<span style="color:#f92672">.</span>fork_at(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    fork_after <span style="color:#f92672">=</span> transition_fork<span style="color:#f92672">.</span>fork_at(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Test behavior before and after transition</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ...</span>
+</span></span></code></pre></div><h2 id="important-fork-methods">Important Fork Methods</h2>
+<h3 id="header-information">Header Information</h3>
+<p>These methods determine what fields are required in block headers for a given fork:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_base_fee_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in London</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_prev_randao_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Paris</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_withdrawals_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Shanghai</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_excess_blob_gas_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Cancun</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_blob_gas_used_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Cancun</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_beacon_root_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Cancun</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>header_requests_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Added in Prague</span>
+</span></span></code></pre></div><h3 id="gas-parameters">Gas Parameters</h3>
+<p>Methods for determining gas costs and calculations:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>gas_costs(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns a GasCosts dataclass</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>memory_expansion_gas_calculator(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns a callable</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>transaction_intrinsic_cost_calculator(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns a callable</span>
+</span></span></code></pre></div><h3 id="transaction-types">Transaction Types</h3>
+<p>Methods for determining valid transaction types:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>tx_types(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of supported transaction types</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>contract_creating_tx_types(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of tx types that can create contracts </span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>precompiles(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of precompile addresses</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>system_contracts(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of system contract addresses</span>
+</span></span></code></pre></div><h3 id="evm-features">EVM Features</h3>
+<p>Methods for determining EVM features and valid opcodes:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>evm_code_types(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of supported code types (e.g., Legacy, EOF)</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>valid_opcodes()  <span style="color:#75715e"># Returns list of valid opcodes for this fork</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>call_opcodes(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of call opcodes with their code types</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>create_opcodes(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns list of create opcodes with their code types</span>
+</span></span></code></pre></div><h3 id="blob-related-methods-cancun">Blob-related Methods (Cancun+)</h3>
+<p>Methods for blob transaction support:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>supports_blobs(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns whether blobs are supported</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>blob_gas_price_calculator(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns a callable</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>excess_blob_gas_calculator(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns a callable</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>min_base_fee_per_blob_gas(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns minimum base fee per blob gas</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>blob_gas_per_blob(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns blob gas per blob</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>target_blobs_per_block(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns target blobs per block</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>max_blobs_per_block(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns max blobs per block</span>
+</span></span></code></pre></div><h3 id="meta-information">Meta Information</h3>
+<p>Methods for fork identification and comparison:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>name()  <span style="color:#75715e"># Returns the name of the fork</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>transition_tool_name(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e"># Returns name for transition tools</span>
+</span></span><span style="display:flex;"><span>fork<span style="color:#f92672">.</span>is_deployed()  <span style="color:#75715e"># Returns whether the fork is deployed to mainnet</span>
+</span></span></code></pre></div><h2 id="fork-transitions">Fork Transitions</h2>
+<p>The framework supports creating transition forks that change behavior at specific block numbers or timestamps:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@transition_fork</span>(to_fork<span style="color:#f92672">=</span>Shanghai, at_timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">15_000</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ParisToShanghaiAtTime15k</span>(Paris):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Paris to Shanghai transition at Timestamp 15k.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>With transition forks, you can test how behavior changes across fork boundaries:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Behavior changes at block 5</span>
+</span></span><span style="display:flex;"><span>fork <span style="color:#f92672">=</span> BerlinToLondonAt5
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> <span style="color:#f92672">not</span> fork<span style="color:#f92672">.</span>header_base_fee_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)  <span style="color:#75715e"># Berlin doesn&#39;t require base fee</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">assert</span> fork<span style="color:#f92672">.</span>header_base_fee_required(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)      <span style="color:#75715e"># London requires base fee</span>
+</span></span></code></pre></div><h2 id="adding-new-fork-methods">Adding New Fork Methods</h2>
+<p>When adding new fork methods, follow these guidelines:</p>
+<ol>
+<li><strong>Abstract Method Definition</strong>: Add the new abstract method to <code>BaseFork</code> in <code>base_fork.py</code></li>
+<li><strong>Consistent Parameter Pattern</strong>: Use <code>block_number</code> and <code>timestamp</code> parameters with default values</li>
+<li><strong>Method Documentation</strong>: Add docstrings explaining the purpose and behavior</li>
+<li><strong>Implementation in Subsequent Forks</strong>: Implement the method in every subsequent fork class <strong>only</strong> if the fork updates the value from previous forks.</li>
+</ol>
+<p>Example of adding a new method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@classmethod</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@abstractmethod</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supports_new_feature</span>(cls, block_number: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, timestamp: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Return whether the given fork supports the new feature.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>Implementation in a fork class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@classmethod</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supports_new_feature</span>(cls, block_number: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, timestamp: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Return whether the given fork supports the new feature.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">False</span>  <span style="color:#75715e"># Frontier doesn&#39;t support this feature</span>
+</span></span></code></pre></div><p>Implementation in a newer fork class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@classmethod</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">supports_new_feature</span>(cls, block_number: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, timestamp: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">-&gt;</span> bool:
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;Return whether the given fork supports the new feature.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>  <span style="color:#75715e"># This fork does support the feature</span>
+</span></span></code></pre></div><h2 id="when-to-add-a-new-fork-method">When to Add a New Fork Method</h2>
+<p>Add a new fork method when:</p>
+<ol>
+<li><strong>A New EIP Introduces a Feature</strong>: Add methods describing the new feature&rsquo;s behavior</li>
+<li><strong>Tests Need to Behave Differently</strong>: When tests need to adapt to different fork behaviors</li>
+<li><strong>Common Fork Information is Needed</strong>: When multiple tests need the same fork-specific information</li>
+<li><strong>Intrinsic Fork Properties Change</strong>: When gas costs, opcodes, or other intrinsic properties change</li>
+</ol>
+<p>Do not add a new fork method when:</p>
+<ol>
+<li>The information is only needed for one specific test</li>
+<li>The information is not directly related to fork behavior</li>
+<li>The information can be calculated using existing methods</li>
+</ol>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Use Existing Methods</strong>: Check if there&rsquo;s already a method that provides the information you need</li>
+<li><strong>Name Methods Clearly</strong>: Method names should clearly describe what they return</li>
+<li><strong>Document Behavior</strong>: Include clear docstrings explaining the method&rsquo;s purpose and return value</li>
+<li><strong>Avoid Hard-coding</strong>: Use fork methods in tests instead of hard-coding fork-specific behavior</li>
+<li><strong>Test Transitions</strong>: Ensure your method works correctly with transition forks</li>
+</ol>
+<h2 id="example-complete-test-using-fork-methods">Example: Complete Test Using Fork Methods</h2>
+<p>Here&rsquo;s an example of a test that fully utilizes fork methods to adapt its behavior:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_transaction_with_fork_adaptability</span>(fork, state_test):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Prepare pre-state</span>
+</span></span><span style="display:flex;"><span>    pre <span style="color:#f92672">=</span> Alloc()
+</span></span><span style="display:flex;"><span>    sender <span style="color:#f92672">=</span> pre<span style="color:#f92672">.</span>fund_eoa()
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Define transaction based on fork capabilities</span>
+</span></span><span style="display:flex;"><span>    tx_params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;gas_limit&#34;</span>: <span style="color:#ae81ff">1_000_000</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sender&#34;</span>: sender,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Add appropriate transaction type based on fork</span>
+</span></span><span style="display:flex;"><span>    tx_types <span style="color:#f92672">=</span> fork<span style="color:#f92672">.</span>tx_types(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">in</span> tx_types <span style="color:#f92672">and</span> fork<span style="color:#f92672">.</span>supports_blobs(block_number<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, timestamp<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># EIP-4844 blob transaction (type 3)</span>
+</span></span><span style="display:flex;"><span>        tx_params[<span style="color:#e6db74">&#34;blob_versioned_hashes&#34;</span>] <span style="color:#f92672">=</span> [Hash<span style="color:#f92672">.</span>generate_zero_hashes(<span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> tx_types:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># EIP-1559 transaction (type 2)</span>
+</span></span><span style="display:flex;"><span>        tx_params[<span style="color:#e6db74">&#34;max_fee_per_gas&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+</span></span><span style="display:flex;"><span>        tx_params[<span style="color:#e6db74">&#34;max_priority_fee_per_gas&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> tx_types:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># EIP-2930 transaction (type 1)</span>
+</span></span><span style="display:flex;"><span>        tx_params[<span style="color:#e6db74">&#34;access_list&#34;</span>] <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create and run the test</span>
+</span></span><span style="display:flex;"><span>    tx <span style="color:#f92672">=</span> Transaction(<span style="color:#f92672">**</span>tx_params)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    state_test(
+</span></span><span style="display:flex;"><span>        env<span style="color:#f92672">=</span>Environment(),
+</span></span><span style="display:flex;"><span>        pre<span style="color:#f92672">=</span>pre,
+</span></span><span style="display:flex;"><span>        tx<span style="color:#f92672">=</span>tx,
+</span></span><span style="display:flex;"><span>        post<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>            sender: Account(nonce<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    )
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>The Fork class is a powerful abstraction that allows tests to adapt to different Ethereum forks. By using fork methods consistently, you can write tests that automatically handle fork-specific behavior, making your tests more maintainable and future-proof.</p>
+<p>When adding new fork methods, keep them focused, well-documented, and implement them across all forks. This will ensure that all tests can benefit from the information and that transitions between forks are handled correctly.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

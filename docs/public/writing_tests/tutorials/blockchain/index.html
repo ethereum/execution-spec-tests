@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="blockchain-tests">Blockchain Tests</h1>
+<p>This tutorial teaches you to create a blockchain execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will process given blocks and arrive at a defined post-state.</p>
+<h2 id="pre-requisites">Pre-requisites</h2>
+<p>Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:</p>
+<ul>
+<li>Repository set-up, see <a href="../../getting_started/installation.md">installation</a>.and run an execution specification test as outlined in the .</li>
+<li>Able to run <code>fill</code>, see <a href="../../filling_tests/getting_started.md">Getting Started: Filling Tests</a>.</li>
+<li>Understand how to read a <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html">blockchain test</a>.</li>
+<li>Familiarity with <a href="https://docs.python.org/3/tutorial/">Python</a>.</li>
+<li>Understand how to write an execution spec <a href="./state_transition.md">state transition test</a>.</li>
+</ul>
+<h2 id="example-tests">Example Tests</h2>
+<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>.</p>
+<p>It is assumed you have already gone through the state transition test tutorial. Only new concepts will be discussed.</p>
+<h3 id="smart-contract">Smart Contract</h3>
+<p>A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at <code>storage[0]</code>. When it is called storage cell <code>0</code> gets the current block <a href="https://www.evm.codes/#43?fork=merge">number</a>, and the pointer is incremented to the next value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>contract_addr: Account(
+</span></span><span style="display:flex;"><span>    balance<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000000000000000000</span>,
+</span></span><span style="display:flex;"><span>    code<span style="color:#f92672">=</span>code,
+</span></span><span style="display:flex;"><span>    storage<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x00</span>: <span style="color:#ae81ff">0x01</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>),
+</span></span></code></pre></div><h3 id="transaction-generator">Transaction Generator</h3>
+<p>The transactions used in this test are nearly identical. Their only difference is the <code>nonce</code> value which needs to be incremented.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">tx_generator</span>():
+</span></span><span style="display:flex;"><span>    nonce <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># Initial value</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        tx <span style="color:#f92672">=</span> Transaction(
+</span></span><span style="display:flex;"><span>            ty<span style="color:#f92672">=</span><span style="color:#ae81ff">0x0</span>,
+</span></span><span style="display:flex;"><span>            chain_id<span style="color:#f92672">=</span><span style="color:#ae81ff">0x0</span>,
+</span></span><span style="display:flex;"><span>            nonce<span style="color:#f92672">=</span>nonce,
+</span></span><span style="display:flex;"><span>            to<span style="color:#f92672">=</span>contractAddr,
+</span></span><span style="display:flex;"><span>            gas_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">500000</span>,
+</span></span><span style="display:flex;"><span>            gas_price<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        nonce <span style="color:#f92672">=</span> nonce <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> tx
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tx_generator <span style="color:#f92672">=</span> tx_generator()
+</span></span></code></pre></div><p>This looks like an infinite loop but it isn&rsquo;t because this is a <a href="https://wiki.python.org/moin/Generators">generator function</a>. When generator encounters the <code>yield</code> keyword it returns the value and stops execution, keeping a copy of all the local variables, until it is called again. Hence infinite loops inside a generator are not a problem as long as they include <code>yield</code>. This code section is responsible for creating the <code>Transaction</code> object and incrementing the <code>nonce</code>.</p>
+<p>Every time the function <code>tx_generator()</code> is called, it returns a new generator with a <code>nonce</code> of zero. To increment the <code>nonce</code> we need to use the <em>same</em> generator. We assign this generator to <code>tx_generator</code>.</p>
+<h3 id="blocks">Blocks</h3>
+<p>Each integer in the <code>tx_per_block</code> array is the number of transactions in a block. The genesis block is block 0 (no transactions). It follows that we have 2 transactions in block 1, 0 in block two, 4 in block 3, &hellip;, and 50 in block 9.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tx_per_block <span style="color:#f92672">=</span> [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">50</span>]
+</span></span></code></pre></div><p>The code section that creates the blocks is a bit complex in this test. For some simpler definitions of Block creation you can browse tests within <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/shanghai/eip4895_withdrawals/test_withdrawals.py"><code>test_withdrawals.py</code></a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> map(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> len: Block(
+</span></span><span style="display:flex;"><span>        txs<span style="color:#f92672">=</span>list(map(<span style="color:#66d9ef">lambda</span> x: next(tx_generator), range(len)))
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    tx_per_block,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>We use <a href="https://www.w3schools.com/python/python_lambda.asp"><code>lambda</code> notation</a> to specify short functions. In this case, the function doesn&rsquo;t actually care about its input, it just returns the next transaction from the generator.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">lambda</span> x: next(tx_generator)
+</span></span></code></pre></div><p>Python uses <a href="https://www.w3schools.com/python/ref_func_range.asp"><code>range(n)</code></a> to create a list of numbers from <code>0</code> to <code>n-1</code>. Among other things, it&rsquo;s a simple way to create a list of <code>n</code> values.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>range(len)
+</span></span></code></pre></div><p>The <a href="https://www.w3schools.com/python/ref_func_map.asp"><code>map</code> function</a> runs the function (the first parameter) on every element of the list (the second parameter). Putting together what we know, it means that it runs <code>next(tx_generator)</code> <code>len</code> times, giving us <code>len</code> transactions. We then use <a href="https://www.w3schools.com/python/python_lists.asp"><code>list</code></a> to turn the transactions into a list that we can provide as the <code>txs</code> parameter to the <code>Block</code> constructor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>list(map(<span style="color:#66d9ef">lambda</span> x: next(tx_generator), range(len)))
+</span></span></code></pre></div><p>The outer <code>lambda</code> function takes an integer, <code>len</code>, and creates a <code>Block</code> object with <code>len</code> transactions. This function is then run on every value of <code>tx_per_block</code> to generate the blocks.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> map(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> len: Block(
+</span></span><span style="display:flex;"><span>        txs<span style="color:#f92672">=</span>list of len transactions
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    tx_per_block,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>For example, if we had <code>tx_per_block = [0,2,4]</code>, we&rsquo;d get this result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[]),
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[next(tx_generator), next(tx_generator)]),
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[next(tx_generator), next(tx_generator), next(tx_generator), next(tx_generator)])        
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h3 id="post-state">Post State</h3>
+<p>Recall that storage slot 0 retains the value of the next slot that the block number is written into. It starts at one and is incremented after each transaction. Hence it&rsquo;s the total number of transactions plus 1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>storage <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>: sum(tx_per_block) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
+</span></span></code></pre></div><p>For every block and transaction within the block, we write the block number and increment the next slot number in storage slot 0. As Python lists are 0 indexed, we must increment the block number by 1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>next_slot <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> blocknum <span style="color:#f92672">in</span> range(len(tx_per_block)):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(tx_per_block[blocknum]):
+</span></span><span style="display:flex;"><span>        storage[next_slot] <span style="color:#f92672">=</span> blocknum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        next_slot <span style="color:#f92672">=</span> next_slot <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>Now that the expected storage values are calculated, the post state can be defined and yielded within the <code>BlockchainTest</code>, synonymous to the state test example.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>post <span style="color:#f92672">=</span> {contract_addr: Account(storage<span style="color:#f92672">=</span>storage)}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">yield</span> BlockchainTest(
+</span></span><span style="display:flex;"><span>    genesis_environment<span style="color:#f92672">=</span>env,
+</span></span><span style="display:flex;"><span>    pre<span style="color:#f92672">=</span>pre,
+</span></span><span style="display:flex;"><span>    blocks<span style="color:#f92672">=</span>blocks,
+</span></span><span style="display:flex;"><span>    post<span style="color:#f92672">=</span>post,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>Note that because of the <code>yield</code> we could have multiple tests under the same name.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>At this point you should be able to write blockchain tests.</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

@@ -1,0 +1,1200 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execute - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 2rem 3rem;   
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+         
+        .content {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 2rem;   
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+         
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+        }
+        
+         
+        .content article,
+        .content > div {
+            max-width: 100%;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 0 1rem;   
+            }
+            
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;   
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+            
+            .main-container {
+                max-width: 90%;   
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+       
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/filling_tests/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/getting_started/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/running_tests/main/" 
+                                   class="active">
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Execute</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/execute/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          Execute
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/execute/hive/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 hive
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/execute/remote/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 remote
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/filling_tests/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/getting_started/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/running_tests/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2>Execute</h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="executing-tests-on-local-networks-or-hive">Executing Tests on Local Networks or Hive</h1>
+<p>@ethereum/execution-spec-tests is capable of running tests on local networks or on Hive with a few considerations. The <code>execute</code> command runs test cases directly from the Python source (without the use of JSON fixtures).</p>
+<p>See:</p>
+<ul>
+<li><a href="./hive.md">Execute Hive</a> for help with the <code>execute</code> simulator in order to run tests on a single-client local network.</li>
+<li><a href="./remote.md">Execute Remote</a> for help with executing tests on a remote network such as a devnet, or even mainnet.</li>
+</ul>
+<p>The rest of this page describes how <code>execute</code> works and explains its architecture.</p>
+<h2 id="the-execute-command-and-pytest-plugin">The <code>execute</code> command and <code>pytest</code> plugin</h2>
+<p>The <code>execute</code> command is capable of parsing and executing all tests in the <code>./tests</code> directory, collect the transactions it requires, send them to a client connected to a network, wait for the network to include them in a block and, finally, check the resulting state of the involved smart-contracts against the expected state to validate the behavior of the clients.</p>
+<p>It will not check for the state of the network itself, only the state of the smart-contracts, accounts and transactions involved in the tests, so it is possible that the network becomes unstable or forks during the execution of the tests, but this will not be detected by the command.</p>
+<p>The way this is achieved is by using a pytest plugin that will collect all the tests the same way as the fill plugin does, but instead of compiling the transactions and sending them as a batch to the transition tool, they are prepared and sent to the client one by one.</p>
+<p>Before sending the actual test transactions to the client, the plugin uses a special pre-allocation object that collects the contracts and EOAs that are used by the tests and, instead of pre-allocating them in a dictionary as the fill plugin does, it sends transactions to deploy contracts or fund the accounts for them to be available in the network.</p>
+<p>The pre-allocation object requires a seed account with funds available in the network to be able to deploy contracts and fund accounts. In the case of a live remote network, the seed account needs to be provided via a command-line parameter, but in the case of a local hive network, the seed account is automatically created and funded by the plugin via the genesis file.</p>
+<p>At the end of each test, the plugin will also check the remaining balance of all accounts and will attempt to automatically recover the funds back to the seed account in order to execute the following tests.</p>
+<h2 id="differences-between-the-fill-and-execute-plugins">Differences between the <code>fill</code> and <code>execute</code> plugins</h2>
+<p>The test execution with the <code>execute</code> plugin is different from the <code>fill</code> plugin in a few ways:</p>
+<h3 id="eoa-and-contract-addresses">EOA and Contract Addresses</h3>
+<p>The <code>fill</code> plugin will pre-allocate all the accounts and contracts that are used in the tests, so the addresses of the accounts and contracts will be known before the tests are executed, Further more, the test contracts will start from the same address on different tests, so there are collisions on the account addresses used across different tests. This is not the case with the <code>execute</code> plugin, as the accounts and contracts are deployed on the fly, from sender keys that are randomly generated and therefore are different in each execution.</p>
+<p>Reasoning behind the random generation of the sender keys is that one can execute the same test multiple times in the same network and the plugin will not fail because the accounts and contracts are already deployed.</p>
+<h3 id="transactions-gas-price">Transactions Gas Price</h3>
+<p>The <code>fill</code> plugin will use a fixed and minimum gas price for all the transactions it uses for testing, but this is not possible with the <code>execute</code> plugin, as the gas price is determined by the current state of the network.</p>
+<p>At the moment, the <code>execute</code> plugin does not query the client for the current gas price, but instead uses a fixed increment to the gas price in order to avoid the transactions to be stuck in the mempool.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

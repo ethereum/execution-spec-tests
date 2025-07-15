@@ -1,0 +1,1370 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Consume</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Consume
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/cache/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 cache
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/direct/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 direct
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/exceptions/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 exceptions
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/simulators/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 simulators
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="consume-cache-and-fixture-inputs">Consume Cache and Fixture Inputs</h1>
+<p>The <code>consume cache</code> command can be used to resolve, download and cache fixture releases:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>consume cache --input=stable@v4.5.0
+</span></span></code></pre></div><p>All <code>consume</code> subcommands have an <code>--input</code> argument, which implements the same functionality as <code>consume cache</code> to download and cache fixtures, respectively obtain downloaded fixtures from the cache.</p>
+<h2 id="example-two-liner-to-download-the-latest-fixture-release">Example: Two-liner to Download the Latest Fixture Release</h2>
+<p>Releases can be downloaded using EEST tooling without (manually) cloning and installing the @ethereum/execution-spec-tests tools as following:</p>
+<ol>
+<li>
+<p>Install <code>uv</code> (a fast, rust-based Python package manager):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>curl -LsSf https://astral.sh/uv/install.sh | sh
+</span></span></code></pre></div></li>
+<li>
+<p>Run EEST&rsquo;s <code>consume cache</code> command via <code>uv</code> and request the latest <a href="../releases.md">&ldquo;stable&rdquo; fixture release</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx --from git+https://github.com/ethereum/execution-spec-tests \
+</span></span><span style="display:flex;"><span>    consume cache --input=stable@latest
+</span></span></code></pre></div><p>Expected output, as of <code>v4.5.0</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>Updated https://github.com/ethereum/execution-spec-tests (8c3cbd7a4eef3967abd78db32ee45ef8f7cf8271)
+</span></span><span style="display:flex;"><span>Updated https://github.com/petertdavies/ethereum-spec-evm-resolver (623ac4565025e72b65f45b926da2a3552041b469)
+</span></span><span style="display:flex;"><span>Built ethereum-execution-spec-tests @ git+https://github.com/ethereum/execution-spec-tests@8c3cbd7a4eef3967abd78db32ee45ef8f7cf8271
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>Installed 69 packages in 10ms
+</span></span><span style="display:flex;"><span>Exit: Fixtures downloaded and cached.
+</span></span><span style="display:flex;"><span>Path: /home/dtopz/.cache/ethereum-execution-spec-tests/cached_downloads/ethereum/execution-spec-tests/v4.5.0/fixtures_stable/fixtures
+</span></span><span style="display:flex;"><span>Input: https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz
+</span></span><span style="display:flex;"><span>Release page: https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0
+</span></span></code></pre></div><p><strong>Note:</strong> Use direct URLs to avoid GitHub API calls (better for CI environments). Version specifiers like <code>stable@latest</code> will always use the GitHub API to resolve versions. More details on the arguments to <code>--input</code> are provided below.</p>
+<p><strong>Explanation:</strong> <code>uv</code> creates a local Python virtual environment in <code>~/.cache/uv/</code>, installs EEST and executes the <code>consume cache</code> command to resolve and download the release, which gets cached at <code>~/.cache/ethereum-execution-spec-tests</code>. Subsequent commands will use the cached version of the fixtures.</p>
+</li>
+</ol>
+<h2 id="the---input-flag-to-specify-fixtures">The <code>--input</code> Flag to Specify Fixtures</h2>
+<p>All <code>consume</code> sub-commands take an <code>--input=&lt;fixture_path&gt;|&lt;release_spec&gt;|&lt;url&gt;</code> flag to specify which fixtures should be used for the command, <code>&lt;fixtures&gt;</code> may be:</p>
+<ol>
+<li><strong>A local directory</strong>: Fixtures from your local file system.</li>
+<li><strong>A release specification</strong>: An EEST release tag or &ldquo;release specification&rdquo; <code>stable@latest</code>, <code>fusaka-devnet-1@v1.0.0</code>, etc.</li>
+<li><strong>A URLs</strong>: A full URL to a custom hosted release or a Github release.</li>
+</ol>
+<h3 id="release-specifications">Release Specifications</h3>
+<p>A release specification has the format <code>&lt;release_name&gt;@&lt;version&gt;</code>.</p>
+<p><strong>Supported release names:</strong></p>
+<ul>
+<li><code>stable</code>: Latest stable fork release.</li>
+<li><code>develop</code>: Latest development fork release.</li>
+<li>Custom release names: e.g., <code>pectra-devnet-4</code>, <code>eip7692</code>.</li>
+</ul>
+<p><strong>Supported version formats:</strong></p>
+<ul>
+<li><code>latest</code>: Most recent release for the specified name.</li>
+<li><code>v1.2.3</code>: Specific semantic version.</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<p>Examples using a release specification:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Latest standard, full stable release (all forks up to and including the latest deployed mainnet fork)</span>
+</span></span><span style="display:flex;"><span>uv run consume engine --input stable@latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Latest standard, full development release (all forks up to and including the latest development fork)</span>
+</span></span><span style="display:flex;"><span>uv run consume rlp --input develop@latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Standard, full releases by tag</span>
+</span></span><span style="display:flex;"><span>uv run consume engine --input stable@v4.1.0
+</span></span><span style="display:flex;"><span>uv run consume rlp --input develop@v4.2.1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Pre-release tags</span>
+</span></span><span style="display:flex;"><span>uv run consume cache --input pectra-devnet-6@v1.0.0
+</span></span><span style="display:flex;"><span>uv run consume direct --input eip7692@latest --bin ../go-ethereum/build/bin/evm
+</span></span></code></pre></div><p>Examples using a URL, the target must be a <code>.tar.gz</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># GitHub release URL</span>
+</span></span><span style="display:flex;"><span>uv run consume engine --input https://github.com/ethereum/execution-spec-tests/releases/download/v4.1.0/fixtures_develop.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Direct archive URL</span>
+</span></span><span style="display:flex;"><span>uv run consume rlp --input https://example.com/custom-fixtures.tar.gz
+</span></span></code></pre></div><h2 id="caching-system">Caching System</h2>
+<h3 id="automatic-caching">Automatic Caching</h3>
+<p>All remote fixture sources are automatically cached to avoid repeated downloads:</p>
+<p><strong>Default cache location:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>~/.cache/ethereum-execution-spec-tests/cached_downloads/
+</span></span></code></pre></div><p>You can override this location with the <code>--cache-folder</code> flag:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume cache --input stable@latest --cache-folder /path/to/custom/cache
+</span></span></code></pre></div><p><strong>Cache structure:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>❯ tree ~/.cache/ethereum-execution-spec-tests/ -L 5
+</span></span><span style="display:flex;"><span>/home/dtopz/.cache/ethereum-execution-spec-tests/
+</span></span><span style="display:flex;"><span>├── cached_downloads
+</span></span><span style="display:flex;"><span>│   ├── ethereum
+</span></span><span style="display:flex;"><span>│   │   └── execution-spec-tests
+</span></span><span style="display:flex;"><span>│   │       ├── pectra-devnet-5%40v1.0.0
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_pectra-devnet-5
+</span></span><span style="display:flex;"><span>│   │       ├── pectra-devnet-6%40v1.0.0
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_pectra-devnet-6
+</span></span><span style="display:flex;"><span>│   │       ├── v4.0.0
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_develop
+</span></span><span style="display:flex;"><span>│   │       ├── v4.1.0
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_develop
+</span></span><span style="display:flex;"><span>│   │       ├── v4.2.0
+</span></span><span style="display:flex;"><span>│   │       │   ├── fixtures_develop
+</span></span><span style="display:flex;"><span>│   │       │   ├── fixtures_eip7692
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_stable
+</span></span><span style="display:flex;"><span>│   │       ├── v4.3.0
+</span></span><span style="display:flex;"><span>│   │       │   └── fixtures_develop
+</span></span><span style="display:flex;"><span>│   │       └── v4.5.0
+</span></span><span style="display:flex;"><span>│   │           └── fixtures_stable
+</span></span><span style="display:flex;"><span>│   └── other
+</span></span><span style="display:flex;"><span>└── release_information.json
+</span></span></code></pre></div><h2 id="the-fixture-index-file">The Fixture Index File</h2>
+<p>The <a href="../../filling_tests/main.md"><code>fill</code> command</a> generates a JSON file <code>&lt;fixture_path&gt;/.meta/index.json</code> that indexes the fixtures its generated. This index file is used by <code>consume</code> commands to allow fast collection of test subsets specified on the command-line, for example, via the <code>--sim.limit</code> flag. For help with <code>--sim.limit</code> when running <code>./hive</code>, see <a href="../hive/common_options.md">Hive Common Options</a>, for an overview of other available test selection flags when running <code>consume</code> directly, see <a href="../useful_pytest_options.md">Useful Pytest Options</a>.</p>
+<h2 id="ci-friendly-behavior-for-direct-urls">CI-Friendly Behavior for Direct URLs</h2>
+<p>When using direct GitHub release URLs (instead of version specifiers), the consume command automatically avoids unnecessary GitHub API calls to prevent rate limiting in CI environments:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>consume cache --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz
+</span></span></code></pre></div><p><strong>API Call Behavior:</strong></p>
+<ul>
+<li>✅ <strong>Direct URLs</strong>: No API calls made, cleaner output (no &ldquo;Release page:&rdquo; line).</li>
+<li>ℹ️ <strong>Version specifiers</strong>: API calls required to resolve versions, includes release page info.</li>
+</ul>
+<p>Examples:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span># No API calls - direct download
+</span></span><span style="display:flex;"><span>consume cache --input=https://github.com/ethereum/execution-spec-tests/releases/download/v4.5.0/fixtures_stable.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span># API calls required - version resolution  
+</span></span><span style="display:flex;"><span>consume cache --input=stable@latest
+</span></span></code></pre></div></div>
+
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1388 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Hive</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Hive
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/ci_integration/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 ci_integration
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/client_config/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 client_config
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/common_options/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 common_options
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/dev_mode/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 dev_mode
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/hiveview/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 hiveview
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="hive-development-mode">Hive Development Mode</h1>
+<p>This section explains how to run EEST simulators using their EEST commands, e.g., <code>uv run consume engine</code>, against a Hive &ldquo;development&rdquo; server as apposed to using the standalone <code>./hive</code> command.</p>
+<p>This avoids running the simulator in a dockerized environment and has several advantages:</p>
+<ol>
+<li>A local directory containing fixtures can be specified (<code>--input=./fixtures/</code>).</li>
+<li>Allows dropping into a Python debugger (via <code>--pdb</code>) upon test failure to inspect the response or ssh to the client container.</li>
+<li>Provides access to a larger set of the simulator&rsquo;s command-line options,</li>
+<li>Runs are faster; there are no docker image rebuilds in between runs. In particular, modifications to the simulator do not require a an image rebuild.</li>
+</ol>
+<h2 id="platform-support">Platform Support</h2>
+<ul>
+<li>Linux: Direct development mode supported.</li>
+<li>macOS: Must be ran from a Linux environment or use a Docker-based workaround (see macOS Setup).</li>
+</ul>
+<h2 id="quick-start">Quick Start</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>EEST is installed, see <a href="../../getting_started/main.md">Installation</a></li>
+<li>Hive is built, see <a href="../hive/main.md#quick-start">Hive</a>.</li>
+</ul>
+<h2 id="hive-dev-setup-on-linux">Hive Dev Setup on Linux</h2>
+<ol>
+<li>
+<p>Start Hive in development mode, e.g.:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./hive --dev --client go-ethereum --client-file clients.yaml --docker.output
+</span></span></code></pre></div></li>
+<li>
+<p>In a separate shell, configure environment for EEST:</p>
+<p>=== &ldquo;bash/zsh&rdquo;</p>
+<pre><code> ```bash
+ export HIVE_SIMULATOR=http://127.0.0.1:3000
+ ```
+</code></pre>
+<p>=== &ldquo;fish&rdquo;</p>
+<pre><code> ```console
+ set -x HIVE_SIMULATOR http://127.0.0.1:3000
+ ```
+</code></pre>
+</li>
+<li>
+<p>Run EEST consume commands</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine --input ./fixtures -k <span style="color:#e6db74">&#34;test_chainid&#34;</span>
+</span></span><span style="display:flex;"><span>uv run consume rlp --input stable@latest
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="hive-dev-setup-on-macos">Hive Dev Setup on macOS</h2>
+<p>Due to Docker running within a VM on macOS, the host machine and Docker containers don&rsquo;t share the same network namespace, preventing direct communication with Hive&rsquo;s development server. To run development mode on macOS, you have the following options:</p>
+<ol>
+<li>Linux VM: Run a Linux virtual machine on your macOS and execute the standard development workflow above from within the VM.</li>
+<li>Remote Linux: SSH into a remote Linux environment (server or cloud instance) and run development mode there.</li>
+<li><strong>Docker Development Image</strong>: Create a containerized EEST environment that runs within Docker&rsquo;s network namespace (recommended).</li>
+</ol>
+<p>The following section details the setup and usage of option 3.</p>
+<h3 id="eest-docker-development-image">EEST Docker Development Image</h3>
+<p>Within the <a href="https://github.com/ethereum/hive/tree/master/simulators/ethereum/eest" target="_blank" rel="noopener"><code>eest/</code></a> directory of hive, a new dockerfile must be created: <code>Dockerfile.dev</code>, with the following contents:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-docker" data-lang="docker"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ghcr.io/astral-sh/uv:python3.12-bookworm-slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ARG</span> branch<span style="color:#f92672">=</span>main
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> GIT_REF<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>branch<span style="color:#e6db74">}</span> <span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y git<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> git init execution-spec-tests <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    cd execution-spec-tests <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    git remote add origin https://github.com/ethereum/execution-spec-tests.git <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    git fetch --depth <span style="color:#ae81ff">1</span> origin $GIT_REF <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    git checkout FETCH_HEAD;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /execution-spec-tests</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> uv sync<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/bin/bash&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>This dockerfile will be our entry point for running EEST commands.</p>
+<h3 id="eest-hive-directory-structure"><code>eest/</code> Hive Directory Structure</h3>
+<pre tabindex="0"><code class="language-tree" data-lang="tree">├── eest
+│   ├── Dockerfile.dev
+│   ├── consume-block-rlp
+│   │   └── Dockerfile
+│   └── consume-engine
+│       └── Dockerfile
+</code></pre><h3 id="running-consume">Running Consume</h3>
+<ol>
+<li>
+<p>Get your local IP address:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ipconfig getifaddr en0
+</span></span></code></pre></div></li>
+<li>
+<p>Start Hive in development mode with your local IP:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./hive --dev --dev.addr &lt;LOCAL_IP&gt;:3000 --client go-ethereum --client-file clients.yaml 
+</span></span></code></pre></div></li>
+<li>
+<p>In a separate terminal session, build the EEST development image:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd simulators/ethereum/eest/
+</span></span><span style="display:flex;"><span>docker build -t macos-consume-dev -f Dockerfile.dev .
+</span></span></code></pre></div></li>
+<li>
+<p>Run the container with the Hive simulator environment:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -it -e HIVE_SIMULATOR<span style="color:#f92672">=</span>http://&lt;LOCAL_IP&gt;:3000 macos-consume-dev
+</span></span></code></pre></div></li>
+<li>
+<p>Inside the Docker container, run consume commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine -v
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="how-development-mode-works">How Development Mode Works</h2>
+<p>When Hive runs in dev mode:</p>
+<ol>
+<li>Starts the Hive API server (default: <code>http://127.0.0.1:3000</code>).</li>
+<li>Builds and maintains client containers.</li>
+<li>Keeps the Hive Proxy container running between test executions.</li>
+<li>Waits for external simulator connections via the API.</li>
+</ol>
+<p>This allows EEST&rsquo;s consume commands to connect to the running Hive instance and execute tests interactively.</p>
+<h2 id="more-options-available">More Options Available</h2>
+<p>There are many useful native pytest options available in dev mode, see <a href="../useful_pytest_options.md">Useful Options</a>.</p>
+<h3 id="custom-api-endpoint">Custom API Endpoint</h3>
+<p>Specify a custom address and port via <code>--dev.addr</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./hive --dev <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --dev.addr 127.0.0.1:5000 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --client reth <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --client-file clients.yaml
+</span></span></code></pre></div><p>Then connect with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export HIVE_SIMULATOR<span style="color:#f92672">=</span>http://127.0.0.1:5000
+</span></span></code></pre></div></div>
+
+        </main>
+    </div>
+</body>
+</html>

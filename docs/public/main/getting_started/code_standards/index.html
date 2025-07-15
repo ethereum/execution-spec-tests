@@ -1,0 +1,1381 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Standards - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 2rem 3rem;   
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+         
+        .content {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 2rem;   
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+         
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+        }
+        
+         
+        .content article,
+        .content > div {
+            max-width: 100%;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 0 1rem;   
+            }
+            
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;   
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+            
+            .main-container {
+                max-width: 90%;   
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+       
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/filling_tests/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/getting_started/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/running_tests/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Getting Started</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Getting Started
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/code_standards/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 Code Standards
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/code_standards_details/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 Detailed Code Standards
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/getting_help/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 Getting Help
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/installation_troubleshooting/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 Installation Troubleshooting
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/repository_overview/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 Repository Overview
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/setup_vs_code/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 VS Code Setup
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/filling_tests/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/getting_started/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/running_tests/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2>Code Standards</h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><p>This document outlines the coding standards and practices used in the @ethereum/execution-spec-tests repository.</p>
+<h2 id="code-and-ci-requirements">Code and CI Requirements</h2>
+<p>Code pushed to @ethereum/execution-spec-tests must fulfill the following checks in <a href="https://github.com/ethereum/execution-spec-tests/actions/workflows/tox_verify.yaml" target="_blank" rel="noopener">CI</a>:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Type</th>
+          <th>Tox Command</th>
+          <th>Explanation</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Lint &amp; code formatting</td>
+          <td><code>uvx --with=tox-uv tox -e lint</code></td>
+          <td>Python lint, format and module import check via <code>ruff</code></td>
+      </tr>
+      <tr>
+          <td>Typecheck</td>
+          <td><code>uvx --with=tox-uv tox -e typecheck</code></td>
+          <td>Objects that provide typehints pass type-checking via <code>mypy</code>.</td>
+      </tr>
+      <tr>
+          <td>Framework unit tests</td>
+          <td><code>uvx --with=tox-uv tox -e pytest</code></td>
+          <td>All framework unit tests must execute correctly.</td>
+      </tr>
+      <tr>
+          <td>EL Client test cases</td>
+          <td><code>uvx --with=tox-uv tox -e tests-deployed</code></td>
+          <td>All client test cases for deployed forks can be generated.</td>
+      </tr>
+      <tr>
+          <td>Benchmark EL Test cases</td>
+          <td><code>uvx --with=tox-uv tox -e tests-deployed-benchmark</code></td>
+          <td>All client test cases specific to benchmarks for deployed forks can be generated.</td>
+      </tr>
+      <tr>
+          <td>HTML doc build</td>
+          <td><code>uvx --with=tox-uv tox -e mkdocs</code></td>
+          <td>Documentation generated without warnings.</td>
+      </tr>
+      <tr>
+          <td>Spellcheck</td>
+          <td><code>uvx --with=tox-uv tox -e spellcheck</code></td>
+          <td>Code and documentation spell-check using codespell.</td>
+      </tr>
+      <tr>
+          <td>Markdown lint</td>
+          <td><code>uvx --with=tox-uv tox -e markdownlint</code></td>
+          <td>Markdown lint (requires <a href="code_standards_details.md#additional-dependencies">additional dependency</a>).</td>
+      </tr>
+      <tr>
+          <td>Changelog validation</td>
+          <td><code>uvx --with=tox-uv tox -e changelog</code></td>
+          <td>Validates changelog entries format and structure in <code>docs/CHANGELOG.md</code>.</td>
+      </tr>
+  </tbody>
+</table>
+
+
+<div class="callout callout-warning">
+  <div class="callout-title">Avoid CI surprises - Use pre-commit hooks!</div>
+  <div class="callout-content">
+    <p><strong>We strongly encourage all contributors to install and use pre-commit hooks!</strong> This will run fast checks (lint, typecheck, spellcheck) automatically before each commit, helping you catch issues early and avoid frustrating CI failures after pushing your changes.</p>
+<p>Install with one simple command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx pre-commit install
+</span></span></code></pre></div><p>This saves you time by catching formatting issues, type errors, and spelling mistakes before they reach CI.</p>
+
+  </div>
+</div>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Running checks easily</div>
+  <div class="callout-content">
+    <p>Add an alias:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>alias tox=&#34;uvx --with=tox-uv tox&#34;
+</span></span></code></pre></div><p>Run all checks in parallel:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx --with=tox-uv tox run-parallel
+</span></span></code></pre></div><p>Run sequentially:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx --with=tox-uv tox
+</span></span></code></pre></div><p>Run specific, faster checks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx --with=tox-uv tox -e lint,typecheck
+</span></span></code></pre></div>
+  </div>
+</div>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Lint &amp; code formatting: Using <code>ruff</code> and VS Code to help autoformat and fix module imports</div>
+  <div class="callout-content">
+    <p>On the command-line, solve fixable issues with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run ruff check --fix
+</span></span></code></pre></div><p>Use VS Code, see <a href="../getting_started/setup_vs_code.md">VS Code Setup</a>, to autoformat code, automatically organize Python module imports and highlight typechecking and spelling issues.</p>
+
+  </div>
+</div>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Typechecking</div>
+  <div class="callout-content">
+    Adding the correct typehints can sometimes be tricky and there are exceptions that require manually disabling typechecking on a per-line basis. Please reach out to the maintainers if you need help, either <a href="../getting_started/getting_help.md">directly</a> or in a PR.
+  </div>
+</div>
+<h2 id="python-coding-preferences">Python Coding Preferences</h2>
+<ul>
+<li><strong>Line Length</strong>: 100 characters maximum.</li>
+<li><strong>Formatting</strong>: Enforced by <code>ruff</code> (similar to <code>black</code>).</li>
+<li><strong>Documentation</strong>: All public functions and classes should have docstrings
+<ul>
+<li>Docstrings should have a good one-line summary which uses the imperative (&ldquo;Return&rdquo; not &ldquo;Returns&rdquo;).</li>
+<li>Add a blank line after the summary for multi-line docstrings.</li>
+<li>Single-line docstrings should have triple quotes on the same line.</li>
+</ul>
+</li>
+<li><strong>Imports</strong>: Use explicit imports (no <code>from module import *</code>).</li>
+<li><strong>Relative Imports</strong>: Use relative imports within the same package</li>
+<li><strong>Error Handling</strong>: Use explicit exception types and meaningful error messages.</li>
+<li><strong>Type Hints</strong>: All functions should include type annotations.</li>
+<li><strong>Variable Naming</strong>:
+<ul>
+<li>Use <code>snake_case</code> for variables, functions, and modules.</li>
+<li>Use <code>PascalCase</code> for classes.</li>
+<li>Use <code>UPPER_CASE</code> for constants.</li>
+</ul>
+</li>
+<li><strong>File Paths</strong>: Strongly prefer <code>pathlib</code> over <code>os.path</code> for file system operations.</li>
+</ul>
+<h2 id="editor-setup">Editor Setup</h2>
+<p>A correctly configured editor will automatically handle most formatting requirements. See <a href="./setup_vs_code.md">VS Code Setup</a> for recommended settings.</p>
+<h2 id="detailed-information">Detailed Information</h2>
+<p>See the <a href="code_standards_details.md">Detailed Code Standards</a> page for more information on:</p>
+<ul>
+<li><a href="code_standards_details.md#running-tox-environments">Running tox environments</a>.
+<ul>
+<li>Additional required <a href="code_standards_details.md#additional-dependencies">dependencies for markdownlint and spellchecking</a>.</li>
+</ul>
+</li>
+<li><a href="code_standards_details.md#pre-commit-hooks">Pre-commit hooks setup</a>.</li>
+<li><a href="code_standards_details.md#verifying-fixture-changes">Verifying test fixture changes</a>.</li>
+<li><a href="code_standards_details.md#ignoring-bulk-change-commits">Ignoring bulk change commits</a> in <code>git blame</code>.</li>
+</ul>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

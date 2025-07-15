@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="filling-tests-for-features-under-development">Filling Tests for Features under Development</h1>
+<h2 id="requirements">Requirements</h2>
+<p>By default, execution-spec-tests only generates fixtures for forks that have been deployed to mainnet. In order to generate fixtures for evm features that are actively under development:</p>
+<ol>
+<li>
+<p>A version of the <code>evm</code> and <code>solc</code> tools that implement the feature must be available (although, typically only a developer version of the <code>evm</code> tool is required, usually the latest stable release of <code>solc</code> is adequate), and,</p>
+</li>
+<li>
+<p>The development fork to test must be explicitly specified on the command-line:</p>
+<p>=== &ldquo;via the <code>--fork</code> flag&rdquo;</p>
+<pre><code>   ```console
+   uv run fill -k 4844 --fork=Cancun -v
+   ```
+</code></pre>
+<p>=== &ldquo;via the <code>--from</code> flag&rdquo;</p>
+<pre><code>   ```console
+   uv run fill -k 4844 --from=Cancun -v
+   ```
+</code></pre>
+<p>=== &ldquo;via the <code>--until</code> flag&rdquo;</p>
+<pre><code>   ```console
+   uv run fill -k 4844 --until=Cancun -v
+   ```
+</code></pre>
+</li>
+</ol>
+<p>!!! note &ldquo;Specifying the <code>evm</code> binary via <code>evm-bin</code>&rdquo;
+It is possible to explicitly specify the <code>evm</code> binary used to generate fixtures via the <code>--evm-bin</code> flag, for example,</p>
+<pre><code> ```console
+ uv run fill --fork=Cancun --evm-bin=/opt/bin/evm -v
+ ```
+</code></pre>
+<h2 id="further-help">Further Help</h2>
+<ol>
+<li><a href="https://geth.ethereum.org/docs/getting-started/installing-geth#build-from-source"><code>geth</code>/<code>evm</code> build documentation</a>.</li>
+<li><a href="https://docs.soliditylang.org/en/v0.8.20/installing-solidity.html#building-from-source"><code>solc</code> build documentation</a>.</li>
+</ol>
+<p>!!! note &ldquo;Verifying <code>evm</code> and <code>solc</code> versions used&rdquo;
+The versions used to generate fixtures are displayed in the console output:
+<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+<img src="./img/pytest_run_example.png" alt="Screenshot of pytest test collection console output">{align=center}
+</figure></p>
+<h2 id="vs-code-setup">VS Code Setup</h2>
+<p>By default, VS Code&rsquo;s Testing View will only show tests for stable forks. To show tests for development forks, uncomment the relevant line in the <code>python.testing.pytestArgs</code> configuration section of included settings file (<code>.vscode/settings.json</code>) to enable the <code>--until=FORK</code> flag. See <a href="../getting_started/setup_vs_code.md">VS Code Setup</a> for help finding the settings files.</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

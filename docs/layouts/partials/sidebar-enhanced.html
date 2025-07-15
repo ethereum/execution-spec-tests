@@ -1,0 +1,59 @@
+<aside class="sidebar">
+    <nav class="sidebar-nav">
+      {{ $currentPage := . }}
+      {{ $currentSection := .CurrentSection }}
+      
+      {{/* Breadcrumb navigation */}}
+      <div class="breadcrumbs">
+        <a href="{{ "/" | relURL }}">Home</a>
+        {{ range .Ancestors.Reverse }}
+          / <a href="{{ .RelPermalink }}">{{ .Title | default (humanize .Dir) }}</a>
+        {{ end }}
+        / <span>{{ .Title }}</span>
+      </div>
+      
+      <h3 class="sidebar-title">
+        {{ if $currentSection }}
+          {{ $currentSection.Title | default (humanize (path.Base $currentSection.File.Dir)) }}
+        {{ else }}
+          Navigation
+        {{ end }}
+      </h3>
+      
+      <ul class="sidebar-menu">
+        {{/* Show parent section link if not at top level */}}
+        {{ if and $currentSection.Parent (ne $currentSection.Parent .Site.Home) }}
+          <li class="sidebar-item">
+            <a href="{{ $currentSection.Parent.RelPermalink }}" class="sidebar-link">
+              ⬆️ {{ $currentSection.Parent.Title | default "Parent Section" }}
+            </a>
+          </li>
+          <hr class="sidebar-divider">
+        {{ end }}
+        
+        {{/* Show all pages in current section */}}
+        {{ range $currentSection.RegularPages }}
+          <li class="sidebar-item {{ if eq . $currentPage }}active{{ end }}">
+            <a href="{{ .RelPermalink }}" class="sidebar-link">
+              {{ .Title | default (humanize .File.BaseFileName) }}
+            </a>
+          </li>
+        {{ end }}
+        
+        {{/* Show subsections */}}
+        {{ if $currentSection.Sections }}
+          <hr class="sidebar-divider">
+          <h4 class="sidebar-subtitle">Subsections</h4>
+          <ul class="sidebar-submenu">
+            {{ range $currentSection.Sections }}
+              <li class="sidebar-item">
+                <a href="{{ .RelPermalink }}" class="sidebar-link">
+                  📁 {{ .Title | default (humanize (path.Base .File.Dir)) }}
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        {{ end }}
+      </ul>
+    </nav>
+  </aside>

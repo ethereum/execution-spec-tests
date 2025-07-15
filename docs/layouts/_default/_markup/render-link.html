@@ -1,0 +1,10 @@
+{{/* layouts/_default/_markup/render-link.html */}}
+{{- $link := .Destination -}}
+{{- $isInternal := not (or (hasPrefix $link "http://") (hasPrefix $link "https://")) -}}
+
+{{- if and $isInternal (hasSuffix $link "/") -}}
+    {{- /* This is a directory link, append main to it */ -}}
+    {{- $link = printf "%smain/" $link -}}
+{{- end -}}
+
+<a href="{{ $link | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if not $isInternal }} target="_blank" rel="noopener"{{ end }}>{{ .Text | safeHTML }}</a>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="getting-started-filling-tests">Getting Started: Filling Tests</h1>
+<p>This guide describes how to get started with <code>fill</code> and commonly-used command-line options.</p>
+<ol>
+<li>
+<p>Explore test cases via <code>--collect-only</code> and search for test cases that combine <code>PUSH0</code> and <code>DELEGATECALL</code> in the EVM functionality introduced in the Shanghai hard fork:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run fill --collect-only -k &#34;push0 and delegatecall&#34; tests/shanghai/
+</span></span></code></pre></div><p>The <code>fill</code> command is based on <a href="https://docs.pytest.org/en/stable/"><code>pytest</code></a>. The above command uses the <a href="https://docs.pytest.org/en/stable/how-to/usage.html">optional pytest arguments</a>:</p>
+<ul>
+<li><code>--collect-only</code> only collect test cases; don&rsquo;t execute them.</li>
+<li><code>-k &lt;expression&gt;</code> filter test cases by their test case ID based on the given expression.</li>
+<li><code>tests/shanghai</code> the directory containing the test cases (tells <code>fill</code> to only discover test cases in this directory; default: <code>tests/</code>).</li>
+</ul>
+<p>Expected console output:</p>
+ <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+     ![Screenshot of pytest test collection console output](./img/pytest_collect_only.png){align=center}
+ </figure>
+</li>
+<li>
+<p>Fill <code>state_test</code> fixtures for these test cases:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run fill -k &#34;push0 and delegatecall&#34; tests/shanghai/ -m state_test -v
+</span></span></code></pre></div><p>where:</p>
+<ul>
+<li><code>-m state_test</code> only fills test cases marked as a <code>state_test</code> (see all available markers via <code>uv run fill --markers</code>).</li>
+<li><code>-v</code> enables verbose output.</li>
+</ul>
+<p>Expected console output:</p>
+ <figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
+     ![Screenshot of fill test collection console output](./img/pytest_run_example.png){align=center}
+ </figure>
+</li>
+<li>
+<p>Verify the generated fixtures:</p>
+<p>a. Check the corresponding fixture file has been generated:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>head fixtures/state_tests/shanghai/eip3855_push0/push0/push0_contract_during_call_contexts.json
+</span></span></code></pre></div><p>b. Open the generated HTML test using the link provided at the bottom of the console output. This is written to the output directory at:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>./fixtures/.meta/report_fill.html
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<ol>
+<li>Learn <a href="./filling_tests_command_line.md">useful command-line flags</a>.</li>
+<li><a href="./filling_tests_dev_fork.md">Execute tests for features under development</a> via the <code>--fork</code> flag.</li>
+<li><em>Optional:</em> <a href="../getting_started/setup_vs_code.md">Configure VS Code</a> to auto-format Python code and <a href="./filling_tests_vs_code.md#filling-and-debugging-test-cases">execute tests within VS Code</a>.</li>
+<li>Implement a new test case, see <a href="../writing_tests/main.md">Writing Tests</a>.</li>
+</ol>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

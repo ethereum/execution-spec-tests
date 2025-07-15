@@ -1,0 +1,2426 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 2rem 3rem;   
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+         
+        .content {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 2rem;   
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+         
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+        }
+        
+         
+        .content article,
+        .content > div {
+            max-width: 100%;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 0 1rem;   
+            }
+            
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;   
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+            
+            .main-container {
+                max-width: 90%;   
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+       
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/filling_tests/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/getting_started/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/running_tests/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Documentation Home</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Execution Spec Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/changelog/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 CHANGELOG
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Subsections</h4>
+    <ul style="list-style:none;padding:0;">
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/dev_docs/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Dev docs
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/filling_tests/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Filling tests
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/getting_started/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Getting started
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Running tests
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/writing_tests/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Writing tests
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="changelog">Changelog</h1>
+<p>Test fixtures for use by clients are available for each release on the <a href="https://github.com/ethereum/execution-spec-tests/releases" target="_blank" rel="noopener">Github releases page</a>.</p>
+<p><strong>Key:</strong> ✨ = New, 🐞 = Fixed, 🔀 = Changed. 💥 = Breaking</p>
+<h2 id="-unreleased">🔜 [Unreleased]</h2>
+<h3 id="-breaking-changes">💥 Breaking Changes</h3>
+<ul>
+<li>Python 3.10 support was removed in this release (<a href="https://github.com/ethereum/execution-spec-tests/pull/1808" target="_blank" rel="noopener">#1808</a>).</li>
+</ul>
+<h4 id="-important-change-for-test-contributors">💥 Important Change for test contributors</h4>
+<ul>
+<li>EEST no longer allows usage of Yul code in Python tests. From now on, please make use of our opcode wrapper. Yul code is now only allowed in the &ldquo;static tests&rdquo; located in <code>./tests/static/</code> (these are test cases defined by JSON and YAML files instead of Python test functions that were originally maintained in <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a>).</li>
+<li>In order to fill the static tests (which is not the case by default), please ensure that <code>solc</code> is located in your <code>PATH</code>.</li>
+</ul>
+<h4 id="-important-change-for-fill-users">💥 Important Change for <code>fill</code> Users</h4>
+<p>The output behavior of <code>fill</code> has changed (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608" target="_blank" rel="noopener">#1608</a>):</p>
+<ul>
+<li>Before: <code>fill</code> wrote fixtures into the directory specified by the <code>--output</code> flag (default: <code>fixtures</code>). This could have many unintended consequences, including unexpected errors if old or invalid fixtures existed in the directory (for details see <a href="https://github.com/ethereum/execution-spec-tests/issues/1030" target="_blank" rel="noopener">#1030</a>).</li>
+<li>Now: <code>fill</code> will exit without filling any tests if the specified directory exists and is not-empty. This may be overridden by adding the <code>--clean</code> flag, which will first remove the specified directory.</li>
+</ul>
+<h4 id="feature-zkevm-updated-to-benchmark">Feature <code>zkevm</code> updated to <code>benchmark</code></h4>
+<p>Due to the crossover between <code>zkevm</code> and <code>benchmark</code> tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.</p>
+<p>This update renames the <code>zkevm</code> feature release to <code>benchmark_30M</code> and further expands the latter for 1M, 10M, 60M, 90M, and 120M block gas limits in <code>fixtures_benchmark_1M.tar.gz</code>, <code>fixtures_benchmark_10M.tar.gz</code>, <code>fixtures_benchmark_30M.tar.gz</code>, <code>fixtures_benchmark_60M.tar.gz</code>, <code>fixtures_benchmark_90M.tar.gz</code>, and <code>fixtures_benchmark_120M.tar.gz</code> respectively.</p>
+<p>Users can select any of the artifacts depending on their testing needs for their provers.</p>
+<h3 id="-framework">🛠️ Framework</h3>
+<h4 id="-refactoring">🔀 Refactoring</h4>
+<ul>
+<li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability.</li>
+<li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages.</li>
+<li>🔀 This PR removes the <code>solc</code> requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with <code>solc</code> and, as such, the <code>solc-select</code> dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the &ldquo;static&rdquo; JSON and YAML tests (<code>./tests/static/</code>) locally, <code>solc</code> (ideally v0.8.24) must be available in your PATH.</li>
+</ul>
+<h4 id="fill"><code>fill</code></h4>
+<ul>
+<li>✨ Add the <code>ported_from</code> test marker to track Python test cases that were converted from static fillers in <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a> repository (<a href="https://github.com/ethereum/execution-spec-tests/pull/1590" target="_blank" rel="noopener">#1590</a>).</li>
+<li>✨ Add a new pytest plugin, <code>ported_tests</code>, that lists the static fillers and PRs from <code>ported_from</code> markers for use in the coverage Github Workflow (<a href="https://github.com/ethereum/execution-spec-tests/pull/1634" target="_blank" rel="noopener">#1634</a>).</li>
+<li>✨ Enable two-phase filling of fixtures with pre-allocation groups and add a <code>BlockchainEngineXFixture</code> format (<a href="https://github.com/ethereum/execution-spec-tests/pull/1706" target="_blank" rel="noopener">#1706</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1760" target="_blank" rel="noopener">#1760</a>).</li>
+<li>🔀 Refactor: Encapsulate <code>fill</code>&rsquo;s fixture output options (<code>--output</code>, <code>--flat-output</code>, <code>--single-fixture-per-file</code>) into a <code>FixtureOutput</code> class (<a href="https://github.com/ethereum/execution-spec-tests/pull/1471" target="_blank" rel="noopener">#1471</a>,<a href="https://github.com/ethereum/execution-spec-tests/pull/1612" target="_blank" rel="noopener">#1612</a>).</li>
+<li>✨ Don&rsquo;t warn about a &ldquo;high Transaction gas_limit&rdquo; for <code>zkevm</code> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1598" target="_blank" rel="noopener">#1598</a>).</li>
+<li>🐞 <code>fill</code> no longer writes generated fixtures into an existing, non-empty output directory; it must now be empty or <code>--clean</code> must be used to delete it first (<a href="https://github.com/ethereum/execution-spec-tests/pull/1608" target="_blank" rel="noopener">#1608</a>).</li>
+<li>🐞 <code>zkevm</code> marked tests have been removed from <code>tests-deployed</code> tox environment into its own separate workflow <code>tests-deployed-zkevm</code> and are filled by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1617" target="_blank" rel="noopener">#1617</a>).</li>
+<li>✨ Field <code>postStateHash</code> is now added to all <code>blockchain_test</code> and <code>blockchain_test_engine</code> tests that use <code>exclude_full_post_state_in_output</code> in place of <code>postState</code>. Fixes <code>evmone-blockchaintest</code> test consumption and indirectly fixes coverage runs for these tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1667" target="_blank" rel="noopener">#1667</a>).</li>
+<li>🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException (<a href="https://github.com/ethereum/execution-spec-tests/pull/1773" target="_blank" rel="noopener">#1773</a>).</li>
+</ul>
+<h4 id="consume"><code>consume</code></h4>
+<ul>
+<li>🐞 Fix <code>consume cache --cache-folder</code> parameter being ignored, now properly caches fixtures in the specified directory instead of always using the default system cache location.</li>
+<li>🔀 <code>consume</code> now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like <code>stable@latest</code> continue to use the API for version resolution (<a href="https://github.com/ethereum/execution-spec-tests/pull/1788" target="_blank" rel="noopener">#1788</a>).</li>
+<li>🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture (<a href="https://github.com/ethereum/execution-spec-tests/pull/1801" target="_blank" rel="noopener">#1801</a>).</li>
+<li>🔀 Add exponential retry logic to initial fcu within consume engine (<a href="https://github.com/ethereum/execution-spec-tests/pull/1815" target="_blank" rel="noopener">#1815</a>).</li>
+</ul>
+<h4 id="execute"><code>execute</code></h4>
+<ul>
+<li>✨ Added new <code>Blob</code> class which can use the ckzg library to generate valid blobs at runtime (<a href="https://github.com/ethereum/execution-spec-tests/pull/1614" target="_blank" rel="noopener">#1614</a>).</li>
+<li>✨ Added <code>blob_transaction_test</code> execute test spec, which allows tests that send blob transactions to a running client and verifying its <code>engine_getBlobsVX</code> endpoint behavior (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644" target="_blank" rel="noopener">#1644</a>).</li>
+</ul>
+<h3 id="-misc">📋 Misc</h3>
+<ul>
+<li>🔀 Use only relative imports in <code>tests/</code> directory (<a href="https://github.com/ethereum/execution-spec-tests/pull/1848" target="_blank" rel="noopener">#1848</a>).</li>
+<li>🔀 Misc. doc updates, including a navigation footer (<a href="https://github.com/ethereum/execution-spec-tests/pull/1846" target="_blank" rel="noopener">#1846</a>).</li>
+<li>🔀 Remove Python 3.10 support (<a href="https://github.com/ethereum/execution-spec-tests/pull/1808" target="_blank" rel="noopener">#1808</a>).</li>
+<li>🔀 Modernize codebase with Python 3.11 language features (<a href="https://github.com/ethereum/execution-spec-tests/pull/1812" target="_blank" rel="noopener">#1812</a>).</li>
+<li>✨ Add changelog formatting validation to CI to ensure consistent punctuation in bullet points <a href="https://github.com/ethereum/execution-spec-tests/pull/1691" target="_blank" rel="noopener">#1691</a>.</li>
+<li>✨ Added the <a href="https://eest.ethereum.org/main/writing_tests/checklist_templates/eip_testing_checklist_template/" target="_blank" rel="noopener">EIP checklist template</a> that serves as a reference to achieve better coverage when implementing tests for new EIPs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1327" target="_blank" rel="noopener">#1327</a>).</li>
+<li>✨ Added <a href="https://eest.ethereum.org/main/writing_tests/post_mortems/" target="_blank" rel="noopener">Post-Mortems of Missed Test Scenarios</a> to the documentation that serves as a reference list of all cases that were missed during the test implementation phase of a new EIP, and includes the steps taken in order to prevent similar test cases to be missed in the future (<a href="https://github.com/ethereum/execution-spec-tests/pull/1327" target="_blank" rel="noopener">#1327</a>).</li>
+<li>✨ Add documentation &ldquo;Running Tests&rdquo; that explains the different methods available to run EEST tests and reference guides for running <code>consume</code> and <code>hive</code>: (<a href="https://github.com/ethereum/execution-spec-tests/pull/1172" target="_blank" rel="noopener">#1172</a>).</li>
+<li>✨ Added a new <code>eest</code> sub-command, <code>eest info</code>, to easily print a cloned EEST repository&rsquo;s version and the versions of relevant tools, e.g., <code>python</code>, <code>uv</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1621" target="_blank" rel="noopener">#1621</a>).</li>
+<li>✨ Add <code>CONTRIBUTING.md</code> for execution-spec-tests and improve coding standards documentation (<a href="https://github.com/ethereum/execution-spec-tests/pull/1604" target="_blank" rel="noopener">#1604</a>).</li>
+<li>✨ Add <code>CLAUDE.md</code> to help working in @ethereum/execution-spec-tests with <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Claude Code</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1749" target="_blank" rel="noopener">#1749</a>).</li>
+<li>✨ Use <code>codespell</code> instead of <code>pyspelling</code> to spell-check python and markdown sources (<a href="https://github.com/ethereum/execution-spec-tests/pull/1715" target="_blank" rel="noopener">#1715</a>).</li>
+<li>🔀 Updated from pytest 7 to <a href="https://docs.pytest.org/en/stable/changelog.html#features-and-improvements" target="_blank" rel="noopener">pytest 8</a>, benefits include improved type hinting and hook typing, stricter mark handling, and clearer error messages for plugin and metadata development (<a href="https://github.com/ethereum/execution-spec-tests/pull/1433" target="_blank" rel="noopener">#1433</a>).</li>
+<li>🐞 Fix bug in ported-from plugin and coverage script that made PRs fail with modified tests that contained no ported tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1661" target="_blank" rel="noopener">#1661</a>).</li>
+<li>🔀 Refactor the <code>click</code>-based CLI interface used for pytest-based commands (<code>fill</code>, <code>execute</code>, <code>consume</code>) to make them more extensible (<a href="https://github.com/ethereum/execution-spec-tests/pull/1654" target="_blank" rel="noopener">#1654</a>).</li>
+<li>🔀 Split <code>src/ethereum_test_types/types.py</code> into several files to improve code organization (<a href="https://github.com/ethereum/execution-spec-tests/pull/1665" target="_blank" rel="noopener">#1665</a>).</li>
+<li>✨ Added <code>extract_config</code> command to extract genesis files used to launch clients in hive (<a href="https://github.com/ethereum/execution-spec-tests/pull/1740" target="_blank" rel="noopener">#1740</a>).</li>
+<li>✨ Added automatic checklist generation for every EIP inside of the <code>tests</code> folder. The checklist is appended to each EIP in the documentation in the &ldquo;Test Case Reference&rdquo; section (<a href="https://github.com/ethereum/execution-spec-tests/pull/1679" target="_blank" rel="noopener">#1679</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1718" target="_blank" rel="noopener">#1718</a>).</li>
+<li>🔀 Add macOS hive development mode workaround to the docs <a href="https://github.com/ethereum/execution-spec-tests/pull/1786" target="_blank" rel="noopener">#1786</a>.</li>
+<li>🔀 Refactor and clean up of exceptions including EOF exceptions within client specific mappers <a href="https://github.com/ethereum/execution-spec-tests/pull/1803" target="_blank" rel="noopener">#1803</a>.</li>
+<li>🔀 Rename <code>tests/zkevm/</code> to <code>tests/benchmark/</code> and replace the <code>zkevm</code> pytest mark with <code>benchmark</code> <a href="https://github.com/ethereum/execution-spec-tests/pull/1804" target="_blank" rel="noopener">#1804</a>.</li>
+<li>🔀 Add fixture comparison check to optimize coverage workflow in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/1833" target="_blank" rel="noopener">#1833</a>).</li>
+<li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability (<a href="https://github.com/ethereum/execution-spec-tests/pull/1673" target="_blank" rel="noopener">#1763</a>).</li>
+<li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739" target="_blank" rel="noopener">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856" target="_blank" rel="noopener">#1856</a>).</li>
+</ul>
+<h3 id="-test-cases">🧪 Test Cases</h3>
+<ul>
+<li>🔀 Refactored <code>BLOBHASH</code> opcode context tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1637" target="_blank" rel="noopener">#1637</a>).</li>
+<li>🔀 Refactored <code>SELFDESTRUCT</code> opcode collision tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1643" target="_blank" rel="noopener">#1643</a>).</li>
+<li>✨ EIP-7594: Sanity test cases to send blob transactions and verify <code>engine_getBlobsVX</code> using the <code>execute</code> command (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644" target="_blank" rel="noopener">#1644</a>).</li>
+<li>🔀 Refactored EIP-145 static tests into python (<a href="https://github.com/ethereum/execution-spec-tests/pull/1683" target="_blank" rel="noopener">#1683</a>).</li>
+<li>✨ EIP-7823, EIP-7883: Add test cases for ModExp precompile gas-cost updates and input limits on Osaka (<a href="https://github.com/ethereum/execution-spec-tests/pull/1579" target="_blank" rel="noopener">#1579</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1729" target="_blank" rel="noopener">#1729</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7825" target="_blank" rel="noopener">EIP-7825</a>: Add test cases for the transaction gas limit of 30M gas (<a href="https://github.com/ethereum/execution-spec-tests/pull/1711" target="_blank" rel="noopener">#1711</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7951" target="_blank" rel="noopener">EIP-7951</a>: add test cases for <code>P256VERIFY</code> precompile to support secp256r1 curve <a href="https://github.com/ethereum/execution-spec-tests/pull/1670" target="_blank" rel="noopener">#1670</a>.</li>
+<li>✨ Introduce blockchain tests for benchmark to cover the scenario of pure ether transfers <a href="https://github.com/ethereum/execution-spec-tests/pull/1742" target="_blank" rel="noopener">#1742</a>.</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7934" target="_blank" rel="noopener">EIP-7934</a>: Add test cases for the block RLP max limit of 10MiB (<a href="https://github.com/ethereum/execution-spec-tests/pull/1730" target="_blank" rel="noopener">#1730</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7939" target="_blank" rel="noopener">EIP-7939</a> Add count leading zeros (CLZ) opcode tests for Osaka (<a href="https://github.com/ethereum/execution-spec-tests/pull/1733" target="_blank" rel="noopener">#1733</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7918" target="_blank" rel="noopener">EIP-7918</a>: Blob base fee bounded by execution cost test cases (initial), includes some adjustments to <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1685" target="_blank" rel="noopener">#1685</a>).</li>
+</ul>
+<h2 id="v450---2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0" target="_blank" rel="noopener">v4.5.0</a> - 2025-05-14</h2>
+<h3 id="-breaking-change">💥 Breaking Change</h3>
+<h4 id="eof-removed-from-osaka">EOF removed from Osaka</h4>
+<p>Following <a href="https://github.com/ethereum/pm/issues/1499" target="_blank" rel="noopener">&ldquo;Interop Testing Call 34&rdquo;</a> and the procedural EIPs <a href="https://github.com/ethereum/EIPs/pull/9703" target="_blank" rel="noopener">PR</a> the decision to remove EOF from Osaka was made.</p>
+<p>To accommodate EOF testing for the interim within EEST, its tests have migrated to a new <code>tests/unscheduled</code> folder. This folder will now contain tests for features that are not yet CFI&rsquo;d in any fork. When EOF is CFI&rsquo;d for a fork in the future, all tests will be moved from unscheduled to the respective future fork folder.</p>
+<p>A new fork <code>EOFv1</code> has additionally been created to fill and consume EOF related fixtures. Client tests fillers such as <code>evmone</code> (and client consumers) will now need to use this fork name.</p>
+<h3 id="-framework-1">🛠️ Framework</h3>
+<ul>
+<li>✨ Add an empty account function for usage within fill and execute (<a href="https://github.com/ethereum/execution-spec-tests/pull/1482" target="_blank" rel="noopener">#1482</a>).</li>
+<li>✨ Added <code>TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST</code> exception to specifically catch the case where the intrinsic gas cost is insufficient due to the data floor gas cost (<a href="https://github.com/ethereum/execution-spec-tests/pull/1582" target="_blank" rel="noopener">#1582</a>).</li>
+</ul>
+<h3 id="-misc-1">📋 Misc</h3>
+<ul>
+<li>✨ Engine API updates for Osaka, add <code>get_blobs</code> rpc method (<a href="https://github.com/ethereum/execution-spec-tests/pull/1510" target="_blank" rel="noopener">#1510</a>).</li>
+<li>✨ The EIP Version checker has been moved from <code>fill</code> and <code>execute</code> to it&rsquo;s own command-line tool <code>check_eip_versions</code> that gets ran daily as a Github Action (<a href="https://github.com/ethereum/execution-spec-tests/pull/1537" target="_blank" rel="noopener">#1537</a>).</li>
+<li>🔀 Add new <code>tests/unscheduled</code> folder, move EOF from Osaka to unscheduled, add <code>EOFv1</code> fork name for EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1507" target="_blank" rel="noopener">#1507</a>).</li>
+<li>✨ CI features now contain an optional field to skip them from EEST full releases, <code>benchmark</code> and EOF features are now feature only (<a href="https://github.com/ethereum/execution-spec-tests/pull/1596" target="_blank" rel="noopener">#1596</a>).</li>
+<li>🐞 Don&rsquo;t attempt to install <code>solc</code> via <code>solc-select</code> on ARM (official Linux ARM builds of <code>solc</code> are not available at the time of writing, cf <a href="https://github.com/ethereum/solidity/issues/11351" target="_blank" rel="noopener">ethereum/solidity#11351</a>) and add a version sanity check (<a href="https://github.com/ethereum/execution-spec-tests/pull/1556" target="_blank" rel="noopener">#1556</a>).</li>
+</ul>
+<h3 id="-test-cases-1">🧪 Test Cases</h3>
+<ul>
+<li>🔀 Automatically apply the <code>benchmark</code> marker to all tests under <code>./tests/benchmark/</code> and <code>./tests/prague/eip2537_bls_12_381_precompiles/</code> via conftest configuration (<a href="https://github.com/ethereum/execution-spec-tests/pull/1534" target="_blank" rel="noopener">#1534</a>).</li>
+<li>✨ Port <a href="https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml" target="_blank" rel="noopener">calldataload</a> and <a href="https://github.com/ethereum/tests/blob/81862e4848585a438d64f911a19b3825f0f4cd95/src/GeneralStateTestsFiller/VMTests/vmTests/calldatasizeFiller.yml" target="_blank" rel="noopener">calldatasize</a> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1236" target="_blank" rel="noopener">#1236</a>).</li>
+</ul>
+<h2 id="v440---2025-04-29"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.4.0" target="_blank" rel="noopener">v4.4.0</a> - 2025-04-29</h2>
+<h3 id="-breaking-change-1">💥 Breaking Change</h3>
+<h4 id="fixtures_static"><code>fixtures_static</code></h4>
+<p>A new fixture tarball has been included in this release: <code>fixtures_static.tar.gz</code>.</p>
+<p>This tarball contains all tests inside of <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static" target="_blank" rel="noopener"><code>./tests/static</code></a>, which at this point only contains all tests copied from <a href="https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller" target="_blank" rel="noopener"><code>GeneralStateTests</code> in <code>ethereum/tests@7dc757ec132e372b6178a016b91f4c639f366c02</code></a>.</p>
+<p>The tests have been filled using the new static test filler introduced in <a href="https://github.com/ethereum/execution-spec-tests/pull/1336" target="_blank" rel="noopener">#1336</a>, and enhanced in <a href="https://github.com/ethereum/execution-spec-tests/pull/1362" target="_blank" rel="noopener">#1362</a> and <a href="https://github.com/ethereum/execution-spec-tests/pull/1439" target="_blank" rel="noopener">#1439</a>.</p>
+<p>Users can expect that all tests currently living in <a href="https://github.com/ethereum/tests/tree/develop/src" target="_blank" rel="noopener">ethereum/tests</a> should eventually make its way into <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static" target="_blank" rel="noopener"><code>./tests/static</code></a> and can rely that these tests, filled for new forks even, will be included in <code>fixtures_static.tar.gz</code>.</p>
+<h4 id="fixtures_benchmark"><code>fixtures_benchmark</code></h4>
+<p>Another new fixture tarball has been included in this release: <code>fixtures_benchmark.tar.gz</code>.</p>
+<p>Includes tests that are tailored specifically to test the execution layer proof generators.</p>
+<h3 id="-framework-2">🛠️ Framework</h3>
+<h4 id="fill-1"><code>fill</code></h4>
+<ul>
+<li>🐞 Fix the reported fixture source URLs for the case of auto-generated tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1488" target="_blank" rel="noopener">#1488</a>).</li>
+</ul>
+<h4 id="consume-1"><code>consume</code></h4>
+<ul>
+<li>🐞 Fix the Hive commands used to reproduce test executions that are displayed in test descriptions in the Hive UI (<a href="https://github.com/ethereum/execution-spec-tests/pull/1494" target="_blank" rel="noopener">#1494</a>).</li>
+<li>🐞 Fix consume direct fails for geth blockchain tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1502" target="_blank" rel="noopener">#1502</a>).</li>
+</ul>
+<h3 id="-misc-2">📋 Misc</h3>
+<h3 id="-test-cases-2">🧪 Test Cases</h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a>: Test that DELEGATECALL to a 7702 target works as intended (<a href="https://github.com/ethereum/execution-spec-tests/pull/1485" target="_blank" rel="noopener">#1485</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-2537" target="_blank" rel="noopener">EIP-2573</a>: Includes a BLS12 point generator, alongside additional coverage many of the precompiles (<a href="https://github.com/ethereum/execution-spec-tests/pull/1350" target="_blank" rel="noopener">#1350</a>), (<a href="https://github.com/ethereum/execution-spec-tests/pull/1505" target="_blank" rel="noopener">#1505</a>).</li>
+<li>✨ Add all <a href="https://github.com/ethereum/tests/tree/7dc757ec132e372b6178a016b91f4c639f366c02/src/GeneralStateTestsFiller" target="_blank" rel="noopener"><code>GeneralStateTests</code> from <code>ethereum/tests</code></a> to <code>execution-spec-tests</code> located now at <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests" target="_blank" rel="noopener">tests/static/state_tests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1442" target="_blank" rel="noopener">#1442</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-2929" target="_blank" rel="noopener">EIP-2929</a>: Test that precompile addresses are cold/warm depending on the fork they are activated (<a href="https://github.com/ethereum/execution-spec-tests/pull/1495" target="_blank" rel="noopener">#1495</a>).</li>
+</ul>
+<h2 id="v430---2025-04-18"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.3.0" target="_blank" rel="noopener">v4.3.0</a> - 2025-04-18</h2>
+<h3 id="-breaking-change-2">💥 Breaking Change</h3>
+<h4 id="consume-engine-strict-exception-checking">Consume engine strict exception checking</h4>
+<p><code>consume engine</code> now checks exceptions returned by the execution clients in their Engine API responses, specifically in the <code>validationError</code>field of the <code>engine_newPayloadVX</code> method.</p>
+<p>While not strictly a breaking change since tests will continue to run normally, failures are expected if a client modifies their exception messages.</p>
+<p>This feature can be disabled by using <code>--disable-strict-exception-matching</code> for specific clients or forks.</p>
+<h3 id="-framework-3">🛠️ Framework</h3>
+<h4 id="fill-2"><code>fill</code></h4>
+<ul>
+<li>✨ The <code>static_filler</code> plug-in now has support for static state tests (from <a href="https://github.com/ethereum/tests/tree/develop/src/GeneralStateTestsFiller" target="_blank" rel="noopener">GeneralStateTests</a>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1362" target="_blank" rel="noopener">#1362</a>).</li>
+<li>✨ Introduce <code>pytest.mark.exception_test</code> to mark tests that contain an invalid transaction or block (<a href="https://github.com/ethereum/execution-spec-tests/pull/1436" target="_blank" rel="noopener">#1436</a>).</li>
+<li>🐞 Fix <code>DeprecationWarning: Pickle, copy, and deepcopy support will be removed from itertools in Python 3.14.</code> by avoiding use <code>itertools</code> object in the spec <code>BaseTest</code> pydantic model (<a href="https://github.com/ethereum/execution-spec-tests/pull/1414" target="_blank" rel="noopener">#1414</a>).</li>
+<li>✨ An optional configuration flag to override the maximum gas limit in the environment for filling or executing tests is now available. The <code>--block-gas-limit</code> flag overrides the default block gas limit during filling. The <code>--transaction-gas-limit</code> flag overrides the maximum for transactions during execution. (<a href="https://github.com/ethereum/execution-spec-tests/pull/1470" target="_blank" rel="noopener">#1470</a>).</li>
+</ul>
+<h4 id="consume-2"><code>consume</code></h4>
+<ul>
+<li>🐞 Fix fixture tarball downloading with regular, non-Github release URLS and with numerical versions in regular release specs, e.g., <code>stable@v4.2.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1437" target="_blank" rel="noopener">#1437</a>).</li>
+<li>✨ <code>consume engine</code> now has strict exception mapping enabled by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416" target="_blank" rel="noopener">#1416</a>).</li>
+</ul>
+<h4 id="tools">Tools</h4>
+<ul>
+<li>🔀 <code>generate_system_contract_deploy_test</code> test generator has been updated to handle system contracts that are not allowed to be absent when the fork happens (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+<li>✨ Add <code>generate_system_contract_error_test</code> to generate tests on system contracts that invalidate a block in case of error (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+</ul>
+<h4 id="exceptions">Exceptions</h4>
+<ul>
+<li>✨ <code>BlockException.SYSTEM_CONTRACT_EMPTY</code>: Raised when a required system contract was not found in the state by the time it was due to execution with a system transaction call (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+<li>✨ <code>BlockException.SYSTEM_CONTRACT_CALL_FAILED</code>: Raised when a system contract call made by a system transaction fails (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+<li>✨ <code>BlockException.INVALID_BLOCK_HASH</code>: Raised when the calculated block hash does not match the expectation (Currently only during Engine API calls) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416" target="_blank" rel="noopener">#1416</a>).</li>
+<li>✨ <code>BlockException.INVALID_VERSIONED_HASHES</code>: Raised when a discrepancy is found between versioned hashes in the payload and the ones found in the transactions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1416" target="_blank" rel="noopener">#1416</a>).</li>
+</ul>
+<h3 id="-test-cases-3">🧪 Test Cases</h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a>: Test precompile case in same transaction as delegation without extra gas in case of precompile code execution; parametrize all call opcodes in existing precompile test (<a href="https://github.com/ethereum/execution-spec-tests/pull/1431" target="_blank" rel="noopener">#1431</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a>: Add invalid nonce authorizations tests for the case of multiple signers when the sender&rsquo;s nonce gets increased (<a href="https://github.com/ethereum/execution-spec-tests/pull/1441" target="_blank" rel="noopener">#1441</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a>: Add a test that verifies that set code transactions are correctly rejected before Prague activation (<a href="https://github.com/ethereum/execution-spec-tests/pull/1463" target="_blank" rel="noopener">#1463</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7623" target="_blank" rel="noopener">EIP-7623</a>: Additionally parametrize transaction validity tests with the <code>to</code> set to an EOA account (previously only contracts) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1422" target="_blank" rel="noopener">#1422</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noopener">EIP-7251</a>: Add EIP-7251 test cases for modified consolidations contract that allows more consolidations (<a href="https://github.com/ethereum/execution-spec-tests/pull/1465" target="_blank" rel="noopener">#1465</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6110" target="_blank" rel="noopener">EIP-6110</a>: Add extra deposit request edge cases, sending eth to the deposit contract while sending a deposit request (<a href="https://github.com/ethereum/execution-spec-tests/pull/1467" target="_blank" rel="noopener">#1467</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6110" target="_blank" rel="noopener">EIP-6110</a>: Add cases for deposit log layout and other topics (ERC-20) transfer (<a href="https://github.com/ethereum/execution-spec-tests/pull/1371" target="_blank" rel="noopener">#1371</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noopener">EIP-7251</a>: Remove pytest skips for consolidation request cases (<a href="https://github.com/ethereum/execution-spec-tests/pull/1449" target="_blank" rel="noopener">#1449</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noopener">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noopener">EIP-7251</a>: Add cases to verify behavior of contracts missing at fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noopener">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noopener">EIP-7251</a>: Add cases to verify behavior of system contract errors invalidating a block (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+<li>🔀 Remove <a href="https://eips.ethereum.org/EIPS/eip-7698" target="_blank" rel="noopener">EIP-7698</a>: EIP has been removed and the tests related to it have also been removed, while preserving a subset of the tests to verify that functionality is removed in clients (<a href="https://github.com/ethereum/execution-spec-tests/pull/1451" target="_blank" rel="noopener">#1451</a>).</li>
+</ul>
+<h3 id="-misc-3">📋 Misc</h3>
+<ul>
+<li>🐞 Configure <code>markdownlint</code> to expect an indent of 4 with unordered lists (otherwise HTML documentation is rendered incorrectly, <a href="https://github.com/ethereum/execution-spec-tests/pull/1460" target="_blank" rel="noopener">#1460</a>).</li>
+<li>🔀 Update <code>eels_resolutions.json</code> to point to temporary commit <code>bb0eb750d643ced0ebf5dec732cdd23558d0b7f2</code>, which is based on <code>forks/prague</code> branch, commit <code>d9a7ee24db359aacecd636349b4f3ac95a4a6e71</code>, with PRs <a href="https://github.com/ethereum/execution-specs/pull/1182" target="_blank" rel="noopener">https://github.com/ethereum/execution-specs/pull/1182</a>, <a href="https://github.com/ethereum/execution-specs/pull/1183" target="_blank" rel="noopener">https://github.com/ethereum/execution-specs/pull/1183</a> and <a href="https://github.com/ethereum/execution-specs/pull/1191" target="_blank" rel="noopener">https://github.com/ethereum/execution-specs/pull/1191</a> merged (<a href="https://github.com/ethereum/execution-spec-tests/pull/1394" target="_blank" rel="noopener">#1394</a>).</li>
+</ul>
+<h2 id="v420---2025-04-08"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.2.0" target="_blank" rel="noopener">v4.2.0</a> - 2025-04-08</h2>
+<p><strong>Note</strong>: Although not a breaking change, <code>consume</code> users should delete the cache directory (typically located at <code>~/.cache/ethereum-execution-spec-tests</code>) used to store downloaded fixture release tarballs. This release adds support for <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests" target="_blank" rel="noopener">ethereum/legacytests</a> fixture release downloads and the structure of the cache directory has been updated to accommodate this change.</p>
+<p>To try this feature:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>consume direct --input<span style="color:#f92672">=</span>https://github.com/ethereum/tests/releases/download/v17.0/fixtures_blockchain_tests.tgz
+</span></span></code></pre></div><p>To determine the cache directory location, see the <code>--cache-folder</code> entry from the command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>consume cache --help
+</span></span></code></pre></div><h3 id="-breaking-change-3">💥 Breaking Change</h3>
+<h3 id="-framework-4">🛠️ Framework</h3>
+<h4 id="consume-3"><code>consume</code></h4>
+<ul>
+<li>✨ Add support for <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests" target="_blank" rel="noopener">ethereum/legacytests</a> release tarball download via URL to the <code>--input</code> flag of <code>consume</code> commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/1306" target="_blank" rel="noopener">#1306</a>).</li>
+<li>✨ Add support for Nethermind&rsquo;s <code>nethtest</code> command to <code>consume direct</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1250" target="_blank" rel="noopener">#1250</a>).</li>
+<li>✨ Allow filtering of test cases by fork via pytest marks (e.g., <code>-m &quot;Cancun or Prague&quot;</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1304" target="_blank" rel="noopener">#1304</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1318" target="_blank" rel="noopener">#1318</a>).</li>
+<li>✨ Allow filtering of test cases by fixture format via pytest marks (e.g., <code>-m blockchain_test</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1314" target="_blank" rel="noopener">#1314</a>).</li>
+<li>✨ Add top-level entries <code>forks</code> and <code>fixture_formats</code> to the index file that list all the forks and fixture formats used in the indexed fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/1318" target="_blank" rel="noopener">#1318</a>).</li>
+<li>✨ Enable logging from <code>consume</code> commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/1361" target="_blank" rel="noopener">#1361</a>).</li>
+<li>✨ Propagate stdout and stderr (including logs) captured during test execution to the Hive test result (<a href="https://github.com/ethereum/execution-spec-tests/pull/1361" target="_blank" rel="noopener">#1361</a>).</li>
+<li>🐞 Don&rsquo;t parametrize tests for unsupported fixture formats; improve <code>consume</code> test collection (<a href="https://github.com/ethereum/execution-spec-tests/pull/1315" target="_blank" rel="noopener">#1315</a>).</li>
+<li>🐞 Fix the the hive command printed in test reports to reproduce tests in isolation by prefixing the <code>--sim.limit</code> flag value with <code>id:</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1333" target="_blank" rel="noopener">#1333</a>).</li>
+<li>🐞 Improve index generation of <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a> fixtures: Allow generation at any directory level and include <code>generatedTestHash</code> in the index file for the <code>fixture_hash</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1303" target="_blank" rel="noopener">#1303</a>).</li>
+<li>🐞 Fix loading of <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a> and <a href="https://github.com/ethereum/legacytests" target="_blank" rel="noopener">ethereum/legacytests</a> fixtures for the case of mixed <code>0x0</code> and <code>0x1</code> transaction types in multi-index (<code>data</code>, <code>gas</code>, <code>value</code>) state test fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/1330" target="_blank" rel="noopener">#1330</a>).</li>
+<li>✨ Add Osaka to the hive ruleset, includes a small ruleset refactor (<a href="https://github.com/ethereum/execution-spec-tests/pull/1355" target="_blank" rel="noopener">#1355</a>).</li>
+</ul>
+<h4 id="fill-3"><code>fill</code></h4>
+<ul>
+<li>🐞 Fix <code>--fork/from/until</code> for transition forks when using <code>fill</code> <a href="https://github.com/ethereum/execution-spec-tests/pull/1311" target="_blank" rel="noopener">#1311</a>.</li>
+<li>🐞 Fix the node id for state tests marked by transition forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1313" target="_blank" rel="noopener">#1313</a>).</li>
+<li>✨ Add <code>static_filler</code> plug-in which allows to fill static YAML and JSON tests (from <a href="https://github.com/ethereum/tests" target="_blank" rel="noopener">ethereum/tests</a>) by adding flag <code>--fill-static-tests</code> to <code>uv run fill</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1336" target="_blank" rel="noopener">#1336</a>).</li>
+</ul>
+<h4 id="execute-1"><code>execute</code></h4>
+<ul>
+<li>🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. <code>state_test</code>, <code>blockchain_test</code>, etc) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1367" target="_blank" rel="noopener">#1367</a>).</li>
+<li>✨ Markers can now be used to execute only tests from a specific test spec type (e.g. <code>-m state_test</code>, <code>-m blockchain_test</code>, etc) (<a href="https://github.com/ethereum/execution-spec-tests/pull/1367" target="_blank" rel="noopener">#1367</a>).</li>
+</ul>
+<h3 id="-misc-4">📋 Misc</h3>
+<ul>
+<li>🔀 Bump the version of <code>execution-specs</code> used by the framework to the package <a href="https://pypi.org/project/ethereum-execution/1.17.0rc6.dev1/" target="_blank" rel="noopener"><code>ethereum-execution==1.17.0rc6.dev1</code></a>; bump the version used for test fixture generation for forks &lt; Prague to current <code>execution-specs</code> master, <a href="https://github.com/ethereum/execution-specs/commit/fa847a0e48309debee8edc510ceddb2fd5db2f2e" target="_blank" rel="noopener">fa847a0</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1310" target="_blank" rel="noopener">#1310</a>).</li>
+<li>🐞 Init <code>TransitionTool</code> in <code>GethTransitionTool</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1276" target="_blank" rel="noopener">#1276</a>).</li>
+<li>🔀 Refactored RLP encoding of test objects to allow automatic generation of tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1359" target="_blank" rel="noopener">#1359</a>).</li>
+<li>✨ Document how to manage <code>execution-spec-tests</code> package dependencies (<a href="https://github.com/ethereum/execution-spec-tests/pull/1388" target="_blank" rel="noopener">#1388</a>).</li>
+</ul>
+<h4 id="packaging">Packaging</h4>
+<ul>
+<li>🐞 Fix <code>eest make test</code> when <code>ethereum-execution-spec-tests</code> is installed as a package (<a href="https://github.com/ethereum/execution-spec-tests/pull/1342" target="_blank" rel="noopener">#1342</a>).</li>
+<li>🔀 Pin <code>setuptools</code> and <code>wheel</code> in <code>[build-system]</code>, bump <code>trie&gt;=3.1</code> and remove <code>setuptools</code> from package dependencies (<a href="https://github.com/ethereum/execution-spec-tests/pull/1345" target="_blank" rel="noopener">#1345</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1351" target="_blank" rel="noopener">#1351</a>).</li>
+</ul>
+<h3 id="-test-cases-4">🧪 Test Cases</h3>
+<ul>
+<li>✨ Add additional test coverage for EIP-152 Blake2 precompiles (<a href="https://github.com/ethereum/execution-spec-tests/pull/1244" target="_blank" rel="noopener">#1244</a>). Refactor to add variables for spec constants and common fixture code. (<a href="https://github.com/ethereum/execution-spec-tests/pull/1395" target="_blank" rel="noopener">#1395</a>), (<a href="https://github.com/ethereum/execution-spec-tests/pull/1405" target="_blank" rel="noopener">#1405</a>).</li>
+<li>✨ Add EIP-7702 incorrect-rlp-encoding tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1347" target="_blank" rel="noopener">#1347</a>).</li>
+<li>✨ Add EIP-2935 tests for all call opcodes (<a href="https://github.com/ethereum/execution-spec-tests/pull/1379" target="_blank" rel="noopener">#1379</a>).</li>
+<li>✨ Add more tests for EIP-7702: max-fee-per-gas verification, delegation-designation as initcode tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1372" target="_blank" rel="noopener">#1372</a>).</li>
+<li>✨ Add converted Identity precompile tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1344" target="_blank" rel="noopener">#1344</a>).</li>
+</ul>
+<h2 id="v410---2025-03-11"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.1.0" target="_blank" rel="noopener">v4.1.0</a> - 2025-03-11</h2>
+<h3 id="-breaking-changes-1">💥 Breaking Changes</h3>
+<p>The following changes may be potentially breaking (all clients were tested with these changes with the state test format, but not the blockchain test format):</p>
+<ul>
+<li>💥 Add a <code>yParity</code> field (that duplicates <code>v</code>) to transaction authorization tuples in fixture formats to have fields that conform to EIP-7702 spec, resolves <a href="https://github.com/erigontech/erigon/issues/14073" target="_blank" rel="noopener">erigontech/erigon#14073</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1286" target="_blank" rel="noopener">#1286</a>).</li>
+<li>💥 Rename the recently introduced <code>_info</code> field <code>fixture_format</code> to <code>fixture-format</code> for consistency <a href="https://github.com/ethereum/execution-spec-tests/pull/1295" target="_blank" rel="noopener">#1295</a>.</li>
+</ul>
+<h3 id="-framework-5">🛠️ Framework</h3>
+<ul>
+<li>🔀 Make <code>BaseFixture</code> able to parse any fixture format such as <code>BlockchainFixture</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1210" target="_blank" rel="noopener">#1210</a>).</li>
+<li>✨ Blockchain and Blockchain-Engine tests now have a marker to specify that they were generated from a state test, which can be used with <code>-m blockchain_test_from_state_test</code> and <code>-m blockchain_test_engine_from_state_test</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220" target="_blank" rel="noopener">#1220</a>).</li>
+<li>✨ Blockchain and Blockchain-Engine tests that were generated from a state test now have <code>blockchain_test_from_state_test</code> or <code>blockchain_test_engine_from_state_test</code> as part of their test IDs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220" target="_blank" rel="noopener">#1220</a>).</li>
+<li>🔀 Refactor <code>ethereum_test_fixtures</code> and <code>ethereum_clis</code> to create <code>FixtureConsumer</code> and <code>FixtureConsumerTool</code> classes which abstract away the consumption process used by <code>consume direct</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/935" target="_blank" rel="noopener">#935</a>).</li>
+<li>✨ Allow <code>consume direct --collect-only</code> without specifying a fixture consumer binary on the command-line (<a href="https://github.com/ethereum/execution-spec-tests/pull/1237" target="_blank" rel="noopener">#1237</a>).</li>
+<li>✨ Allow <code>fill --collect-only</code> without the need for existence of the folder <code>./fixtures</code>.</li>
+<li>✨ Report the (resolved) fixture tarball URL and local fixture cache directory when <code>consume</code>&rsquo;s <code>--input</code> flag is a release spec or URL (<a href="https://github.com/ethereum/execution-spec-tests/pull/1239" target="_blank" rel="noopener">#1239</a>).</li>
+<li>✨ EOF Container validation tests (<code>eof_test</code>) now generate container deployment state tests, by wrapping the EOF container in an init-container and sending a deploy transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/783" target="_blank" rel="noopener">#783</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1233" target="_blank" rel="noopener">#1233</a>).</li>
+<li>✨ Use regexes for Hive&rsquo;s <code>--sim.limit</code> argument and don&rsquo;t use xdist if <code>--sim.parallelism==1</code> in the <code>eest/consume-rlp</code> and <code>eest/consume-rlp</code> simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/1220" target="_blank" rel="noopener">#1220</a>).</li>
+<li>🐞 Register generated test markers, e.g., <code>blockchain_test_from_state_test</code>, to prevent test session warnings (<a href="https://github.com/ethereum/execution-spec-tests/pull/1238" target="_blank" rel="noopener">#1238</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1245" target="_blank" rel="noopener">#1245</a>).</li>
+<li>🐞 Zero-pad <code>Environment</code> fields passed to <code>t8n</code> tools as required by <code>evmone-t8n</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1268" target="_blank" rel="noopener">#1268</a>).</li>
+</ul>
+<h3 id="-misc-5">📋 Misc</h3>
+<ul>
+<li>✨ Add a guide to the docs for porting tests from <code>ethereum/tests</code> to EEST (<a href="https://github.com/ethereum/execution-spec-tests/pull/1165" target="_blank" rel="noopener">#1165</a>).</li>
+<li>✨ Improve the <code>uv run eest make test</code> interactive CLI to enable creation of new test modules within existing test sub-folders (<a href="https://github.com/ethereum/execution-spec-tests/pull/1241" target="_blank" rel="noopener">#1241</a>).</li>
+<li>✨ Update <code>mypy</code> to latest release <code>&gt;=1.15.0,&lt;1.16</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1209" target="_blank" rel="noopener">#1209</a>).</li>
+<li>🐞 Bug fix for filling with EELS for certain Python versions due to an issue with CPython (<a href="https://github.com/ethereum/execution-spec-tests/pull/1231" target="_blank" rel="noopener">#1231</a>).</li>
+<li>🐞 Fix HTML site deployment due to the site&rsquo;s index file exceeding Github&rsquo;s max file size limit (<a href="https://github.com/ethereum/execution-spec-tests/pull/1292" target="_blank" rel="noopener">#1292</a>).</li>
+<li>✨ Update the build fixtures workflow to use multiple self-hosted runners, remove <code>pectra-devnet-6</code> feature build (<a href="https://github.com/ethereum/execution-spec-tests/pull/1296" target="_blank" rel="noopener">#1296</a>).</li>
+</ul>
+<h3 id="-test-cases-5">🧪 Test Cases</h3>
+<ul>
+<li>✨ Add gas cost of delegation access in CALL opcode (<a href="https://github.com/ethereum/execution-spec-tests/pull/1208" target="_blank" rel="noopener">#1208</a>).</li>
+<li>✨ Add EIP-7698 failed nonce and short data tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1211" target="_blank" rel="noopener">#1211</a>).</li>
+<li>✨ Add EIP-2537 additional pairing precompile tests cases, and then update all BLS12 test vectors (<a href="https://github.com/ethereum/execution-spec-tests/pull/1275" target="_blank" rel="noopener">#1275</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1289" target="_blank" rel="noopener">#1289</a>).</li>
+<li>✨ Add EIP-7685 and EIP-7002 test cases for additional request type combinations and modified withdrawal contract that allows more withdrawals (<a href="https://github.com/ethereum/execution-spec-tests/pull/1340" target="_blank" rel="noopener">#1340</a>).</li>
+<li>✨ Add test cases for EIP-152 Blake2 and Identity precompiles (<a href="https://github.com/ethereum/execution-spec-tests/pull/1244" target="_blank" rel="noopener">#1244</a>).</li>
+</ul>
+<h2 id="v400---2025-02-14---"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.0.0" target="_blank" rel="noopener">v4.0.0</a> - 2025-02-14 - 💕</h2>
+<h3 id="-fixture-releases">📁 Fixture Releases</h3>
+<ul>
+<li>🔀 Initially we moved old fork configured tests within stable and develop fixture releases to a separate legacy release (<a href="https://github.com/ethereum/execution-spec-tests/pull/788" target="_blank" rel="noopener">#788</a>).</li>
+<li>🔀 This was later reverted after some client teams preferred to keep them in all in the same releases (<a href="https://github.com/ethereum/execution-spec-tests/pull/1053" target="_blank" rel="noopener">#1053</a>).</li>
+</ul>
+<h3 id="-breaking-change-4">💥 Breaking Change</h3>
+<ul>
+<li>✨ Use uv for package management replacing pip (<a href="https://github.com/ethereum/execution-spec-tests/pull/777" target="_blank" rel="noopener">#777</a>).</li>
+<li>✨ Ruff now replaces Flake8, Isort and Black resulting in significant changes to the entire code base including its usage (<a href="https://github.com/ethereum/execution-spec-tests/pull/922" target="_blank" rel="noopener">#922</a>).</li>
+<li>🔀 Fill test fixtures using EELS by default. EEST now uses the <a href="https://github.com/petertdavies/ethereum-spec-evm-resolver" target="_blank" rel="noopener"><code>ethereum-specs-evm-resolver</code></a> with the EELS daemon (<a href="https://github.com/ethereum/execution-spec-tests/pull/792" target="_blank" rel="noopener">#792</a>).</li>
+<li>🔀 The EOF fixture format contained in <code>eof_tests</code> may now contain multiple exceptions in the <code>&quot;exception&quot;</code> field in the form of a pipe (<code>|</code>) separated string (<a href="https://github.com/ethereum/execution-spec-tests/pull/759" target="_blank" rel="noopener">#759</a>).</li>
+<li>🔀 <code>state_test</code>, <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures now contain a <code>config</code> field, which contains an object that contains a <code>blobSchedule</code> field. On the <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures, the object also contains a duplicate of the <code>network</code> root field. The root&rsquo;s <code>network</code> field will be eventually deprecated (<a href="https://github.com/ethereum/execution-spec-tests/pull/1040" target="_blank" rel="noopener">#1040</a>).</li>
+<li>🔀 <code>latest-stable-release</code> and <code>latest-develop-release</code> keywords for the <code>--input</code> flag in consume commands have been replaced with <code>stable@latest</code> and <code>develop@latest</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044" target="_blank" rel="noopener">#1044</a>).</li>
+</ul>
+<h3 id="-framework-6">🛠️ Framework</h3>
+<ul>
+<li>✨ Execute command added to run existing tests in live networks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1157" target="_blank" rel="noopener">#</a>).</li>
+<li>🐞 Fixed consume hive commands from spawning different hive test suites during the same test execution when using xdist (<a href="https://github.com/ethereum/execution-spec-tests/pull/712" target="_blank" rel="noopener">#712</a>).</li>
+<li>✨ <code>consume hive</code> command is now available to run all types of hive tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/712" target="_blank" rel="noopener">#712</a>).</li>
+<li>✨ Generated fixtures now contain the test index <code>index.json</code> by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/716" target="_blank" rel="noopener">#716</a>).</li>
+<li>✨ A metadata folder <code>.meta/</code> now stores all fixture metadata files by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/721" target="_blank" rel="noopener">#721</a>).</li>
+<li>🐞 Fixed <code>fill</code> command index generation issue due to concurrency (<a href="https://github.com/ethereum/execution-spec-tests/pull/725" target="_blank" rel="noopener">#725</a>).</li>
+<li>✨ Added <code>with_all_evm_code_types</code>, <code>with_all_call_opcodes</code> and <code>with_all_create_opcodes</code> markers, which allow automatic parametrization of tests to EOF (<a href="https://github.com/ethereum/execution-spec-tests/pull/610" target="_blank" rel="noopener">#610</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/739" target="_blank" rel="noopener">#739</a>).</li>
+<li>✨ Added <code>with_all_system_contracts</code> marker, which helps parametrize tests with all contracts that affect the chain on a system level (<a href="https://github.com/ethereum/execution-spec-tests/pull/739" target="_blank" rel="noopener">#739</a>).</li>
+<li>✨ Code generators <code>Conditional</code> and <code>Switch</code> now support EOF by adding parameter <code>evm_code_type</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/610" target="_blank" rel="noopener">#610</a>).</li>
+<li>✨ <code>fill</code> command now supports parameter <code>--evm-code-type</code> that can be (currently) set to <code>legacy</code> or <code>eof_v1</code> to force all test smart contracts to deployed in normal or in EOF containers (<a href="https://github.com/ethereum/execution-spec-tests/pull/610" target="_blank" rel="noopener">#610</a>).</li>
+<li>🐞 Fixed fixture index generation on EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/728" target="_blank" rel="noopener">#728</a>).</li>
+<li>🐞 Fixes consume genesis mismatch exception for hive based simulators (<a href="https://github.com/ethereum/execution-spec-tests/pull/734" target="_blank" rel="noopener">#734</a>).</li>
+<li>✨ Adds reproducible consume commands to hiveview (<a href="https://github.com/ethereum/execution-spec-tests/pull/717" target="_blank" rel="noopener">#717</a>).</li>
+<li>💥 Added multiple exceptions to the EOF fixture format (<a href="https://github.com/ethereum/execution-spec-tests/pull/759" target="_blank" rel="noopener">#759</a>).</li>
+<li>✨ Added optional parameter to all <code>with_all_*</code> markers to specify a lambda function that filters the parametrized values (<a href="https://github.com/ethereum/execution-spec-tests/pull/739" target="_blank" rel="noopener">#739</a>).</li>
+<li>✨ Added <a href="https://eest.ethereum.org/main/writing_tests/writing_a_new_test/#ethereum_test_tools.utility.pytest.extend_with_defaults" target="_blank" rel="noopener"><code>extend_with_defaults</code> utility function</a>, which helps extend test case parameter sets with default values. <code>@pytest.mark.parametrize</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/739" target="_blank" rel="noopener">#739</a>).</li>
+<li>✨ Added <code>Container.Init</code> to <code>ethereum_test_types.EOF.V1</code> package, which allows generation of an EOF init container more easily (<a href="https://github.com/ethereum/execution-spec-tests/pull/739" target="_blank" rel="noopener">#739</a>).</li>
+<li>✨ Introduce method valid_opcodes() to the fork class (<a href="https://github.com/ethereum/execution-spec-tests/pull/748" target="_blank" rel="noopener">#748</a>).</li>
+<li>🐞 Fixed <code>consume</code> exit code return values, ensuring that pytest&rsquo;s return value is correctly propagated to the shell. This allows the shell to accurately reflect the test results (e.g., failures) based on the pytest exit code (<a href="https://github.com/ethereum/execution-spec-tests/pull/765" target="_blank" rel="noopener">#765</a>).</li>
+<li>✨ Added a new flag <code>--solc-version</code> to the <code>fill</code> command, which allows the user to specify the version of the Solidity compiler to use when compiling Yul source code; this version will now be automatically downloaded by <code>fill</code> via <a href="https://github.com/crytic/solc-select" target="_blank" rel="noopener"><code>solc-select</code></a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/772" target="_blank" rel="noopener">#772</a>).</li>
+<li>🐞 Fix usage of multiple <code>@pytest.mark.with_all*</code> markers which shared parameters, such as <code>with_all_call_opcodes</code> and <code>with_all_create_opcodes</code> which shared <code>evm_code_type</code>, and now only parametrize compatible values (<a href="https://github.com/ethereum/execution-spec-tests/pull/762" target="_blank" rel="noopener">#762</a>).</li>
+<li>✨ Added <code>selector</code> and <code>marks</code> fields to all <code>@pytest.mark.with_all*</code> markers, which allows passing lambda functions to select or mark specific parametrized values (see <a href="https://eest.ethereum.org/main/writing_tests/test_markers/#covariant-marker-keyword-arguments" target="_blank" rel="noopener">documentation</a> for more information) (<a href="https://github.com/ethereum/execution-spec-tests/pull/762" target="_blank" rel="noopener">#762</a>).</li>
+<li>✨ Improves consume input flags for develop and stable fixture releases, fixes <code>--help</code> flag for consume (<a href="https://github.com/ethereum/execution-spec-tests/pull/745" target="_blank" rel="noopener">#745</a>).</li>
+<li>🔀 Return exit-code from <code>consume</code> commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/766" target="_blank" rel="noopener">#766</a>).</li>
+<li>🔀 Remove duplicate EOF container tests, automatically check for duplicates (<a href="https://github.com/ethereum/execution-spec-tests/pull/800" target="_blank" rel="noopener">#800</a>).</li>
+<li>🔀 Fix DATALOAD <code>pushed_stack_items</code> calculation (<a href="https://github.com/ethereum/execution-spec-tests/pull/784" target="_blank" rel="noopener">#784</a>).</li>
+<li>✨ Add <code>evm_bytes</code> rename and print asm (<a href="https://github.com/ethereum/execution-spec-tests/pull/844" target="_blank" rel="noopener">#844</a>).</li>
+<li>🔀 Use the <code>session_temp_folder</code> introduced in #824 (<a href="https://github.com/ethereum/execution-spec-tests/pull/845" target="_blank" rel="noopener">#845</a>).</li>
+<li>🐞 Don&rsquo;t treat eels resolutions as a fixture (<a href="https://github.com/ethereum/execution-spec-tests/pull/878" target="_blank" rel="noopener">#878</a>).</li>
+<li>✨ Emphasize that no tests were executed during a fill pytest session (<a href="https://github.com/ethereum/execution-spec-tests/pull/887" target="_blank" rel="noopener">#887</a>).</li>
+<li>🔀 Move generic code from TransitionTool to a new generic base class EthereumCLI (<a href="https://github.com/ethereum/execution-spec-tests/pull/894" target="_blank" rel="noopener">#894</a>).</li>
+<li>🐞 Fix erroneous fork mes- 🔀 Fix max stack height calculation (<a href="https://github.com/ethereum/execution-spec-tests/pull/810" target="_blank" rel="noopener">#810</a>).</li>
+<li>✨ Add storage key hint in Storage class (<a href="https://github.com/ethereum/execution-spec-tests/pull/917" target="_blank" rel="noopener">#917</a>).</li>
+<li>✨ Add system to verify exception strings (<a href="https://github.com/ethereum/execution-spec-tests/pull/795" target="_blank" rel="noopener">#795</a>).</li>
+<li>🔀 Fix <code>FixedBytes</code> assignment rules (<a href="https://github.com/ethereum/execution-spec-tests/pull/1010" target="_blank" rel="noopener">#1010</a>).</li>
+<li>🔀 Fix <code>Address</code> padding options (<a href="https://github.com/ethereum/execution-spec-tests/pull/1113" target="_blank" rel="noopener">#1113</a>).</li>
+<li>🔀 Add <code>Container.expected_bytecode</code> optional parameter (<a href="https://github.com/ethereum/execution-spec-tests/pull/737" target="_blank" rel="noopener">#737</a>).</li>
+<li>✨ Add support for <code>initcode_prefix</code> on EOF <code>Container.Init</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/819" target="_blank" rel="noopener">#819</a>).sage in pytest session header with development forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/806" target="_blank" rel="noopener">#806</a>).</li>
+<li>🐞 Fix <code>Conditional</code> code generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821" target="_blank" rel="noopener">#821</a>).</li>
+<li>🔀 Ensure that <code>Block</code> objects keep track of their <code>fork</code>, for example, when the block&rsquo;s <code>rlp_modifier</code> is not <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/854" target="_blank" rel="noopener">#854</a>).</li>
+<li>🔀 <code>ethereum_test_rpc</code> library has been created with what was previously <code>ethereum_test_tools.rpc</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/822" target="_blank" rel="noopener">#822</a>).</li>
+<li>✨ Add <code>Wei</code> type to <code>ethereum_test_base_types</code> which allows parsing wei amounts from strings like &ldquo;1 ether&rdquo;, &ldquo;1000 wei&rdquo;, &ldquo;10**2 gwei&rdquo;, etc (<a href="https://github.com/ethereum/execution-spec-tests/pull/825" target="_blank" rel="noopener">#825</a>).</li>
+<li>✨ Pin EELS versions in <code>eels_resolutions.json</code> and include this file in fixture releases (<a href="https://github.com/ethereum/execution-spec-tests/pull/872" target="_blank" rel="noopener">#872</a>).</li>
+<li>🔀 Replace <code>ethereum.base_types</code> with <code>ethereum-types</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/850" target="_blank" rel="noopener">#850</a>).</li>
+<li>💥 Rename the <code>PragueEIP7692</code> fork to <code>Osaka</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/869" target="_blank" rel="noopener">#869</a>).</li>
+<li>✨ Improve <code>fill</code> terminal output to emphasize that filling tests is not actually testing a client (<a href="https://github.com/ethereum/execution-spec-tests/pull/887" target="_blank" rel="noopener">#807</a>).</li>
+<li>✨ Add the <code>BlockchainTestEngine</code> test spec type that only generates a fixture in the <code>EngineFixture</code> (<code>blockchain_test_engine</code>) format (<a href="https://github.com/ethereum/execution-spec-tests/pull/888" target="_blank" rel="noopener">#888</a>).</li>
+<li>🔀 Move the <code>evm_transition_tool</code> package to <code>ethereum_clis</code> and derive the transition tool CL interfaces from a shared <code>EthereumCLI</code> class that can be reused for other sub-commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/894" target="_blank" rel="noopener">#894</a>).</li>
+<li>✨ Pass <code>state_test</code> property to T8N tools that support it (Only EELS at the time of merge) (<a href="https://github.com/ethereum/execution-spec-tests/pull/943" target="_blank" rel="noopener">#943</a>).</li>
+<li>✨ Add the <code>eofwrap</code> cli used to wrap tests from <code>ethereum/tests</code> in an EOF container (<a href="https://github.com/ethereum/execution-spec-tests/pull/896" target="_blank" rel="noopener">#896</a>).</li>
+<li>🔀 Improve gentest architecture with <code>EthereumTestBaseModel</code> and <code>EthereumTestRootModel</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/901" target="_blank" rel="noopener">#901</a>).</li>
+<li>🔀 Migrate transaction test to <code>state_test</code> for <code>gentest</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/903" target="_blank" rel="noopener">#903</a>).</li>
+<li>🔀 <code>ethereum_test_forks</code> forks now contain gas-calculating functions, which return the appropriate function to calculate the gas used by a transaction or memory function for the given fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/779" target="_blank" rel="noopener">#779</a>).</li>
+<li>🐞 Fix <code>Bytecode</code> class <code>__eq__</code> method (<a href="https://github.com/ethereum/execution-spec-tests/pull/939" target="_blank" rel="noopener">#939</a>).</li>
+<li>🔀 Update <code>pydantic</code> from 2.8.2 to 2.9.2 (<a href="https://github.com/ethereum/execution-spec-tests/pull/960" target="_blank" rel="noopener">#960</a>).</li>
+<li>✨ Add the <code>eest make test</code> command, an interactive CLI that helps users create a new test module and function (<a href="https://github.com/ethereum/execution-spec-tests/pull/950" target="_blank" rel="noopener">#950</a>).</li>
+<li>✨ Add the <code>eest clean</code> command that helps delete generated files and directories from the repository (<a href="https://github.com/ethereum/execution-spec-tests/pull/980" target="_blank" rel="noopener">#980</a>).</li>
+<li>✨ Add framework changes for EIP-7742, required for Prague devnet-5 (<a href="https://github.com/ethereum/execution-spec-tests/pull/931" target="_blank" rel="noopener">#931</a>).</li>
+<li>✨ Add the <code>eest make env</code> command that generates a default env file (<code>env.yaml</code>)(<a href="https://github.com/ethereum/execution-spec-tests/pull/996" target="_blank" rel="noopener">#996</a>).</li>
+<li>✨ Generate Transaction Test type (<a href="https://github.com/ethereum/execution-spec-tests/pull/933" target="_blank" rel="noopener">#933</a>).</li>
+<li>✨ Add a default location for evm logs (<code>--evm-dump-dir</code>) when filling tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/999" target="_blank" rel="noopener">#999</a>).</li>
+<li>✨ Slow tests now have greater timeout when making a request to the T8N server (<a href="https://github.com/ethereum/execution-spec-tests/pull/1037" target="_blank" rel="noopener">#1037</a>).</li>
+<li>✨ Introduce <a href="https://eest.ethereum.org/main/writing_tests/test_markers/#pytestmarkfork_parametrize" target="_blank" rel="noopener"><code>pytest.mark.parametrize_by_fork</code></a> helper marker (<a href="https://github.com/ethereum/execution-spec-tests/pull/1019" target="_blank" rel="noopener">#1019</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1057" target="_blank" rel="noopener">#1057</a>).</li>
+<li>🐞 fix(consume): allow absolute paths with <code>--evm-bin</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1052" target="_blank" rel="noopener">#1052</a>).</li>
+<li>✨ Disable EIP-7742 framework changes for Prague (<a href="https://github.com/ethereum/execution-spec-tests/pull/1023" target="_blank" rel="noopener">#1023</a>).</li>
+<li>✨ Allow verification of the transaction receipt on executed test transactions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1068" target="_blank" rel="noopener">#1068</a>).</li>
+<li>✨ Modify <code>valid_at_transition_to</code> marker to add keyword arguments <code>subsequent_transitions</code> and <code>until</code> to fill a test using multiple transition forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1081" target="_blank" rel="noopener">#1081</a>).</li>
+<li>🐞 fix(consume): use <code>&quot;HIVE_CHECK_LIVE_PORT&quot;</code> to signal hive to wait for port 8551 (Engine API port) instead of the 8545 port when running <code>consume engine</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1095" target="_blank" rel="noopener">#1095</a>).</li>
+<li>✨ <code>state_test</code>, <code>blockchain_test</code> and <code>blockchain_test_engine</code> fixtures now contain the <code>blobSchedule</code> from <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7840.md" target="_blank" rel="noopener">EIP-7840</a>, only for tests filled for Cancun and Prague forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/1040" target="_blank" rel="noopener">#1040</a>).</li>
+<li>🔀 Change <code>--dist</code> flag to the default value, <code>load</code>, for better parallelism handling during test filling (<a href="https://github.com/ethereum/execution-spec-tests/pull/1118" target="_blank" rel="noopener">#1118</a>).</li>
+<li>🔀 Refactor framework code to use the <a href="https://pypi.org/project/ethereum-rlp/" target="_blank" rel="noopener"><code>ethereum-rlp</code></a> package instead of <code>ethereum.rlp</code>, previously available in ethereum/execution-specs (<a href="https://github.com/ethereum/execution-spec-tests/pull/1180" target="_blank" rel="noopener">#1180</a>).</li>
+<li>🔀 Update EELS / execution-specs EEST dependency to <a href="https://github.com/ethereum/execution-specs/commit/9923823367b5586228e590537d47aa9cc4c6a206" target="_blank" rel="noopener">99238233</a> for EEST framework libraries and test case generation (<a href="https://github.com/ethereum/execution-spec-tests/pull/1181" target="_blank" rel="noopener">#1181</a>).</li>
+<li>✨ Add the <code>consume cache</code> command to cache fixtures before running consume commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044" target="_blank" rel="noopener">#1044</a>).</li>
+<li>✨ The <code>--input</code> flag of the consume commands now supports parsing of tagged release names in the format <code>&lt;RELEASE_NAME&gt;@&lt;RELEASE_VERSION&gt;</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1044" target="_blank" rel="noopener">#1044</a>).</li>
+<li>🐞 Fix stdout output when using the <code>fill</code> command (<a href="https://github.com/ethereum/execution-spec-tests/pull/1188" target="_blank" rel="noopener">#1188</a>).</li>
+<li>✨ Add tests for blockchain intermediate state verification (<a href="https://github.com/ethereum/execution-spec-tests/pull/1075" target="_blank" rel="noopener">#1075</a>).</li>
+<li>✨ Add Interactive CLI input functionality (<a href="https://github.com/ethereum/execution-spec-tests/pull/947" target="_blank" rel="noopener">#947</a>).</li>
+<li>🔀 Rename <code>EOFTest.data</code> to <code>EOFTest.container</code> with rebase of <code>EOFStateTest</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1145" target="_blank" rel="noopener">#1145</a>).</li>
+<li>✨ Turn on <code>--traces</code> for EELS + <code>ethereum-specs-evm-resolver</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1174" target="_blank" rel="noopener">#1174</a>).</li>
+</ul>
+<h3 id="-misc-6">📋 Misc</h3>
+<ul>
+<li>✨ Feature releases can now include multiple types of fixture tarball files from different releases that start with the same prefix (<a href="https://github.com/ethereum/execution-spec-tests/pull/736" target="_blank" rel="noopener">#736</a>).</li>
+<li>✨ Releases for feature eip7692 now include both Cancun and Prague based tests in the same release, in files <code>fixtures_eip7692.tar.gz</code> and <code>fixtures_eip7692-prague.tar.gz</code> respectively (<a href="https://github.com/ethereum/execution-spec-tests/pull/743" target="_blank" rel="noopener">#743</a>).
+✨ Re-write the test case reference doc flow as a pytest plugin and add pages for test functions with a table providing an overview of their parametrized test cases (<a href="https://github.com/ethereum/execution-spec-tests/pull/801" target="_blank" rel="noopener">#801</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/842" target="_blank" rel="noopener">#842</a>).</li>
+<li>🔀 Simplify Python project configuration and consolidate it into <code>pyproject.toml</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/764" target="_blank" rel="noopener">#764</a>).</li>
+<li>✨ Add dev docs to help using nectos/act (<a href="https://github.com/ethereum/execution-spec-tests/pull/776" target="_blank" rel="noopener">#776</a>).</li>
+<li>🔀 Update <code>uv.lock</code> for updated solc deps (<a href="https://github.com/ethereum/execution-spec-tests/pull/782" target="_blank" rel="noopener">#782</a>).</li>
+<li>✨ Enable coverage on any test change (<a href="https://github.com/ethereum/execution-spec-tests/pull/790" target="_blank" rel="noopener">#790</a>).</li>
+<li>🔀 Created <code>pytest_plugins.concurrency</code> plugin to sync multiple <code>xdist</code> processes without using a command flag to specify the temporary working folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/824" target="_blank" rel="noopener">#824</a>).</li>
+<li>🔀 Move pytest plugin <code>pytest_plugins.filler.solc</code> to <code>pytest_plugins.solc.solc</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/823" target="_blank" rel="noopener">#823</a>).</li>
+<li>🔀 Remove <code>formats.py</code>, embed properties as class vars (<a href="https://github.com/ethereum/execution-spec-tests/pull/826" target="_blank" rel="noopener">#826</a>).</li>
+<li>✨ Add <code>build-evm-base</code> to docs deploy workflows (<a href="https://github.com/ethereum/execution-spec-tests/pull/829" target="_blank" rel="noopener">#829</a>).</li>
+<li>🔀 Add links to the online test case docs in the EOF tracker (<a href="https://github.com/ethereum/execution-spec-tests/pull/838" target="_blank" rel="noopener">#838</a>).</li>
+<li>🔀 Fix miscellaneous improvements to troubleshooting, navigation, styling (<a href="https://github.com/ethereum/execution-spec-tests/pull/840" target="_blank" rel="noopener">#840</a>).</li>
+<li>✨ Include all parameters in test parameter datatables (<a href="https://github.com/ethereum/execution-spec-tests/pull/842" target="_blank" rel="noopener">#842</a>).</li>
+<li>✨ Add info about ripemd160 &amp; update running actions locally (<a href="https://github.com/ethereum/execution-spec-tests/pull/847" target="_blank" rel="noopener">#847</a>).</li>
+<li>✨ Add <code>SECURITY.md</code> describing how to report vulnerabilities (<a href="https://github.com/ethereum/execution-spec-tests/pull/848" target="_blank" rel="noopener">#848</a>).</li>
+<li>🔀 Change image from ubuntu-24.04 to ubuntu-latest in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/855" target="_blank" rel="noopener">#855</a>).</li>
+<li>🐞 Asserts that the deploy docs tags workflow is only triggered for full releases (<a href="https://github.com/ethereum/execution-spec-tests/pull/857" target="_blank" rel="noopener">#857</a>).</li>
+<li>🐞 Fix deploy docs tags workflow trigger (<a href="https://github.com/ethereum/execution-spec-tests/pull/858" target="_blank" rel="noopener">#858</a>).</li>
+<li>✨ A new application-wide configuration manager provides access to environment and application configurations. (<a href="https://github.com/ethereum/execution-spec-tests/pull/892" target="_blank" rel="noopener">#892</a>).</li>
+<li>🔀 Update the developer docs navigation (<a href="https://github.com/ethereum/execution-spec-tests/pull/898" target="_blank" rel="noopener">#898</a>).</li>
+<li>🔀 Use jinja2 templating in <code>gentest</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/900" target="_blank" rel="noopener">#900</a>).</li>
+<li>✨ Fix/add test github actions locally page (<a href="https://github.com/ethereum/execution-spec-tests/pull/909" target="_blank" rel="noopener">#909</a>).</li>
+<li>🐞 Fix print fill output in coverage workflow on errors (<a href="https://github.com/ethereum/execution-spec-tests/pull/919" target="_blank" rel="noopener">#919</a>).</li>
+<li>🐞 Use a local version of ethereum/execution-specs (EELS) when running the framework tests in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/997" target="_blank" rel="noopener">#997</a>).</li>
+<li>✨ Use self-hosted runners for fixture building in CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/1051" target="_blank" rel="noopener">#1051</a>).</li>
+<li>✨ Release tarballs now contain fixtures filled for all forks, not only the fork under active development and the fork currently deployed on mainnet (<a href="https://github.com/ethereum/execution-spec-tests/pull/1053" target="_blank" rel="noopener">#1053</a>).</li>
+<li>✨ <code>StateTest</code> fixture format now contains <code>state</code> field in each network post result, containing the decoded post allocation that results from the transaction execution (<a href="https://github.com/ethereum/execution-spec-tests/pull/1064" target="_blank" rel="noopener">#1064</a>).</li>
+<li>✨ Include EELS fork resolution information in filled json test fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/1123" target="_blank" rel="noopener">#1123</a>).</li>
+<li>🔀 Updates ruff from version 0.8.2 to 0.9.4 (<a href="https://github.com/ethereum/execution-spec-tests/pull/1168" target="_blank" rel="noopener">#1168</a>).</li>
+<li>🔀 Update <code>uv.lock</code> to be compatible with <code>uv&gt;=0.5.22</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1178" target="_blank" rel="noopener">#1178</a>).</li>
+<li>🔀 Update <code>mypy</code> from version <code>0.991</code> to <code>1.15</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1209" target="_blank" rel="noopener">#1209</a>).</li>
+</ul>
+<h3 id="-test-cases-6">🧪 Test Cases</h3>
+<ul>
+<li>✨ Migrate validation tests <code>EIP3540/validInvalidFiller.yml</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/598" target="_blank" rel="noopener">#598</a>).</li>
+<li>✨ EIP-4844 test <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code> includes an EOF test case (<a href="https://github.com/ethereum/execution-spec-tests/pull/610" target="_blank" rel="noopener">#610</a>).</li>
+<li>✨ Example test <code>tests/frontier/opcodes/test_dup.py</code> now includes EOF parametrization (<a href="https://github.com/ethereum/execution-spec-tests/pull/610" target="_blank" rel="noopener">#610</a>).</li>
+<li>✨ Add EOFv1 function test - Call simple contract test (<a href="https://github.com/ethereum/execution-spec-tests/pull/695" target="_blank" rel="noopener">#695</a>).</li>
+<li>✨ Add section size validation tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/705" target="_blank" rel="noopener">#705</a>).</li>
+<li>✨ Add deep and wide EOF subcontainers tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/718" target="_blank" rel="noopener">#718</a>).</li>
+<li>✨ Update <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> tests for Devnet-3 (<a href="https://github.com/ethereum/execution-spec-tests/pull/733" target="_blank" rel="noopener">#733</a>).</li>
+<li>✨ Migrate &ldquo;valid&rdquo; EOFCREATE validation (<a href="https://github.com/ethereum/execution-spec-tests/pull/738" target="_blank" rel="noopener">#738</a>).</li>
+<li>✨ Migrate tests for truncated sections (<a href="https://github.com/ethereum/execution-spec-tests/pull/740" target="_blank" rel="noopener">#740</a>).</li>
+<li>✨ Add out of order container section test (<a href="https://github.com/ethereum/execution-spec-tests/pull/741" target="_blank" rel="noopener">#741</a>).</li>
+<li>✨ Convert all opcodes validation test <code>tests/frontier/opcodes/test_all_opcodes.py</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/748" target="_blank" rel="noopener">#748</a>).</li>
+<li>🔀 Add Test types with 128 inputs (<a href="https://github.com/ethereum/execution-spec-tests/pull/749" target="_blank" rel="noopener">#749</a>).</li>
+<li>🔀 Use new marker to EOF-ize MCOPY test (<a href="https://github.com/ethereum/execution-spec-tests/pull/754" target="_blank" rel="noopener">#754</a>).</li>
+<li>✨ Add EOF Tests from Fuzzing (<a href="https://github.com/ethereum/execution-spec-tests/pull/756" target="_blank" rel="noopener">#756</a>).</li>
+<li>✨ Add embedded container tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/763" target="_blank" rel="noopener">#763</a>).</li>
+<li>✨ Validate EOF only opcodes are invalid in legacy (<a href="https://github.com/ethereum/execution-spec-tests/pull/768" target="_blank" rel="noopener">#768</a>).</li>
+<li>✨ Update EOF tracker, add unimplemented tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/773" target="_blank" rel="noopener">#773</a>).</li>
+<li>✨ Add EIP-7620 EOFCREATE gas tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/785" target="_blank" rel="noopener">#785</a>).</li>
+<li>✨ Add more fuzzing discovered EOF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/789" target="_blank" rel="noopener">#789</a>).</li>
+<li>✨ Add EOF tests for invalid non-returning sections (<a href="https://github.com/ethereum/execution-spec-tests/pull/794" target="_blank" rel="noopener">#794</a>).</li>
+<li>✨ Test to ensure transient storage is cleared after transactions (<a href="https://github.com/ethereum/execution-spec-tests/pull/798" target="_blank" rel="noopener">#798</a>).</li>
+<li>✨ Test that transient storage stays at correct address (<a href="https://github.com/ethereum/execution-spec-tests/pull/799" target="_blank" rel="noopener">#799</a>).</li>
+<li>✨ Add EOFCREATE referencing the same subcontainer twice test (<a href="https://github.com/ethereum/execution-spec-tests/pull/809" target="_blank" rel="noopener">#809</a>).</li>
+<li>✨ Add dangling data in subcontainer test (<a href="https://github.com/ethereum/execution-spec-tests/pull/812" target="_blank" rel="noopener">#812</a>).</li>
+<li>🐞 Fix <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a>+EOF tests due to incorrect test expectations and faulty <code>Conditional</code> test generator in EOF mode (<a href="https://github.com/ethereum/execution-spec-tests/pull/821" target="_blank" rel="noopener">#821</a>).</li>
+<li>🐞 Fix TSTORE EOF variant test (<a href="https://github.com/ethereum/execution-spec-tests/pull/831" target="_blank" rel="noopener">#831</a>).</li>
+<li>🔀 Unify EOF return code constants (<a href="https://github.com/ethereum/execution-spec-tests/pull/834" target="_blank" rel="noopener">#834</a>).</li>
+<li>✨ Add RJUMP* vs CALLF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/833" target="_blank" rel="noopener">#833</a>).</li>
+<li>✨ Add tests to clarify &ldquo;non-returning instruction&rdquo; (<a href="https://github.com/ethereum/execution-spec-tests/pull/837" target="_blank" rel="noopener">#837</a>).</li>
+<li>✨ Add double RJUMPI stack validation tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/851" target="_blank" rel="noopener">#851</a>).</li>
+<li>✨ Add unreachable code sections tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/856" target="_blank" rel="noopener">#856</a>).</li>
+<li>💥 <code>PragueEIP7692</code> fork in tests has been updated to <code>Osaka</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/869" target="_blank" rel="noopener">#869</a>).</li>
+<li>✨ Update <a href="https://eips.ethereum.org/EIPS/eip-6110" target="_blank" rel="noopener">EIP-6110</a>, <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noopener">EIP-7002</a>, <a href="https://eips.ethereum.org/EIPS/eip-7251" target="_blank" rel="noopener">EIP-7251</a>, <a href="https://eips.ethereum.org/EIPS/eip-7685" target="_blank" rel="noopener">EIP-7685</a>, and <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> tests for Devnet-4 (<a href="https://github.com/ethereum/execution-spec-tests/pull/832" target="_blank" rel="noopener">#832</a>).</li>
+<li>✨ Add EIP-7069 and EIP-7620 failures and context vars tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/836" target="_blank" rel="noopener">#836</a>).</li>
+<li>✨ Add EOF EIP-4750 Stack validation in CALLF test (<a href="https://github.com/ethereum/execution-spec-tests/pull/889" target="_blank" rel="noopener">#889</a>).</li>
+<li>✨ Add stack overflow by rule check to JUMPF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/902" target="_blank" rel="noopener">#902</a>).</li>
+<li>🐞 Fix erroneous test with<code>CALLF</code> rule bug (<a href="https://github.com/ethereum/execution-spec-tests/pull/907" target="_blank" rel="noopener">#907</a>).</li>
+<li>✨ Add test for EXTDELEGATECALL value cost (<a href="https://github.com/ethereum/execution-spec-tests/pull/911" target="_blank" rel="noopener">#911</a>).</li>
+<li>✨ Add basic EOF execution tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/912" target="_blank" rel="noopener">#912</a>).</li>
+<li>✨ Add parametrized CALLF execution tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/913" target="_blank" rel="noopener">#913</a>).</li>
+<li>✨ Add CALLF execution tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/914" target="_blank" rel="noopener">#914</a>).</li>
+<li>✨ Add fibonacci and factorial CALLF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/915" target="_blank" rel="noopener">#915</a>).</li>
+<li>✨ Add RJUMP* execution tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/916" target="_blank" rel="noopener">#916</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> many delegations test (<a href="https://github.com/ethereum/execution-spec-tests/pull/923" target="_blank" rel="noopener">#923</a>).</li>
+<li>✨ Add opcode validation tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/932" target="_blank" rel="noopener">#932</a>).</li>
+<li>✨ Add RJUMPI with JUMPF tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/928" target="_blank" rel="noopener">#928</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> set code of non-empty-storage account test (<a href="https://github.com/ethereum/execution-spec-tests/pull/948" target="_blank" rel="noopener">#948</a>).</li>
+<li>✨ Add PUSH* opcode tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/975" target="_blank" rel="noopener">#975</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> implement 7702 test ideas (<a href="https://github.com/ethereum/execution-spec-tests/pull/981" target="_blank" rel="noopener">#981</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702</a> Remove delegation behavior of EXTCODE* (<a href="https://github.com/ethereum/execution-spec-tests/pull/984" target="_blank" rel="noopener">#984</a>).</li>
+<li>✨ Add EIP-7620 RETURNCONTRACT behavior verification test (<a href="https://github.com/ethereum/execution-spec-tests/pull/1109" target="_blank" rel="noopener">#1109</a>).</li>
+<li>✨ Add EIP-7069 p256verify EOF calls tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1021" target="_blank" rel="noopener">#1021</a>).</li>
+<li>✨ Add EIP-7480 DATACOPY edge cases tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1020" target="_blank" rel="noopener">#1020</a>).</li>
+<li>✨ Add EIP-7069 EXTCALL creation gas charge tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1025" target="_blank" rel="noopener">#1025</a>).</li>
+<li>✨ Add generic precompile-absence test (<a href="https://github.com/ethereum/execution-spec-tests/pull/1036" target="_blank" rel="noopener">#1036</a>).</li>
+<li>✨ Add test for <a href="https://eips.ethereum.org/EIPS/eip-2537" target="_blank" rel="noopener">EIP-2537</a> which uses the full discount table of G2 MSM (<a href="https://github.com/ethereum/execution-spec-tests/pull/1038" target="_blank" rel="noopener">#1038</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7691" target="_blank" rel="noopener">EIP-7691</a> Blob throughput increase tests by parametrization of existing EIP-4844 tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1023" target="_blank" rel="noopener">#1023</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1082" target="_blank" rel="noopener">#1082</a>).</li>
+<li>✨ Port <a href="https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml" target="_blank" rel="noopener">calldatacopy test</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1056" target="_blank" rel="noopener">#1056</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7623" target="_blank" rel="noopener">EIP-7623</a> Increase calldata cost (<a href="https://github.com/ethereum/execution-spec-tests/pull/1004" target="_blank" rel="noopener">#1004</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1071" target="_blank" rel="noopener">#1071</a>).</li>
+<li>✨ Add CALLF invalid section index tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1111" target="_blank" rel="noopener">#1111</a>).</li>
+<li>✨ Add JUMPF invalid section index tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1112" target="_blank" rel="noopener">#1112</a>).</li>
+<li>✨ Add CALLF truncated immediate bytes tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1114" target="_blank" rel="noopener">#1114</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-152" target="_blank" rel="noopener">EIP-152</a> Add tests for Blake2 compression function <code>F</code> precompile (<a href="https://github.com/ethereum/execution-spec-tests/pull/1067" target="_blank" rel="noopener">#1067</a>).</li>
+<li>✨ Add CALLF non-returning section tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1126" target="_blank" rel="noopener">#1126</a>).</li>
+<li>✨ Add DATALOADN truncated immediate bytes tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1127" target="_blank" rel="noopener">#1127</a>).</li>
+<li>🔀 Update EIP-7702 test expectations according to <a href="https://github.com/ethereum/EIPs/pull/9248" target="_blank" rel="noopener">spec updates</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1129" target="_blank" rel="noopener">#1129</a>).</li>
+<li>✨ Add tests for CALLF and non-returning (<a href="https://github.com/ethereum/execution-spec-tests/pull/1140" target="_blank" rel="noopener">#1140</a>).</li>
+<li>🔀 Update EIP-7251 according to spec updates <a href="https://github.com/ethereum/EIPs/pull/9127" target="_blank" rel="noopener">#9127</a>, <a href="https://github.com/ethereum/EIPs/pull/9289" target="_blank" rel="noopener">#9289</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1024" target="_blank" rel="noopener">#1024</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1155" target="_blank" rel="noopener">#1155</a>).</li>
+<li>🔀 Update EIP-7002 according to spec updates <a href="https://github.com/ethereum/EIPs/pull/9119" target="_blank" rel="noopener">#9119</a>, <a href="https://github.com/ethereum/EIPs/pull/9288" target="_blank" rel="noopener">#9288</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1024" target="_blank" rel="noopener">#1024</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1155" target="_blank" rel="noopener">#1155</a>).</li>
+<li>🔀 Update EIP-2935 according to spec updates <a href="https://github.com/ethereum/EIPs/pull/9144" target="_blank" rel="noopener">#9144</a>, <a href="https://github.com/ethereum/EIPs/pull/9287" target="_blank" rel="noopener">#9287</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1046" target="_blank" rel="noopener">#1046</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1155" target="_blank" rel="noopener">#1155</a>).</li>
+<li>✨ Add DATALOADN validation and execution tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1162" target="_blank" rel="noopener">#1162</a>).</li>
+<li>✨ Add EOF prefix tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1187" target="_blank" rel="noopener">#1187</a>).</li>
+<li>✨ Add tests for EOF code header missing (<a href="https://github.com/ethereum/execution-spec-tests/pull/1193" target="_blank" rel="noopener">#1193</a>).</li>
+<li>✨ Add tests for empty EOF type section (<a href="https://github.com/ethereum/execution-spec-tests/pull/1194" target="_blank" rel="noopener">#1194</a>).</li>
+<li>✨ Add tests for multiple EOF type sections (<a href="https://github.com/ethereum/execution-spec-tests/pull/1195" target="_blank" rel="noopener">#1195</a>).</li>
+<li>✨ Add EIP-7698 legacy EOF creation prevention tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1206" target="_blank" rel="noopener">#1206</a>).</li>
+</ul>
+<h2 id="v300---2024-07-22"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v3.0.0" target="_blank" rel="noopener">v3.0.0</a> - 2024-07-22</h2>
+<h3 id="-test-cases-7">🧪 Test Cases</h3>
+<ul>
+<li>✨ Port create2 return data test (<a href="https://github.com/ethereum/execution-spec-tests/pull/497" target="_blank" rel="noopener">#497</a>).</li>
+<li>✨ Add tests for eof container&rsquo;s section bytes position smart fuzzing (<a href="https://github.com/ethereum/execution-spec-tests/pull/592" target="_blank" rel="noopener">#592</a>).</li>
+<li>✨ Add <code>test_create_selfdestruct_same_tx_increased_nonce</code> which tests self-destructing a contract with a nonce &gt; 1 (<a href="https://github.com/ethereum/execution-spec-tests/pull/478" target="_blank" rel="noopener">#478</a>).</li>
+<li>✨ Add <code>test_double_kill</code> and <code>test_recreate</code> which test resurrection of accounts killed with <code>SELFDESTRUCT</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/488" target="_blank" rel="noopener">#488</a>).</li>
+<li>✨ Add eof example valid invalid tests from ori, fetch EOF Container implementation (<a href="https://github.com/ethereum/execution-spec-tests/pull/535" target="_blank" rel="noopener">#535</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-2537" target="_blank" rel="noopener">EIP-2537: Precompile for BLS12-381 curve operations</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/499" target="_blank" rel="noopener">#499</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-663" target="_blank" rel="noopener">EIP-663</a>: Add <code>test_dupn.py</code> and <code>test_swapn.py</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/502" target="_blank" rel="noopener">#502</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-6110" target="_blank" rel="noopener">EIP-6110: Supply validator deposits on chain</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/530" target="_blank" rel="noopener">#530</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-7002" target="_blank" rel="noopener">EIP-7002: Execution layer triggerable withdrawals</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/530" target="_blank" rel="noopener">#530</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-7685" target="_blank" rel="noopener">EIP-7685: General purpose execution layer requests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/530" target="_blank" rel="noopener">#530</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-2935" target="_blank" rel="noopener">EIP-2935: Serve historical block hashes from state</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/564" target="_blank" rel="noopener">#564</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/585" target="_blank" rel="noopener">#585</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-4200" target="_blank" rel="noopener">EIP-4200: EOF - Static relative jumps</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/581" target="_blank" rel="noopener">#581</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/666" target="_blank" rel="noopener">#666</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-7069" target="_blank" rel="noopener">EIP-7069: EOF - Revamped CALL instructions</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/595" target="_blank" rel="noopener">#595</a>).</li>
+<li>🐞 Fix typos in self-destruct collision test from erroneous pytest parametrization (<a href="https://github.com/ethereum/execution-spec-tests/pull/608" target="_blank" rel="noopener">#608</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-3540" target="_blank" rel="noopener">EIP-3540: EOF - EVM Object Format v1</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/634" target="_blank" rel="noopener">#634</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/668" target="_blank" rel="noopener">#668</a>).</li>
+<li>🔀 Update EIP-7002 tests to match spec changes in <a href="https://github.com/ethereum/execution-apis/pull/549" target="_blank" rel="noopener">ethereum/execution-apis#549</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/600" target="_blank" rel="noopener">#600</a>).</li>
+<li>✨ Convert a few eip1153 tests from ethereum/tests repo into .py (<a href="https://github.com/ethereum/execution-spec-tests/pull/440" target="_blank" rel="noopener">#440</a>).</li>
+<li>✨ Add tests for <a href="https://eips.ethereum.org/EIPS/eip-7480" target="_blank" rel="noopener">EIP-7480: EOF - Data section access instructions</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/518" target="_blank" rel="noopener">#518</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/664" target="_blank" rel="noopener">#664</a>).</li>
+<li>✨ Add tests for subcontainer kind validation from <a href="https://eips.ethereum.org/EIPS/eip-7620" target="_blank" rel="noopener">EIP-7620: EOF Contract Creation</a> for the cases with deeply nested containers and non-first code sections (<a href="https://github.com/ethereum/execution-spec-tests/pull/676" target="_blank" rel="noopener">#676</a>).</li>
+<li>✨ Add tests for runtime stack overflow at CALLF instruction from <a href="https://eips.ethereum.org/EIPS/eip-4750" target="_blank" rel="noopener">EIP-4750: EOF - Functions</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/678" target="_blank" rel="noopener">#678</a>).</li>
+<li>✨ Add tests for runtime stack overflow at JUMPF instruction from <a href="https://eips.ethereum.org/EIPS/eip-6206" target="_blank" rel="noopener">EIP-6206: EOF - JUMPF and non-returning functions</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/690" target="_blank" rel="noopener">#690</a>).</li>
+<li>✨ Add tests for Devnet-1 version of <a href="https://eips.ethereum.org/EIPS/eip-7702" target="_blank" rel="noopener">EIP-7702: Set EOA account code</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/621" target="_blank" rel="noopener">#621</a>).</li>
+</ul>
+<h3 id="-framework-7">🛠️ Framework</h3>
+<ul>
+<li>🐞 Fix incorrect <code>!=</code> operator for <code>FixedSizeBytes</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/477" target="_blank" rel="noopener">#477</a>).</li>
+<li>✨ Add Macro enum that represents byte sequence of Op instructions (<a href="https://github.com/ethereum/execution-spec-tests/pull/457" target="_blank" rel="noopener">#457</a>).</li>
+<li>✨ Number of parameters used to call opcodes (to generate bytecode) is now checked (<a href="https://github.com/ethereum/execution-spec-tests/pull/492" target="_blank" rel="noopener">#492</a>).</li>
+<li>✨ Libraries have been refactored to use <code>pydantic</code> for type checking in most test types (<a href="https://github.com/ethereum/execution-spec-tests/pull/486" target="_blank" rel="noopener">#486</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/501" target="_blank" rel="noopener">#501</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/508" target="_blank" rel="noopener">#508</a>).</li>
+<li>✨ Opcodes are now subscriptable and it&rsquo;s used to define the data portion of the opcode: <code>Op.PUSH1(1) == Op.PUSH1[1]  == b&quot;\x60\x01&quot;</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/513" target="_blank" rel="noopener">#513</a>).</li>
+<li>✨ Added EOF fixture format (<a href="https://github.com/ethereum/execution-spec-tests/pull/512" target="_blank" rel="noopener">#512</a>).</li>
+<li>✨ Verify filled EOF fixtures using <code>evmone-eofparse</code> during <code>fill</code> execution (<a href="https://github.com/ethereum/execution-spec-tests/pull/519" target="_blank" rel="noopener">#519</a>).</li>
+<li>✨ Added <code>--traces</code> support when running with Hyperledger Besu (<a href="https://github.com/ethereum/execution-spec-tests/pull/511" target="_blank" rel="noopener">#511</a>).</li>
+<li>✨ Use pytest&rsquo;s &ldquo;short&rdquo; traceback style (<code>--tb=short</code>) for failure summaries in the test report for more compact terminal output (<a href="https://github.com/ethereum/execution-spec-tests/pull/542" target="_blank" rel="noopener">#542</a>).</li>
+<li>✨ The <code>fill</code> command now generates HTML test reports with links to the JSON fixtures and debug information (<a href="https://github.com/ethereum/execution-spec-tests/pull/537" target="_blank" rel="noopener">#537</a>).</li>
+<li>✨ Add an Ethereum RPC client class for use with consume commands (<a href="https://github.com/ethereum/execution-spec-tests/pull/556" target="_blank" rel="noopener">#556</a>).</li>
+<li>✨ Add a &ldquo;slow&rdquo; pytest marker, in order to be able to limit the filled tests until release (<a href="https://github.com/ethereum/execution-spec-tests/pull/562" target="_blank" rel="noopener">#562</a>).</li>
+<li>✨ Add a CLI tool that generates blockchain tests as Python from a transaction hash (<a href="https://github.com/ethereum/execution-spec-tests/pull/470" target="_blank" rel="noopener">#470</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/576" target="_blank" rel="noopener">#576</a>).</li>
+<li>✨ Add more Transaction and Block exceptions from existing ethereum/tests repo (<a href="https://github.com/ethereum/execution-spec-tests/pull/572" target="_blank" rel="noopener">#572</a>).</li>
+<li>✨ Add &ldquo;description&rdquo; and &ldquo;url&rdquo; fields containing test case documentation and a source code permalink to fixtures during <code>fill</code> and use them in <code>consume</code>-generated Hive test reports (<a href="https://github.com/ethereum/execution-spec-tests/pull/579" target="_blank" rel="noopener">#579</a>).</li>
+<li>✨ Add git workflow evmone coverage script for any new lines mentioned in converted_ethereum_tests.txt (<a href="https://github.com/ethereum/execution-spec-tests/pull/503" target="_blank" rel="noopener">#503</a>).</li>
+<li>✨ Add a new covariant marker <code>with_all_contract_creating_tx_types</code> that allows automatic parametrization of a test with all contract-creating transaction types at the current executing fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/602" target="_blank" rel="noopener">#602</a>).</li>
+<li>✨ Tests are now encouraged to declare a <code>pre: Alloc</code> parameter to get the pre-allocation object for the test, and use <code>pre.deploy_contract</code> and <code>pre.fund_eoa</code> to deploy contracts and fund accounts respectively, instead of declaring the <code>pre</code> as a dictionary or modifying its contents directly (see the <a href="https://eest.ethereum.org/v4.1.0/writing_tests/tutorials/state_transition/" target="_blank" rel="noopener">state test tutorial</a> for an updated example) (<a href="https://github.com/ethereum/execution-spec-tests/pull/584" target="_blank" rel="noopener">#584</a>).</li>
+<li>✨ Enable loading of <a href="https://github.com/ethereum/tests/tree/develop/BlockchainTests" target="_blank" rel="noopener">ethereum/tests/BlockchainTests</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/596" target="_blank" rel="noopener">#596</a>).</li>
+<li>🔀 Refactor <code>gentest</code> to use <code>ethereum_test_tools.rpc.rpc</code> by adding to <code>get_transaction_by_hash</code>, <code>debug_trace_call</code> to <code>EthRPC</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/568" target="_blank" rel="noopener">#568</a>).</li>
+<li>✨ Write a properties file to the output directory and enable direct generation of a fixture tarball from <code>fill</code> via <code>--output=fixtures.tgz</code>(<a href="https://github.com/ethereum/execution-spec-tests/pull/627" target="_blank" rel="noopener">#627</a>).</li>
+<li>🔀 <code>ethereum_test_tools</code> library has been split into multiple libraries (<a href="https://github.com/ethereum/execution-spec-tests/pull/645" target="_blank" rel="noopener">#645</a>).</li>
+<li>✨ Add the consume engine simulator and refactor the consume simulator suite (<a href="https://github.com/ethereum/execution-spec-tests/pull/691" target="_blank" rel="noopener">#691</a>).</li>
+<li>🐞 Prevents forcing consume to use stdin as an input when running from hive (<a href="https://github.com/ethereum/execution-spec-tests/pull/701" target="_blank" rel="noopener">#701</a>).</li>
+</ul>
+<h3 id="-misc-7">📋 Misc</h3>
+<ul>
+<li>🐞 Fix CI by using Golang 1.21 in Github Actions to build geth (<a href="https://github.com/ethereum/execution-spec-tests/pull/484" target="_blank" rel="noopener">#484</a>).</li>
+<li>💥 &ldquo;Merge&rdquo; has been renamed to &ldquo;Paris&rdquo; in the &ldquo;network&rdquo; field of the Blockchain tests, and in the &ldquo;post&rdquo; field of the State tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/480" target="_blank" rel="noopener">#480</a>).</li>
+<li>✨ Port entry point scripts to use <a href="https://click.palletsprojects.com" target="_blank" rel="noopener">click</a> and add tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/483" target="_blank" rel="noopener">#483</a>).</li>
+<li>💥 As part of the pydantic conversion, the fixtures have the following (possibly breaking) changes (<a href="https://github.com/ethereum/execution-spec-tests/pull/486" target="_blank" rel="noopener">#486</a>):
+<ul>
+<li>State test field <code>transaction</code> now uses the proper zero-padded hex number format for fields <code>maxPriorityFeePerGas</code>, <code>maxFeePerGas</code>, and <code>maxFeePerBlobGas</code>.</li>
+<li>Fixtures&rsquo; hashes (in the <code>_info</code> field) are now calculated by removing the &ldquo;_info&rdquo; field entirely instead of it being set to an empty dict.</li>
+</ul>
+</li>
+<li>🐞 Relax minor and patch dependency requirements to avoid conflicting package dependencies (<a href="https://github.com/ethereum/execution-spec-tests/pull/510" target="_blank" rel="noopener">#510</a>).</li>
+<li>🔀 Update all CI actions to use their respective Node.js 20 versions, ahead of their Node.js 16 version deprecations (<a href="https://github.com/ethereum/execution-spec-tests/pull/527" target="_blank" rel="noopener">#527</a>).</li>
+<li>✨ Releases now contain a <code>fixtures_eip7692.tar.gz</code> which contains all EOF fixtures (<a href="https://github.com/ethereum/execution-spec-tests/pull/573" target="_blank" rel="noopener">#573</a>).</li>
+<li>✨ Use <code>solc-select</code> for tox when running locally and within CI (<a href="https://github.com/ethereum/execution-spec-tests/pull/604" target="_blank" rel="noopener">#604</a>).</li>
+</ul>
+<h3 id="-breaking-change-5">💥 Breaking Change</h3>
+<ul>
+<li>Cancun is now the latest deployed fork, and the development fork is now Prague (<a href="https://github.com/ethereum/execution-spec-tests/pull/489" target="_blank" rel="noopener">#489</a>).</li>
+<li>Stable fixtures artifact <code>fixtures.tar.gz</code> has been renamed to <code>fixtures_stable.tar.gz</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/573" target="_blank" rel="noopener">#573</a>).</li>
+<li>The &ldquo;Blockchain Test Hive&rdquo; fixture format has been renamed to &ldquo;Blockchain Test Engine&rdquo; and updated to more closely resemble the <code>engine_newPayload</code> format in the <code>execution-apis</code> specification (<a href="https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request" target="_blank" rel="noopener">https://github.com/ethereum/execution-apis/blob/main/src/engine/prague.md#request</a>) and now contains a single <code>&quot;params&quot;</code> field instead of multiple fields for each parameter (<a href="https://github.com/ethereum/execution-spec-tests/pull/687" target="_blank" rel="noopener">#687</a>).</li>
+<li>Output folder for fixtures has been renamed from &ldquo;blockchain_tests_hive&rdquo; to &ldquo;blockchain_tests_engine&rdquo; (<a href="https://github.com/ethereum/execution-spec-tests/pull/687" target="_blank" rel="noopener">#687</a>).</li>
+</ul>
+<h2 id="v211---2024-03-09"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.1" target="_blank" rel="noopener">v2.1.1</a> - 2024-03-09</h2>
+<h3 id="-test-cases-8">🧪 Test Cases</h3>
+<ul>
+<li>🐞 Dynamic create2 collision from different transactions same block (<a href="https://github.com/ethereum/execution-spec-tests/pull/430" target="_blank" rel="noopener">#430</a>).</li>
+<li>🐞 Fix beacon root contract deployment tests so the account in the pre-alloc is not empty (<a href="https://github.com/ethereum/execution-spec-tests/pull/425" target="_blank" rel="noopener">#425</a>).</li>
+<li>🔀 All beacon root contract tests are now contained in tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py, and all state tests have been converted back to blockchain tests format (<a href="https://github.com/ethereum/execution-spec-tests/pull/449" target="_blank" rel="noopener">#449</a>).</li>
+</ul>
+<h3 id="-framework-8">🛠️ Framework</h3>
+<ul>
+<li>
+<p>✨ Adds two <code>consume</code> commands <a href="https://github.com/ethereum/execution-spec-tests/pull/339" target="_blank" rel="noopener">#339</a>:</p>
+<ol>
+<li><code>consume direct</code> - Execute a test fixture directly against a client using a <code>blocktest</code>-like command (currently only geth supported).</li>
+<li><code>consume rlp</code> - Execute a test fixture in a hive simulator against a client that imports the test&rsquo;s genesis config and blocks as RLP upon startup. This is a re-write of the <a href="https://github.com/ethereum/hive/tree/master/simulators/ethereum/consensus" target="_blank" rel="noopener">ethereum/consensus</a> Golang simulator.</li>
+</ol>
+</li>
+<li>
+<p>✨ Add Prague to forks (<a href="https://github.com/ethereum/execution-spec-tests/pull/419" target="_blank" rel="noopener">#419</a>).</p>
+</li>
+<li>
+<p>✨ Improve handling of the argument passed to <code>solc --evm-version</code> when compiling Yul code (<a href="https://github.com/ethereum/execution-spec-tests/pull/418" target="_blank" rel="noopener">#418</a>).</p>
+</li>
+<li>
+<p>🐞 Fix <code>fill -m yul_test</code> which failed to filter tests that are (dynamically) marked as a yul test (<a href="https://github.com/ethereum/execution-spec-tests/pull/418" target="_blank" rel="noopener">#418</a>).</p>
+</li>
+<li>
+<p>🔀 Helper methods <code>to_address</code>, <code>to_hash</code> and <code>to_hash_bytes</code> have been deprecated in favor of <code>Address</code> and <code>Hash</code>, which are automatically detected as opcode parameters and pushed to the stack in the resulting bytecode (<a href="https://github.com/ethereum/execution-spec-tests/pull/422" target="_blank" rel="noopener">#422</a>).</p>
+</li>
+<li>
+<p>✨ <code>Opcodes</code> enum now contains docstrings with each opcode description, including parameters and return values, which show up in many development environments (<a href="https://github.com/ethereum/execution-spec-tests/pull/424" target="_blank" rel="noopener">#424</a>) @ThreeHrSleep.</p>
+</li>
+<li>
+<p>🔀 Locally calculate state root for the genesis blocks in the blockchain tests instead of calling t8n (<a href="https://github.com/ethereum/execution-spec-tests/pull/450" target="_blank" rel="noopener">#450</a>).</p>
+</li>
+<li>
+<p>🐞 Fix bug that causes an exception during test collection because the fork parameter contains <code>None</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/452" target="_blank" rel="noopener">#452</a>).</p>
+</li>
+<li>
+<p>✨ The <code>_info</code> field in the test fixtures now contains a <code>hash</code> field, which is the hash of the test fixture, and a <code>hasher</code> script has been added which prints and performs calculations on top of the hashes of all fixtures (see <code>hasher -h</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/454" target="_blank" rel="noopener">#454</a>).</p>
+</li>
+<li>
+<p>✨ Adds an optional <code>verify_sync</code> field to hive blockchain tests (EngineAPI). When set to true a second client attempts to sync to the first client that executed the tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/431" target="_blank" rel="noopener">#431</a>).</p>
+</li>
+<li>
+<p>🐞 Fix manually setting the gas limit in the genesis test env for post genesis blocks in blockchain tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/472" target="_blank" rel="noopener">#472</a>).</p>
+</li>
+</ul>
+<h3 id="-misc-8">📋 Misc</h3>
+<ul>
+<li>🐞 Fix deprecation warnings due to outdated config in recommended VS Code project settings (<a href="https://github.com/ethereum/execution-spec-tests/pull/420" target="_blank" rel="noopener">#420</a>).</li>
+<li>🐞 Fix typo in the selfdestruct revert tests module (<a href="https://github.com/ethereum/execution-spec-tests/pull/421" target="_blank" rel="noopener">#421</a>).</li>
+</ul>
+<h2 id="v210---2024-01-29--cancun"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0" target="_blank" rel="noopener">v2.1.0</a> - 2024-01-29: 🐍🏖️ Cancun</h2>
+<p>Release <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.1.0" target="_blank" rel="noopener">v2.1.0</a> primarily fixes a small bug introduced within the previous release where transition forks are used within the new <code>StateTest</code> format. This was highlighted by @chfast within #405 (<a href="https://github.com/ethereum/execution-spec-tests/issues/405" target="_blank" rel="noopener">https://github.com/ethereum/execution-spec-tests/issues/405</a>), where the fork name <code>ShanghaiToCancunAtTime15k</code> was found within state tests.</p>
+<h3 id="-test-cases-9">🧪 Test Cases</h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Adds <code>test_blob_gas_subtraction_tx()</code> verifying the blob gas fee is subtracted from the sender before executing the blob tx (<a href="https://github.com/ethereum/execution-spec-tests/pull/407" target="_blank" rel="noopener">#407</a>).</li>
+</ul>
+<h3 id="-framework-9">🛠️ Framework</h3>
+<ul>
+<li>🐞 State tests generated with transition forks no longer use the transition fork name in the fixture output, instead they use the actual enabled fork according to the state test&rsquo;s block number and timestamp (<a href="https://github.com/ethereum/execution-spec-tests/pull/406" target="_blank" rel="noopener">#406</a>).</li>
+</ul>
+<h3 id="-misc-9">📋 Misc</h3>
+<ul>
+<li>✨ Use <code>run-parallel</code> and shared wheel packages for <code>tox</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/408" target="_blank" rel="noopener">#408</a>).</li>
+</ul>
+<h2 id="v200---2024-01-25--cancun"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0" target="_blank" rel="noopener">v2.0.0</a> - 2024-01-25: 🐍🏖️ Cancun</h2>
+<p>Release <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v2.0.0" target="_blank" rel="noopener">v2.0.0</a> contains many important framework changes, including introduction of the <code>StateTest</code> format, and some additional Cancun and other test coverage.</p>
+<p>Due to changes in the framework, there is a breaking change in the directory structure in the release tarball, please see the dedicated &ldquo;💥 Breaking Changes&rdquo; section below for more information.</p>
+<h3 id="-test-cases-10">🧪 Test Cases</h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Add <code>test_sufficient_balance_blob_tx()</code> and <code>test_sufficient_balance_blob_tx_pre_fund_tx()</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/379" target="_blank" rel="noopener">#379</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-6780" target="_blank" rel="noopener">EIP-6780</a>: Add a reentrancy suicide revert test (<a href="https://github.com/ethereum/execution-spec-tests/pull/372" target="_blank" rel="noopener">#372</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-1153" target="_blank" rel="noopener">EIP-1153</a>: Add <code>test_run_until_out_of_gas()</code> for transient storage opcodes (<a href="https://github.com/ethereum/execution-spec-tests/pull/401" target="_blank" rel="noopener">#401</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-198" target="_blank" rel="noopener">EIP-198</a>: Add tests for the MODEXP precompile (<a href="https://github.com/ethereum/execution-spec-tests/pull/364" target="_blank" rel="noopener">#364</a>).</li>
+<li>✨ Tests for nested <code>CALL</code> and <code>CALLCODE</code> gas consumption with a positive value transfer (previously lacking coverage) (<a href="https://github.com/ethereum/execution-spec-tests/pull/371" target="_blank" rel="noopener">#371</a>).</li>
+<li>🐞 <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Fixed <code>test_invalid_tx_max_fee_per_blob_gas()</code> to account for extra gas required in the case where the account is incorrectly deduced the balance as if it had the correct block blob gas fee (<a href="https://github.com/ethereum/execution-spec-tests/pull/370" target="_blank" rel="noopener">#370</a>).</li>
+<li>🐞 <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Fixed <code>test_insufficient_balance_blob_tx()</code> to correctly calculate the minimum balance required for the accounts (<a href="https://github.com/ethereum/execution-spec-tests/pull/379" target="_blank" rel="noopener">#379</a>).</li>
+<li>🐞 <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Fix and enable <code>test_invalid_blob_tx_contract_creation</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/379" target="_blank" rel="noopener">#379</a>).</li>
+<li>🔀 Convert all eligible <code>BlockchainTest</code>s to <code>StateTest</code>s (and additionally generate corresponding <code>BlockchainTest</code>s) (<a href="https://github.com/ethereum/execution-spec-tests/pull/368" target="_blank" rel="noopener">#368</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/370" target="_blank" rel="noopener">#370</a>).</li>
+</ul>
+<h3 id="-framework-10">🛠️ Framework</h3>
+<ul>
+<li>✨ Add <code>StateTest</code> fixture format generation; <code>StateTests</code> now generate a <code>StateTest</code> and a corresponding <code>BlockchainTest</code> test fixture, previously only <code>BlockchainTest</code> fixtures were generated (<a href="https://github.com/ethereum/execution-spec-tests/pull/368" target="_blank" rel="noopener">#368</a>).</li>
+<li>✨ Add <code>StateTestOnly</code> fixture format is now available and its only difference with <code>StateTest</code> is that it does not produce a <code>BlockchainTest</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/368" target="_blank" rel="noopener">#368</a>).</li>
+<li>✨ Add <code>evm_bytes_to_python</code> command-line utility which converts EVM bytecode to Python Opcodes (<a href="https://github.com/ethereum/execution-spec-tests/pull/357" target="_blank" rel="noopener">#357</a>).</li>
+<li>✨ Fork objects used to write tests can now be compared using the <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code> operators, to check for a fork being newer than, newer than or equal, older than, older than or equal, respectively when compared against other fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/367" target="_blank" rel="noopener">#367</a>).</li>
+<li>✨ Add <a href="https://github.com/ethereum/solidity/releases/tag/v0.8.23" target="_blank" rel="noopener">solc 0.8.23</a> support (<a href="https://github.com/ethereum/execution-spec-tests/pull/373" target="_blank" rel="noopener">#373</a>).</li>
+<li>✨ Add framework unit tests for post state exception verification (<a href="https://github.com/ethereum/execution-spec-tests/pull/350" target="_blank" rel="noopener">#350</a>).</li>
+<li>✨ Add a helper class <code>ethereum_test_tools.TestParameterGroup</code> to define test parameters as dataclasses and auto-generate test IDs (<a href="https://github.com/ethereum/execution-spec-tests/pull/364" target="_blank" rel="noopener">#364</a>).</li>
+<li>✨ Add a <code>--single-fixture-per-file</code> flag to generate one fixture JSON file per test case (<a href="https://github.com/ethereum/execution-spec-tests/pull/331" target="_blank" rel="noopener">#331</a>).</li>
+<li>🐞 Storage type iterator is now fixed (<a href="https://github.com/ethereum/execution-spec-tests/pull/369" target="_blank" rel="noopener">#369</a>).</li>
+<li>🐞 Fix type coercion in <code>FixtureHeader.join()</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/398" target="_blank" rel="noopener">#398</a>).</li>
+<li>🔀 Locally calculate the transactions list&rsquo;s root instead of using the one returned by t8n when producing BlockchainTests (<a href="https://github.com/ethereum/execution-spec-tests/pull/353" target="_blank" rel="noopener">#353</a>).</li>
+<li>🔀 Change custom exception classes to dataclasses to improve testability (<a href="https://github.com/ethereum/execution-spec-tests/pull/386" target="_blank" rel="noopener">#386</a>).</li>
+<li>🔀 Update fork name from &ldquo;Merge&rdquo; to &ldquo;Paris&rdquo; used within the framework and tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/363" target="_blank" rel="noopener">#363</a>).</li>
+<li>💥 Replace <code>=</code> with <code>_</code> in pytest node ids and test fixture names (<a href="https://github.com/ethereum/execution-spec-tests/pull/342" target="_blank" rel="noopener">#342</a>).</li>
+<li>💥 The <code>StateTest</code>, spec format used to write tests, is now limited to a single transaction per test (<a href="https://github.com/ethereum/execution-spec-tests/pull/361" target="_blank" rel="noopener">#361</a>).</li>
+<li>💥 Tests must now use <code>BlockException</code> and <code>TransactionException</code> to define the expected exception of a given test, which can be used to test whether the client is hitting the proper exception when processing the block or transaction (<a href="https://github.com/ethereum/execution-spec-tests/pull/384" target="_blank" rel="noopener">#384</a>).</li>
+<li>💥 <code>fill</code>: Remove the <code>--enable-hive</code> flag; now all test types are generated by default (<a href="https://github.com/ethereum/execution-spec-tests/pull/358" target="_blank" rel="noopener">#358</a>).</li>
+<li>💥 Rename test fixtures names to match the corresponding pytest node ID as generated using <code>fill</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/342" target="_blank" rel="noopener">#342</a>).</li>
+</ul>
+<h3 id="-misc-10">📋 Misc</h3>
+<ul>
+<li>✨ Docs: Add a <a href="https://eest.ethereum.org/main/consuming_tests/" target="_blank" rel="noopener">&ldquo;Consuming Tests&rdquo;</a> section to the docs, where each test fixture format is described, along with the steps to consume them, and the description of the structures used in each format (<a href="https://github.com/ethereum/execution-spec-tests/pull/375" target="_blank" rel="noopener">#375</a>).</li>
+<li>🔀 Docs: Update <code>t8n</code> tool branch to fill tests for development features in the <a href="https://github.com/ethereum/execution-spec-tests" target="_blank" rel="noopener">readme</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/338" target="_blank" rel="noopener">#338</a>).</li>
+<li>🔀 Filling tool: Updated the default filling tool (<code>t8n</code>) to go-ethereum@master (<a href="https://github.com/ethereum/execution-spec-tests/pull/368" target="_blank" rel="noopener">#368</a>).</li>
+<li>🐞 Docs: Fix error banner in online docs due to mermaid syntax error (<a href="https://github.com/ethereum/execution-spec-tests/pull/398" target="_blank" rel="noopener">#398</a>).</li>
+<li>🐞 Docs: Fix incorrectly formatted nested lists in online doc (<a href="https://github.com/ethereum/execution-spec-tests/pull/403" target="_blank" rel="noopener">#403</a>).</li>
+<li>🔀 CLI: <code>evm_bytes_to_python</code> is renamed to <code>evm_bytes</code> and now accepts flag <code>--assembly</code> to output the code in assembly format (<a href="https://github.com/ethereum/execution-spec-tests/pull/844" target="_blank" rel="noopener">#844</a>).</li>
+</ul>
+<h3 id="-breaking-changes-2">💥 Breaking Changes</h3>
+<p>A concrete example of the test name renaming and change in directory structure is provided below.</p>
+<ol>
+<li>
+<p>Fixture output, including release tarballs, now contain subdirectories for different test types:</p>
+<ol>
+<li><code>blockchain_tests</code>: Contains <code>BlockchainTest</code> formatted tests</li>
+<li><code>blockchain_tests_hive</code>: Contains <code>BlockchainTest</code> with Engine API call directives for use in hive</li>
+<li><code>state_tests</code>: Contains <code>StateTest</code> formatted tests</li>
+</ol>
+</li>
+<li>
+<p><code>StateTest</code>, spec format used to write tests, is now limited to a single transaction per test.</p>
+</li>
+<li>
+<p>In this release the pytest node ID is now used for fixture names (previously only the test parameters were used), this should not be breaking. However, <code>=</code> in both node IDs (and therefore fixture names) have been replaced with <code>_</code>, which may break tooling that depends on the <code>=</code> character.</p>
+</li>
+<li>
+<p>Produced <code>blockchain_tests</code> fixtures and their corresponding <code>blockchain_tests_hive</code> fixtures now contain the named exceptions <code>BlockException</code> and <code>TransactionException</code> as strings in the <code>expectException</code> and <code>validationError</code> fields, respectively. These exceptions can be used to test whether the client is hitting the proper exception when processing an invalid block.</p>
+<p>Blockchain test:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;blocks&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">&#34;expectException&#34;</span>: <span style="color:#e6db74">&#34;TransactionException.INSUFFICIENT_ACCOUNT_FUNDS&#34;</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>Blockchain hive test:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;engineNewPayloads&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>         <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#f92672">&#34;validationError&#34;</span>: <span style="color:#e6db74">&#34;TransactionException.INSUFFICIENT_ACCOUNT_FUNDS&#34;</span>,
+</span></span><span style="display:flex;"><span>         <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div></li>
+</ol>
+<h4 id="renaming-and-release-tarball-directory-structure-change-example">Renaming and Release Tarball Directory Structure Change Example</h4>
+<p>The fixture renaming provides a more consistent naming scheme between the pytest node ID and fixture name and allows the fixture name to be provided directly to pytest 5on the command line to execute individual tests in isolation, e.g. <code>pytest tests/frontier/opcodes/test_dup.py::test_dup[fork_Frontier]</code>.</p>
+<ol>
+<li>
+<p>Pytest node ID example:</p>
+<ol>
+<li>Previous node ID: <code>tests/frontier/opcodes/test_dup.py::test_dup[fork=Frontier]</code>.</li>
+<li>New node ID: <code>tests/frontier/opcodes/test_dup.py::test_dup[fork_Frontier]</code>.</li>
+</ol>
+</li>
+<li>
+<p>Fixture name example:</p>
+<ol>
+<li>Previous fixture name: <code>000-fork=Frontier</code></li>
+<li>New fixture name: <code>tests/frontier/opcodes/test_dup.py::test_dup[fork_Frontier]</code> (now the same as the pytest node ID).</li>
+</ol>
+</li>
+<li>
+<p>Fixture JSON file name example (within the release tarball):</p>
+<ol>
+<li>Previous fixture file name: <code>fixtures/frontier/opcodes/dup/dup.json</code> (<code>BlockChainTest</code> format).</li>
+<li>New fixture file names (all present within the release tarball):</li>
+</ol>
+<ul>
+<li><code>fixtures/state_tests/frontier/opcodes/dup/dup.json</code> (<code>StateTest</code> format).</li>
+<li><code>fixtures/blockchain_tests/frontier/opcodes/dup/dup.json</code> (<code>BlockChainTest</code> format).</li>
+<li><code>fixtures/blockchain_tests_hive/frontier/opcodes/dup/dup.json</code> (a blockchain test in <code>HiveFixture</code> format).</li>
+</ul>
+</li>
+</ol>
+<h2 id="v106---2023-10-19--cancun-devnet-10"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.6" target="_blank" rel="noopener">v1.0.6</a> - 2023-10-19: 🐍🏖️ Cancun Devnet 10</h2>
+<h3 id="-test-cases-11">🧪 Test Cases</h3>
+<ul>
+<li>🔀 <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Update KZG point evaluation test vectors to use data from the official KZG setup and Mainnet Trusted Setup (<a href="https://github.com/ethereum/execution-spec-tests/pull/336" target="_blank" rel="noopener">#336</a>).</li>
+</ul>
+<h3 id="-framework-11">🛠️ Framework</h3>
+<ul>
+<li>🔀 Fixtures: Add a non-RLP format field (<code>rlp_decoded</code>) to invalid blocks (<a href="https://github.com/ethereum/execution-spec-tests/pull/322" target="_blank" rel="noopener">#322</a>).</li>
+<li>🔀 Spec: Refactor state and blockchain spec (<a href="https://github.com/ethereum/execution-spec-tests/pull/307" target="_blank" rel="noopener">#307</a>).</li>
+</ul>
+<h3 id="-evm-tools">🔧 EVM Tools</h3>
+<ul>
+<li>✨ Run geth&rsquo;s <code>evm blocktest</code> command to verify JSON fixtures after test case execution (<code>--verify-fixtures</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/325" target="_blank" rel="noopener">#325</a>).</li>
+<li>✨ Enable tracing support for <code>ethereum-spec-evm</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/289" target="_blank" rel="noopener">#289</a>).</li>
+</ul>
+<h3 id="-misc-11">📋 Misc</h3>
+<ul>
+<li>✨ Tooling: Add Python 3.12 support (<a href="https://github.com/ethereum/execution-spec-tests/pull/309" target="_blank" rel="noopener">#309</a>).</li>
+<li>✨ Process: Added a Github pull request template (<a href="https://github.com/ethereum/execution-spec-tests/pull/308" target="_blank" rel="noopener">#308</a>).</li>
+<li>✨ Docs: Changelog updated post release (<a href="https://github.com/ethereum/execution-spec-tests/pull/321" target="_blank" rel="noopener">#321</a>).</li>
+<li>✨ Docs: Add <a href="https://eest.ethereum.org/v4.1.0/consuming_tests/" target="_blank" rel="noopener">a section explaining execution-spec-tests release artifacts</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/334" target="_blank" rel="noopener">#334</a>).</li>
+<li>🔀 T8N Tool: Branch used to generate the tests for Cancun is now <a href="https://github.com/lightclient/go-ethereum/tree/devnet-10" target="_blank" rel="noopener">lightclient/go-ethereum@devnet-10</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336" target="_blank" rel="noopener">#336</a>).</li>
+</ul>
+<h3 id="-breaking-change-6">💥 Breaking Change</h3>
+<ul>
+<li>Fixtures now use the Mainnet Trusted Setup merged on <a href="https://github.com/ethereum/consensus-specs/pull/3521" target="_blank" rel="noopener">consensus-specs#3521</a> (<a href="https://github.com/ethereum/execution-spec-tests/pull/336" target="_blank" rel="noopener">#336</a>).</li>
+</ul>
+<h2 id="v105---2023-09-26--cancun-devnet-9-release-3"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.5" target="_blank" rel="noopener">v1.0.5</a> - 2023-09-26: 🐍🏖️ Cancun Devnet 9 Release 3</h2>
+<p>This release mainly serves to update the EIP-4788 beacon roots address to <code>0x000F3df6D732807Ef1319fB7B8bB8522d0Beac02</code>, as updated in <a href="https://github.com/ethereum/EIPs/pull/7672" target="_blank" rel="noopener">ethereum/EIPs/pull/7672</a>.</p>
+<h3 id="-test-cases-12">🧪 Test Cases</h3>
+<ul>
+<li>🐞 <a href="https://eips.ethereum.org/EIPS/eip-4844" target="_blank" rel="noopener">EIP-4844</a>: Fix invalid blob txs pre-Cancun engine response (<a href="https://github.com/ethereum/execution-spec-tests/pull/306" target="_blank" rel="noopener">#306</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noopener">EIP-4788</a>: Final update to the beacon root address (<a href="https://github.com/ethereum/execution-spec-tests/pull/312" target="_blank" rel="noopener">#312</a>).</li>
+</ul>
+<h3 id="-misc-12">📋 Misc</h3>
+<ul>
+<li>✨ Docs: Changelog added (<a href="https://github.com/ethereum/execution-spec-tests/pull/305" target="_blank" rel="noopener">#305</a>).</li>
+<li>✨ CI/CD: Run development fork tests in Github Actions (<a href="https://github.com/ethereum/execution-spec-tests/pull/302" target="_blank" rel="noopener">#302</a>).</li>
+<li>✨ CI/CD: Generate test JSON fixtures on push (<a href="https://github.com/ethereum/execution-spec-tests/pull/303" target="_blank" rel="noopener">#303</a>).</li>
+</ul>
+<h3 id="-breaking-change-7">💥 Breaking Change</h3>
+<p>Please use development fixtures from now on when testing Cancun. These refer to changes that are currently under development within clients:</p>
+<ul>
+<li>fixtures: All tests until the last stable fork (Shanghai).</li>
+<li>fixtures_develop: All tests until the last development fork (Cancun).</li>
+<li>fixtures_hive: All tests until the last stable fork (Shanghai) in hive format (Engine API directives instead of the usual BlockchainTest format).</li>
+<li>fixtures_develop_hive: All tests until the last development fork (Cancun) in hive format.</li>
+</ul>
+<h2 id="v104---2023-09-21--cancun-devnet-9-release-2"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.4" target="_blank" rel="noopener">v1.0.4</a> - 2023-09-21: 🐍 Cancun Devnet 9 Release 2</h2>
+<p>This release adds additional coverage to the current set of Cancun tests, up to the <a href="https://notes.ethereum.org/@ethpandaops/dencun-devnet-9" target="_blank" rel="noopener">Devnet-9 Cancun specification</a>.</p>
+<p><strong>Note:</strong> Additional EIP-4788 updates from <a href="https://github.com/ethereum/EIPs/pull/7672" target="_blank" rel="noopener">ethereum/EIPs/pull/7672</a> will be included in the next release.</p>
+<h3 id="-test-cases-13">🧪 Test Cases</h3>
+<ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7516" target="_blank" rel="noopener">EIP-7516: BLOBBASEFEE opcode</a>: Add first and comprehensive tests (@marioevz in <a href="https://github.com/ethereum/execution-spec-tests/pull/294" target="_blank" rel="noopener">#294</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noopener">EIP-4788: Beacon block root in the EVM</a>: Increase coverage (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/297" target="_blank" rel="noopener">#297</a>).</li>
+<li>🐞 <a href="https://eips.ethereum.org/EIPS/eip-1153" target="_blank" rel="noopener">EIP-1153: Transient storage opcodes</a>: Remove conftest &lsquo;+1153&rsquo; in network field (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/299" target="_blank" rel="noopener">#299</a>).</li>
+</ul>
+<h3 id="-framework-12">🛠️ Framework</h3>
+<ul>
+<li>🔀 <a href="https://eips.ethereum.org/EIPS/eip-4788" target="_blank" rel="noopener">EIP-4788</a>: Beacon root contract is pre-deployed at <code>0xbEAC020008aFF7331c0A389CB2AAb67597567d7a</code> (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/297" target="_blank" rel="noopener">#297</a>).</li>
+<li>✨ Deprecate empty accounts within framework (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/300" target="_blank" rel="noopener">#300</a>).</li>
+<li>✨ Fixture generation split based on hive specificity (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/301" target="_blank" rel="noopener">#301</a>).</li>
+<li>💥 <code>fill</code>: <code>--disable-hive</code> flag removed; replaced by <code>--enable-hive</code> (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/301" target="_blank" rel="noopener">#301</a>).</li>
+<li>✨ Add engine API forkchoice updated information in fixtures (@spencer-tb in <a href="https://github.com/ethereum/execution-spec-tests/pull/256" target="_blank" rel="noopener">#256</a>).</li>
+</ul>
+<h2 id="v103---2023-09-14--cancun-devnet-9-release"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.3" target="_blank" rel="noopener">v1.0.3</a> - 2023-09-14: 🐍 Cancun Devnet 9 Release</h2>
+<p>See <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.3" target="_blank" rel="noopener">v1.0.3</a>.</p>
+<h2 id="v102---2023-08-11--cancun-devnet-8--4788-v2-pre-release"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.2" target="_blank" rel="noopener">v1.0.2</a> - 2023-08-11: 🐍 Cancun Devnet 8 + 4788 v2 Pre-Release</h2>
+<p>See <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.2" target="_blank" rel="noopener">v1.0.2</a>.</p>
+<h2 id="v101---2023-08-03--cancun-devnet-8-pre-release"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.1" target="_blank" rel="noopener">v1.0.1</a> - 2023-08-03: 🐍 Cancun Devnet-8 Pre-Release</h2>
+<p>See <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.1" target="_blank" rel="noopener">v1.0.1</a>.</p>
+<h2 id="v100---2023-06-27--welcome-to-the-pytest-era"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.0" target="_blank" rel="noopener">v1.0.0</a> - 2023-06-27: 🧪 Welcome to the Pytest Era</h2>
+<p>See <a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v1.0.0" target="_blank" rel="noopener">v1.0.0</a>.</p>
+<p>Older releases can be found on <a href="https://github.com/ethereum/execution-spec-tests/releases" target="_blank" rel="noopener">the releases page</a>.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

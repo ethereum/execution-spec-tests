@@ -1,0 +1,1435 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Test Formats</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Test Formats
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 blockchain_test
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test_engine/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 blockchain_test_engine
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test_engine_x/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 blockchain_test_engine_x
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/common_types/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 common_types
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/exceptions/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 exceptions
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/state_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 state_test
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/transaction_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 transaction_test
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="state-tests">State Tests <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") --></h1>
+<p>The State Test fixture format tests are included in the fixtures subdirectory <code>state_tests</code>.</p>
+<p>These are produced by the <code>StateTest</code> and <code>StateTestOnly</code> test specs.</p>
+<h2 id="description">Description</h2>
+<p>The state test fixture format is used to test the state transition function of the Ethereum Virtual Machine (EVM).</p>
+<p>It does so by defining a transaction, a pre-execution state, and a post-execution state, and verifying that the transaction execution results in the expected post-execution state.</p>
+<p>A single JSON fixture file is composed of a JSON object where each key-value pair is a different <a href="#fixture"><code>Fixture</code></a> test object, with the key string representing the test name.</p>
+<p>The JSON file path plus the test name are used as the unique test identifier.</p>
+<p>As opposed to other fixture formats, the state test fixture format could contain multiple test vectors per test object, each represented by an element in the mapping of lists of the <code>post</code> field.</p>
+<p>However tests generated by the <code>execution-spec-tests</code> repository do <strong>not</strong> use this feature, as every single test object contains only a single test vector.</p>
+<h2 id="consumption">Consumption</h2>
+<p>For each <a href="#fixture"><code>Fixture</code></a> test object in the JSON fixture file, perform the following steps:</p>
+<ol>
+<li>
+<p>Use <a href="#-pre-alloc"><code>pre</code></a> as the starting state allocation of the execution environment for the test.</p>
+</li>
+<li>
+<p>Use <a href="#-env-fixtureenvironment"><code>env</code></a> to configure the current execution environment.</p>
+</li>
+<li>
+<p>For each <a href="./common_types.md#fork"><code>Fork</code></a> key of <a href="#-post-mappingforklist-fixtureforkpost"><code>post</code></a> in the test, and for each of the elements of the list of <a href="#fixtureforkpost"><code>FixtureForkPost</code></a> values:</p>
+<ol>
+<li>
+<p>Configure the execution fork schedule according to the current <a href="./common_types.md#fork"><code>Fork</code></a> key.</p>
+</li>
+<li>
+<p>Using the <a href="#-indexes-fixtureforkpostindexes"><code>indexes</code></a> values, and the <a href="#-transaction-fixturetransaction"><code>transaction</code></a> object, decode the transaction to be executed.</p>
+</li>
+<li>
+<p>If the serialized version of the decoded transaction does not match <a href="#-txbytes-bytes"><code>txbytes</code></a>, fail the test.</p>
+</li>
+<li>
+<p>Attempt to apply the transaction using the current execution environment:</p>
+<ol>
+<li>If the transaction could not be applied to the current execution context:
+<ul>
+<li>If <a href="#-expectexception-transactionexception"><code>expectException</code></a> is empty, fail the test.</li>
+<li>If <a href="#-expectexception-transactionexception"><code>expectException</code></a> is not empty, revert the state to the pre-state.</li>
+</ul>
+</li>
+<li>If the transaction could be applied to the current execution context:
+<ul>
+<li>If <a href="#-expectexception-transactionexception"><code>expectException</code></a> is not empty, fail the test.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>Compare the resulting post-state root with the expected post-state root contained in the <a href="#-hash-hash"><code>hash</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.</p>
+</li>
+<li>
+<p>Compare the resulting logs hash with the expected logs contained in the <a href="#-logs-hash"><code>logs</code></a> field of the current <a href="#fixtureforkpost"><code>FixtureForkPost</code></a>, and fail the test if they do not match.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="structures">Structures</h2>
+<h3 id="fixture"><code>Fixture</code></h3>
+<h4 id="--env-fixtureenvironment">- <code>env</code>: <a href="#fixtureenvironment"><code>FixtureEnvironment</code></a></h4>
+<p>Execution environment description for the test.</p>
+<h4 id="--pre-alloc">- <code>pre</code>: <a href="./common_types.md#alloc-mappingaddressaccount"><code>Alloc</code></a></h4>
+<p>Starting account allocation for the test.</p>
+<h4 id="--transaction-fixturetransaction">- <code>transaction</code>: <a href="#fixturetransaction"><code>FixtureTransaction</code></a></h4>
+<p>Transaction to be executed.</p>
+<h4 id="--post-mappingforklist-fixtureforkpost-">- <code>post</code>: <a href="./common_types.md#mapping"><code>Mapping</code></a><code>(</code><a href="./common_types.md#fork"><code>Fork</code></a><code>,</code><a href="./common_types.md#list"><code>List</code></a><code>[</code> <a href="#fixtureforkpost"><code>FixtureForkPost</code></a> <code>])</code></h4>
+<p>Mapping of lists of post for verification per fork, where each element represents a single possible outcome of the transaction execution after being applied to the <code>pre</code>.</p>
+<h4 id="--config-fixtureconfig">- <code>config</code>: <a href="#fixtureconfig"><code>FixtureConfig</code></a></h4>
+<p>Chain configuration object.</p>
+<h3 id="fixtureconfig"><code>FixtureConfig</code></h3>
+<p>At the moment this object can contain only the <code>blobSchedule</code> that is necessary to apply the correct cap to the maximum amount of blobs that a transaction can have. Otherwise, in forks prior to Cancun for example, it will be an empty JSON object.</p>
+<h4 id="--blobschedule-blobschedule">- <code>blobSchedule</code>: <a href="./common_types.md#blobschedule-mappingforkforkblobschedule"><code>BlobSchedule</code></a></h4>
+<p>Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840" target="_blank" rel="noopener">EIP-7840</a>.</p>
+<h3 id="fixtureenvironment"><code>FixtureEnvironment</code></h3>
+<h4 id="--currentcoinbase-address">- <code>currentCoinbase</code>: <a href="./common_types.md#address"><code>Address</code></a></h4>
+<p>The address of the account that will receive the rewards for building the block.</p>
+<h4 id="--currentgaslimit-zeropaddedhexnumber">- <code>currentGasLimit</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Total gas limit of the block where the transaction is executed.</p>
+<h4 id="--currentnumber-zeropaddedhexnumber">- <code>currentNumber</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Number of the block where the transaction is executed.</p>
+<h4 id="--currentdifficulty-zeropaddedhexnumber">- <code>currentDifficulty</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Difficulty of the block where the transaction is executed.</p>
+<h4 id="--currenttimestamp-zeropaddedhexnumber">- <code>currentTimestamp</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Timestamp of the block where the transaction is executed.</p>
+<h4 id="--currentbasefee-zeropaddedhexnumber-fork-london">- <code>currentBaseFee</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a> <code>(fork: London)</code></h4>
+<p>Base fee of the block where the transaction is executed.</p>
+<h4 id="--currentrandom-hash-fork-paris">- <code>currentRandom</code>: <a href="./common_types.md#hash"><code>Hash</code></a> <code>(fork: Paris)</code></h4>
+<p>Randao value of the block where the transaction is executed.</p>
+<h4 id="--currentexcessblobgas-zeropaddedhexnumber-fork-cancun">- <code>currentExcessBlobGas</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a> <code>(fork: Cancun)</code></h4>
+<p>Excess blob gas of the block where the transaction is executed.</p>
+<h3 id="fixturetransaction"><code>FixtureTransaction</code></h3>
+<h4 id="--nonce-zeropaddedhexnumber">- <code>nonce</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Nonce of the account that sends the transaction</p>
+<h4 id="--gasprice-zeropaddedhexnumber">- <code>gasPrice</code>: <a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a></h4>
+<p>Gas price for the transaction (Transaction types 0 &amp; 1)</p>
+<h4 id="--maxpriorityfeepergas-hexnumber">- <code>maxPriorityFeePerGas</code>: <a href="./common_types.md#hexnumber"><code>HexNumber</code></a></h4>
+<p>Max priority fee per gas to pay (Transaction types 2 &amp; 3)</p>
+<h4 id="--maxfeepergas-hexnumber">- <code>maxFeePerGas</code>: <a href="./common_types.md#hexnumber"><code>HexNumber</code></a></h4>
+<p>Max base fee per gas to pay (Transaction types 2 &amp; 3)</p>
+<h4 id="--gaslimit-listzeropaddedhexnumber">- <code>gasLimit</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a><code>]</code></h4>
+<p>List of gas limits used on each indexed test combination</p>
+<h4 id="--to-addressemptyaddress">- <code>to</code>: <a href="./common_types.md#address"><code>Address</code></a><code>|</code><a href="./common_types.md#emptyaddress"><code>EmptyAddress</code></a></h4>
+<p>Destination address of the transaction, or an empty string to create a contract</p>
+<h4 id="--value-listzeropaddedhexnumber">- <code>value</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#zeropaddedhexnumber"><code>ZeroPaddedHexNumber</code></a><code>]</code></h4>
+<p>List of values used on each indexed test combination</p>
+<h4 id="--data-listbytes">- <code>data</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#bytes"><code>Bytes</code></a><code>]</code></h4>
+<p>List of data bytes used on each indexed test combination</p>
+<h4 id="--accesslists-listlistmappingaddresslisthash-fork-berlin">- <code>accessLists</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#mapping"><code>Mapping</code></a><code>[</code><a href="./common_types.md#address"><code>Address</code></a><code>,</code><a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#hash"><code>Hash</code></a><code>]]]]</code> <code>(fork: Berlin)</code></h4>
+<p>List of account access lists used on each indexed test combination (Transaction types 1, 2 &amp; 3)</p>
+<h4 id="--maxfeeperblobgas-hexnumber-fork-cancun">- <code>maxFeePerBlobGas</code>: <a href="./common_types.md#hexnumber"><code>HexNumber</code></a> <code>(fork: Cancun)</code></h4>
+<p>Max fee per blob gas to pay (Transaction type 3)</p>
+<h4 id="--blobversionedhashes-listhash-fork-cancun">- <code>blobVersionedHashes</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="./common_types.md#hash"><code>Hash</code></a><code>]</code> <code>(fork: Cancun)</code></h4>
+<p>List of blob versioned hashes the transaction includes (Transaction type 3)</p>
+<h4 id="--sender-address">- <code>sender</code>: <a href="./common_types.md#address"><code>Address</code></a></h4>
+<p>Sender address of the transaction</p>
+<h4 id="--secretkey-hash">- <code>secretKey</code>: <a href="./common_types.md#hash"><code>Hash</code></a></h4>
+<p>Private key that must be used to sign the transaction</p>
+<h3 id="fixtureforkpost"><code>FixtureForkPost</code></h3>
+<h4 id="--indexes-fixtureforkpostindexes">- <code>indexes</code>: <a href="#fixtureforkpostindexes"><code>FixtureForkPostIndexes</code></a></h4>
+<p>Transaction field indexes that must be used to obtain the transaction to be executed</p>
+<h4 id="--txbytes-bytes">- <code>txbytes</code>: <a href="./common_types.md#bytes"><code>Bytes</code></a></h4>
+<p>Serialized bytes version of the <a href="#fixturetransaction"><code>FixtureTransaction</code></a> that was executed to produce this post-state</p>
+<h4 id="--hash-hash">- <code>hash</code>: <a href="./common_types.md#hash"><code>Hash</code></a></h4>
+<p>Expected state root value that results of applying the transaction to the pre-state</p>
+<h4 id="--logs-hash">- <code>logs</code>: <a href="./common_types.md#hash"><code>Hash</code></a></h4>
+<p>Hash of the RLP representation of the state logs result of applying the transaction to the pre-state
+(TODO: double-check this.)</p>
+<h4 id="--expectexception-transactionexception">- <code>expectException</code>: <a href="../../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException"><code>TransactionException</code></a></h4>
+<p>Exception that is expected to be thrown by the transaction execution (Field is missing if the transaction is expected to succeed)</p>
+<h4 id="--state-alloc">- <code>state</code>: <a href="./common_types.md#alloc-mappingaddressaccount"><code>Alloc</code></a></h4>
+<p>Dictionary that represents the allocation after execution of the transaction.</p>
+<h3 id="fixtureforkpostindexes"><code>FixtureForkPostIndexes</code></h3>
+<h4 id="--data-int">- <code>data</code>: <code>int</code></h4>
+<p>Index of the data field in the transaction</p>
+<h4 id="--gas-int">- <code>gas</code>: <code>int</code></h4>
+<p>Index of the gas limit field in the transaction</p>
+<h4 id="--value-int">- <code>value</code>: <code>int</code></h4>
+<p>Index of the value field in the transaction</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

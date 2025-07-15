@@ -1,0 +1,19 @@
+{{/* layouts/_default/single.html */}}
+{{ define "main" }}
+  <div>
+    <h2>{{ .Title }}</h2>
+    <h5>{{ .Description }}</h5>
+    {{ if .Params.tags }}
+      <div class="tags">
+        {{ range .Params.tags }}
+          <span class="tag">{{ . }}</span>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+  <div align="start" class="content">{{ .Content }}</div>
+{{ end }}
+
+{{ define "sidebar" }}
+  {{ partial "sidebar.html" . }}
+{{ end }}

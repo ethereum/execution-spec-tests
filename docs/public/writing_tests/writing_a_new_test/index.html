@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="writing-a-new-test">Writing a New Test</h1>
+<h2 id="test-functions">Test Functions</h2>
+<p>Every test case is defined as a Python function that implements a single <code>StateTest</code> or <code>BlockchainTest</code> using the <code>state_test</code> or <code>blockchain_test</code> objects made available by the framework (<a href="./types_of_tests.md#deciding-on-a-test-type">learn how to decide on a test type</a>). Test cases, and the respective test modules, must fulfill the following requirements:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Requirement</th>
+          <th>When</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Be <a href="#specifying-which-forks-tests-are-valid-for">decorated with validity markers</a></td>
+          <td>If the test case is not valid for all forks</td>
+      </tr>
+      <tr>
+          <td>Use one of <code>state_test</code> or <code>blockchain_test</code> <a href="#the-state_test-and-blockchain_test-test-function-arguments">in its function arguments</a></td>
+          <td>Always</td>
+      </tr>
+      <tr>
+          <td>Call the <code>state_test</code> or <code>blockchain_test</code> in its test body</td>
+          <td>Always</td>
+      </tr>
+      <tr>
+          <td>Add a <a href="./reference_specification.md">reference version of the EIP spec</a> under test</td>
+          <td>Test path contains <code>eip</code></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="specifying-which-forks-tests-are-valid-for">Specifying which Forks Tests are Valid For</h3>
+<p>Test cases can (and it most cases should) be decorated with one or more &ldquo;validity markers&rdquo; that define which the forks the test is valid for. This is achieved by applying:</p>
+<ul>
+<li><code>pytest.mark.valid_from(FORK)</code> and/or <code>pytest.mark.valid_until(FORK)</code></li>
+</ul>
+<p>or</p>
+<ul>
+<li><code>pytest.mark.valid_at_transition_to(FORK)</code></li>
+</ul>
+<p>markers on either the test function, test class or test module level:</p>
+<p>=== &ldquo;Function&rdquo;</p>
+<pre><code>```python
+import pytest
+
+@pytest.mark.valid_from(&quot;Berlin&quot;)
+@pytest.mark.valid_until(&quot;London&quot;)
+def test_access_list(state_test: StateTestFiller, fork: Fork):
+```
+</code></pre>
+<p>=== &ldquo;Class&rdquo;</p>
+<pre><code>```python
+import pytest
+
+
+@pytest.mark.valid_from(&quot;Shanghai&quot;)
+class TestMultipleWithdrawalsSameAddress:
+```
+</code></pre>
+<p>=== &ldquo;Module&rdquo;</p>
+<pre><code>```python
+import pytest
+
+pytestmark = pytest.mark.valid_from(&quot;Shanghai&quot;)
+```
+</code></pre>
+<p>The <a href="../library/ethereum_test_forks.md"><code>ethereum_test_forks</code></a> package defines the available forks and provides the following helpers that return all forks within the specified range:</p>
+<ul>
+<li><a href="../library/ethereum_test_forks.md#ethereum_test_forks.forks_from">forks_from</a></li>
+<li><a href="../library/ethereum_test_forks.md#ethereum_test_forks.forks_from_until">forks_from_until</a></li>
+</ul>
+<h3 id="the-state_test-and-blockchain_test-test-function-arguments">The <code>state_test</code> and <code>blockchain_test</code> Test Function Arguments</h3>
+<p>The test function&rsquo;s signature <em>must</em> contain exactly one of either a <code>state_test</code> or <code>blockchain_test</code> argument.</p>
+<p>For example, for state tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_access_list</span>(state_test: StateTestFiller):
+</span></span></code></pre></div><p>and for blockchain tests:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_contract_creating_tx</span>(
+</span></span><span style="display:flex;"><span>    blockchain_test: BlockchainTestFiller, fork: Fork, initcode: Initcode
+</span></span><span style="display:flex;"><span>):
+</span></span></code></pre></div><p>The <code>state_test</code> and <code>blockchain_test</code> objects are actually wrapper classes to the <code>StateTest</code>, respectively <code>BlockchainTest</code> objects, that once called actually instantiate a new instance of these objects and fill the test case using the <code>evm</code> tool according to the pre and post states and the transactions defined within the test.</p>
+<p>If a blockchain-type test should only generate a test fixture in the Engine format (<code>EngineFixture</code>), the <code>blockchain_test_engine</code> object can be specified. This object is a wrapper for the <code>BlockchainTestEngine</code> class.</p>
+<h2 id="statetest-object"><code>StateTest</code> Object</h2>
+<p>The <code>StateTest</code> object represents a single test vector, and contains the
+following attributes:</p>
+<ul>
+<li><code>env</code>: Environment object which describes the global state of the blockchain
+before the test starts.</li>
+<li><code>pre</code>: Pre-State containing the information of all Ethereum accounts that exist
+before any transaction is executed.</li>
+<li><code>post</code>: Post-State containing the information of all Ethereum accounts that are
+created or modified after all transactions are executed.</li>
+<li><code>txs</code>: All transactions to be executed during test execution.</li>
+</ul>
+<h2 id="blockchaintest-object"><code>BlockchainTest</code> Object</h2>
+<p>The <code>BlockchainTest</code> object represents a single test vector that evaluates the
+Ethereum VM by attempting to append multiple blocks to the chain:</p>
+<ul>
+<li><code>pre</code>: Pre-State containing the information of all Ethereum accounts that exist
+before any block is executed.</li>
+<li><code>post</code>: Post-State containing the information of all Ethereum accounts that are
+created or modified after all blocks are executed.</li>
+<li><code>blocks</code>: All blocks to be appended to the blockchain during the test.</li>
+</ul>
+<h2 id="blockchaintestengine-object"><code>BlockchainTestEngine</code> Object</h2>
+<p>The <code>BlockchainTestEngine</code> object has the same properties as the <code>BlockchainTest</code> but it&rsquo;s used to only generate a blockchain test in the Engine format.</p>
+<h2 id="prepost-state-of-the-test">Pre/Post State of the Test</h2>
+<p>The <code>pre</code> and <code>post</code> states are elemental to setup and then verify the outcome
+of the state test.</p>
+<p>Both <code>pre</code> and <code>post</code> are mappings of account addresses to <code>account</code> structures (see <a href="#the-account-object">more info</a>).</p>
+<p>A single test vector can contain as many accounts in the <code>pre</code> and <code>post</code> states
+as required, and they can be also filled dynamically.</p>
+<p><code>storage</code> of an account is a key/value dictionary, and its values are
+integers within range of <code>[0, 2**256 - 1]</code>.</p>
+<p><code>txs</code> are the steps which transform the pre-state into the post-state and
+must perform specific actions within the accounts (smart contracts) that result
+in verifiable changes to the balance, nonce, and/or storage in each of them.</p>
+<p><code>post</code> is compared against the outcome of the client after the execution
+of each transaction, and any differences are considered a failure</p>
+<p>When designing a test, all the changes must be ideally saved into the contract&rsquo;s
+storage to be able to verify them in the post-state.</p>
+<h2 id="test-transactions">Test Transactions</h2>
+<p>Transactions can be crafted by sending them with specific <code>data</code> or to a
+specific account, which contains the code to be executed.</p>
+<p>Transactions can also create more accounts, by setting the <code>to</code> field to an
+empty string.</p>
+<p>Transactions can be designed to fail, and a verification must be made that the
+transaction fails with the specific error that matches what is expected by the
+test.</p>
+<p>They can also contain a <code>TransactionReceipt</code> object in field <code>expected_receipt</code>
+which allows checking for an exact <code>gas_used</code> value.</p>
+<h2 id="writing-code-for-the-accounts-in-the-test">Writing code for the accounts in the test</h2>
+<p>Account bytecode can be &ldquo;deployed&rdquo; in a test&rsquo;s pre-state using the <code>pre</code> pytest fixture. The @ethereum/execution-spec-tests Python [<code>Opcodes</code>][ethereum_test_vm.Opcodes] minilang can be used to help write the bytecode in a readable form.</p>
+<h3 id="using-the-python-opcode-minilang">Using the Python Opcode Minilang</h3>
+<p>EVM bytecode for tests should be written using the Python-based minilang provided by the [<code>Opcodes</code>][ethereum_test_vm.Opcodes] class. This allows you to construct bytecode using symbolic opcodes as Python objects.</p>
+<h4 id="example-simple-addition-contract">Example: Simple Addition Contract</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_vm.opcode <span style="color:#f92672">import</span> Opcodes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>code <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    Opcodes<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x02</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> Opcodes<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x03</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> Opcodes<span style="color:#f92672">.</span>ADD()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> Opcodes<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x00</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> Opcodes<span style="color:#f92672">.</span>SSTORE()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">+</span> Opcodes<span style="color:#f92672">.</span>STOP()
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># within a test function, using the &#34;pre&#34; fixture</span>
+</span></span><span style="display:flex;"><span>contract_address <span style="color:#f92672">=</span> pre<span style="color:#f92672">.</span>deploy_contract(code<span style="color:#f92672">=</span>code)
+</span></span></code></pre></div><p>You add this contract to the test&rsquo;s pre-state using the <code>pre</code> fixture or assign this <code>code</code> to the <code>code</code> field of an account in your test&rsquo;s <code>post</code> state. See the <a href="./tutorials/state_transition.md">state test tutorial</a> for more help.</p>
+<p>For a full list of available opcodes and their usage, see [<code>Opcodes</code>][ethereum_test_vm.Opcodes].</p>
+<h4 id="higher-level-constructs">Higher-Level Constructs</h4>
+<p>For more complex control flow, you can use constructs like [<code>Switch</code>][ethereum_test_tools.code.generators.Switch] and [<code>Case</code>][ethereum_test_tools.code.generators.Case] from the <code>ethereum_test_tools.code.generators</code> module:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_tools.code.generators <span style="color:#f92672">import</span> Switch, Case
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ethereum_test_vm.opcode <span style="color:#f92672">import</span> Opcodes <span style="color:#66d9ef">as</span> Op
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>code <span style="color:#f92672">=</span> Switch(
+</span></span><span style="display:flex;"><span>    cases<span style="color:#f92672">=</span>[
+</span></span><span style="display:flex;"><span>        Case(condition<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>EQ(Op<span style="color:#f92672">.</span>CALLDATALOAD(<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">1</span>), action<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x01</span>) <span style="color:#f92672">+</span> Op<span style="color:#f92672">.</span>STOP()),
+</span></span><span style="display:flex;"><span>        Case(condition<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>EQ(Op<span style="color:#f92672">.</span>CALLDATALOAD(<span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">2</span>), action<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x02</span>) <span style="color:#f92672">+</span> Op<span style="color:#f92672">.</span>STOP()),
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    default_action<span style="color:#f92672">=</span>Op<span style="color:#f92672">.</span>PUSH1(<span style="color:#ae81ff">0x00</span>) <span style="color:#f92672">+</span> Op<span style="color:#f92672">.</span>STOP(),
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>The <code>ethereum_test_tools.code.generators</code> module also defines other high-level constructs like [<code>While</code>][ethereum_test_tools.code.generators.While] and [<code>Conditional</code>][ethereum_test_tools.code.generators.Conditional].</p>
+<h4 id="converting-bytecode-to-minilang">Converting Bytecode to Minilang</h4>
+<p>If you have EVM bytecode (as hex or binary), you can use the <a href="../library/cli/evm_bytes.md"><code>evm_bytes</code> CLI tool</a> to convert it to the EEST Python opcode minilang automatically, for example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run evm_bytes hex-string 0x604260005260206000F3
+</span></span><span style="display:flex;"><span># -&gt;
+</span></span><span style="display:flex;"><span># Op.PUSH1<span style="color:#f92672">[</span>0x42<span style="color:#f92672">]</span> + Op.PUSH1<span style="color:#f92672">[</span>0x0<span style="color:#f92672">]</span> + Op.MSTORE + Op.PUSH1<span style="color:#f92672">[</span>0x20<span style="color:#f92672">]</span> + Op.PUSH1<span style="color:#f92672">[</span>0x0<span style="color:#f92672">]</span> + Op.RETURN
+</span></span></code></pre></div><h4 id="restrictions-no-yul-in-python-test-cases">Restrictions: No Yul in Python Test Cases</h4>
+<p>As of <a href="https://github.com/ethereum/execution-spec-tests/pull/1779">PR #1779</a>, the use of Yul source in Python test cases is forbidden. All new tests must use the Python opcode minilang as shown above.</p>
+<h2 id="verifying-the-accounts-post-states">Verifying the Accounts&rsquo; Post States</h2>
+<p>The state of the accounts after all blocks/transactions have been executed is
+the way of verifying that the execution client actually behaves like the test
+expects.</p>
+<p>During their filling process, all tests automatically verify that the accounts
+specified in their <code>post</code> property actually match what was returned by the
+transition tool.</p>
+<p>Within the <code>post</code> dictionary object, an account address can be:</p>
+<ul>
+<li><code>None</code>: The account will not be checked for absence or existence in the
+result returned by the transition tool.</li>
+<li><code>Account</code> object: The test expects that this account exists and also has
+properties equal to the properties specified by the <code>Account</code> object.</li>
+<li><code>Account.NONEXISTENT</code>: The test expects that this account does not exist in
+the result returned by the transition tool, and if the account exists,
+it results in error.
+E.g. when the transaction creating a contract is expected to fail and the
+test wants to verify that the address where the contract was supposed to be
+created is indeed empty.</li>
+</ul>
+<h2 id="the-account-object">The <code>Account</code> object</h2>
+<p>The <code>Account</code> object is used to specify the properties of an account to be
+verified in the post state.</p>
+<p>The python representation can be found in <a href="https://github.com/ethereum/execution-spec-tests/blob/main/src/ethereum_test_types/account_types.py">src/ethereum_test_types/account_types.py</a>.</p>
+<p>It can verify the following properties of an account:</p>
+<ul>
+<li>
+<p><code>nonce</code>: the scalar value equal to a) the number of transactions sent by
+an Externally Owned Account, b) the amount of contracts created by a contract.</p>
+</li>
+<li>
+<p><code>balance</code>: the amount of Wei (10<sup>-18</sup> Eth) the account has.  <!-- markdownlint-disable MD033 (MD033=no-inline-html) --></p>
+</li>
+<li>
+<p><code>code</code>: Bytecode contained by the account. To verify that an account contains
+no code, this property needs to be set to &ldquo;0x&rdquo; or &ldquo;&rdquo;.</p>
+</li>
+<li>
+<p><code>storage</code>: Storage within the account represented as a <code>dict</code> object.
+All storage keys that are expected to be set must be specified, and if a
+key is skipped, it is implied that its expected value is zero.
+Setting this property to <code>{}</code> (empty <code>dict</code>), means that all the keys in the
+account must be unset (equal to zero).</p>
+</li>
+</ul>
+<p>All account&rsquo;s properties are optional, and they can be skipped or set to <code>None</code>,
+which means that no check will be performed on that specific account property.</p>
+<h2 id="verifying-correctness-of-the-new-test">Verifying correctness of the new test</h2>
+<p>A well written test performs a single verification output at a time.</p>
+<p>A verification output can be a single storage slot, the balance of an account,
+or a newly created contract.</p>
+<p>It is not recommended to use balance changes to verify test correctness, as it
+can be easily affected by gas cost changes in future EIPs.</p>
+<p>The best way to verify a transaction/block execution outcome is to check its
+storage.</p>
+<p>A test can be written as a negative verification. E.g. a contract is not
+created, or a transaction fails to execute or runs out of gas.</p>
+<p>This kind of verification must be carefully crafted because it is possible to end up
+having a false positive result, which means that the test passed but the
+intended verification was never made.</p>
+<p>To avoid these scenarios, it is important to have a separate verification to
+check that test is effective. E.g. when a transaction is supposed to fail, it
+is necessary to check that the failure error is actually the one expected by
+the test.</p>
+<h2 id="failing-or-invalid-transactions">Failing or invalid transactions</h2>
+<p>Transactions included in a StateTest are expected to be intrinsically valid,
+i.e. the account sending the transaction must have enough funds to cover the
+gas costs, the max fee of the transaction must be equal or higher than the
+base fee of the block, etc.</p>
+<p>An intrinsically valid transaction can still revert during its execution.</p>
+<p>Blocks in a BlockchainTest can contain intrinsically invalid transactions but
+in this case the block is expected to be completely rejected, along with all
+transactions in it, including other valid transactions.</p>
+<h2 id="parametrizing-tests">Parametrizing tests</h2>
+<p>Tests can be parametrized by using the <code>@pytest.mark.parametrize</code> decorator.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pytest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@pytest.mark.parametrize</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;tx_value,expected_balance&#34;</span>,
+</span></span><span style="display:flex;"><span>    [
+</span></span><span style="display:flex;"><span>        pytest<span style="color:#f92672">.</span>param(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;zero-value&#34;</span>),
+</span></span><span style="display:flex;"><span>        pytest<span style="color:#f92672">.</span>param(<span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">100</span>, id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;non-zero-value&#34;</span>),
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_contract_creating_tx</span>(
+</span></span><span style="display:flex;"><span>    blockchain_test: BlockchainTestFiller, fork: Fork, tx_value: int, expected_balance: int
+</span></span><span style="display:flex;"><span>):
+</span></span></code></pre></div><p>This will run the test twice, once with <code>tx_value</code> set to <code>0</code> and <code>expected_balance</code>
+set to <code>0</code>, and once with <code>tx_value</code> set to <code>100</code> and <code>expected_balance</code> set to <code>100</code>.</p>
+<p>The <code>fork</code> fixture is automatically provided by the framework and contains the
+current fork under test, and does not need to be parametrized.</p>
+<p>Tests can also be automatically parametrized with appropriate fork covariant
+values using the <code>with_all_*</code> markers listed in the
+<a href="./test_markers.md#fork-covariant-markers">Test Markers</a> page.</p>
+<h3 id="the-extend_with_defaults-utility">The <code>extend_with_defaults</code> Utility</h3>
+<p>::: ethereum_test_tools.utility.pytest.extend_with_defaults</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

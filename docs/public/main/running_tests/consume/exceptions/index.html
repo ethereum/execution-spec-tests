@@ -1,0 +1,1308 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1800px;   
+            margin: 0 auto;
+            padding: 2rem 3rem;   
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+         
+        .content {
+            flex: 1;
+            min-width: 0;
+            max-width: 100%;
+            padding: 0 2rem;   
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+         
+        .content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1.5rem auto;
+        }
+        
+         
+        .content article,
+        .content > div {
+            max-width: 100%;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+                padding: 0 1rem;   
+            }
+            
+            .main-container {
+                flex-direction: column;
+                padding: 1rem;   
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+            
+            .main-container {
+                max-width: 90%;   
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+</head>
+<body>
+       
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/filling_tests/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/getting_started/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/running_tests/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Consume</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/consume/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Consume
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/consume/cache/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 cache
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/consume/direct/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 direct
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/consume/exceptions/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 exceptions
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running_tests/consume/simulators/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 simulators
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/filling_tests/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/getting_started/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/running_tests/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="exception-tests">Exception Tests</h1>
+<h2 id="overview">Overview</h2>
+<p>Exception tests validate that clients correctly reject invalid blocks and transactions with appropriate error messages. The Engine simulator provides advanced exception verification using client-specific mappers to handle varying error message formats across different clients.</p>
+<h2 id="how-exception-testing-works">How Exception Testing Works</h2>
+<ol>
+<li><strong>Test fixtures specify expected exceptions</strong> - Each test defines what error should occur</li>
+<li><strong>Clients reject invalid payloads</strong> - Via Engine API or block import</li>
+<li><strong>Exception mappers translate errors</strong> - Client-specific error messages are normalized</li>
+<li><strong>Test framework validates</strong> - Ensures the correct exception type was raised</li>
+</ol>
+<h2 id="client-exception-mappers">Client Exception Mappers</h2>
+<p>Each client has unique error message formats. EEST maintains exception mappers that translate client-specific errors to standardized exception types.</p>
+<h3 id="mapper-location">Mapper Location</h3>
+<p>Exception mappers are defined in the EEST codebase:</p>
+<ul>
+<li><code>src/ethereum_clis/clis/&lt;client&gt;.py</code> (e.g., <code>geth.py</code>, <code>besu.py</code>, <code>nethermind.py</code>)</li>
+</ul>
+<h3 id="example-mapper-structure">Example Mapper Structure</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Simplified example</span>
+</span></span><span style="display:flex;"><span>GETH_EXCEPTIONS <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;invalid block: gas limit reached&#34;</span>: ExceptionType<span style="color:#f92672">.</span>GAS_LIMIT_EXCEEDED,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;block gas cost exceeds gas limit&#34;</span>: ExceptionType<span style="color:#f92672">.</span>GAS_LIMIT_EXCEEDED,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;insufficient balance for transfer&#34;</span>: ExceptionType<span style="color:#f92672">.</span>INSUFFICIENT_BALANCE,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="updating-client-exception-messages">Updating Client Exception Messages</h2>
+<p>When clients change their error messages or you encounter unmapped exceptions:</p>
+<h3 id="1-identify-the-unmapped-exception">1. Identify the Unmapped Exception</h3>
+<p>Run the test and observe the actual error message:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine -k <span style="color:#e6db74">&#34;test_invalid_gas_limit&#34;</span> -v
+</span></span></code></pre></div><p>Look for output like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Unmapped exception from client &#39;go-ethereum&#39;: &#34;block gas cost exceeds limit: have 30000001, limit 30000000&#34;
+</span></span></code></pre></div><h3 id="2-update-the-exception-mapper">2. Update the Exception Mapper</h3>
+<p>Edit the client&rsquo;s exception mapper in <code>src/ethereum_clis/clis/&lt;client&gt;.py</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># In src/ethereum_clis/clis/geth.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GethCLI</span>(TransitionTool):
+</span></span><span style="display:flex;"><span>    exception_map <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Existing mappings...</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;block gas cost exceeds limit&#34;</span>: ExceptionType<span style="color:#f92672">.</span>GAS_LIMIT_EXCEEDED,  <span style="color:#75715e"># New mapping</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="3-test-the-update">3. Test the Update</h3>
+<p>Re-run the test to verify the exception is now properly mapped:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uv run consume engine -k <span style="color:#e6db74">&#34;test_invalid_gas_limit&#34;</span> --disable-strict-exception-matching<span style="color:#f92672">=</span>false
+</span></span></code></pre></div><h3 id="4-submit-changes">4. Submit Changes</h3>
+<p>Create a pull request with:</p>
+<ul>
+<li>Updated exception mappings</li>
+<li>Test results showing the fix</li>
+<li>Any relevant client version information</li>
+</ul>
+<h2 id="disabling-strict-exception-matching">Disabling Strict Exception Matching</h2>
+<p>For development or when exception mappings are incomplete:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Disable for specific clients</span>
+</span></span><span style="display:flex;"><span>uv run consume engine --disable-strict-exception-matching<span style="color:#f92672">=</span>nimbus,besu
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Via Hive</span>
+</span></span><span style="display:flex;"><span>./hive --sim ethereum/eest/consume-engine <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --sim.disable-strict-exception-matching<span style="color:#f92672">=</span>nimbus
+</span></span></code></pre></div>
+
+<div class="callout callout-warning">
+  <div class="callout-title">Production Testing</div>
+  <div class="callout-content">
+    Always enable strict exception matching for production test runs to ensure clients properly validate consensus rules.
+  </div>
+</div>
+<h2 id="debugging-exception-test-failures">Debugging Exception Test Failures</h2>
+<h3 id="check-client-logs">Check Client Logs</h3>
+<p>Enable verbose client output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./hive --sim ethereum/eest/consume-engine <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --docker.output <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --sim.loglevel <span style="color:#ae81ff">5</span>
+</span></span></code></pre></div><h3 id="verify-exception-type">Verify Exception Type</h3>
+<p>Ensure the test expects the correct exception:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># In test file</span>
+</span></span><span style="display:flex;"><span>post <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    address: Account(
+</span></span><span style="display:flex;"><span>        balance<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        storage<span style="color:#f92672">=</span>{},
+</span></span><span style="display:flex;"><span>        exception<span style="color:#f92672">=</span>TransactionException<span style="color:#f92672">.</span>INSUFFICIENT_BALANCE  <span style="color:#75715e"># Expected exception</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="test-without-exceptions">Test Without Exceptions</h3>
+<p>Temporarily modify the test to see what happens without the invalid condition:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Run specific test in isolation</span>
+</span></span><span style="display:flex;"><span>uv run consume engine -k <span style="color:#e6db74">&#34;test_name_without_invalid&#34;</span>
+</span></span></code></pre></div><h2 id="contributing-exception-mappings">Contributing Exception Mappings</h2>
+<p>When contributing new exception mappings:</p>
+<ol>
+<li><strong>Document the client version</strong> - Exception messages may change between versions</li>
+<li><strong>Use regex patterns</strong> - For flexible matching: <code>r&quot;gas limit.*exceeded&quot;</code></li>
+<li><strong>Test multiple scenarios</strong> - Ensure the pattern doesn&rsquo;t over-match</li>
+<li><strong>Add comments</strong> - Explain non-obvious mappings</li>
+</ol>
+<p>Example contribution:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Besu v24.1.0+ changed gas limit error format</span>
+</span></span><span style="display:flex;"><span>BESU_EXCEPTIONS <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Old format (pre-24.1.0)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Transaction gas limit exceeds block gas limit&#34;</span>: ExceptionType<span style="color:#f92672">.</span>GAS_LIMIT_EXCEEDED,
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># New format (24.1.0+)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;block gas limit \(\d+\) exceeded by transaction&#34;</span>: ExceptionType<span style="color:#f92672">.</span>GAS_LIMIT_EXCEEDED,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></div>
+
+        </main>
+    </div>
+</body>
+</html>

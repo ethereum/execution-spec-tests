@@ -1,0 +1,1476 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Dev Docs</h3>
+
+  
+  
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Developer Documentation
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/coding_style/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 coding_style
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/configurations/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 configurations
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/deps_and_packaging/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 deps_and_packaging
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/docs/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 docs
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/documenting_clis/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 documenting_clis
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/interactive_usage/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 interactive_usage
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/logging/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 logging
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/precommit/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 precommit
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/test_actions_locally/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 test_actions_locally
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="logging">Logging</h1>
+<p>This document describes the logging system used in the Ethereum Execution Spec Tests project. Currently, logging is only supported for <code>consume</code> commands.</p>
+<h2 id="overview">Overview</h2>
+<p>The project uses Python&rsquo;s standard logging module with custom extensions to provide enhanced logging capabilities. Our logging system is implemented in the <code>src/pytest_plugins/logging.py</code> module and provides the following features:</p>
+<ul>
+<li>Custom log levels between the standard Python log levels</li>
+<li>Timestamps with millisecond precision in UTC</li>
+<li>Color-coded log output (when not running in Docker)</li>
+<li>File logging with a consistent naming pattern</li>
+<li>Integration with pytest&rsquo;s output capture</li>
+<li>Support for distributed test execution with pytest-xdist</li>
+</ul>
+<h2 id="custom-log-levels">Custom Log Levels</h2>
+<p>In addition to the standard Python log levels (DEBUG, INFO, WARNING, ERROR, CRITICAL), we&rsquo;ve added the following custom levels:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Level</th>
+          <th>Numeric Value</th>
+          <th>Purpose</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>VERBOSE</td>
+          <td>15</td>
+          <td>For messages more detailed than INFO but less verbose than DEBUG</td>
+      </tr>
+      <tr>
+          <td>FAIL</td>
+          <td>35</td>
+          <td>For test failures and related issues (between WARNING and ERROR)</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="using-the-logger">Using the Logger</h2>
+<h3 id="getting-a-logger">Getting a Logger</h3>
+<p>To use the custom logger in your code, import the <code>get_logger</code> function from the logging module:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pytest_plugins.logging <span style="color:#f92672">import</span> get_logger
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create a logger with your module&#39;s name</span>
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> get_logger(__name__)
+</span></span></code></pre></div><h3 id="logging-at-different-levels">Logging at Different Levels</h3>
+<p>You can use all standard Python log methods plus our custom methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Standard log levels</span>
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Detailed debug information&#34;</span>)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;General information&#34;</span>)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#34;Warning message&#34;</span>)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">&#34;Error message&#34;</span>)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>critical(<span style="color:#e6db74">&#34;Critical failure&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Custom log levels</span>
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>verbose(<span style="color:#e6db74">&#34;More detailed than INFO, less than DEBUG&#34;</span>)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>fail(<span style="color:#e6db74">&#34;Test failure or similar issue&#34;</span>)
+</span></span></code></pre></div><h3 id="when-to-use-each-level">When to Use Each Level</h3>
+<ul>
+<li><strong>DEBUG (10)</strong>: For very detailed diagnostic information useful for debugging</li>
+<li><strong>VERBOSE (15)</strong>: For information that&rsquo;s useful during development but more detailed than INFO</li>
+<li><strong>INFO (20)</strong>: For general information about program operation</li>
+<li><strong>WARNING (30)</strong>: For potential issues that don&rsquo;t prevent program execution</li>
+<li><strong>FAIL (35)</strong>: For test failures and related issues</li>
+<li><strong>ERROR (40)</strong>: For errors that prevent an operation from completing</li>
+<li><strong>CRITICAL (50)</strong>: For critical errors that may prevent the program from continuing</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<h3 id="setting-log-level-on-the-command-line">Setting Log Level on the Command Line</h3>
+<p>You can adjust the log level when running pytest with the <code>--eest-log-level</code> option:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>consume engine --input<span style="color:#f92672">=</span>latest@stable --eest-log-level<span style="color:#f92672">=</span>VERBOSE -s --sim.limit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.*chainid.*&#34;</span>
+</span></span></code></pre></div><p>The argument accepts both log level names (e.g., &ldquo;DEBUG&rdquo;, &ldquo;VERBOSE&rdquo;, &ldquo;INFO&rdquo;) and numeric values.</p>
+<p>Adding pytest&rsquo;s <code>-s</code> flag writes the logging messages to the terminal; otherwise output will be written to the log file that is reported in the test session header at the end of the test session.</p>
+<h3 id="log-file-output">Log File Output</h3>
+<p>Log files are automatically created in the <code>logs/</code> directory with a naming pattern that includes:</p>
+<ul>
+<li>The command name, e.g. <code>consume</code>,</li>
+<li>An optional subcommand (e.g., <code>engine</code>),</li>
+<li>A timestamp in UTC,</li>
+<li>The worker ID (when using pytest-xdist).</li>
+</ul>
+<p>Example: <code>consume-engine-20240101-123456-main.log</code></p>
+<p>The log file path is displayed in the pytest header and summary.</p>
+<h3 id="using-the-standalone-configuration-in-non-pytest-projects">Using the Standalone Configuration in Non-Pytest Projects</h3>
+<p>The logging module can also be used in non-pytest projects by using the <code>configure_logging</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pytest_plugins.logging <span style="color:#f92672">import</span> configure_logging, get_logger
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Configure logging with custom settings</span>
+</span></span><span style="display:flex;"><span>configure_logging(
+</span></span><span style="display:flex;"><span>    log_level<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;VERBOSE&#34;</span>,
+</span></span><span style="display:flex;"><span>    log_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;my_application.log&#34;</span>,
+</span></span><span style="display:flex;"><span>    log_to_stdout<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>    log_format<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%(asctime)s</span><span style="color:#e6db74"> [</span><span style="color:#e6db74">%(levelname)s</span><span style="color:#e6db74">] </span><span style="color:#e6db74">%(name)s</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%(message)s</span><span style="color:#e6db74">&#34;</span>,
+</span></span><span style="display:flex;"><span>    use_color<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get a logger and use it</span>
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> get_logger(__name__)
+</span></span><span style="display:flex;"><span>logger<span style="color:#f92672">.</span>verbose(<span style="color:#e6db74">&#34;Logging configured in standalone application!&#34;</span>)
+</span></span></code></pre></div><p>The <code>configure_logging</code> function accepts the following parameters:</p>
+<ul>
+<li><code>log_level</code>: A string or numeric log level (default: &ldquo;INFO&rdquo;)</li>
+<li><code>log_file</code>: Path to a log file, or None to disable file logging (default: None)</li>
+<li><code>log_to_stdout</code>: Whether to log to stdout (default: True)</li>
+<li><code>log_format</code>: The format string for log messages (default: &ldquo;%(asctime)s [%(levelname)s] %(name)s: %(message)s&rdquo;)</li>
+<li><code>use_color</code>: Whether to use colors in stdout output, or None to auto-detect (default: None)</li>
+</ul>
+<h2 id="implementation-details">Implementation Details</h2>
+<h3 id="the-eestlogger-class">The EESTLogger Class</h3>
+<p>The <code>EESTLogger</code> class extends Python&rsquo;s <code>Logger</code> class to add the custom log methods. The main module logger is automatically configured to use this class.</p>
+<h3 id="formatters">Formatters</h3>
+<p>Two formatter classes are available:</p>
+<ul>
+<li><code>UTCFormatter</code>: Formats timestamps with millisecond precision in UTC</li>
+<li><code>ColorFormatter</code>: Extends <code>UTCFormatter</code> to add ANSI colors to log level names in terminal output</li>
+</ul>
+<h3 id="pytest-and-hive-integration">Pytest and Hive Integration</h3>
+<p>The logging module includes several pytest hooks to:</p>
+<ul>
+<li>Configure logging at the start of a test session</li>
+<li>Record logs during test execution</li>
+<li>Display the log file path in the test report</li>
+<li>Ensure logs are captured properly during fixture teardown</li>
+</ul>
+<p>The <code>hive_pytest</code> plugin has been extended to propagate the logs to the <code>hiveview</code> UI via the test case&rsquo;s <code>details</code> (&ldquo;description&rdquo; in <code>hiveview</code>).</p>
+<h2 id="example-usage">Example Usage</h2>
+<p>A complete example of using the logging system in a <code>consume</code> test (or plugin):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pytest_plugins.logging <span style="color:#f92672">import</span> get_logger
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get a properly typed logger for your module</span>
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> get_logger(__name__)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_something</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use standard log levels</span>
+</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>debug(<span style="color:#e6db74">&#34;Setting up test variables&#34;</span>)
+</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;Starting test&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Use custom log levels</span>
+</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>verbose(<span style="color:#e6db74">&#34;Additional details about test execution&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Log warnings or errors as needed</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> something_concerning:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>warning(<span style="color:#e6db74">&#34;Something looks suspicious&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> something_failed:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>fail(<span style="color:#e6db74">&#34;Test condition not met&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> <span style="color:#66d9ef">False</span>, <span style="color:#e6db74">&#34;Test failed&#34;</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Log successful completion</span>
+</span></span><span style="display:flex;"><span>    logger<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#34;Test completed successfully&#34;</span>)
+</span></span></code></pre></div><p>All log messages will be displayed according to the configured log level and captured in the log file.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

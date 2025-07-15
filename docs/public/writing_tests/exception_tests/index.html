@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="exception-tests">Exception Tests</h1>
+<p>Exception tests are a special type of test which verify that an invalid transaction or an invalid block are correctly rejected with the expected error.</p>
+<h2 id="creating-an-exception-test">Creating an Exception Test</h2>
+<p>To test for an exception, the test can use either of the following types from <code>ethereum_test_exceptions</code> library:</p>
+<ol>
+<li>
+<p><a href="../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException"><code>TransactionException</code></a>: To be added to the <code>error</code> field of the <code>Transaction</code> object, and to the <code>exception</code> field of the <code>Block</code> object that includes the transaction; this exception type is used when a transaction is invalid, and therefore when included in a block, the block is expected to be invalid too. This is different from valid transactions where an exception during EVM execution is expected (e.g. a revert, or out-of-gas), which can be included in valid blocks.</p>
+<p>For an example, see <a href="../tests/shanghai/eip3860_initcode/test_initcode/test_contract_creating_tx.md"><code>eip3860_initcode.test_initcode.test_contract_creating_tx</code></a> which raises <code>TransactionException.INITCODE_SIZE_EXCEEDED</code> in the case that the initcode size exceeds the maximum allowed size.</p>
+</li>
+<li>
+<p><a href="../library/ethereum_test_exceptions.md#ethereum_test_exceptions.BlockException"><code>BlockException</code></a>: To be added to the <code>exception</code> field of the <code>Block</code> object; this exception type is used when a block is expected to be invalid, but the exception is related to a block property, e.g. an invalid value of the block header.</p>
+<p>For an example, see <a href="../tests/cancun/eip4844_blobs/test_excess_blob_gas/test_invalid_static_excess_blob_gas.md"><code>eip4844_blobs.test_excess_blob_gas.test_invalid_static_excess_blob_gas</code></a> which raises <code>BlockException.INCORRECT_EXCESS_BLOB_GAS</code> in the case that the <code>excessBlobGas</code> remains unchanged
+but the parent blobs included are not <code>TARGET_BLOBS_PER_BLOCK</code>.</p>
+</li>
+</ol>
+<p>Although exceptions can be combined with the <code>|</code> operator to indicate that a test vector can throw either one of multiple exceptions, ideally the tester should aim to use only one exception per test vector, and only use multiple exceptions on the rare instance when it is not possible to know which exception will be thrown because it depends on client implementation.</p>
+<h2 id="adding-a-new-exception">Adding a new exception</h2>
+<p>If a test requires a new exception, because none of the existing ones is suitable for the test, a new exception can be added to either <a href="../library/ethereum_test_exceptions.md#ethereum_test_exceptions.TransactionException"><code>TransactionException</code></a> or <a href="../library/ethereum_test_exceptions.md#ethereum_test_exceptions.BlockException"><code>BlockException</code></a> classes.</p>
+<p>The new exception should be added as a new enum value, and the docstring of the attribute should be a string that describes the exception.</p>
+<p>The name of the exception should be unique, and should not be used by any other exception.</p>
+<h2 id="test-runner-behavior-on-exception-tests">Test runner behavior on exception tests</h2>
+<p>When an exception is added to a test vector, the test runner must check that the transaction or block is rejected with the expected exception.</p>
+<p>The test runner must map the exception key to the corresponding error string that is expected to be returned by the client.</p>
+<p>Exception mapping are particularly important in blockchain tests because the block can be invalid for multiple reasons, and the client returning a different error can mean that a verification in the client is faulty.</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

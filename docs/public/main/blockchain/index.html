@@ -1,0 +1,1315 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Tutorials</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Tutorials
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 blockchain
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/state_transition/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 state_transition
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="blockchain-tests">Blockchain Tests</h1>
+<p>This tutorial teaches you to create a blockchain execution specification test. These tests verify that a blockchain, starting from a defined pre-state, will process given blocks and arrive at a defined post-state.</p>
+<h2 id="pre-requisites">Pre-requisites</h2>
+<p>Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:</p>
+<ul>
+<li>Repository set-up, see <a href="../../getting_started/main.md">installation</a>.and run an execution specification test as outlined in the .</li>
+<li>Able to run <code>fill</code>, see <a href="../../filling_tests/getting_started.md">Getting Started: Filling Tests</a>.</li>
+<li>Understand how to read a <a href="https://ethereum-tests.readthedocs.io/en/latest/test_filler/blockchain_filler.html" target="_blank" rel="noopener">blockchain test</a>.</li>
+<li>Familiarity with <a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener">Python</a>.</li>
+<li>Understand how to write an execution spec <a href="./state_transition.md">state transition test</a>.</li>
+</ul>
+<h2 id="example-tests">Example Tests</h2>
+<p>In this tutorial we will go over [test_block_number] in <code>test_block_example.py</code>.</p>
+<p>It is assumed you have already gone through the state transition test tutorial. Only new concepts will be discussed.</p>
+<h3 id="smart-contract">Smart Contract</h3>
+<p>A smart contract is defined that is called by each transaction in the test. It stores a pointer to storage at <code>storage[0]</code>. When it is called storage cell <code>0</code> gets the current block <a href="https://www.evm.codes/#43?fork=merge" target="_blank" rel="noopener">number</a>, and the pointer is incremented to the next value.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>contract_addr: Account(
+</span></span><span style="display:flex;"><span>    balance<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000000000000000000</span>,
+</span></span><span style="display:flex;"><span>    code<span style="color:#f92672">=</span>code,
+</span></span><span style="display:flex;"><span>    storage<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0x00</span>: <span style="color:#ae81ff">0x01</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>),
+</span></span></code></pre></div><h3 id="transaction-generator">Transaction Generator</h3>
+<p>The transactions used in this test are nearly identical. Their only difference is the <code>nonce</code> value which needs to be incremented.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">tx_generator</span>():
+</span></span><span style="display:flex;"><span>    nonce <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># Initial value</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        tx <span style="color:#f92672">=</span> Transaction(
+</span></span><span style="display:flex;"><span>            ty<span style="color:#f92672">=</span><span style="color:#ae81ff">0x0</span>,
+</span></span><span style="display:flex;"><span>            chain_id<span style="color:#f92672">=</span><span style="color:#ae81ff">0x0</span>,
+</span></span><span style="display:flex;"><span>            nonce<span style="color:#f92672">=</span>nonce,
+</span></span><span style="display:flex;"><span>            to<span style="color:#f92672">=</span>contractAddr,
+</span></span><span style="display:flex;"><span>            gas_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">500000</span>,
+</span></span><span style="display:flex;"><span>            gas_price<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        nonce <span style="color:#f92672">=</span> nonce <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">yield</span> tx
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>tx_generator <span style="color:#f92672">=</span> tx_generator()
+</span></span></code></pre></div><p>This looks like an infinite loop but it isn&rsquo;t because this is a <a href="https://wiki.python.org/moin/Generators" target="_blank" rel="noopener">generator function</a>. When generator encounters the <code>yield</code> keyword it returns the value and stops execution, keeping a copy of all the local variables, until it is called again. Hence infinite loops inside a generator are not a problem as long as they include <code>yield</code>. This code section is responsible for creating the <code>Transaction</code> object and incrementing the <code>nonce</code>.</p>
+<p>Every time the function <code>tx_generator()</code> is called, it returns a new generator with a <code>nonce</code> of zero. To increment the <code>nonce</code> we need to use the <em>same</em> generator. We assign this generator to <code>tx_generator</code>.</p>
+<h3 id="blocks">Blocks</h3>
+<p>Each integer in the <code>tx_per_block</code> array is the number of transactions in a block. The genesis block is block 0 (no transactions). It follows that we have 2 transactions in block 1, 0 in block two, 4 in block 3, &hellip;, and 50 in block 9.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tx_per_block <span style="color:#f92672">=</span> [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">50</span>]
+</span></span></code></pre></div><p>The code section that creates the blocks is a bit complex in this test. For some simpler definitions of Block creation you can browse tests within <a href="https://github.com/ethereum/execution-spec-tests/blob/main/tests/shanghai/eip4895_withdrawals/test_withdrawals.py" target="_blank" rel="noopener"><code>test_withdrawals.py</code></a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> map(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> len: Block(
+</span></span><span style="display:flex;"><span>        txs<span style="color:#f92672">=</span>list(map(<span style="color:#66d9ef">lambda</span> x: next(tx_generator), range(len)))
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    tx_per_block,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>We use <a href="https://www.w3schools.com/python/python_lambda.asp" target="_blank" rel="noopener"><code>lambda</code> notation</a> to specify short functions. In this case, the function doesn&rsquo;t actually care about its input, it just returns the next transaction from the generator.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">lambda</span> x: next(tx_generator)
+</span></span></code></pre></div><p>Python uses <a href="https://www.w3schools.com/python/ref_func_range.asp" target="_blank" rel="noopener"><code>range(n)</code></a> to create a list of numbers from <code>0</code> to <code>n-1</code>. Among other things, it&rsquo;s a simple way to create a list of <code>n</code> values.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>range(len)
+</span></span></code></pre></div><p>The <a href="https://www.w3schools.com/python/ref_func_map.asp" target="_blank" rel="noopener"><code>map</code> function</a> runs the function (the first parameter) on every element of the list (the second parameter). Putting together what we know, it means that it runs <code>next(tx_generator)</code> <code>len</code> times, giving us <code>len</code> transactions. We then use <a href="https://www.w3schools.com/python/python_lists.asp" target="_blank" rel="noopener"><code>list</code></a> to turn the transactions into a list that we can provide as the <code>txs</code> parameter to the <code>Block</code> constructor.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>list(map(<span style="color:#66d9ef">lambda</span> x: next(tx_generator), range(len)))
+</span></span></code></pre></div><p>The outer <code>lambda</code> function takes an integer, <code>len</code>, and creates a <code>Block</code> object with <code>len</code> transactions. This function is then run on every value of <code>tx_per_block</code> to generate the blocks.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> map(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">lambda</span> len: Block(
+</span></span><span style="display:flex;"><span>        txs<span style="color:#f92672">=</span>list of len transactions
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>    tx_per_block,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>For example, if we had <code>tx_per_block = [0,2,4]</code>, we&rsquo;d get this result:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>blocks <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[]),
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[next(tx_generator), next(tx_generator)]),
+</span></span><span style="display:flex;"><span>    Blocks(txs<span style="color:#f92672">=</span>[next(tx_generator), next(tx_generator), next(tx_generator), next(tx_generator)])        
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h3 id="post-state">Post State</h3>
+<p>Recall that storage slot 0 retains the value of the next slot that the block number is written into. It starts at one and is incremented after each transaction. Hence it&rsquo;s the total number of transactions plus 1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>storage <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>: sum(tx_per_block) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
+</span></span></code></pre></div><p>For every block and transaction within the block, we write the block number and increment the next slot number in storage slot 0. As Python lists are 0 indexed, we must increment the block number by 1.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>next_slot <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> blocknum <span style="color:#f92672">in</span> range(len(tx_per_block)):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(tx_per_block[blocknum]):
+</span></span><span style="display:flex;"><span>        storage[next_slot] <span style="color:#f92672">=</span> blocknum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        next_slot <span style="color:#f92672">=</span> next_slot <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>Now that the expected storage values are calculated, the post state can be defined and yielded within the <code>BlockchainTest</code>, synonymous to the state test example.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>post <span style="color:#f92672">=</span> {contract_addr: Account(storage<span style="color:#f92672">=</span>storage)}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">yield</span> BlockchainTest(
+</span></span><span style="display:flex;"><span>    genesis_environment<span style="color:#f92672">=</span>env,
+</span></span><span style="display:flex;"><span>    pre<span style="color:#f92672">=</span>pre,
+</span></span><span style="display:flex;"><span>    blocks<span style="color:#f92672">=</span>blocks,
+</span></span><span style="display:flex;"><span>    post<span style="color:#f92672">=</span>post,
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>Note that because of the <code>yield</code> we could have multiple tests under the same name.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>At this point you should be able to write blockchain tests.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

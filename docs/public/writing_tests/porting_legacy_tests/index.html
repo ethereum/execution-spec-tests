@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="a-guide-to-porting-original-ethereum-tests-to-eest">A Guide to Porting Original Ethereum Tests to EEST</h1>
+<h2 id="background">Background</h2>
+<p>EEST is the successor to <a href="https://github.com/ethereum/tests">ethereum/tests</a> (aka &ldquo;original tests&rdquo;), a repository that defined EVM test cases from the <a href="https://ethereum.org/en/history/#frontier">Frontier</a> phase up to and including <a href="https://ethereum.org/en/history/#paris">The Merge</a>. These test cases are specified as YAML (and occasionally JSON) files in the <a href="https://github.com/ethereum/tests/tree/develop/src"><code>./src/</code></a> sub-directory. JSON test fixtures, which are fully-populated tests that can be executed against clients, are generated using <a href="https://github.com/ethereum/retesteth">ethereum/retesteth</a>. These JSON artifacts are regenerated when needed and added to the repository, typically in the <a href="https://github.com/ethereum/execution-spec-tests/tree/main/tests/static/state_tests"><code>tests/static/state_tests</code></a> sub-directory.</p>
+<p>From <a href="https://ethereum.org/en/history/#shapella">Shanghai</a> onward, new test cases — especially for new features introduced in hard forks—are defined in Python within EEST. While the existing test cases remain important for client testing, porting ethereum/tests to EEST will help maintain and generate tests for newer forks. This also ensures feature parity, as client teams will only need to obtain test fixture releases from one source.</p>
+<p>While automating the conversion of the remaining YAML (or JSON) test cases to Python is possible, manually porting individual test cases offers several benefits:</p>
+<ul>
+<li>Reducing the number of test cases by combining multiple YAML (or JSON) cases into a single Python test function using parametrization.</li>
+<li>Potentially improving coverage by parametrizing the Python version.</li>
+<li>Producing higher quality code and documentation, which are typically clearer than an automated conversion.</li>
+<li>Ensuring better organization of tests within the <code>./tests</code> folder of execution-spec-tests by fork and EIP.</li>
+</ul>
+<h2 id="porting-an-original-test">Porting an original test</h2>
+<ol>
+<li>
+<p>Select one or more test cases from <code>./tests/static/state_tests/</code> to port and create an issue in this repository AND comment on <a href="https://github.com/ethereum/execution-spec-tests/issues/972">this tracker issue.</a></p>
+</li>
+<li>
+<p><a href="../writing_tests/main.md">Add a new test</a> in the appropriate fork folder, following the guidelines for <a href="../writing_tests/types_of_tests.md#deciding-on-a-test-type">choosing a test type.</a></p>
+</li>
+<li>
+<p>Submit a PR with the ported tests:</p>
+<ol>
+<li>
+<p>Add the list of ported files using python marker to the head of your python test.</p>
+<p>Example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span> <span style="color:#a6e22e">@pytest.mark.ported_from</span>(
+</span></span><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInit_ThenStoreThenReturnFiller.json&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInit_WithValueFiller.json&#34;</span>,
+</span></span><span style="display:flex;"><span>],
+</span></span><span style="display:flex;"><span>pr<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;https://github.com/ethereum/execution-spec-tests/pull/1871&#34;</span>],
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># coverage_missed_reason=&#34;Converting solidity code result in following opcode not being used:&#34;,</span>
+</span></span></code></pre></div><p>Replace test names with your chosen tests and PR number.</p>
+<p>Uncomment coverage_missed_reason when all the missed coverage lines are approved, usually some opcodes end up not used after translating test logic from lllc, yul.</p>
+<p>But sometimes missed coverage line could hint that you forgot to account important test logic.</p>
+<p>If no coverage is missed, you are good!</p>
+</li>
+<li>
+<p>Remove the ported files from .tests/static/state_tests in your PR</p>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>See also: 📄 <a href="../getting_started/repository_overview.md">Getting started with EEST.</a></p></blockquote>
+<h2 id="filling-tests">Filling tests</h2>
+<p>EEST uses pytest to run tests against <a href="https://github.com/ethereum/execution-specs">EELS (an EVM implementation for testing)</a>. This process is known as &ldquo;filling&rdquo; and verifies the assertions in your tests. You can use the fill CLI for this. For example, see how to fill the <code>PUSH</code> opcode.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>uv run fill tests/frontier/opcodes/test_push.py
+</span></span></code></pre></div><p>See also: 📄 <a href="../filling_tests/filling_tests_command_line.md">Documentation for the <code>fill</code> command.</a></p>
+<blockquote>
+<p>If the tests can&rsquo;t currently be filled, please explain the issue (feel free to also <a href="https://github.com/ethereum/execution-spec-tests/discussions/new?category=general">open a Discussion</a>).</p></blockquote>
+<h2 id="debugging-tests">Debugging tests</h2>
+<p>By default, EVM logs are stored in the <code>logs</code> folder at the repository root. You can check the <code>output</code> folder to review transaction results. If needed, review a previous PR that ported tests (e.g., <a href="https://github.com/ethereum/execution-spec-tests/pull/975">the PR porting the <code>PUSH</code> opcode</a>, and <a href="https://github.com/ethereum/execution-spec-tests/pulls?q=is%3Apr+label%3Aport">other port PRs</a>).</p>
+<h2 id="test-coverage">Test coverage</h2>
+<p>It&rsquo;s crucial that ported tests maintain coverage parity with <em>original tests</em>. This ensures that no critical functions are left untested and prevents the introduction of bugs. A CI workflow automatically checks for coverage.</p>
+<p>If coverage action fails (See: 📄 <a href="https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481">An example of a failing test coverage</a>), it&rsquo;s recommended to run the coverage action locally (see: 📄 <a href="../dev/test_actions_locally.md">How to run GitHub actions locally</a>), which should generate a <code>evmtest_coverage</code> directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>❯ tree evmtest_coverage  -L 2
+</span></span><span style="display:flex;"><span>evmtest_coverage
+</span></span><span style="display:flex;"><span>└── coverage
+</span></span><span style="display:flex;"><span>    ├── BASE
+</span></span><span style="display:flex;"><span>    ├── BASE_TESTS
+</span></span><span style="display:flex;"><span>    ├── coverage_BASE.lcov
+</span></span><span style="display:flex;"><span>    ├── coverage_PATCH.lcov
+</span></span><span style="display:flex;"><span>    ├── DIFF
+</span></span><span style="display:flex;"><span>    ├── difflog.txt
+</span></span><span style="display:flex;"><span>    ├── PATCH
+</span></span><span style="display:flex;"><span>    └── PATCH_TESTS
+</span></span></code></pre></div><p>Here <code>BASE</code>is <em>original tests</em>, <code>PATCH</code> is the ported test, and <code>DIFF</code> is the coverage difference on EVMONE. Open <code>evmtest_coverage/coverage/DIFF/index.html</code> in browser:</p>
+<p><img src="../img/annotated-coverage.jpg" alt="Annotated coverage"></p>
+<table>
+  <thead>
+      <tr>
+          <th>Label</th>
+          <th style="text-align: center">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>LBC</code></td>
+          <td style="text-align: center"><strong>Lost base coverage:</strong> Code that was tested before, but is untested now.</td>
+      </tr>
+      <tr>
+          <td><code>UBC</code></td>
+          <td style="text-align: center"><strong>Uncovered baseline code:</strong> Code that was untested before and untested now.</td>
+      </tr>
+      <tr>
+          <td><code>GBC</code></td>
+          <td style="text-align: center"><strong>Gained baseline coverage:</strong> Code that was untested before, but is tested now.</td>
+      </tr>
+      <tr>
+          <td><code>CBC</code></td>
+          <td style="text-align: center"><strong>Covered baseline code:</strong> Code that was tested before and is tested now.</td>
+      </tr>
+  </tbody>
+</table>
+<p>Follow the hyperlinks for lost base coverage (<code>LBC</code>) to address coverage gaps. Here is an example coverage loss:</p>
+<p><img src="../img/original-coverage-loss.png" alt="Missing original coverage"></p>
+<blockquote>
+<p>Lost line coverage from a coverage report. In this case, caused by a missing invocation of <code>CALLDATALOAD</code>.</p></blockquote>
+<p>!!! note &ldquo;Expected coverage loss&rdquo;</p>
+<pre><code>EEST uses [pytest](https://docs.pytest.org/en/stable/), a popular Python testing framework, to help orchestrate testing Ethereum specifications, while _original tests_ relied on large, static contracts and the EVM to handle much of the execution. This difference can lead to coverage gaps. EEST favors dynamic contract creation for each test vector, while _original tests_ preferred a single static contract with multiple test vectors determined by transaction input data.
+
+It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in &quot;setup&quot; code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
+
+For example, review the [discussion in this PR] to see an example of why and how coverage loss can occur.(https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
+</code></pre>
+<h2 id="resolving-coverage-gaps-from-yul-compilation">Resolving Coverage Gaps from Yul Compilation</h2>
+<p>When porting tests from ethereum/tests, you may encounter coverage gaps that are false positives. This commonly occurs because:</p>
+<ul>
+<li><strong>Original tests</strong> often used Yul to define smart contracts, and solc compilation introduces additional opcodes that aren&rsquo;t specifically under test</li>
+<li><strong>EEST ports</strong> use the explicit EEST Opcode mini-language, which is more precise in opcode definition</li>
+</ul>
+<p>If coverage analysis shows missing opcodes that were only present due to Yul compilation artifacts (not the actual feature being tested), this can be resolved during PR review by adding the <code>coverage_missed_reason</code> parameter:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@pytest.mark.ported_from</span>(
+</span></span><span style="display:flex;"><span>    [<span style="color:#e6db74">&#34;path/to/original_test.json&#34;</span>],
+</span></span><span style="display:flex;"><span>    coverage_missed_reason<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Missing opcodes are Yul compilation artifacts, not part of tested feature&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>!!! note &ldquo;Add coverage_missed_reason only after PR review&rdquo;
+Only add <code>coverage_missed_reason</code> after PR review determines the coverage gap is acceptable, never preemptively. This helps maintain test coverage integrity while accounting for legitimate differences between Yul-based and EEST opcode-based implementations.</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

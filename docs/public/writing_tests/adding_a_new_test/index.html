@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="adding-a-new-test">Adding a New Test</h1>
+<p>All test cases are located underneath the <code>tests</code> directory, which are then organized by fork. Each fork contains sub-directories containing test sub-categories.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>📁 execution-test-specs/
+</span></span><span style="display:flex;"><span>├─╴📁 tests/
+</span></span><span style="display:flex;"><span>|   ├── 📄 __init__.py
+</span></span><span style="display:flex;"><span>│   ├── 📁 cancun/
+</span></span><span style="display:flex;"><span>|   |    ├── 📄 __init__.py
+</span></span><span style="display:flex;"><span>│   |    └── 📁 eip4844_blobs/
+</span></span><span style="display:flex;"><span>|   |        ├── 📄 __init__.py
+</span></span><span style="display:flex;"><span>|   |        ├── 📄 test_blobhash_opcode.py
+</span></span><span style="display:flex;"><span>|   |        ├── 📄 test_excess_blob_gas.py
+</span></span><span style="display:flex;"><span>|   |        └── 📄 ...
+</span></span><span style="display:flex;"><span>|   ├── 📁 shanghai
+</span></span><span style="display:flex;"><span>|   |    ├── 📁 eip3651_warm_coinbase
+</span></span><span style="display:flex;"><span>|   |    |   ├── 📄 __init__.py
+</span></span><span style="display:flex;"><span>|   |    |   └── 📄 test_warm_coinbase.py
+</span></span><span style="display:flex;"><span>|   |    ├── 📁 eip3855_push0
+</span></span><span style="display:flex;"><span>|   |    |   ├── 📄 __init__.py
+</span></span><span style="display:flex;"><span>|   |    |   └── 📄 test_push0.py
+</span></span><span style="display:flex;"><span>|   |    ├── 📁...
+</span></span><span style="display:flex;"><span>|   |    ...
+</span></span><span style="display:flex;"><span>│   └── 📁 ...
+</span></span></code></pre></div><p>Each category/sub-directory may have multiple Python test modules (<code>*.py</code>) which in turn may contain many test functions. The test functions themselves are always parametrized by fork (by the framework).</p>
+<p>A new test can be added by either:</p>
+<ul>
+<li>Adding a new <code>test_</code> python function to an existing file in any of the existing category subdirectories within <code>tests</code>.</li>
+<li>Creating a new source file in an existing category, and populating it with the new test function(s).</li>
+<li>Creating an entirely new category by adding a subdirectory in <code>tests</code> with the appropriate source files and test functions.</li>
+</ul>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

@@ -1,0 +1,1430 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Getting Started</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Getting Started
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/code_standards/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 code_standards
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/code_standards_details/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 code_standards_details
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_help/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 getting_help
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/installation_troubleshooting/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 installation_troubleshooting
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/repository_overview/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 repository_overview
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/setup_vs_code/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 setup_vs_code
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="installation-troubleshooting">Installation Troubleshooting</h1>
+<p>This page provides guidance on how to troubleshoot common issues that may arise when installing <a href="https://github.com/ethereum/execution-spec-tests" target="_blank" rel="noopener">ethereum/execution-spec-tests</a>.</p>
+<h2 id="problem-failed-building-wheel-for-coincurve">Problem: <code>Failed building wheel for coincurve</code></h2>
+
+
+<div class="callout callout-danger">
+  <div class="callout-title">Problem: <code>Failed building wheel for coincurve</code></div>
+  <div class="callout-content">
+    <p>Installing EEST and its dependencies via <code>uv sync --all-extras</code> fails with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Stored in directory: /tmp/...
+</span></span><span style="display:flex;"><span>    Building wheel <span style="color:#66d9ef">for</span> coincurve <span style="color:#f92672">(</span>pyproject.toml<span style="color:#f92672">)</span> ... error
+</span></span><span style="display:flex;"><span>    error: subprocess-exited-with-error
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    × Building wheel <span style="color:#66d9ef">for</span> coincurve <span style="color:#f92672">(</span>pyproject.toml<span style="color:#f92672">)</span> did not run successfully.
+</span></span><span style="display:flex;"><span>    │ exit code: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    ╰─&gt; <span style="color:#f92672">[</span><span style="color:#ae81ff">27</span> lines of output<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        ...
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">571</span> | <span style="color:#75715e">#include &lt;secp256k1_extrakeys.h&gt;</span>
+</span></span><span style="display:flex;"><span>            |          ^~~~~~~~~~~~~~~~~~~~~~~
+</span></span><span style="display:flex;"><span>        compilation terminated.
+</span></span><span style="display:flex;"><span>        error: command <span style="color:#e6db74">&#39;/usr/bin/gcc&#39;</span> failed with exit code <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">[</span>end of output<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    note: This error originates from a subprocess, and is likely not a problem with pip.
+</span></span><span style="display:flex;"><span>    ERROR: Failed building wheel <span style="color:#66d9ef">for</span> coincurve
+</span></span></code></pre></div>
+  </div>
+</div>
+
+
+<div class="callout callout-success">
+  <div class="callout-title">Solution: Install the <code>libsecp256k1</code> library</div>
+  <div class="callout-content">
+    <p>On Ubuntu, you can install this library with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt update
+</span></span><span style="display:flex;"><span>sudo apt-get install libsecp256k1-dev
+</span></span></code></pre></div>
+  </div>
+</div>
+<h2 id="problem-solc-installation-issues">Problem: <code>solc</code> Installation issues</h2>
+<h3 id="problem-certificate_verify_failed">Problem: <code>CERTIFICATE_VERIFY_FAILED</code></h3>
+
+
+<div class="callout callout-danger">
+  <div class="callout-title">Problem: <code>Failed to ... CERTIFICATE_VERIFY_FAILED</code></div>
+  <div class="callout-content">
+    <p>When running <code>fill</code> you might encounter the following error:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Exit: Failed to ...: &lt;urlopen error <span style="color:#f92672">[</span>SSL: CERTIFICATE_VERIFY_FAILED<span style="color:#f92672">]</span> certificate verify failed: unable to get local issuer certificate <span style="color:#f92672">(</span>_ssl.c:992<span style="color:#f92672">)</span>&gt;
+</span></span></code></pre></div>
+  </div>
+</div>
+<p>=== &ldquo;Ubuntu&rdquo;</p>
+
+
+<div class="callout callout-success">
+  <div class="callout-title">Solution: Update your system’s CA certificates</div>
+  <div class="callout-content">
+    <p>On Ubuntu, run the following commands:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get update
+</span></span><span style="display:flex;"><span>sudo apt-get install ca-certificates
+</span></span></code></pre></div>
+  </div>
+</div>
+<p>=== &ldquo;macOS&rdquo;
+
+
+<div class="callout callout-success">
+  <div class="callout-title">Solution: Update your system’s CA certificates</div>
+  <div class="callout-content">
+    <p>On macOS, Python provides a built-in script to install the required certificates:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/Applications/Python<span style="color:#ae81ff">\ </span>3.11/Install<span style="color:#ae81ff">\ </span>Certificates.command
+</span></span></code></pre></div>
+  </div>
+</div></p>
+<h3 id="problem-exception-failed-to-compile-yul-source">Problem: <code>Exception: failed to compile yul source</code></h3>
+
+
+<div class="callout callout-danger">
+  <div class="callout-title">Problem: <code>Running fill on static_tests fails with tests that contain yul source code</code> on ARM platforms</div>
+  <div class="callout-content">
+    To resolve the issue you must acquire the <code>solc</code> binary e.g. by building solidity from source. The guide below installs v0.8.28 but you might prefer to choose a different version.
+  </div>
+</div>
+
+
+<div class="callout callout-success">
+  <div class="callout-title">Solution: Build solc from source</div>
+  <div class="callout-content">
+    <p>The following steps have been tested on Ubuntu 24.04.2 LTS ARM64:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone --branch v0.8.28 --depth <span style="color:#ae81ff">1</span> https://github.com/ethereum/solidity.git
+</span></span><span style="display:flex;"><span>cd solidity <span style="color:#f92672">&amp;&amp;</span> mkdir build <span style="color:#f92672">&amp;&amp;</span> cd build
+</span></span><span style="display:flex;"><span>sudo apt install build-essential libboost-all-dev z3
+</span></span><span style="display:flex;"><span>cmake ..
+</span></span><span style="display:flex;"><span>make
+</span></span><span style="display:flex;"><span>mv $HOME/Documents/execution-spec-tests/.venv/bin/solc $HOME/Documents/execution-spec-tests/.venv/bin/solc-x86-64
+</span></span><span style="display:flex;"><span>cp ./solc/solc $HOME/Documents/execution-spec-tests/.venv/bin/
+</span></span><span style="display:flex;"><span>chmod +x $HOME/Documents/execution-spec-tests/.venv/bin/solc
+</span></span></code></pre></div><p>Running <code>uv run solc --version</code> should now return the expected version.</p>
+
+  </div>
+</div>
+<h2 id="problem-valueerror-unsupported-hash-type-ripemd160">Problem: <code>ValueError: unsupported hash type ripemd160</code></h2>
+
+
+<div class="callout callout-danger">
+  <div class="callout-title">Problem: <code>Running fill fails with tests that use the RIPEMD160 precompile (0x03)</code></div>
+  <div class="callout-content">
+    <p>When running <code>fill</code>, you encounter the following error:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">ValueError</span>: unsupported hash type ripemd160
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># or</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ValueError</span>: [digital envelope routines] unsupported
+</span></span></code></pre></div><p>This is due to the removal of certain cryptographic primitives in OpenSSL 3. These were re-introduced in <a href="https://github.com/openssl/openssl/blob/master/CHANGES.md#changes-between-306-and-307-1-nov-2022" target="_blank" rel="noopener">OpenSSL v3.0.7</a>.</p>
+
+  </div>
+</div>
+
+
+<div class="callout callout-success">
+  <div class="callout-title">Solution: Modify OpenSSL configuration</div>
+  <div class="callout-content">
+    <p>On platforms where OpenSSL v3.0.7 is unavailable (e.g., Ubuntu 22.04), modify your OpenSSL configuration to enable RIPEMD160. Make the following changes in the OpenSSL config file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[openssl_init]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">providers</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">provider_sect</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># List of providers to load</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[provider_sect]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">default</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">default_sect</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">legacy</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">legacy_sect</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[default_sect]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">activate</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[legacy_sect]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">activate</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">1</span>
+</span></span></code></pre></div><p>This will enable the legacy cryptographic algorithms, including RIPEMD160. See <a href="https://github.com/ethereum/execution-specs/issues/506" target="_blank" rel="noopener">ethereum/execution-specs#506</a> for more information.</p>
+
+  </div>
+</div>
+<h2 id="other-issues-not-listed">Other Issues Not Listed?</h2>
+<p>If you&rsquo;re facing an issue that&rsquo;s not listed here, you can easily report it on GitHub for resolution.</p>
+<p><a href="https://github.com/ethereum/execution-spec-tests/issues/new?title=docs%28bug%29:%20unable%20to%20install%20eest%20with%20error%20...&amp;labels=scope:docs,type:bug&amp;body=%3Ccopy-paste%20command%20that%20triggered%20the%20issue%20here%3E%0A%3Ccopy-paste%20output%20or%20attach%20screenshot%20here%3E" target="_blank" rel="noopener">Click here to report a documentation issue related to installation</a></p>
+<p>Please include the following details in your report:</p>
+<ol>
+<li>The command that triggered the issue.</li>
+<li>Any relevant error messages or screenshots.</li>
+<li>Relevant version information from the output of <code>uv run eest info</code> (if running consume from within <code>eest</code>).</li>
+</ol>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

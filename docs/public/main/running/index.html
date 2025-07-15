@@ -1,0 +1,1650 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Running Tests</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Running Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/releases/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 releases
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 running
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/useful_pytest_options/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 useful_pytest_options
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Subsections</h4>
+    <ul style="list-style:none;padding:0;">
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/consume/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Consume
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/execute/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Execute
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/hive/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Hive
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/test_formats/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Test formats
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="methods-of-running-tests">Methods of Running Tests</h1>
+<p>EEST has two commands, <code>consume</code> and <code>execute</code>, that run test cases against EL clients:</p>
+<ol>
+<li><code>consume</code> runs JSON test fixtures against a client - the client is said to &ldquo;consume&rdquo; the test case fixture.</li>
+<li><code>execute</code> runs test cases from Python source against a client - the test case is &ldquo;executed&rdquo; against the client.</li>
+</ol>
+<h2 id="top-level-comparison">Top-Level Comparison</h2>
+<p>Both <code>consume</code> and <code>execute</code> provide sub-commands which correspond to different methods of testing EL clients using EEST test cases:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Command</th>
+          <th>Description</th>
+          <th>Components tested</th>
+          <th>Environment</th>
+          <th>Scope</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="#direct"><code>consume direct</code></a></td>
+          <td>Client consume tests via a <code>statetest</code> interface</td>
+          <td>EVM</td>
+          <td>None</td>
+          <td>Module test</td>
+      </tr>
+      <tr>
+          <td><a href="#direct"><code>consume direct</code></a></td>
+          <td>Client consume tests via a <code>blocktest</code> interface</td>
+          <td>EVM, block processing</td>
+          <td>None</td>
+          <td>Module test,</br>Integration test</td>
+      </tr>
+      <tr>
+          <td><a href="#engine"><code>consume engine</code></a></td>
+          <td>Client imports blocks via Engine API <code>EngineNewPayload</code> in Hive</td>
+          <td>EVM, block processing, Engine API</td>
+          <td>Staging, Hive</td>
+          <td>System test</td>
+      </tr>
+      <tr>
+          <td><a href="#rlp"><code>consume rlp</code></a></td>
+          <td>Client imports RLP-encoded blocks upon start-up in Hive</td>
+          <td>EVM, block processing, RLP import (sync*)</td>
+          <td>Staging, Hive</td>
+          <td>System test</td>
+      </tr>
+      <tr>
+          <td><a href="./execute/hive.md"><code>execute hive</code></a></td>
+          <td>Tests executed against a client via JSON RPC <code>eth_sendRawTransaction</code> in Hive</td>
+          <td>EVM, JSON RPC, mempool</td>
+          <td>Staging, Hive</td>
+          <td>System test</td>
+      </tr>
+      <tr>
+          <td><a href="./execute/remote.md"><code>execute remote</code></a></td>
+          <td>Tests executed against a client via JSON RPC <code>eth_sendRawTransaction</code> on a live network</td>
+          <td>EVM, JSON RPC, mempool, EL-EL/EL-CL interaction (indirectly)</td>
+          <td>Production</td>
+          <td>System Test</td>
+      </tr>
+  </tbody>
+</table>
+<p>*sync: Depending on code paths used in the client implementation, see the <a href="#engine-vs-rlp-simulator">RLP vs Engine Simulator section below</a>.</p>
+<p>The following sections describe the different methods in more detail.</p>
+
+
+<div class="callout callout-info">
+  <div class="callout-title"><code>./hive --sim=eest/consume-engine</code> vs <code>consume engine</code></div>
+  <div class="callout-content">
+    EEST simulators can be ran either standalone using the <code>./hive</code> command or via an EEST command against a <code>./hive --dev</code> backend, more details are <a href="#two-methods-to-run-eest-simulators">provided below</a>.
+  </div>
+</div>
+<h2 id="direct">Direct</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Nomenclature</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Command</td>
+          <td><code>consume direct</code></td>
+      </tr>
+      <tr>
+          <td>Simulator</td>
+          <td><code>None</code></td>
+      </tr>
+      <tr>
+          <td>Fixture Formats</td>
+          <td><code>state_test</code>,</br><code>blockchain_test</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>The direct method provides the fastest way to test EVM functionality by executing tests directly through a client&rsquo;s dedicated test interface (e.g. <a href="https://github.com/ethereum/go-ethereum/blob/4bb097b7ffc32256791e55ff16ca50ef83c4609b/cmd/evm/staterunner.go" target="_blank" rel="noopener"><code>statetest</code></a> or <a href="https://github.com/ethereum/go-ethereum/blob/35dd84ce2999ecf5ca8ace50a4d1a6abc231c370/cmd/evm/blockrunner.go" target="_blank" rel="noopener"><code>blocktest</code></a>). This method requires clients to implement a custom interface to read tests and pass their inputs through appropriate code paths; implementation guides available for <a href="./test_formats/state_test.md#consumption">state tests</a> and <a href="./test_formats/blockchain_test.md#consumption">blockchain tests</a>.</p>
+<p>The EEST <code>consume direct</code> command is a small wrapper around client direct interfaces that allows fast and easy selection of test subsets to execute via <a href="../filling_tests/test_ids.md">test ID</a> regex match (thanks to <a href="./consume/cache.md#the-fixture-index-file">an index file</a>). See <a href="./consume/direct.md">Consume Direct</a> and the <a href="./consume/cache.md">Cache and Fixture Inputs</a> and <a href="./useful_pytest_options.md">Useful Pytest Options</a> pages for help with options.</p>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Rapid EVM development</div>
+  <div class="callout-content">
+    The <a href="./consume/direct.md"><code>direct</code> method</a> with the <a href="./test_formats/state_test.md"><code>StateTest</code> format</a> should be used for the fastest EVM development feedback loop. Additionally, EVM traces can be readily generated and compared to other implementations.
+  </div>
+</div>
+<h2 id="engine">Engine</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Nomenclature</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Command</td>
+          <td><code>consume engine</code></td>
+      </tr>
+      <tr>
+          <td>Simulator</td>
+          <td><code>eest/consume-engine</code></td>
+      </tr>
+      <tr>
+          <td>Fixture format</td>
+          <td><code>blockchain_test_engine</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>The consume engine method tests execution clients via the Engine API by sending block payloads and verifying the response (post-merge forks only). This method provides the most realistic testing environment for production Ethereum client behavior, covering consensus integration, payload validation, and state synchronization.</p>
+<p>The <code>consume engine</code> command:</p>
+<ol>
+<li><strong>Initializes the execution client</strong> with genesis state.</li>
+<li><strong>Connects via Engine API</strong> (port 8551), primitively mocking a consensus client.</li>
+<li><strong>Sends a forkchoice update</strong> to establish the chain head.</li>
+<li><strong>Submits payloads</strong> using <code>engine_newPayload</code> calls.</li>
+<li><strong>Validates responses</strong> against expected results.</li>
+<li><strong>Tests error conditions</strong> and exception handling.</li>
+</ol>
+<h2 id="rlp">RLP</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Nomenclature</th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Command</td>
+          <td><code>consume rlp</code></td>
+      </tr>
+      <tr>
+          <td>Simulator</td>
+          <td><code>eest/consume-rlp</code></td>
+      </tr>
+      <tr>
+          <td>Fixture format</td>
+          <td><code>blockchain_test</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>The RLP consumption method tests execution clients by providing them with RLP-encoded blocks to load upon startup, similar to the block import process during historical synchronization. This method tests the client&rsquo;s core block processing logic without the overhead of network protocols.</p>
+<p>The <code>consume rlp</code> command:</p>
+<ol>
+<li><strong>Reads blockchain test fixtures</strong> from the specified input source.</li>
+<li><strong>Extracts RLP-encoded blocks</strong> from the fixture files.</li>
+<li><strong>Copies blocks to the client&rsquo;s container</strong> via files in the <code>/blocks/</code> directory.</li>
+<li><strong>Starts the client</strong> with the genesis state and block files.</li>
+<li><strong>Validates the client&rsquo;s final <code>blockHash</code></strong> via JSON RPC against the test&rsquo;s expectations.</li>
+</ol>
+<p>This method simulates how clients import blocks during historical sync, testing the complete block validation and state transition pipeline, see below for more details and a comparison to consumption via the Engine API.</p>
+<h2 id="engine-vs-rlp-simulator">Engine vs RLP Simulator</h2>
+<p>The RLP Simulator (<code>eest/consume-rlp</code>) and the Engine Simulator (<code>eest/consume-engine</code>) should be seen as complimentary to one another. Although they execute the same underlying EVM test cases, the block validation logic is executed via different client code paths (using different <a href="./test_formats/main.md">fixture formats</a>). Therefore, ideally, <strong>both simulators should be executed for full coverage</strong>.</p>
+<h3 id="code-path-choices">Code Path Choices</h3>
+<p>Clients consume fixtures in the <code>eest/consume-engine</code> simulator via the Engine API&rsquo;s <code>EngineNewPayloadv*</code> endpoint; a natural way to validate, respectively invalidate, block payloads. In this case, there is no flexibility in the choice of code path - it directly harnesses mainnet client functionality. The <code>eest/consume-rlp</code> Simulator, however, allows clients more freedom, as the rlp-encoded blocks are imported upon client startup. Clients are recommended to try and hook the block import into the code path used for historical syncing.</p>
+<h3 id="differences">Differences</h3>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th><code>eest/consume-rlp</code></th>
+          <th><code>eest/consume-engine</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Fixture Format Used</strong></td>
+          <td><a href="./test_formats/blockchain_test.md"><code>BlockchainTest</code></a></td>
+          <td><a href="./test_formats/blockchain_test_engine.md"><code>BlockchainTestEngine</code></a></td>
+      </tr>
+      <tr>
+          <td><strong>Fork support</strong></td>
+          <td>All forks (including pre-merge)</td>
+          <td>Post-merge forks only (Paris+)</td>
+      </tr>
+      <tr>
+          <td><strong>Client code path</strong></td>
+          <td>Historical sync / block import pipeline</td>
+          <td>Engine API / consensus integration</td>
+      </tr>
+      <tr>
+          <td><strong>Real-world analogy</strong></td>
+          <td>Blocks received during sync</td>
+          <td>Blocks received from consensus client</td>
+      </tr>
+      <tr>
+          <td><strong>Interface</strong></td>
+          <td>Block import upon start-up via RLP files</td>
+          <td>Engine API calls (<code>newPayload</code>, <code>forkchoiceUpdated</code>)</td>
+      </tr>
+      <tr>
+          <td><strong>Exception testing</strong></td>
+          <td>Basic exception handling</td>
+          <td>Advanced exception verification with client-specific mappers</td>
+      </tr>
+  </tbody>
+</table>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Running both simulators adds some redundancy that can assist test debugging</div>
+  <div class="callout-content">
+    If Engine tests fail but RLP tests pass, the issue is likely in your Engine API implementation rather than core EVM logic.
+  </div>
+</div>
+<h2 id="execute">Execute</h2>
+<p>See <a href="./execute/main.md">Execute Command</a>.</p>
+<h2 id="two-methods-to-run-eest-simulators">Two Methods to Run EEST Simulators</h2>
+<p>Many of the methods use the Hive Testing Environment to interact with clients and run tests against them. These methods are also called Hive simulators. While Hive is always necessary to run simulators, they can be called in two different ways. Both of these commands execute the same simulator code, but in different environments, we take the example of the <code>eest/consume-engine</code> simulator:</p>
+<ol>
+<li><code>./hive --sim=eest/consume-engine</code> is a standalone command that installs EEST and the <code>consume</code> command in a dockerized container managed by Hive. This is the standard method to execute EEST <a href="./releases.md">fixture releases</a> against clients in CI environments and is the method to generate the results at <a href="https://hive.ethpandaops.io" target="_blank" rel="noopener">hive.ethpandaops.io</a>. See <a href="./hive/main.md">Hive</a> and its <a href="./hive/common_options.md">Common Options</a> for help with this method.</li>
+<li><code>uv run consume engine</code> requires the user to clone and <a href="../getting_started/main.md">install EEST</a> and start a Hive server in <a href="./hive/dev_mode.md">development mode</a>. In this case, the simulator runs on the native system and communicate to the client via the Hive API. This is particularly useful during test development as fixtures on the local disk can be specified via <code>--input=fixtures/</code>. As the simulator runs natively, it is easy to drop into a debugger and inspect the simulator or client container state. See <a href="./hive/dev_mode.md">Hive Developer Mode</a> for help with this method.</li>
+</ol>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

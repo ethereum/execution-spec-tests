@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#"></a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2></h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><h1 id="post-mortems-of-missed-test-scenarios">Post-Mortems of Missed Test Scenarios</h1>
+<p>This page contains a collection of post-mortem analyses for test cases that were not initially identified by the testing process.</p>
+<p>The objective is to document and learn from missed scenarios — including those that were caught on the client side due to consensus issue, client developer raised issues, external reviewers, or external bug bounties — in order to improve test coverage and reduce the likelihood of similar omissions in the future.</p>
+<p>Each entry must include an explanation of why the test case was missed plus the changes that were implemented in documentation or framework to improve the testing process.</p>
+<h2 id="list">List</h2>
+<h2 id="template">TEMPLATE</h2>
+<h2 id="date---title---fork">Date - Title - Fork</h2>
+<h3 id="description">Description</h3>
+<p>Provide a concise summary of the issue, how it was discovered, emphasizing the how it relates to the specifications and testing.</p>
+<p><em>Example:</em></p>
+<blockquote>
+<p>A consensus-breaking issue was found during the bug-bounty phase of the Pectra fork specifically in the EIP-2537, which involved calling the BLS pairing precompile using two special points: the infinity point and a point that is outside of the BLS12-381 curve.
+The specification correctly specified the behavior of the precompile when one of these inputs was used, but it did not specify the behavior of the combined input.</p></blockquote>
+<h3 id="root-cause-analysis">Root Cause Analysis</h3>
+<p>Explain why this scenario was not covered by the test suite. Consider whether it was due to ambiguous specification wording, gaps in test generation logic, overlooked edge cases, or incorrect assumptions about expected behavior.</p>
+<p><em>Consider prompting questions:</em></p>
+<ul>
+<li>Was the behavior implied but not explicitly stated in the specification?</li>
+<li>Was the area considered low-risk or assumed covered elsewhere?</li>
+<li>Were there limitations in the current test generation tools or processes?</li>
+<li>Was there any different type of testing that could have caught the issue at an earlier stage? (Fuzzing, property based testing)</li>
+</ul>
+<h3 id="steps-taken-to-avoid-recurrence">Steps Taken To Avoid Recurrence</h3>
+<p>List the actions taken to reduce the chance of this type of miss happening again. E.g. procedure changes, checklist updates, review practices, framework improvements.</p>
+<h3 id="implemented-test-case">Implemented Test Case</h3>
+<p>IDs of the tests added that now cover the missed scenario and link to the documentation page where they are included.</p>
+<p><em>Example:</em></p>
+<ul>
+<li><a href="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm/test_invalid/"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_g1msm.py::test_invalid\[fork_Prague-state_test---bls_g1_truncated_input-\]</code></a></li>
+</ul>
+<h3 id="frameworkdocumentation-changes">Framework/Documentation Changes</h3>
+<p>Note any modifications that were introduced in the framework and/or documentation to prevent similar misses.</p>
+<p><em>Example:</em></p>
+<ul>
+<li>Updated EIP checklist to include testing combinations of interesting points related to the elliptic-curve under test, and all combinations between them.</li>
+</ul>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

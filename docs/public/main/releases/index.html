@@ -1,0 +1,1497 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Running Tests</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Running Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/releases/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 releases
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/running/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 running
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/useful_pytest_options/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 useful_pytest_options
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+            
+            
+          
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+          
+          
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Subsections</h4>
+    <ul style="list-style:none;padding:0;">
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/consume/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Consume
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/execute/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Execute
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/hive/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Hive
+          </a>
+        </li>
+      
+        <li style="margin:.5rem 0;">
+          <a href="/main/running_tests/test_formats/"
+             style="display:block;padding:.5rem;color:#666;text-decoration:none;transition:all .2s;">
+            📁 Test formats
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="eest-fixture-releases">EEST Fixture Releases</h1>
+<h2 id="formats-and-release-layout">Formats and Release Layout</h2>
+<p>@ethereum/execution-spec-tests releases contain JSON test fixtures in various formats. Note that transaction type tests are executed directly from Python source using the <a href="./execute/main.md"><code>execute</code></a> command.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Format</th>
+          <th>Consumed by the client</th>
+          <th>Location in <code>.tar.gz</code> release</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="./test_formats/state_test.md">State Tests</a></td>
+          <td>- directly via a <code>statetest</code>-like command<br/> (e.g., <a href="https://github.com/ethereum/go-ethereum/blob/4bb097b7ffc32256791e55ff16ca50ef83c4609b/cmd/evm/staterunner.go" target="_blank" rel="noopener">go-ethereum/cmd/evm/staterunner.go</a>)</td>
+          <td><code>./fixtures/state_tests/</code></td>
+      </tr>
+      <tr>
+          <td><a href="./test_formats/blockchain_test.md">Blockchain Tests</a></td>
+          <td>- directly via a <code>blocktest</code>-like command<br/> (e.g., <a href="https://github.com/ethereum/go-ethereum/blob/4bb097b7ffc32256791e55ff16ca50ef83c4609b/cmd/evm/blockrunner.go" target="_blank" rel="noopener">go-ethereum/cmd/evm/blockrunner.go</a>)</br>- using the <a href="./running.md#rlp">RLPeest/consume-rlp Simulator</a> via block import</td>
+          <td><code>./fixtures/blockchain_tests/</code></td>
+      </tr>
+      <tr>
+          <td><a href="./test_formats/blockchain_test_engine.md">Blockchain Engine Tests</a></td>
+          <td>- using the <a href="./running.md#engine">eest/consume-engine Simulator</a> and the Engine API</td>
+          <td><code>./fixtures/blockchain_tests_engine/</code></td>
+      </tr>
+      <tr>
+          <td><a href="./test_formats/transaction_test.md">Transaction Tests</a></td>
+          <td>- using a new simulator coming soon</td>
+          <td>None; executed directly from Python source,</br>using a release tag</td>
+      </tr>
+      <tr>
+          <td>Blob Transaction Tests</td>
+          <td>- using the <a href="./execute/hive.md#the-eestexecute-blobs-simulator">eest/execute-blobs Simulator</a> and</td>
+          <td>None; executed directly from Python source,</br>using a release tag</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="release-urls-and-tarballs">Release URLs and Tarballs</h2>
+<h3 id="versioning-scheme">Versioning Scheme</h3>
+<p>EEST framework and test sources and fixture releases are tagged use a semantic versioning scheme, <code>&lt;optional:&lt;pre_release_name@&gt;&gt;v&lt;MAJOR&gt;.&lt;MINOR&gt;.&lt;PATCH&gt;</code> as following:</p>
+<ul>
+<li><code>&lt;MAJOR&gt;</code>: An existing fixture format has changed (potentially breaking change). Action must be taken by client teams to ensure smooth upgrade to the new format.</li>
+<li><code>&lt;MINOR&gt;</code>: Additional coverage (new tests, or a new format) have been added to the release.</li>
+<li><code>&lt;PATCH&gt;</code>: A bug-fix release; an error in the tests or framework has been patched.</li>
+</ul>
+<p>Please see below for an explanation of the optional <code>&lt;pre_release_name&gt;</code> that is used in pre-releases.</p>
+<h3 id="standard-releases">Standard Releases</h3>
+<p>Releases are published on the @ethereum/execution-spec-tests <a href="https://github.com/ethereum/execution-spec-tests/releases" target="_blank" rel="noopener">releases</a> page. Standard releases are tagged using the format <code>vX.Y.Z</code> (they don&rsquo;t have a <code>&lt;pre_release_name&gt;</code>).</p>
+<p>For standard releases, two tarballs are available:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Release Artifact</th>
+          <th>Fork/feature scope</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>fixtures_stable.tar.gz</code></td>
+          <td>Tests for all forks up to and including the last deployed (&ldquo;stable&rdquo;) mainnet fork (&ldquo;must pass&rdquo;)</td>
+      </tr>
+      <tr>
+          <td><code>fixtures_develop.tar.gz</code></td>
+          <td>Tests for all forks up to and including the last development fork</td>
+      </tr>
+  </tbody>
+</table>
+<p>I.e., <code>fixtures_develop</code> are a superset of <code>fixtures_stable</code>.</p>
+<h3 id="pre-release-and-devnet-releases">Pre-Release and Devnet Releases</h3>
+<p>Intermediate releases that target specific subsets of features or tests under active development are published at @ethereum/execution-spec-tests <a href="https://github.com/ethereum/execution-spec-tests/releases" target="_blank" rel="noopener">releases</a>.</p>
+<p>These releases are tagged using the format <code>&lt;pre_release_name&gt;@vX.Y.Z</code>.</p>
+<p>Examples:</p>
+<ul>
+<li><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/fusaka-devnet-1%40v1.0.0" target="_blank" rel="noopener"><code>fusaka-devnet-1@v1.0.0</code></a> - this fixture release contains tests adhering to the <a href="https://notes.ethereum.org/@ethpandaops/fusaka-devnet-1" target="_blank" rel="noopener">Fusaka Devnet 1 spec</a>.</li>
+<li><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/benchmark%40v1.0.0" target="_blank" rel="noopener"><code>benchmark@v1.0.0</code></a> - this fixture release contains tests specifically aimed at benchmarking EVMs.</li>
+</ul>
+<p>Devnet releases should be treated as WIP and may not yet contain full test coverage (or even coverage for all EIPs). The coverage provided by these releases is detailed in the corresponding release notes.</p>
+<h3 id="help-downloading-releases">Help Downloading Releases</h3>
+<p>The <a href="./consume/cache.md"><code>consume cache</code></a> command can be used to resolve EEST release and pre-release tags to release URLs and download them.</p>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

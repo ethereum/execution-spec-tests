@@ -1,0 +1,140 @@
+{{ $tabs := slice }}
+{{ $id := .Ordinal }}
+
+{{/* Process inner content to collect tabs */}}
+{{ .Inner }}
+
+{{/* Get tabs from scratch */}}
+{{ $tabs = .Scratch.Get "tabs" }}
+
+<div class="tab-container" data-tab-group="tabs-{{ $id }}">
+  <div class="tab-header">
+    {{ range $index, $tab := $tabs }}
+      <button class="tab-button {{ if eq $index 0 }}active{{ end }}" 
+              onclick="switchTab('tabs-{{ $id }}', {{ $index }})">
+        {{ .title | markdownify }}
+      </button>
+    {{ end }}
+  </div>
+  
+  <div class="tab-panels">
+    {{ range $index, $tab := $tabs }}
+      <div class="tab-panel {{ if eq $index 0 }}active{{ end }}">
+        {{ .content | $.Page.RenderString }}
+      </div>
+    {{ end }}
+  </div>
+</div>
+
+{{/* Clear the scratch for next use */}}
+{{ .Scratch.Delete "tabs" }}
+
+<style>
+    .tab-container {
+      margin: 1.5rem 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .tab-header {
+      display: flex;
+      background: #e9ecef;
+      /* Remove overflow-x: auto to prevent scrolling */
+    }
+    
+    .tab-button {
+      flex: 1; /* Make all tabs equal width */
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      position: relative;
+      text-align: center; /* Center the text */
+      overflow: hidden; /* Hide overflow text */
+      text-overflow: ellipsis; /* Add ellipsis for long text */
+    }
+    
+    .tab-button:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .tab-button.active {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #007bff;
+    }
+    
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #007bff;
+    }
+    
+    .tab-button code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    
+    .tab-panel {
+      display: none;
+      padding: 1.5rem;
+      background: white;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+    
+    .tab-panel pre {
+      margin: 0;
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+    }
+    
+    /* Mobile responsive - stack tabs vertically if too narrow */
+    @media (max-width: 768px) {
+      .tab-header {
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+      }
+      
+      .tab-button {
+        flex: 1 1 50%; /* Two tabs per row on mobile */
+        padding: 0.5rem 0.75rem;
+        font-size: 13px;
+      }
+      
+      /* If you prefer single column on very small screens */
+      @media (max-width: 480px) {
+        .tab-button {
+          flex: 1 1 100%; /* One tab per row */
+        }
+      }
+    }
+</style>
+
+<script>
+function switchTab(groupId, tabIndex) {
+  const container = document.querySelector(`[data-tab-group="${groupId}"]`);
+  
+  // Update buttons
+  container.querySelectorAll('.tab-button').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === tabIndex);
+  });
+  
+  // Update panels
+  container.querySelectorAll('.tab-panel').forEach((panel, idx) => {
+    panel.classList.toggle('active', idx === tabIndex);
+  });
+}
+</script>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+        
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Filling Tests</title>
+        
+        <style>
+
+    html body {
+        font-family: '', sans-serif;
+        background-color: white;
+    }
+
+    :root {
+        --accent: #2196F3;
+        --border-width:  0 ;
+    }
+
+</style>
+
+
+<link rel="stylesheet" href="http://localhost:1313/css/main.css">
+
+
+
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=">
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+ 
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+<script>$(document).on('click', function() { $('.collapse').collapse('hide'); })</script>
+ <meta name="generator" content="Hugo 0.148.0">
+        
+
+
+        
+            <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
+
+        <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+    </head>
+
+    <body>
+        
+
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand visible-xs" href="#">Filling Tests</a>
+                    <button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+                    
+                    
+                </div>
+            </div>
+        </nav>
+
+
+<main>
+
+    <div>
+        <h2>Filling Tests</h2>
+        <h5></h5>
+        
+
+    </div>
+
+    <div align="start" class="content"><p>Execution of test cases against clients is a two-step process:</p>
+<ol>
+<li>JSON test fixtures are generated from the Python test cases found in <code>./tests</code> using <code>fill</code> and an EVM transition tool (<code>t8n</code>) implementation.</li>
+<li>Clients &ldquo;consume&rdquo; the JSON fixtures via either a dedicated, client-specific interface or a testing environment such as Hive.</li>
+</ol>
+<p>The process of generating fixtures is often referred to as &ldquo;filling&rdquo; the tests.</p>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">The <code>execute</code> command</div>
+  <div class="callout-content">
+    The <code>execute</code> command directly executes Python test cases against a client via its RPC without using generated JSON fixtures. For all other methods of testing clients, the JSON fixtures are required. For more information, see <a href="../running_tests/execute/main.md">Executing Tests</a>.
+  </div>
+</div>
+<h2 id="transition-tools-t8n">Transition Tools (<code>t8n</code>)</h2>
+<p>The <code>fill</code> command requires an EVM <code>t8n</code> tool provided by most clients in order to generate the JSON fixtures. The <code>t8n</code> tool is mainly responsible for calculating the post-state of the EVM after executing a transaction, most relevantly, it calculates the updated state root.</p>
+<h2 id="ethereum-execution-layer-specification-eels">Ethereum Execution Layer Specification (EELS)</h2>
+<p>By default, the <a href="https://github.com/ethereum/execution-specs">Ethereum Execution Layer Specification</a> (EELS) reference implementation of the <code>t8n</code> tool is used to generate test fixtures for all forks that have been deployed to Ethereum mainnet. We strong encourage EIP authors to provide a reference implementation of their EIP in EELS, so that it can be used to generate test fixtures for features under active development.</p>
+<h2 id="limitations-of-filling">Limitations of Filling</h2>
+<p>The &ldquo;fill-consume&rdquo; method follows a differential testing approach: A reference implementation is used to generate JSON test fixtures, which can then be executed against other EVM clients. However:</p>
+
+
+<div class="callout callout-warning">
+  <div class="callout-title">Successfully filling does not guarantee correctness</div>
+  <div class="callout-content">
+    <p>Some tests cases, particularly those without straightforward post-checks, such as certain gas calculations, may allow subtle inconsistencies to slip through during filling.</p>
+<p><strong>Consequently, filling the tests does not ensure the client&rsquo;s correctness. Clients must consume the tests to be considered correctly tested, even if that client was used to fill the tests.</strong></p>
+
+  </div>
+</div>
+<h2 id="filling-static-tests-from-ethereumtests">Filling Static Tests from <a href="https://github.com/ethereum/tests">ethereum/tests</a></h2>
+<p>Filling static test fillers in YAML or JSON formats from <a href="https://github.com/ethereum/tests/tree/develop/src">ethereum/tests</a> is possible by adding the <code>--fill-static-tests</code> to the <code>fill</code> command.</p>
+<p>This functionality is only available for backwards compatibility and copying legacy tests from the <a href="https://github.com/ethereum/tests">ethereum/tests</a> repository into this one.</p>
+<p>Adding new static test fillers is otherwise not allowed.</p>
+</div>
+
+</main>
+
+        <footer>
+            <p class="copyright text-muted">© All rights reserved. Powered by <a href="https://gohugo.io">Hugo</a> and <a href="https://github.com/calintat/minimal">Minimal</a>.</p>
+        </footer>
+
+        
+
+        
+    </body>
+
+</html>
+

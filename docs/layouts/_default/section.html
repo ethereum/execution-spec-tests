@@ -1,0 +1,29 @@
+{{/* layouts/_default/section.html */}}
+{{ define "main" }}
+  {{/* Look for main.md in this section */}}
+  {{ $mainPage := .GetPage "main" }}
+  
+  {{ if $mainPage }}
+    {{/* If main.md exists, render its content */}}
+    <article>
+      {{ $mainPage.Content }}
+    </article>
+  {{ else }}
+    {{/* Fallback: list all pages in this section */}}
+    <div class="section-listing">
+      <h1>{{ .Title | default (humanize (path.Base .Section)) }}</h1>
+      <p>No main.md found in this section.</p>
+      
+      <h2>Available Pages:</h2>
+      <ul>
+        {{ range .RegularPages }}
+          <li><a href="{{ .RelPermalink }}">{{ .Title | default .File.BaseFileName }}</a></li>
+        {{ end }}
+      </ul>
+    </div>
+  {{ end }}
+{{ end }}
+
+{{ define "sidebar" }}
+  {{ partial "sidebar.html" . }}
+{{ end }}

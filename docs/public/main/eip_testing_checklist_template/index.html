@@ -1,0 +1,4340 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Checklist Templates</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Checklist Templates
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/eip_testing_checklist_template/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 eip_testing_checklist_template
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><!-- markdownlint-disable MD001 (MD001=heading-increment) -->
+<h1 id="eip-execution-layer-testing-checklist-template">EIP Execution Layer Testing Checklist Template</h1>
+<p>Depending on the changes introduced by an EIP, the following template is the minimum baseline to guarantee test coverage of the Execution Layer features.</p>
+<h2 id="checklist-progress-tracker">Checklist Progress Tracker</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Total Checklist Items</th>
+          <th>Covered Checklist Items</th>
+          <th>Percentage</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>TOTAL_CHECKLIST_ITEMS</td>
+          <td>COVERED_CHECKLIST_ITEMS</td>
+          <td>PERCENTAGE</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="general">General</h2>
+<h4 id="code-coverage">Code coverage</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>general/code_coverage/eels</code></td>
+          <td>Run produced tests against <a href="https://github.com/ethereum/execution-specs" target="_blank" rel="noopener">EELS</a> and verify that line code coverage of new added lines for the EIP is 100%, with only exceptions being unreachable code lines.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>general/code_coverage/test_coverage</code></td>
+          <td>Run coverage on the test code itself (as a basic logic sanity check), i.e., <code>uv run fill --cov tests</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>general/code_coverage/second_client</code></td>
+          <td>Optional - Run against a second client and verify sufficient code coverage over new code added for the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fuzzing">Fuzzing</h4>
+<p>Fuzzing is recommended to be performed on EIPs that introduce new cryptography primitives.</p>
+<p>See <a href="https://github.com/holiman/goevmlab" target="_blank" rel="noopener">holiman/goevmlab</a> for an example of a fuzzing framework for the EVM.</p>
+<h2 id="new-opcode">New Opcode</h2>
+<p>The EIP introduces one or more new opcodes to the EVM.</p>
+<h3 id="test-vectors">Test Vectors</h3>
+<h4 id="memory-expansion">Memory expansion</h4>
+<p>If the opcode execution can expand the memory size, either by writing to memory or reading from an offset that exceeds current memory, or interaction of both parameters (size of zero should never result in memory expansion, regardless of offset value).</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/mem_exp/zero_bytes_zero_offset</code></td>
+          <td>Zero bytes expansion with zero-offset.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/zero_bytes_max_offset</code></td>
+          <td>Zero bytes expansion with 2**256-1 offset.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/single_byte</code></td>
+          <td>Single byte expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/31_bytes</code></td>
+          <td>31 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/32_bytes</code></td>
+          <td>32 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/33_bytes</code></td>
+          <td>33 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/64_bytes</code></td>
+          <td>64 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/2_32_minus_one_bytes</code></td>
+          <td><code>2**32-1</code> bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/2_32_bytes</code></td>
+          <td>2**32 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/2_64_minus_one_bytes</code></td>
+          <td>2**64-1 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/2_64_bytes</code></td>
+          <td>2**64 bytes expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/mem_exp/2_256_minus_one_bytes</code></td>
+          <td>2**256-1 bytes expansion (Should always result in Out-of-gas).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="stack">Stack</h4>
+<h5 id="stack-overflow">Stack Overflow</h5>
+<p>If the opcode pushes one or more items to the stack, and the opcode pushes more elements than it pops, verify that the opcode execution results in exceptional abort when pushing elements to the stack would result in the stack having more than 1024 elements.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/stack_overflow</code></td>
+          <td>Stack Overflow.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="stack-underflow">Stack Underflow</h5>
+<p>If the opcode pops one or more items to the stack, or it has a minimum stack height of one or more (e.g. <code>DUPN</code> requires a minimum amount of elements in the stack even when it does not pop any element from it), verify that the opcode execution results in exceptional abort then stack has 1 less item than the minimum stack height expected.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/stack_underflow</code></td>
+          <td>Stack Underflow.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="stack-complex-operations">Stack Complex Operations</h5>
+<p>If opcode performs stack operations more complex than simple pop/push (e.g. the opcode has a data portion that specifies a variable to access a specific stack element), perform the following test combinations.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/stack_heights/zero</code></td>
+          <td>Operation on an empty stack (Potential stack-underflow).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/stack_heights/odd</code></td>
+          <td>Operation on a stack with an odd height.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/stack_heights/even</code></td>
+          <td>Operation on a stack with an even height.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="stack-manipulation-with-data-portion-variables">Stack Manipulation With Data Portion Variables</h5>
+<p>If the opcode contains variables in its data portion, for each variable <code>n</code> of the opcode that accesses the nth stack item, test <code>n</code> being.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/data_portion_variables/top</code></td>
+          <td>Top stack item.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/data_portion_variables/bottom</code></td>
+          <td>Bottom stack item.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/stack_complex_operations/data_portion_variables/middle</code></td>
+          <td>Middle stack item.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="execution-context">Execution context</h4>
+<p>Evaluate opcode&rsquo;s behavior in different execution contexts.</p>
+<h5 id="call"><code>CALL</code></h5>
+<p>Verify opcode operation in a subcall frame originated from a <code>CALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/call</code></td>
+          <td><code>CALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="staticcall"><code>STATICCALL</code></h5>
+<p>Verify opcode operation in a subcall frame originated from a <code>STATICCALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/staticcall/ban_check</code></td>
+          <td>Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/staticcall/ban_no_modification</code></td>
+          <td>If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. <code>PAY</code> with zero value, or <code>SSTORE</code> to the value it already has in the storage).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/staticcall/sub_calls</code></td>
+          <td>Verify sub-calls using other opcodes (e.g. <code>CALL</code>, <code>DELEGATECALL</code>, etc) also results in the same exceptional abort behavior.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="delegatecall"><code>DELEGATECALL</code></h5>
+<p>Verify opcode operation in a subcall frame originated from a <code>DELEGATECALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/delegatecall</code></td>
+          <td><code>DELEGATECALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/delegatecall/storage</code></td>
+          <td>If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/delegatecall/balance</code></td>
+          <td>If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/delegatecall/code</code></td>
+          <td>If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="callcode"><code>CALLCODE</code></h5>
+<p>Verify opcode operation in a subcall frame originated from a <code>CALLCODE</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/callcode</code></td>
+          <td><code>CALLCODE</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="initcode">Initcode</h5>
+<p>Verify opcode behaves as expected when running during the initcode phase of contract creation.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/initcode/behavior</code></td>
+          <td>Initcode operation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/initcode/behavior/tx</code></td>
+          <td>Initcode of a contract creating transaction.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/initcode/behavior/opcode</code></td>
+          <td>Initcode of a contract creating opcode (including itself if opcode creates a contract).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/execution_context/initcode/reentry</code></td>
+          <td>Initcode re-entry: using the same initcode and same address (e.g. CREATE2-&gt;REVERT-&gt;CREATE2).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="set-code-delegated-account">Set-code Delegated Account</h5>
+<p>Verify opcode operations are applied to the set-code account and do not affect the address that is the target of the delegation.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/set_code</code></td>
+          <td>Set-code delegated account.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="transaction-context">Transaction Context</h5>
+<p>If opcode changes behavior depending on particular transaction properties, test using multiple values for each property.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/tx_context</code></td>
+          <td>Transaction-context dependent opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="block-context">Block Context</h5>
+<p>If opcode changes behavior depending on particular block properties, test using multiple values for each property.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/execution_context/block_context</code></td>
+          <td>Block-context dependent opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="return-data">Return data</h4>
+<p>Verify proper return data buffer overwriting if the opcode is meant to interact with it, otherwise verify that the return data buffer is unaffected.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/return_data/buffer/current</code></td>
+          <td>Return buffer at current call context.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/return_data/buffer/parent</code></td>
+          <td>Return buffer at parent call context.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="gas-usage">Gas Usage</h4>
+<h5 id="normal-operation">Normal Operation</h5>
+<p>Verify gas usage affectation of each stack argument or memory input consumed by the opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/gas_usage/normal</code></td>
+          <td>Normal operation gas usage.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="memory-expansion-1">Memory Expansion</h5>
+<p>Verify that the memory expansion correctly follows the gas calculation.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/gas_usage/memory_expansion</code></td>
+          <td>Memory expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="out-of-gas">Out-Of-Gas</h5>
+<p>Verify that attempting to execute the opcode when gas available is 1 less than the required gas results in exceptional abort.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/gas_usage/out_of_gas_execution</code></td>
+          <td>Out-of-gas due to opcode inputs.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/gas_usage/out_of_gas_memory</code></td>
+          <td>Out-of-gas due to memory expansion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="order-of-operations">Order-of-operations</h5>
+<p>If the opcode requires different gas stipends for other operations (e.g. contract creation, cold/warm account access), create one case for each operation (ideally independent of each other) and the listed cases for each.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/gas_usage/order_of_operations/exact</code></td>
+          <td>Success using the exact amount of gas required for the stipend.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/gas_usage/order_of_operations/oog</code></td>
+          <td>OOG with a 1-gas-difference from the gas required for the stipend.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="terminating-opcode">Terminating opcode</h4>
+<p>If an opcode is terminating, meaning it results in the current call context to end execution.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/terminating/scenarios/top_level</code></td>
+          <td>Top-level call termination.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/scenarios/sub_level</code></td>
+          <td>Sub-level call termination.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/scenarios/initcode</code></td>
+          <td>Initcode termination.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="abortingreverting-opcode">Aborting/Reverting opcode</h4>
+<p>If the terminating opcode is meant to rollback the executing call frame, verify the listed events are properly rolled back.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/terminating/rollback/balance</code></td>
+          <td>Balance changes.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/rollback/storage</code></td>
+          <td>Storage changes.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/rollback/contracts</code></td>
+          <td>Contract creations.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/rollback/nonce</code></td>
+          <td>Nonce increments.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/terminating/rollback/logs</code></td>
+          <td>Log events.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="out-of-bounds-checks">Out-of-bounds checks</h4>
+<p>If the opcode has out-of-bounds conditions in its parameters/inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/out_of_bounds/verify/max</code></td>
+          <td>Max value for each parameter.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/out_of_bounds/verify/max_plus_one</code></td>
+          <td>Max value + 1 for each parameter.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="exceptional-abort">Exceptional Abort</h4>
+<p>If the opcode has conditions, either inputs or execution context states, that should cause exceptional abort and are different than out-of-gas or stack overflow or underflow.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/exceptional_abort</code></td>
+          <td>Exceptional abort conditions.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="data-portion">Data portion</h4>
+<p>If an opcode has a data portion, meaning the <code>N</code> bytes following the opcode in the contract bytecode are skipped from execution.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/data_portion/all_zeros</code></td>
+          <td>All zeros data portion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/data_portion/max_value</code></td>
+          <td>Max value data portion (<code>2**N-1</code> where <code>N</code> is the bit size of the data portion).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/data_portion/jump</code></td>
+          <td>Jump into the data portion.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="contract-creation">Contract creation</h4>
+<p>If the opcode execution results in the creation of a new contract in the state.</p>
+<h5 id="correct-creation">Correct Creation</h5>
+<p>Verify contract is created at the expected address given multiple inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/contract_creation/address</code></td>
+          <td>Address calculation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="creation-failure">Creation Failure</h5>
+<p>The contract creation fails given the listed conditions.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/contract_creation/failure/oog</code></td>
+          <td>Out-of-gas when available gas is less than minimum contract creation stipend.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/contract_creation/failure/insufficient_value</code></td>
+          <td>Opcode has a value parameter and the caller does not have enough funds.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/contract_creation/failure/collision</code></td>
+          <td>Creation would result in an address collision with an existing contract or EOA-delegated address.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="recursive-contract-creation">Recursive Contract Creation</h5>
+<p>Opcode is used to attempt to recreate a contract that is currently mid-creation by a previous call of the same opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/contract_creation/recursive</code></td>
+          <td>Recursive contract creation using the opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition">Fork transition</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>opcode/test/fork_transition/invalid</code></td>
+          <td>Exceptional abort if executed before its activation fork/after its deactivation fork.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>opcode/test/fork_transition/at</code></td>
+          <td>Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes">Framework Changes</h3>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<ul>
+<li>Add opcode to <code>src/ethereum_test_vm/opcode.py</code></li>
+<li>Add opcode to relevant methods in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code></li>
+</ul>
+<h2 id="new-precompile">New Precompile</h2>
+<p>The EIP introduces one or more new precompiles.</p>
+<h3 id="test-vectors-1">Test Vectors</h3>
+<h4 id="call-contexts">Call contexts</h4>
+<p>Evaluate precompile behavior when called using different call opcodes or called from different execution contexts.</p>
+<h5 id="call-1"><code>CALL</code></h5>
+<p>Verify precompile operation when called using the <code>CALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/normal</code></td>
+          <td><code>CALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="delegatecall-1"><code>DELEGATECALL</code></h5>
+<p>Verify precompile operation when called using the <code>DELEGATECALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/delegate</code></td>
+          <td><code>DELEGATECALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="staticcall-1"><code>STATICCALL</code></h5>
+<p>Verify precompile operation when called using the <code>STATICCALL</code> opcode.</p>
+<p>If the precompile is stateful, meaning calling it affects its storage, this call must result in exceptional abort.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/static</code></td>
+          <td><code>STATICCALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="callcode-1"><code>CALLCODE</code></h5>
+<p>Verify precompile operation when called using the <code>CALLCODE</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/callcode</code></td>
+          <td><code>CALLCODE</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="transaction-entry-point">Transaction Entry-point</h5>
+<p>Verify precompile behavior when it&rsquo;s used as <code>tx.to</code>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/tx_entry</code></td>
+          <td>Precompile as transaction entry-point.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="initcode-call">Initcode call</h5>
+<p>Verify calling the opcode during initcode execution of a new contract.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/initcode/CREATE</code></td>
+          <td>Call from Initcode initiated from a CREATE/CREATE2 opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/call_contexts/initcode/tx</code></td>
+          <td>Call from Initcode initiated from a contract-creating transaction (<code>tx.to==None</code>).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="precompile-as-set-code-delegated-address">Precompile as Set-code Delegated Address</h5>
+<p>Test setting the precompile as a set-code delegated address, and verify no precompile logic is executed.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/call_contexts/set_code</code></td>
+          <td>Set code delegated address.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="inputs">Inputs</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/inputs/valid</code></td>
+          <td>Verify combinations of valid inputs to the precompile.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/valid/boundary</code></td>
+          <td>Verify all boundary values given the precompile functionality.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/valid/crypto</code></td>
+          <td>If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties (e.g. infinity points as inputs, or input values that result in infinity points returned).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/all_zeros</code></td>
+          <td>Verify all zeros input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/max_values</code></td>
+          <td>Verify 2^N-1 where N is a single or multiple valid bit-lengths.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/invalid</code></td>
+          <td>Verify combinations of invalid inputs to the precompile.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/invalid/crypto</code></td>
+          <td>Inputs that fail specific mathematical or cryptographic validity checks.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/inputs/invalid/corrupted</code></td>
+          <td>Inputs that are malformed/corrupted.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="value-transfer">Value Transfer</h4>
+<h5 id="minimum-fee-precompile">Minimum Fee Precompile</h5>
+<p>If the precompile requires a minimum value (fee) to execute, either constant or depending on a formula.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/value_transfer/fee/under</code></td>
+          <td>Calls with the required value amount minus one, expect failure.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/value_transfer/fee/exact</code></td>
+          <td>Calls with the exact required amount, expect success.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/value_transfer/fee/over</code></td>
+          <td>Calls with extra value than the required amount, expect success.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="no-fee-precompile">No-Fee Precompile</h5>
+<p>If the precompile does not require any minimum value (fee) to execute.</p>
+<p>| <code>precompile/test/value_transfer/no_fee</code> | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |</p>
+<h4 id="out-of-bounds-checks-1">Out-of-bounds checks</h4>
+<p>If the precompile has out-of-bounds conditions in its inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/out_of_bounds/max</code></td>
+          <td>Max value for each input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/out_of_bounds/max_plus_one</code></td>
+          <td>Max value + 1 for each input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="input-lengths">Input Lengths</h4>
+<p>Verify different combinations of input lengths to the precompile, ensuring the correct minimum fee (if any) is provided.</p>
+<h5 id="zero-length-input">Zero-length Input</h5>
+<p>Regardless of the input requirements for the precompile.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/input_lengths/zero</code></td>
+          <td>Zero-length calldata.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="static-required-input-length">Static Required Input Length</h5>
+<p>If the precompile has a static required input length.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/input_lengths/static/correct</code></td>
+          <td>Correct static-length calldata.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/input_lengths/static/too_short</code></td>
+          <td>Calldata too short, where the value represents a correct but truncated input to the precompile.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/input_lengths/static/too_long</code></td>
+          <td>Calldata too long, where the value represents a correct input to the precompile with padded zeros.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="dynamic-required-input-length">Dynamic Required Input Length</h5>
+<p>If the precompile has a variable required input-length based on a formula, test all listed scenarios given different input lengths.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/input_lengths/dynamic/valid</code></td>
+          <td>Verify correct precompile execution for valid lengths.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/input_lengths/dynamic/too_short</code></td>
+          <td>Calldata too short, where the value represents a correct but truncated input to the precompile.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/input_lengths/dynamic/too_long</code></td>
+          <td>Calldata too long, where the value represents a correct input to the precompile with padded zeros.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="gas-usage-1">Gas usage</h4>
+<h5 id="constant-gas-cost">Constant Gas Cost</h5>
+<p>If the precompile always charges the same gas cost regardless of input conditions.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/gas_usage/constant/exact</code></td>
+          <td>Verify exact gas consumption.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/gas_usage/constant/oog</code></td>
+          <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="variable-gas-cost">Variable Gas Cost</h5>
+<p>If the precompile charges variable gas cost given input conditions, test all listed scenarios using multiple different valid inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/gas_usage/dynamic/exact</code></td>
+          <td>Verify exact gas consumption.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/gas_usage/dynamic/oog</code></td>
+          <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="excessive-gas">Excessive Gas</h5>
+<p>Verify spending all block gas in calls to the precompile (Use <code>Environment().gas_limit</code> as reference max amount).</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/excessive_gas_usage</code></td>
+          <td>Excessive gas usage.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-1">Fork transition</h4>
+<h5 id="pre-fork-block-call">Pre-fork Block Call</h5>
+<p>Verify that calling the precompile before its activation fork results in a valid call, even for inputs that are expected to be invalid for the precompile, or a zero-gas call.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/fork_transition/before/invalid_input</code></td>
+          <td>Invalid input call.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/fork_transition/before/zero_gas</code></td>
+          <td>Zero-gas call.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="coldwarm-precompile-address-state">Cold/Warm Precompile Address State</h5>
+<p>Verify the cold/warm state of the precompile address depending on the fork activation.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>precompile/test/fork_transition/before/cold</code></td>
+          <td>Precompile address is cold by default before the fork activation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>precompile/test/fork_transition/after/warm</code></td>
+          <td>Precompile address is warm by default after the fork activation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-1">Framework Changes</h3>
+<ul>
+<li>Add precompile address to relevant methods in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code></li>
+</ul>
+<h2 id="removed-precompile">Removed Precompile</h2>
+<p>The EIP removes one or more precompiles from the existing list of precompiles.</p>
+<h3 id="test-vectors-2">Test Vectors</h3>
+<h4 id="fork-transition-2">Fork transition</h4>
+<h5 id="precompile-operation">Precompile Operation</h5>
+<p>Verify that the precompile remains operational up until the last block before the fork is active, and behaves as an account with empty code afterwards.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>removed_precompile/test/fork_transition/operational</code></td>
+          <td>Precompile operation on fork activation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="coldwarm-precompile-address-state-1">Cold/Warm Precompile Address State</h5>
+<p>Verify the cold/warm state of the precompile address depending on the fork activation.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>removed_precompile/test/fork_transition/before/warm</code></td>
+          <td>Precompile address is warm by default before the fork activation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>removed_precompile/test/fork_transition/after/cold</code></td>
+          <td>Precompile address is cold by default after the fork activation.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-2">Framework Changes</h3>
+<ul>
+<li>Remove the precompile address from relevant methods in the fork where the EIP is removed in <code>src/ethereum_test_forks/forks/forks.py</code></li>
+</ul>
+<h2 id="new-system-contract">New System Contract</h2>
+<h3 id="test-vectors-3">Test Vectors</h3>
+<h4 id="call-contexts-1">Call contexts</h4>
+<p>Evaluate precompile behavior when called using different call opcodes or called from different execution contexts.</p>
+<h5 id="call-2"><code>CALL</code></h5>
+<p>Verify system contract operation when called using the <code>CALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/normal</code></td>
+          <td><code>CALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="delegatecall-2"><code>DELEGATECALL</code></h5>
+<p>Verify system contract operation when called using the <code>DELEGATECALL</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/delegate</code></td>
+          <td><code>DELEGATECALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="staticcall-2"><code>STATICCALL</code></h5>
+<p>Verify system contract operation when called using the <code>STATICCALL</code> opcode.</p>
+<p>If the system contract is stateful, meaning calling it affects its storage, this call must result in exceptional abort.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/static</code></td>
+          <td><code>STATICCALL</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="callcode-2"><code>CALLCODE</code></h5>
+<p>Verify system contract operation when called using the <code>CALLCODE</code> opcode.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/callcode</code></td>
+          <td><code>CALLCODE</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="transaction-entry-point-1">Transaction Entry-point</h5>
+<p>Verify system contract behavior when it&rsquo;s used as <code>tx.to</code>.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/tx_entry</code></td>
+          <td>System Contract as transaction entry-point.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="initcode-call-1">Initcode call</h5>
+<p>Verify calling the opcode during initcode execution of a new contract.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/initcode/CREATE</code></td>
+          <td>Call from Initcode initiated from a CREATE/CREATE2 opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/call_contexts/initcode/tx</code></td>
+          <td>Call from Initcode initiated from a contract-creating transaction (<code>tx.to==None</code>).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="system-contract-as-set-code-delegated-address">System Contract as Set-code Delegated Address</h5>
+<p>Test setting the system contract as a set-code delegated address, and verify no system contract side-effects are triggered, even if the actual system contract logic is executed.</p>
+<p>If the system contract requires specific storage pre-conditions to be set for proper execution (e.g. if the contract contains a safety mechanism that prevents it from executing prior to the fork activation), ensure the delegated account has the proper values in the storage to guarantee the correct logic is executed.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/call_contexts/set_code</code></td>
+          <td>Set code delegated address.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="inputs-1">Inputs</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/inputs/valid</code></td>
+          <td>Verify combinations of valid inputs to the system contract.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/boundary</code></td>
+          <td>Verify all boundary values given the system contract functionality.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/all_zeros</code></td>
+          <td>Verify all zeros input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/max_values</code></td>
+          <td>Verify 2^N-1 where N is a single or multiple valid bit-lengths.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/invalid</code></td>
+          <td>Verify combinations of invalid inputs to the precompile.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/invalid/checks</code></td>
+          <td>Inputs that fail validity checks.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/invalid/crypto</code></td>
+          <td>Inputs that fail specific mathematical or cryptographic validity checks.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/inputs/invalid/corrupted</code></td>
+          <td>Inputs that are malformed/corrupted.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="value-transfer-1">Value Transfer</h4>
+<h5 id="minimum-fee-system-contract">Minimum Fee System Contract</h5>
+<p>If the system contract requires a minimum value (fee) to execute, either constant or depending on a formula.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/value_transfer/fee/under</code></td>
+          <td>Calls with the required value amount minus one, expect failure.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/value_transfer/fee/exact</code></td>
+          <td>Calls with the exact required amount, expect success.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/value_transfer/fee/over</code></td>
+          <td>Calls with extra value than the required amount, expect success.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="no-fee-system-contract">No-Fee System Contract</h5>
+<p>If the system contract does not require any minimum value (fee) to execute.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/value_transfer/no_fee</code></td>
+          <td>Sending non-zero value does not cause an exception (unless otherwise specified by the EIP).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="out-of-bounds-checks-2">Out-of-bounds checks</h4>
+<p>If the system contract has out-of-bounds conditions in its inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/out_of_bounds/max</code></td>
+          <td>Max value for each input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/out_of_bounds/max_plus_one</code></td>
+          <td>Max value + 1 for each input.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="input-lengths-1">Input Lengths</h4>
+<p>Verify different combinations of input lengths to the system contract, ensuring the correct minimum fee (if any) is provided.</p>
+<h5 id="zero-length-input-1">Zero-length Input</h5>
+<p>Regardless of the input requirements for the system contract.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/input_lengths/zero</code></td>
+          <td>Zero-length calldata.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="static-required-input-length-1">Static Required Input Length</h5>
+<p>If the system contract has a static required input length.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/input_lengths/static/correct</code></td>
+          <td>Correct static-length calldata.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/input_lengths/static/too_short</code></td>
+          <td>Calldata too short, where the value represents a correct but truncated input to the contract.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/input_lengths/static/too_long</code></td>
+          <td>Calldata too long, where the value represents a correct input to the contract with padded zeros.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="dynamic-required-input-length-1">Dynamic Required Input Length</h5>
+<p>If the system contract has a variable required input-length based on a formula, test all listed scenarios given different input lengths.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/input_lengths/dynamic/valid</code></td>
+          <td>Verify correct system contract execution for valid lengths.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/input_lengths/dynamic/too_short</code></td>
+          <td>Calldata too short, where the value represents a correct but truncated input to the contract.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/input_lengths/dynamic/too_long</code></td>
+          <td>Calldata too long, where the value represents a correct input to the contract with padded zeros.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="gas-usage-2">Gas usage</h4>
+<h5 id="constant-gas-cost-1">Constant Gas Cost</h5>
+<p>If the system contract always charges the same gas cost regardless of input conditions.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/gas_usage/constant/exact</code></td>
+          <td>Verify exact gas consumption.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/gas_usage/constant/oog</code></td>
+          <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="variable-gas-cost-1">Variable Gas Cost</h5>
+<p>If the system contract charges variable gas cost given input conditions, test all listed scenarios using multiple different valid inputs.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/gas_usage/dynamic/exact</code></td>
+          <td>Verify exact gas consumption.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/gas_usage/dynamic/oog</code></td>
+          <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="excessive-gas-cases">Excessive Gas Cases</h4>
+<h5 id="excessive-gas-usage-during-block-execution">Excessive Gas Usage During Block Execution</h5>
+<p>Verify spending all block gas in calls to system contract (Use <code>Environment().gas_limit</code> as reference max amount).</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/excessive_gas/block_gas</code></td>
+          <td>Exhaust block gas limit.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="excessive-gas-usage-during-system-call">Excessive Gas Usage During System Call</h5>
+<p>If possible, produce a scenario where, given all transactions executed within the block result in the execution of the contract by the system address would result in excessive gas usage.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/excessive_gas/system_call</code></td>
+          <td>Excessive gas on system call.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="system-contract-deployment">System Contract Deployment</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/deployment/missing</code></td>
+          <td>Verify block execution behavior after fork activation if the system contract has not been deployed (Depending on the EIP, block could be invalid).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/deployment/address</code></td>
+          <td>Verify deployment transaction results in the system contract being deployed to the expected address.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="contract-variations">Contract Variations</h4>
+<p>Verify execution of the different variations of the contract for different networks (if any) results in the expected behavior.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/contract_variations/networks</code></td>
+          <td>Different network contract variations.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="contract-substitution">Contract Substitution</h4>
+<p>Substitute the default system contract with a mock contract to modify its behavior when called by the system address (at the end of the block execution).</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/contract_substitution/return_lengths</code></td>
+          <td>Modified return value lengths.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/contract_substitution/logs</code></td>
+          <td>Modified to emit logs or modified logs.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/contract_substitution/exception</code></td>
+          <td>Modified to cause an exception (e.g. invalid opcode).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/contract_substitution/gas_limit_success</code></td>
+          <td>Modified to consume 30,000,000 million gas exactly, execution should be successful.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>system_contract/test/contract_substitution/gas_limit_failure</code></td>
+          <td>Modified to consume 30,000,001 million gas exactly, execution should fail.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-3">Fork transition</h4>
+<p>Verify calling the system contract before its activation fork results in correct behavior (depends on the system contract implementation).</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>system_contract/test/fork_transition/call_before_fork</code></td>
+          <td>Call system contract before fork.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-3">Framework Changes</h3>
+<ul>
+<li>Add system contract address to relevant methods in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code></li>
+<li>Add system contract bytecode to the returned value of <code>pre_allocation_blockchain</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code></li>
+</ul>
+<h2 id="new-transaction-type">New Transaction Type</h2>
+<h3 id="test-vectors-4">Test Vectors</h3>
+<h4 id="intrinsic-validity">Intrinsic Validity</h4>
+<p>Verify the transaction (and the block it is included in) is valid or invalid given the intrinsic validity of the new transaction type, depending on each test scenario.</p>
+<p>For each new field that affects the intrinsic gas cost of the transaction verify all listed scenarios.</p>
+<h5 id="gas-limit">Gas Limit</h5>
+<p>Note: Data floor gas cost affects the intrinsic validity of all transaction types, so it must be taken into account when designing all test scenarios.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/gas_limit/exact</code></td>
+          <td>Provide the exact intrinsic gas as <code>gas_limit</code> value to the transaction.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/gas_limit/insufficient</code></td>
+          <td>Provide the exact intrinsic gas minus one as <code>gas_limit</code> value to the transaction.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="gas-fee">Gas Fee</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/max_fee/max_priority_lower_than_max_fee</code></td>
+          <td>Invalid if <code>tx.max_priority_fee_per_gas &lt; tx.max_fee_per_gas</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/max_fee/max_priority_equal_to_max_fee</code></td>
+          <td>Valid if <code>tx.max_priority_fee_per_gas == tx.max_fee_per_gas</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/max_fee/base_lower</code></td>
+          <td>Invalid if <code>tx.max_fee_per_gas &lt; block.base_fee_per_gas</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/max_fee/base_equal</code></td>
+          <td>Valid if <code>tx.max_fee_per_gas &lt; block.base_fee_per_gas</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="chain-id">Chain ID</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/chain_id</code></td>
+          <td>Invalid if <code>tx.chain_id != network.chain_id</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="nonce">Nonce</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/nonce_minus_one</code></td>
+          <td>Invalid if <code>tx.nonce == sender.nonce - 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/nonce_plus_one</code></td>
+          <td>Invalid if <code>tx.nonce == sender.nonce + 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/nonce_exact</code></td>
+          <td>Valid if <code>tx.nonce == sender.nonce</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="to">To</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/to</code></td>
+          <td>Valid/Invalid if <code>tx.to == None</code>, depending on the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="value">Value</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/value_non_zero_insufficient_balance</code></td>
+          <td>Invalid if <code>tx.value == 1</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price)</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/value_non_zero_sufficient_balance</code></td>
+          <td>Valid if <code>tx.value == 1</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price) + 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/value_zero_insufficient_balance</code></td>
+          <td>Invalid if <code>tx.value == 0</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price) - 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/value_zero_sufficient_balance</code></td>
+          <td>Valid if <code>tx.value == 0</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price)</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="data">Data</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/data_floor_above_intrinsic_gas_cost</code></td>
+          <td>Invalid if <code>data_floor_cost(len(tx.data)) &gt; tx.intrinsic_gas_cost</code> and <code>tx.gas_limit == tx.intrinsic_gas_cost</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/intrinsic_validity/data_floor_above_intrinsic_gas_cost</code></td>
+          <td>Valid if <code>data_floor_cost(len(tx.data)) &gt; tx.intrinsic_gas_cost</code> and <code>tx.gas_limit == data_floor_cost(len(tx.data))</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="signature">Signature</h4>
+<p>Verify the transaction is correctly rejected if it contains an invalid signature.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/field_outside_curve</code></td>
+          <td>V, R, S represent a value that is inside of the field but outside of the curve.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="v">V</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/2</code></td>
+          <td><code>2</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/27</code></td>
+          <td><code>27</code> (Type-0 transaction valid value).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/28</code></td>
+          <td><code>28</code> (Type-0 transaction valid value).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/35</code></td>
+          <td><code>35</code> (Type-0 replay-protected transaction valid value for chain id 1).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/36</code></td>
+          <td><code>36</code> (Type-0 replay-protected transaction valid value for chain id 1).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/v/max</code></td>
+          <td><code>2**8-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="r">R</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/0</code></td>
+          <td><code>0</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/secp256k1n_minus_one</code></td>
+          <td><code>SECP256K1N-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/secp256k1n</code></td>
+          <td><code>SECP256K1N</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/secp256k1n_plus_one</code></td>
+          <td><code>SECP256K1N+1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/max_minus_one</code></td>
+          <td><code>2**256-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/r/max</code></td>
+          <td><code>2**256</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="s">S</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/0</code></td>
+          <td><code>0</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half_minus_one</code></td>
+          <td><code>SECP256K1N//2-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half</code></td>
+          <td><code>SECP256K1N//2</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half_plus_one</code></td>
+          <td><code>SECP256K1N//2+1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n_minus_one</code></td>
+          <td><code>SECP256K1N-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n</code></td>
+          <td><code>SECP256K1N</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/secp256k1n_plus_one</code></td>
+          <td><code>SECP256K1N+1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/max_minus_one</code></td>
+          <td><code>2**256-1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/max</code></td>
+          <td><code>2**256</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/signature/invalid/s/complement</code></td>
+          <td><code>SECP256K1N - S</code> of a valid signature.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="transaction-attributes-readable-from-evm">Transaction Attributes Readable From EVM</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/tx_scoped_attributes/read</code></td>
+          <td>Verify attributes that can be read in the EVM from transaction fields.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/tx_scoped_attributes/older_tx_types</code></td>
+          <td>Verify attributes specific to the new transaction type that can be read in the EVM behave correctly on older transaction types.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="transaction-scoped-persistent-values">Transaction-Scoped Persistent Values</h4>
+<p>Verify values or variables that are persistent through the execution of the transaction (e.g. transient storage, warm/cold accounts).</p>
+<p>| <code>transaction_type/test/tx_scoped_attributes/persistent/throughout</code> | Persist throughout the entire transaction. | | |
+| <code>transaction_type/test/tx_scoped_attributes/persistent/reset</code> | Reset on subsequent transactions in the same block. | | |</p>
+<h4 id="encoding-rlp-ssz">Encoding (RLP, SSZ)</h4>
+<p>Verify correct transaction rejection in all listed scenarios.</p>
+<h5 id="field-sizes">Field Sizes</h5>
+<p>Verify all listed scenarios for each transaction field.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/encoding/field_sizes/leading_zero</code></td>
+          <td>Add leading zero byte.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/encoding/field_sizes/remove_byte</code></td>
+          <td>Remove single byte from fixed-byte-length fields.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="fields-of-list-type">Fields of List Type</h5>
+<p>Verify for each transaction field that is of type list.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/encoding/list_field/zero</code></td>
+          <td>Zero-element list (Failure depending on EIP).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/encoding/list_field/max</code></td>
+          <td>Max count list.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/encoding/list_field/max_plus_one</code></td>
+          <td>Max count plus one list.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="extramissing-fields">Extra/Missing Fields</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/encoding/missing_fields</code></td>
+          <td>Any fields particular to the new transaction types are missing.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/encoding/extra_fields</code></td>
+          <td>Transaction contains extra fields.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="serialization-corruption">Serialization Corruption</h5>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/encoding/truncated</code></td>
+          <td>Serialized bytes object is truncated by one byte.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/encoding/extra_bytes</code></td>
+          <td>Serialized bytes object has one extra byte.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="serializable-fields">Serializable Fields</h5>
+<p>Verify for each serializable field, all previous tests plus following listed scenario.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/encoding/new_types/incorrect_encoding</code></td>
+          <td>Serializable field is encoded as bytes instead of using the correct encoding (e.g. list in the case of RLP).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="out-of-bounds-checks-3">Out-of-bounds checks</h4>
+<p>Verify if the transaction has out-of-bounds conditions in its fields and verify.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/out_of_bounds/max</code></td>
+          <td>Max value for each field.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/out_of_bounds/max_plus_one</code></td>
+          <td>Max value + 1 for each field.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="contract-creation-1">Contract creation</h4>
+<p>Verify that the transaction can create new contracts if the transaction type supports it.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/contract_creation</code></td>
+          <td>Create contracts using new transaction type.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="sender-account-modifications">Sender account modifications</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/sender_account/nonce</code></td>
+          <td>Sender account has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/sender_account/balance</code></td>
+          <td>Sender account has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using <code>BALANCE</code>).</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="block-level-interactions">Block Level Interactions</h4>
+<h5 id="single-transaction-in-block">Single Transaction In Block</h5>
+<p>Verify a block where the new transaction type is the sole transaction contained in the block.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/single_tx/invalid</code></td>
+          <td>Invalid if <code>tx.gas_limit == block.gas_limit + 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/single_tx/valid</code></td>
+          <td>Valid if <code>tx.gas_limit == block.gas_limit</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="two-transactions-in-block">Two Transactions In Block</h5>
+<p>Verify a block where the new transaction type is the last transaction contained in a block with two transactions.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/last_tx/valid</code></td>
+          <td>Valid if <code>block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/last_tx/invalid</code></td>
+          <td>Invalid if <code>(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used &lt; block.gas_limit)</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="eip-7825">EIP-7825</h5>
+<p>Verify a transaction of the new type is rejected if its gas limit exceeds the <a href="https://eips.ethereum.org/EIPS/eip-7825" target="_blank" rel="noopener">EIP-7825</a> gas limit for the current fork.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/eip7825/invalid</code></td>
+          <td>Exceeds EIP-7825 gas limit by one.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/eip7825/valid</code></td>
+          <td>Gas limit is exactly the EIP-7825 gas limit.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h5 id="mixed-transactions">Mixed transactions</h5>
+<p>Verify a block with all transactions types including the new type is executed correctly.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/block_interactions/mixed_txs</code></td>
+          <td>Mixed transactions.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-4">Fork transition</h4>
+<p>Verify that a block prior to fork activation where the new transaction type is introduced and containing the new transaction type is invalid.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>transaction_type/test/fork_transition/before</code></td>
+          <td>New transaction type included before fork activation block.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="rpc-tests">RPC Tests</h4>
+<ul>
+<li>*Verify <code>eth_estimateGas</code> behavior for different valid combinations of the new transaction type.</li>
+<li><code>transaction_type/test/rpc/send_raw</code> | Verify <code>eth_sendRawTransaction</code> using <code>execute</code>.</li>
+</ul>
+<p>*Tests must be added to <a href="https://github.com/ethereum/execution-apis" target="_blank" rel="noopener"><code>execution-apis</code></a> repository.</p>
+<h3 id="framework-changes-4">Framework Changes</h3>
+<ul>
+<li>Modify <code>transaction_intrinsic_cost_calculator</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code>, adding the appropriate new fields that the transaction introduced and the logic to the intrinsic gas cost calculation, if any.</li>
+<li>Add the transaction type number to <code>tx_types</code> response in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> (If applicable add also to <code>contract_creating_tx_types</code>).</li>
+</ul>
+<h2 id="new-block-header-field">New Block Header Field</h2>
+<h3 id="test-vectors-5">Test Vectors</h3>
+<h4 id="genesis-value">Genesis value</h4>
+<p>Verify, if possible, that the value can be set at genesis if the network starting fork is the activation fork, and that clients can consume such genesis.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>block_header_field/test/genesis</code></td>
+          <td>New block header field at genesis.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="value-behavior">Value behavior</h4>
+<p>Verify, given multiple initial values, that a block is accepted or rejected depending on the correct expected value for the current block.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>block_header_field/test/value_behavior/accept</code></td>
+          <td>Block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>block_header_field/test/value_behavior/reject</code></td>
+          <td>Block is rejected if the value is modified (using <code>block.rlp_modifier</code>) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-5">Fork transition</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>block_header_field/test/fork_transition/initial</code></td>
+          <td>Verify initial value of the field at the first block of the activation fork.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>block_header_field/test/fork_transition/before</code></td>
+          <td>Verify that a block containing the new header field before the activation of the fork is invalid.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>block_header_field/test/fork_transition/after</code></td>
+          <td>Verify that a block lacking the new header field at the activation of the fork is invalid.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-5">Framework Changes</h3>
+<ul>
+<li>Add the new header field to the relevant objects:
+<ul>
+<li><code>ethereum_test_fixtures.FixtureHeader</code>.</li>
+<li><code>ethereum_test_fixtures.FixtureExecutionPayload</code>.</li>
+<li><code>ethereum_test_specs.Header</code>.</li>
+</ul>
+</li>
+<li>Add the appropriate <code>header_*_required</code> fork method to <code>BaseFork</code> in <code>ethereum_test_forks</code>.</li>
+</ul>
+<h2 id="new-block-body-field">New Block Body Field</h2>
+<h3 id="test-vectors-6">Test Vectors</h3>
+<h4 id="value-behavior-1">Value behavior</h4>
+<p>Verify, given multiple initial values, that a block is accepted or rejected depending on the correct expected value for the current block.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>block_body_field/test/value_behavior/accept</code></td>
+          <td>Block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>block_body_field/test/value_behavior/reject</code></td>
+          <td>Block is rejected if the value is modified (using appropriate <code>block</code>) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-6">Fork transition</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>block_body_field/test/fork_transition/before</code></td>
+          <td>Verify that a block containing the new block body field before the activation of the fork is invalid.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>block_body_field/test/fork_transition/after</code></td>
+          <td>Verify that a block lacking the new block field at the activation of the fork is invalid.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-6">Framework Changes</h3>
+<ul>
+<li>Add the new body field to the relevant objects.
+<ul>
+<li><code>ethereum_test_fixtures.FixtureBlockBase</code>.</li>
+<li><code>ethereum_test_fixtures.FixtureEngineNewPayload</code>.</li>
+<li><code>ethereum_test_specs.Block</code>.</li>
+</ul>
+</li>
+<li>Modify <code>ethereum_test_specs.BlockchainTest</code> filling behavior to account for the new block field.</li>
+</ul>
+<h2 id="gas-cost-changes">Gas Cost Changes</h2>
+<h3 id="test-vectors-7">Test Vectors</h3>
+<h4 id="gas-usage-3">Gas Usage</h4>
+<p>Measure and store the gas usage during the operations affected by the gas cost changes and verify the updated behavior.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_cost_changes/test/gas_updates_measurement</code></td>
+          <td>Measure updated gas costs.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="out-of-gas-1">Out-of-gas</h4>
+<p>Verify the operations affected by the gas cost changes can run out-of-gas with the updated limits.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_cost_changes/test/out_of_gas</code></td>
+          <td>Out-Of-Gas with new gas prices.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="fork-transition-7">Fork transition</h4>
+<p>Verify gas costs are updated at the fork transition boundary.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_cost_changes/test/fork_transition/before</code></td>
+          <td>Costs unaffected before the fork activation block.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_cost_changes/test/fork_transition/after</code></td>
+          <td>Costs are updated on and after fork activation block.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-7">Framework Changes</h3>
+<ul>
+<li>Modify <code>transaction_intrinsic_cost_calculator</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> if the EIP affects intrinsic gas cost calculation.</li>
+<li>Modify <code>transaction_data_floor_cost_calculator</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> if the EIP affects calldata floor cost.</li>
+<li>Modify <code>memory_expansion_gas_calculator</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> if the EIP affects memory expansion gas cost calculation.</li>
+<li>Modify <code>gas_costs</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> if the EIP affects specific opcode gas costs.</li>
+</ul>
+<h2 id="gas-refunds-changes">Gas Refunds Changes</h2>
+<h3 id="test-vectors-8">Test Vectors</h3>
+<h4 id="refund-calculation">Refund calculation</h4>
+<p>Verify that the refund does not exceed <code>gas_used // MAX_REFUND_QUOTIENT</code> (<code>MAX_REFUND_QUOTIENT==5</code> in <a href="https://eips.ethereum.org/EIPS/eip-3529" target="_blank" rel="noopener">EIP-3529</a>) in the following scenarios.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_refunds_changes/test/refund_calculation/over</code></td>
+          <td><code>refund == gas_used // MAX_REFUND_QUOTIENT + 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/refund_calculation/exact</code></td>
+          <td><code>refund == gas_used // MAX_REFUND_QUOTIENT</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/refund_calculation/under</code></td>
+          <td><code>refund == gas_used // MAX_REFUND_QUOTIENT - 1</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="exceptional-abort-1">Exceptional Abort</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/revertable</code></td>
+          <td>If the operation causing the refund can be reverted, verify the refund is not applied if the following cases:.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/revertable/revert</code></td>
+          <td><code>REVERT</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/revertable/out_of_gas</code></td>
+          <td>Out-of-gas.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/revertable/invalid_opcode</code></td>
+          <td>Invalid opcode.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/revertable/upper_revert</code></td>
+          <td><code>REVERT</code> of an upper call frame.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable</code></td>
+          <td>If the operation causing the refund cannot be reverted (e.g. in the case of a transaction-scoped operation such as authorization refunds in EIP-7702), verify the refund is still applied even in the following cases:.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/revert</code></td>
+          <td><code>REVERT</code> at the top call frame.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/out_of_gas</code></td>
+          <td>Out-of-gas at the top call frame.</td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/invalid_opcode</code></td>
+          <td>Invalid opcode at the top call frame.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="cross-functional-test">Cross-Functional Test</h4>
+<p>Verify the following tests are updated to support the new type of refunds.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>gas_refunds_changes/test/cross_functional/calldata_cost</code></td>
+          <td><code>tests/prague/eip7623_increase_calldata_cost/test_refunds.py</code>.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-8">Framework Changes</h3>
+<p>N/A</p>
+<h2 id="blob-count-changes">Blob Count Changes</h2>
+<h3 id="test-vectors-9">Test Vectors</h3>
+<h4 id="existing-test-updates">Existing Test Updates</h4>
+<p>Verify tests in <code>tests/cancun/eip4844_blobs</code> were correctly and automatically updated to take into account the new blob count values at the new fork activation block.</p>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>blob_count_changes/test/eip4844_blobs_changes</code></td>
+          <td>Updates to <code>tests/cancun/eip4844_blobs</code> were applied correctly.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-9">Framework Changes</h3>
+<ul>
+<li>Modify <code>blob_base_fee_update_fraction</code>, <code>target_blobs_per_block</code>, <code>max_blobs_per_block</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> if the EIP affects any of the values returned by each function.</li>
+</ul>
+<h2 id="new-execution-layer-request">New Execution Layer Request</h2>
+<h3 id="test-vectors-10">Test Vectors</h3>
+<h4 id="cross-request-type-interaction">Cross-Request-Type Interaction</h4>
+<table>
+  <thead>
+      <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Tests</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>execution_layer_request/test/cross_request_type/update</code></td>
+          <td>Update <code>tests/prague/eip7685_general_purpose_el_requests</code> tests to include the new request type in the tests combinations.</td>
+          <td></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="framework-changes-10">Framework Changes</h3>
+<ul>
+<li>Increment <code>max_request_type</code> in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code> to the new maximum request type number after the EIP is activated.</li>
+</ul>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

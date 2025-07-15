@@ -1,0 +1,1420 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Test Formats</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Test Formats
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 blockchain_test
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test_engine/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 blockchain_test_engine
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/blockchain_test_engine_x/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 blockchain_test_engine_x
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/common_types/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 common_types
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/exceptions/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 exceptions
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/state_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 state_test
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/transaction_test/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 transaction_test
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="blockchain-engine-x-tests">Blockchain Engine X Tests  <!-- markdownlint-disable MD051 (MD051=link-fragments "Link fragments should be valid") --></h1>
+<p>The Blockchain Engine X Test fixture format tests are included in the fixtures subdirectory <code>blockchain_tests_engine_x</code>, and use Engine API directives with optimized pre-allocation groups for improved execution performance.</p>
+<p>These are produced by the <code>StateTest</code> and <code>BlockchainTest</code> test specs when using the <code>--generate-pre-alloc-groups</code> and <code>--use-pre-alloc-groups</code> flags.</p>
+<h2 id="description">Description</h2>
+<p>The Blockchain Engine X Test fixture format is an optimized variant of the <a href="./blockchain_test_engine.md">Blockchain Engine Test</a> format designed for large-scale test execution with performance optimizations.</p>
+<p>It uses the Engine API to test block validation and consensus rules while leveraging <strong>pre-allocation groups</strong> to significantly reduce test execution time and resource usage. Tests are grouped by their initial state (fork + environment + pre-allocation). Each group is executed against the same client instance using a common genesis state.</p>
+<p>The key optimization is that <strong>clients need only be started once per group</strong> instead of once per test (as in the original engine fixture format), dramatically improving execution performance for large test suites.</p>
+<p>Instead of including large pre-allocation state in each test fixture, this format references a pre-allocation groups folder (<code>pre_alloc</code>) which contains all different pre-allocation combinations organized by group.</p>
+<p>A single JSON fixture file is composed of a JSON object where each key-value pair is a different <a href="#blockchaintestenginexfixture"><code>BlockchainTestEngineXFixture</code></a> test object, with the key string representing the test name.</p>
+<p>The JSON file path plus the test name are used as the unique test identifier.</p>
+<h2 id="pre-allocation-groups-folder">Pre-Allocation Groups Folder</h2>
+<p>The <code>blockchain_tests_engine_x</code> directory contains a special directory <code>pre_alloc</code> that stores pre-allocation group files used by all tests in this format, one per pre-allocation group with the name of the pre-alloc hash. This folder is essential for test execution and must be present alongside the test fixtures.</p>
+<h3 id="pre-allocation-group-file-structure">Pre-Allocation Group File Structure</h3>
+<p>Each file in the <code>pre_alloc</code> folder corresponds to a pre-allocation group identified by a hash:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;test_count&#34;</span>: <span style="color:#ae81ff">88</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;pre_account_count&#34;</span>: <span style="color:#ae81ff">174</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;testIds&#34;</span>: [<span style="color:#e6db74">&#34;test1&#34;</span>, <span style="color:#e6db74">&#34;test2&#34;</span>, <span style="color:#960050;background-color:#1e0010">...</span>],
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;network&#34;</span>: <span style="color:#e6db74">&#34;Prague&#34;</span>,
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;environment&#34;</span>: { <span style="color:#960050;background-color:#1e0010">...</span> },
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&#34;pre&#34;</span>: { <span style="color:#960050;background-color:#1e0010">...</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="pre-allocation-group-fields">Pre-Allocation Group Fields</h4>
+<ul>
+<li><strong><code>test_count</code></strong>: Number of tests in this pre-allocation group</li>
+<li><strong><code>pre_account_count</code></strong>: Number of accounts in the pre-allocation group</li>
+<li><strong><code>testIds</code></strong>: Array of test identifiers that belong to this group</li>
+<li><strong><code>network</code></strong>: Fork name (e.g., &ldquo;Prague&rdquo;, &ldquo;Cancun&rdquo;)</li>
+<li><strong><code>environment</code></strong>: Complete <a href="./common_types.md#environment"><code>Environment</code></a> object with execution context</li>
+<li><strong><code>pre</code></strong>: Pre-allocation group <a href="./common_types.md#alloc-mappingaddressaccount"><code>Alloc</code></a> object containing initial account states</li>
+</ul>
+<h2 id="consumption">Consumption</h2>
+<p>For each <a href="#blockchaintestenginexfixture"><code>BlockchainTestEngineXFixture</code></a> test object in the JSON fixture file, perform the following steps:</p>
+<ol>
+<li>
+<p><strong>Load Pre-Allocation Group</strong>:</p>
+<ul>
+<li>Read the appropriate file from the <code>pre_alloc</code> folder in the same directory</li>
+<li>Locate the pre-allocation group using <a href="#-prehash-string"><code>preHash</code></a></li>
+<li>Extract the <code>pre</code> allocation and <code>environment</code> from the group</li>
+</ul>
+</li>
+<li>
+<p><strong>Initialize Client</strong>:</p>
+<ul>
+<li>Use <a href="#-network-fork"><code>network</code></a> to configure the execution fork schedule</li>
+<li>Use the pre-allocation group&rsquo;s <code>pre</code> allocation as the starting state</li>
+<li>Use the pre-allocation group&rsquo;s <code>environment</code> as the execution context</li>
+<li>Use <a href="#-genesisblockheader-fixtureheader"><code>genesisBlockHeader</code></a> as the genesis block header</li>
+</ul>
+</li>
+<li>
+<p><strong>Execute Engine API Sequence</strong>:</p>
+<ul>
+<li>For each <a href="#fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></a> in <a href="#-enginenewpayloads-listfixtureenginenewpayload"><code>engineNewPayloads</code></a>:
+<ol>
+<li>Deliver the payload using <code>engine_newPayloadVX</code></li>
+<li>Validate the response according to the payload&rsquo;s expected status</li>
+</ol>
+</li>
+<li>If <a href="#-syncpayload-optionalfixtureenginenewpayload"><code>syncPayload</code></a> is present, execute it for chain synchronization</li>
+</ul>
+</li>
+<li>
+<p><strong>Verify Final State</strong>:</p>
+<ul>
+<li>Compare the final chain head against <a href="#-lastblockhash-hash"><code>lastblockhash</code></a></li>
+<li>If <a href="#-poststatediff-optionalalloc"><code>postStateDiff</code></a> is present:
+<ul>
+<li>Apply the state differences to the pre-allocation group</li>
+<li>Verify the resulting state matches the client&rsquo;s final state</li>
+</ul>
+</li>
+<li>If <code>post</code> field were present (not typical), verify it directly</li>
+</ul>
+</li>
+</ol>
+<h2 id="structures">Structures</h2>
+<h3 id="blockchaintestenginexfixture"><code>BlockchainTestEngineXFixture</code></h3>
+<h4 id="--network-fork">- <code>network</code>: <a href="./common_types.md#fork"><code>Fork</code></a></h4>
+<h5 id="to-be-deprecated">TO BE DEPRECATED</h5>
+<p>Fork configuration for the test.</p>
+<p>This field is going to be replaced by the value contained in <code>config.network</code>.</p>
+<h4 id="--prehash-string">- <code>preHash</code>: <code>string</code></h4>
+<p>Hash identifier referencing a pre-allocation group in the <code>pre_alloc</code> folder. This hash uniquely identifies the combination of fork, environment, and pre-allocation state that defines the group.</p>
+<h4 id="--genesisblockheader-fixtureheader">- <code>genesisBlockHeader</code>: <a href="./blockchain_test.md#fixtureheader"><code>FixtureHeader</code></a></h4>
+<p>Genesis block header. The state root in this header must match the state root calculated from the pre-allocation group referenced by <a href="#-prehash-string"><code>preHash</code></a>.</p>
+<h4 id="--enginenewpayloads-listfixtureenginenewpayload">- <code>engineNewPayloads</code>: <a href="./common_types.md#list"><code>List</code></a><code>[</code><a href="#fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></a><code>]</code></h4>
+<p>List of <code>engine_newPayloadVX</code> directives to be processed after the genesis block. These define the sequence of blocks to be executed via the Engine API.</p>
+<h4 id="--syncpayload-optionalfixtureenginenewpayload">- <code>syncPayload</code>: <a href="./common_types.md#optional"><code>Optional</code></a><code>[</code><a href="#fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></a><code>]</code></h4>
+<p>Optional synchronization payload. When present, this payload is typically used to sync the chain to a specific state before or after the main payload sequence.</p>
+<h4 id="--lastblockhash-hash">- <code>lastblockhash</code>: <a href="./common_types.md#hash"><code>Hash</code></a></h4>
+<p>Hash of the last valid block after all payloads have been processed, or the genesis block hash if all payloads are invalid.</p>
+<h4 id="--poststatediff-optionalalloc">- <code>postStateDiff</code>: <a href="./common_types.md#optional"><code>Optional</code></a><code>[</code><a href="./common_types.md#alloc-mappingaddressaccount"><code>Alloc</code></a><code>]</code></h4>
+<p>State differences from the pre-allocation group after test execution. This optimization stores only the accounts that changed, were created, or were deleted during test execution, rather than the complete final state.</p>
+<p>To reconstruct the final state:</p>
+<ol>
+<li>Start with the pre-allocation group from the <code>pre_alloc</code> folder</li>
+<li>Apply the changes in <code>postStateDiff</code>:
+<ul>
+<li><strong>Modified accounts</strong>: Replace existing accounts with new values</li>
+<li><strong>New accounts</strong>: Add accounts not present in pre-allocation</li>
+<li><strong>Deleted accounts</strong>: Remove accounts (represented as <code>null</code> values)</li>
+</ul>
+</li>
+</ol>
+<h4 id="--config-fixtureconfig">- <code>config</code>: <a href="#fixtureconfig"><code>FixtureConfig</code></a></h4>
+<p>Chain configuration object to be applied to the client running the blockchain engine x test.</p>
+<h3 id="fixtureconfig"><code>FixtureConfig</code></h3>
+<h4 id="--network-fork-1">- <code>network</code>: <a href="./common_types.md#fork"><code>Fork</code></a></h4>
+<p>Fork configuration for the test. It is guaranteed that this field contains the same value as the root field <code>network</code>.</p>
+<h4 id="--blobschedule-blobschedule">- <code>blobSchedule</code>: <a href="./common_types.md#blobschedule-mappingforkforkblobschedule"><code>BlobSchedule</code></a></h4>
+<p>Optional; present from Cancun on. Maps forks to their blob schedule configurations as defined by <a href="https://eips.ethereum.org/EIPS/eip-7840" target="_blank" rel="noopener">EIP-7840</a>.</p>
+<h3 id="fixtureenginenewpayload"><code>FixtureEngineNewPayload</code></h3>
+<p>Engine API payload structure identical to the one defined in <a href="./blockchain_test_engine.md#fixtureenginenewpayload">Blockchain Engine Tests</a>. Includes execution payload, versioned hashes, parent beacon block root, validation errors, version, and error codes.</p>
+<h2 id="usage-notes">Usage Notes</h2>
+<ul>
+<li>This format is only generated when using <code>--generate-pre-alloc-groups</code> and <code>--use-pre-alloc-groups</code> flags</li>
+<li>The <code>pre_alloc</code> folder is essential and must be distributed with the test fixtures</li>
+<li>Tests are grouped by identical (fork + environment + pre-allocation) combinations</li>
+<li>The format is optimized for Engine API testing (post-Paris forks)</li>
+</ul>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>

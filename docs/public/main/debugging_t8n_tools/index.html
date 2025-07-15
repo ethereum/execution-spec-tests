@@ -1,0 +1,1433 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> - EEST Docs</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+         
+        .top-nav {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+         
+        .main-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+         
+        .sidebar {
+            flex: 0 0 250px;
+            position: sticky;
+            top: 80px;  
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background-color: #f8f8f8;
+            transition: transform 0.3s ease;
+        }
+        
+        .content {
+            flex: 1;
+            min-width: 0;
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+        
+        .content h1 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .content h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34495e;
+        }
+        
+        .content h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #34495e;
+        }
+        
+        .content pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .content code {
+            background-color: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        
+        .content pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+        
+         
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                transform: translateX(-100%);
+                z-index: 999;
+            }
+            
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+         
+        @media (min-width: 1600px) {
+            .sidebar {
+                flex: 0 0 300px;
+            }
+        }
+        
+         
+        @media (min-width: 1920px) {
+            .content {
+                padding: 2rem 4rem;
+            }
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="http://localhost:1313/css/callouts.css">
+<link rel="stylesheet" href="http://localhost:1313/css/sidebar.css">
+
+
+
+</head>
+<body>
+       
+<div style="background: yellow; padding: 10px; margin: 10px;">
+    DEBUG MENU:
+    
+        <br>Name: Execution Spec Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Filling Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/filling_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Getting Started 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/getting_started/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Running Tests 
+        | URL: /main/main/ 
+        | Page: /home/user/Documents/execution-spec-tests/docs/content/main/running_tests/main.md
+        
+            | Page.RelPermalink: /main/main/
+            | Page.Permalink: http://localhost:1313/main/main/
+        
+    
+        <br>Name: Main 
+        | URL:  
+        | Page: 
+        
+    
+</div>
+
+
+        
+        <nav class="top-nav">
+            <div class="nav-container">
+                <a href="/" class="nav-brand">EEST Docs</a>
+                <ul class="nav-menu">
+                    
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Execution Spec Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Filling Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Getting Started
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                <a href="/main/main/" 
+                                   >
+                                    Running Tests
+                                </a>
+                            </li>
+                        
+                    
+                        
+                    
+                </ul>
+            </div>
+        </nav>
+    
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            
+  
+<nav style="background:#f5f5f5;padding:1.5rem;border-radius:8px;position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow-y:auto;">
+  
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+    
+  
+
+  
+  <h3 style="margin-top:0;padding-bottom:.5rem;border-bottom:2px solid #ddd;">Filling Tests</h3>
+
+  
+  
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+
+  
+  
+  
+
+  <ul style="list-style:none;padding:0;margin:1rem 0;">
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/main/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          Filling Tests
+          <span style="font-size:.8em;opacity:.7;display:block;">Entry Point</span>
+        </a>
+      </li>
+    
+
+    
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/debugging_t8n_tools/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    background-color:#007bff;color:#fff;font-weight:bold;
+                  ">
+          📄 debugging_t8n_tools
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/filling_tests_command_line/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 filling_tests_command_line
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/filling_tests_dev_fork/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 filling_tests_dev_fork
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/filling_tests_vs_code/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 filling_tests_vs_code
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/getting_started/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 getting_started
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/test_ids/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 test_ids
+        </a>
+      </li>
+    
+      <li style="margin:.5rem 0;">
+        <a href="/main/transition_tool_support/"
+           style="display:block;padding:.75rem;border-radius:4px;text-decoration:none;transition:all .2s;
+                  
+                    color:#333;background-color:#fff;border:1px solid #e0e0e0;
+                  ">
+          📄 transition_tool_support
+        </a>
+      </li>
+    
+  </ul>
+
+  
+  
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+
+  
+
+  
+  
+    <hr style="margin:1.5rem 0;border:none;border-top:1px solid #ddd;">
+    <h4 style="margin-top:1rem;color:#666;font-size:.9em;">Other Sections</h4>
+    <ul style="list-style:none;padding:0;font-size:.9em;">
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Execution Spec Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Filling Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Getting Started
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="/main/main/" style="color:#666;text-decoration:none;">
+            → Running Tests
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
+          <a href="" style="color:#666;text-decoration:none;">
+            → Main
+          </a>
+        </li>
+      
+    </ul>
+  
+</nav>
+
+
+        </aside>
+        
+        <main class="content">
+            
+  <div>
+    <h2></h2>
+    <h5></h5>
+    
+  </div>
+  <div align="start" class="content"><h1 id="debugging-transition-tools">Debugging Transition Tools</h1>
+<p>There are two flags that can help debugging <code>t8n</code> tools or the execution-spec-tests framework:</p>
+<ol>
+<li><code>--evm-dump-dir</code> (Default: <repo>/logs/evm): Write debug information from <code>t8n</code> tool calls to the specified directory.</li>
+<li><code>--traces</code>: Collect traces of the execution from the transition tool.</li>
+<li><code>--verify-fixtures</code>: Run go-ethereum&rsquo;s <code>evm blocktest</code> command to verify the generated test fixtures.</li>
+</ol>
+<h2 id="evm-dump-directory">EVM Dump Directory</h2>
+<p>The <code>--evm-dump-dir</code> flag tells the framework to write the inputs and outputs of every call made to the <code>t8n</code> command to the specified output directory. The aim is to help debugging or simply understand how a test is interacting with the EVM. The default location is <code>logs/evm</code> in the project root.</p>
+<p>Each test case receives its own sub-directory under the <code>--evm-dump-dir</code> that contains these files which can be easily accessed from the HTML test report generated by <code>fill</code> (located by default in the root of the <code>--output</code> directory).</p>
+<figure markdown>
+ ![HTML Report Summary](./img/evm_dump_dir_in_html_report.png){width=auto align=center}
+</figure>
+<p>In particular, a script <code>t8n.sh</code> is generated for each call to the <code>t8n</code> command which can be used to reproduce the call to trigger errors or attach a debugger without the need to execute Python.</p>
+<p>For example, running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \
+</span></span><span style="display:flex;"><span>    --evm-dump-dir=/tmp/evm-dump --traces
+</span></span></code></pre></div><p>will produce the directory structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>📂 /tmp/evm-dump
+</span></span><span style="display:flex;"><span>└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+</span></span><span style="display:flex;"><span>    └── 📂 fork_Berlin_blockchain_test
+</span></span><span style="display:flex;"><span>        └── 📂 0
+</span></span><span style="display:flex;"><span>            ├── 📄 args.py
+</span></span><span style="display:flex;"><span>            ├── 📂 input
+</span></span><span style="display:flex;"><span>            │   ├── 📄 alloc.json
+</span></span><span style="display:flex;"><span>            │   ├── 📄 env.json
+</span></span><span style="display:flex;"><span>            │   └── 📄 txs.json
+</span></span><span style="display:flex;"><span>            ├── 📂 output
+</span></span><span style="display:flex;"><span>            │   ├── 📄 alloc.json
+</span></span><span style="display:flex;"><span>            │   ├── 📄 result.json
+</span></span><span style="display:flex;"><span>            │   └── 📄 txs.rlp
+</span></span><span style="display:flex;"><span>            ├── 📄 returncode.txt
+</span></span><span style="display:flex;"><span>            ├── 📄 stderr.txt
+</span></span><span style="display:flex;"><span>            ├── 📄 stdin.txt
+</span></span><span style="display:flex;"><span>            ├── 📄 stdout.txt
+</span></span><span style="display:flex;"><span>            ├── 📄 t8n.sh
+</span></span><span style="display:flex;"><span>            └── 📄 trace-0-0x5c4f07ce52f0a276a06aabdfff16cc693b5e007c018f9a42431e68200e2da515.jsonl
+</span></span></code></pre></div><p>where the directory <code>0</code> is the starting index of the different calls made to the <code>t8n</code> tool executed during the test, and since the test only contains one block, there is only one directory present.</p>
+<p>Note, there may be more directories present <code>1</code>, <code>2</code>, <code>3</code>,&hellip; if the test executes more blocks.</p>
+<p>Each directory contains files containing information corresponding to the call, for example, the <code>args.py</code> file contains the arguments passed to the <code>t8n</code> command and the <code>output/alloc.json</code> file contains the output of the <code>t8n</code> command&rsquo;s <code>--output-alloc</code> flag.</p>
+<h3 id="the-t8nsh-script">The <code>t8n.sh</code> Script</h3>
+<p>The <code>t8n.sh</code> script written to the debug directory can be used to reproduce a specific call made to the <code>t8n</code> command during the test session. For example, if a Besu <code>t8n-server</code> has been started on port <code>3001</code>, the request made by the test for first block can be reproduced as:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>/tmp/besu/test_access_list_fork_Berlin/0/t8n.sh 3001
+</span></span></code></pre></div><p>which writes the response the from the <code>t8n-server</code> to the console output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;alloc&#34;</span> : {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;0x000000000000000000000000000000000000aaaa&#34;</span> : {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;code&#34;</span> : <span style="color:#e6db74">&#34;0x5854505854&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;balance&#34;</span> : <span style="color:#e6db74">&#34;0x4&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;nonce&#34;</span> : <span style="color:#e6db74">&#34;0x1&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba&#34;</span> : {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;balance&#34;</span> : <span style="color:#e6db74">&#34;0x1bc16d674ecb26ce&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b&#34;</span> : {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;balance&#34;</span> : <span style="color:#e6db74">&#34;0x2cd931&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;nonce&#34;</span> : <span style="color:#e6db74">&#34;0x1&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;body&#34;</span> : <span style="color:#e6db74">&#34;0xf8a0b89e01f89b0180078304ef0094000000000000000000000000000000000000aaaa0180f838f7940000000000000000000000000000000000000000e1a0000000000000000000000000000000000000000000000000000000000000000001a02e16eb72206c93c471b5894800495ee9c64ae2d9823bcc4d6adeb5d9d9af0dd4a03be6691e933a0816c59d059a556c27c6753e6ce76d1e357b9201865c80b28df3&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;result&#34;</span> : {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;stateRoot&#34;</span> : <span style="color:#e6db74">&#34;0x51799508f764047aee6606bc6a00863856f83ee5b91555f00c8a3cbdfbec5acb&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">...</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>t8n.sh</code> is written to the debug directory for all <a href="./transition_tool_support.md">supported t8n tools</a>.</p>
+<h2 id="verifying-test-fixtures-via-evm-blocktest">Verifying Test Fixtures via <code>evm blocktest</code></h2>
+<p>The <code>--verify-fixtures</code> flag can be used to run go-ethereum&rsquo;s <code>evm blocktest</code> command in order to verify the generated JSON test fixtures.</p>
+<p>For example, running:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill tests/berlin/eip2930_access_list/ --fork Berlin -m blockchain_test \
+</span></span><span style="display:flex;"><span>    --evm-dump-dir==/tmp/evm-dump \
+</span></span><span style="display:flex;"><span>    --evm-bin=../evmone/build/bin/evmone-t8n \
+</span></span><span style="display:flex;"><span>    --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+</span></span><span style="display:flex;"><span>    --verify-fixtures
+</span></span></code></pre></div><p>will additionally run the <code>evm blocktest</code> command on every JSON fixture file and write its output to the EVM dump directory:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>📂 /tmp/evm-dump
+</span></span><span style="display:flex;"><span>└── 📂 berlin__eip2930_access_list__test_acl__test_access_list
+</span></span><span style="display:flex;"><span>    ├── 📄 fixtures.json
+</span></span><span style="display:flex;"><span>    ├── 📂 fork_Berlin_blockchain_test
+</span></span><span style="display:flex;"><span>    │   ├── 📂 0
+</span></span><span style="display:flex;"><span>    │   │   ├── 📄 args.py
+</span></span><span style="display:flex;"><span>    │   │   ├── 📂 input
+</span></span><span style="display:flex;"><span>    │   │   │   ├── 📄 alloc.json
+</span></span><span style="display:flex;"><span>    │   │   │   ├── 📄 env.json
+</span></span><span style="display:flex;"><span>    │   │   │   └── 📄 txs.json
+</span></span><span style="display:flex;"><span>    │   │   ├── 📂 output
+</span></span><span style="display:flex;"><span>    │   │   │   ├── 📄 alloc.json
+</span></span><span style="display:flex;"><span>    │   ... ... ...
+</span></span><span style="display:flex;"><span>    │
+</span></span><span style="display:flex;"><span>    ├── 📄 verify_fixtures_args.py
+</span></span><span style="display:flex;"><span>    ├── 📄 verify_fixtures_returncode.txt
+</span></span><span style="display:flex;"><span>    ├── 📄 verify_fixtures.sh
+</span></span><span style="display:flex;"><span>    ├── 📄 verify_fixtures_stderr.txt
+</span></span><span style="display:flex;"><span>    └── 📄 verify_fixtures_stdout.txt
+</span></span></code></pre></div><p>where the <code>verify_fixtures.sh</code> script can be used to reproduce the <code>evm blocktest</code> command.</p>
+<h3 id="further---verify-fixtures-examples">Further <code>--verify-fixtures</code> Examples</h3>
+<ol>
+<li>
+<p>No fixture verification performed:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill
+</span></span></code></pre></div></li>
+<li>
+<p>Verify fixtures: Use the first <code>evm</code> binary in the <code>PATH</code> to execute both the <code>t8n</code> and <code>blocktest</code> commands (i.e., same binary used; this must be a geth binary):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill --verify-fixtures
+</span></span></code></pre></div></li>
+<li>
+<p>Explicitly specify the evm binary to execute the <code>blocktest</code> command (the first evm binary in the <code>PATH</code> is used for <code>t8n</code> commands; <code>--verify-fixtures</code> is not necessary):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill --verify-fixtures-bin=../go-ethereum/build/bin/evm
+</span></span></code></pre></div></li>
+<li>
+<p>Explicitly set two different <code>evm</code> binaries to execute the <code>t8n</code> and <code>blocktest</code> commands; write debug data to the specified <code>--evm-dump-dir</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill --evm-bin=../evmone/build/bin/evmone-t8n \
+</span></span><span style="display:flex;"><span>  --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+</span></span><span style="display:flex;"><span>  --evm-dump-dir=/tmp/evm-dump
+</span></span></code></pre></div></li>
+<li>
+<p>Additionally use <code>--single-fixture-per-file</code> to improve the granularity of the reporting of the <code>evm blocktest</code> command by writing the fixture generated by each parametrized test case to its own file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>fill --evm-bin=../evmone/build/bin/evmone-t8n \
+</span></span><span style="display:flex;"><span>  --verify-fixtures-bin=../go-ethereum/build/bin/evm \
+</span></span><span style="display:flex;"><span>  --evm-dump-dir=/tmp/evm-dump \
+</span></span><span style="display:flex;"><span>  --single-fixture-per-file
+</span></span></code></pre></div></li>
+</ol>
+
+
+<div class="callout callout-info">
+  <div class="callout-title">Execution scope of <code>evm blocktest</code></div>
+  <div class="callout-content">
+    <p>Note, by default, that <code>evm blocktest</code> is not executed per parametrized test case, but rather per test function. This is because each fixture JSON file contains fixtures for all the parametrized test cases for one test function. This means only one error will be reported, even if multiple fixtures fail within one fixture file.</p>
+<p>Additionally, it is only executed after all the test cases in the module have been executed and will only report the first failing test fixture in all files, even if there are multiple failing fixture files. This limitation is required to enable support of the <a href="https://github.com/pytest-dev/pytest-xdist" target="_blank" rel="noopener"><code>pytest-xdist</code> plugin</a> for concurrent test execution across multiple CPUs. To achieve this we use the we apply the <code>--dist loadscope</code> xdist flag in our <code>pytest.ini</code>.</p>
+<p>This means, by default, that the feedback is not as granular as for test case execution. To improve granularity, and get feedback per parametrized test case use <code>--single-fixture-per-file</code>.</p>
+
+  </div>
+</div>
+</div>
+
+        </main>
+    </div>
+</body>
+</html>
