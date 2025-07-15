@@ -50888,7 +50888,12 @@ unset.</p>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests transactions over the period of a single block.&quot;&quot;&quot;</span>
 
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="n">Environment</span><span class="p">)</span>
@@ -50940,38 +50945,43 @@ unset.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the genesis environment for the BlockchainTest formatted test.&quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
-            <span class="s2">&quot;genesis block number cannot be negative, set state test env.number to 1&quot;</span>
+            <span class="s2">&quot;genesis block number cannot be negative, set state test env.number to at least 1&quot;</span>
         <span class="p">)</span>
-
-        <span class="c1"># Modify values to the proper values for the genesis block</span>
-        <span class="c1"># TODO: All of this can be moved to a new method in `Fork`</span>
-        <span class="n">updated_values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;withdrawals&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="s2">&quot;parent_beacon_block_root&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;genesis timestamp cannot be negative, set state test env.timestamp to at least 1&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># There&#39;s only a handful of values that we need to set in the genesis for the</span>
+        <span class="c1"># environment values at block 1 to make sense:</span>
+        <span class="c1"># - Number: Needs to be N minus 1</span>
+        <span class="c1"># - Timestamp: Needs to be zero, because the subsequent block can come at any time.</span>
+        <span class="c1"># - Gas Limit: Changes from parent to child, needs to be set in genesis</span>
+        <span class="c1"># - Base Fee Per Gas: Block&#39;s base fee depends on the parent&#39;s value</span>
+        <span class="c1"># - Excess Blob Gas: Block&#39;s excess blob gas value depends on the parent&#39;s value</span>
+        <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;number&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
         <span class="p">}</span>
+
+        <span class="k">if</span> <span class="s2">&quot;gas_limit&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;gas_limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee_per_gas</span><span class="p">:</span>
+            <span class="c1"># Calculate genesis base fee per gas from state test&#39;s block#1 env</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;base_fee_per_gas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexNumber</span><span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee_per_gas</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">/</span> <span class="mi">7</span><span class="p">)</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span><span class="p">:</span>
             <span class="c1"># The excess blob gas environment value means the value of the context (block header)</span>
             <span class="c1"># where the transaction is executed. In a blockchain test, we need to indirectly</span>
             <span class="c1"># set the excess blob gas by setting the excess blob gas of the genesis block</span>
             <span class="c1"># to the expected value plus the TARGET_BLOB_GAS_PER_BLOCK, which is the value</span>
             <span class="c1"># that will be subtracted from the excess blob gas when the first block is mined.</span>
-            <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;excess_blob_gas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;excess_blob_gas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">excess_blob_gas</span> <span class="o">+</span> <span class="p">(</span>
                 <span class="n">fork</span><span class="o">.</span><span class="n">target_blobs_per_block</span><span class="p">()</span> <span class="o">*</span> <span class="n">fork</span><span class="o">.</span><span class="n">blob_gas_per_blob</span><span class="p">()</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee_per_gas</span><span class="p">:</span>
-            <span class="c1"># Calculate genesis base fee per gas from state test&#39;s block#1 env</span>
-            <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;base_fee_per_gas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexNumber</span><span class="p">(</span>
-                <span class="nb">int</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">base_fee_per_gas</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">/</span> <span class="mi">7</span><span class="p">)</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">fork</span><span class="o">.</span><span class="n">header_prev_randao_required</span><span class="p">():</span>
-            <span class="c1"># Set current random</span>
-            <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;difficulty&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">updated_values</span><span class="p">[</span><span class="s2">&quot;prev_randao&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">prev_randao</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">prev_randao</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">difficulty</span>
-            <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="o">**</span><span class="n">updated_values</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_generate_blockchain_blocks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the single block that represents this state test in a BlockchainTest format.&quot;&quot;&quot;</span>
@@ -51200,15 +51210,15 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_blockchain_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTest</span><span class="p">:</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_blockchain_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockchainTest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a BlockchainTest fixture from this StateTest fixture.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">from_test</span><span class="p">(</span>
         <span class="n">base_test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -51244,12 +51254,7 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
 <span class="normal">166</span>
 <span class="normal">167</span>
 <span class="normal">168</span>
@@ -51320,7 +51325,12 @@ unset.</p>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
-<span class="normal">236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_state_test_fixture</span><span class="p">(</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_state_test_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -51424,9 +51434,9 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -51456,12 +51466,7 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">247</span>
 <span class="normal">248</span>
 <span class="normal">249</span>
 <span class="normal">250</span>
@@ -51471,7 +51476,12 @@ unset.</p>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
-<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -51514,19 +51524,19 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/state.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
 <span class="normal">268</span>
 <span class="normal">269</span>
 <span class="normal">270</span>
-<span class="normal">271</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
