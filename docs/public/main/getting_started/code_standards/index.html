@@ -254,6 +254,15 @@
                     
                         
                             <li>
+                                <a href="/main/dev_docs/main/" 
+                                   >
+                                    Developer Doc
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
                                 <a href="/main/changelog/" 
                                    >
                                     Changelog
@@ -307,8 +316,6 @@
       
       
       
-        
-      
     
   
     
@@ -320,62 +327,6 @@
     
       
       
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
       
     
   
@@ -459,6 +410,68 @@
       
       
       
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
     
   
     
@@ -537,11 +550,7 @@
       
       
       
-    
-  
-    
-      
-      
+        
       
     
   
@@ -832,9 +841,6 @@
     
       
       
-        
-        
-      
     
   
     
@@ -844,58 +850,6 @@
   
     
       
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
       
     
   
@@ -968,6 +922,63 @@
     
       
       
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
     
   
     
@@ -1033,10 +1044,8 @@
     
       
       
-    
-  
-    
-      
+        
+        
       
     
   
@@ -1235,6 +1244,12 @@
         </li>
       
         <li style="margin:.25rem 0;">
+          <a href="/main/dev_docs/main/" style="color:#666;text-decoration:none;">
+            → Developer Doc
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
           <a href="/main/changelog/" style="color:#666;text-decoration:none;">
             → Changelog
           </a>
@@ -1254,65 +1269,190 @@
     <h5></h5>
     
   </div>
-  <div align="start" class="content"><p>This document outlines the coding standards and practices used in the @ethereum/execution-spec-tests repository.</p>
+  <div align="start" class="content"><p>This document outlines the coding standards and practices used in the <a href="https://github.com/ethereum/execution-spec-tests/" target="_blank" rel="noopener">ethereum/execution-spec-tests</a> repository.</p>
 <h2 id="code-and-ci-requirements">Code and CI Requirements</h2>
-<p>Code pushed to @ethereum/execution-spec-tests must fulfill the following checks in <a href="https://github.com/ethereum/execution-spec-tests/actions/workflows/tox_verify.yaml" target="_blank" rel="noopener">CI</a>:</p>
-<table>
+<p>Code pushed to execution-spec-tests must fulfill the following checks in <a href="https://github.com/ethereum/execution-spec-tests/actions/workflows/tox_verify.yaml" target="_blank" rel="noopener">CI</a>:</p>
+
+
+
+
+<table class="styled-table">
   <thead>
-      <tr>
-          <th>Type</th>
-          <th>Tox Command</th>
-          <th>Explanation</th>
-      </tr>
+    <tr>
+      
+        <th>Type</th>
+      
+        <th>Explanation</th>
+      
+        <th>Tox Command</th>
+      
+    </tr>
   </thead>
   <tbody>
-      <tr>
-          <td>Lint &amp; code formatting</td>
-          <td><code>uvx --with=tox-uv tox -e lint</code></td>
-          <td>Python lint, format and module import check via <code>ruff</code></td>
-      </tr>
-      <tr>
-          <td>Typecheck</td>
-          <td><code>uvx --with=tox-uv tox -e typecheck</code></td>
-          <td>Objects that provide typehints pass type-checking via <code>mypy</code>.</td>
-      </tr>
-      <tr>
-          <td>Framework unit tests</td>
-          <td><code>uvx --with=tox-uv tox -e pytest</code></td>
-          <td>All framework unit tests must execute correctly.</td>
-      </tr>
-      <tr>
-          <td>EL Client test cases</td>
-          <td><code>uvx --with=tox-uv tox -e tests-deployed</code></td>
-          <td>All client test cases for deployed forks can be generated.</td>
-      </tr>
-      <tr>
-          <td>Benchmark EL Test cases</td>
-          <td><code>uvx --with=tox-uv tox -e tests-deployed-benchmark</code></td>
-          <td>All client test cases specific to benchmarks for deployed forks can be generated.</td>
-      </tr>
-      <tr>
-          <td>HTML doc build</td>
-          <td><code>uvx --with=tox-uv tox -e mkdocs</code></td>
-          <td>Documentation generated without warnings.</td>
-      </tr>
-      <tr>
-          <td>Spellcheck</td>
-          <td><code>uvx --with=tox-uv tox -e spellcheck</code></td>
-          <td>Code and documentation spell-check using codespell.</td>
-      </tr>
-      <tr>
-          <td>Markdown lint</td>
-          <td><code>uvx --with=tox-uv tox -e markdownlint</code></td>
-          <td>Markdown lint (requires <a href="code_standards_details.md#additional-dependencies">additional dependency</a>).</td>
-      </tr>
-      <tr>
-          <td>Changelog validation</td>
-          <td><code>uvx --with=tox-uv tox -e changelog</code></td>
-          <td>Validates changelog entries format and structure in <code>docs/CHANGELOG.md</code>.</td>
-      </tr>
+    
+      
+      
+        <tr>
+          
+          
+            <td>Lint &amp; code formatting</td>
+          
+            <td><code>uvx --with=tox-uv tox -e lint</code></td>
+          
+            <td>Python lint, format and module import check via <code>ruff</code></td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Typecheck</td>
+          
+            <td><code>uvx --with=tox-uv tox -e typecheck</code></td>
+          
+            <td>Objects that provide typehints pass type-checking via <code>mypy</code></td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Framework unit tests</td>
+          
+            <td><code>uvx --with=tox-uv tox -e pytest</code></td>
+          
+            <td>All framework unit tests must execute correctly</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>EL Client test cases</td>
+          
+            <td><code>uvx --with=tox-uv tox -e tests-deployed</code></td>
+          
+            <td>All client test cases for deployed forks can be generated</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Benchmark EL Test cases</td>
+          
+            <td><code>uvx --with=tox-uv tox -e tests-deployed-benchmark</code></td>
+          
+            <td>All client test cases specific to benchmarks for deployed forks can be generated</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>HTML doc build</td>
+          
+            <td><code>uvx --with=tox-uv tox -e hugo</code></td>
+          
+            <td>Documentation generated without warnings</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Spellcheck</td>
+          
+            <td><code>uvx --with=tox-uv tox -e spellcheck</code></td>
+          
+            <td>Code and documentation spell-check using codespell</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Markdown lint</td>
+          
+            <td><code>uvx --with=tox-uv tox -e markdownlint</code></td>
+          
+            <td>Markdown lint (requires <a href="http://localhost:1313/main/getting_started/code_standards_details/#additional-dependencies" target="_blank" rel="noopener">additional dependency</a>)</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td>Changelog validation</td>
+          
+            <td><code>uvx --with=tox-uv tox -e changelog</code></td>
+          
+            <td>Validates changelog entries format and structure in <code>docs/CHANGELOG.md</code></td>
+          
+        </tr>
+      
+    
+      
+      
+    
   </tbody>
 </table>
+
+<style>
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border: 1px solid #ddd;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table code {
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+</style>
 
 
 <div class="callout callout-warning">
@@ -1348,7 +1488,7 @@
   <div class="callout-content">
     <p>On the command-line, solve fixable issues with:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uv run ruff check --fix
-</span></span></code></pre></div><p>Use VS Code, see <a href="../getting_started/setup_vs_code.md">VS Code Setup</a>, to autoformat code, automatically organize Python module imports and highlight typechecking and spelling issues.</p>
+</span></span></code></pre></div><p>Use VS Code, see <a href="http://localhost:1313/main/getting_started/setup_vs_code/" target="_blank" rel="noopener">VS Code Setup</a>, to autoformat code, automatically organize Python module imports and highlight typechecking and spelling issues.</p>
 
   </div>
 </div>
@@ -1357,15 +1497,16 @@
 <div class="callout callout-info">
   <div class="callout-title">Typechecking</div>
   <div class="callout-content">
-    Adding the correct typehints can sometimes be tricky and there are exceptions that require manually disabling typechecking on a per-line basis. Please reach out to the maintainers if you need help, either <a href="../getting_started/getting_help.md">directly</a> or in a PR.
+    Adding the correct typehints can sometimes be tricky and there are exceptions that require manually disabling typechecking on a per-line basis. Please reach out to the maintainers if you need help, either <a href="http://localhost:1313/main/getting_started/getting_help/" target="_blank" rel="noopener">directly</a> or in a PR.
   </div>
 </div>
 <h2 id="python-coding-preferences">Python Coding Preferences</h2>
 <ul>
 <li><strong>Line Length</strong>: 100 characters maximum.</li>
 <li><strong>Formatting</strong>: Enforced by <code>ruff</code> (similar to <code>black</code>).</li>
-<li><strong>Documentation</strong>: All public functions and classes should have docstrings
+<li><strong>Documentation</strong>:
 <ul>
+<li>All public functions and classes should have docstrings</li>
 <li>Docstrings should have a good one-line summary which uses the imperative (&ldquo;Return&rdquo; not &ldquo;Returns&rdquo;).</li>
 <li>Add a blank line after the summary for multi-line docstrings.</li>
 <li>Single-line docstrings should have triple quotes on the same line.</li>
@@ -1385,18 +1526,18 @@
 <li><strong>File Paths</strong>: Strongly prefer <code>pathlib</code> over <code>os.path</code> for file system operations.</li>
 </ul>
 <h2 id="editor-setup">Editor Setup</h2>
-<p>A correctly configured editor will automatically handle most formatting requirements. See <a href="./setup_vs_code.md">VS Code Setup</a> for recommended settings.</p>
+<p>A correctly configured editor will automatically handle most formatting requirements. See <a href="http://localhost:1313/main/getting_started/setup_vs_code/">VS Code Setup</a> for recommended settings.</p>
 <h2 id="detailed-information">Detailed Information</h2>
-<p>See the <a href="code_standards_details.md">Detailed Code Standards</a> page for more information on:</p>
+<p>See the <a href="http://localhost:1313/main/getting_started/code_standards_details/">Detailed Code Standards</a> page for more information on:</p>
 <ul>
-<li><a href="code_standards_details.md#running-tox-environments">Running tox environments</a>.
+<li><a href="http://localhost:1313/main/getting_started/code_standards_details/#running-tox-environments">Running tox environments</a>.
 <ul>
-<li>Additional required <a href="code_standards_details.md#additional-dependencies">dependencies for markdownlint and spellchecking</a>.</li>
+<li>Additional required <a href="http://localhost:1313/main/getting_started/code_standards_details/#additional-dependencies">dependencies for markdownlint and spellchecking</a>.</li>
 </ul>
 </li>
-<li><a href="code_standards_details.md#pre-commit-hooks">Pre-commit hooks setup</a>.</li>
-<li><a href="code_standards_details.md#verifying-fixture-changes">Verifying test fixture changes</a>.</li>
-<li><a href="code_standards_details.md#ignoring-bulk-change-commits">Ignoring bulk change commits</a> in <code>git blame</code>.</li>
+<li><a href="http://localhost:1313/main/getting_started/code_standards_details/#pre-commit-hooks">Pre-commit hooks setup</a>.</li>
+<li><a href="http://localhost:1313/main/getting_started/code_standards_details/#verifying-fixture-changes">Verifying test fixture changes</a>.</li>
+<li><a href="http://localhost:1313/main/getting_started/code_standards_details/#ignoring-bulk-change-commits">Ignoring bulk change commits</a> in <code>git blame</code>.</li>
 </ul>
 </div>
 

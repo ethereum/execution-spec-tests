@@ -45,4 +45,4 @@ Contains documentation configuration and source files.
 
 #### `.vscode/`
 
-See [VS Code Setup](./setup_vs_code.md).
+See [VS Code Setup]({{< ref "./setup_vs_code.md" >}}).

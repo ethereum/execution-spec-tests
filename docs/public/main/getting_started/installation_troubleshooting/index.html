@@ -254,6 +254,15 @@
                     
                         
                             <li>
+                                <a href="/main/dev_docs/main/" 
+                                   >
+                                    Developer Doc
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
                                 <a href="/main/changelog/" 
                                    >
                                     Changelog
@@ -307,8 +316,6 @@
       
       
       
-        
-      
     
   
     
@@ -320,62 +327,6 @@
     
       
       
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
       
     
   
@@ -459,6 +410,68 @@
       
       
       
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
     
   
     
@@ -537,11 +550,7 @@
       
       
       
-    
-  
-    
-      
-      
+        
       
     
   
@@ -832,9 +841,6 @@
     
       
       
-        
-        
-      
     
   
     
@@ -844,58 +850,6 @@
   
     
       
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
       
     
   
@@ -968,6 +922,63 @@
     
       
       
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
     
   
     
@@ -1033,10 +1044,8 @@
     
       
       
-    
-  
-    
-      
+        
+        
       
     
   
@@ -1235,6 +1244,12 @@
         </li>
       
         <li style="margin:.25rem 0;">
+          <a href="/main/dev_docs/main/" style="color:#666;text-decoration:none;">
+            → Developer Doc
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
           <a href="/main/changelog/" style="color:#666;text-decoration:none;">
             → Changelog
           </a>
@@ -1304,10 +1319,49 @@
 </span></span></code></pre></div>
   </div>
 </div>
-<p>=== &ldquo;Ubuntu&rdquo;</p>
+<!-- ------------------------------------------------- -->
 
 
-<div class="callout callout-success">
+
+
+
+
+
+  
+  
+  
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+<div class="tab-container" data-tab-group="tabs-3">
+  <div class="tab-header">
+    
+      <button class="tab-button active" 
+              onclick="switchTab('tabs-3',  0 )">
+        Ubuntu
+      </button>
+    
+      <button class="tab-button " 
+              onclick="switchTab('tabs-3',  1 )">
+        macOS
+      </button>
+    
+  </div>
+  
+  <div class="tab-panels">
+    
+      <div class="tab-panel active">
+        <div class="callout callout-success">
   <div class="callout-title">Solution: Update your system’s CA certificates</div>
   <div class="callout-content">
     <p>On Ubuntu, run the following commands:</p>
@@ -1316,17 +1370,135 @@
 </span></span></code></pre></div>
   </div>
 </div>
-<p>=== &ldquo;macOS&rdquo;
-
-
-<div class="callout callout-success">
+      </div>
+    
+      <div class="tab-panel ">
+        <div class="callout callout-success">
   <div class="callout-title">Solution: Update your system’s CA certificates</div>
   <div class="callout-content">
     <p>On macOS, Python provides a built-in script to install the required certificates:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/Applications/Python<span style="color:#ae81ff">\ </span>3.11/Install<span style="color:#ae81ff">\ </span>Certificates.command
 </span></span></code></pre></div>
   </div>
-</div></p>
+</div>
+      </div>
+    
+  </div>
+</div>
+
+
+
+
+<style>
+    .tab-container {
+      margin: 1.5rem 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .tab-header {
+      display: flex;
+      background: #e9ecef;
+       
+    }
+    
+    .tab-button {
+      flex: 1;  
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+      transition: all 0.2s;
+      position: relative;
+      text-align: center;  
+      overflow: hidden;  
+      text-overflow: ellipsis;  
+    }
+    
+    .tab-button:hover {
+      background: rgba(0,0,0,0.05);
+    }
+    
+    .tab-button.active {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #007bff;
+    }
+    
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #007bff;
+    }
+    
+    .tab-button code {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    
+    .tab-panel {
+      display: none;
+      padding: 1.5rem;
+      background: white;
+    }
+    
+    .tab-panel.active {
+      display: block;
+    }
+    
+    .tab-panel pre {
+      margin: 0;
+      background: #f6f8fa;
+      border: 1px solid #e1e4e8;
+    }
+    
+     
+    @media (max-width: 768px) {
+      .tab-header {
+        flex-wrap: wrap;  
+      }
+      
+      .tab-button {
+        flex: 1 1 50%;  
+        padding: 0.5rem 0.75rem;
+        font-size: 13px;
+      }
+      
+       
+      @media (max-width: 480px) {
+        .tab-button {
+          flex: 1 1 100%;  
+        }
+      }
+    }
+</style>
+
+<script>
+function switchTab(groupId, tabIndex) {
+  const container = document.querySelector(`[data-tab-group="${groupId}"]`);
+  
+  
+  container.querySelectorAll('.tab-button').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === tabIndex);
+  });
+  
+  
+  container.querySelectorAll('.tab-panel').forEach((panel, idx) => {
+    panel.classList.toggle('active', idx === tabIndex);
+  });
+}
+</script>
+<!-- ------------------------------------------------- -->
 <h3 id="problem-exception-failed-to-compile-yul-source">Problem: <code>Exception: failed to compile yul source</code></h3>
 
 

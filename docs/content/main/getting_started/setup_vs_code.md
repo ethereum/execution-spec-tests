@@ -5,7 +5,7 @@ weight = 35
 
 VS Code setup is optional, but does offer the following advantages:
 
-- Auto-format your Python code to conform to the repository's [code standards](../writing_tests/code_standards.md) ([ruff](https://docs.astral.sh/ruff/)).
+- Auto-format your Python code to conform to the repository's [code standards]({{< ref "../writing_tests/code_standards.md" >}}) (we use [ruff](https://docs.astral.sh/ruff/)).
 - Inline linting and auto-completion (thanks to Python type hints).
 - Spell-check your code and docs.
 - Graphical exploration of test cases and easy test execution/debug.
@@ -46,10 +46,8 @@ The extensions listed in `.vscode/extensions.json` are required for a smooth dev
     - [`ms-python.flake8`](https://marketplace.visualstudio.com/items?itemName=ms-python.flake8)
     - [`ms-python.black-formatter`](https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter)
 
-    <figure markdown>
-        ![Disabling extensions for the current workspace](./img/vscode_extension_disable_for_workspace.png){width=auto align=center}
-    </figure>
+    ![Disabling extensions for the current workspace](/images/getting_started/vscode_extension_disable_for_workspace.png)
 
 ## Configuration for Testing EVM Features Under Active Development
 
-An additional step is required to enable fixture generations for features from forks that are under active development and have not been deployed to mainnet, see [Filling Tests for Features under Development](../filling_tests/filling_tests_dev_fork.md#vs-code-setup).
+An additional step is required to enable fixture generations for features from forks that are under active development and have not been deployed to mainnet, see [Filling Tests for Features under Development]({{< ref "../filling_tests/filling_tests_dev_fork.md#vs-code-setup" >}}).

@@ -51,8 +51,11 @@ Exit: Failed to ...: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate
 ```
 {{< /callout >}}
 
-=== "Ubuntu"
+<!-- ------------------------------------------------- -->
 
+{{< tabs >}}
+
+{{< tab "Ubuntu" >}}
 {{< callout success "Solution: Update your system’s CA certificates" >}}
 On Ubuntu, run the following commands:
 
@@ -61,8 +64,9 @@ sudo apt-get update
 sudo apt-get install ca-certificates
 ```
 {{< /callout >}}
+{{< /tab >}}
 
-=== "macOS"
+{{< tab "macOS" >}}
 {{< callout success "Solution: Update your system’s CA certificates" >}}
 On macOS, Python provides a built-in script to install the required certificates:
 
@@ -70,6 +74,11 @@ On macOS, Python provides a built-in script to install the required certificates
 /Applications/Python\ 3.11/Install\ Certificates.command
 ```
 {{< /callout >}}
+{{< /tab >}}
+
+{{< /tabs >}}
+
+<!-- ------------------------------------------------- -->
 
 ### Problem: `Exception: failed to compile yul source`
 

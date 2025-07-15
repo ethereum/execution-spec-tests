@@ -254,6 +254,15 @@
                     
                         
                             <li>
+                                <a href="/main/dev_docs/main/" 
+                                   >
+                                    Developer Doc
+                                </a>
+                            </li>
+                        
+                    
+                        
+                            <li>
                                 <a href="/main/changelog/" 
                                    >
                                     Changelog
@@ -307,8 +316,6 @@
       
       
       
-        
-      
     
   
     
@@ -320,62 +327,6 @@
     
       
       
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
-      
-    
-  
-    
-      
-      
-      
-        
       
     
   
@@ -459,6 +410,68 @@
       
       
       
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+        
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+    
+  
+    
+      
+      
+      
+        
+      
     
   
     
@@ -537,11 +550,7 @@
       
       
       
-    
-  
-    
-      
-      
+        
       
     
   
@@ -832,9 +841,6 @@
     
       
       
-        
-        
-      
     
   
     
@@ -844,58 +850,6 @@
   
     
       
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
-      
-    
-  
-    
-      
-      
-        
-        
       
     
   
@@ -968,6 +922,63 @@
     
       
       
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+        
+        
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+        
+        
+      
     
   
     
@@ -1033,10 +1044,8 @@
     
       
       
-    
-  
-    
-      
+        
+        
       
     
   
@@ -1235,6 +1244,12 @@
         </li>
       
         <li style="margin:.25rem 0;">
+          <a href="/main/dev_docs/main/" style="color:#666;text-decoration:none;">
+            → Developer Doc
+          </a>
+        </li>
+      
+        <li style="margin:.25rem 0;">
           <a href="/main/changelog/" style="color:#666;text-decoration:none;">
             → Changelog
           </a>
@@ -1254,7 +1269,7 @@
     <h5></h5>
     
   </div>
-  <div align="start" class="content"><p>This page provides in-depth information about the code standards and verification processes in @ethereum/execution-spec-tests.</p>
+  <div align="start" class="content"><p>This page provides in-depth information about the code standards and verification processes in <a href="https://github.com/ethereum/execution-spec-tests/" target="_blank" rel="noopener">ethereum/execution-spec-tests</a>.</p>
 <h2 id="running-tox-environments">Running Tox Environments</h2>
 <h3 id="execution-options">Execution Options</h3>
 <p>Run all <code>tox</code> environments in parallel:</p>
@@ -1302,56 +1317,111 @@
 <p>Certain <code>tox</code> environments can be run automatically as git pre-commit hooks to ensure that your changes meet the project&rsquo;s standards before committing.</p>
 <h3 id="installation">Installation</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>uvx pre-commit install
-</span></span></code></pre></div><p>For more information, see <a href="../dev/precommit.md">Pre-commit Hooks Documentation</a>.</p>
+</span></span></code></pre></div><p>For more information, see <a href="http://localhost:1313/main/dev_docs/precommit/">Pre-commit Hooks Documentation</a>.</p>
 <h2 id="formatting-and-line-length">Formatting and Line Length</h2>
-<p>The Python code in @ethereum/execution-spec-tests is formatted with <code>ruff</code> with a line length of 100 characters.</p>
+<p>The Python code in execution-spec-tests is formatted with <code>ruff</code> with a line length of 100 characters.</p>
 <h3 id="ignoring-bulk-change-commits">Ignoring Bulk Change Commits</h3>
 <p>The maximum line length was changed from 80 to 100 in Q2 2023. To ignore this bulk change commit in git blame output, use the <code>.git-blame-ignore-revs</code> file:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>git blame --ignore-revs-file .git-blame-ignore-revs docs/gen_test_case_reference.py
 </span></span></code></pre></div><p>To use the revs file persistently with <code>git blame</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>git config blame.ignoreRevsFile .git-blame-ignore-revs
 </span></span></code></pre></div><h2 id="building-and-verifying-docs-locally">Building and Verifying Docs Locally</h2>
-<p>To quickly build and browse the HTML documentation locally run:</p>
-<p>=== &ldquo;bash&rdquo;</p>
-<pre><code>```console
-export FAST_DOCS=True
-uv run mkdocs serve
-```
-</code></pre>
-<p>=== &ldquo;fish&rdquo;</p>
-<pre><code>```console
-set -x FAST_DOCS True
-uv run mkdocs serve
-```
-</code></pre>
-<p>Setting <code>FAST_DOCS</code> to <code>False</code> additionally builds the &ldquo;<a href="https://eest.ethereum.org/main/tests/" target="_blank" rel="noopener">Test Case Reference</a>&rdquo; Section.</p>
-<h2 id="verifying-fixture-changes">Verifying Fixture Changes</h2>
+<p>To quickly build and browse the HTML documentation get latest hugo binary, navigate into the <code>docs</code> folder and run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>hugo server
+</span></span></code></pre></div><h2 id="verifying-fixture-changes">Verifying Fixture Changes</h2>
 <p>When writing a PR that modifies either the framework or test cases, verify that changes don&rsquo;t cause issues with existing test cases.</p>
 <p>All filled fixtures contain a <code>hash</code> field in the <code>_info</code> object, which is used to verify that the fixture hasn&rsquo;t changed.</p>
 <h3 id="using-the-hasher-tool">Using the Hasher Tool</h3>
 <p>The <code>hasher</code> command can be used to bulk-verify the hashes of fixtures in a directory.</p>
-<table>
+
+
+
+
+<table class="styled-table">
   <thead>
-      <tr>
-          <th>Flag</th>
-          <th>Description</th>
-      </tr>
+    <tr>
+      
+        <th>Flag</th>
+      
+        <th>Description</th>
+      
+    </tr>
   </thead>
   <tbody>
-      <tr>
-          <td><code>--files</code> / <code>-f</code></td>
-          <td>Prints a combined hash per JSON fixture file.</td>
-      </tr>
-      <tr>
-          <td><code>--tests</code> / <code>-t</code></td>
-          <td>Prints the hash of every test vector in JSON fixture files.</td>
-      </tr>
-      <tr>
-          <td><code>--root</code> / <code>-r</code></td>
-          <td>Prints a combined hash for all JSON fixture files in a directory.</td>
-      </tr>
+    
+      
+      
+        <tr>
+          
+          
+            <td><code>--files</code> / <code>-f</code></td>
+          
+            <td>Prints a combined hash per JSON fixture file</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td><code>--tests</code> / <code>-t</code></td>
+          
+            <td>Prints the hash of every test vector in JSON fixture files</td>
+          
+        </tr>
+      
+    
+      
+      
+        <tr>
+          
+          
+            <td><code>--root</code> / <code>-r</code></td>
+          
+            <td>Prints a combined hash for all JSON fixture files in a directory</td>
+          
+        </tr>
+      
+    
+      
+      
+    
   </tbody>
 </table>
+
+<style>
+.styled-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border: 1px solid #ddd;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table code {
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+</style>
 <p>For a quick comparison between two fixture directories:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-console" data-lang="console"><span style="display:flex;"><span>hasher --root fixtures/
 </span></span><span style="display:flex;"><span>hasher --root fixtures_new/

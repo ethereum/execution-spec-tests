@@ -11,10 +11,10 @@ We encourage contributions and recognize that Python is not everyone's  primary 
 
 Write to:
 
-- Dan on [Discord](https://discordapp.com/users/danceratopz) or [Telegram](https://t.me/danceratopz) (`danceratopz`).
-- Spencer on [Discord](https://discordapp.com/users/spencertaylorbrown) or [Telegram](https://t.me/spencertb) (`spencertaylorbrown`/`@techbro_ccoli`).
-- Mario on [Discord](https://discordapp.com/users/marioevz) or [Telegram](https://t.me/marioevz) (`marioevz`/`@marioevz`).
+- Dan on [Discord](https://discordapp.com/users/danceratopz) or [Telegram](https://t.me/danceratopz).
+- Spencer on [Discord](https://discordapp.com/users/spencertaylorbrown) or [Telegram](https://t.me/spencertb).
+- Mario on [Discord](https://discordapp.com/users/marioevz) or [Telegram](https://t.me/marioevz).
+- Felix on [Discord](https://discordapp.com/users/felix314159_) or [Telegram](https://t.me/felix_eest).
 
-<figure markdown>  <!-- markdownlint-disable MD033 (MD033=no-inline-html) -->
-  ![ukiyo-e style design of 3 furry happy pandas playfully doing experiments on ethereum in a laboratory](img/testing_pandas.png){width="400"}
-</figure>
+
+![ukiyo-e style design of 3 furry happy pandas playfully doing experiments on ethereum in a laboratory](/images/getting_started/testing_pandas.png)

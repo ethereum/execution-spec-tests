@@ -3,7 +3,7 @@ title = 'Detailed Code Standards'
 weight = 30
 +++
 
-This page provides in-depth information about the code standards and verification processes in @ethereum/execution-spec-tests.
+This page provides in-depth information about the code standards and verification processes in [ethereum/execution-spec-tests](https://github.com/ethereum/execution-spec-tests/).
 
 ## Running Tox Environments
 
@@ -94,11 +94,11 @@ Certain `tox` environments can be run automatically as git pre-commit hooks to e
 uvx pre-commit install
 ```
 
-For more information, see [Pre-commit Hooks Documentation](../dev/precommit.md).
+For more information, see [Pre-commit Hooks Documentation]({{< ref "../dev_docs/precommit.md" >}}).
 
 ## Formatting and Line Length
 
-The Python code in @ethereum/execution-spec-tests is formatted with `ruff` with a line length of 100 characters.
+The Python code in execution-spec-tests is formatted with `ruff` with a line length of 100 characters.
 
 ### Ignoring Bulk Change Commits
 
@@ -116,23 +116,12 @@ git config blame.ignoreRevsFile .git-blame-ignore-revs
 
 ## Building and Verifying Docs Locally
 
-To quickly build and browse the HTML documentation locally run:
+To quickly build and browse the HTML documentation get latest hugo binary, navigate into the `docs` folder and run:
 
-=== "bash"
+```console
+hugo server
+```
 
-    ```console
-    export FAST_DOCS=True
-    uv run mkdocs serve
-    ```
-
-=== "fish"
-
-    ```console
-    set -x FAST_DOCS True
-    uv run mkdocs serve
-    ```
-
-Setting `FAST_DOCS` to `False` additionally builds the "[Test Case Reference](https://eest.ethereum.org/main/tests/)" Section.
 
 ## Verifying Fixture Changes
 
@@ -144,11 +133,11 @@ All filled fixtures contain a `hash` field in the `_info` object, which is used 
 
 The `hasher` command can be used to bulk-verify the hashes of fixtures in a directory.
 
-| Flag             | Description                                                       |
-| ---------------- | ----------------------------------------------------------------- |
-| `--files` / `-f` | Prints a combined hash per JSON fixture file.                     |
-| `--tests` / `-t` | Prints the hash of every test vector in JSON fixture files.       |
-| `--root` / `-r`  | Prints a combined hash for all JSON fixture files in a directory. |
+{{< table headers="Flag|Description" >}}
+`--files` / `-f` | Prints a combined hash per JSON fixture file||
+`--tests` / `-t` | Prints the hash of every test vector in JSON fixture files||
+`--root` / `-r`  | Prints a combined hash for all JSON fixture files in a directory||
+{{< /table >}}
 
 For a quick comparison between two fixture directories:
 
