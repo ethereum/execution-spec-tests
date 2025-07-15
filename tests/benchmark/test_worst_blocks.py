@@ -174,6 +174,7 @@ def test_block_full_data(
     intrinsic_cost: int,
     total_cost_floor_per_token: int,
     gas_benchmark_value: int,
+    env: Environment,
 ):
     """Test a block with empty payload."""
     # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
@@ -216,7 +217,7 @@ def test_block_full_data(
     )
 
     state_test(
-        env=Environment(),
+        env=env,
         pre=pre,
         post={},
         tx=tx,
