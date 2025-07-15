@@ -27353,6 +27353,8 @@
 <h3 id="breaking-changes">💥 Breaking Changes<a class="headerlink" href="#breaking-changes" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Python 3.10 support was removed in this release (<a href="https://github.com/ethereum/execution-spec-tests/pull/1808">#1808</a>).</li>
+<li>Tests for the Prague fork are now marked as stable will be included in the <code>fixtures_stable.tar.gz</code> tarball from now on.</li>
+<li>Tests for the Osaka fork are now included in the <code>fixtures_develop.tar.gz</code> tarball.</li>
 </ul>
 <h4 id="important-change-for-eest-developers">💥 Important Change for EEST developers<a class="headerlink" href="#important-change-for-eest-developers" title="Permanent link">&para;</a></h4>
 <ul>
@@ -27442,7 +27444,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability (<a href="https://github.com/ethereum/execution-spec-tests/pull/1673">#1763</a>).</li>
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856">#1856</a>).</li>
 <li>✨ All commands (<code>fill</code>, <code>consume</code>, <code>execute</code>) now work without having to clone the repository, e.g. <code>uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume</code> now works from any folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/1863">#1863</a>).</li>
-<li>🔀 Enforce a minimum version of <code>uv&gt;=0.7.0</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1904">#1904</a>).</li>
+<li>🔀 Move Prague to stable and Osaka to develop (<a href="https://github.com/ethereum/execution-spec-tests/pull/1573">#1573</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
