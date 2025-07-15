@@ -52,12 +52,12 @@ def copy_markdown_file(source_path, destination_path, fix_links=True):
 
 def include_contributing_in_docs():
     """Copy CONTRIBUTING.md to ./docs/ to include in HTML docs."""
-    copy_markdown_file("CONTRIBUTING.md", "getting_started/contributing.md")
+    copy_markdown_file("CONTRIBUTING.md", "../CONTRIBUTING.md")
 
 
 def include_security_in_docs():
     """Copy SECURITY.md to ./docs/getting_started/ to include in HTML docs."""
-    copy_markdown_file("SECURITY.md", "getting_started/security.md")
+    copy_markdown_file("SECURITY.md", "../SECURITY.md")
 
 
 include_contributing_in_docs()
