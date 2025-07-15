@@ -1,4 +1,6 @@
-# EEST Fixture Releases
++++
+title = 'EEST Fixture Releases'
++++
 
 ## Formats and Release Layout
 

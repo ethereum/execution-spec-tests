@@ -1,4 +1,6 @@
-# Methods of Running Tests
++++
+title = 'Methods of Running Tests'
++++
 
 EEST has two commands, `consume` and `execute`, that run test cases against EL clients:
 
