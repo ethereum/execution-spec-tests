@@ -122,7 +122,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
-          ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
+          ref: e13d33ab21ef1fdd2f073c96a3346e23eb7727f6
           path: execution-specs
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}
@@ -165,7 +165,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: ethereum/execution-specs
-          ref: fa847a0e48309debee8edc510ceddb2fd5db2f2e
+          ref: e13d33ab21ef1fdd2f073c96a3346e23eb7727f6
           path: execution-specs
           fetch-depth: 1
       - name: Install uv ${{ vars.UV_VERSION }} and python ${{ matrix.python }}

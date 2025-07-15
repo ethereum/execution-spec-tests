@@ -9,6 +9,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 ### 💥 Breaking Changes
 
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
+- Tests for the Prague fork are now marked as stable will be included in the `fixtures_stable.tar.gz` tarball from now on.
+- Tests for the Osaka fork are now included in the `fixtures_develop.tar.gz` tarball.
 
 #### 💥 Important Change for EEST developers
 
@@ -111,7 +113,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability ([#1763](https://github.com/ethereum/execution-spec-tests/pull/1673)).
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 - ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
-- 🔀 Enforce a minimum version of `uv>=0.7.0` ([#1904](https://github.com/ethereum/execution-spec-tests/pull/1904)).
+- 🔀 Move Prague to stable and Osaka to develop ([#1573](https://github.com/ethereum/execution-spec-tests/pull/1573)).
 
 ### 🧪 Test Cases
 

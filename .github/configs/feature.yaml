@@ -1,15 +1,15 @@
 # Unless filling for special features, all features should fill for previous forks (starting from Frontier) too
 stable:
   evm-type: stable
-  fill-params: --until=Cancun
+  fill-params: --until=Prague
   solc: 0.8.21
 develop:
   evm-type: develop
-  fill-params: --until=Prague
+  fill-params: --until=Osaka
   solc: 0.8.21
 static:
   evm-type: static
-  fill-params: --until=Prague --fill-static-tests ./tests/static
+  fill-params: --until=Osaka --fill-static-tests ./tests/static
   solc: 0.8.21
 benchmark_1M:
   evm-type: benchmark

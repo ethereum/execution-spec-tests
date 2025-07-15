@@ -172,4 +172,4 @@ addopts = [
 required-version = ">=0.7.0"
 
 [tool.uv.sources]
-ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "ee273e7344e24a739ebfbf0ea1f758530c4d032b" }
+ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "38d4d19d9bc9e2aea900aac5c4b511665c294322" }
