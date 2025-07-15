@@ -30,9 +30,7 @@
         "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Prague": {
-        "git_url": "https://github.com/spencer-tb/execution-specs.git",
-        "branch": "master",
-        "commit": "fa74959d2cb7a411121b7835c3e15c5ea0e65bda"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Osaka": {
         "git_url": "https://github.com/spencer-tb/execution-specs.git",
