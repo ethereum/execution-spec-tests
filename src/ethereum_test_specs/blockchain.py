@@ -432,14 +432,15 @@ class BlockchainTest(BaseTest):
             return fixture_format != BlockchainEngineFixture
         return False
 
-    @staticmethod
+    def get_genesis_environment(self, fork: Fork) -> Environment:
+        """Get the genesis environment for pre-allocation groups."""
+        return self.genesis_environment.set_fork_requirements(fork)
+
     def make_genesis(
-        genesis_environment: Environment,
-        pre: Alloc,
-        fork: Fork,
+        self, *, fork: Fork, apply_pre_allocation_blockchain: bool
     ) -> Tuple[Alloc, FixtureBlock]:
         """Create a genesis block from the blockchain test definition."""
-        env = genesis_environment.set_fork_requirements(fork)
+        env = self.get_genesis_environment(fork)
         assert env.withdrawals is None or len(env.withdrawals) == 0, (
             "withdrawals must be empty at genesis"
         )
@@ -447,10 +448,12 @@ class BlockchainTest(BaseTest):
             "parent_beacon_block_root must be empty at genesis"
         )
 
-        pre_alloc = Alloc.merge(
-            Alloc.model_validate(fork.pre_allocation_blockchain()),
-            pre,
-        )
+        pre_alloc = self.pre
+        if apply_pre_allocation_blockchain:
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation_blockchain()),
+                pre_alloc,
+            )
         if empty_accounts := pre_alloc.empty_accounts():
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
         state_root = pre_alloc.state_root()
@@ -635,7 +638,7 @@ class BlockchainTest(BaseTest):
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis = BlockchainTest.make_genesis(self.genesis_environment, self.pre, fork)
+        pre, genesis = self.make_genesis(fork=fork, apply_pre_allocation_blockchain=True)
 
         alloc = pre
         env = environment_from_parent_header(genesis.header)
@@ -692,7 +695,10 @@ class BlockchainTest(BaseTest):
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, genesis = BlockchainTest.make_genesis(self.genesis_environment, self.pre, fork)
+        pre, genesis = self.make_genesis(
+            fork=fork,
+            apply_pre_allocation_blockchain=fixture_format != BlockchainEngineXFixture,
+        )
         alloc = pre
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash
@@ -787,10 +793,6 @@ class BlockchainTest(BaseTest):
             )
             return BlockchainEngineFixture(**fixture_data)
 
-    def get_genesis_environment(self, fork: Fork) -> Environment:
-        """Get the genesis environment for pre-allocation groups."""
-        return self.genesis_environment
-
     def generate(
         self,
         t8n: TransitionTool,
@@ -799,9 +801,7 @@ class BlockchainTest(BaseTest):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
-        if fixture_format == BlockchainEngineFixture:
-            return self.make_hive_fixture(t8n, fork, fixture_format)
-        elif fixture_format == BlockchainEngineXFixture:
+        if fixture_format in [BlockchainEngineFixture, BlockchainEngineXFixture]:
             return self.make_hive_fixture(t8n, fork, fixture_format)
         elif fixture_format == BlockchainFixture:
             return self.make_fixture(t8n, fork)

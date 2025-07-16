@@ -32,7 +32,7 @@ class MockTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Return the genesis environment."""
-        return self.genesis_environment
+        return self.genesis_environment.set_fork_requirements(fork)
 
 
 def test_pre_alloc_group_separate():

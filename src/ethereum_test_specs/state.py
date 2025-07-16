@@ -242,7 +242,7 @@ class StateTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
-        return self._generate_blockchain_genesis_environment(fork=fork)
+        return self._generate_blockchain_genesis_environment(fork=fork).set_fork_requirements(fork)
 
     def generate(
         self,
