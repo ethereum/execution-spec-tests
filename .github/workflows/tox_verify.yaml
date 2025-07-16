@@ -182,7 +182,7 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install linux dependencies
         if: matrix.python == 'pypy3.11' && contains(matrix.os, 'self-hosted-ghr')
-        run: sudo apt-get install -y pkg-config libsecp256k1-dev
+        run: sudo apt-get install -y pkg-config libsecp256k1-dev libjpeg-dev libxml2-dev libxslt1-dev
       - name: Update eels_resolutions.json
         run: |
           sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
