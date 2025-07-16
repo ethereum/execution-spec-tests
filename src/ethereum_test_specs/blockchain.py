@@ -17,6 +17,7 @@ from ethereum_test_base_types import (
     HeaderNonce,
     HexNumber,
     Number,
+    ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import (
     BlockException,
@@ -434,7 +435,9 @@ class BlockchainTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
-        return self.genesis_environment.set_fork_requirements(fork)
+        env = self.genesis_environment.set_fork_requirements(fork)
+        env.number = ZeroPaddedHexNumber(0)
+        return env
 
     def make_genesis(
         self, *, fork: Fork, apply_pre_allocation_blockchain: bool
