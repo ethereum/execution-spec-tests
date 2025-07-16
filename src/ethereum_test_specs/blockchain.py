@@ -17,7 +17,6 @@ from ethereum_test_base_types import (
     HeaderNonce,
     HexNumber,
     Number,
-    ZeroPaddedHexNumber,
 )
 from ethereum_test_exceptions import (
     BlockException,
@@ -386,6 +385,18 @@ class BuiltBlock(CamelModel):
         )
 
 
+GENESIS_DEFAULTS: Dict[str, Any] = {
+    "fee_recipient": 0,
+    "number": 0,
+    "timestamp": 0,
+    "extra_data": b"\x00",
+    "prev_randao": 0,
+}
+"""
+Default values for the genesis environment that are used to create all genesis headers.
+"""
+
+
 class BlockchainTest(BaseTest):
     """Filler type that tests multiple blocks (valid or invalid) in a chain."""
 
@@ -435,9 +446,10 @@ class BlockchainTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
-        env = self.genesis_environment.set_fork_requirements(fork)
-        env.number = ZeroPaddedHexNumber(0)
-        return env
+        modified_values = self.genesis_environment.set_fork_requirements(fork).model_dump(
+            exclude_unset=True
+        )
+        return Environment(**(GENESIS_DEFAULTS | modified_values))
 
     def make_genesis(
         self, *, fork: Fork, apply_pre_allocation_blockchain: bool
