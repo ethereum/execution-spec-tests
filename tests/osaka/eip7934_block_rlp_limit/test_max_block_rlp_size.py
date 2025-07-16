@@ -4,7 +4,7 @@ abstract: Test [EIP-7934: RLP Execution Block Size Limit](https://eips.ethereum.
 """
 
 from functools import lru_cache
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 import pytest
 
@@ -107,9 +107,9 @@ def exact_size_transactions(
     sender: EOA,
     block_size_limit: int,
     fork: Fork,
-    pre: Optional[Alloc],
+    pre: Alloc,
     emit_logs: bool = False,
-    specific_transaction_to_include: Optional[Transaction] = None,
+    specific_transaction_to_include: Transaction | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Generate transactions that fill a block to exactly the RLP size limit.
@@ -180,7 +180,7 @@ def exact_size_transactions(
 def _exact_size_transactions_cached(
     block_size_limit: int,
     fork: Fork,
-    emit_logs_contract: Optional[Address] = None,
+    emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Generate transactions that fill a block to exactly the RLP size limit. Abstracted
@@ -192,8 +192,8 @@ def _exact_size_transactions_cached(
 def _exact_size_transactions_impl(
     block_size_limit: int,
     fork: Fork,
-    specific_transaction_to_include: Optional[Transaction] = None,
-    emit_logs_contract: Optional[Address] = None,
+    specific_transaction_to_include: Transaction | None = None,
+    emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
     Calculate the exact size of transactions to be included. Shared by both cached and

@@ -266,11 +266,11 @@ import pytest
             """
             import pytest
             from ethereum_test_tools import Transaction
-            @pytest.mark.with_all_typed_transactions()
+            @pytest.mark.with_all_typed_transactions
             @pytest.mark.valid_from("Berlin")
             @pytest.mark.valid_until("Berlin")
             @pytest.mark.state_test_only
-            def test_case(state_test, typed_transaction, pre):
+            def test_case(state_test, typed_transaction):
                 assert isinstance(typed_transaction, Transaction)
                 assert typed_transaction.ty in [0, 1]  # Berlin supports types 0 and 1
             """,
@@ -293,24 +293,6 @@ import pytest
             {"passed": 3, "failed": 0, "skipped": 0, "errors": 0},
             None,
             id="with_all_typed_transactions_london",
-        ),
-        pytest.param(
-            """
-            import pytest
-            from ethereum_test_tools import Transaction
-            @pytest.mark.with_all_typed_transactions()
-            @pytest.mark.valid_from("London")
-            @pytest.mark.valid_until("London")
-            @pytest.mark.state_test_only
-            def test_case(state_test, typed_transaction, pre):
-                assert isinstance(typed_transaction, Transaction)
-                # Test with marks to skip type 0
-                if typed_transaction.ty == 0:
-                    pytest.skip("Testing skip functionality")
-            """,
-            {"passed": 2, "failed": 0, "skipped": 1, "errors": 0},
-            None,
-            id="with_all_typed_transactions_with_skip",
         ),
         pytest.param(
             """

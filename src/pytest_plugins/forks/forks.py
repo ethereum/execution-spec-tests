@@ -25,8 +25,7 @@ from ethereum_test_forks import (
     transition_fork_to,
 )
 
-# Import transaction fixtures to make them available when this plugin is loaded
-from .transaction_fixtures import (  # noqa: F401
+from ..shared.transaction_fixtures import (  # noqa: F401
     type_0_default_transaction,
     type_1_default_transaction,
     type_2_default_transaction,
@@ -267,6 +266,8 @@ class CovariantDecorator(CovariantDescriptor):
         description: Description of the marker.
         fork_attribute_name: Name of the method to call on the fork to get the values.
         marker_parameter_names: Names of the parameters to be parametrized in the test function.
+        indirect: Whether the parameters should be passed through fixtures (indirect
+            parametrization).
 
     """
 
@@ -274,6 +275,7 @@ class CovariantDecorator(CovariantDescriptor):
     description: ClassVar[str]
     fork_attribute_name: ClassVar[str]
     marker_parameter_names: ClassVar[List[str]]
+    indirect: ClassVar[bool]
 
     def __init__(self, metafunc: Metafunc):
         """
@@ -327,6 +329,7 @@ def covariant_decorator(
     description: str,
     fork_attribute_name: str,
     argnames: List[str],
+    indirect: bool = False,
 ) -> Type[CovariantDecorator]:
     """Generate a new covariant decorator subclass."""
     return type(
@@ -337,6 +340,7 @@ def covariant_decorator(
             "description": description,
             "fork_attribute_name": fork_attribute_name,
             "marker_parameter_names": argnames,
+            "indirect": indirect,
         },
     )
 
@@ -350,18 +354,21 @@ fork_covariant_decorators: List[Type[CovariantDecorator]] = [
         argnames=["tx_type"],
     ),
     covariant_decorator(
-        marker_name="with_all_typed_transactions",
-        description="marks a test to be parametrized with transaction types, the typed_tx fixture "
-        "will provide the corresponding Transaction object for each type",
-        fork_attribute_name="tx_types",
-        argnames=["typed_transaction"],
-    ),
-    covariant_decorator(
         marker_name="with_all_contract_creating_tx_types",
         description="marks a test to be parametrized for all tx types that can create a contract"
         " at parameter named tx_type of type int",
         fork_attribute_name="contract_creating_tx_types",
         argnames=["tx_type"],
+    ),
+    covariant_decorator(
+        marker_name="with_all_typed_transactions",
+        description="marks a test to be parametrized with default typed transactions named "
+        "typed_transaction",
+        fork_attribute_name="tx_types",
+        argnames=["typed_transaction"],
+        # indirect means the values from `tx_types` will be passed to the
+        # `typed_transaction` fixture which will then be used in the test
+        indirect=True,
     ),
     covariant_decorator(
         marker_name="with_all_precompiles",
@@ -989,27 +996,15 @@ def add_fork_covariant_parameters(
     metafunc: Metafunc, fork_parametrizers: List[ForkParametrizer]
 ) -> None:
     """Iterate over the fork covariant descriptors and add their values to the test function."""
-    # Special handling for with_all_typed_transactions
-    if list(metafunc.definition.iter_markers("with_all_typed_transactions")):
-        # This marker needs special handling for indirect parametrization
-        for fork_parametrizer in fork_parametrizers:
-            fork = fork_parametrizer.fork
-            tx_types = fork.tx_types(block_number=0, timestamp=0)
-            values = [pytest.param(tx_type) for tx_type in tx_types]
-            fork_parametrizer.fork_covariant_parameters.append(
-                ForkCovariantParameter(names=["typed_transaction"], values=values)
-            )
-    else:
-        # Regular covariant descriptors
-        for covariant_descriptor in fork_covariant_decorators:
-            # Skip with_all_typed_transactions as it's handled above
-            if covariant_descriptor.marker_name == "with_all_typed_transactions":
-                continue
+    # Process all covariant decorators uniformly
+    for covariant_descriptor in fork_covariant_decorators:
+        if list(metafunc.definition.iter_markers(covariant_descriptor.marker_name)):
             for fork_parametrizer in fork_parametrizers:
                 covariant_descriptor(metafunc=metafunc).add_values(
                     fork_parametrizer=fork_parametrizer
                 )
 
+    # Handle custom parametrize_by_fork markers
     for marker in metafunc.definition.iter_markers():
         if marker.name == "parametrize_by_fork":
             descriptor = CovariantDescriptor(
@@ -1065,9 +1060,14 @@ def parametrize_fork(metafunc: Metafunc, fork_parametrizers: List[ForkParametriz
     """Add the fork parameters to the test function."""
     param_names, param_values = parameters_from_fork_parametrizer_list(fork_parametrizers)
 
-    # Check if typed_transaction is in the parameters and needs indirect parametrization
+    # Collect all parameters that should be indirect from the decorators
     indirect = []
-    if "typed_transaction" in param_names:
-        indirect.append("typed_transaction")
+    for covariant_descriptor in fork_covariant_decorators:
+        if (
+            list(metafunc.definition.iter_markers(covariant_descriptor.marker_name))
+            and covariant_descriptor.indirect
+        ):
+            # Add all argnames from this decorator to indirect list
+            indirect.extend(covariant_descriptor.marker_parameter_names)
 
     metafunc.parametrize(param_names, param_values, scope="function", indirect=indirect)

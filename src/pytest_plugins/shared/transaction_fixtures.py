@@ -12,9 +12,8 @@ from ethereum_test_types import AuthorizationTuple, Transaction, add_kzg_version
 
 
 @pytest.fixture
-def type_0_default_transaction(pre):
+def type_0_default_transaction(sender):
     """Type 0 (legacy) default transaction available in all forks."""
-    sender = pre.fund_eoa()
     return Transaction(
         ty=0,
         sender=sender,
@@ -25,9 +24,8 @@ def type_0_default_transaction(pre):
 
 
 @pytest.fixture
-def type_1_default_transaction(pre):
+def type_1_default_transaction(sender):
     """Type 1 (access list) default transaction introduced in Berlin fork."""
-    sender = pre.fund_eoa()
     return Transaction(
         ty=1,
         sender=sender,
@@ -43,9 +41,8 @@ def type_1_default_transaction(pre):
 
 
 @pytest.fixture
-def type_2_default_transaction(pre):
+def type_2_default_transaction(sender):
     """Type 2 (dynamic fee) default transaction introduced in London fork."""
-    sender = pre.fund_eoa()
     return Transaction(
         ty=2,
         sender=sender,
@@ -61,9 +58,8 @@ def type_2_default_transaction(pre):
 
 
 @pytest.fixture
-def type_3_default_transaction(pre):
+def type_3_default_transaction(sender):
     """Type 3 (blob) default transaction introduced in Cancun fork."""
-    sender = pre.fund_eoa()
     return Transaction(
         ty=3,
         sender=sender,
@@ -87,10 +83,8 @@ def type_3_default_transaction(pre):
 
 
 @pytest.fixture
-def type_4_default_transaction(pre):
+def type_4_default_transaction(sender, pre):
     """Type 4 (set code) default transaction introduced in Prague fork."""
-    sender = pre.fund_eoa()
-
     # Create authorized accounts with funds
     auth_signer1 = pre.fund_eoa(amount=10**18)
     auth_signer2 = pre.fund_eoa(amount=10**18)
