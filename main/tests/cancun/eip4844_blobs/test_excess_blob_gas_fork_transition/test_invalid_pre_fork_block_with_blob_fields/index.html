@@ -4108,6 +4108,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4164,6 +4168,52 @@
   
   <span class="md-ellipsis">
     <code>test_block_at_rlp_size_limit_boundary</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_limit_with_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_logs</code>
     
   </span>
   
@@ -25411,7 +25461,7 @@
 
 
 <h1 id="test_invalid_pre_fork_block_with_blob_fields"><code>test_invalid_pre_fork_block_with_blob_fields()</code><a class="headerlink" href="#test_invalid_pre_fork_block_with_blob_fields" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb969b664eae97ae0173492e0148225da1ce6ec2/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L209"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_pre_fork_block_with_blob_fields@cb969b66</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5064c1ce28849f305bbb35ff526757a25146bb09/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L203"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_pre_fork_block_with_blob_fields@5064c1ce</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_pre_fork_block_with_blob_fields --fork Osaka</span>
@@ -25434,7 +25484,13 @@ must be rejected with the appropriate <code>EngineAPIError.InvalidParams</code> 
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">209</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
@@ -25470,13 +25526,7 @@ must be rejected with the appropriate <code>EngineAPIError.InvalidParams</code> 
 <span class="normal">242</span>
 <span class="normal">243</span>
 <span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_present,blob_gas_used_present&quot;</span><span class="p">,</span>
     <span class="p">[</span>

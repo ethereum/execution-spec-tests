@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../../eip7939_count_leading_zeros/">
+        <link rel="next" href="../test_block_rlp_size_at_limit_with_all_typed_transactions/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -4114,6 +4114,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4235,6 +4239,52 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_block_at_rlp_limit_with_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_logs</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -25411,7 +25461,7 @@
 
 
 <h1 id="test_block_at_rlp_size_limit_boundary"><code>test_block_at_rlp_size_limit_boundary()</code><a class="headerlink" href="#test_block_at_rlp_size_limit_boundary" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb969b664eae97ae0173492e0148225da1ce6ec2/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L250"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary@cb969b66</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5064c1ce28849f305bbb35ff526757a25146bb09/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L368"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary@5064c1ce</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary --fork Osaka</span>
@@ -25436,57 +25486,63 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
-<span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span>
+<span class="normal">405</span>
+<span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_rlp_size_minus_1_byte&quot;</span><span class="p">),</span>
@@ -25498,9 +25554,10 @@
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">block_size_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">exact_size_transactions</span><span class="p">,</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">EOA</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">block_size_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">delta</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -25510,7 +25567,12 @@
 <span class="sd">    - At the limit, the block is valid</span>
 <span class="sd">    - At the limit + 1 byte, the block is invalid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span> <span class="o">=</span> <span class="n">exact_size_transactions</span>
+    <span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span> <span class="o">=</span> <span class="n">exact_size_transactions</span><span class="p">(</span>
+        <span class="n">sender</span><span class="p">,</span>
+        <span class="n">block_size_limit</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">,</span>
+        <span class="n">pre</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">block_rlp_size</span> <span class="o">=</span> <span class="n">get_block_rlp_size</span><span class="p">(</span><span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span><span class="o">=</span><span class="n">gas_used</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">block_rlp_size</span> <span class="o">==</span> <span class="n">block_size_limit</span><span class="p">,</span> <span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;Block RLP size </span><span class="si">{</span><span class="n">block_rlp_size</span><span class="si">}</span><span class="s2"> does not exactly match limit </span><span class="si">{</span><span class="n">block_size_limit</span><span class="si">}</span><span class="s2">, &quot;</span>
@@ -25668,13 +25730,13 @@
         
         
           
-          <a href="../../../eip7939_count_leading_zeros/" class="md-footer__link md-footer__link--next" aria-label="Next: EIP-7939 Count Leading Zeros">
+          <a href="../test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_block_rlp_size_at_limit_with_all_typed_transactions&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                EIP-7939 Count Leading Zeros
+                <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

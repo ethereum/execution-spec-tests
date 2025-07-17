@@ -4108,6 +4108,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4164,6 +4168,52 @@
   
   <span class="md-ellipsis">
     <code>test_block_at_rlp_size_limit_boundary</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_limit_with_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_logs</code>
     
   </span>
   
@@ -25411,7 +25461,7 @@
 
 
 <h1 id="test_tx_entry_point"><code>test_tx_entry_point()</code><a class="headerlink" href="#test_tx_entry_point" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb969b664eae97ae0173492e0148225da1ce6ec2/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L513"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point@cb969b66</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5064c1ce28849f305bbb35ff526757a25146bb09/tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py#L507"><code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point@5064c1ce</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py::test_tx_entry_point --fork Osaka</span>
@@ -25436,7 +25486,13 @@ transaction entry point, and measure the gas consumption.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_point_evaluation_precompile.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">513</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
 <span class="normal">514</span>
 <span class="normal">515</span>
 <span class="normal">516</span>
@@ -25508,13 +25564,7 @@ transaction entry point, and measure the gas consumption.</p>
 <span class="normal">582</span>
 <span class="normal">583</span>
 <span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span>
-<span class="normal">587</span>
-<span class="normal">588</span>
-<span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">585</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;call_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">POINT_EVALUATION_PRECOMPILE_GAS</span><span class="p">),</span>

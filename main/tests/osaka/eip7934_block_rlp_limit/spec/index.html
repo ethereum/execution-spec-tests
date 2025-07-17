@@ -4172,6 +4172,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4228,6 +4232,52 @@
   
   <span class="md-ellipsis">
     <code>test_block_at_rlp_size_limit_boundary</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_max_block_rlp_size/test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_max_block_rlp_size/test_block_at_rlp_limit_with_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_logs</code>
     
   </span>
   
@@ -25409,7 +25459,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/cb969b664eae97ae0173492e0148225da1ce6ec2/tests/osaka/eip7934_block_rlp_limit/spec.py"><code>tests/osaka/eip7934_block_rlp_limit/spec.py@cb969b66</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5064c1ce28849f305bbb35ff526757a25146bb09/tests/osaka/eip7934_block_rlp_limit/spec.py"><code>tests/osaka/eip7934_block_rlp_limit/spec.py@5064c1ce</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -25480,7 +25530,8 @@
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-7934 specifications as defined at</span>
@@ -25490,6 +25541,7 @@
     <span class="n">MAX_BLOCK_SIZE</span> <span class="o">=</span> <span class="mi">10_485_760</span>  <span class="c1"># 10 MiB</span>
     <span class="n">SAFETY_MARGIN</span> <span class="o">=</span> <span class="mi">2_097_152</span>  <span class="c1"># 2 MiB</span>
     <span class="n">MAX_RLP_BLOCK_SIZE</span> <span class="o">=</span> <span class="n">MAX_BLOCK_SIZE</span> <span class="o">-</span> <span class="n">SAFETY_MARGIN</span>  <span class="c1"># 8_388_608 bytes</span>
+    <span class="n">BLOB_COMMITMENT_VERSION_KZG</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">exceed_max_rlp_block_size</span><span class="p">(</span><span class="n">rlp_encoded_block</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>

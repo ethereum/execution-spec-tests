@@ -5135,6 +5135,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -5191,6 +5195,52 @@
   
   <span class="md-ellipsis">
     <code>test_block_at_rlp_size_limit_boundary</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_rlp_size_at_limit_with_all_typed_transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_rlp_size_at_limit_with_all_typed_transactions</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size/test_block_at_rlp_limit_with_logs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_at_rlp_limit_with_logs</code>
     
   </span>
   
@@ -27445,6 +27495,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages (<a href="https://github.com/ethereum/execution-spec-tests/pull/1739">#1739</a>, <a href="https://github.com/ethereum/execution-spec-tests/pull/1856">#1856</a>).</li>
 <li>✨ All commands (<code>fill</code>, <code>consume</code>, <code>execute</code>) now work without having to clone the repository, e.g. <code>uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume</code> now works from any folder (<a href="https://github.com/ethereum/execution-spec-tests/pull/1863">#1863</a>).</li>
 <li>🔀 Move Prague to stable and Osaka to develop (<a href="https://github.com/ethereum/execution-spec-tests/pull/1573">#1573</a>).</li>
+<li>✨ Add a <code>pytest.mark.with_all_typed_transactions</code> marker that creates default typed transactions for each <code>tx_type</code> supported by the current <code>fork</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1890">#1890</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
@@ -27459,6 +27510,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7934">EIP-7934</a>: Add test cases for the block RLP max limit of 10MiB (<a href="https://github.com/ethereum/execution-spec-tests/pull/1730">#1730</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7939">EIP-7939</a> Add count leading zeros (CLZ) opcode tests for Osaka (<a href="https://github.com/ethereum/execution-spec-tests/pull/1733">#1733</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7918">EIP-7918</a>: Blob base fee bounded by execution cost test cases (initial), includes some adjustments to <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844</a> tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1685">#1685</a>). Update the blob_base_cost (<a href="https://github.com/ethereum/EIPs/pull/1915">#1915</a>).</li>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7934">EIP-7934</a>: Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1890">#1890</a>).</li>
 </ul>
 <h2 id="v450-2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0">v4.5.0</a> - 2025-05-14<a class="headerlink" href="#v450-2025-05-14" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
