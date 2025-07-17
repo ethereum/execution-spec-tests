@@ -1,31 +1,17 @@
 """Pre-allocation group models for test fixture generation."""
 
+import json
 from pathlib import Path
 from typing import Any, Dict, List
 
 from filelock import FileLock
 from pydantic import Field, computed_field
 
-from ethereum_test_base_types import Account, Address, CamelModel, EthereumTestRootModel
+from ethereum_test_base_types import CamelModel, EthereumTestRootModel
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment
-from ethereum_test_types.account_types import CollisionError
 
 from .blockchain import FixtureHeader
-
-
-class Collision(CamelModel):
-    """Model to describe two different accounts set to the same addres by two different tests."""
-
-    address: Address
-    account_1: Account
-    account_2: Account
-
-    def exception(self) -> CollisionError:
-        """Return the collision exception."""
-        return CollisionError(
-            address=self.address, account_1=self.account_1, account_2=self.account_2
-        )
 
 
 class PreAllocGroup(CamelModel):
@@ -83,14 +69,14 @@ class PreAllocGroup(CamelModel):
                             # and is not reported to the master thread.
                             # We signal here that the groups created contain a collision.
                             collision_file_path = file.with_suffix(".fail")
-                            collision_exception = Collision(
+                            collision_exception = Alloc.CollisionError(
                                 address=account,
                                 account_1=existing_account,
                                 account_2=new_account,
                             )
                             with open(collision_file_path, "w") as f:
-                                f.write(collision_exception.model_dump_json(indent=2))
-                            raise collision_exception.exception()
+                                f.write(json.dumps(collision_exception.to_json()))
+                            raise collision_exception
                 self.test_ids.extend(previous_pre_alloc_group.test_ids)
 
             with open(file, "w") as f:
@@ -112,7 +98,7 @@ class PreAllocGroups(EthereumTestRootModel):
         # First check for collision failures
         for fail_file in folder.glob("*.fail"):
             with open(fail_file) as f:
-                raise Collision.model_validate_json(f.read()).exception()
+                raise Alloc.CollisionError.from_json(json.loads(f.read()))
         data = {}
         for file in folder.glob("*.json"):
             with open(file) as f:

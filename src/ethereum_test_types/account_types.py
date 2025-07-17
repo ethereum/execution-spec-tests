@@ -1,14 +1,14 @@
 """Account-related types for Ethereum tests."""
 
+import json
 from dataclasses import dataclass, field
 from enum import Enum, auto
-from typing import Dict, List, Literal, Optional, Tuple
+from typing import Any, Dict, List, Literal, Optional, Self, Tuple
 
 from coincurve.keys import PrivateKey
 from ethereum_types.bytes import Bytes20
 from ethereum_types.numeric import U256, Bytes32, Uint
 from pydantic import PrivateAttr
-from typing_extensions import Self
 
 from ethereum_test_base_types import (
     Account,
@@ -133,25 +133,6 @@ class EOA(Address):
         return self.__class__(Address(self), key=self.key, nonce=self.nonce)
 
 
-class CollisionError(Exception):
-    """Exception raised when two tests describe different accounts at the same address."""
-
-    def __init__(self, address: Address, account_1: Account, account_2: Account):
-        """Initialize the exception."""
-        self.address = address
-        self.account_1 = account_1
-        self.account_2 = account_2
-
-    def __str__(self) -> str:
-        """Exception message."""
-        return (
-            "Overlapping key defining different accounts detected:\n"
-            f"address={self.address}:\n"
-            f"account_1={self.account_1.model_dump_json(indent=2)}\n"
-            f"account_2={self.account_2.model_dump_json(indent=2)}"
-        )
-
-
 class Alloc(BaseAlloc):
     """Allocation of accounts in the state, pre and post test execution."""
 
@@ -164,12 +145,6 @@ class Alloc(BaseAlloc):
         address: Address
         account: Account | None
 
-        def __init__(self, address: Address, account: Account | None, *args):
-            """Initialize the exception."""
-            super().__init__(args)
-            self.address = address
-            self.account = account
-
         def __str__(self):
             """Print exception string."""
             return f"unexpected account in allocation {self.address}: {self.account}"
@@ -180,14 +155,49 @@ class Alloc(BaseAlloc):
 
         address: Address
 
-        def __init__(self, address: Address, *args):
-            """Initialize the exception."""
-            super().__init__(args)
-            self.address = address
-
         def __str__(self):
             """Print exception string."""
             return f"Account missing from allocation {self.address}"
+
+    @dataclass(kw_only=True)
+    class CollisionError(Exception):
+        """Different accounts at the same address."""
+
+        address: Address
+        account_1: Account | None
+        account_2: Account | None
+
+        def to_json(self) -> Dict[str, Any]:
+            """Dump to json object."""
+            return {
+                "address": self.address.hex(),
+                "account_1": self.account_1.model_dump(mode="json")
+                if self.account_1 is not None
+                else None,
+                "account_2": self.account_2.model_dump(mode="json")
+                if self.account_2 is not None
+                else None,
+            }
+
+        @classmethod
+        def from_json(cls, obj: Dict[str, Any]) -> Self:
+            """Parse from a json dict."""
+            return cls(
+                address=Address(obj["address"]),
+                account_1=Account.model_validate(obj["account_1"])
+                if obj["account_1"] is not None
+                else None,
+                account_2=Account.model_validate(obj["account_2"])
+                if obj["account_2"] is not None
+                else None,
+            )
+
+        def __str__(self) -> str:
+            """Print exception string."""
+            return (
+                "Overlapping key defining different accounts detected:\n"
+                f"{json.dumps(self.to_json(), indent=2)}"
+            )
 
     class KeyCollisionMode(Enum):
         """Mode for handling key collisions when merging allocations."""
@@ -216,7 +226,7 @@ class Alloc(BaseAlloc):
                     account_1 = alloc_1[key]
                     account_2 = alloc_2[key]
                     if account_1 != account_2:
-                        raise CollisionError(
+                        raise Alloc.CollisionError(
                             address=key,
                             account_1=account_1,
                             account_2=account_2,
@@ -309,7 +319,9 @@ class Alloc(BaseAlloc):
             if account is None:
                 # Account must not exist
                 if address in got_alloc.root and got_alloc.root[address] is not None:
-                    raise Alloc.UnexpectedAccountError(address, got_alloc.root[address])
+                    raise Alloc.UnexpectedAccountError(
+                        address=address, account=got_alloc.root[address]
+                    )
             else:
                 if address in got_alloc.root:
                     got_account = got_alloc.root[address]
@@ -317,7 +329,7 @@ class Alloc(BaseAlloc):
                     assert isinstance(account, Account)
                     account.check_alloc(address, got_account)
                 else:
-                    raise Alloc.MissingAccountError(address)
+                    raise Alloc.MissingAccountError(address=address)
 
     def deploy_contract(
         self,
