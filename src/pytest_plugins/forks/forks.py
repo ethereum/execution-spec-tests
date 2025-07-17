@@ -25,15 +25,6 @@ from ethereum_test_forks import (
     transition_fork_to,
 )
 
-from ..shared.transaction_fixtures import (  # noqa: F401
-    type_0_default_transaction,
-    type_1_default_transaction,
-    type_2_default_transaction,
-    type_3_default_transaction,
-    type_4_default_transaction,
-    typed_transaction,
-)
-
 
 def pytest_addoption(parser):
     """Add command-line options to pytest."""

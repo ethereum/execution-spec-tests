@@ -156,5 +156,5 @@ def typed_transaction(request, fork):
             f"fixture '{fixture_name}' is not implemented!\n"
             f"Fork {fork} supports transaction types: {supported_types}\n"
             f"Please add the missing fixture to "
-            f"src/pytest_plugins/pytest_fixtures/transaction_fixtures.py"
+            f"src/pytest_plugins/shared/transaction_fixtures.py"
         ) from e
