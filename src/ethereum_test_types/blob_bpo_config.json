@@ -1,0 +1,37 @@
+{
+    "blobSchedule": {
+        "cancun": {
+            "target": 3,
+            "max": 6,
+            "baseFeeUpdateFraction": 3338477
+        },
+        "prague": {
+            "target": 6,
+            "max": 9,
+            "baseFeeUpdateFraction": 5007716
+        },
+        "osaka": {
+            "target": 6,
+            "max": 9,
+            "maxBlobsPerTx": 6,
+            "baseFeeUpdateFraction": 5007716
+        },
+        "bpo1": {
+            "target": 12,
+            "max": 16,
+            "maxBlobsPerTx": 12,
+            "baseFeeUpdateFraction": 5007716
+        },
+        "bpo2": {
+            "target": 16,
+            "max": 24,
+            "maxBlobsPerTx": 12,
+            "baseFeeUpdateFraction": 5007716
+        }
+    },
+"cancunTime": 0,
+"pragueTime": 0,
+"osakaTime": 1747387400,
+"bpo1Time": 1757387400,
+"bpo2Time": 1767387784
+}
