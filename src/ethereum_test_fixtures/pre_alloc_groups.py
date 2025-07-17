@@ -6,11 +6,26 @@ from typing import Any, Dict, List
 from filelock import FileLock
 from pydantic import Field, computed_field
 
-from ethereum_test_base_types import CamelModel, EthereumTestRootModel
+from ethereum_test_base_types import Account, Address, CamelModel, EthereumTestRootModel
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment
+from ethereum_test_types.account_types import CollisionError
 
 from .blockchain import FixtureHeader
+
+
+class Collision(CamelModel):
+    """Model to describe two different accounts set to the same addres by two different tests."""
+
+    address: Address
+    account_1: Account
+    account_2: Account
+
+    def exception(self) -> CollisionError:
+        """Return the collision exception."""
+        return CollisionError(
+            address=self.address, account_1=self.account_1, account_2=self.account_2
+        )
 
 
 class PreAllocGroup(CamelModel):
@@ -57,10 +72,26 @@ class PreAllocGroup(CamelModel):
             if file.exists():
                 with open(file, "r") as f:
                     previous_pre_alloc_group = PreAllocGroup.model_validate_json(f.read())
-                    for account in previous_pre_alloc_group.pre:
-                        if account not in self.pre:
-                            self.pre[account] = previous_pre_alloc_group.pre[account]
-                    self.test_ids.extend(previous_pre_alloc_group.test_ids)
+                for account in previous_pre_alloc_group.pre:
+                    existing_account = previous_pre_alloc_group.pre[account]
+                    if account not in self.pre:
+                        self.pre[account] = existing_account
+                    else:
+                        new_account = self.pre[account]
+                        if new_account != existing_account:
+                            # This procedure fails during xdist worker's pytest_sessionfinish
+                            # and is not reported to the master thread.
+                            # We signal here that the groups created contain a collision.
+                            collision_file_path = file.with_suffix(".fail")
+                            collision_exception = Collision(
+                                address=account,
+                                account_1=existing_account,
+                                account_2=new_account,
+                            )
+                            with open(collision_file_path, "w") as f:
+                                f.write(collision_exception.model_dump_json(indent=2))
+                            raise collision_exception.exception()
+                self.test_ids.extend(previous_pre_alloc_group.test_ids)
 
             with open(file, "w") as f:
                 f.write(self.model_dump_json(by_alias=True, exclude_none=True, indent=2))
@@ -78,6 +109,10 @@ class PreAllocGroups(EthereumTestRootModel):
     @classmethod
     def from_folder(cls, folder: Path) -> "PreAllocGroups":
         """Create PreAllocGroups from a folder of pre-allocation files."""
+        # First check for collision failures
+        for fail_file in folder.glob("*.fail"):
+            with open(fail_file) as f:
+                raise Collision.model_validate_json(f.read()).exception()
         data = {}
         for file in folder.glob("*.json"):
             with open(file) as f:
