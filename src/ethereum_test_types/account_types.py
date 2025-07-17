@@ -1,6 +1,7 @@
 """Account-related types for Ethereum tests."""
 
 from dataclasses import dataclass, field
+from enum import Enum, auto
 from typing import Dict, List, Literal, Optional, Tuple
 
 from coincurve.keys import PrivateKey
@@ -132,6 +133,25 @@ class EOA(Address):
         return self.__class__(Address(self), key=self.key, nonce=self.nonce)
 
 
+class CollisionError(Exception):
+    """Exception raised when two tests describe different accounts at the same address."""
+
+    def __init__(self, address: Address, account_1: Account, account_2: Account):
+        """Initialize the exception."""
+        self.address = address
+        self.account_1 = account_1
+        self.account_2 = account_2
+
+    def __str__(self) -> str:
+        """Exception message."""
+        return (
+            "Overlapping key defining different accounts detected:\n"
+            f"address={self.address}:\n"
+            f"account_1={self.account_1.model_dump_json(indent=2)}\n"
+            f"account_2={self.account_2.model_dump_json(indent=2)}"
+        )
+
+
 class Alloc(BaseAlloc):
     """Allocation of accounts in the state, pre and post test execution."""
 
@@ -169,16 +189,38 @@ class Alloc(BaseAlloc):
             """Print exception string."""
             return f"Account missing from allocation {self.address}"
 
+    class KeyCollisionMode(Enum):
+        """Mode for handling key collisions when merging allocations."""
+
+        ERROR = auto()
+        OVERWRITE = auto()
+        ALLOW_IDENTICAL_ACCOUNTS = auto()
+
     @classmethod
     def merge(
-        cls, alloc_1: "Alloc", alloc_2: "Alloc", allow_key_collision: bool = True
+        cls,
+        alloc_1: "Alloc",
+        alloc_2: "Alloc",
+        key_collision_mode: KeyCollisionMode = KeyCollisionMode.OVERWRITE,
     ) -> "Alloc":
         """Return merged allocation of two sources."""
         overlapping_keys = alloc_1.root.keys() & alloc_2.root.keys()
-        if overlapping_keys and not allow_key_collision:
-            raise Exception(
-                f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
-            )
+        if overlapping_keys:
+            if key_collision_mode == cls.KeyCollisionMode.ERROR:
+                raise Exception(
+                    f"Overlapping keys detected: {[key.hex() for key in overlapping_keys]}"
+                )
+            elif key_collision_mode == cls.KeyCollisionMode.ALLOW_IDENTICAL_ACCOUNTS:
+                # The overlapping keys must point to the exact same account
+                for key in overlapping_keys:
+                    account_1 = alloc_1[key]
+                    account_2 = alloc_2[key]
+                    if account_1 != account_2:
+                        raise CollisionError(
+                            address=key,
+                            account_1=account_1,
+                            account_2=account_2,
+                        )
         merged = alloc_1.model_dump()
 
         for address, other_account in alloc_2.root.items():
