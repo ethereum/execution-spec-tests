@@ -385,7 +385,7 @@ class BuiltBlock(CamelModel):
         )
 
 
-GENESIS_DEFAULTS: Dict[str, Any] = {
+GENESIS_ENVIRONMENT_DEFAULTS: Dict[str, Any] = {
     "fee_recipient": 0,
     "number": 0,
     "timestamp": 0,
@@ -449,7 +449,7 @@ class BlockchainTest(BaseTest):
         modified_values = self.genesis_environment.set_fork_requirements(fork).model_dump(
             exclude_unset=True
         )
-        return Environment(**(GENESIS_DEFAULTS | modified_values))
+        return Environment(**(GENESIS_ENVIRONMENT_DEFAULTS | modified_values))
 
     def make_genesis(
         self, *, fork: Fork, apply_pre_allocation_blockchain: bool
