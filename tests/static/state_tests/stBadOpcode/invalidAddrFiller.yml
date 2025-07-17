@@ -25,7 +25,7 @@ invalidAddr:
       nonce: 0
       storage: {}
 
-    0000000000000000000000000000000000dead01:
+    <contract:dead1:0x0000000000000000000000000000000000dead01>:
       balance: 0x1000
       code: |
          {
@@ -35,7 +35,7 @@ invalidAddr:
       storage: {}
 
 
-    0000000000000000000000000000000000dead02:
+    <contract:dead2:0x0000000000000000000000000000000000dead02>:
       balance: 0x1000
       code: |
          {
@@ -165,11 +165,11 @@ invalidAddr:
              [temp] (balance @addr1)
 
              ; Tell 0xdead01 to commit suicide, see how much is in @addr1
-             (call 0x10000000 0xdead01 0 addr1 word 0 0)
+             (call 0x10000000 <contract:dead1:0x0000000000000000000000000000000000dead01> 0 addr1 word 0 0)
              [res1] (balance @addr1)
 
              ; Tell 0xdead02 to commit suicide, see how much is in @addr1
-             (call 0x10000000 0xdead02 0 addr2 word 0 0)
+             (call 0x10000000 <contract:dead2:0x0000000000000000000000000000000000dead02> 0 addr2 word 0 0)
              [res2] (balance @addr1)
 
              ; Calculate differences

@@ -38,24 +38,27 @@ doubleSelfdestructTouch_Paris:
     <contract:0x000000000000000000000000000000000000dead>:
       nonce: 0
       balance: 0
-      storage: {}
+      storage:
+        0: 0
+        1: <eoa:empty_account_1:0x0000000000000000000000000000000000e49701>
+        2: <eoa:empty_account_2:0x0000000000000000000000000000000000e49702>
       code: |
         :yul berlin 
         {
-          let index := sload(0)
-          sstore(0, add(index, 1))
-          selfdestruct(add(0xe49701, index))
+          let index := add(sload(0), 1)
+          sstore(0, index)
+          selfdestruct(sload(index))
         }
 
     # Empty account 1
-    0000000000000000000000000000000000e49701:
+    <eoa:empty_account_1:0x0000000000000000000000000000000000e49701>:
       nonce: 0
       balance: 10
       storage: {}
       code: ""
 
     # Empty account 2
-    0000000000000000000000000000000000e49702:
+    <eoa:empty_account_2:0x0000000000000000000000000000000000e49702>:
       nonce: 0
       balance: 10
       storage: {}
@@ -89,9 +92,9 @@ doubleSelfdestructTouch_Paris:
           nonce: 0
           balance: 0
           storage: {}
-        0000000000000000000000000000000000e49701:
+        <eoa:empty_account_1:0x0000000000000000000000000000000000e49701>:
           balance: 10
-        0000000000000000000000000000000000e49702:
+        <eoa:empty_account_2:0x0000000000000000000000000000000000e49702>:
           balance: 10
 
     - indexes:
@@ -107,9 +110,9 @@ doubleSelfdestructTouch_Paris:
           nonce: 0
           balance: 0
           storage: {}
-        0000000000000000000000000000000000e49701:
+        <eoa:empty_account_1:0x0000000000000000000000000000000000e49701>:
           balance: 10
-        0000000000000000000000000000000000e49702:
+        <eoa:empty_account_2:0x0000000000000000000000000000000000e49702>:
           nonce: 0
           balance: 11  # Received via SELFDESTRUCT
 
@@ -126,10 +129,10 @@ doubleSelfdestructTouch_Paris:
           nonce: 0
           balance: 0
           storage: {}
-        0000000000000000000000000000000000e49701:
+        <eoa:empty_account_1:0x0000000000000000000000000000000000e49701>:
           nonce: 0
           balance: 11  # Received via SELFDESTRUCT
-        0000000000000000000000000000000000e49702:
+        <eoa:empty_account_2:0x0000000000000000000000000000000000e49702>:
           nonce: 0
           balance: 11  # Received via SELFDESTRUCT
 
