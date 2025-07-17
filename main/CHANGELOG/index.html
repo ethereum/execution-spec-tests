@@ -27453,6 +27453,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ Field <code>postStateHash</code> is now added to all <code>blockchain_test</code> and <code>blockchain_test_engine</code> tests that use <code>exclude_full_post_state_in_output</code> in place of <code>postState</code>. Fixes <code>evmone-blockchaintest</code> test consumption and indirectly fixes coverage runs for these tests (<a href="https://github.com/ethereum/execution-spec-tests/pull/1667">#1667</a>).</li>
 <li>🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException (<a href="https://github.com/ethereum/execution-spec-tests/pull/1773">#1773</a>).</li>
 <li>🔀 Disabled writing debugging information to the EVM "dump directory" to improve performance. To obtain debug output, the <code>--evm-dump-dir</code> flag must now be explicitly set. As a consequence, the now redundant <code>--skip-evm-dump</code> option was removed (<a href="https://github.com/ethereum/execution-spec-tests/pull/1874">#1874</a>).</li>
+<li>✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers (<a href="https://github.com/ethereum/execution-spec-tests/pull/1781">#1781</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <ul>
