@@ -12,6 +12,7 @@ from ethereum_test_types import Alloc
 from ..base_static import BaseStaticTest
 from ..state import StateTestFiller
 from .account import PreInFiller
+from .common import Tag
 from .environment import EnvironmentInStateTestFiller
 from .expect_section import ExpectSectionInStateTestFiller
 from .general_transaction import GeneralTransactionInFiller
@@ -114,6 +115,12 @@ class StateStaticTest(BaseStaticTest):
                     has_tags = True
                     break
 
+        fully_tagged = True
+        for address in self.pre.root:
+            if not isinstance(address, Tag):
+                fully_tagged = False
+                break
+
         d_g_v_parameters: List[ParameterSet] = []
         for d in self.transaction.data:
             for g in range(len(self.transaction.gas_limit)):
@@ -177,6 +184,8 @@ class StateStaticTest(BaseStaticTest):
 
         if has_tags:
             test_state_vectors = pytest.mark.tagged(test_state_vectors)
+            if fully_tagged:
+                test_state_vectors = pytest.mark.fully_tagged(test_state_vectors)
         else:
             test_state_vectors = pytest.mark.untagged(test_state_vectors)
 
