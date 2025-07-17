@@ -23,14 +23,16 @@ CACHED_BLOBS_DIRECTORY: Path = (
 logger = get_logger(__name__)
 
 
-class BPO_Parameters(Enum):
+class BPO_Parameters(Enum):  # noqa: N801
+    """Define BPO keys for IDE autocomplete."""
+
     TARGET = "target"
     MAX = "max"
     BASE_FEE_UPDATE_FRACTION = "baseFeeUpdateFraction"
     TIME = "Time"  # actually it is: <fork>Time
 
 
-def bpo_get_value(bpo_fork: str, bpo_parameter: BPO_Parameters) -> int:
+def bpo_get_value(bpo_fork: str, bpo_parameter: BPO_Parameters) -> int:  # noqa: D417
     """
     Retrieve BPO values from the JSON config.
 
