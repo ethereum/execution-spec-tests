@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from typing import Any, ClassVar, Dict, List, SupportsBytes, Type, TypeAlias
 
-from pydantic import Field, PrivateAttr, TypeAdapter
+from pydantic import BaseModel, Field, PrivateAttr, TypeAdapter
 
 from .base_types import Address, Bytes, Hash, HashInt, HexNumber, ZeroPaddedHexNumber
 from .conversions import BytesConvertible, NumberConvertible
@@ -487,7 +487,7 @@ class ForkBlobSchedule(CamelModel):
 
 
 class BlobSchedule(EthereumTestRootModel[Dict[str, ForkBlobSchedule]]):
-    """Blob schedule configuration dictionary."""
+    """Blob schedule configuration dictionary. Key is fork name."""
 
     root: Dict[str, ForkBlobSchedule] = Field(default_factory=dict, validate_default=True)
 
@@ -503,6 +503,36 @@ class BlobSchedule(EthereumTestRootModel[Dict[str, ForkBlobSchedule]]):
             return None
         return list(self.root.values())[-1]
 
-    def __getitem__(self, key: str) -> ForkBlobSchedule:
+    def __getitem__(self, key: str) -> ForkBlobSchedule | None:
         """Return the schedule for a given fork."""
-        return self.root[key]
+        return self.root.get(key)
+
+
+class TimestampBlobSchedule(BaseModel):
+    """
+    Contains a list of dictionaries. Each dictionary is a scheduled BPO fork.
+    Each dictionary's key is the activation timestamp and the values are a ForkBlobSchedule
+    object with the fields max, target and base_fee_update_fraction.
+    """
+
+    root: List[Dict[int, ForkBlobSchedule]] = Field(default_factory=list, validate_default=True)
+
+    @classmethod
+    def add_schedule(cls, activation_timestamp: int, schedule: ForkBlobSchedule):
+        """Add a schedule to the schedule list."""
+        assert activation_timestamp > -1
+        assert schedule.max_blobs_per_block > 0
+        assert schedule.base_fee_update_fraction > 0
+        assert schedule.target_blobs_per_block > 0
+
+        # ensure that the timestamp of each scheduled bpo fork is unique
+        existing_keys: set = set()
+        for d in cls.root:
+            existing_keys.update(d.keys())
+        assert activation_timestamp not in existing_keys, (
+            f"No duplicate activation forks allowed: Timestamp {activation_timestamp} already "
+            "exists in the current schedule."
+        )
+
+        # add a scheduled bpo fork
+        cls.root.append({activation_timestamp: schedule})
