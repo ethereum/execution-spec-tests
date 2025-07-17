@@ -3194,6 +3194,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_genesis_environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_specs.BlockchainTest.make_genesis" class="md-nav__link">
     <span class="md-ellipsis">
       make_genesis
@@ -3233,15 +3242,6 @@
   <a href="#ethereum_test_specs.BlockchainTest.make_hive_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_hive_fixture
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_genesis_environment
     </span>
   </a>
   
@@ -26371,6 +26371,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_genesis_environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#ethereum_test_specs.BlockchainTest.make_genesis" class="md-nav__link">
     <span class="md-ellipsis">
       make_genesis
@@ -26410,15 +26419,6 @@
   <a href="#ethereum_test_specs.BlockchainTest.make_hive_fixture" class="md-nav__link">
     <span class="md-ellipsis">
       make_hive_fixture
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_genesis_environment
     </span>
   </a>
   
@@ -27150,7 +27150,8 @@
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
-<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseTest</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test which must return a single test fixture.&quot;&quot;&quot;</span>
 
     <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -27338,18 +27339,19 @@
             <span class="p">)</span>
             <span class="n">group</span><span class="o">.</span><span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span>
             <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
-            <span class="n">group</span><span class="o">.</span><span class="n">test_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
-            <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
             <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Create new group - use Environment instead of expensive genesis generation</span>
+            <span class="n">genesis_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+            <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+                <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="n">group</span> <span class="o">=</span> <span class="n">PreAllocGroup</span><span class="p">(</span>
-                <span class="n">test_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">pre_account_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">),</span>
                 <span class="n">test_ids</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">)],</span>
                 <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-                <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">),</span>
-                <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
+                <span class="n">environment</span><span class="o">=</span><span class="n">genesis_env</span><span class="p">,</span>
+                <span class="n">pre</span><span class="o">=</span><span class="n">pre_alloc</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
         <span class="k">return</span> <span class="n">pre_alloc_groups</span>
@@ -28086,7 +28088,8 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_pre_alloc_groups</span><span class="p">(</span>
+<span class="normal">254</span>
+<span class="normal">255</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">update_pre_alloc_groups</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="n">pre_alloc_groups</span><span class="p">:</span> <span class="n">PreAllocGroups</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">test_id</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PreAllocGroups</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create or update the pre-allocation group with the pre from the current spec.&quot;&quot;&quot;</span>
@@ -28107,18 +28110,19 @@ This is the case when the test is not run in pytest.</p>
         <span class="p">)</span>
         <span class="n">group</span><span class="o">.</span><span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span>
         <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
-        <span class="n">group</span><span class="o">.</span><span class="n">test_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
-        <span class="n">group</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
         <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Create new group - use Environment instead of expensive genesis generation</span>
+        <span class="n">genesis_env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+        <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+            <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">group</span> <span class="o">=</span> <span class="n">PreAllocGroup</span><span class="p">(</span>
-            <span class="n">test_count</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">pre_account_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">),</span>
             <span class="n">test_ids</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">)],</span>
             <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
-            <span class="n">environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">),</span>
-            <span class="n">pre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
+            <span class="n">environment</span><span class="o">=</span><span class="n">genesis_env</span><span class="p">,</span>
+            <span class="n">pre</span><span class="o">=</span><span class="n">pre_alloc</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">pre_alloc_groups</span><span class="p">[</span><span class="n">pre_alloc_hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
     <span class="k">return</span> <span class="n">pre_alloc_groups</span>
@@ -28149,8 +28153,7 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
-<span class="normal">257</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
@@ -28176,7 +28179,8 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">280</span>
 <span class="normal">281</span>
 <span class="normal">282</span>
-<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pre_alloc_group_hash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash (fork, env) in order to group tests by genesis config.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pre&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
@@ -29143,19 +29147,7 @@ return test_state_filler
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
-<span class="normal">400</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
 <span class="normal">403</span>
@@ -29581,7 +29573,22 @@ return test_state_filler
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -29628,14 +29635,18 @@ return test_state_filler
             <span class="k">return</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainEngineFixture</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
+        <span class="n">modified_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
+            <span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">GENESIS_ENVIRONMENT_DEFAULTS</span> <span class="o">|</span> <span class="n">modified_values</span><span class="p">))</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">make_genesis</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-        <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a genesis block from the blockchain test definition.&quot;&quot;&quot;</span>
-        <span class="n">env</span> <span class="o">=</span> <span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
             <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
         <span class="p">)</span>
@@ -29643,10 +29654,12 @@ return test_state_filler
             <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
         <span class="p">)</span>
 
-        <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-            <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
-            <span class="n">pre</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">pre_alloc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span>
+        <span class="k">if</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">:</span>
+            <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+                <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
+                <span class="n">pre_alloc</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">if</span> <span class="n">empty_accounts</span> <span class="o">:=</span> <span class="n">pre_alloc</span><span class="o">.</span><span class="n">empty_accounts</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Empty accounts in pre state: </span><span class="si">{</span><span class="n">empty_accounts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">state_root</span> <span class="o">=</span> <span class="n">pre_alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span>
@@ -29831,7 +29844,7 @@ return test_state_filler
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a fixture from the blockchain test definition.&quot;&quot;&quot;</span>
         <span class="n">fixture_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span> <span class="o">|</span> <span class="n">InvalidFixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+        <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">alloc</span> <span class="o">=</span> <span class="n">pre</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
@@ -29888,7 +29901,10 @@ return test_state_filler
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
         <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+        <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span>
+            <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+            <span class="n">apply_pre_allocation_blockchain</span><span class="o">=</span><span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainEngineXFixture</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="n">alloc</span> <span class="o">=</span> <span class="n">pre</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
         <span class="n">head_hash</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span>
@@ -29983,10 +29999,6 @@ return test_state_filler
             <span class="p">)</span>
             <span class="k">return</span> <span class="n">BlockchainEngineFixture</span><span class="p">(</span><span class="o">**</span><span class="n">fixture_data</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -29995,9 +30007,7 @@ return test_state_filler
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
         <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="p">[</span><span class="n">BlockchainEngineFixture</span><span class="p">,</span> <span class="n">BlockchainEngineXFixture</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
@@ -30082,19 +30092,19 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
@@ -30121,12 +30131,46 @@ In this case, the state verification is only performed based on the state root.<
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BlockchainTest.make_genesis" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">make_genesis</span><span class="p">(</span><span class="n">genesis_environment</span><span class="p">,</span> <span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span></code>
+<h3 id="ethereum_test_specs.BlockchainTest.get_genesis_environment" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
 
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
-  </span>
+<a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Get the genesis environment for pre-allocation groups.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
+    <span class="n">modified_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
+        <span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">GENESIS_ENVIRONMENT_DEFAULTS</span> <span class="o">|</span> <span class="n">modified_values</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_specs.BlockchainTest.make_genesis" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">make_genesis</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">)</span></code>
 
 <a href="#ethereum_test_specs.BlockchainTest.make_genesis" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -30138,26 +30182,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">454</span>
 <span class="normal">455</span>
 <span class="normal">456</span>
 <span class="normal">457</span>
@@ -30168,14 +30193,29 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">462</span>
 <span class="normal">463</span>
 <span class="normal">464</span>
-<span class="normal">465</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">make_genesis</span><span class="p">(</span>
-    <span class="n">genesis_environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
-    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
-    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_genesis</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a genesis block from the blockchain test definition.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">withdrawals</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
         <span class="s2">&quot;withdrawals must be empty at genesis&quot;</span>
     <span class="p">)</span>
@@ -30183,10 +30223,12 @@ In this case, the state verification is only performed based on the state root.<
         <span class="s2">&quot;parent_beacon_block_root must be empty at genesis&quot;</span>
     <span class="p">)</span>
 
-    <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-        <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
-        <span class="n">pre</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">pre_alloc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span>
+    <span class="k">if</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">:</span>
+        <span class="n">pre_alloc</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+            <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
+            <span class="n">pre_alloc</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="k">if</span> <span class="n">empty_accounts</span> <span class="o">:=</span> <span class="n">pre_alloc</span><span class="o">.</span><span class="n">empty_accounts</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Empty accounts in pre state: </span><span class="si">{</span><span class="n">empty_accounts</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">state_root</span> <span class="o">=</span> <span class="n">pre_alloc</span><span class="o">.</span><span class="n">state_root</span><span class="p">()</span>
@@ -30226,25 +30268,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">485</span>
 <span class="normal">486</span>
 <span class="normal">487</span>
 <span class="normal">488</span>
@@ -30376,7 +30400,25 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">614</span>
 <span class="normal">615</span>
 <span class="normal">616</span>
-<span class="normal">617</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30554,16 +30596,16 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -30600,25 +30642,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
 <span class="normal">651</span>
@@ -30654,7 +30678,25 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">681</span>
 <span class="normal">682</span>
 <span class="normal">683</span>
-<span class="normal">684</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span>
+<span class="normal">702</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30662,7 +30704,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a fixture from the blockchain test definition.&quot;&quot;&quot;</span>
     <span class="n">fixture_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureBlock</span> <span class="o">|</span> <span class="n">InvalidFixtureBlock</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+    <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">alloc</span> <span class="o">=</span> <span class="n">pre</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
@@ -30736,25 +30778,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span>
-<span class="normal">695</span>
-<span class="normal">696</span>
-<span class="normal">697</span>
-<span class="normal">698</span>
-<span class="normal">699</span>
-<span class="normal">700</span>
-<span class="normal">701</span>
-<span class="normal">702</span>
-<span class="normal">703</span>
-<span class="normal">704</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">704</span>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
@@ -30838,7 +30862,28 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">785</span>
 <span class="normal">786</span>
 <span class="normal">787</span>
-<span class="normal">788</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -30847,7 +30892,10 @@ In this case, the state verification is only performed based on the state root.<
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a hive fixture from the blocktest definition.&quot;&quot;&quot;</span>
     <span class="n">fixture_payloads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FixtureEngineNewPayload</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="n">BlockchainTest</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
+    <span class="n">pre</span><span class="p">,</span> <span class="n">genesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_genesis</span><span class="p">(</span>
+        <span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">,</span>
+        <span class="n">apply_pre_allocation_blockchain</span><span class="o">=</span><span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainEngineXFixture</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">alloc</span> <span class="o">=</span> <span class="n">pre</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">environment_from_parent_header</span><span class="p">(</span><span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="p">)</span>
     <span class="n">head_hash</span> <span class="o">=</span> <span class="n">genesis</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">block_hash</span>
@@ -30955,38 +31003,6 @@ In this case, the state verification is only performed based on the state root.<
 <div class="doc doc-object doc-function">
 
 
-<h3 id="ethereum_test_specs.BlockchainTest.get_genesis_environment" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span></code>
-
-<a href="#ethereum_test_specs.BlockchainTest.get_genesis_environment" class="headerlink" title="Permanent link">&para;</a></h3>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Get the genesis environment for pre-allocation groups.</p>
-
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span>
-</code></pre></div></td></tr></table></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
 <h3 id="ethereum_test_specs.BlockchainTest.generate" class="doc doc-heading">
             <code class="highlight language-python"><span class="n">generate</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span></code>
 
@@ -31000,22 +31016,20 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -31023,9 +31037,7 @@ In this case, the state verification is only performed based on the state root.<
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseFixture</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the BlockchainTest fixture.&quot;&quot;&quot;</span>
     <span class="n">t8n</span><span class="o">.</span><span class="n">reset_traces</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineFixture</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainEngineXFixture</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">fixture_format</span> <span class="ow">in</span> <span class="p">[</span><span class="n">BlockchainEngineFixture</span><span class="p">,</span> <span class="n">BlockchainEngineXFixture</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_hive_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">,</span> <span class="n">fixture_format</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">fixture_format</span> <span class="o">==</span> <span class="n">BlockchainFixture</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_fixture</span><span class="p">(</span><span class="n">t8n</span><span class="p">,</span> <span class="n">fork</span><span class="p">)</span>
@@ -31058,22 +31070,22 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">811</span>
-<span class="normal">812</span>
-<span class="normal">813</span>
-<span class="normal">814</span>
-<span class="normal">815</span>
-<span class="normal">816</span>
-<span class="normal">817</span>
-<span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -33931,7 +33943,7 @@ unset.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_blockchain_test</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -34272,7 +34284,7 @@ unset.</p>
 <span class="normal">244</span>
 <span class="normal">245</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_blockchain_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_blockchain_test</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">get_genesis_environment</span><span class="p">(</span><span class="n">fork</span><span class="o">=</span><span class="n">fork</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

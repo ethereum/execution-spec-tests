@@ -3337,9 +3337,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.PreAllocGroup.model_post_init" class="md-nav__link">
+  <a href="#ethereum_test_fixtures.PreAllocGroup.pre_account_count" class="md-nav__link">
     <span class="md-ellipsis">
-      model_post_init
+      pre_account_count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.PreAllocGroup.test_count" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_count
     </span>
   </a>
   
@@ -26458,9 +26467,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ethereum_test_fixtures.PreAllocGroup.model_post_init" class="md-nav__link">
+  <a href="#ethereum_test_fixtures.PreAllocGroup.pre_account_count" class="md-nav__link">
     <span class="md-ellipsis">
-      model_post_init
+      pre_account_count
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ethereum_test_fixtures.PreAllocGroup.test_count" class="md-nav__link">
+    <span class="md-ellipsis">
+      test_count
     </span>
   </a>
   
@@ -27614,18 +27632,18 @@ format will be compared with the format of the other object.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine specific test fixture information.&quot;&quot;&quot;</span>
 
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test_engine&quot;</span>
@@ -27687,7 +27705,21 @@ duplicating large pre-allocations.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">520</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span>
+<span class="normal">511</span>
+<span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
@@ -27698,21 +27730,7 @@ duplicating large pre-allocations.</p>
 <span class="normal">528</span>
 <span class="normal">529</span>
 <span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
+<span class="normal">531</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineFixtureCommon</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base blockchain test fixture model for Engine API based execution.</span>
@@ -27767,9 +27785,9 @@ duplicating large pre-allocations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fixture&#39;s `Fork`.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fork</span>
 </code></pre></div></td></tr></table></div>
@@ -27804,14 +27822,14 @@ duplicating large pre-allocations.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_fork</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return whether the fixture can be generated for the given fork.</span>
@@ -27867,7 +27885,21 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">562</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
 <span class="normal">565</span>
@@ -27875,21 +27907,7 @@ test execution without client restarts.</p>
 <span class="normal">567</span>
 <span class="normal">568</span>
 <span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">(</span><span class="n">alternate_field</span><span class="o">=</span><span class="s2">&quot;post_state_diff&quot;</span><span class="p">)</span>
+<span class="normal">570</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">(</span><span class="n">alternate_field</span><span class="o">=</span><span class="s2">&quot;post_state_diff&quot;</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainEngineXFixture</span><span class="p">(</span><span class="n">BlockchainEngineFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Engine X specific test fixture information.</span>
@@ -28071,15 +28089,15 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">509</span>
-<span class="normal">510</span>
-<span class="normal">511</span>
-<span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span>
-<span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixture</span><span class="p">(</span><span class="n">BlockchainFixtureCommon</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Cross-client specific blockchain test model use in JSON fixtures.&quot;&quot;&quot;</span>
 
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;blockchain_test&quot;</span>
@@ -28136,7 +28154,21 @@ test execution without client restarts.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">475</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
 <span class="normal">476</span>
 <span class="normal">477</span>
 <span class="normal">478</span>
@@ -28153,21 +28185,7 @@ test execution without client restarts.</p>
 <span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
+<span class="normal">492</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@post_state_validator</span><span class="p">()</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockchainFixtureCommon</span><span class="p">(</span><span class="n">BaseFixture</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base blockchain test fixture model.&quot;&quot;&quot;</span>
 
@@ -28233,22 +28251,22 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
-<span class="normal">494</span>
-<span class="normal">495</span>
-<span class="normal">496</span>
-<span class="normal">497</span>
-<span class="normal">498</span>
-<span class="normal">499</span>
-<span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
 <span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">config_defaults_for_backwards_compatibility</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -28291,9 +28309,9 @@ backwards compatibility.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">504</span>
-<span class="normal">505</span>
-<span class="normal">506</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fork</span>
 </code></pre></div></td></tr></table></div>
@@ -29672,28 +29690,30 @@ pre-allocation group optimization.</p>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;populate_by_name&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>  <span class="c1"># Allow both field names and aliases</span>
 
-    <span class="n">test_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of tests in this group&quot;</span><span class="p">)</span>
-    <span class="n">pre_account_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of accounts in the pre-allocation&quot;</span><span class="p">)</span>
-    <span class="n">test_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;testIds&quot;</span><span class="p">)</span>
+    <span class="n">test_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">environment</span><span class="p">:</span> <span class="n">Environment</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Grouping environment for this test group&quot;</span><span class="p">)</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;network&quot;</span><span class="p">)</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Post-init hook to ensure pre is not None.&quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">model_post_init</span><span class="p">(</span><span class="n">__context</span><span class="p">)</span>
+    <span class="nd">@computed_field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of accounts in the pre-allocation&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pre_account_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the amount of accounts the pre-allocation group holds.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">root</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-            <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
-        <span class="p">)</span>
+    <span class="nd">@computed_field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of tests in this group&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the amount of tests that use this pre-allocation group.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
 
-    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[misc]</span>
+    <span class="nd">@computed_field</span>  <span class="c1"># type: ignore[prop-decorator]</span>
+    <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">genesis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FixtureHeader</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the genesis header for this group.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">genesis</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">state_root</span><span class="p">(),</span>
         <span class="p">)</span>
 
@@ -29707,8 +29727,6 @@ pre-allocation group optimization.</p>
                     <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">account</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">:</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">+=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre_account_count</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">test_count</span> <span class="o">+=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">test_count</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
 
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -29726,39 +29744,24 @@ pre-allocation group optimization.</p>
 
 
 
-<div class="doc doc-object doc-function">
+<div class="doc doc-object doc-attribute">
 
 
-<h3 id="ethereum_test_fixtures.PreAllocGroup.model_post_init" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">model_post_init</span><span class="p">(</span><span class="n">__context</span><span class="p">)</span></code>
 
-<a href="#ethereum_test_fixtures.PreAllocGroup.model_post_init" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="ethereum_test_fixtures.PreAllocGroup.pre_account_count" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">pre_account_count</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ethereum_test_fixtures.PreAllocGroup.pre_account_count" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
     <div class="doc doc-contents ">
 
-        <p>Post-init hook to ensure pre is not None.</p>
+        <p>Return the amount of accounts the pre-allocation group holds.</p>
 
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">model_post_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">__context</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Post-init hook to ensure pre is not None.&quot;&quot;&quot;</span>
-    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">model_post_init</span><span class="p">(</span><span class="n">__context</span><span class="p">)</span>
-
-    <span class="bp">self</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-        <span class="n">Alloc</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="o">.</span><span class="n">pre_allocation_blockchain</span><span class="p">()),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
     </div>
 
 </div>
@@ -29768,11 +29771,43 @@ pre-allocation group optimization.</p>
 
 
 
-<div class="doc doc-object doc-function">
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="ethereum_test_fixtures.PreAllocGroup.test_count" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">test_count</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
+
+<a href="#ethereum_test_fixtures.PreAllocGroup.test_count" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return the amount of tests that use this pre-allocation group.</p>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
 
 
 <h3 id="ethereum_test_fixtures.PreAllocGroup.genesis" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">genesis</span><span class="p">()</span></code>
+            <code class="highlight language-python"><span class="n">genesis</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-property"><code>property</code></small>
+  </span>
 
 <a href="#ethereum_test_fixtures.PreAllocGroup.genesis" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -29781,26 +29816,6 @@ pre-allocation group optimization.</p>
 
         <p>Get the genesis header for this group.</p>
 
-
-            <details class="quote">
-              <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@computed_field</span>  <span class="c1"># type: ignore[misc]</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">genesis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FixtureHeader</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis header for this group.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">FixtureHeader</span><span class="o">.</span><span class="n">genesis</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="p">,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fork</span><span class="p">),</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="o">.</span><span class="n">state_root</span><span class="p">(),</span>
-    <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-            </details>
     </div>
 
 </div>
@@ -29826,9 +29841,7 @@ pre-allocation group optimization.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/pre_alloc_groups.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
@@ -29851,8 +29864,6 @@ pre-allocation group optimization.</p>
                 <span class="k">for</span> <span class="n">account</span> <span class="ow">in</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">account</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span> <span class="o">=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre</span><span class="p">[</span><span class="n">account</span><span class="p">]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pre_account_count</span> <span class="o">+=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">pre_account_count</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">test_count</span> <span class="o">+=</span> <span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">test_count</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">previous_pre_alloc_group</span><span class="o">.</span><span class="n">test_ids</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
