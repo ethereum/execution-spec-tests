@@ -114,6 +114,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 - ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
 - 🔀 Move Prague to stable and Osaka to develop ([#1573](https://github.com/ethereum/execution-spec-tests/pull/1573)).
+- ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 
 ### 🧪 Test Cases
 
@@ -128,6 +129,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)). Update the blob_base_cost ([#1915](https://github.com/ethereum/EIPs/pull/1915)).
+- ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

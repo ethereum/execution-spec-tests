@@ -55,6 +55,59 @@ This marker is used to automatically parameterize a test with all contract creat
 
 This marker only differs from `pytest.mark.with_all_tx_types` in that it does not include transaction type 3 (Blob Transaction type) on fork Cancun and after.
 
+### `@pytest.mark.with_all_typed_transactions`
+
+This marker is used to automatically parameterize a test with all typed transactions, including `type=0` (legacy transaction), that are valid for the fork being tested.
+This marker is an indirect marker that utilizes the `tx_type` values from the `pytest.mark.with_all_tx_types` marker to build default typed transactions for each `tx_type`.
+
+Optional: Default typed transactions used as values for `typed_transaction` exist in `src/pytest_plugins/shared/transaction_fixtures.py` and can be overridden for the scope of
+the test by re-defining the appropriate `pytest.fixture` for that transaction type.
+
+```python
+import pytest
+
+from ethereum_test_tools import Account, Alloc, StateTestFiller
+from ethereum_test_types import Transaction
+
+# Optional override for type 2 transaction
+@pytest.fixture
+def type_2_default_transaction(sender: Account):
+  return Transaction(
+    ty=2,
+    sender=sender,
+    max_fee_per_gas=0x1337,
+    max_priority_fee_per_gas=0x1337,
+    ...
+  )
+
+# Optional override for type 4 transaction
+@pytest.fixture
+def type_4_default_transaction(sender: Account, pre: Alloc):
+  return Transaction(
+    ty=4,
+    sender=sender,
+    ...,
+    authorization_list=[
+      AuthorizationTuple(
+        address=Address(1234),
+        nonce=0,
+        chain_id=1,
+        signer=pre.fund_eoa(),
+      )
+    ]
+  )
+
+
+@pytest.mark.with_all_typed_transactions
+@pytest.mark.valid_from("Prague")
+def test_something_with_all_tx_types(
+    state_test: StateTestFiller, 
+    pre: Alloc,
+    typed_transaction: Transaction
+):
+    pass
+```
+
 ### `@pytest.mark.with_all_precompiles`
 
 This marker is used to automatically parameterize a test with all precompiles that are valid for the fork being tested.
