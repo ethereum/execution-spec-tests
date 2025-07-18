@@ -15,6 +15,7 @@ from urllib.parse import urlencode
 
 from requests import Response
 from requests.exceptions import ConnectionError as RequestsConnectionError
+from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
@@ -297,6 +298,18 @@ class TransitionTool(EthereumCLI):
 
         return output
 
+    def _check_server_health(self, session: Session):
+        """Check if the server is still responsive and restart if needed."""
+        try:
+            session.post(self.server_url, json={}, timeout=2)
+            return True
+        except Exception:
+            self.shutdown()
+            time.sleep(0.1)
+            self.start_server()
+            time.sleep(0.5)
+            return False
+
     def _server_post(
         self,
         data: Dict[str, Any],
@@ -308,15 +321,20 @@ class TransitionTool(EthereumCLI):
         if url_args is None:
             url_args = {}
         post_delay = 0.1
+
         while True:
             try:
-                response = Session().post(
+                session = Session()
+                response = session.post(
                     f"{self.server_url}?{urlencode(url_args, doseq=True)}",
                     json=data,
                     timeout=timeout,
                 )
                 break
-            except RequestsConnectionError as e:
+            except (RequestsConnectionError, ReadTimeout) as e:
+                if not self._check_server_health(session):
+                    # Server was restarted, try again
+                    continue
                 retries -= 1
                 if retries == 0:
                     raise e

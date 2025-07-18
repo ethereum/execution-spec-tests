@@ -113,6 +113,8 @@ jobs:
         include:
           - os: macos-latest
             python: "3.11"
+          - os: macos-latest
+            python: "pypy3.11"
           - os: ubuntu-latest
             python: "3.12"
     steps:
@@ -155,6 +157,9 @@ jobs:
           - os: [self-hosted-ghr, size-xl-x64]
             name: self-hosted-ghr-xl-x64
             python: "3.11"
+          - os: [self-hosted-ghr, size-xl-x64]
+            name: self-hosted-ghr-xl-x64-pypy
+            python: "pypy3.11"
           - os: macos-latest
             name: macos-latest
             python: "3.12"
@@ -175,6 +180,9 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ matrix.python }}
+      - name: Install linux dependencies
+        if: matrix.python == 'pypy3.11' && contains(matrix.os, 'self-hosted-ghr')
+        run: sudo apt-get install -y pkg-config libsecp256k1-dev libjpeg-dev libxml2-dev libxslt1-dev
       - name: Update eels_resolutions.json
         run: |
           sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
@@ -190,6 +198,8 @@ jobs:
         include:
           - os: ubuntu-latest
             python: "3.11"
+          - os: ubuntu-latest
+            python: "pypy3.11"
           - os: macos-latest
             python: "3.12"
     steps:
