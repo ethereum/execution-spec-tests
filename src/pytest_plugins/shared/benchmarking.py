@@ -5,7 +5,7 @@ import pytest
 from ethereum_test_tools import Environment
 from ethereum_test_types import EnvironmentDefaults
 
-from .filler import FillMode
+from .execute_fill import OpMode
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -23,9 +23,9 @@ def pytest_addoption(parser: pytest.Parser):
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
-    """Configure the fill mode to benchmarking."""
+    """Configure the fill and execute mode to benchmarking."""
     if config.getoption("gas_benchmark_value"):
-        config.fill_mode = FillMode.BENCHMARKING
+        config.op_mode = OpMode.BENCHMARKING
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
@@ -55,8 +55,7 @@ GIGA_GAS = 1_000_000_000
 
 @pytest.fixture
 def env(request: pytest.FixtureRequest) -> Environment:  # noqa: D103
-    """Return an Environment instance with appropriate gas limit based on fill mode."""
-    if request.config.fill_mode == FillMode.BENCHMARKING:  # type: ignore[attr-defined]
+    """Return an Environment instance with appropriate gas limit based on operation mode."""
+    if request.config.op_mode == OpMode.BENCHMARKING:  # type: ignore[attr-defined]
         return Environment(gas_limit=GIGA_GAS)
-    else:
-        return Environment()
+    return Environment()
