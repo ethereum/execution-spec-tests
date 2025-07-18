@@ -113,6 +113,7 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stSelfBalance/diffPlacesFiller.yml",
     ],
     pr=["https://github.com/ethereum/execution-spec-tests/pull/808"],
+    coverage_missed_reason=("Original test pre-sets storage of some of the deployed accounts."),
 )
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.parametrize(
