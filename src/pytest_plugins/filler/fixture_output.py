@@ -212,7 +212,6 @@ class FixtureOutput(BaseModel):
     def from_config(cls, config: pytest.Config) -> "FixtureOutput":
         """Create a FixtureOutput instance from pytest configuration."""
         output_path = Path(config.getoption("output"))
-        should_generate_all_formats = config.getoption("generate_all_formats")
 
         return cls(
             output_path=output_path,
@@ -221,5 +220,4 @@ class FixtureOutput(BaseModel):
             clean=config.getoption("clean"),
             generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
             use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
-            should_generate_all_formats=should_generate_all_formats,
         )

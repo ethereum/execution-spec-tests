@@ -32,10 +32,7 @@ class FillCommand(PytestCommand):
         processed_args = self.process_arguments(pytest_args)
 
         # Check if we need two-phase execution
-        if self._should_use_two_phase_execution(processed_args):
-            processed_args = self._ensure_generate_all_formats_for_tarball(processed_args)
-            return self._create_two_phase_executions(processed_args)
-        elif "--use-pre-alloc-groups" in processed_args:
+        if "--use-pre-alloc-groups" in processed_args:
             # Only phase 2: using existing pre-allocation groups
             return self._create_single_phase_with_pre_alloc_groups(processed_args)
         else:
@@ -46,27 +43,6 @@ class FillCommand(PytestCommand):
                     args=processed_args,
                 )
             ]
-
-    def _create_two_phase_executions(self, args: List[str]) -> List[PytestExecution]:
-        """Create two-phase execution: pre-allocation group generation + fixture filling."""
-        # Phase 1: Pre-allocation group generation (clean and minimal output)
-        phase1_args = self._create_phase1_args(args)
-
-        # Phase 2: Main fixture generation (full user options)
-        phase2_args = self._create_phase2_args(args)
-
-        return [
-            PytestExecution(
-                config_file=self.config_path,
-                args=phase1_args,
-                description="generating pre-allocation groups",
-            ),
-            PytestExecution(
-                config_file=self.config_path,
-                args=phase2_args,
-                description="filling test fixtures",
-            ),
-        ]
 
     def _create_single_phase_with_pre_alloc_groups(self, args: List[str]) -> List[PytestExecution]:
         """Create single execution using existing pre-allocation groups."""
@@ -154,12 +130,6 @@ class FillCommand(PytestCommand):
             or "--generate-all-formats" in args
             or self._is_tarball_output(args)
         )
-
-    def _ensure_generate_all_formats_for_tarball(self, args: List[str]) -> List[str]:
-        """Auto-add --generate-all-formats for tarball output."""
-        if self._is_tarball_output(args) and "--generate-all-formats" not in args:
-            return args + ["--generate-all-formats"]
-        return args
 
     def _is_tarball_output(self, args: List[str]) -> bool:
         """Check if output argument specifies a tarball (.tar.gz) path."""

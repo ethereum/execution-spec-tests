@@ -391,6 +391,9 @@ def pytest_configure(config):
             args[i] = f'"{args[i]}"'
     command_line_args = " ".join(args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
+    config.option.generate_pre_alloc_groups = False
+    config.option.use_pre_alloc_groups = False
+    config.option.generate_all_formats = False
 
 
 @pytest.hookimpl(trylast=True)
@@ -1065,11 +1068,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
-            generate_pre_alloc_groups = metafunc.config.getoption(
-                "generate_pre_alloc_groups", False
-            )
-            use_pre_alloc_groups = metafunc.config.getoption("use_pre_alloc_groups", False)
-            generate_all_formats = metafunc.config.getoption("generate_all_formats", False)
+            generate_pre_alloc_groups = False
+            use_pre_alloc_groups = False
+            generate_all_formats = False
 
             execution_phase = _determine_execution_phase(
                 generate_pre_alloc_groups, use_pre_alloc_groups, generate_all_formats
