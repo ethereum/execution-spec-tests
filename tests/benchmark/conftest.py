@@ -12,12 +12,12 @@ def pytest_collection_modifyitems(config, items):
         "benchmark" in marker_expr and "not benchmark" not in marker_expr
     )
 
+    items_to_remove = []
     for item in items:
         if Path(__file__).parent in Path(item.fspath).parents:
             item.add_marker(pytest.mark.benchmark)
             if not run_benchmarks:
-                item.add_marker(
-                    pytest.mark.skip(
-                        reason="Benchmark tests skipped by default. Use -m benchmark to run them."
-                    )
-                )
+                items_to_remove.append(item)
+
+    for item in items_to_remove:
+        items.remove(item)
