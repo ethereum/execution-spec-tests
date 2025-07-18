@@ -141,7 +141,7 @@ msize:
     # Off in hyperspace, is the chunk size still 0x20?
     - :label farChunk :abi f(uint) 5
     gasLimit:
-    - 0x10000000
+    - 0x1c9c380
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc
