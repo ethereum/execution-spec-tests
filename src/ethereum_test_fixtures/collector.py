@@ -47,7 +47,7 @@ class TestInfo:
         test_push0_key_sstore[fork_Shanghai] -> test_push0_key_sstore, fork_Shanghai
 
         """
-        test_name, parameters = self.name.split("[")
+        test_name, parameters = self.name.split("[", 1)
         return test_name, re.sub(r"[\[\-]", "_", parameters).replace("]", "")
 
     def get_single_test_name(self, mode: Literal["module", "test"] = "module") -> str:

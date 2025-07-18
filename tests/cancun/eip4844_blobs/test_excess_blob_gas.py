@@ -89,12 +89,35 @@ def header_excess_blob_gas(  # noqa: D103
 
 
 @pytest.fixture
-def tx_blob_data_cost(  # noqa: D103
+def new_blobs() -> int:
+    """
+    Single blob count for backward compatibility with existing tests.
+    This will be overridden by parametrization in existing tests.
+    """
+    return 1
+
+
+@pytest.fixture
+def blobs_per_tx_list(new_blobs: int) -> List[int]:
+    """
+    List of blob counts for each transaction.
+    - For existing tests using new_blobs: [new_blobs]
+    - For new multi-tx tests: Will be overridden by parametrization with [6, 4] etc.
+    """
+    return [new_blobs]
+
+
+@pytest.fixture
+def tx_blob_data_cost(
     tx_max_fee_per_blob_gas: int,
-    new_blobs: int,
+    blobs_per_tx_list: List[int],
     blob_gas_per_blob: int,
 ) -> int:
-    return tx_max_fee_per_blob_gas * blob_gas_per_blob * new_blobs
+    """Calculate total blob data cost for all transactions."""
+    total_blob_data_cost = 0
+    for tx_blobs in blobs_per_tx_list:
+        total_blob_data_cost += tx_max_fee_per_blob_gas * blob_gas_per_blob * tx_blobs
+    return total_blob_data_cost
 
 
 @pytest.fixture
@@ -103,10 +126,18 @@ def tx_gas_limit() -> int:  # noqa: D103
 
 
 @pytest.fixture
-def tx_exact_cost(  # noqa: D103
-    tx_value: int, tx_max_fee_per_gas: int, tx_blob_data_cost: int, tx_gas_limit: int
+def tx_exact_cost(
+    tx_value: int,
+    tx_max_fee_per_gas: int,
+    tx_blob_data_cost: int,
+    tx_gas_limit: int,
+    blobs_per_tx_list: List[int],
 ) -> int:
-    return (tx_gas_limit * tx_max_fee_per_gas) + tx_value + tx_blob_data_cost
+    """Alternative version using the updated tx_blob_data_cost fixture."""
+    num_transactions = len(blobs_per_tx_list)
+    base_cost_per_tx = (tx_gas_limit * tx_max_fee_per_gas) + tx_value
+    total_base_cost = base_cost_per_tx * num_transactions
+    return total_base_cost + tx_blob_data_cost
 
 
 @pytest.fixture
@@ -141,48 +172,59 @@ def post(  # noqa: D103
 
 
 @pytest.fixture
-def tx(  # noqa: D103
+def txs(  # noqa: D103
     sender: EOA,
-    new_blobs: int,
+    blobs_per_tx_list: List[int],
     tx_max_fee_per_gas: int,
     tx_max_fee_per_blob_gas: int,
     tx_gas_limit: int,
     destination_account: Address,
     fork: Fork,
 ):
-    if new_blobs > 0 and new_blobs > fork.max_blobs_per_tx():
-        raise ValueError(
-            f"new_blobs ({new_blobs}) exceeds max_blobs_per_tx ({fork.max_blobs_per_tx()})"
-        )
+    txs = []
+    blob_index = 0
 
-    if new_blobs == 0:
-        # Send a normal type two tx instead
-        return Transaction(
-            ty=2,
-            sender=sender,
-            to=destination_account,
-            value=1,
-            gas_limit=tx_gas_limit,
-            max_fee_per_gas=tx_max_fee_per_gas,
-            max_priority_fee_per_gas=0,
-            access_list=[],
-        )
-    else:
-        return Transaction(
-            ty=Spec.BLOB_TX_TYPE,
-            sender=sender,
-            to=destination_account,
-            value=1,
-            gas_limit=tx_gas_limit,
-            max_fee_per_gas=tx_max_fee_per_gas,
-            max_priority_fee_per_gas=0,
-            max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
-            access_list=[],
-            blob_versioned_hashes=add_kzg_version(
-                [Hash(x) for x in range(new_blobs)],
-                Spec.BLOB_COMMITMENT_VERSION_KZG,
-            ),
-        )
+    for tx_blobs in blobs_per_tx_list:
+        if tx_blobs > 0 and tx_blobs > fork.max_blobs_per_tx():
+            raise ValueError(
+                f"tx_blobs ({tx_blobs}) exceeds max_blobs_per_tx ({fork.max_blobs_per_tx()})"
+            )
+
+        if tx_blobs == 0:
+            # Send a normal type two tx instead
+            txs.append(
+                Transaction(
+                    ty=2,
+                    sender=sender,
+                    to=destination_account,
+                    value=1,
+                    gas_limit=tx_gas_limit,
+                    max_fee_per_gas=tx_max_fee_per_gas,
+                    max_priority_fee_per_gas=0,
+                    access_list=[],
+                )
+            )
+        else:
+            txs.append(
+                Transaction(
+                    ty=Spec.BLOB_TX_TYPE,
+                    sender=sender,
+                    to=destination_account,
+                    value=1,
+                    gas_limit=tx_gas_limit,
+                    max_fee_per_gas=tx_max_fee_per_gas,
+                    max_priority_fee_per_gas=0,
+                    max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
+                    access_list=[],
+                    blob_versioned_hashes=add_kzg_version(
+                        [Hash(blob_index + x) for x in range(tx_blobs)],
+                        Spec.BLOB_COMMITMENT_VERSION_KZG,
+                    ),
+                )
+            )
+            blob_index += tx_blobs
+
+    return txs
 
 
 @pytest.fixture
@@ -191,16 +233,20 @@ def header_blob_gas_used() -> Optional[int]:  # noqa: D103
 
 
 @pytest.fixture
-def correct_blob_gas_used(  # noqa: D103
-    tx: Transaction,
+def correct_blob_gas_used(
+    txs: List[Transaction],
     blob_gas_per_blob: int,
 ) -> int:
-    return Spec.get_total_blob_gas(tx=tx, blob_gas_per_blob=blob_gas_per_blob)
+    """Calculate the correct `blobGasUsed` for all txs."""
+    total_blob_gas = 0
+    for tx in txs:
+        total_blob_gas += Spec.get_total_blob_gas(tx=tx, blob_gas_per_blob=blob_gas_per_blob)
+    return total_blob_gas
 
 
 @pytest.fixture
 def blocks(  # noqa: D103
-    tx: Transaction,
+    txs: List[Transaction],
     header_excess_blob_gas: Optional[int],
     header_blob_gas_used: Optional[int],
     correct_excess_blob_gas: int,
@@ -222,7 +268,7 @@ def blocks(  # noqa: D103
         """Add a block to the blocks list."""
         blocks.append(
             Block(
-                txs=[tx],
+                txs=txs,
                 rlp_modifier=Header(**header_modifier) if header_modifier else None,
                 header_verify=Header(
                     excess_blob_gas=correct_excess_blob_gas,
@@ -427,19 +473,56 @@ def test_invalid_zero_excess_blob_gas_in_header(
     )
 
 
-def all_invalid_blob_gas_used_combinations(fork: Fork) -> Iterator[Tuple[int, int]]:
-    """Return all invalid blob gas used combinations."""
+def all_invalid_blob_gas_used_combinations_single_tx(
+    fork: Fork,
+) -> Iterator[Tuple[List[int], int]]:
+    """Return all invalid blob gas used combinations using a single tx."""
     gas_per_blob = fork.blob_gas_per_blob()
     max_blobs_per_tx = fork.max_blobs_per_tx()
     for new_blobs in range(0, min(fork.max_blobs_per_block(), max_blobs_per_tx) + 1):
         for header_blob_gas_used in range(0, fork.max_blobs_per_block() + 1):
             if new_blobs != header_blob_gas_used:
-                yield (new_blobs, header_blob_gas_used * gas_per_blob)
-        yield (new_blobs, 2**64 - 1)
+                yield ([new_blobs], header_blob_gas_used * gas_per_blob)
+
+
+def all_invalid_blob_gas_used_combinations_multi_tx(fork: Fork) -> Iterator[Tuple[List[int], int]]:
+    """Return all invalid blob gas used combinations using multiple txs."""
+    gas_per_blob = fork.blob_gas_per_blob()
+    max_blobs_per_tx = fork.max_blobs_per_tx()
+    max_blobs_per_block = fork.max_blobs_per_block()
+
+    # Only generate combinations for forks where `max_blobs_per_tx` < `max_blobs_per_block`
+    if max_blobs_per_tx >= max_blobs_per_block:
+        return
+
+    # 1) Generate valid tx combinations that sum to `max_blobs_per_block + 1`
+    blobs_per_tx = []
+    remaining = max_blobs_per_block + 1
+    while remaining > 0:
+        tx_blobs = min(remaining, max_blobs_per_tx)
+        blobs_per_tx.append(tx_blobs)
+        remaining -= tx_blobs
+
+    # 2) Generate all invalid combinations of `blobs_per_tx` and `header_blob_gas_used`
+    for incorrect_blob_gas_used in [
+        0,
+        max_blobs_per_block * gas_per_blob,
+        2**64 - 1,
+    ]:
+        yield (blobs_per_tx, incorrect_blob_gas_used)
+
+
+def all_invalid_blob_gas_used_combinations(
+    fork: Fork,
+) -> List[Tuple[List[int], int]]:
+    """Return all invalid blob gas used combinations."""
+    return list(all_invalid_blob_gas_used_combinations_single_tx(fork)) + list(
+        all_invalid_blob_gas_used_combinations_multi_tx(fork)
+    )
 
 
 @pytest.mark.parametrize_by_fork(
-    "new_blobs,header_blob_gas_used",
+    "blobs_per_tx_list,header_blob_gas_used",
     all_invalid_blob_gas_used_combinations,
 )
 @pytest.mark.parametrize("parent_blobs", [0])
@@ -449,7 +532,7 @@ def test_invalid_blob_gas_used_in_header(
     env: Environment,
     pre: Mapping[Address, Account],
     blocks: List[Block],
-    new_blobs: int,
+    blobs_per_tx_list: List[int],
     header_blob_gas_used: Optional[int],
     blob_gas_per_blob: int,
 ):
@@ -461,6 +544,8 @@ def test_invalid_blob_gas_used_in_header(
     """
     if header_blob_gas_used is None:
         raise Exception("test case is badly formatted")
+
+    total_blobs = sum(blobs_per_tx_list)
     blockchain_test(
         pre=pre,
         post={},
@@ -468,7 +553,7 @@ def test_invalid_blob_gas_used_in_header(
         genesis_environment=env,
         tag="-".join(
             [
-                f"correct:{hex(new_blobs * blob_gas_per_blob)}",
+                f"correct:{hex(total_blobs * blob_gas_per_blob)}",
                 f"header:{hex(header_blob_gas_used)}",
             ]
         ),
