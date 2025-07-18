@@ -10,7 +10,7 @@ import configparser
 import datetime
 import os
 import warnings
-from enum import Enum, StrEnum, unique
+from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
 
@@ -36,7 +36,6 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
-from ethereum_test_tools import Environment
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -50,14 +49,6 @@ from ..shared.helpers import (
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
-
-
-@unique
-class FillMode(StrEnum):
-    """Fill mode for the filler."""
-
-    CONSENSUS = "consensus"
-    BENCHMARKING = "benchmarking"
 
 
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
@@ -344,9 +335,6 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
-    if not hasattr(config, "fill_mode"):
-        config.fill_mode = FillMode.CONSENSUS
-
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
@@ -567,11 +555,6 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Fill Test Report"
-
-
-@pytest.fixture
-def env(request: pytest.FixtureRequest) -> Environment:  # noqa: D103
-    return Environment()
 
 
 @pytest.fixture(autouse=True, scope="session")
