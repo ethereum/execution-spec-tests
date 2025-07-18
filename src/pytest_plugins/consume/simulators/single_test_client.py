@@ -1,4 +1,4 @@
-"""Common pytest fixtures for simulators with single-test client architecture."""
+"""Common pytest fixtures for the RLP and Engine simulators."""
 
 import io
 import json
@@ -57,7 +57,7 @@ def buffered_genesis(client_genesis: dict) -> io.BufferedReader:
 
 @pytest.fixture(scope="function")
 def genesis_header(fixture: BlockchainFixtureCommon) -> FixtureHeader:
-    """Provide the genesis header from the shared pre-state group."""
+    """Provide the genesis header from the pre-allocation group."""
     return fixture.genesis  # type: ignore
 
 

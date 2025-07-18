@@ -1,8 +1,4 @@
-"""
-Pytest fixtures for the `consume engine` simulator.
-
-Configures the hive back-end & EL clients for each individual test execution.
-"""
+"""Pytest plugin for the `consume engine` simulator."""
 
 import io
 from typing import Mapping
@@ -29,6 +25,18 @@ def pytest_configure(config):
     config._supported_fixture_formats = [BlockchainEngineFixture.format_name]
 
 
+@pytest.fixture(scope="module")
+def test_suite_name() -> str:
+    """The name of the hive test suite used in this simulator."""
+    return "eest/consume-engine"
+
+
+@pytest.fixture(scope="module")
+def test_suite_description() -> str:
+    """The description of the hive test suite used in this simulator."""
+    return "Execute blockchain tests against clients using the Engine API."
+
+
 @pytest.fixture(scope="function")
 def engine_rpc(client: Client, client_exception_mapper: ExceptionMapper | None) -> EngineRPC:
     """Initialize engine RPC client for the execution client under test."""
@@ -40,18 +48,6 @@ def engine_rpc(client: Client, client_exception_mapper: ExceptionMapper | None) 
             },
         )
     return EngineRPC(f"http://{client.ip}:8551")
-
-
-@pytest.fixture(scope="module")
-def test_suite_name() -> str:
-    """The name of the hive test suite used in this simulator."""
-    return "eest/consume-engine"
-
-
-@pytest.fixture(scope="module")
-def test_suite_description() -> str:
-    """The description of the hive test suite used in this simulator."""
-    return "Execute blockchain tests against clients using the Engine API."
 
 
 @pytest.fixture(scope="function")

@@ -44,10 +44,10 @@ def get_static_test_paths(command_name: str, is_hive: bool) -> List[Path]:
         static_test_paths = [
             base_path / "simulators" / "simulator_logic" / f"test_via_{cmd}.py" for cmd in commands
         ]
-    elif command_name in ["engine", "rlp"]:
-        static_test_paths = [
-            base_path / "simulators" / "simulator_logic" / f"test_via_{command_name}.py"
-        ]
+    elif command_name in ["engine", "enginex"]:
+        static_test_paths = [base_path / "simulators" / "simulator_logic" / "test_via_engine.py"]
+    elif command_name == "rlp":
+        static_test_paths = [base_path / "simulators" / "simulator_logic" / "test_via_rlp.py"]
     elif command_name == "direct":
         static_test_paths = [base_path / "direct" / "test_via_direct.py"]
     else:
@@ -101,13 +101,47 @@ def rlp() -> None:
 
 @consume_command(is_hive=True)
 def engine() -> None:
-    """Client consumes via the Engine API."""
+    """Client consumes Engine Fixtures via the Engine API."""
     pass
+
+
+@consume.command(
+    name="enginex",
+    help="Client consumes Engine X Fixtures via the Engine API.",
+    context_settings={"ignore_unknown_options": True},
+)
+@click.option(
+    "--enginex-fcu-frequency",
+    type=int,
+    default=1,
+    help=(
+        "Control forkchoice update frequency for enginex simulator. "
+        "0=disable FCUs, 1=FCU every test (default), N=FCU every Nth test per "
+        "pre-allocation group."
+    ),
+)
+@common_pytest_options
+def enginex(enginex_fcu_frequency: int, pytest_args: List[str], **_kwargs) -> None:
+    """Client consumes Engine X Fixtures via the Engine API."""
+    command_name = "enginex"
+    static_test_paths = get_static_test_paths(command_name, is_hive=True)
+
+    # Validate the frequency parameter
+    if enginex_fcu_frequency < 0:
+        raise click.BadParameter("FCU frequency must be non-negative")
+
+    # Add the FCU frequency to pytest args as a custom config option
+    pytest_args_with_fcu = [f"--enginex-fcu-frequency={enginex_fcu_frequency}"] + list(pytest_args)
+
+    consume_cmd = create_consume_command(
+        static_test_paths=static_test_paths, is_hive=True, command_name=command_name
+    )
+    consume_cmd.execute(pytest_args_with_fcu)
 
 
 @consume_command(is_hive=True)
 def hive() -> None:
-    """Client consumes via all available hive methods (rlp, engine)."""
+    """Client consumes via rlp & engine hive methods."""
     pass
 
 
