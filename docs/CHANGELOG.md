@@ -90,6 +90,7 @@ Users can select any of the artifacts depending on their testing needs for their
 ### 📋 Misc
 
 - 🔀 Use only relative imports in `tests/` directory ([#1848](https://github.com/ethereum/execution-spec-tests/pull/1848)).
+- 🔀 Convert absolute imports to relative imports in `src/` directory for better code maintainability ([#1907](https://github.com/ethereum/execution-spec-tests/pull/1907)).
 - 🔀 Misc. doc updates, including a navigation footer ([#1846](https://github.com/ethereum/execution-spec-tests/pull/1846)).
 - 🔀 Remove Python 3.10 support ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 - 🔀 Modernize codebase with Python 3.11 language features ([#1812](https://github.com/ethereum/execution-spec-tests/pull/1812)).
