@@ -67,7 +67,7 @@ gas:
     - :label gas1 :abi f(uint) 0
     - :label gas2 :abi f(uint) 1
     gasLimit:
-    - '30000000'
+    - '16777216'
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc

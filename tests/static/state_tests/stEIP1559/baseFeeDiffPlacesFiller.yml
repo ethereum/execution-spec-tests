@@ -675,7 +675,7 @@ baseFeeDiffPlaces:
 
 
     gasLimit:
-    - 0x1c9c380
+    - 0x1000000
     nonce: 1
     to: cccccccccccccccccccccccccccccccccccccccc
     value:
