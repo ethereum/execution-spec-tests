@@ -36,7 +36,7 @@ outOfFunds:
     maxFeePerGas: 10000000000
     maxPriorityFeePerGas:  10000000000
     gasLimit:
-    - 30000000
+    - 16777216
     - 40000
     nonce: 1
     to: <contract:target:0xcccccccccccccccccccccccccccccccccccccccc>
