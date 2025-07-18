@@ -12,9 +12,9 @@ note: Adding a new test
     - post
     - correct_excess_blob_gas
 
-    The following arguments *need* to be parametrized or the test will not be generated:
+    The following arguments can be parametrized to generate new combinations and test cases:
 
-    - new_blobs
+    - blobs_per_tx_list: List of blob counts for each transaction: [1, 2, 3] for 3 transactions
 
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
     cases.
@@ -89,22 +89,19 @@ def header_excess_blob_gas(  # noqa: D103
 
 
 @pytest.fixture
-def new_blobs() -> int:
+def blobs_per_tx_list() -> List[int]:
     """
-    Single blob count for backward compatibility with existing tests.
-    This will be overridden by parametrization in existing tests.
+    List of blob counts for each transaction.
+    - Default: [1] for single tx tests.
+    - For multi-tx tests: Will be overridden by parametrization.
     """
-    return 1
+    return [1]
 
 
 @pytest.fixture
-def blobs_per_tx_list(new_blobs: int) -> List[int]:
-    """
-    List of blob counts for each transaction.
-    - For existing tests using new_blobs: [new_blobs]
-    - For new multi-tx tests: Will be overridden by parametrization with [6, 4] etc.
-    """
-    return [new_blobs]
+def total_blobs(blobs_per_tx_list: List[int]) -> int:
+    """Total number of blobs across all transactions."""
+    return sum(blobs_per_tx_list)
 
 
 @pytest.fixture
@@ -161,12 +158,15 @@ def sender(pre: Alloc, tx_exact_cost: int) -> Address:  # noqa: D103
 
 @pytest.fixture
 def post(  # noqa: D103
-    destination_account: Address, tx_value: int, blob_gas_price: int
+    destination_account: Address,
+    tx_value: int,
+    blob_gas_price: int,
+    blobs_per_tx_list: List[int],
 ) -> Mapping[Address, Account]:
     return {
         destination_account: Account(
             storage={0: blob_gas_price},
-            balance=tx_value,
+            balance=tx_value * len(blobs_per_tx_list),
         ),
     }
 
@@ -311,7 +311,14 @@ def blocks(  # noqa: D103
     "parent_excess_blobs",
     lambda fork: range(0, fork.target_blobs_per_block() + 1),
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [fork.max_blobs_per_tx()],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 def test_correct_excess_blob_gas_calculation(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -372,7 +379,13 @@ def generate_blob_gas_cost_increases_tests(delta: int) -> Callable[[Fork], List[
     "parent_blobs",
     lambda fork: [fork.target_blobs_per_block() + 1],
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 def test_correct_increasing_blob_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -409,7 +422,13 @@ def test_correct_increasing_blob_gas_costs(
     "parent_blobs",
     lambda fork: [fork.target_blobs_per_block() - 1],
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 def test_correct_decreasing_blob_gas_costs(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
@@ -434,7 +453,7 @@ def test_correct_decreasing_blob_gas_costs(
 
 
 @pytest.mark.parametrize("header_excess_blob_gas", [0])
-@pytest.mark.parametrize("new_blobs", [0, 1])
+@pytest.mark.parametrize("blobs_per_tx_list", [[0], [1]])
 @pytest.mark.parametrize_by_fork(
     "parent_blobs",
     lambda fork: range(0, fork.max_blobs_per_block() + 1),
@@ -572,7 +591,13 @@ def generate_invalid_excess_blob_gas_above_target_change_tests(fork: Fork) -> Li
     "header_excess_blobs_delta,parent_blobs",
     generate_invalid_excess_blob_gas_above_target_change_tests,
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.exception_test
 def test_invalid_excess_blob_gas_above_target_change(
     blockchain_test: BlockchainTestFiller,
@@ -617,7 +642,13 @@ def test_invalid_excess_blob_gas_above_target_change(
 @pytest.mark.parametrize_by_fork(
     "parent_excess_blobs", lambda fork: [1, fork.target_blobs_per_block()]
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.exception_test
 def test_invalid_static_excess_blob_gas(
     blockchain_test: BlockchainTestFiller,
@@ -659,7 +690,13 @@ def test_invalid_static_excess_blob_gas(
     lambda fork: range(0, fork.target_blobs_per_block() + 1),
 )
 @pytest.mark.parametrize("parent_excess_blobs", [0])  # Start at 0
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.exception_test
 def test_invalid_excess_blob_gas_target_blobs_increase_from_zero(
     blockchain_test: BlockchainTestFiller,
@@ -701,7 +738,13 @@ def test_invalid_excess_blob_gas_target_blobs_increase_from_zero(
     lambda fork: range(fork.target_blobs_per_block() + 1, fork.max_blobs_per_block() + 1),
 )
 @pytest.mark.parametrize("parent_excess_blobs", [0])  # Start at 0
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.exception_test
 def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
     blockchain_test: BlockchainTestFiller,
@@ -750,7 +793,13 @@ def test_invalid_static_excess_blob_gas_from_zero_on_blobs_above_target(
         ],
     ),
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.exception_test
 def test_invalid_excess_blob_gas_change(
     blockchain_test: BlockchainTestFiller,
@@ -798,7 +847,13 @@ def test_invalid_excess_blob_gas_change(
     "parent_blobs",
     lambda fork: range(fork.target_blobs_per_block()),
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.parametrize_by_fork(
     "parent_excess_blobs",
     lambda fork: range(fork.target_blobs_per_block()),
@@ -848,7 +903,13 @@ def test_invalid_negative_excess_blob_gas(
         (fork.target_blobs_per_block() - 1, -(fork.blob_gas_per_blob() - 1)),
     ],
 )
-@pytest.mark.parametrize("new_blobs", [1])
+@pytest.mark.parametrize_by_fork(
+    "blobs_per_tx_list",
+    lambda fork: [
+        [1],
+        [1, fork.max_blobs_per_tx() - 1],  # multiple txs in a block
+    ],
+)
 @pytest.mark.parametrize_by_fork(
     "parent_excess_blobs",
     lambda fork: [fork.target_blobs_per_block() + 1],
