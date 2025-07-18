@@ -707,8 +707,8 @@ pytestmark = pytest.mark.valid_from("Prague")
                             index=0x0,
                         )
                     ],
-                    call_depth=1024,
-                    tx_gas_limit=2_500_000_000_000,
+                    call_depth=271,
+                    tx_gas_limit=16_777_216,
                 ),
             ],
             id="single_deposit_from_contract_call_depth_high",
