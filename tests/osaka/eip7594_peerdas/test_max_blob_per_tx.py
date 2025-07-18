@@ -137,7 +137,7 @@ def test_invalid_max_blobs_per_tx(
 )
 @pytest.mark.valid_at_transition_to("Osaka")
 @pytest.mark.exception_test
-def test_max_blobs_per_tx_fork_transition_three_blocks(
+def test_max_blobs_per_tx_fork_transition(
     blockchain_test: BlockchainTestFiller,
     env: Environment,
     pre: Alloc,
