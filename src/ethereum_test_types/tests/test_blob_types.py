@@ -15,7 +15,13 @@ from ethereum_test_forks.forks.transition import (
     ShanghaiToCancunAtTime15k,
 )
 
-from ..blob_types import CACHED_BLOBS_DIRECTORY, Blob, clear_blob_cache
+from ..blob_types import (
+    CACHED_BLOBS_DIRECTORY,
+    Blob,
+    BPO_Parameters,
+    bpo_get_value,
+    clear_blob_cache,
+)
 
 
 @pytest.mark.parametrize("seed", [0, 10, 100])
@@ -109,3 +115,24 @@ def test_transition_fork_blobs(
             f"Transition fork failure! Fork {fork.name()} at timestamp: {timestamp} should have "
             f"transitioned to {post_transition_fork_at_15k.name()} but is still at {b.fork.name()}"
         )
+
+
+@pytest.mark.parametrize("bpo_fork", ["cancun", "prague", "osaka", "bpo1", "bpo2"])
+@pytest.mark.parametrize(
+    "bpo_parameter",
+    [
+        BPO_Parameters.TARGET,
+        BPO_Parameters.MAX,
+        BPO_Parameters.BASE_FEE_UPDATE_FRACTION,
+        BPO_Parameters.TIME,
+    ],
+)
+def test_bpo_parameter_lookup(bpo_fork, bpo_parameter):
+    """Tries looking up different values from the BPO configuration json."""
+    result = bpo_get_value(bpo_fork=bpo_fork, bpo_parameter=bpo_parameter)
+    print(
+        f"\nbpo_fork: {bpo_fork}\n"
+        f"bpo_parameter: {bpo_parameter}\n"
+        f"retrieved value from config: {result}\n"
+    )
+    # TODO: when one day actual bpo_config is known assert correction of retrieved values
