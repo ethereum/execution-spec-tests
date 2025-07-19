@@ -154,7 +154,11 @@ def test_valid_multi_inf(
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000
 
-    environment_gas_limit = Environment().gas_limit
+    max_gas_limit = (
+        Environment().gas_limit
+        if fork.transaction_gas_limit_cap() is None
+        else fork.transaction_gas_limit_cap()
+    )
 
     inf_data = Spec.INF_G1 + Spec.INF_G2
     input_data = inf_data
@@ -167,7 +171,7 @@ def test_valid_multi_inf(
             + memory_expansion_gas_calculator(new_bytes=len(input_data + inf_data))
             + precompile_gas
         )
-        if new_tx_gas_limit > environment_gas_limit:
+        if new_tx_gas_limit > max_gas_limit:
             break
         tx_gas_limit = new_tx_gas_limit
         input_data += inf_data
@@ -303,7 +307,11 @@ def test_invalid_multi_inf(
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     extra_gas = 100_000
 
-    environment_gas_limit = Environment().gas_limit
+    max_gas_limit = (
+        Environment().gas_limit
+        if fork.transaction_gas_limit_cap() is None
+        else fork.transaction_gas_limit_cap()
+    )
 
     inf_data = Spec.INF_G1 + Spec.INF_G2
     input_data = PointG1(Spec.P, 0) + Spec.INF_G2
@@ -316,7 +324,7 @@ def test_invalid_multi_inf(
             + memory_expansion_gas_calculator(new_bytes=len(input_data + inf_data))
             + precompile_gas
         )
-        if new_tx_gas_limit > environment_gas_limit:
+        if new_tx_gas_limit > max_gas_limit:
             break
         tx_gas_limit = new_tx_gas_limit
         input_data = inf_data + input_data
