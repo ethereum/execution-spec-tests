@@ -12,6 +12,7 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     CodeGasMeasure,
     StateTestFiller,
     Transaction,
@@ -187,6 +188,63 @@ def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
             storage={"0x00": 0}  # Call failed due to stack underflow
         ),
     }
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+    """Test CLZ opcode never causes stack overflow."""
+    max_stack_items = fork.max_stack_height()
+
+    code = Bytecode()
+    post = {}
+
+    code += Op.PUSH0 * (max_stack_items - 2)
+
+    for i in range(256):
+        code += Op.PUSH1(i) + Op.CLZ(1 << i) + Op.SWAP1 + Op.SSTORE
+
+    code_address = pre.deploy_contract(code=code)
+
+    post[code_address] = Account(storage={i: 255 - i for i in range(256)})
+
+    tx = Transaction(
+        to=code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=6_000_000,
+    )
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc):
+    """Test CLZ opcode returns the same value via different push operations."""
+    code = Bytecode()
+    post = {}
+
+    for bit in range(1, 33):  # PUSH value
+        for push_n in range(bit, 33):  # PUSHn opcode
+            op = getattr(Op, f"PUSH{push_n}")
+            key = 100 * bit + push_n
+            code += Op.SSTORE(key, Op.CLZ(op[1 << bit]))
+
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=30_000_000,
+    )
+
+    post = {
+        code_address: Account(
+            storage={
+                bit * 100 + push_n: 255 - bit for bit in range(1, 33) for push_n in range(bit, 33)
+            }
+        )
+    }
+
     state_test(pre=pre, post=post, tx=tx)
 
 
