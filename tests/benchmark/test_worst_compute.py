@@ -2317,3 +2317,103 @@ def test_worst_return_revert(
         post={},
         tx=tx,
     )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_same_input(
+    state_test: StateTestFiller, blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork
+):
+    """Test running a block with as many CLZ with same input as possible."""
+    env = Environment()
+    attack_gas_limit = env.gas_limit
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+
+    magic_value = 248  # CLZ(248) = 248
+
+    calldata = Op.PUSH1(magic_value)
+    attack_block = Op.CLZ
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    assert len(code) <= fork.max_code_size()
+
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=tx_gas_limit if tx_gas_limit else attack_gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    if (tx_gas_limit is None) or (tx_gas_limit > attack_gas_limit):
+        state_test(
+            env=env,
+            pre=pre,
+            post={},
+            tx=tx,
+        )
+    else:
+        tx_count = attack_gas_limit // tx_gas_limit
+        txs = [tx for _ in range(tx_count)]
+
+        blockchain_test(
+            genesis_environment=Environment(),
+            pre=pre,
+            post={},
+            blocks=[Block(txs=txs)],
+        )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_diff_input(
+    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """Test running a block with as many CLZ with different input as possible."""
+    env = Environment()
+    attack_gas_limit = env.gas_limit
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    code_suffix = Op.PUSH0 + Op.JUMP
+
+    available_code_size = max_code_size - len(code_prefix) - len(code_suffix)
+
+    code_seq = Bytecode()
+
+    for i in range(available_code_size):
+        value = (2**256 - 1) >> (i % 256)
+        clz_op = Op.CLZ(value) + Op.POP
+        if len(code_seq) + len(clz_op) > available_code_size:
+            break
+        code_seq += clz_op
+
+    attack_code = code_prefix + code_seq + code_suffix
+    assert len(attack_code) <= max_code_size
+
+    code_address = pre.deploy_contract(code=attack_code)
+
+    tx = Transaction(
+        to=code_address,
+        gas_limit=env.gas_limit,
+        sender=pre.fund_eoa(),
+    )
+
+    if (tx_gas_limit is None) or (tx_gas_limit > attack_gas_limit):
+        state_test(
+            env=env,
+            pre=pre,
+            post={},
+            tx=tx,
+        )
+    else:
+        tx_count = attack_gas_limit // tx_gas_limit
+        txs = [tx for _ in range(tx_count)]
+
+        blockchain_test(
+            genesis_environment=Environment(),
+            pre=pre,
+            post={},
+            blocks=[Block(txs=txs)],
+        )
