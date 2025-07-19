@@ -548,7 +548,7 @@ def test_blake2b_invalid_gas(
 
 @pytest.mark.valid_from("Istanbul")
 @pytest.mark.parametrize("call_opcode", [Op.CALL, Op.CALLCODE])
-@pytest.mark.parametrize("gas_limit", [Environment().gas_limit, 90_000, 110_000, 200_000])
+@pytest.mark.parametrize("gas_limit", [16_777_216, 90_000, 110_000, 200_000])
 @pytest.mark.parametrize(
     ["data", "output"],
     [
