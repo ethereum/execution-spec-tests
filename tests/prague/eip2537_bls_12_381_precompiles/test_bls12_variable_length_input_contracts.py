@@ -46,12 +46,13 @@ def input_length_modifier() -> int:
 
 
 @pytest.fixture
-def env(fork: Fork, tx: Transaction) -> int:
-    """Input length modifier to apply to each element of the precompile_gas_list."""
+def env(fork: Fork, tx: Transaction) -> Environment:
+    """Environment used for all tests."""
     env = Environment()
-    if fork.transaction_gas_limit_cap() is not None:
-        assert tx.gas_limit <= fork.transaction_gas_limit_cap(), (
-            f"tx exceeds gas limit cap: {int(tx.gas_limit)} > {fork.transaction_gas_limit_cap()}"
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    if tx_gas_limit_cap is not None:
+        assert tx.gas_limit <= tx_gas_limit_cap, (
+            f"tx exceeds gas limit cap: {int(tx.gas_limit)} > {tx_gas_limit_cap}"
         )
     if tx.gas_limit > env.gas_limit:
         env = Environment(gas_limit=tx.gas_limit)
@@ -87,6 +88,8 @@ def call_contract_code(
             List of data lengths to be used to call the precompile, one for each call.
         gas_modifier:
             Integer to add to the gas passed to the precompile.
+        input_length_modifier:
+            Integer to add to the length of the input passed to the precompile.
         expected_output:
             Expected output of the contract, it is only used to determine if the call is expected
             to succeed or fail.
@@ -165,7 +168,7 @@ def get_split_discount_table_by_fork(
 
     The function will return the full discount table as a single test case if the
     fork has no transaction gas limit cap, otherwise it will iterate to determine the
-    splits required to fit the full discount table accross multiple test cases.
+    splits required to fit the full discount table across multiple test cases.
     """
 
     def parametrize_by_fork(fork: Fork) -> List[ParameterSet]:
