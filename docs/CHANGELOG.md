@@ -73,6 +73,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 - 🔀 Disabled writing debugging information to the EVM "dump directory" to improve performance. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)).
 - ✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers ([#1781](https://github.com/ethereum/execution-spec-tests/pull/1781)).
+- ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
 
 #### `consume`
 
