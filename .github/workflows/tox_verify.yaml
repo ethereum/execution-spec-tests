@@ -160,9 +160,6 @@ jobs:
           - os: macos-15
             name: macos-15
             python: "3.12"
-          - os: [self-hosted-ghr, size-xl-x64]
-            name: self-hosted-ghr-xl-x64-pypy
-            python: "pypy3.11"
     steps:
       - name: Checkout ethereum/execution-spec-tests
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -180,9 +177,6 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ matrix.python }}
-      - name: Install linux dependencies
-        if: matrix.python == 'pypy3.11' && contains(matrix.os, 'self-hosted-ghr')
-        run: sudo apt-get install -y pkg-config libsecp256k1-dev libjpeg-dev libxml2-dev libxslt1-dev
       - name: Update eels_resolutions.json
         run: |
           sed -i -e "s|\$GITHUB_WORKSPACE|${GITHUB_WORKSPACE}|g" .github/configs/eels_resolutions.json
