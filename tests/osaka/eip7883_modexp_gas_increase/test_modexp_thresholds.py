@@ -13,7 +13,7 @@ from ethereum_test_tools import (
     Transaction,
 )
 
-from .helpers import Vector
+from .helpers import vectors_from_file
 from .spec import ref_spec_7883
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7883.git_path
@@ -22,9 +22,12 @@ REFERENCE_SPEC_VERSION = ref_spec_7883.version
 pytestmark = pytest.mark.valid_from("Prague")
 
 
-@pytest.mark.parametrize("vector", Vector.from_file("vectors.json"), ids=lambda v: v.name)
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,gas_old,gas_new",
+    vectors_from_file("vectors.json"),
+    ids=lambda v: v.name,
+)
 def test_vectors_from_file(
-    vector: Vector,
     state_test: StateTestFiller,
     pre: Alloc,
     tx: Transaction,
