@@ -9,12 +9,14 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
+    AccessList,
     Account,
     Address,
     Alloc,
     Block,
     BlockchainTestFiller,
     Environment,
+    Hash,
     StateTestFiller,
     Transaction,
 )
@@ -165,6 +167,12 @@ def total_cost_floor_per_token():
     return 10
 
 
+@pytest.fixture
+def total_cost_standard_per_token():
+    """Total cost floor per token."""
+    return 4
+
+
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_data(
@@ -214,6 +222,69 @@ def test_block_full_data(
         data=byte_data * num_of_bytes,
         gas_limit=attack_gas_limit,
         sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("zero_byte", [True, False])
+def test_block_full_access_list_and_data(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    zero_byte: bool,
+    intrinsic_cost: int,
+    total_cost_standard_per_token: int,
+    fork: Fork,
+):
+    """Test a block with access lists (60% gas) and calldata (40% gas)."""
+    attack_gas_limit = Environment().gas_limit
+    gas_available = attack_gas_limit - intrinsic_cost
+
+    # Split available gas: 60% for access lists, 40% for calldata
+    gas_for_access_list = int(gas_available * 0.6)
+    gas_for_calldata = int(gas_available * 0.4)
+
+    # Access list gas costs from fork's gas_costs
+    gas_costs = fork.gas_costs()
+    gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
+    gas_per_storage_key = gas_costs.G_ACCESS_LIST_STORAGE
+
+    # Calculate number of storage keys we can fit
+    gas_after_address = gas_for_access_list - gas_per_address
+    num_storage_keys = gas_after_address // gas_per_storage_key
+
+    # Create access list with 1 address and many storage keys
+    access_address = Address("0x1234567890123456789012345678901234567890")
+    storage_keys = []
+    for i in range(num_storage_keys):
+        # Generate random-looking storage keys
+        storage_keys.append(Hash(i))
+
+    access_list = [
+        AccessList(
+            address=access_address,
+            storage_keys=storage_keys,
+        )
+    ]
+
+    # Calculate calldata size based on remaining gas
+    # Using the cheaper 4/16 calldata pricing (EIP-7623)
+    max_tokens_in_calldata = gas_for_calldata // total_cost_standard_per_token
+    num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
+    byte_data = b"\x00" if zero_byte else b"\xff"
+
+    tx = Transaction(
+        to=pre.fund_eoa(),
+        data=byte_data * num_of_bytes,
+        gas_limit=attack_gas_limit,
+        sender=pre.fund_eoa(),
+        access_list=access_list,
     )
 
     state_test(
