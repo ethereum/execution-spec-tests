@@ -1192,7 +1192,7 @@ def test_worst_jumpi_fallthrough(
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1219,7 +1219,7 @@ def test_worst_jumpis(
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
