@@ -14,19 +14,19 @@ from .spec import Spec, Spec7883
 
 @pytest.fixture
 def gas_old() -> int | None:
-    """Gas value from the test vector if any."""
+    """Get old gas cost from the test vector if any."""
     return None
 
 
 @pytest.fixture
 def gas_new() -> int | None:
-    """Gas value from the test vector if any."""
+    """Get new gas cost from the test vector if any."""
     return None
 
 
 @pytest.fixture
 def call_opcode() -> Op:
-    """Return default call used to call the precompile."""
+    """Return call operationused to call the precompile."""
     return Op.CALL
 
 
@@ -59,7 +59,7 @@ def gas_measure_contract(
     call_contract_post_storage: Storage,
     call_succeeds: bool,
 ) -> Address:
-    """Deploys a contract that measures ModExp gas consumption."""
+    """Deploys a contract that measures ModExp gas consumption and execution result."""
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
