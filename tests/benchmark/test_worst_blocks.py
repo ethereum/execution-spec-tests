@@ -233,16 +233,16 @@ def test_block_full_data(
 
 
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_access_list_and_data(
     state_test: StateTestFiller,
     pre: Alloc,
-    zero_byte: bool,
     intrinsic_cost: int,
     total_cost_standard_per_token: int,
     fork: Fork,
 ):
-    """Test a block with access lists (60% gas) and calldata (40% gas)."""
+    """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
+    import random
+    
     attack_gas_limit = Environment().gas_limit
     gas_available = attack_gas_limit - intrinsic_cost
 
@@ -273,15 +273,43 @@ def test_block_full_access_list_and_data(
         )
     ]
 
-    # Calculate calldata size based on remaining gas
-    # Using the cheaper 4/16 calldata pricing (EIP-7623)
+    # Calculate calldata with 29% of gas for zero bytes and 71% for non-zero bytes
+    # Token accounting: tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
+    # We want to split the gas budget:
+    # - 29% of gas_for_calldata for zero bytes
+    # - 71% of gas_for_calldata for non-zero bytes
+    
     max_tokens_in_calldata = gas_for_calldata // total_cost_standard_per_token
-    num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
-    byte_data = b"\x00" if zero_byte else b"\xff"
+    
+    # Calculate how many tokens to allocate to each type
+    tokens_for_zero_bytes = int(max_tokens_in_calldata * 0.29)
+    tokens_for_non_zero_bytes = max_tokens_in_calldata - tokens_for_zero_bytes
+    
+    # Convert tokens to actual byte counts
+    # Zero bytes: 1 token per byte
+    # Non-zero bytes: 4 tokens per byte
+    num_zero_bytes = tokens_for_zero_bytes  # 1 token = 1 zero byte
+    num_non_zero_bytes = tokens_for_non_zero_bytes // 4  # 4 tokens = 1 non-zero byte
+    
+    # Create calldata with mixed bytes
+    calldata = bytearray()
+    
+    # Add zero bytes
+    calldata.extend(b"\x00" * num_zero_bytes)
+    
+    # Add non-zero bytes (random values from 0x01 to 0xff)
+    random.seed(42)  # For reproducibility
+    for _ in range(num_non_zero_bytes):
+        calldata.append(random.randint(1, 255))
+    
+    # Shuffle the bytes to mix zero and non-zero bytes
+    calldata_list = list(calldata)
+    random.shuffle(calldata_list)
+    calldata = bytes(calldata_list)
 
     tx = Transaction(
         to=pre.fund_eoa(),
-        data=byte_data * num_of_bytes,
+        data=calldata,
         gas_limit=attack_gas_limit,
         sender=pre.fund_eoa(),
         access_list=access_list,
