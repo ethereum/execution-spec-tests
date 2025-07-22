@@ -27471,7 +27471,7 @@
             <span class="n">group</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
                 <span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
-                <span class="n">allow_key_collision</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">key_collision_mode</span><span class="o">=</span><span class="n">Alloc</span><span class="o">.</span><span class="n">KeyCollisionMode</span><span class="o">.</span><span class="n">ALLOW_IDENTICAL_ACCOUNTS</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">group</span><span class="o">.</span><span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span>
             <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
@@ -28242,7 +28242,7 @@ This is the case when the test is not run in pytest.</p>
         <span class="n">group</span><span class="o">.</span><span class="n">pre</span> <span class="o">=</span> <span class="n">Alloc</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
             <span class="n">group</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pre</span><span class="p">,</span>
-            <span class="n">allow_key_collision</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">key_collision_mode</span><span class="o">=</span><span class="n">Alloc</span><span class="o">.</span><span class="n">KeyCollisionMode</span><span class="o">.</span><span class="n">ALLOW_IDENTICAL_ACCOUNTS</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">group</span><span class="o">.</span><span class="n">fork</span> <span class="o">=</span> <span class="n">fork</span>
         <span class="n">group</span><span class="o">.</span><span class="n">test_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">test_id</span><span class="p">))</span>
