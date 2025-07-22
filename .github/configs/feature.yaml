@@ -13,7 +13,7 @@ static:
   solc: 0.8.21
 benchmark_test:
   evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,60,90,120 -m benchmark --generate-all-formats ./tests
+  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,90,120 -m benchmark --generate-all-formats ./tests
   solc: 0.8.21
   feature_only: true
 eip7692:
