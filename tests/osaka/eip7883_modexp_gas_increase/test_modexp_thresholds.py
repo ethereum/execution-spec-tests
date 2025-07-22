@@ -47,6 +47,56 @@ def test_vectors_from_file(
     "modexp_input,modexp_expected,call_succeeds",
     [
         pytest.param(bytes(), bytes(), False, id="zero-length-calldata"),
+        pytest.param(
+            bytes.fromhex(
+                format(10, "032x")  # Bsize
+                + format(11, "032x")  # Esize
+                + format(12, "032x")  # Msize
+                + "FF" * 9  # E
+                + "FF" * 11  # M
+                + "FF" * 12  # B
+            ),
+            bytes(),
+            False,
+            id="b-too-short",
+        ),
+        pytest.param(
+            bytes.fromhex(
+                format(10, "032x")  # Bsize
+                + format(11, "032x")  # Esize
+                + format(12, "032x")  # Msize
+                + "FF" * 10  # E
+                + "FF" * 10  # M
+                + "FF" * 12  # B
+            ),
+            bytes(),
+            False,
+            id="m-too-short",
+        ),
+        pytest.param(
+            bytes.fromhex(
+                format(10, "032x")  # Bsize
+                + format(11, "032x")  # Esize
+                + format(12, "032x")  # Msize
+                + "FF" * 10  # E
+                + "FF" * 11  # M
+                + "FF" * 11  # B
+            ),
+            bytes(),
+            False,
+            id="e-too-short",
+        ),
+        # Not sure if this is valid
+        pytest.param(
+            bytes.fromhex(
+                format(0, "032x")  # Bsize
+                + format(0, "032x")  # Esize
+                + format(0, "032x")  # Msize
+            ),
+            bytes(),
+            False,
+            id="all-zeros",
+        ),
     ],
 )
 @EIPChecklist.Precompile.Test.Inputs.AllZeros
@@ -134,3 +184,46 @@ def test_modexp_gas_usage(
 ):
     """Test ModExp gas cost using the test vectors from EIP-7883."""
     state_test(pre=pre, tx=tx, post=post)
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,precompile_gas_modifier,call_succeeds",
+    [
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_expected,
+            1,
+            True,
+            id="extra_gas",
+        ),
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_expected,
+            0,
+            True,
+            id="exact_gas",
+        ),
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_error,
+            -1,
+            False,
+            id="insufficient_gas",
+        ),
+    ],
+)
+def test_modexp_entry_points(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    tx: Transaction,
+    modexp_input: bytes,
+    tx_gas_limit: int,
+):
+    """Test ModExp entry points."""
+    tx = Transaction(
+        to=Spec.MODEXP_ADDRESS,
+        sender=pre.fund_eoa(),
+        data=bytes(modexp_input),
+        gas_limit=tx_gas_limit,
+    )
+    state_test(pre=pre, tx=tx, post={})
