@@ -25496,6 +25496,7 @@ to fill (including the standard pytest and plugin command-line options) use <cod
             [--evm-code-type EVM_CODE_TYPE] [--evm-bin EVM_BIN]
             [--t8n-server-url T8N_SERVER_URL] [--traces] [--verify-fixtures]
             [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
+            [--gas-benchmark-values GAS_BENCHMARK_VALUES]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--clean]
             [--flat-output] [--single-fixture-per-file] [--no-html]
             [--build-name BUILD_NAME] [--skip-index SKIP_INDEX]
@@ -25543,6 +25544,9 @@ Arguments defining evm executable behavior:
                         Path to an evm executable that provides the
                         `blocktest` command. Default: The first (geth) &#39;evm&#39;
                         entry in PATH.
+  --gas-benchmark-values GAS_BENCHMARK_VALUES
+                        Specify gas benchmark values for tests as a comma-
+                        separated list.
 
 Arguments defining filler location and output:
   --filler-path FILLER_PATH
