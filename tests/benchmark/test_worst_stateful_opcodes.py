@@ -53,10 +53,11 @@ def test_worst_address_state_cold(
     fork: Fork,
     opcode: Op,
     absent_accounts: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many stateful opcodes accessing cold accounts."""
-    env = Environment(gas_limit=100_000_000_000)
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
 
     gas_costs = fork.gas_costs()
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
@@ -142,11 +143,12 @@ def test_worst_address_state_warm(
     fork: Fork,
     opcode: Op,
     absent_target: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many stateful opcodes doing warm access for an account."""
-    env = Environment(gas_limit=100_000_000_000)
     max_code_size = fork.max_code_size()
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
 
     # Setup
     target_addr = Address(100_000)
@@ -213,11 +215,12 @@ def test_worst_storage_access_cold(
     fork: Fork,
     storage_action: StorageAction,
     absent_slots: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many cold storage slot accesses as possible."""
-    env = Environment(gas_limit=100_000_000_000)
     gas_costs = fork.gas_costs()
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
 
     cost = gas_costs.G_COLD_SLOAD  # All accesses are always cold
     if storage_action == StorageAction.WRITE_NEW_VALUE:
@@ -231,10 +234,10 @@ def test_worst_storage_access_cold(
         else:
             cost += gas_costs.G_WARM_SLOAD
     elif storage_action == StorageAction.READ:
-        cost += gas_costs.G_WARM_SLOAD
+        cost += 0  # Only G_COLD_SLOAD is charged
 
     intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    num_target_slots = (attack_gas_limit - intrinsic_gas_cost_calc()) // cost
+    num_target_slots = ((attack_gas_limit - intrinsic_gas_cost_calc()) // cost) + 1
 
     blocks = []
 
@@ -316,10 +319,11 @@ def test_worst_storage_access_warm(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     storage_action: StorageAction,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many warm storage slot accesses as possible."""
-    env = Environment(gas_limit=100_000_000_000)
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
 
     blocks = []
 
@@ -380,10 +384,10 @@ def test_worst_storage_access_warm(
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many blockhash accessing oldest allowed block as possible."""
-    env = Environment()
-
     # Create 256 dummy blocks to fill the blockhash window.
     blocks = [Block()] * 256
 
@@ -394,7 +398,7 @@ def test_worst_blockhash(
     execution_code_address = pre.deploy_contract(code=execution_code)
     op_tx = Transaction(
         to=execution_code_address,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
     blocks.append(Block(txs=[op_tx]))
@@ -412,9 +416,10 @@ def test_worst_selfbalance(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many SELFBALANCE opcodes as possible."""
-    env = Environment()
     max_stack_height = fork.max_stack_height()
 
     code_sequence = Op.SELFBALANCE * max_stack_height
@@ -430,12 +435,12 @@ def test_worst_selfbalance(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -455,10 +460,10 @@ def test_worst_extcodecopy_warm(
     state_test: StateTestFiller,
     pre: Alloc,
     copied_size: int,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many wamr EXTCODECOPY work as possible."""
-    env = Environment()
-
     copied_contract_address = pre.deploy_contract(
         code=Op.JUMPDEST * copied_size,
     )
@@ -473,12 +478,12 @@ def test_worst_extcodecopy_warm(
     execution_code_address = pre.deploy_contract(code=execution_code)
     tx = Transaction(
         to=execution_code_address,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -492,10 +497,11 @@ def test_worst_selfdestruct_existing(
     fork: Fork,
     pre: Alloc,
     value_bearing: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
-    env = Environment(gas_limit=100_000_000_000)
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
     pre.fund_address(env.fee_recipient, 1)
 
     # Template code that will be used to deploy a large number of contracts.
@@ -522,8 +528,15 @@ def test_worst_selfdestruct_existing(
     final_storage_gas = (
         gas_costs.G_STORAGE_RESET + gas_costs.G_COLD_SLOAD + (gas_costs.G_VERY_LOW * 2)
     )
-    base_costs = intrinsic_gas_cost_calc() + (gas_costs.G_VERY_LOW * 4) + final_storage_gas
+    memory_expansion_cost = fork().memory_expansion_gas_calculator()(new_bytes=96)
+    base_costs = (
+        intrinsic_gas_cost_calc()
+        + (gas_costs.G_VERY_LOW * 12)  # 8 PUSHs + 4 MSTOREs
+        + final_storage_gas
+        + memory_expansion_cost
+    )
     num_contracts = (attack_gas_limit - base_costs) // loop_cost
+    expected_benchmark_gas_used = num_contracts * loop_cost + base_costs
 
     # Create a factory that deployes a new SELFDESTRUCT contract instance pre-funded depending on
     # the value_bearing parameter. We use CREATE2 so the caller contract can easily reproduce
@@ -560,7 +573,6 @@ def test_worst_selfdestruct_existing(
     contracts_deployment_tx = Transaction(
         to=factory_caller_address,
         gas_limit=env.gas_limit,
-        gas_price=10**9,
         data=Hash(num_contracts),
         sender=pre.fund_eoa(),
     )
@@ -615,6 +627,7 @@ def test_worst_selfdestruct_existing(
             Block(txs=[opcode_tx]),
         ],
         exclude_full_post_state_in_output=True,
+        expected_benchmark_gas_used=expected_benchmark_gas_used,
     )
 
 
@@ -625,12 +638,13 @@ def test_worst_selfdestruct_created(
     pre: Alloc,
     value_bearing: bool,
     fork: Fork,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """
     Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
     the same transaction.
     """
-    env = Environment()
     pre.fund_address(env.fee_recipient, 1)
 
     # SELFDESTRUCT(COINBASE) contract deployment
@@ -638,31 +652,72 @@ def test_worst_selfdestruct_created(
         Op.MSTORE8(0, Op.COINBASE.int()) + Op.MSTORE8(1, Op.SELFDESTRUCT.int()) + Op.RETURN(0, 2)
     )
     gas_costs = fork.gas_costs()
-    create_gas = gas_costs.G_CREATE + 20_000
-    code = (
-        Op.MSTORE(0, initcode.hex())
-        + While(
-            body=Op.POP(
-                Op.CALL(
-                    address=Op.CREATE(
-                        value=1 if value_bearing else 0,
-                        offset=32 - len(initcode),
-                        size=len(initcode),
-                    )
-                )
-            ),
-            # Stop before we run out of gas for the whole tx execution.
-            # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, create_gas),
-        )
-        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    memory_expansion_calc = fork().memory_expansion_gas_calculator()
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+
+    initcode_costs = (
+        gas_costs.G_VERY_LOW * 8  # MSTOREs, PUSHs
+        + memory_expansion_calc(new_bytes=2)  # return into memory
     )
+    create_costs = (
+        initcode_costs
+        + gas_costs.G_CREATE
+        + gas_costs.G_VERY_LOW * 3  # Create Parameter PUSHs
+        + gas_costs.G_CODE_DEPOSIT_BYTE * 2
+        + gas_costs.G_INITCODE_WORD
+    )
+    call_costs = (
+        gas_costs.G_WARM_ACCOUNT_ACCESS
+        + gas_costs.G_BASE  # COINBASE
+        + gas_costs.G_SELF_DESTRUCT
+        + gas_costs.G_VERY_LOW * 5  # CALL Parameter PUSHs
+        + gas_costs.G_BASE  #  Parameter GAS
+    )
+    extra_costs = (
+        gas_costs.G_BASE  # POP
+        + gas_costs.G_VERY_LOW * 6  # PUSHs, ADD, DUP, GT
+        + gas_costs.G_HIGH  # JUMPI
+        + gas_costs.G_JUMPDEST
+    )
+    loop_cost = create_costs + call_costs + extra_costs
+
+    prefix_cost = gas_costs.G_VERY_LOW * 3 + gas_costs.G_BASE + memory_expansion_calc(new_bytes=32)
+    suffix_cost = gas_costs.G_COLD_SLOAD + gas_costs.G_STORAGE_RESET + (gas_costs.G_VERY_LOW * 2)
+
+    base_costs = prefix_cost + suffix_cost + intrinsic_gas_cost_calc()
+
+    iterations = (gas_benchmark_value - base_costs) // loop_cost
+
+    code_prefix = Op.MSTORE(0, initcode.hex()) + Op.PUSH0 + Op.JUMPDEST
+    code_suffix = (
+        Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+        + Op.STOP
+    )
+    loop_body = (
+        Op.POP(
+            Op.CALL(
+                address=Op.CREATE(
+                    value=1 if value_bearing else 0,
+                    offset=32 - len(initcode),
+                    size=len(initcode),
+                )
+            )
+        )
+        + Op.PUSH1[1]
+        + Op.ADD
+        + Op.JUMPI(len(code_prefix) - 1, Op.GT(iterations, Op.DUP1))
+    )
+    code = code_prefix + loop_body + code_suffix
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
-    code_addr = pre.deploy_contract(code=code, balance=100_000, storage={0: 1})
+    code_addr = pre.deploy_contract(
+        code=code,
+        balance=100_000 if value_bearing else 0,
+        storage={0: 1},
+        nonce=1,
+    )
     code_tx = Transaction(
         to=code_addr,
-        gas_limit=env.gas_limit,
-        gas_price=10,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
@@ -672,6 +727,7 @@ def test_worst_selfdestruct_created(
         pre=pre,
         post=post,
         tx=code_tx,
+        expected_benchmark_gas_used=iterations * loop_cost + base_costs,
     )
 
 
@@ -682,35 +738,67 @@ def test_worst_selfdestruct_initcode(
     pre: Alloc,
     value_bearing: bool,
     fork: Fork,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
-    env = Environment()
     pre.fund_address(env.fee_recipient, 1)
 
-    initcode = Op.SELFDESTRUCT(Op.COINBASE)
     gas_costs = fork.gas_costs()
-    create_gas = gas_costs.G_CREATE + 20_000
-    code = (
-        Op.MSTORE(0, initcode.hex())
-        + While(
-            body=Op.POP(
-                Op.CREATE(
-                    value=1 if value_bearing else 0,
-                    offset=32 - len(initcode),
-                    size=len(initcode),
-                )
-            ),
-            # Stop before we run out of gas for the whole tx execution.
-            # The value was found by trial-error rounded to the next 1000 multiple.
-            condition=Op.GT(Op.GAS, create_gas),
-        )
-        + Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+    memory_expansion_calc = fork().memory_expansion_gas_calculator()
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
+
+    initcode_costs = (
+        gas_costs.G_BASE  # COINBASE
+        + gas_costs.G_SELF_DESTRUCT
     )
+    create_costs = (
+        initcode_costs
+        + gas_costs.G_CREATE
+        + gas_costs.G_VERY_LOW * 3  # Create Parameter PUSHs
+        + gas_costs.G_INITCODE_WORD
+    )
+    extra_costs = (
+        gas_costs.G_BASE  # POP
+        + gas_costs.G_VERY_LOW * 6  # PUSHs, ADD, DUP, GT
+        + gas_costs.G_HIGH  # JUMPI
+        + gas_costs.G_JUMPDEST
+    )
+    loop_cost = create_costs + extra_costs
+
+    prefix_cost = gas_costs.G_VERY_LOW * 3 + gas_costs.G_BASE + memory_expansion_calc(new_bytes=32)
+    suffix_cost = gas_costs.G_COLD_SLOAD + gas_costs.G_STORAGE_RESET + (gas_costs.G_VERY_LOW * 2)
+
+    base_costs = prefix_cost + suffix_cost + intrinsic_gas_cost_calc()
+
+    iterations = (gas_benchmark_value - base_costs) // loop_cost
+
+    initcode = Op.SELFDESTRUCT(Op.COINBASE)
+    code_prefix = Op.MSTORE(0, initcode.hex()) + Op.PUSH0 + Op.JUMPDEST
+    code_suffix = (
+        Op.SSTORE(0, 42)  # Done for successful tx execution assertion below.
+        + Op.STOP
+    )
+
+    loop_body = (
+        Op.POP(
+            Op.CREATE(
+                value=1 if value_bearing else 0,
+                offset=32 - len(initcode),
+                size=len(initcode),
+            )
+        )
+        + Op.PUSH1[1]
+        + Op.ADD
+        + Op.JUMPI(len(code_prefix) - 1, Op.GT(iterations, Op.DUP1))
+    )
+    code = code_prefix + loop_body + code_suffix
+
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
     code_addr = pre.deploy_contract(code=code, balance=100_000, storage={0: 1})
     code_tx = Transaction(
         to=code_addr,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         gas_price=10,
         sender=pre.fund_eoa(),
     )
@@ -721,4 +809,5 @@ def test_worst_selfdestruct_initcode(
         pre=pre,
         post=post,
         tx=code_tx,
+        expected_benchmark_gas_used=iterations * loop_cost + base_costs,
     )
