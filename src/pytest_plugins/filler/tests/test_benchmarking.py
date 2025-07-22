@@ -63,7 +63,7 @@ def test_gas_benchmark_option_added(pytester: pytest.Pytester):
     pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
 
     # Command: pytest -p pytest_plugins.filler.benchmarking --help
-    result = pytester.runpytest("-p", "pytest_plugins.filler.benchmarking", "--help")
+    result = pytester.runpytest("-c", "pytest-fill.ini", "--help")
 
     assert result.ret == 0
     assert any("--gas-benchmark-values" in line for line in result.outlines)
