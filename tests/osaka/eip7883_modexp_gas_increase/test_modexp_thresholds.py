@@ -106,7 +106,7 @@ def test_modexp_invalid(
     tx: Transaction,
     post: Dict,
 ):
-    """Test ModExp gas cost using the test vectors from EIP-7883."""
+    """Test ModExp gas cost with invalid inputs."""
     state_test(
         pre=pre,
         tx=tx,
@@ -182,7 +182,7 @@ def test_modexp_gas_usage(
     tx: Transaction,
     post: Dict,
 ):
-    """Test ModExp gas cost using the test vectors from EIP-7883."""
+    """Test ModExp gas cost with different precompile gas modifiers."""
     state_test(pre=pre, tx=tx, post=post)
 
 
@@ -219,7 +219,7 @@ def test_modexp_entry_points(
     modexp_input: bytes,
     tx_gas_limit: int,
 ):
-    """Test ModExp entry points."""
+    """Test ModExp entry points with different precompile gas modifiers."""
     tx = Transaction(
         to=Spec.MODEXP_ADDRESS,
         sender=pre.fund_eoa(),
