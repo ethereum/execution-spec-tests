@@ -889,6 +889,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         fixture_collector: FixtureCollector,
         test_case_description: str,
         fixture_source_url: str,
+        gas_benchmark_value: int,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -914,8 +915,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 kwargs["t8n_dump_dir"] = dump_dir_parameter_level
                 if "pre" not in kwargs:
                     kwargs["pre"] = pre
+                if "expected_benchmark_gas_used" not in kwargs:
+                    kwargs["expected_benchmark_gas_used"] = gas_benchmark_value
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
+                self._operation_mode = request.config.op_mode
 
                 # Phase 1: Generate pre-allocation groups
                 if fixture_format is BlockchainEngineXFixture and request.config.getoption(
