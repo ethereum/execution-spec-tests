@@ -52,9 +52,10 @@ def test_worst_log_opcodes(
     size: int,
     fixed_offset: bool,
     non_zero_data: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many LOG opcodes as possible."""
-    env = Environment()
     max_code_size = fork.max_code_size()
 
     calldata = Bytecode()
@@ -85,7 +86,7 @@ def test_worst_log_opcodes(
 
     tx = Transaction(
         to=code_address,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 

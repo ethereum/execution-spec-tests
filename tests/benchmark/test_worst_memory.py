@@ -70,10 +70,10 @@ def test_worst_calldatacopy(
     size: int,
     fixed_src_dst: bool,
     non_zero_data: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block filled with CALLDATACOPY executions."""
-    env = Environment()
-
     if size == 0 and non_zero_data:
         pytest.skip("Non-zero data with size 0 is not applicable.")
 
@@ -83,7 +83,7 @@ def test_worst_calldatacopy(
 
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     min_gas = intrinsic_gas_calculator(calldata=data)
-    if min_gas > env.gas_limit:
+    if min_gas > gas_benchmark_value:
         pytest.skip("Minimum gas required for calldata ({min_gas}) is greater than the gas limit")
 
     # We create the contract that will be doing the CALLDATACOPY multiple times.
@@ -107,22 +107,23 @@ def test_worst_calldatacopy(
         # copy the calldata received from the transaction.
         prefix = (
             Op.CALLDATACOPY(Op.PUSH0, Op.PUSH0, Op.CALLDATASIZE) if non_zero_data else Bytecode()
-        )
+        ) + Op.JUMPDEST
         arg_size = Op.CALLDATASIZE if non_zero_data else size
         code = prefix + Op.STATICCALL(
             address=code_address, args_offset=Op.PUSH0, args_size=arg_size
         )
+        code += Op.JUMP(len(prefix) - 1)
         tx_target = pre.deploy_contract(code=code)
 
     tx = Transaction(
         to=tx_target,
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         data=data,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -153,9 +154,10 @@ def test_worst_codecopy(
     fork: Fork,
     max_code_size_ratio: float,
     fixed_src_dst: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block filled with CODECOPY executions."""
-    env = Environment()
     max_code_size = fork.max_code_size()
 
     size = int(max_code_size * max_code_size_ratio)
@@ -175,12 +177,12 @@ def test_worst_codecopy(
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -210,9 +212,10 @@ def test_worst_returndatacopy(
     fork: Fork,
     size: int,
     fixed_dst: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
-    env = Environment()
     max_code_size = fork.max_code_size()
 
     # Create the contract that will RETURN the data that will be used for RETURNDATACOPY.
@@ -260,12 +263,12 @@ def test_worst_returndatacopy(
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -295,9 +298,10 @@ def test_worst_mcopy(
     fork: Fork,
     size: int,
     fixed_src_dst: bool,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block filled with MCOPY executions."""
-    env = Environment()
     max_code_size = fork.max_code_size()
 
     mem_touch = (
@@ -320,12 +324,12 @@ def test_worst_mcopy(
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        gas_limit=env.gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post={},
         tx=tx,
