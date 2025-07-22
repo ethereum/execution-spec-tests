@@ -11,34 +11,9 @@ static:
   evm-type: static
   fill-params: --until=Osaka --fill-static-tests ./tests/static
   solc: 0.8.21
-benchmark_1M:
+benchmark_test:
   evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 1000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_10M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 10000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_30M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 30000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_60M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 60000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_90M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 90000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_120M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 120000000 -m benchmark ./tests
+  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,60,90,120 -m benchmark --generate-all-formats ./tests
   solc: 0.8.21
   feature_only: true
 eip7692:
