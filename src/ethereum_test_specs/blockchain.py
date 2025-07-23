@@ -780,6 +780,7 @@ class BlockchainTest(BaseTest):
                 block=Block(),
                 previous_env=env,
                 previous_alloc=alloc,
+                last_block=False,
             )
             sync_payload = sync_built_block.get_fixture_engine_new_payload()
 
