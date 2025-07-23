@@ -50,12 +50,12 @@ def gas_benchmark_value(request: pytest.FixtureRequest) -> int:
     return EnvironmentDefaults.gas_limit
 
 
-GIGA_GAS = 1_000_000_000
+BENCHMARKING_MAX_GAS = 100_000_000_000
 
 
 @pytest.fixture
 def env(request: pytest.FixtureRequest) -> Environment:  # noqa: D103
     """Return an Environment instance with appropriate gas limit based on operation mode."""
     if request.config.op_mode == OpMode.BENCHMARKING:  # type: ignore[attr-defined]
-        return Environment(gas_limit=GIGA_GAS)
+        return Environment(gas_limit=BENCHMARKING_MAX_GAS)
     return Environment()
