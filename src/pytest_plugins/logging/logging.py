@@ -317,7 +317,9 @@ def pytest_terminal_summary(terminalreporter: TerminalReporter, exitstatus: int)
     if terminalreporter.config.option.collectonly:
         return
     if eest_log_file_path := terminalreporter.config.option.eest_log_file_path:
-        terminalreporter.write_sep("-", f"Log file: {eest_log_file_path.resolve()}", yellow=True)
+        log_file_output_path = eest_log_file_path.resolve()
+        log_file_output_path_fixed = str(log_file_output_path).replace("/src/", "/")
+        terminalreporter.write_sep("-", f"Log file: {log_file_output_path_fixed}", yellow=True)
 
 
 def log_only_to_file(level: int, msg: str, *args, **kwargs) -> None:
