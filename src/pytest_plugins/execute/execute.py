@@ -349,25 +349,28 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """Remove transition tests and add the appropriate execute markers to the test."""
-    for item in items[:]:  # use a copy of the list, as we'll be modifying it
+    i = 0
+    while i < len(items):
+        item = items[i]
         if isinstance(item, EIPSpecTestItem):
             continue
         params: Dict[str, Any] = item.callspec.params  # type: ignore
         if "fork" not in params or params["fork"] is None:
-            items.remove(item)
+            items.pop(i)
             continue
         fork: Fork = params["fork"]
         spec_type, execute_format = get_spec_format_for_item(params)
         assert issubclass(execute_format, BaseExecute)
         markers = list(item.iter_markers())
         if spec_type.discard_execute_format_by_marks(execute_format, fork, markers):
-            items.remove(item)
+            items.pop(i)
             continue
         for marker in markers:
             if marker.name == "execute":
                 for mark in marker.args:
                     item.add_marker(mark)
             elif marker.name == "valid_at_transition_to":
-                items.remove(item)
+                items.pop(i)
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
+        i += 1
