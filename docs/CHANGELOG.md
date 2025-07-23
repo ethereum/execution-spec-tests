@@ -90,6 +90,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 📋 Misc
 
+- ✨ Add pypy3.11 support ([#1854](https://github.com/ethereum/execution-spec-tests/pull/1854)).
 - 🔀 Use only relative imports in `tests/` directory ([#1848](https://github.com/ethereum/execution-spec-tests/pull/1848)).
 - 🔀 Convert absolute imports to relative imports in `src/` directory for better code maintainability ([#1907](https://github.com/ethereum/execution-spec-tests/pull/1907)).
 - 🔀 Misc. doc updates, including a navigation footer ([#1846](https://github.com/ethereum/execution-spec-tests/pull/1846)).
