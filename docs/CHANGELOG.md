@@ -47,7 +47,11 @@ Additionally, writing debugging information to the EVM "dump directory" by defau
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
 
-This update renames the `zkevm` feature release to `benchmark_30M` and further expands the latter for 1M, 10M, 60M, 90M, and 120M block gas limits in `fixtures_benchmark_1M.tar.gz`, `fixtures_benchmark_10M.tar.gz`, `fixtures_benchmark_30M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
+This update renames the `zkevm` feature release to `benchmark` and further expands the latter for 1M, 10M, 30M, 45M, 60M, 90M, and 120M block gas limits in `fixtures_benchmark.tar.gz`.
+
+To select a test for a given gas limit, the IDs of the tests have been expanded to contain `benchmark-gas-value_XM`, where `X` can be any of the aforementioned values.
+
+The benchmark release also now includes BlockchainEngineX format that combines most of the tests into a minimal amount of genesis files. For more info see [Blockchain Engine X Tests](https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_x/) in the EEST documentation.
 
 Users can select any of the artifacts depending on their testing needs for their provers.
 
