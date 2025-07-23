@@ -15,6 +15,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
 from .helpers import vectors_from_file
 from .spec import Spec, ref_spec_7883
 
@@ -75,9 +76,9 @@ def create_modexp_input(
     return bytes.fromhex(input_hex)
 
 
-def generate_invalid_inputs_cases():
-    """Generate test cases for invalid ModExp inputs."""
-    return [
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,call_succeeds",
+    [
         pytest.param(bytes(), bytes(), False, id="zero-length-calldata"),
         pytest.param(
             create_modexp_input(10, 11, 12, b_data="FF" * 9),
@@ -103,12 +104,7 @@ def generate_invalid_inputs_cases():
             False,
             id="all-zeros",
         ),
-    ]
-
-
-@pytest.mark.parametrize(
-    "modexp_input,modexp_expected,call_succeeds",
-    generate_invalid_inputs_cases(),
+    ],
 )
 @EIPChecklist.Precompile.Test.Inputs.AllZeros
 def test_modexp_invalid_inputs(
@@ -118,6 +114,82 @@ def test_modexp_invalid_inputs(
     post: Dict,
 ):
     """Test ModExp gas cost with invalid inputs."""
+    state_test(
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
+def create_boundary_modexp_case(
+    base: str = "FF", exponent: str = "FF", modulus: str = "FF", case_id: str = ""
+):
+    """
+    Create a single boundary ModExp test case.
+
+    Args:
+        base: Base data (hex string)
+        exponent: Exponent data (hex string)
+        modulus: Modulus data (hex string)
+        case_id: Test case identifier
+
+    Returns:
+        pytest.param for the test case
+
+    """
+    modexp_input = ModExpInput(
+        base=base,
+        exponent=exponent,
+        modulus=modulus,
+    )
+    return pytest.param(modexp_input, Spec.modexp_error, False, id=case_id)
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,call_succeeds",
+    [
+        create_boundary_modexp_case(
+            base="FF" * (Spec.MAX_LENGTH_BYTES + 1), case_id="base-too-long"
+        ),
+        create_boundary_modexp_case(
+            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1), case_id="exponent-too-long"
+        ),
+        create_boundary_modexp_case(
+            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1), case_id="modulus-too-long"
+        ),
+        create_boundary_modexp_case(
+            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            modulus="FF",
+            case_id="base-exponent-too-long",
+        ),
+        create_boundary_modexp_case(
+            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            exponent="FF",
+            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            case_id="base-modulus-too-long",
+        ),
+        create_boundary_modexp_case(
+            base="FF",
+            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            case_id="exponent-modulus-too-long",
+        ),
+        create_boundary_modexp_case(
+            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+            case_id="all-too-long",
+        ),
+    ],
+)
+def test_modexp_boundary_inputs(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    tx: Transaction,
+    post: Dict,
+):
+    """Test ModExp boundary inputs."""
     state_test(
         pre=pre,
         tx=tx,
