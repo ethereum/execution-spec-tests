@@ -5,7 +5,7 @@ geth:
   evm-bin: evm
 evmone:
   evm-bin: evmone-t8n
-  x-dist: 10
+  x-dist: auto
 besu:
   evm-bin: evmtool
   x-dist: 0
