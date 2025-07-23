@@ -183,13 +183,20 @@ def tx_gas_limit(
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
     sstore_gas = fork.gas_costs().G_STORAGE_SET * (len(modexp_expected) // 32)
     extra_gas = 100_000
-    return (
+
+    total_gas = (
         extra_gas
         + intrinsic_gas_cost_calculator(calldata=bytes(modexp_input))
         + memory_expansion_gas_calculator(new_bytes=len(bytes(modexp_input)))
         + precompile_gas
         + sstore_gas
     )
+
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+
+    if tx_gas_limit_cap is not None:
+        return min(tx_gas_limit_cap, total_gas)
+    return total_gas
 
 
 @pytest.fixture
