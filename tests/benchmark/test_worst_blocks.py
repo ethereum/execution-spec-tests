@@ -109,6 +109,7 @@ def ether_transfer_case(
 )
 def test_block_full_of_ether_transfers(
     blockchain_test: BlockchainTestFiller,
+    env: Environment,
     pre: Alloc,
     case_id: str,
     ether_transfer_case,
@@ -151,7 +152,7 @@ def test_block_full_of_ether_transfers(
     )
 
     blockchain_test(
-        genesis_environment=Environment(),
+        genesis_environment=env,
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],

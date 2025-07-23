@@ -180,7 +180,7 @@ def test_worst_address_state_warm(
     )
 
     state_test(
-        genesis_environment=env,
+        env=env,
         pre=pre,
         post=post,
         tx=tx,

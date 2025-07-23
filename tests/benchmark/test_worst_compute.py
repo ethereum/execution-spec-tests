@@ -2034,6 +2034,7 @@ def test_empty_block(
 ):
     """Test running an empty block as a baseline for fixed proving costs."""
     blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
         blocks=[Block(txs=[])],
