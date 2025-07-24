@@ -193,13 +193,53 @@ class StorageAction:
     WRITE_NEW_VALUE = 3
 
 
+class TransactionResult:
+    """Enum for the possible transaction outcomes."""
+
+    SUCCESS = 1
+    OUT_OF_GAS = 2
+    REVERT = 3
+
+
 @pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
-    "storage_action",
+    "storage_action,tx_result",
     [
-        pytest.param(StorageAction.READ, id="SSLOAD"),
-        pytest.param(StorageAction.WRITE_SAME_VALUE, id="SSTORE same value"),
-        pytest.param(StorageAction.WRITE_NEW_VALUE, id="SSTORE new value"),
+        pytest.param(
+            StorageAction.READ,
+            TransactionResult.SUCCESS,
+            id="SSLOAD",
+        ),
+        pytest.param(
+            StorageAction.WRITE_SAME_VALUE,
+            TransactionResult.SUCCESS,
+            id="SSTORE same value",
+        ),
+        pytest.param(
+            StorageAction.WRITE_SAME_VALUE,
+            TransactionResult.REVERT,
+            id="SSTORE same value, revert",
+        ),
+        pytest.param(
+            StorageAction.WRITE_SAME_VALUE,
+            TransactionResult.OUT_OF_GAS,
+            id="SSTORE same value, out of gas",
+        ),
+        pytest.param(
+            StorageAction.WRITE_NEW_VALUE,
+            TransactionResult.SUCCESS,
+            id="SSTORE new value",
+        ),
+        pytest.param(
+            StorageAction.WRITE_NEW_VALUE,
+            TransactionResult.REVERT,
+            id="SSTORE new value, revert",
+        ),
+        pytest.param(
+            StorageAction.WRITE_NEW_VALUE,
+            TransactionResult.OUT_OF_GAS,
+            id="SSTORE new value, out of gas",
+        ),
     ],
 )
 @pytest.mark.parametrize(
@@ -217,29 +257,26 @@ def test_worst_storage_access_cold(
     absent_slots: bool,
     env: Environment,
     gas_benchmark_value: int,
+    tx_result: TransactionResult,
 ):
     """Test running a block with as many cold storage slot accesses as possible."""
     gas_costs = fork.gas_costs()
+    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
     attack_gas_limit = gas_benchmark_value
 
-    cost = gas_costs.G_COLD_SLOAD  # All accesses are always cold
+    loop_cost = gas_costs.G_COLD_SLOAD  # All accesses are always cold
     if storage_action == StorageAction.WRITE_NEW_VALUE:
         if not absent_slots:
-            cost += gas_costs.G_STORAGE_RESET
+            loop_cost += gas_costs.G_STORAGE_RESET
         else:
-            cost += gas_costs.G_STORAGE_SET
+            loop_cost += gas_costs.G_STORAGE_SET
     elif storage_action == StorageAction.WRITE_SAME_VALUE:
         if absent_slots:
-            cost += gas_costs.G_STORAGE_SET
+            loop_cost += gas_costs.G_STORAGE_SET
         else:
-            cost += gas_costs.G_WARM_SLOAD
+            loop_cost += gas_costs.G_WARM_SLOAD
     elif storage_action == StorageAction.READ:
-        cost += 0  # Only G_COLD_SLOAD is charged
-
-    intrinsic_gas_cost_calc = fork.transaction_intrinsic_cost_calculator()
-    num_target_slots = ((attack_gas_limit - intrinsic_gas_cost_calc()) // cost) + 1
-
-    blocks = []
+        loop_cost += 0  # Only G_COLD_SLOAD is charged
 
     # Contract code
     execution_code_body = Bytecode()
@@ -247,17 +284,55 @@ def test_worst_storage_access_cold(
         # All the storage slots in the contract are initialized to their index.
         # That is, storage slot `i` is initialized to `i`.
         execution_code_body = Op.SSTORE(Op.DUP1, Op.DUP1)
+        loop_cost += gas_costs.G_VERY_LOW * 2
     elif storage_action == StorageAction.WRITE_NEW_VALUE:
         # The new value 2^256-1 is guaranteed to be different from the initial value.
         execution_code_body = Op.SSTORE(Op.DUP2, Op.NOT(0))
+        loop_cost += gas_costs.G_VERY_LOW * 3
     elif storage_action == StorageAction.READ:
         execution_code_body = Op.POP(Op.SLOAD(Op.DUP1))
+        loop_cost += gas_costs.G_VERY_LOW + gas_costs.G_BASE
 
-    execution_code = Op.PUSH4(num_target_slots) + While(
-        body=execution_code_body,
-        condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
+    # Add costs jump-logic costs
+    loop_cost += (
+        gas_costs.G_JUMPDEST  # Prefix Jumpdest
+        + gas_costs.G_VERY_LOW * 7  # ISZEROs, PUSHs, SWAPs, SUB, DUP
+        + gas_costs.G_HIGH  # JUMPI
     )
+
+    prefix_cost = (
+        gas_costs.G_VERY_LOW  # Target slots push
+    )
+
+    suffix_cost = 0
+    if tx_result == TransactionResult.REVERT:
+        suffix_cost = (
+            gas_costs.G_VERY_LOW * 2  # Revert PUSHs
+        )
+
+    num_target_slots = (
+        attack_gas_limit - intrinsic_gas_cost_calc() - prefix_cost - suffix_cost
+    ) // loop_cost
+    if tx_result == TransactionResult.OUT_OF_GAS:
+        # Add an extra slot to make it run out-of-gas
+        num_target_slots += 1
+
+    code_prefix = Op.PUSH4(num_target_slots) + Op.JUMPDEST
+    code_loop = execution_code_body + Op.JUMPI(
+        len(code_prefix) - 1, Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO
+    )
+    execution_code = code_prefix + code_loop
+
+    if tx_result == TransactionResult.REVERT:
+        execution_code += Op.REVERT(0, 0)
+    else:
+        execution_code += Op.STOP
+
     execution_code_address = pre.deploy_contract(code=execution_code)
+
+    total_gas_used = (
+        num_target_slots * loop_cost + intrinsic_gas_cost_calc() + prefix_cost + suffix_cost
+    )
 
     # Contract creation
     slots_init = Bytecode()
@@ -286,7 +361,8 @@ def test_worst_storage_access_cold(
         data=creation_code,
         sender=sender_addr,
     )
-    blocks.append(Block(txs=[setup_tx]))
+
+    blocks = [Block(txs=[setup_tx])]
 
     contract_address = compute_create_address(address=sender_addr, nonce=0)
 
@@ -303,6 +379,9 @@ def test_worst_storage_access_cold(
         post={},
         blocks=blocks,
         exclude_full_post_state_in_output=True,
+        expected_benchmark_gas_used=(
+            total_gas_used if tx_result != TransactionResult.OUT_OF_GAS else attack_gas_limit
+        ),
     )
 
 
