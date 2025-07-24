@@ -304,7 +304,7 @@ def test_clz_from_set_code(
     set_code_to_address = pre.deploy_contract(set_code)
 
     tx = Transaction(
-        gas_limit=10_000_000,
+        gas_limit=200_000,
         to=auth_signer,
         value=0,
         authorization_list=[
