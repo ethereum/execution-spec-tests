@@ -17,7 +17,6 @@ from ethereum_test_tools import (
     CodeGasMeasure,
     Environment,
     StateTestFiller,
-    Storage,
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
