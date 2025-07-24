@@ -2024,7 +2024,6 @@ def test_empty_block(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     env: Environment,
-    gas_benchmark_value: int,
 ):
     """Test running an empty block as a baseline for fixed proving costs."""
     blockchain_test(
