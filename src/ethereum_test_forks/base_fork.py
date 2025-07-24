@@ -16,8 +16,6 @@ from typing import (
     Union,
 )
 
-from semver import Version
-
 from ethereum_test_base_types import AccessList, Address, BlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
@@ -333,6 +331,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         pass
 
     @classmethod
+    @abstractmethod
+    def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Return the version of the full blob transaction wrapper at a given fork."""
+        pass
+
+    @classmethod
     @prefer_transition_to_method
     @abstractmethod
     def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
@@ -574,12 +578,6 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def solc_name(cls) -> str:
         """Return fork name as it's meant to be passed to the solc compiler."""
-        pass
-
-    @classmethod
-    @abstractmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
         pass
 
     @classmethod

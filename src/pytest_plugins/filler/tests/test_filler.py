@@ -13,7 +13,7 @@ import pytest
 
 from ethereum_test_tools import Environment
 from ethereum_clis import ExecutionSpecsTransitionTool, TransitionTool
-from pytest_plugins.filler.filler import default_output_directory
+from ..filler import default_output_directory
 
 
 # flake8: noqa
@@ -78,7 +78,6 @@ test_count_shanghai = 8
 total_test_count = test_count_paris + test_count_shanghai
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "args, expected_fixture_files, expected_fixture_counts",
     [
@@ -513,7 +512,11 @@ total_test_count = test_count_paris + test_count_shanghai
     ],
 )
 def test_fixture_output_based_on_command_line_args(
-    testdir, args, expected_fixture_files, expected_fixture_counts
+    testdir,
+    args,
+    expected_fixture_files,
+    expected_fixture_counts,
+    default_t8n,
 ):
     """
     Test:
@@ -545,9 +548,13 @@ def test_fixture_output_based_on_command_line_args(
     test_module = shanghai_tests_dir.join("test_module_shanghai.py")
     test_module.write(test_module_shanghai)
 
-    testdir.copy_example(name="pytest.ini")
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args.append("-c")
+    args.append("pytest-fill.ini")
     args.append("-v")
     args.append("--no-html")
+    args.append("--t8n-server-url")
+    args.append(default_t8n.server_url)
 
     result = testdir.runpytest(*args)
     result.assert_outcomes(
@@ -600,7 +607,9 @@ def test_fixture_output_based_on_command_line_args(
 
     assert ini_file is not None, f"No {expected_ini_file} file was found in {meta_dir}"
     config = configparser.ConfigParser()
-    config.read(ini_file)
+    ini_file_text = ini_file.read_text()
+    ini_file_text = ini_file_text.replace(default_t8n.server_url, "t8n_server_path")
+    config.read_string(ini_file_text)
 
     if "--skip-index" not in args:
         assert index_file is not None, f"No {expected_index_file} file was found in {meta_dir}"
@@ -632,7 +641,6 @@ test_module_environment_variables = textwrap.dedent(
 )
 
 
-@pytest.mark.run_in_serial
 @pytest.mark.parametrize(
     "args, expected_fixture_files, expected_fixture_counts, expected_gas_limit",
     [
@@ -661,7 +669,12 @@ test_module_environment_variables = textwrap.dedent(
     ],
 )
 def test_fill_variables(
-    testdir, args, expected_fixture_files, expected_fixture_counts, expected_gas_limit
+    testdir,
+    args,
+    expected_fixture_files,
+    expected_fixture_counts,
+    expected_gas_limit,
+    default_t8n,
 ):
     """
     Test filling tests that depend on variables such as the max block gas limit.
@@ -674,11 +687,15 @@ def test_fill_variables(
         test_module_environment_variables.format(expected_gas_limit=expected_gas_limit)
     )
 
-    testdir.copy_example(name="pytest.ini")
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args.append("-c")
+    args.append("pytest-fill.ini")
     args.append("-v")
     args.append("-m")
     args.append("state_test")
     args.append("--no-html")
+    args.append("--t8n-server-url")
+    args.append(default_t8n.server_url)
     result = testdir.runpytest(*args)
     result.assert_outcomes(
         passed=1,
@@ -730,7 +747,9 @@ def test_fill_variables(
 
     assert ini_file is not None, f"No {expected_ini_file} file was found in {meta_dir}"
     config = configparser.ConfigParser()
-    config.read(ini_file)
+    ini_file_text = ini_file.read_text()
+    ini_file_text = ini_file_text.replace(default_t8n.server_url, "t8n_server_path")
+    config.read_string(ini_file_text)
 
     if "--skip-index" not in args:
         assert index_file is not None, f"No {expected_index_file} file was found in {meta_dir}"

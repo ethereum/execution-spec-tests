@@ -16,9 +16,10 @@ from _pytest.fixtures import TopRequest
 from _pytest.mark import ParameterSet
 from _pytest.python import Module
 
-from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
-from ethereum_test_forks import Fork
+from ethereum_test_fixtures import BaseFixture, BlockchainEngineXFixture, LabeledFixtureFormat
+from ethereum_test_forks import Fork, get_closest_fork
 from ethereum_test_specs import BaseStaticTest, BaseTest
+from ethereum_test_tools.code.yul import Yul
 
 from ..forks.forks import ValidityMarker, get_intersection_set
 from ..shared.helpers import labeled_format_parameter_set
@@ -91,7 +92,7 @@ def get_all_combinations_from_parametrize_marks(
         for param_set in combination:
             values.extend(param_set.values)
             marks.extend(param_set.marks)
-        test_id = "-".join([param.id or "" for param in combination])
+        test_id = "-".join([param.id or "" for param in combination])  # type: ignore[misc]
         if test_id in test_ids:
             current_int = 2
             while f"{test_id}-{current_int}" in test_ids:
@@ -107,18 +108,6 @@ def get_all_combinations_from_parametrize_marks(
         test_ids.add(test_id)
 
     return all_argument_names, all_value_combinations
-
-
-def pytest_addoption(parser: pytest.Parser):
-    """Add command-line options to pytest."""
-    static_filler_group = parser.getgroup("static", "Arguments defining static filler behavior")
-    static_filler_group.addoption(
-        "--fill-static-tests",
-        action="store_true",
-        dest="fill_static_tests_enabled",
-        default=None,
-        help=("Enable reading and filling from static test files."),
-    )
 
 
 def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
@@ -175,6 +164,7 @@ class FillerFile(pytest.File):
                 )
                 for key in loaded_file:
                     filler = BaseStaticTest.model_validate(loaded_file[key])
+
                     func = filler.fill_function()
 
                     function_marks: List[pytest.Mark] = []
@@ -206,7 +196,39 @@ class FillerFile(pytest.File):
                         and (mark.name not in [v.mark.name for v in validity_markers])
                     ]
 
-                    for format_with_or_without_label in fixture_formats:
+                    # Apply fixture format filtering for pre-allocation groups
+                    generate_pre_alloc = self.config.getoption("generate_pre_alloc_groups")
+                    use_pre_alloc = self.config.getoption("use_pre_alloc_groups")
+                    if generate_pre_alloc or use_pre_alloc:
+                        # When pre-allocation group flags are set, only generate
+                        # BlockchainEngineXFixture
+                        filtered_formats = [
+                            format_item
+                            for format_item in fixture_formats
+                            if (
+                                format_item is BlockchainEngineXFixture
+                                or (
+                                    isinstance(format_item, LabeledFixtureFormat)
+                                    and format_item.format is BlockchainEngineXFixture
+                                )
+                            )
+                        ]
+                    else:
+                        # Filter out BlockchainEngineXFixture if pre-allocation group
+                        # flags not set
+                        filtered_formats = [
+                            format_item
+                            for format_item in fixture_formats
+                            if not (
+                                format_item is BlockchainEngineXFixture
+                                or (
+                                    isinstance(format_item, LabeledFixtureFormat)
+                                    and format_item.format is BlockchainEngineXFixture
+                                )
+                            )
+                        ]
+
+                    for format_with_or_without_label in filtered_formats:
                         fixture_format_parameter_set = labeled_format_parameter_set(
                             format_with_or_without_label
                         )
@@ -230,6 +252,8 @@ class FillerFile(pytest.File):
                                 params["fork"] = fork
                             if "pre" in func_parameters:
                                 fixturenames.append("pre")
+                            if "request" in func_parameters:
+                                fixturenames.append("request")
 
                             if parametrize_marks:
                                 parameter_names, parameter_set_list = (
@@ -325,7 +349,10 @@ class FillerTestItem(pytest.Item):
         )
         request = TopRequest(self, _ispytest=True)
         for fixture_name in self.fixturenames:
-            self.params[fixture_name] = request.getfixturevalue(fixture_name)
+            if fixture_name == "request":
+                self.params[fixture_name] = request
+            else:
+                self.params[fixture_name] = request.getfixturevalue(fixture_name)
 
     def runtest(self):
         """Execute the test logic for this specific static test."""
@@ -334,3 +361,45 @@ class FillerTestItem(pytest.Item):
     def reportinfo(self):
         """Provide information for test reporting."""
         return self.fspath, 0, f"Static file test: {self.name}"
+
+
+@pytest.fixture
+def yul(fork: Fork, request: pytest.FixtureRequest):
+    """
+    Fixture that allows contract code to be defined with Yul code.
+
+    This fixture defines a class that wraps the ::ethereum_test_tools.Yul
+    class so that upon instantiation within the test case, it provides the
+    test case's current fork parameter. The forks is then available for use
+    in solc's arguments for the Yul code compilation.
+
+    Test cases can override the default value by specifying a fixed version
+    with the @pytest.mark.compile_yul_with(FORK) marker.
+    """
+    solc_target_fork: Fork | None
+    marker = request.node.get_closest_marker("compile_yul_with")
+    assert hasattr(request.config, "solc_version"), "solc_version not set in pytest config."
+    if marker:
+        if not marker.args[0]:
+            pytest.fail(
+                f"{request.node.name}: Expected one argument in 'compile_yul_with' marker."
+            )
+        for fork in request.config.all_forks:  # type: ignore
+            if fork.name() == marker.args[0]:
+                solc_target_fork = fork
+                break
+        else:
+            pytest.fail(f"{request.node.name}: Fork {marker.args[0]} not found in forks list.")
+    else:
+        solc_target_fork = get_closest_fork(fork, request.config.solc_version)
+        assert solc_target_fork is not None, "No fork supports provided solc version."
+        if solc_target_fork != fork and request.config.getoption("verbose") >= 1:
+            warnings.warn(
+                f"Compiling Yul for {solc_target_fork.name()}, not {fork.name()}.", stacklevel=2
+            )
+
+    class YulWrapper(Yul):
+        def __new__(cls, *args, **kwargs):
+            return super(YulWrapper, cls).__new__(cls, *args, **kwargs, fork=solc_target_fork)
+
+    return YulWrapper

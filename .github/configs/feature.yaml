@@ -1,40 +1,20 @@
 # Unless filling for special features, all features should fill for previous forks (starting from Frontier) too
 stable:
   evm-type: stable
-  fill-params: --until=Cancun
-  solc: 0.8.21
+  fill-params: --until=Prague
 develop:
   evm-type: develop
-  fill-params: --until=Prague
-  solc: 0.8.21
+  fill-params: --until=Osaka
 static:
   evm-type: static
-  fill-params: --until=Prague --fill-static-tests ./tests/static
-  solc: 0.8.21
-benchmark_30M:
+  fill-params: --until=Osaka --fill-static-tests ./tests/static
+benchmark_test:
   evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 30000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_60M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 60000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_90M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 90000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_120M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 120000000 -m benchmark ./tests
-  solc: 0.8.21
+  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,90,120 -m benchmark --generate-all-formats ./tests
   feature_only: true
 eip7692:
   evm-type: eip7692
   fill-params: --fork=EOFv1 ./tests/unscheduled
-  solc: 0.8.21
   eofwrap: true
   feature_only: true
 fusaka-devnet-2:

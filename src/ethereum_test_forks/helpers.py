@@ -57,7 +57,7 @@ def get_deployed_forks() -> List[Type[BaseFork]]:
     Return list of all the fork classes implemented by `ethereum_test_forks`
     that have been deployed to mainnet, chronologically ordered by deployment.
     """
-    return [fork for fork in get_forks() if fork.is_deployed()]
+    return [fork for fork in get_forks() if fork.is_deployed() and not fork.ignore()]
 
 
 def get_development_forks() -> List[Type[BaseFork]]:
@@ -77,30 +77,11 @@ def get_parent_fork(fork: Type[BaseFork]) -> Type[BaseFork]:
     return parent_fork
 
 
-def get_forks_with_solc_support(solc_version: Version) -> List[Type[BaseFork]]:
-    """Return list of all fork classes that are supported by solc."""
-    return [fork for fork in get_forks() if solc_version >= fork.solc_min_version()]
-
-
-def get_forks_without_solc_support(solc_version: Version) -> List[Type[BaseFork]]:
-    """Return list of all fork classes that aren't supported by solc."""
-    return [fork for fork in get_forks() if solc_version < fork.solc_min_version()]
-
-
-def get_closest_fork_with_solc_support(
-    fork: Type[BaseFork], solc_version: Version
-) -> Optional[Type[BaseFork]]:
-    """
-    Return closest fork, potentially the provided fork itself, that has
-    solc support.
-    """
+def get_closest_fork(fork: Type[BaseFork], solc_version: Version) -> Optional[Type[BaseFork]]:
+    """Return None if BaseFork is passed, otherwise return the fork itself."""
     if fork is BaseFork:
         return None
-    return (
-        fork
-        if solc_version >= fork.solc_min_version()
-        else get_closest_fork_with_solc_support(get_parent_fork(fork), solc_version)
-    )
+    return fork
 
 
 def get_transition_forks() -> Set[Type[BaseFork]]:

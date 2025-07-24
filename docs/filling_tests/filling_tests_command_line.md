@@ -88,6 +88,37 @@ uv run fill tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_war
 
     See: [Filling Tests for Features under Development](./filling_tests_dev_fork.md).
 
+## Generating All Fixture Formats
+
+The `--generate-all-formats` flag enables generation of all fixture formats including the optimized `BlockchainEngineXFixture` in a single command:
+
+```console
+uv run fill --generate-all-formats tests/shanghai/
+```
+
+This flag automatically performs a two-phase execution:
+
+1. **Phase 1**: Generates pre-allocation groups for optimization.
+2. **Phase 2**: Generates all supported fixture formats (`StateFixture`, `BlockchainFixture`, `BlockchainEngineFixture`, `BlockchainEngineXFixture`, etc.).
+
+!!! tip "Automatic enabling with tarball output"
+    When using tarball output (`.tar.gz` files), the `--generate-all-formats` flag is automatically enabled:
+    ```console
+    # Automatically enables --generate-all-formats due to .tar.gz output
+    uv run fill --output=fixtures.tar.gz tests/shanghai/
+
+    # Equivalent to:
+    uv run fill --generate-all-formats --output=fixtures.tar.gz tests/shanghai/
+    ```
+
+!!! note "Alternative approach"
+    You can still use the legacy approach, but this will only generate the `BlockchainEngineXFixture` format:
+    ```console
+    # Single command that automatically does 2-phase execution
+    # but only generates BlockchainEngineXFixture
+    uv run fill --generate-pre-alloc-groups tests/shanghai/
+    ```
+
 ## Debugging the `t8n` Command
 
 The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).

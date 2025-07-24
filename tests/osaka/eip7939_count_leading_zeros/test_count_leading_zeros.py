@@ -5,6 +5,7 @@ abstract: Tests [EIP-7939: Count leading zeros (CLZ) opcode](https://eips.ethere
 
 import pytest
 
+from ethereum_test_base_types import Storage
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -113,7 +114,7 @@ def test_clz_opcode_scenarios(
 
 
 @pytest.mark.valid_from("Osaka")
-def test_clz_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+def test_clz_gas_cost(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     """Test CLZ opcode gas cost."""
     contract_address = pre.deploy_contract(
         Op.SSTORE(
@@ -130,9 +131,43 @@ def test_clz_gas(state_test: StateTestFiller, pre: Alloc, fork: Fork):
     tx = Transaction(to=contract_address, sender=sender, gas_limit=200_000)
     post = {
         contract_address: Account(  # Cost measured is CLZ + PUSH1
-            storage={"0x00": fork.gas_costs().G_VERY_LOW}
+            storage={"0x00": fork.gas_costs().G_LOW}
         ),
     }
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 64, 128, 255])
+@pytest.mark.parametrize("gas_cost_delta", [-2, -1, 0, 1, 2])
+def test_clz_gas_cost_boundary(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    bits: int,
+    gas_cost_delta: int,
+):
+    """Test CLZ opcode gas cost boundary."""
+    code = Op.PUSH32(1 << bits) + Op.CLZ
+
+    contract_address = pre.deploy_contract(code=code)
+
+    call_code = Op.SSTORE(
+        0,
+        Op.CALL(
+            gas=fork.gas_costs().G_VERY_LOW + Spec.CLZ_GAS_COST + gas_cost_delta,
+            address=contract_address,
+        ),
+    )
+    call_address = pre.deploy_contract(
+        code=call_code,
+        storage={"0x00": "0xdeadbeef"},
+    )
+
+    tx = Transaction(to=call_address, sender=pre.fund_eoa(), gas_limit=200_000)
+
+    post = {call_address: Account(storage={"0x00": 0 if gas_cost_delta < 0 else 1})}
+
     state_test(pre=pre, post=post, tx=tx)
 
 
@@ -330,3 +365,101 @@ def test_clz_from_set_code(
             ),
         },
     )
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 64, 255])
+@pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
+def test_clz_code_copy_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+    """Test CLZ opcode with code copy operation."""
+    storage = Storage()
+
+    expected_value = 255 - bits
+    clz_code_offset = len(Op.CLZ(1 << bits)) - 1  # Offset to CLZ opcode
+
+    mload_value = Spec.CLZ << 248  # CLZ opcode in MSB position (0x1E000...000)
+
+    target_address = pre.deploy_contract(code=Op.CLZ(1 << bits))
+
+    clz_contract_address = pre.deploy_contract(
+        code=(
+            Op.CLZ(1 << bits)  # Calculate CLZ of the value
+            + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(1 << bits))  # Store CLZ result
+            + (  # Load CLZ byte from code with CODECOPY or EXTCODECOPY
+                Op.CODECOPY(dest_offset=0, offset=clz_code_offset, size=1)
+                if opcode == Op.CODECOPY
+                else Op.EXTCODECOPY(
+                    address=target_address, dest_offset=0, offset=clz_code_offset, size=1
+                )
+            )
+            + Op.SSTORE(storage.store_next(mload_value), Op.MLOAD(0))  # Store loaded CLZ byte
+        ),
+        storage={"0x00": "0xdeadbeef"},
+    )
+
+    post = {
+        clz_contract_address: Account(
+            storage={
+                "0x00": expected_value,
+                "0x01": mload_value,
+            }
+        )
+    }
+    tx = Transaction(
+        to=clz_contract_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("bits", [0, 64, 255])
+@pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
+def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+    """Test CLZ opcode with memory operation."""
+    storage = Storage()
+
+    expected_value = 255 - bits
+
+    # Target code pattern:
+    #   PUSH32 (1 << bits)
+    #   PUSH0
+    #   MSTORE
+    #
+    # This sequence stores a 32-byte value in memory.
+    # Later, we copy the immediate value from the PUSH32 instruction into memory
+    # using CODECOPY or EXTCODECOPY, and then load it with MLOAD for the CLZ test.
+    target_code = Op.PUSH32(1 << bits)
+    offset = 1
+
+    target_address = pre.deploy_contract(code=target_code)
+
+    clz_contract_address = pre.deploy_contract(
+        code=(
+            target_code
+            + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(1 << bits))  # Store CLZ result
+            + (
+                Op.CODECOPY(dest_offset=0, offset=offset, size=0x20)
+                if opcode == Op.CODECOPY
+                else Op.EXTCODECOPY(
+                    address=target_address, dest_offset=0, offset=offset, size=0x20
+                )
+            )
+            + Op.SSTORE(storage.store_next(expected_value), Op.CLZ(Op.MLOAD(0)))
+        ),
+        storage={"0x00": "0xdeadbeef"},
+    )
+
+    post = {
+        clz_contract_address: Account(storage={"0x00": expected_value, "0x01": expected_value}),
+    }
+
+    tx = Transaction(
+        to=clz_contract_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    state_test(pre=pre, post=post, tx=tx)

@@ -15,6 +15,7 @@ from urllib.parse import urlencode
 
 from requests import Response
 from requests.exceptions import ConnectionError as RequestsConnectionError
+from requests.exceptions import ReadTimeout
 from requests_unixsocket import Session  # type: ignore
 
 from ethereum_test_base_types import BlobSchedule
@@ -35,7 +36,9 @@ from .types import (
 
 model_dump_config: Mapping = {"by_alias": True, "exclude_none": True}
 
-NORMAL_SERVER_TIMEOUT = 20
+# TODO: reduce NORMAL_SERVER_TIMEOUT back down to 20 once BLS timeout issue is resolved:
+# https://github.com/ethereum/execution-spec-tests/issues/1894
+NORMAL_SERVER_TIMEOUT = 180
 SLOW_REQUEST_TIMEOUT = 180
 
 
@@ -62,7 +65,7 @@ class TransitionTool(EthereumCLI):
     cached_version: Optional[str] = None
     t8n_use_stream: bool = False
     t8n_use_server: bool = False
-    server_url: str
+    server_url: str | None = None
     process: Optional[subprocess.Popen] = None
 
     @abstractmethod
@@ -295,6 +298,12 @@ class TransitionTool(EthereumCLI):
 
         return output
 
+    def _restart_server(self):
+        """Check if the server is still responsive and restart if needed."""
+        self.shutdown()
+        time.sleep(0.1)
+        self.start_server()
+
     def _server_post(
         self,
         data: Dict[str, Any],
@@ -306,6 +315,7 @@ class TransitionTool(EthereumCLI):
         if url_args is None:
             url_args = {}
         post_delay = 0.1
+
         while True:
             try:
                 response = Session().post(
@@ -314,7 +324,8 @@ class TransitionTool(EthereumCLI):
                     timeout=timeout,
                 )
                 break
-            except RequestsConnectionError as e:
+            except (RequestsConnectionError, ReadTimeout) as e:
+                self._restart_server()
                 retries -= 1
                 if retries == 0:
                     raise e
@@ -555,7 +566,7 @@ class TransitionTool(EthereumCLI):
         can be overridden.
         """
         if self.t8n_use_server:
-            if not self.process:
+            if not self.server_url:
                 self.start_server()
             return self._evaluate_server(
                 t8n_data=transition_tool_data,

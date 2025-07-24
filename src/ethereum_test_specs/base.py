@@ -233,22 +233,23 @@ class BaseTest(BaseModel):
             group.pre = Alloc.merge(
                 group.pre,
                 self.pre,
-                allow_key_collision=True,
+                key_collision_mode=Alloc.KeyCollisionMode.ALLOW_IDENTICAL_ACCOUNTS,
             )
             group.fork = fork
             group.test_ids.append(str(test_id))
-            group.test_count = len(group.test_ids)
-            group.pre_account_count = len(group.pre.root)
             pre_alloc_groups[pre_alloc_hash] = group
         else:
             # Create new group - use Environment instead of expensive genesis generation
+            genesis_env = self.get_genesis_environment(fork)
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation_blockchain()),
+                self.pre,
+            )
             group = PreAllocGroup(
-                test_count=1,
-                pre_account_count=len(self.pre.root),
                 test_ids=[str(test_id)],
                 fork=fork,
-                environment=self.get_genesis_environment(fork),
-                pre=self.pre,
+                environment=genesis_env,
+                pre=pre_alloc,
             )
             pre_alloc_groups[pre_alloc_hash] = group
         return pre_alloc_groups

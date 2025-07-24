@@ -6,8 +6,6 @@ from os.path import realpath
 from pathlib import Path
 from typing import List, Literal, Mapping, Optional, Sized, Tuple
 
-from semver import Version
-
 from ethereum_test_base_types import AccessList, Address, BlobSchedule, Bytes, ForkBlobSchedule
 from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
@@ -45,11 +43,6 @@ class Frontier(BaseFork, solc_name="homestead"):
         if cls._solc_name is not None:
             return cls._solc_name
         return cls.name().lower()
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("0.8.20")
 
     @classmethod
     def header_base_fee_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
@@ -256,6 +249,13 @@ class Frontier(BaseFork, solc_name="homestead"):
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Return the max number of blobs per block at a given fork."""
         raise NotImplementedError(f"Max blobs per block is not supported in {cls.name()}")
+
+    @classmethod
+    def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Return the version of the full blob transaction wrapper."""
+        raise NotImplementedError(
+            f"Full blob transaction wrapper version is not supported in {cls.name()}"
+        )
 
     @classmethod
     def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
@@ -585,9 +585,12 @@ class Homestead(Frontier):
         At Homestead, EC-recover, SHA256, RIPEMD160, and Identity pre-compiles
         are introduced.
         """
-        return [Address(i) for i in range(1, 5)] + super(Homestead, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Address(1, label="ECREC"),
+            Address(2, label="SHA256"),
+            Address(3, label="RIPEMD160"),
+            Address(4, label="ID"),
+        ] + super(Homestead, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def call_opcodes(
@@ -639,6 +642,24 @@ class Homestead(Frontier):
         return fn
 
 
+class DAOFork(Homestead, ignore=True):
+    """DAO fork."""
+
+    pass
+
+
+class Tangerine(DAOFork, ignore=True):
+    """Tangerine fork (EIP-150)."""
+
+    pass
+
+
+class SpuriousDragon(Tangerine, ignore=True):
+    """SpuriousDragon fork (EIP-155, EIP-158)."""
+
+    pass
+
+
 class Byzantium(Homestead):
     """Byzantium fork."""
 
@@ -657,9 +678,12 @@ class Byzantium(Homestead):
         multiplication on elliptic curve alt_bn128, and optimal ate pairing check on
         elliptic curve alt_bn128 are introduced.
         """
-        return [Address(i) for i in range(5, 9)] + super(Byzantium, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Address(5, label="MODEXP"),
+            Address(6, label="BN254_ADD"),
+            Address(7, label="BN254_MUL"),
+            Address(8, label="BN254_PAIRING"),
+        ] + super(Byzantium, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def max_code_size(cls) -> int:
@@ -735,7 +759,9 @@ class Istanbul(ConstantinopleFix):
     @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """At Istanbul, pre-compile for blake2 compression is introduced."""
-        return [Address(9)] + super(Istanbul, cls).precompiles(block_number, timestamp)
+        return [
+            Address(9, label="BLAKE2F"),
+        ] + super(Istanbul, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def valid_opcodes(
@@ -930,11 +956,6 @@ class Cancun(Shanghai):
         return retrieved_constant
 
     @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("0.8.24")
-
-    @classmethod
     def header_excess_blob_gas_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """Excess blob gas is required starting from Cancun."""
         return True
@@ -1027,6 +1048,11 @@ class Cancun(Shanghai):
         return 6
 
     @classmethod
+    def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
+        """Pre-Osaka forks don't use tx wrapper versions for full blob transactions."""
+        return None
+
+    @classmethod
     def blob_schedule(cls, block_number: int = 0, timestamp: int = 0) -> BlobSchedule | None:
         """
         At Cancun, the fork object runs this routine to get the updated blob
@@ -1051,12 +1077,14 @@ class Cancun(Shanghai):
     @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """At Cancun, pre-compile for kzg point evaluation is introduced."""
-        return [Address(0xA)] + super(Cancun, cls).precompiles(block_number, timestamp)
+        return [
+            Address(10, label="KZG_POINT_EVALUATION"),
+        ] + super(Cancun, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """Cancun introduces the system contract for EIP-4788."""
-        return [Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02)]
+        return [Address(0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02, label="BEACON_ROOTS_ADDRESS")]
 
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
@@ -1124,34 +1152,27 @@ class Prague(Cancun):
     }
 
     @classmethod
-    def is_deployed(cls) -> bool:
-        """
-        Flag that the fork has not been deployed to mainnet; it is under active
-        development.
-        """
-        return False
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown
-
-    @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Prague, pre-compile for BLS operations are added.
 
-        G1ADD = 0x0B
-        G1MSM = 0x0C
-        G2ADD = 0x0D
-        G2MSM = 0x0E
-        PAIRING = 0x0F
-        MAP_FP_TO_G1 = 0x10
-        MAP_FP2_TO_G2 = 0x11
+        BLS12_G1ADD = 0x0B
+        BLS12_G1MSM = 0x0C
+        BLS12_G2ADD = 0x0D
+        BLS12_G2MSM = 0x0E
+        BLS12_PAIRING_CHECK = 0x0F
+        BLS12_MAP_FP_TO_G1 = 0x10
+        BLS12_MAP_FP2_TO_G2 = 0x11
         """
-        return [Address(i) for i in range(0xB, 0x11 + 1)] + super(Prague, cls).precompiles(
-            block_number, timestamp
-        )
+        return [
+            Address(11, label="BLS12_G1ADD"),
+            Address(12, label="BLS12_G1MSM"),
+            Address(13, label="BLS12_G2ADD"),
+            Address(14, label="BLS12_G2MSM"),
+            Address(15, label="BLS12_PAIRING_CHECK"),
+            Address(16, label="BLS12_MAP_FP_TO_G1"),
+            Address(17, label="BLS12_MAP_FP2_TO_G2"),
+        ] + super(Prague, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def tx_types(cls, block_number: int = 0, timestamp: int = 0) -> List[int]:
@@ -1176,10 +1197,22 @@ class Prague(Cancun):
     def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935."""
         return [
-            Address(0x00000000219AB540356CBB839CBE05303D7705FA),
-            Address(0x00000961EF480EB55E80D19AD83579A64C007002),
-            Address(0x0000BBDDC7CE488642FB579F8B00F3A590007251),
-            Address(0x0000F90827F1C53A10CB7A02335B175320002935),
+            Address(
+                0x00000000219AB540356CBB839CBE05303D7705FA,
+                label="DEPOSIT_CONTRACT_ADDRESS",
+            ),
+            Address(
+                0x00000961EF480EB55E80D19AD83579A64C007002,
+                label="WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS",
+            ),
+            Address(
+                0x0000BBDDC7CE488642FB579F8B00F3A590007251,
+                label="CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS",
+            ),
+            Address(
+                0x0000F90827F1C53A10CB7A02335B175320002935,
+                label="HISTORY_STORAGE_ADDRESS",
+            ),
         ] + super(Prague, cls).system_contracts(block_number, timestamp)
 
     @classmethod
@@ -1393,9 +1426,14 @@ class Osaka(Prague, solc_name="cancun"):
         return 2
 
     @classmethod
+    def full_blob_tx_wrapper_version(cls, block_number=0, timestamp=0) -> int | None:
+        """At Osaka, the full blob transaction wrapper version is defined."""
+        return 1
+
+    @classmethod
     def transaction_gas_limit_cap(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
         """At Osaka, transaction gas limit is capped at 30 million."""
-        return 30_000_000
+        return 16_777_216
 
     @classmethod
     def block_rlp_size_limit(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
@@ -1422,18 +1460,15 @@ class Osaka(Prague, solc_name="cancun"):
         ] + super(Prague, cls).valid_opcodes()
 
     @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown
-
-    @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
         At Osaka, pre-compile for p256verify operation is added.
 
         P256VERIFY = 0x100
         """
-        return [Address(0x100)] + super(Osaka, cls).precompiles(block_number, timestamp)
+        return [
+            Address(0x100, label="P256VERIFY"),
+        ] + super(Osaka, cls).precompiles(block_number, timestamp)
 
     @classmethod
     def excess_blob_gas_calculator(
@@ -1444,7 +1479,7 @@ class Osaka(Prague, solc_name="cancun"):
         blob_gas_per_blob = cls.blob_gas_per_blob(block_number, timestamp)
         target_blob_gas_per_block = target_blobs_per_block * blob_gas_per_blob
         max_blobs_per_block = cls.max_blobs_per_block(block_number, timestamp)
-        blob_base_cost = 2**14  # EIP-7918 new parameter
+        blob_base_cost = 2**13  # EIP-7918 new parameter
 
         def fn(
             *,
@@ -1514,8 +1549,3 @@ class EOFv1(Prague, solc_name="cancun"):
         development.
         """
         return False
-
-    @classmethod
-    def solc_min_version(cls) -> Version:
-        """Return minimum version of solc that supports this fork."""
-        return Version.parse("1.0.0")  # set a high version; currently unknown

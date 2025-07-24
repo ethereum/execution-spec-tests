@@ -15,14 +15,35 @@ While automating the conversion of the remaining YAML (or JSON) test cases to Py
 
 ## Porting an original test
 
-1. Select one or more YAML test cases from ethereum/tests to port and create an issue in this repository AND comment on [this tracker issue.](https://github.com/ethereum/execution-spec-tests/issues/972)
+1. Select one or more test cases from `./tests/static/state_tests/` to port and create an issue in this repository AND comment on [this tracker issue.](https://github.com/ethereum/execution-spec-tests/issues/972)
 
 2. [Add a new test](../writing_tests/index.md) in the appropriate fork folder, following the guidelines for [choosing a test type.](../writing_tests/types_of_tests.md#deciding-on-a-test-type)
 
 3. Submit a PR with the ported tests:
 
-     1. Add the list of ported YAML files to [`converted-ethereum-tests.txt`](https://github.com/ethereum/execution-spec-tests/blob/1b30c336eae6b0746ea4db441ac74406f2fb2322/converted-ethereum-tests.txt).
-     2. Open a PR to remove the ported tests from the _original tests_ repository.
+     1. Add the list of ported files using python marker to the head of your python test.
+
+        Example:
+
+        ```python
+         @pytest.mark.ported_from(
+        [
+            "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInit_ThenStoreThenReturnFiller.json",
+            "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stCreateTest/CREATE_ContractSuicideDuringInit_WithValueFiller.json",
+        ],
+        pr=["https://github.com/ethereum/execution-spec-tests/pull/1871"],
+        # coverage_missed_reason="Converting solidity code result in following opcode not being used:",
+        ```
+
+        Replace test names with your chosen tests and PR number.
+
+        Uncomment coverage_missed_reason when all the missed coverage lines are approved, usually some opcodes end up not used after translating test logic from lllc, yul.
+
+        But sometimes missed coverage line could hint that you forgot to account important test logic.
+
+        If no coverage is missed, you are good!
+
+     2. Remove the ported files from .tests/static/state_tests in your PR
 
 > See also: 📄 [Getting started with EEST.](../getting_started/repository_overview.md)
 
@@ -46,7 +67,7 @@ By default, EVM logs are stored in the `logs` folder at the repository root. You
 
 It's crucial that ported tests maintain coverage parity with _original tests_. This ensures that no critical functions are left untested and prevents the introduction of bugs. A CI workflow automatically checks for coverage.
 
-If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](./test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
+If coverage action fails (See: 📄 [An example of a failing test coverage](https://github.com/ethereum/execution-spec-tests/actions/runs/13037332959/job/36370897481)), it's recommended to run the coverage action locally (see: 📄 [How to run GitHub actions locally](../dev/test_actions_locally.md)), which should generate a `evmtest_coverage` directory:
 
 ```console
 ❯ tree evmtest_coverage  -L 2
@@ -85,16 +106,14 @@ Follow the hyperlinks for lost base coverage (`LBC`) to address coverage gaps. H
 
     It's important to note that coverage helps identify missing test paths. If you believe the coverage loss is due to differences in "setup" code between frameworks and doesn't impact the feature you're testing, explain this in your PR. A team member can help with the review.
 
-    Also note that yul tests and possibly other tests used `CALLDATALOAD` that might no longer needed when designing a test with python. But we must always investigate if an opcode is not covered anymore to see if its okay.
-
-    For example, review the [discussion in this PR.](https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
+    For example, review the [discussion in this PR] to see an example of why and how coverage loss can occur.(https://github.com/ethereum/execution-spec-tests/pull/975#issuecomment-2528792289)
 
 ## Resolving Coverage Gaps from Yul Compilation
 
 When porting tests from ethereum/tests, you may encounter coverage gaps that are false positives. This commonly occurs because:
 
 - **Original tests** often used Yul to define smart contracts, and solc compilation introduces additional opcodes that aren't specifically under test
-- **EEST ports** typically use the explicit EEST Opcode mini-language, which is more precise in opcode definition
+- **EEST ports** use the explicit EEST Opcode mini-language, which is more precise in opcode definition
 
 If coverage analysis shows missing opcodes that were only present due to Yul compilation artifacts (not the actual feature being tested), this can be resolved during PR review by adding the `coverage_missed_reason` parameter:
 
