@@ -69,7 +69,7 @@ def wait_until_counter_reached(target: int, poll_interval: float = 0.1):
                         pytest.fail(
                             f"The blob_unit_test lock counter is too high! "
                             f"Expected {target}, but got {current_value}. "
-                            f"It probably re-used an existing file that was not cleared. "
+                            f"It probably reused an existing file that was not cleared. "
                             f"Delete {file_path} manually to fix this."
                         )
                 except Exception:
