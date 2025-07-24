@@ -104,7 +104,6 @@ def test_worst_bytecode_single_opcode(
     # Set the block gas limit to a relative high value to ensure the code deposit tx
     # fits in the block (there is enough gas available in the block to execute this)
     minimum_gas_limit = code_deposit_gas_minimum * 2 * num_contracts
-    env = Environment()
     if env.gas_limit < minimum_gas_limit:
         env = Environment(gas_limit=minimum_gas_limit)
 
