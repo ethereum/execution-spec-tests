@@ -170,4 +170,6 @@ class SpecHelpers:
             max_blobs_per_block + 1,
             max_blobs_per_tx,
         )
+        # Add a combination that exceeds the max blobs per tx
+        invalid_combinations.append((max_blobs_per_tx + 1,))
         return invalid_combinations
