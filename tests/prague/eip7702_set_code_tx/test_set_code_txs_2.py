@@ -1806,3 +1806,54 @@ def test_delegation_replacement_call_previous_contract(
             )
         },
     )
+
+
+def test_call_large_offset_mstore(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+):
+    """
+    CALL with ret_offset larger than memory size and ret_size zero
+    Then do an MSTORE in that offset to see if memory was expanded in CALL.
+
+    This is for bug in a faulty EVM implementation where memory is expanded when it shouldn't.
+    """
+    sender = pre.fund_eoa()
+
+    gsc = fork.gas_costs()
+    overhead_cost = gsc.G_VERY_LOW * (len(Op.CALL.kwargs) + len(Op.MSTORE.kwargs))  # type: ignore
+    mem_offset = 128  # arbitrary number
+
+    contract_code = CodeGasMeasure(
+        code=Op.CALL(gas=0, ret_offset=mem_offset, ret_size=0)
+        + Op.MSTORE(offset=mem_offset, value=1),
+        overhead_cost=overhead_cost,
+        extra_stack_items=1,  # Because CALL pushes 1 item to the stack
+    )
+
+    contract = pre.deploy_contract(
+        contract_code,
+    )
+
+    tx = Transaction(
+        gas_limit=500_000,
+        to=contract,
+        value=0,
+        sender=sender,
+    )
+
+    # this call cost is just the address_access_cost
+    call_cost = gsc.G_COLD_ACCOUNT_ACCESS
+    # mstore cost: base cost + expansion cost
+    mstore_cost = gsc.G_MEMORY + (gsc.G_MEMORY * (mem_offset // 32 + 1))
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            contract: Account(
+                storage={0: call_cost + mstore_cost},
+            )
+        },
+    )
