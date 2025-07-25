@@ -502,6 +502,7 @@ def all_invalid_blob_gas_used_combinations_single_tx(
         for header_blob_gas_used in range(0, fork.max_blobs_per_block() + 1):
             if new_blobs != header_blob_gas_used:
                 yield ([new_blobs], header_blob_gas_used * gas_per_blob)
+        yield ([new_blobs], 2**64 - 1)
 
 
 def all_invalid_blob_gas_used_combinations_multi_tx(fork: Fork) -> Iterator[Tuple[List[int], int]]:
