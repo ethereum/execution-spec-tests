@@ -62,35 +62,38 @@ def pre_fork_blocks(
     sender: EOA,
 ) -> List[Block]:
     """Generate blocks to reach the fork."""
-    txs = []
-    blob_index = 0
-    for tx_blobs in pre_fork_blobs_per_tx_list:
-        if tx_blobs > 0:
-            txs.append(
-                Transaction(
-                    ty=Spec.BLOB_TX_TYPE,
-                    to=destination_account,
-                    value=1,
-                    gas_limit=3_000_000,
-                    max_fee_per_gas=1_000_000,
-                    max_priority_fee_per_gas=10,
-                    max_fee_per_blob_gas=100,
-                    access_list=[],
-                    blob_versioned_hashes=add_kzg_version(
-                        [Hash(blob_index + x) for x in range(tx_blobs)],
-                        Spec.BLOB_COMMITMENT_VERSION_KZG,
-                    ),
-                    sender=sender,
+    blocks = []
+    nonce = 0
+    for t in range(999, FORK_TIMESTAMP, 1_000):
+        txs = []
+        blob_index = 0
+
+        for tx_blobs in pre_fork_blobs_per_tx_list:
+            if tx_blobs > 0:
+                txs.append(
+                    Transaction(
+                        ty=Spec.BLOB_TX_TYPE,
+                        to=destination_account,
+                        value=1,
+                        gas_limit=3_000_000,
+                        max_fee_per_gas=1_000_000,
+                        max_priority_fee_per_gas=10,
+                        max_fee_per_blob_gas=100,
+                        access_list=[],
+                        blob_versioned_hashes=add_kzg_version(
+                            [Hash(blob_index + x) for x in range(tx_blobs)],
+                            Spec.BLOB_COMMITMENT_VERSION_KZG,
+                        ),
+                        sender=sender,
+                        nonce=nonce,
+                    )
                 )
-            )
-            blob_index += tx_blobs
-    return [
-        Block(
-            txs=txs,
-            timestamp=t,
-        )
-        for t in range(999, FORK_TIMESTAMP, 1_000)
-    ]
+                nonce += 1
+                blob_index += tx_blobs
+
+        blocks.append(Block(txs=txs, timestamp=t))
+
+    return blocks
 
 
 @pytest.fixture
@@ -160,15 +163,28 @@ def fork_block_excess_blob_gas(
 
 
 @pytest.fixture
+def starting_nonce_post_fork(
+    pre_fork_blocks: List[Block],
+    pre_fork_blobs_per_tx_list: List[int],
+) -> int:
+    """Calculate the starting nonce for post-fork transactions."""
+    tx_count_per_block = len([blobs for blobs in pre_fork_blobs_per_tx_list if blobs > 0])
+    total_pre_fork_txs = len(pre_fork_blocks) * tx_count_per_block
+    return total_pre_fork_txs
+
+
+@pytest.fixture
 def post_fork_blocks(
     destination_account: Address,
     post_fork_block_count: int,
     post_fork_blobs_per_tx_list: List[int],
     fork_block_excess_blob_gas: int,
     sender: EOA,
+    starting_nonce_post_fork: int,
 ):
     """Generate blocks past the fork."""
     blocks = []
+    nonce = starting_nonce_post_fork
     for i in range(post_fork_block_count):
         txs = []
         blob_index = 0
@@ -188,9 +204,12 @@ def post_fork_blocks(
                             Spec.BLOB_COMMITMENT_VERSION_KZG,
                         ),
                         sender=sender,
+                        nonce=nonce,
                     )
                 )
+                nonce += 1
                 blob_index += tx_blobs
+
         if i == 0:
             blocks.append(
                 Block(
@@ -200,6 +219,7 @@ def post_fork_blocks(
             )
         else:
             blocks.append(Block(txs=txs))
+
     return blocks
 
 
