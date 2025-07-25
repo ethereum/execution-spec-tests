@@ -12,7 +12,6 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Alloc,
     Bytecode,
-    Environment,
     StateTestFiller,
     Transaction,
 )
@@ -70,7 +69,6 @@ def test_worst_calldatacopy(
     size: int,
     fixed_src_dst: bool,
     non_zero_data: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block filled with CALLDATACOPY executions."""
@@ -123,7 +121,6 @@ def test_worst_calldatacopy(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -154,7 +151,6 @@ def test_worst_codecopy(
     fork: Fork,
     max_code_size_ratio: float,
     fixed_src_dst: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block filled with CODECOPY executions."""
@@ -182,7 +178,6 @@ def test_worst_codecopy(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -212,7 +207,6 @@ def test_worst_returndatacopy(
     fork: Fork,
     size: int,
     fixed_dst: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block filled with RETURNDATACOPY executions."""
@@ -268,7 +262,6 @@ def test_worst_returndatacopy(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -298,7 +291,6 @@ def test_worst_mcopy(
     fork: Fork,
     size: int,
     fixed_src_dst: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block filled with MCOPY executions."""
@@ -329,7 +321,6 @@ def test_worst_mcopy(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,

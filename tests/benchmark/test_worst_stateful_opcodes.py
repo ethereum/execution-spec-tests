@@ -109,7 +109,6 @@ def test_worst_address_state_cold(
     blocks.append(Block(txs=[op_tx]))
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post=post,
         blocks=blocks,
@@ -143,7 +142,6 @@ def test_worst_address_state_warm(
     fork: Fork,
     opcode: Op,
     absent_target: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many stateful opcodes doing warm access for an account."""
@@ -178,7 +176,6 @@ def test_worst_address_state_warm(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post=post,
         tx=tx,
@@ -374,7 +371,6 @@ def test_worst_storage_access_cold(
     blocks.append(Block(txs=[op_tx]))
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
@@ -452,7 +448,6 @@ def test_worst_storage_access_warm(
     blocks.append(Block(txs=[op_tx]))
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
@@ -463,7 +458,6 @@ def test_worst_storage_access_warm(
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many blockhash accessing oldest allowed block as possible."""
@@ -483,7 +477,6 @@ def test_worst_blockhash(
     blocks.append(Block(txs=[op_tx]))
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post={},
         blocks=blocks,
@@ -495,7 +488,6 @@ def test_worst_selfbalance(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many SELFBALANCE opcodes as possible."""
@@ -519,7 +511,6 @@ def test_worst_selfbalance(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -539,7 +530,6 @@ def test_worst_extcodecopy_warm(
     state_test: StateTestFiller,
     pre: Alloc,
     copied_size: int,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many wamr EXTCODECOPY work as possible."""
@@ -562,7 +552,6 @@ def test_worst_extcodecopy_warm(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -698,7 +687,6 @@ def test_worst_selfdestruct_existing(
         deployed_contract_addresses.append(deployed_contract_address)
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post=post,
         blocks=[
@@ -802,7 +790,6 @@ def test_worst_selfdestruct_created(
 
     post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
     state_test(
-        env=env,
         pre=pre,
         post=post,
         tx=code_tx,
@@ -884,7 +871,6 @@ def test_worst_selfdestruct_initcode(
 
     post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
     state_test(
-        env=env,
         pre=pre,
         post=post,
         tx=code_tx,

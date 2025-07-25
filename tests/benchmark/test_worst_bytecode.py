@@ -105,7 +105,11 @@ def test_worst_bytecode_single_opcode(
     # fits in the block (there is enough gas available in the block to execute this)
     minimum_gas_limit = code_deposit_gas_minimum * 2 * num_contracts
     if env.gas_limit < minimum_gas_limit:
-        env = Environment(gas_limit=minimum_gas_limit)
+        raise Exception(
+            f"`BENCHMARKING_MAX_GAS` ({env.gas_limit}) is no longer enough to support this test, "
+            f"which requires {minimum_gas_limit} gas for its setup. Update the value or consider "
+            "optimizing gas usage during the setup phase of this test."
+        )
 
     # The initcode will take its address as a starting point to the input to the keccak
     # hash function.
@@ -218,7 +222,6 @@ def test_worst_bytecode_single_opcode(
     )
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post=post,
         blocks=[
@@ -247,7 +250,6 @@ def test_worst_initcode_jumpdest_analysis(
     pre: Alloc,
     fork: Fork,
     pattern: Bytecode,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -315,7 +317,6 @@ def test_worst_initcode_jumpdest_analysis(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -355,7 +356,6 @@ def test_worst_create(
     max_code_size_ratio: float,
     non_zero_data: bool,
     value: int,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test the CREATE and CREATE2 performance with different configurations."""
@@ -425,7 +425,6 @@ def test_worst_create(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -445,7 +444,6 @@ def test_worst_creates_collisions(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test the CREATE and CREATE2 collisions performance."""
@@ -500,7 +498,6 @@ def test_worst_creates_collisions(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,

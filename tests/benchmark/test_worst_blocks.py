@@ -14,7 +14,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
     StateTestFiller,
     Transaction,
 )
@@ -109,7 +108,6 @@ def ether_transfer_case(
 )
 def test_block_full_of_ether_transfers(
     blockchain_test: BlockchainTestFiller,
-    env: Environment,
     pre: Alloc,
     case_id: str,
     ether_transfer_case,
@@ -152,7 +150,6 @@ def test_block_full_of_ether_transfers(
     )
 
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
@@ -176,7 +173,6 @@ def test_block_full_data(
     intrinsic_cost: int,
     total_cost_floor_per_token: int,
     gas_benchmark_value: int,
-    env: Environment,
 ):
     """Test a block with empty payload."""
     # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
@@ -219,7 +215,6 @@ def test_block_full_data(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,

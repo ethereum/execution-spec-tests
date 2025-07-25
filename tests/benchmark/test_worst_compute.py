@@ -22,7 +22,6 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Bytecode,
-    Environment,
     StateTestFiller,
     Transaction,
     add_kzg_version,
@@ -88,7 +87,6 @@ def test_worst_zero_param(
     pre: Alloc,
     opcode: Op,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many zero-parameter opcodes as possible."""
@@ -107,7 +105,6 @@ def test_worst_zero_param(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -121,7 +118,6 @@ def test_worst_calldatasize(
     pre: Alloc,
     fork: Fork,
     calldata_length: int,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many CALLDATASIZE as possible."""
@@ -142,7 +138,6 @@ def test_worst_calldatasize(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -158,7 +153,6 @@ def test_worst_callvalue(
     fork: Fork,
     non_zero_value: bool,
     from_origin: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -196,7 +190,6 @@ def test_worst_callvalue(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -227,7 +220,6 @@ def test_worst_returndatasize_nonzero(
     fork: Fork,
     returned_size: int,
     return_data_style: ReturnDataStyle,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -268,7 +260,6 @@ def test_worst_returndatasize_nonzero(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -280,7 +271,6 @@ def test_worst_returndatasize_zero(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
@@ -302,7 +292,6 @@ def test_worst_returndatasize_zero(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -316,7 +305,6 @@ def test_worst_msize(
     pre: Alloc,
     fork: Fork,
     mem_size: int,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -344,7 +332,6 @@ def test_worst_msize(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -356,7 +343,6 @@ def test_worst_keccak(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many KECCAK256 permutations as possible."""
@@ -421,7 +407,6 @@ def test_worst_keccak(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -445,7 +430,6 @@ def test_worst_precompile_only_data_input(
     static_cost: int,
     per_word_dynamic_cost: int,
     bytes_per_unit_of_work: int,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many precompile calls which have a single `data` input."""
@@ -501,7 +485,6 @@ def test_worst_precompile_only_data_input(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -816,7 +799,6 @@ def test_worst_modexp(
     pre: Alloc,
     fork: Fork,
     mod_exp_input: ModExpInput,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -840,7 +822,6 @@ def test_worst_modexp(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1093,7 +1074,6 @@ def test_worst_precompile_fixed_cost(
     fork: Fork,
     precompile_address: Address,
     parameters: list[str] | list[BytesConcatenation] | list[bytes],
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block filled with a precompile with fixed cost."""
@@ -1138,7 +1118,6 @@ def test_worst_precompile_fixed_cost(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1150,7 +1129,6 @@ def test_worst_precompile_fixed_cost(
 def test_worst_jumps(
     state_test: StateTestFiller,
     pre: Alloc,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a JUMP-intensive contract."""
@@ -1164,7 +1142,6 @@ def test_worst_jumps(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1176,7 +1153,6 @@ def test_worst_jumpi_fallthrough(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a JUMPI-intensive contract with fallthrough."""
@@ -1203,7 +1179,6 @@ def test_worst_jumpi_fallthrough(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1214,7 +1189,6 @@ def test_worst_jumpi_fallthrough(
 def test_worst_jumpis(
     state_test: StateTestFiller,
     pre: Alloc,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a JUMPI-intensive contract."""
@@ -1228,7 +1202,6 @@ def test_worst_jumpis(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1241,7 +1214,6 @@ def test_worst_jumpdests(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a JUMPDEST-intensive contract."""
@@ -1260,7 +1232,6 @@ def test_worst_jumpdests(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1416,7 +1387,6 @@ def test_worst_binop_simple(
     opcode: Op,
     fork: Fork,
     opcode_args: tuple[int, int],
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -1443,7 +1413,6 @@ def test_worst_binop_simple(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1457,7 +1426,6 @@ def test_worst_unop(
     pre: Alloc,
     opcode: Op,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -1480,7 +1448,6 @@ def test_worst_unop(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1498,7 +1465,6 @@ def test_worst_tload(
     pre: Alloc,
     key_mut: bool,
     val_mut: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many TLOAD calls as possible."""
@@ -1538,7 +1504,6 @@ def test_worst_tload(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1554,7 +1519,6 @@ def test_worst_tstore(
     pre: Alloc,
     key_mut: bool,
     dense_val_mut: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many TSTORE calls as possible."""
@@ -1583,7 +1547,6 @@ def test_worst_tstore(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1597,7 +1560,6 @@ def test_worst_shifts(
     pre: Alloc,
     fork: Fork,
     shift_right: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -1669,7 +1631,6 @@ def test_worst_shifts(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1692,7 +1653,6 @@ def test_worst_blobhash(
     pre: Alloc,
     blob_index: int,
     blobs_present: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many BLOBHASH instructions as possible."""
@@ -1735,7 +1695,6 @@ def test_worst_blobhash(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1751,7 +1710,6 @@ def test_worst_mod(
     fork: Fork,
     mod_bits: int,
     op: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -1860,7 +1818,6 @@ def test_worst_mod(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1880,7 +1837,6 @@ def test_worst_memory_access(
     offset: int,
     offset_initialized: bool,
     big_memory_expansion: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many memory access instructions as possible."""
@@ -1906,7 +1862,6 @@ def test_worst_memory_access(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -1922,7 +1877,6 @@ def test_worst_modarith(
     fork: Fork,
     mod_bits: int,
     op: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """
@@ -2012,7 +1966,6 @@ def test_worst_modarith(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2023,11 +1976,9 @@ def test_worst_modarith(
 def test_empty_block(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    env: Environment,
 ):
     """Test running an empty block as a baseline for fixed proving costs."""
     blockchain_test(
-        genesis_environment=env,
         pre=pre,
         post={},
         blocks=[Block(txs=[])],
@@ -2040,7 +1991,6 @@ def test_amortized_bn128_pairings(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many BN128 pairings as possible."""
@@ -2096,7 +2046,6 @@ def test_amortized_bn128_pairings(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2146,7 +2095,6 @@ def test_worst_calldataload(
     pre: Alloc,
     fork: Fork,
     calldata: bytes,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many CALLDATALOAD as possible."""
@@ -2168,7 +2116,6 @@ def test_worst_calldataload(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2201,7 +2148,6 @@ def test_worst_swap(
     pre: Alloc,
     fork: Fork,
     opcode: Opcode,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many SWAP as possible."""
@@ -2220,7 +2166,6 @@ def test_worst_swap(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2253,7 +2198,6 @@ def test_worst_dup(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many DUP as possible."""
@@ -2277,7 +2221,6 @@ def test_worst_dup(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2327,7 +2270,6 @@ def test_worst_push(
     pre: Alloc,
     fork: Fork,
     opcode: Op,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many PUSH as possible."""
@@ -2348,7 +2290,6 @@ def test_worst_push(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
@@ -2376,7 +2317,6 @@ def test_worst_return_revert(
     opcode: Op,
     return_size: int,
     return_non_zero_data: bool,
-    env: Environment,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many RETURN or REVERT as possible."""
@@ -2411,7 +2351,6 @@ def test_worst_return_revert(
     )
 
     state_test(
-        env=env,
         pre=pre,
         post={},
         tx=tx,
