@@ -77,6 +77,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 #### `consume`
 
+- ✨ Add `--extract-to` parameter to `consume cache` command for direct fixture extraction to specified directory, replacing the need for separate download scripts. ([#1861](https://github.com/ethereum/execution-spec-tests/pull/1861)).
 - 🐞 Fix `consume cache --cache-folder` parameter being ignored, now properly caches fixtures in the specified directory instead of always using the default system cache location.
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
