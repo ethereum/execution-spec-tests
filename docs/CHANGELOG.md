@@ -135,6 +135,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)). Update the blob_base_cost ([#1915](https://github.com/ethereum/EIPs/pull/1915)).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
+- ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Pre-Osaka tests have been updated to either (1) dynamically adapt to the transaction gas limit cap, or (2) reduce overall gas consumption to fit the new limit ([#1928](https://github.com/ethereum/EIPs/pull/1928)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
