@@ -240,7 +240,7 @@ costRevert:
     - :label stackOver  :abi f(uint,uint) 0x1006 3
 
     gasLimit:
-    - '16777216'
+    - '80000000'
     gasPrice: '10'
     nonce: '0'
     to: cccccccccccccccccccccccccccccccccccccccc
