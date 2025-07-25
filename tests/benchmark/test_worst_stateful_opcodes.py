@@ -570,7 +570,7 @@ def test_worst_selfdestruct_existing(
 ):
     """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
     attack_gas_limit = gas_benchmark_value
-    pre.fund_address(env.fee_recipient, 1)
+    fee_recipient = pre.fund_eoa(amount=1)
 
     # Template code that will be used to deploy a large number of contracts.
     selfdestructable_contract_addr = pre.deploy_contract(code=Op.SELFDESTRUCT(Op.COINBASE))
@@ -691,7 +691,7 @@ def test_worst_selfdestruct_existing(
         post=post,
         blocks=[
             Block(txs=[contracts_deployment_tx]),
-            Block(txs=[opcode_tx]),
+            Block(txs=[opcode_tx], fee_recipient=fee_recipient),
         ],
         exclude_full_post_state_in_output=True,
         expected_benchmark_gas_used=expected_benchmark_gas_used,
@@ -712,7 +712,8 @@ def test_worst_selfdestruct_created(
     Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
     the same transaction.
     """
-    pre.fund_address(env.fee_recipient, 1)
+    fee_recipient = pre.fund_eoa(amount=1)
+    env.fee_recipient = fee_recipient
 
     # SELFDESTRUCT(COINBASE) contract deployment
     initcode = (
@@ -790,6 +791,7 @@ def test_worst_selfdestruct_created(
 
     post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
     state_test(
+        env=env,
         pre=pre,
         post=post,
         tx=code_tx,
@@ -808,7 +810,8 @@ def test_worst_selfdestruct_initcode(
     gas_benchmark_value: int,
 ):
     """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
-    pre.fund_address(env.fee_recipient, 1)
+    fee_recipient = pre.fund_eoa(amount=1)
+    env.fee_recipient = fee_recipient
 
     gas_costs = fork.gas_costs()
     memory_expansion_calc = fork().memory_expansion_gas_calculator()
@@ -871,6 +874,7 @@ def test_worst_selfdestruct_initcode(
 
     post = {code_addr: Account(storage={0: 42})}  # Check for successful execution.
     state_test(
+        env=env,
         pre=pre,
         post=post,
         tx=code_tx,
