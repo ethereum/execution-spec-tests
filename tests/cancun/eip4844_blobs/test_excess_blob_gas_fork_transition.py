@@ -353,6 +353,9 @@ def test_invalid_post_fork_block_without_blob_fields(
             id="max_blobs",
         ),
         pytest.param(3, [], id="no_blobs"),
+        pytest.param(
+            3, [fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)], id="target_blobs"
+        ),
     ],
 )
 def test_fork_transition_excess_blob_gas_at_blob_genesis(
