@@ -40,7 +40,7 @@ from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
 )
-from ethereum_test_types import EnvironmentDefaults
+from ethereum_test_types import Environment, EnvironmentDefaults
 
 from ..shared.helpers import (
     get_spec_format_for_item,
@@ -873,6 +873,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     Implementation detail: All spec fixtures must be scoped on test function level to avoid
     leakage between tests.
     """
+    environment_parameter = None
+    if "genesis_environment" in cls.model_fields:
+        environment_parameter = "genesis_environment"
+    elif "env" in cls.model_fields:
+        environment_parameter = "env"
 
     @pytest.fixture(
         scope="function",
@@ -884,6 +889,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         fork: Fork,
         reference_spec: ReferenceSpec,
         pre: Alloc,
+        env: Environment,
         output_dir: Path,
         dump_dir_parameter_level: Path | None,
         fixture_collector: FixtureCollector,
@@ -917,6 +923,9 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 if "expected_benchmark_gas_used" not in kwargs:
                     kwargs["expected_benchmark_gas_used"] = gas_benchmark_value
+                if environment_parameter and environment_parameter not in kwargs:
+                    kwargs[environment_parameter] = env
+
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 self._operation_mode = request.config.op_mode

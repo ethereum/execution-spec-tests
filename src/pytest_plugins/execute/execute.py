@@ -11,7 +11,7 @@ from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
-from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
+from ethereum_test_types import Environment, EnvironmentDefaults, TransactionDefaults
 
 from ..shared.helpers import (
     get_spec_format_for_item,
@@ -252,6 +252,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     Implementation detail: All spec fixtures must be scoped on test function level to avoid
     leakage between tests.
     """
+    environment_parameter = None
+    if "genesis_environment" in cls.model_fields:
+        environment_parameter = "genesis_environment"
+    elif "env" in cls.model_fields:
+        environment_parameter = "env"
 
     @pytest.fixture(
         scope="function",
@@ -261,6 +266,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         request: Any,
         fork: Fork,
         pre: Alloc,
+        env: Environment,
         eth_rpc: EthRPC,
         engine_rpc: EngineRPC | None,
         collector: Collector,
@@ -289,6 +295,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 elif kwargs["pre"] != pre:
                     raise ValueError("The pre-alloc object was modified by the test.")
+                if environment_parameter and environment_parameter not in kwargs:
+                    kwargs[environment_parameter] = env
 
                 request.node.config.sender_address = str(pre._sender)
 
