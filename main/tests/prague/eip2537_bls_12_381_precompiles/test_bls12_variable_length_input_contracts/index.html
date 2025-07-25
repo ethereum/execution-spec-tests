@@ -6979,6 +6979,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -7052,12 +7064,58 @@
   
   
     <li class="md-nav__item">
+      <a href="test_invalid_zero_gas_g1msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_g1msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="test_invalid_gas_g1msm/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_g1msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_invalid_zero_length_g1msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_g1msm</code>
     
   </span>
   
@@ -7121,12 +7179,58 @@
   
   
     <li class="md-nav__item">
+      <a href="test_invalid_zero_gas_g2msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_g2msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="test_invalid_gas_g2msm/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_g2msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_invalid_zero_length_g2msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_g2msm</code>
     
   </span>
   
@@ -7190,12 +7294,58 @@
   
   
     <li class="md-nav__item">
+      <a href="test_invalid_zero_gas_pairing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_pairing</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="test_invalid_gas_pairing/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_pairing</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_invalid_zero_length_pairing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_pairing</code>
     
   </span>
   
@@ -25476,7 +25626,7 @@
 
 
 <h1 id="test-bls12-variable-length-input-contracts">Test Bls12 Variable Length Input Contracts<a class="headerlink" href="#test-bls12-variable-length-input-contracts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ebfd451f1e9c8881c2a203008905a4f01d47f244/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L115"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py@ebfd451f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ae95b1b24f3590c5a1075c8332df744e5129fa34/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L234"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py@ae95b1b2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py --fork Osaka</span>
@@ -25529,55 +25679,91 @@
 <tr>
 <td><a href="test_valid_gas_g1msm/"><code>test_valid_gas_g1msm</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>4</td>
 <td>Test the BLS12_G1MSM discount gas table in full, by expecting the call to succeed for</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_gas_g1msm/"><code>test_invalid_zero_gas_g1msm</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_G1MSM precompile calling it with zero gas.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_gas_g1msm/"><code>test_invalid_gas_g1msm</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>4</td>
 <td>Test the BLS12_G1MSM discount gas table in full, by expecting the call to fail for</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_length_g1msm/"><code>test_invalid_zero_length_g1msm</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_G1MSM precompile by passing an input with zero length.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_length_g1msm/"><code>test_invalid_length_g1msm</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>8</td>
 <td>Test the BLS12_G1MSM discount gas table in full, by expecting the call to fail for</td>
 </tr>
 <tr>
 <td><a href="test_valid_gas_g2msm/"><code>test_valid_gas_g2msm</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>7</td>
 <td>Test the BLS12_G2MSM discount gas table in full, by expecting the call to succeed for</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_gas_g2msm/"><code>test_invalid_zero_gas_g2msm</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_G2MSM precompile calling it with zero gas.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_gas_g2msm/"><code>test_invalid_gas_g2msm</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>7</td>
 <td>Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_length_g2msm/"><code>test_invalid_zero_length_g2msm</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_G2MSM precompile by passing an input with zero length.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_length_g2msm/"><code>test_invalid_length_g2msm</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>14</td>
 <td>Test the BLS12_G2MSM discount gas table in full, by expecting the call to fail for</td>
 </tr>
 <tr>
 <td><a href="test_valid_gas_pairing/"><code>test_valid_gas_pairing</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>1</td>
 <td>Test the BLS12_PAIRING precompile, by expecting the call to succeed for all possible input</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_gas_pairing/"><code>test_invalid_zero_gas_pairing</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_PAIRING precompile calling it with zero gas.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_gas_pairing/"><code>test_invalid_gas_pairing</code></a></td>
 <td>state_test</td>
-<td>2</td>
+<td>1</td>
 <td>Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input</td>
+</tr>
+<tr>
+<td><a href="test_invalid_zero_length_pairing/"><code>test_invalid_zero_length_pairing</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the BLS12_PAIRING precompile by passing an input with zero length.</td>
 </tr>
 <tr>
 <td><a href="test_invalid_length_pairing/"><code>test_invalid_length_pairing</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>2</td>
 <td>Test the BLS12_PAIRING precompile, by expecting the call to fail for all possible input</td>
 </tr>
 </tbody>

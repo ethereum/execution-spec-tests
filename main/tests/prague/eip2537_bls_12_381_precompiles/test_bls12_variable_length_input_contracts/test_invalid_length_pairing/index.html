@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_length_pairing/">
       
       
-        <link rel="prev" href="../test_invalid_gas_pairing/">
+        <link rel="prev" href="../test_invalid_zero_length_pairing/">
       
       
         <link rel="next" href="../../vectors/test-vectors/">
@@ -6979,6 +6979,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -7052,12 +7064,58 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_invalid_zero_gas_g1msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_g1msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_invalid_gas_g1msm/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_g1msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_zero_length_g1msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_g1msm</code>
     
   </span>
   
@@ -7121,12 +7179,58 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_invalid_zero_gas_g2msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_g2msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_invalid_gas_g2msm/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_g2msm</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_zero_length_g2msm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_g2msm</code>
     
   </span>
   
@@ -7190,12 +7294,58 @@
   
   
     <li class="md-nav__item">
+      <a href="../test_invalid_zero_gas_pairing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_gas_pairing</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../test_invalid_gas_pairing/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     <code>test_invalid_gas_pairing</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_invalid_zero_length_pairing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_invalid_zero_length_pairing</code>
     
   </span>
   
@@ -25536,7 +25686,7 @@
 
 
 <h1 id="test_invalid_length_pairing"><code>test_invalid_length_pairing()</code><a class="headerlink" href="#test_invalid_length_pairing" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ebfd451f1e9c8881c2a203008905a4f01d47f244/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L436"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing@ebfd451f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ae95b1b24f3590c5a1075c8332df744e5129fa34/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py#L652"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing@ae95b1b2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing --fork Osaka</span>
@@ -25558,69 +25708,53 @@ lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was use
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span>
-<span class="normal">452</span>
-<span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;precompile_gas_list,precompile_data_length_list&quot;</span><span class="p">,</span>
+    <span class="n">get_split_discount_table_by_fork</span><span class="p">(</span><span class="n">PAIRING_GAS</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;input_length_modifier&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">PAIRING_GAS</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">)],</span>
-            <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;zero_length&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">PAIRING_GAS</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-            <span class="p">[(</span><span class="n">i</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;input_too_short&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">PAIRING_GAS</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-            <span class="p">[(</span><span class="n">i</span> <span class="o">*</span> <span class="n">Spec</span><span class="o">.</span><span class="n">LEN_PER_PAIR</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">PAIRINGS_TO_TEST</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)],</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;input_too_long&quot;</span><span class="p">,</span>
-        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;input_one_byte_too_short&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;input_one_byte_too_long&quot;</span><span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INVALID</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;precompile_address&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">PAIRING</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_length_pairing</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
@@ -25632,7 +25766,7 @@ lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was use
 <span class="sd">    If any of the calls succeeds, the test will fail.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">),</span>
+        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
@@ -25686,156 +25820,117 @@ lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was use
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
-                        <th>precompile_address</th>
-                        <th>expected_output</th>
                         <th>precompile_gas_list</th>
                         <th>precompile_data_length_list</th>
+                        <th>precompile_address</th>
+                        <th>expected_output</th>
+                        <th>input_length_modifier</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--zero_length]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--zero_length]">
-                    ...fork_Prague-state_test-precompile_address_15--zero_length
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_short]">
+                    ...fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_short
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300]</td>
-                        <td>[0]</td>
+                        <td>-1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--input_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--input_too_short]">
-                    ...fork_Prague-state_test-precompile_address_15--input_too_short
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_long]">
+                    ...fork_Prague-full_discount_table-state_test-precompile_address_15--input_one_byte_too_long
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[383, 767, 1151, 1535, 1919, 2303, 2687, 3071, 3455, 3839, 4223, 4607, 4991, 5375, 5759, 6143, 6527, 6911, 7295, 7679]</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--input_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-state_test-precompile_address_15--input_too_long]">
-                    ...fork_Prague-state_test-precompile_address_15--input_too_long
-                </abbr>
-            </td>
-                        <td>15</td>
-                        <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[385, 769, 1153, 1537, 1921, 2305, 2689, 3073, 3457, 3841, 4225, 4609, 4993, 5377, 5761, 6145, 6529, 6913, 7297, 7681]</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--zero_length]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--zero_length]">
-                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_15--zero_length
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short]">
+                    ...fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300]</td>
-                        <td>[0]</td>
+                        <td>-1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_short]">
-                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_short
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long]">
+                    ...fork_Prague-full_discount_table-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[383, 767, 1151, 1535, 1919, 2303, 2687, 3071, 3455, 3839, 4223, 4607, 4991, 5375, 5759, 6143, 6527, 6911, 7295, 7679]</td>
-                    </tr>
-                <tr data-fork="Prague" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_long]">
-                    ...fork_Prague-blockchain_test_from_state_test-precompile_address_15--input_too_long
-                </abbr>
-            </td>
-                        <td>15</td>
-                        <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[385, 769, 1153, 1537, 1921, 2305, 2689, 3073, 3457, 3841, 4225, 4609, 4993, 5377, 5761, 6145, 6529, 6913, 7297, 7681]</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--zero_length]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--zero_length]">
-                    ...fork_Osaka-state_test-precompile_address_15--zero_length
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_short]">
+                    ...fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_short
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300]</td>
-                        <td>[0]</td>
+                        <td>-1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--input_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--input_too_short]">
-                    ...fork_Osaka-state_test-precompile_address_15--input_too_short
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_long]">
+                    ...fork_Osaka-discount_table_1_of_1-state_test-precompile_address_15--input_one_byte_too_long
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[383, 767, 1151, 1535, 1919, 2303, 2687, 3071, 3455, 3839, 4223, 4607, 4991, 5375, 5759, 6143, 6527, 6911, 7295, 7679]</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--input_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-state_test-precompile_address_15--input_too_long]">
-                    ...fork_Osaka-state_test-precompile_address_15--input_too_long
-                </abbr>
-            </td>
-                        <td>15</td>
-                        <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[385, 769, 1153, 1537, 1921, 2305, 2689, 3073, 3457, 3841, 4225, 4609, 4993, 5377, 5761, 6145, 6529, 6913, 7297, 7681]</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--zero_length]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--zero_length]">
-                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_15--zero_length
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short]">
+                    ...fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_short
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300]</td>
-                        <td>[0]</td>
+                        <td>-1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_short]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_short]">
-                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_short
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long]">
+                    ...fork_Osaka-discount_table_1_of_1-blockchain_test_from_state_test-precompile_address_15--input_one_byte_too_long
                 </abbr>
             </td>
+                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
+                        <td>[384, 768, 1152, 1536, 1920, 2304, 2688, 3072, 3456, 3840, 4224, 4608, 4992, 5376, 5760, 6144, 6528, 6912, 7296, 7680]</td>
                         <td>15</td>
                         <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[383, 767, 1151, 1535, 1919, 2303, 2687, 3071, 3455, 3839, 4223, 4607, 4991, 5375, 5759, 6143, 6527, 6911, 7295, 7679]</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_long]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_pairing[fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_long]">
-                    ...fork_Osaka-blockchain_test_from_state_test-precompile_address_15--input_too_long
-                </abbr>
-            </td>
-                        <td>15</td>
-                        <td></td>
-                        <td>[70300, 102900, 135500, 168100, 200700, 233300, 265900, 298500, 331100, 363700, 396300, 428900, 461500, 494100, 526700, 559300, 591900, 624500, 657100, 689700]</td>
-                        <td>[385, 769, 1153, 1537, 1921, 2305, 2689, 3073, 3457, 3841, 4225, 4609, 4993, 5377, 5761, 6145, 6529, 6913, 7297, 7681]</td>
+                        <td>1</td>
                     </tr>
             </tbody>
 </table>
@@ -25873,7 +25968,7 @@ lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was use
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../test_invalid_gas_pairing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code&gt;test_invalid_gas_pairing&lt;/code&gt;">
+          <a href="../test_invalid_zero_length_pairing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code&gt;test_invalid_zero_length_pairing&lt;/code&gt;">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -25883,7 +25978,7 @@ lengths (up to k == PAIRINGS_TO_TEST) because the incorrect input length was use
                 Previous
               </span>
               <div class="md-ellipsis">
-                <code>test_invalid_gas_pairing</code>
+                <code>test_invalid_zero_length_pairing</code>
               </div>
             </div>
           </a>

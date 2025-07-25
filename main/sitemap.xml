@@ -1973,6 +1973,30 @@
          <lastmod>2025-07-25</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_gas_g1msm/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_gas_g2msm/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_gas_pairing/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_length_g1msm/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_length_g2msm/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_invalid_zero_length_pairing/</loc>
+         <lastmod>2025-07-25</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts/test_valid_gas_g1msm/</loc>
          <lastmod>2025-07-25</lastmod>
     </url>
