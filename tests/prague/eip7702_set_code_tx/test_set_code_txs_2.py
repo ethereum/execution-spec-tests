@@ -1849,8 +1849,10 @@ def test_call_large_offset_mstore(
 
     # this call cost is just the address_access_cost
     call_cost = gsc.G_COLD_ACCOUNT_ACCESS
+
+    memory_expansion_gas_calc = fork.memory_expansion_gas_calculator()
     # mstore cost: base cost + expansion cost
-    mstore_cost = gsc.G_MEMORY + (gsc.G_MEMORY * (mem_offset // 32 + 1))
+    mstore_cost = gsc.G_MEMORY + memory_expansion_gas_calc(new_bytes=mem_offset + 1)
     state_test(
         env=Environment(),
         pre=pre,
