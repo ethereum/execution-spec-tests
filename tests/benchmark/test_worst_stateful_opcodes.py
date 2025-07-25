@@ -779,9 +779,8 @@ def test_worst_selfdestruct_created(
     # The 0 storage slot is initialize to avoid creation costs in SSTORE above.
     code_addr = pre.deploy_contract(
         code=code,
-        balance=100_000 if value_bearing else 0,
+        balance=iterations if value_bearing else 0,
         storage={0: 1},
-        nonce=1,
     )
     code_tx = Transaction(
         to=code_addr,
