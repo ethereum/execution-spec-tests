@@ -352,9 +352,9 @@ def test_invalid_post_fork_block_without_blob_fields(
             [fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP)],
             id="max_blobs",
         ),
-        pytest.param(3, [], id="no_blobs"),
+        pytest.param(10, [], id="no_blobs"),
         pytest.param(
-            3, [fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)], id="target_blobs"
+            10, [fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP)], id="target_blobs"
         ),
     ],
 )
@@ -417,7 +417,7 @@ def generate_tx_list_for_block_count(total_blobs: int, max_blobs_per_tx: int) ->
             id="max_blobs_before_and_after",
         ),
         pytest.param(
-            3,
+            10,
             [],
             generate_tx_list_for_block_count(
                 fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP),
@@ -426,7 +426,7 @@ def generate_tx_list_for_block_count(total_blobs: int, max_blobs_per_tx: int) ->
             id="no_blobs_before_and_max_blobs_after",
         ),
         pytest.param(
-            3,
+            10,
             generate_tx_list_for_block_count(
                 fork.max_blobs_per_block(timestamp=0), fork.max_blobs_per_tx(timestamp=0)
             ),
@@ -434,7 +434,7 @@ def generate_tx_list_for_block_count(total_blobs: int, max_blobs_per_tx: int) ->
             id="max_blobs_before_and_no_blobs_after",
         ),
         pytest.param(
-            3,
+            10,
             generate_tx_list_for_block_count(
                 fork.target_blobs_per_block(timestamp=0), fork.max_blobs_per_tx(timestamp=0)
             ),
@@ -445,7 +445,7 @@ def generate_tx_list_for_block_count(total_blobs: int, max_blobs_per_tx: int) ->
             id="target_blobs_before_and_after",
         ),
         pytest.param(
-            3,
+            10,
             [1],
             generate_tx_list_for_block_count(
                 fork.target_blobs_per_block(timestamp=FORK_TIMESTAMP),
@@ -454,7 +454,7 @@ def generate_tx_list_for_block_count(total_blobs: int, max_blobs_per_tx: int) ->
             id="single_blob_before_and_max_blobs_after",
         ),
         pytest.param(
-            3,
+            10,
             generate_tx_list_for_block_count(
                 fork.target_blobs_per_block(timestamp=0), fork.max_blobs_per_tx(timestamp=0)
             ),
