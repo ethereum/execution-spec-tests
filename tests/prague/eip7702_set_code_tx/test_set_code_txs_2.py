@@ -1822,19 +1822,23 @@ def test_call_large_offset_mstore(
     sender = pre.fund_eoa()
 
     gsc = fork.gas_costs()
-    overhead_cost = gsc.G_VERY_LOW * (len(Op.CALL.kwargs) + len(Op.MSTORE.kwargs))  # type: ignore
     mem_offset = 128  # arbitrary number
 
-    contract_code = CodeGasMeasure(
-        code=Op.CALL(gas=0, ret_offset=mem_offset, ret_size=0)
-        + Op.MSTORE(offset=mem_offset, value=1),
-        overhead_cost=overhead_cost,
+    call_measure = CodeGasMeasure(
+        code=Op.CALL(gas=0, ret_offset=mem_offset, ret_size=0),
+        overhead_cost=gsc.G_VERY_LOW * len(Op.CALL.kwargs),  # Cost of pushing CALL args
         extra_stack_items=1,  # Because CALL pushes 1 item to the stack
+        sstore_key=0,
+        stop=False,  # Because it's the first CodeGasMeasure
+    )
+    mstore_measure = CodeGasMeasure(
+        code=Op.MSTORE(offset=mem_offset, value=1),
+        overhead_cost=gsc.G_VERY_LOW * len(Op.MSTORE.kwargs),  # Cost of pushing MSTORE args
+        extra_stack_items=0,
+        sstore_key=1,
     )
 
-    contract = pre.deploy_contract(
-        contract_code,
-    )
+    contract = pre.deploy_contract(call_measure + mstore_measure)
 
     tx = Transaction(
         gas_limit=500_000,
@@ -1853,7 +1857,10 @@ def test_call_large_offset_mstore(
         tx=tx,
         post={
             contract: Account(
-                storage={0: call_cost + mstore_cost},
+                storage={
+                    0: call_cost,
+                    1: mstore_cost,
+                },
             )
         },
     )
