@@ -134,10 +134,6 @@ jobs:
           cache-dependency-glob: "uv.lock"
           version: ${{ vars.UV_VERSION }}
           python-version: ${{ matrix.python }}
-      - name: Build EVMONE EVM
-        uses: ./.github/actions/build-evm-client/evmone
-        with:
-          targets: "evmone-t8n"
       - name: Build GETH EVM
         uses: ./.github/actions/build-evm-client/geth
       - name: Update eels_resolutions.json
