@@ -1,6 +1,5 @@
 """Test suite for blobs."""
 
-# import contextlib
 import copy
 import time
 
