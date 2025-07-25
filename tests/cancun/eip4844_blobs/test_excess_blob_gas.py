@@ -514,9 +514,9 @@ def all_invalid_blob_gas_used_combinations_multi_tx(fork: Fork) -> Iterator[Tupl
     if max_blobs_per_tx >= max_blobs_per_block:
         return
 
-    # 1) Generate valid tx combinations that sum to `max_blobs_per_block + 1`
+    # 1) Generate valid tx combinations that sum to `max_blobs_per_tx + 1`
     blobs_per_tx = []
-    remaining = max_blobs_per_block + 1
+    remaining = max_blobs_per_tx + 1
     while remaining > 0:
         tx_blobs = min(remaining, max_blobs_per_tx)
         blobs_per_tx.append(tx_blobs)
