@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_forks import Fork, Osaka
+from ethereum_test_forks import Fork
 from ethereum_test_tools import Alloc, Block, Environment, Hash, Transaction, add_kzg_version
 
 from .spec import Spec
@@ -300,11 +300,14 @@ def non_zero_blob_gas_used_genesis_block(
     empty_account_destination = pre.fund_eoa(0)
     blob_gas_price_calculator = fork.blob_gas_price_calculator(block_number=1)
 
-    # Split blobs into chunks for forks >= Osaka only to respect MAX_BLOBS_PER_TX limits.
-    # This allows us to keep the creation of single transactions for Cancun/Prague where the
-    # MAX_BLOBS_PER_TX is not enforced, hitting coverage for block level blob gas validation
-    # when parent_blobs > MAX_BLOBS_PER_BLOCK.
-    max_blobs_per_tx = fork.max_blobs_per_tx() if fork >= Osaka else parent_blobs
+    # Split blobs into chunks when MAX_BLOBS_PER_TX < MAX_BLOBS_PER_BLOCK to respect per-tx limits.
+    # Allows us to keep single txs for forks where per-tx and per-block limits are equal, hitting
+    # coverage for block level blob gas validation when parent_blobs > MAX_BLOBS_PER_BLOCK.
+    max_blobs_per_tx = (
+        fork.max_blobs_per_tx()
+        if fork.max_blobs_per_tx() < fork.max_blobs_per_block()
+        else parent_blobs
+    )
     blob_chunks = [
         range(i, min(i + max_blobs_per_tx, parent_blobs))
         for i in range(0, parent_blobs, max_blobs_per_tx)
