@@ -69,7 +69,7 @@ This workflow uses GitHub's built-in token for authentication, so there's no nee
 
 ## Example
 
-Here is an example from [./tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py](../tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase/index.md):
+Here is an example from [./tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py](../../tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py):
 
 ```python
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3651.md"
