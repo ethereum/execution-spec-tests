@@ -86,7 +86,7 @@ class GethExceptionMapper(ExceptionMapper):
         BlockException.BLOB_GAS_USED_ABOVE_LIMIT: (
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
-        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: (r"invalid gasUsed: have \d+, gasLimit \d+"),
+        BlockException.INVALID_GAS_USED_ABOVE_LIMIT: r"invalid gasUsed: have \d+, gasLimit \d+",
     }
 
 
