@@ -25684,7 +25684,7 @@
 
 
 <h1 id="test_worst_address_state_cold"><code>test_worst_address_state_cold()</code><a class="headerlink" href="#test_worst_address_state_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9285bd7f1270283511c482ea75404c6ab28243e5/tests/benchmark/test_worst_stateful_opcodes.py#L36"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@9285bd7f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/377e1755f78ec2e47d6d8adbae999b621b8855a7/tests/benchmark/test_worst_stateful_opcodes.py#L36"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@377e1755</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold --fork Osaka</span>
@@ -25804,10 +25804,11 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">opcode</span><span class="p">:</span> <span class="n">Op</span><span class="p">,</span>
     <span class="n">absent_accounts</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many stateful opcodes accessing cold accounts.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000_000</span><span class="p">)</span>
-    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span>
+    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
 
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
     <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
@@ -25859,7 +25860,6 @@
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">]))</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>

@@ -25684,7 +25684,7 @@
 
 
 <h1 id="test_block_full_of_ether_transfers"><code>test_block_full_of_ether_transfers()</code><a class="headerlink" href="#test_block_full_of_ether_transfers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9285bd7f1270283511c482ea75404c6ab28243e5/tests/benchmark/test_worst_blocks.py#L105"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@9285bd7f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/377e1755f78ec2e47d6d8adbae999b621b8855a7/tests/benchmark/test_worst_blocks.py#L104"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@377e1755</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers --fork Osaka</span>
@@ -25710,7 +25710,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
+<span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
@@ -25763,8 +25764,7 @@
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;case_id&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="s2">&quot;a_to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_diff_acc&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_diff_acc&quot;</span><span class="p">],</span>
@@ -25813,11 +25813,11 @@
     <span class="p">)</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post_state</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
         <span class="n">exclude_full_post_state_in_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="n">iteration_count</span> <span class="o">*</span> <span class="n">intrinsic_cost</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

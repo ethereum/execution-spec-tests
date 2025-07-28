@@ -25684,7 +25684,7 @@
 
 
 <h1 id="test_worst_storage_access_cold"><code>test_worst_storage_access_cold()</code><a class="headerlink" href="#test_worst_storage_access_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9285bd7f1270283511c482ea75404c6ab28243e5/tests/benchmark/test_worst_stateful_opcodes.py#L194"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@9285bd7f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/377e1755f78ec2e47d6d8adbae999b621b8855a7/tests/benchmark/test_worst_stateful_opcodes.py#L201"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@377e1755</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold --fork Osaka</span>
@@ -25704,14 +25704,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
@@ -25813,13 +25806,123 @@
 <span class="normal">300</span>
 <span class="normal">301</span>
 <span class="normal">302</span>
-<span class="normal">303</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;storage_action&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;storage_action,tx_result&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSLOAD&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_SAME_VALUE</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE same value&quot;</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE new value&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSLOAD&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_SAME_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE same value&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_SAME_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE same value, revert&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_SAME_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE same value, out of gas&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE new value&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">REVERT</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE new value, revert&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">,</span>
+            <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;SSTORE new value, out of gas&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
@@ -25835,30 +25938,28 @@
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">storage_action</span><span class="p">:</span> <span class="n">StorageAction</span><span class="p">,</span>
     <span class="n">absent_slots</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">tx_result</span><span class="p">:</span> <span class="n">TransactionResult</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many cold storage slot accesses as possible.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000_000_000</span><span class="p">)</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span><span class="o">.</span><span class="n">gas_limit</span>
+    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
+    <span class="n">attack_gas_limit</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span>
 
-    <span class="n">cost</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>  <span class="c1"># All accesses are always cold</span>
+    <span class="n">loop_cost</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span>  <span class="c1"># All accesses are always cold</span>
     <span class="k">if</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">absent_slots</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_RESET</span>
+            <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_RESET</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span>
+            <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_SAME_VALUE</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">absent_slots</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span>
+            <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_SET</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_SLOAD</span>
+            <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_SLOAD</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">:</span>
-        <span class="n">cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_SLOAD</span>
-
-    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
-    <span class="n">num_target_slots</span> <span class="o">=</span> <span class="p">(</span><span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">())</span> <span class="o">//</span> <span class="n">cost</span>
-
-    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">loop_cost</span> <span class="o">+=</span> <span class="mi">0</span>  <span class="c1"># Only G_COLD_SLOAD is charged</span>
 
     <span class="c1"># Contract code</span>
     <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
@@ -25866,17 +25967,55 @@
         <span class="c1"># All the storage slots in the contract are initialized to their index.</span>
         <span class="c1"># That is, storage slot `i` is initialized to `i`.</span>
         <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">)</span>
+        <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">WRITE_NEW_VALUE</span><span class="p">:</span>
         <span class="c1"># The new value 2^256-1 is guaranteed to be different from the initial value.</span>
         <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP2</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">NOT</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>
     <span class="k">elif</span> <span class="n">storage_action</span> <span class="o">==</span> <span class="n">StorageAction</span><span class="o">.</span><span class="n">READ</span><span class="p">:</span>
         <span class="n">execution_code_body</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span>
+        <span class="n">loop_cost</span> <span class="o">+=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>
 
-    <span class="n">execution_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH4</span><span class="p">(</span><span class="n">num_target_slots</span><span class="p">)</span> <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
-        <span class="n">body</span><span class="o">=</span><span class="n">execution_code_body</span><span class="p">,</span>
-        <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span><span class="p">,</span>
+    <span class="c1"># Add costs jump-logic costs</span>
+    <span class="n">loop_cost</span> <span class="o">+=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_JUMPDEST</span>  <span class="c1"># Prefix Jumpdest</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">7</span>  <span class="c1"># ISZEROs, PUSHs, SWAPs, SUB, DUP</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_HIGH</span>  <span class="c1"># JUMPI</span>
     <span class="p">)</span>
+
+    <span class="n">prefix_cost</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span>  <span class="c1"># Target slots push</span>
+    <span class="p">)</span>
+
+    <span class="n">suffix_cost</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">tx_result</span> <span class="o">==</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">REVERT</span><span class="p">:</span>
+        <span class="n">suffix_cost</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># Revert PUSHs</span>
+        <span class="p">)</span>
+
+    <span class="n">num_target_slots</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">attack_gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">-</span> <span class="n">prefix_cost</span> <span class="o">-</span> <span class="n">suffix_cost</span>
+    <span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
+    <span class="k">if</span> <span class="n">tx_result</span> <span class="o">==</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span><span class="p">:</span>
+        <span class="c1"># Add an extra slot to make it run out-of-gas</span>
+        <span class="n">num_target_slots</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH4</span><span class="p">(</span><span class="n">num_target_slots</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+    <span class="n">code_loop</span> <span class="o">=</span> <span class="n">execution_code_body</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SWAP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SUB</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ISZERO</span>
+    <span class="p">)</span>
+    <span class="n">execution_code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">code_loop</span>
+
+    <span class="k">if</span> <span class="n">tx_result</span> <span class="o">==</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">REVERT</span><span class="p">:</span>
+        <span class="n">execution_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">REVERT</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">execution_code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+
     <span class="n">execution_code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">execution_code</span><span class="p">)</span>
+
+    <span class="n">total_gas_used</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">num_target_slots</span> <span class="o">*</span> <span class="n">loop_cost</span> <span class="o">+</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span> <span class="o">+</span> <span class="n">prefix_cost</span> <span class="o">+</span> <span class="n">suffix_cost</span>
+    <span class="p">)</span>
 
     <span class="c1"># Contract creation</span>
     <span class="n">slots_init</span> <span class="o">=</span> <span class="n">Bytecode</span><span class="p">()</span>
@@ -25905,7 +26044,8 @@
         <span class="n">data</span><span class="o">=</span><span class="n">creation_code</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender_addr</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">setup_tx</span><span class="p">]))</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">setup_tx</span><span class="p">])]</span>
 
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">compute_create_address</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">sender_addr</span><span class="p">,</span> <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
@@ -25917,11 +26057,13 @@
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">op_tx</span><span class="p">]))</span>
 
     <span class="n">blockchain_test</span><span class="p">(</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">blocks</span><span class="o">=</span><span class="n">blocks</span><span class="p">,</span>
         <span class="n">exclude_full_post_state_in_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">total_gas_used</span> <span class="k">if</span> <span class="n">tx_result</span> <span class="o">!=</span> <span class="n">TransactionResult</span><span class="o">.</span><span class="n">OUT_OF_GAS</span> <span class="k">else</span> <span class="n">attack_gas_limit</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -25974,6 +26116,7 @@
             <th>Test ID (Abbreviated)</th>
                         <th>absent_slots</th>
                         <th>storage_action</th>
+                        <th>tx_result</th>
                     </tr>
     </thead>
     <tbody>
@@ -25986,6 +26129,7 @@
             </td>
                         <td>True</td>
                         <td>1</td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -25995,6 +26139,29 @@
                 </abbr>
             </td>
                         <td>True</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert]">
+                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas]">
+                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
                         <td>2</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
@@ -26006,6 +26173,29 @@
             </td>
                         <td>True</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert]">
+                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas]">
+                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -26015,6 +26205,7 @@
                 </abbr>
             </td>
                         <td>False</td>
+                        <td>1</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
@@ -26026,6 +26217,29 @@
             </td>
                         <td>False</td>
                         <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert]">
+                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas]">
+                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -26036,6 +26250,29 @@
             </td>
                         <td>False</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert]">
+                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas]">
+                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26045,6 +26282,7 @@
                 </abbr>
             </td>
                         <td>True</td>
+                        <td>1</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26056,6 +26294,29 @@
             </td>
                         <td>True</td>
                         <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, revert]">
+                    ...fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, out of gas]">
+                    ...fork_Prague-blockchain_test-absent_slots_True-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26066,6 +26327,29 @@
             </td>
                         <td>True</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, revert]">
+                    ...fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, out of gas]">
+                    ...fork_Prague-blockchain_test-absent_slots_True-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26075,6 +26359,7 @@
                 </abbr>
             </td>
                         <td>False</td>
+                        <td>1</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -26086,6 +26371,29 @@
             </td>
                         <td>False</td>
                         <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, revert]">
+                    ...fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, out of gas]">
+                    ...fork_Prague-blockchain_test-absent_slots_False-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -26096,6 +26404,29 @@
             </td>
                         <td>False</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, revert]">
+                    ...fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, out of gas]">
+                    ...fork_Prague-blockchain_test-absent_slots_False-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26105,6 +26436,7 @@
                 </abbr>
             </td>
                         <td>True</td>
+                        <td>1</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26116,6 +26448,29 @@
             </td>
                         <td>True</td>
                         <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, revert]">
+                    ...fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, out of gas]">
+                    ...fork_Osaka-blockchain_test-absent_slots_True-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>2</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26126,6 +26481,29 @@
             </td>
                         <td>True</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, revert]">
+                    ...fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, out of gas]">
+                    ...fork_Osaka-blockchain_test-absent_slots_True-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>True</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26135,6 +26513,7 @@
                 </abbr>
             </td>
                         <td>False</td>
+                        <td>1</td>
                         <td>1</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -26146,6 +26525,29 @@
             </td>
                         <td>False</td>
                         <td>2</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, revert]">
+                    ...fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, out of gas]">
+                    ...fork_Osaka-blockchain_test-absent_slots_False-SSTORE same value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>2</td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -26156,6 +26558,29 @@
             </td>
                         <td>False</td>
                         <td>3</td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, revert]">
+                    ...fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, revert
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, out of gas]">
+                    ...fork_Osaka-blockchain_test-absent_slots_False-SSTORE new value, out of gas
+                </abbr>
+            </td>
+                        <td>False</td>
+                        <td>3</td>
+                        <td>2</td>
                     </tr>
             </tbody>
 </table>

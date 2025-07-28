@@ -25684,7 +25684,7 @@
 
 
 <h1 id="test_amortized_bn128_pairings"><code>test_amortized_bn128_pairings()</code><a class="headerlink" href="#test_amortized_bn128_pairings" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9285bd7f1270283511c482ea75404c6ab28243e5/tests/benchmark/test_worst_compute.py#L2001"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@9285bd7f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/377e1755f78ec2e47d6d8adbae999b621b8855a7/tests/benchmark/test_worst_compute.py#L1989"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@377e1755</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings --fork Osaka</span>
@@ -25704,7 +25704,19 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2001</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1989</span>
+<span class="normal">1990</span>
+<span class="normal">1991</span>
+<span class="normal">1992</span>
+<span class="normal">1993</span>
+<span class="normal">1994</span>
+<span class="normal">1995</span>
+<span class="normal">1996</span>
+<span class="normal">1997</span>
+<span class="normal">1998</span>
+<span class="normal">1999</span>
+<span class="normal">2000</span>
+<span class="normal">2001</span>
 <span class="normal">2002</span>
 <span class="normal">2003</span>
 <span class="normal">2004</span>
@@ -25755,29 +25767,14 @@
 <span class="normal">2049</span>
 <span class="normal">2050</span>
 <span class="normal">2051</span>
-<span class="normal">2052</span>
-<span class="normal">2053</span>
-<span class="normal">2054</span>
-<span class="normal">2055</span>
-<span class="normal">2056</span>
-<span class="normal">2057</span>
-<span class="normal">2058</span>
-<span class="normal">2059</span>
-<span class="normal">2060</span>
-<span class="normal">2061</span>
-<span class="normal">2062</span>
-<span class="normal">2063</span>
-<span class="normal">2064</span>
-<span class="normal">2065</span>
-<span class="normal">2066</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">2052</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test running a block with as many BN128 pairings as possible.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-
     <span class="n">base_cost</span> <span class="o">=</span> <span class="mi">45_000</span>
     <span class="n">pairing_cost</span> <span class="o">=</span> <span class="mi">34_000</span>
     <span class="n">size_per_pairing</span> <span class="o">=</span> <span class="mi">192</span>
@@ -25788,7 +25785,7 @@
 
     <span class="c1"># This is a theoretical maximum number of pairings that can be done in a block.</span>
     <span class="c1"># It is only used for an upper bound for calculating the optimal number of pairings below.</span>
-    <span class="n">maximum_number_of_pairings</span> <span class="o">=</span> <span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">base_cost</span><span class="p">)</span> <span class="o">//</span> <span class="n">pairing_cost</span>
+    <span class="n">maximum_number_of_pairings</span> <span class="o">=</span> <span class="p">(</span><span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">base_cost</span><span class="p">)</span> <span class="o">//</span> <span class="n">pairing_cost</span>
 
     <span class="c1"># Discover the optimal number of pairings balancing two dimensions:</span>
     <span class="c1"># 1. Amortize the precompile base cost as much as possible.</span>
@@ -25797,7 +25794,7 @@
     <span class="n">optimal_per_call_num_pairings</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">maximum_number_of_pairings</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
         <span class="c1"># We&#39;ll pass all pairing arguments via calldata.</span>
-        <span class="n">available_gas_after_intrinsic</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span> <span class="o">-</span> <span class="n">intrinsic_gas_calculator</span><span class="p">(</span>
+        <span class="n">available_gas_after_intrinsic</span> <span class="o">=</span> <span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">intrinsic_gas_calculator</span><span class="p">(</span>
             <span class="n">calldata</span><span class="o">=</span><span class="p">[</span><span class="mh">0xFF</span><span class="p">]</span> <span class="o">*</span> <span class="n">size_per_pairing</span> <span class="o">*</span> <span class="n">i</span>  <span class="c1"># 0xFF is to indicate non-zero bytes.</span>
         <span class="p">)</span>
         <span class="n">available_gas_after_expansion</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
@@ -25824,13 +25821,12 @@
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">data</span><span class="o">=</span><span class="n">_generate_bn128_pairs</span><span class="p">(</span><span class="n">optimal_per_call_num_pairings</span><span class="p">,</span> <span class="mi">42</span><span class="p">),</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">state_test</span><span class="p">(</span>
-        <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>

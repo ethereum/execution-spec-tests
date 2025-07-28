@@ -27656,7 +27656,9 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <p>Additionally, writing debugging information to the EVM "dump directory" by default has been disabled. To obtain debug output, the <code>--evm-dump-dir</code> flag must now be explicitly set. As a consequence, the now redundant <code>--skip-evm-dump</code> option was removed (<a href="https://github.com/ethereum/execution-spec-tests/pull/1874">#1874</a>). This undoes functionality originally introduced in <a href="https://github.com/ethereum/execution-spec-tests/pull/999">#999</a> and <a href="https://github.com/ethereum/execution-spec-tests/pull/1150">#1150</a>.</p>
 <h4 id="feature-zkevm-updated-to-benchmark">Feature <code>zkevm</code> updated to <code>benchmark</code><a class="headerlink" href="#feature-zkevm-updated-to-benchmark" title="Permanent link">&para;</a></h4>
 <p>Due to the crossover between <code>zkevm</code> and <code>benchmark</code> tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.</p>
-<p>This update renames the <code>zkevm</code> feature release to <code>benchmark_30M</code> and further expands the latter for 1M, 10M, 60M, 90M, and 120M block gas limits in <code>fixtures_benchmark_1M.tar.gz</code>, <code>fixtures_benchmark_10M.tar.gz</code>, <code>fixtures_benchmark_30M.tar.gz</code>, <code>fixtures_benchmark_60M.tar.gz</code>, <code>fixtures_benchmark_90M.tar.gz</code>, and <code>fixtures_benchmark_120M.tar.gz</code> respectively.</p>
+<p>This update renames the <code>zkevm</code> feature release to <code>benchmark</code> and further expands the latter for 1M, 10M, 30M, 45M, 60M, 90M, and 120M block gas limits in <code>fixtures_benchmark.tar.gz</code>.</p>
+<p>To select a test for a given gas limit, the IDs of the tests have been expanded to contain <code>benchmark-gas-value_XM</code>, where <code>X</code> can be any of the aforementioned values.</p>
+<p>The benchmark release also now includes BlockchainEngineX format that combines most of the tests into a minimal amount of genesis files. For more info see <a href="https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_x/">Blockchain Engine X Tests</a> in the EEST documentation.</p>
 <p>Users can select any of the artifacts depending on their testing needs for their provers.</p>
 <h3 id="framework">🛠️ Framework<a class="headerlink" href="#framework" title="Permanent link">&para;</a></h3>
 <h4 id="refactoring">🔀 Refactoring<a class="headerlink" href="#refactoring" title="Permanent link">&para;</a></h4>
@@ -28504,7 +28506,6 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
         <a href="mailto:116461155+emrhncvsgl@users.noreply.github.com">Emirhan Cavusoglu</a>, 
         <a href="mailto:etan@nimbus.team">Etan Kissling</a>, 
         <a href="mailto:48196632+gurukamath@users.noreply.github.com">Guruprasad Kamath</a>, 
-        <a href="mailto:jsign.uy@gmail.com">Ignacio Hagopian</a>, 
         <a href="mailto:jochembrouwer96@gmail.com">Jochem Brouwer</a>, 
         <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
         <a href="mailto:5199899+pacrob@users.noreply.github.com">Paul Robinson</a>, 

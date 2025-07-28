@@ -25684,7 +25684,7 @@
 
 
 <h1 id="test_worst_selfdestruct_created"><code>test_worst_selfdestruct_created()</code><a class="headerlink" href="#test_worst_selfdestruct_created" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/9285bd7f1270283511c482ea75404c6ab28243e5/tests/benchmark/test_worst_stateful_opcodes.py#L621"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created@9285bd7f</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/377e1755f78ec2e47d6d8adbae999b621b8855a7/tests/benchmark/test_worst_stateful_opcodes.py#L701"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created@377e1755</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_selfdestruct_created --fork Osaka</span>
@@ -25705,105 +25705,190 @@ the same transaction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">701</span>
+<span class="normal">702</span>
+<span class="normal">703</span>
+<span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;value_bearing&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_selfdestruct_created</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">value_bearing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in</span>
 <span class="sd">    the same transaction.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-    <span class="n">pre</span><span class="o">.</span><span class="n">fund_address</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">fee_recipient</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">fee_recipient</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">fee_recipient</span> <span class="o">=</span> <span class="n">fee_recipient</span>
 
     <span class="c1"># SELFDESTRUCT(COINBASE) contract deployment</span>
     <span class="n">initcode</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">COINBASE</span><span class="o">.</span><span class="n">int</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SELFDESTRUCT</span><span class="o">.</span><span class="n">int</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURN</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">gas_costs</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">gas_costs</span><span class="p">()</span>
-    <span class="n">create_gas</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_CREATE</span> <span class="o">+</span> <span class="mi">20_000</span>
-    <span class="n">code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">initcode</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
-        <span class="o">+</span> <span class="n">While</span><span class="p">(</span>
-            <span class="n">body</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span>
-                <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
-                    <span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
-                        <span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">value_bearing</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
-                        <span class="n">offset</span><span class="o">=</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span>
-                        <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-            <span class="p">),</span>
-            <span class="c1"># Stop before we run out of gas for the whole tx execution.</span>
-            <span class="c1"># The value was found by trial-error rounded to the next 1000 multiple.</span>
-            <span class="n">condition</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">GAS</span><span class="p">,</span> <span class="n">create_gas</span><span class="p">),</span>
-        <span class="p">)</span>
-        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>  <span class="c1"># Done for successful tx execution assertion below.</span>
+    <span class="n">memory_expansion_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="p">()</span><span class="o">.</span><span class="n">memory_expansion_gas_calculator</span><span class="p">()</span>
+    <span class="n">intrinsic_gas_cost_calc</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_intrinsic_cost_calculator</span><span class="p">()</span>
+
+    <span class="n">initcode_costs</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># MSTOREs, PUSHs</span>
+        <span class="o">+</span> <span class="n">memory_expansion_calc</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># return into memory</span>
     <span class="p">)</span>
+    <span class="n">create_costs</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">initcode_costs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_CREATE</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># Create Parameter PUSHs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_CODE_DEPOSIT_BYTE</span> <span class="o">*</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_INITCODE_WORD</span>
+    <span class="p">)</span>
+    <span class="n">call_costs</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_WARM_ACCOUNT_ACCESS</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># COINBASE</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_SELF_DESTRUCT</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">5</span>  <span class="c1"># CALL Parameter PUSHs</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1">#  Parameter GAS</span>
+    <span class="p">)</span>
+    <span class="n">extra_costs</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span>  <span class="c1"># POP</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">6</span>  <span class="c1"># PUSHs, ADD, DUP, GT</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_HIGH</span>  <span class="c1"># JUMPI</span>
+        <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_JUMPDEST</span>
+    <span class="p">)</span>
+    <span class="n">loop_cost</span> <span class="o">=</span> <span class="n">create_costs</span> <span class="o">+</span> <span class="n">call_costs</span> <span class="o">+</span> <span class="n">extra_costs</span>
+
+    <span class="n">prefix_cost</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_BASE</span> <span class="o">+</span> <span class="n">memory_expansion_calc</span><span class="p">(</span><span class="n">new_bytes</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">suffix_cost</span> <span class="o">=</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_COLD_SLOAD</span> <span class="o">+</span> <span class="n">gas_costs</span><span class="o">.</span><span class="n">G_STORAGE_RESET</span> <span class="o">+</span> <span class="p">(</span><span class="n">gas_costs</span><span class="o">.</span><span class="n">G_VERY_LOW</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">base_costs</span> <span class="o">=</span> <span class="n">prefix_cost</span> <span class="o">+</span> <span class="n">suffix_cost</span> <span class="o">+</span> <span class="n">intrinsic_gas_cost_calc</span><span class="p">()</span>
+
+    <span class="n">iterations</span> <span class="o">=</span> <span class="p">(</span><span class="n">gas_benchmark_value</span> <span class="o">-</span> <span class="n">base_costs</span><span class="p">)</span> <span class="o">//</span> <span class="n">loop_cost</span>
+
+    <span class="n">code_prefix</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">initcode</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH0</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPDEST</span>
+    <span class="n">code_suffix</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>  <span class="c1"># Done for successful tx execution assertion below.</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span>
+    <span class="p">)</span>
+    <span class="n">loop_body</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">POP</span><span class="p">(</span>
+            <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
+                <span class="n">address</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">(</span>
+                    <span class="n">value</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="n">value_bearing</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">offset</span><span class="o">=</span><span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span>
+                    <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">initcode</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">PUSH1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span>
+        <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">JUMPI</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_prefix</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">GT</span><span class="p">(</span><span class="n">iterations</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">DUP1</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">code_prefix</span> <span class="o">+</span> <span class="n">loop_body</span> <span class="o">+</span> <span class="n">code_suffix</span>
     <span class="c1"># The 0 storage slot is initialize to avoid creation costs in SSTORE above.</span>
-    <span class="n">code_addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">balance</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+    <span class="n">code_addr</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>
+        <span class="n">balance</span><span class="o">=</span><span class="n">iterations</span> <span class="k">if</span> <span class="n">value_bearing</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+    <span class="p">)</span>
     <span class="n">code_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">to</span><span class="o">=</span><span class="n">code_addr</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">gas_benchmark_value</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
@@ -25813,6 +25898,7 @@ the same transaction.</p>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">code_tx</span><span class="p">,</span>
+        <span class="n">expected_benchmark_gas_used</span><span class="o">=</span><span class="n">iterations</span> <span class="o">*</span> <span class="n">loop_cost</span> <span class="o">+</span> <span class="n">base_costs</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
