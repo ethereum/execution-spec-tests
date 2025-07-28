@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
+from ethereum_clis.types import OpcodeCount
 from ethereum_test_base_types import to_hex
 from ethereum_test_execution import BaseExecute, ExecuteFormat, LabeledExecuteFormat
 from ethereum_test_fixtures import (
@@ -55,6 +56,7 @@ class BaseTest(BaseModel):
     tag: str = ""
 
     _request: pytest.FixtureRequest | None = PrivateAttr(None)
+    _opcode_count: OpcodeCount | None = PrivateAttr(None)
 
     spec_types: ClassVar[Dict[str, Type["BaseTest"]]] = {}
 
@@ -101,6 +103,7 @@ class BaseTest(BaseModel):
             **kwargs,
         )
         new_instance._request = base_test._request
+        new_instance._opcode_count = base_test._opcode_count
         return new_instance
 
     @classmethod

@@ -1,10 +1,18 @@
 """Types used in the transition tool interactions."""
 
-from typing import Annotated, List
+from typing import Annotated, Any, Dict, List, Self
 
-from pydantic import Field
+from pydantic import Field, PlainSerializer, PlainValidator
 
-from ethereum_test_base_types import BlobSchedule, Bloom, Bytes, CamelModel, Hash, HexNumber
+from ethereum_test_base_types import (
+    BlobSchedule,
+    Bloom,
+    Bytes,
+    CamelModel,
+    EthereumTestRootModel,
+    Hash,
+    HexNumber,
+)
 from ethereum_test_exceptions import (
     BlockException,
     ExceptionMapperValidator,
@@ -13,6 +21,7 @@ from ethereum_test_exceptions import (
     UndefinedException,
 )
 from ethereum_test_types import Alloc, Environment, Transaction, TransactionReceipt
+from ethereum_test_vm import Opcode, Opcodes
 
 
 class TransactionExceptionWithMessage(ExceptionWithMessage[TransactionException]):
@@ -34,6 +43,40 @@ class RejectedTransaction(CamelModel):
     error: Annotated[
         TransactionExceptionWithMessage | UndefinedException, ExceptionMapperValidator
     ]
+
+
+_opcode_synonyms = {
+    "KECCAK256": "SHA3",
+}
+
+
+def validate_opcode(obj: Any) -> Opcodes:
+    """Validate an opcode from a string."""
+    if isinstance(obj, Opcode) or isinstance(obj, Opcodes):
+        return obj
+    if isinstance(obj, str):
+        if obj in _opcode_synonyms:
+            obj = _opcode_synonyms[obj]
+        for op in Opcodes:
+            if str(op) == obj:
+                return op
+    raise Exception(f"Unable to validate {obj} (type={type(obj)})")
+
+
+class OpcodeCount(EthereumTestRootModel):
+    """Opcode count returned from the evm tool."""
+
+    root: Dict[
+        Annotated[Opcodes, PlainValidator(validate_opcode), PlainSerializer(lambda o: str(o))], int
+    ]
+
+    def __add__(self, other: Self) -> Self:
+        """Add two instances of opcode count dictionaries."""
+        assert isinstance(other, OpcodeCount), f"Incompatible type {type(other)}"
+        new_dict = self.model_dump() | other.model_dump()
+        for match_key in self.root.keys() & other.root.keys():
+            new_dict[match_key] = self.root[match_key] + other.root[match_key]
+        return OpcodeCount(new_dict)
 
 
 class Result(CamelModel):
@@ -60,6 +103,7 @@ class Result(CamelModel):
     block_exception: Annotated[
         BlockExceptionWithMessage | UndefinedException | None, ExceptionMapperValidator
     ] = None
+    opcode_count: OpcodeCount | None = None
 
 
 class TransitionToolInput(CamelModel):
