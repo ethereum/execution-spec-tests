@@ -1,5 +1,7 @@
 """test `CALL` opcode."""
 
+import pytest  # type: ignore
+
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -12,6 +14,9 @@ from ethereum_test_tools.code.generators import CodeGasMeasure
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
+# TODO: There's an issue with gas definitions on forks previous to Berlin, remove this when fixed.
+# https://github.com/ethereum/execution-spec-tests/pull/1952#discussion_r2237634275
+@pytest.mark.valid_from("Berlin")
 def test_call_large_offset_mstore(
     state_test: StateTestFiller,
     pre: Alloc,
