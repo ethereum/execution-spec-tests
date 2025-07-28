@@ -409,13 +409,17 @@ def test_worst_blockhash(
 
 @pytest.mark.valid_from("Cancun")
 def test_worst_selfbalance(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
+    gas_benchmark_value: int,
+    env: Environment,
 ):
     """Test running a block with as many SELFBALANCE opcodes as possible."""
-    env = Environment()
     max_stack_height = fork.max_stack_height()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
 
     code_sequence = Op.SELFBALANCE * max_stack_height
     target_address = pre.deploy_contract(code=code_sequence)
@@ -428,17 +432,23 @@ def test_worst_selfbalance(
 
     code_address = pre.deploy_contract(code=code)
 
-    tx = Transaction(
-        to=code_address,
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    sender = pre.fund_eoa()
+    tx_count = gas_benchmark_value // tx_gas_limit
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
+    blockchain_test(
         genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
