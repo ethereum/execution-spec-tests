@@ -115,6 +115,7 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
 
     # EIP-7928: Block-level access lists
     bal_hash: Hash | None = Field(None)
+    block_access_lists: Bytes | None = Field(None)
 
     @computed_field  # type: ignore[misc]
     @cached_property
