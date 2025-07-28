@@ -11,8 +11,9 @@ from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
-from ethereum_test_types import Environment, EnvironmentDefaults, TransactionDefaults
+from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
 
+from ..shared.execute_fill import ALL_FIXTURE_PARAMETERS
 from ..shared.helpers import (
     get_spec_format_for_item,
     is_help_or_collectonly_mode,
@@ -252,11 +253,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     Implementation detail: All spec fixtures must be scoped on test function level to avoid
     leakage between tests.
     """
-    environment_parameter = None
-    if "genesis_environment" in cls.model_fields:
-        environment_parameter = "genesis_environment"
-    elif "env" in cls.model_fields:
-        environment_parameter = "env"
+    cls_fixture_parameters = [p for p in ALL_FIXTURE_PARAMETERS if p in cls.model_fields]
 
     @pytest.fixture(
         scope="function",
@@ -266,7 +263,6 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         request: Any,
         fork: Fork,
         pre: Alloc,
-        env: Environment,
         eth_rpc: EthRPC,
         engine_rpc: EngineRPC | None,
         collector: Collector,
@@ -295,8 +291,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 elif kwargs["pre"] != pre:
                     raise ValueError("The pre-alloc object was modified by the test.")
-                if environment_parameter and environment_parameter not in kwargs:
-                    kwargs[environment_parameter] = env
+                kwargs |= {
+                    p: request.getfixturevalue(p)
+                    for p in cls_fixture_parameters
+                    if p not in kwargs
+                }
 
                 request.node.config.sender_address = str(pre._sender)
 
