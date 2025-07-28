@@ -1,6 +1,5 @@
 """Ethereum blockchain test spec definition and filler."""
 
-import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
@@ -173,7 +172,7 @@ class Header(CamelModel):
 
     def verify(self, target: FixtureHeader):
         """Verify that the header fields from self are as expected."""
-        for field_name in self.model_fields:
+        for field_name in self.__class__.model_fields:
             baseline_value = getattr(self, field_name)
             if baseline_value is not None:
                 assert baseline_value is not Header.REMOVE_FIELD, "invalid header"
@@ -496,12 +495,6 @@ class BlockchainTest(BaseTest):
 
         txs: List[Transaction] = []
         for tx in block.txs:
-            if not self.is_tx_gas_heavy_test() and tx.gas_limit >= Environment().gas_limit:
-                warnings.warn(
-                    f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
-                    stacklevel=2,
-                )
-
             txs.append(tx.with_signature_and_sender())
 
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
