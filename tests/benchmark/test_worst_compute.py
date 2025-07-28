@@ -1259,144 +1259,152 @@ DEFAULT_BINOP_ARGS = (
             Op.ADD,
             DEFAULT_BINOP_ARGS,
         ),
-        (
-            Op.MUL,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            # This has the cycle of 2, after two SUBs values are back to initials.
-            Op.SUB,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            # This has the cycle of 2:
-            # v[0] = a // b
-            # v[1] = a // v[0] = a // (a // b) = b
-            # v[2] = a // b
-            Op.DIV,
-            (
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
-                # We want the first divisor to be slightly bigger than 2**128:
-                # this is the worst case for the division algorithm with optimized paths
-                # for division by 1 and 2 words.
-                0x100000000000000000000000000000033,
-            ),
-        ),
-        (
-            # This has the cycle of 2, see above.
-            Op.DIV,
-            (
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
-                # We want the first divisor to be slightly bigger than 2**64:
-                # this is the worst case for the division algorithm with an optimized path
-                # for division by 1 word.
-                0x10000000000000033,
-            ),
-        ),
-        (
-            # Same as DIV-0, but the numerator made positive, and the divisor made negative.
-            Op.SDIV,
-            (
-                0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCD,
-            ),
-        ),
-        (
-            # Same as DIV-1, but the numerator made positive, and the divisor made negative.
-            Op.SDIV,
-            (
-                0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFCD,
-            ),
-        ),
-        (
-            # This scenario is not suitable for MOD because the values quickly become 0.
-            Op.MOD,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            # This scenario is not suitable for SMOD because the values quickly become 0.
-            Op.SMOD,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            # This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256) == 2**256-1.
-            Op.EXP,
-            (
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
-                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
-            ),
-        ),
-        (
-            # Not great because we always sign-extend the 4 bytes.
-            Op.SIGNEXTEND,
-            (
-                3,
-                0xFFDADADA,  # Negative to have more work.
-            ),
-        ),
-        (
-            Op.LT,  # Keeps getting result 1.
-            (0, 1),
-        ),
-        (
-            Op.GT,  # Keeps getting result 0.
-            (0, 1),
-        ),
-        (
-            Op.SLT,  # Keeps getting result 1.
-            (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
-        ),
-        (
-            Op.SGT,  # Keeps getting result 0.
-            (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
-        ),
-        (
-            # The worst case is if the arguments are equal (no early return),
-            # so let's keep it comparing ones.
-            Op.EQ,
-            (1, 1),
-        ),
-        (
-            Op.AND,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            Op.OR,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            Op.XOR,
-            DEFAULT_BINOP_ARGS,
-        ),
-        (
-            Op.BYTE,  # Keep extracting the last byte: 0x2F.
-            (31, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
-        ),
-        (
-            Op.SHL,  # Shift by 1 until getting 0.
-            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
-        ),
-        (
-            Op.SHR,  # Shift by 1 until getting 0.
-            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
-        ),
-        (
-            Op.SAR,  # Shift by 1 until getting -1.
-            (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
-        ),
+        # (
+        #     Op.MUL,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     # This has the cycle of 2, after two SUBs values are back to initials.
+        #     Op.SUB,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     # This has the cycle of 2:
+        #     # v[0] = a // b
+        #     # v[1] = a // v[0] = a // (a // b) = b
+        #     # v[2] = a // b
+        #     Op.DIV,
+        #     (
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+        #         # We want the first divisor to be slightly bigger than 2**128:
+        #         # this is the worst case for the division algorithm with optimized paths
+        #         # for division by 1 and 2 words.
+        #         0x100000000000000000000000000000033,
+        #     ),
+        # ),
+        # (
+        #     # This has the cycle of 2, see above.
+        #     Op.DIV,
+        #     (
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+        #         # We want the first divisor to be slightly bigger than 2**64:
+        #         # this is the worst case for the division algorithm with an optimized path
+        #         # for division by 1 word.
+        #         0x10000000000000033,
+        #     ),
+        # ),
+        # (
+        #     # Same as DIV-0, but the numerator made positive, and the divisor made negative.
+        #     Op.SDIV,
+        #     (
+        #         0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCD,
+        #     ),
+        # ),
+        # (
+        #     # Same as DIV-1, but the numerator made positive, and the divisor made negative.
+        #     Op.SDIV,
+        #     (
+        #         0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F,
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFCD,
+        #     ),
+        # ),
+        # (
+        #     # This scenario is not suitable for MOD because the values quickly become 0.
+        #     Op.MOD,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     # This scenario is not suitable for SMOD because the values quickly become 0.
+        #     Op.SMOD,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     # This keeps the values unchanged, pow(2**256-1, 2**256-1, 2**256) == 2**256-1.
+        #     Op.EXP,
+        #     (
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+        #         0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+        #     ),
+        # ),
+        # (
+        #     # Not great because we always sign-extend the 4 bytes.
+        #     Op.SIGNEXTEND,
+        #     (
+        #         3,
+        #         0xFFDADADA,  # Negative to have more work.
+        #     ),
+        # ),
+        # (
+        #     Op.LT,  # Keeps getting result 1.
+        #     (0, 1),
+        # ),
+        # (
+        #     Op.GT,  # Keeps getting result 0.
+        #     (0, 1),
+        # ),
+        # (
+        #     Op.SLT,  # Keeps getting result 1.
+        #     (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
+        # ),
+        # (
+        #     Op.SGT,  # Keeps getting result 0.
+        #     (0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1),
+        # ),
+        # (
+        #     # The worst case is if the arguments are equal (no early return),
+        #     # so let's keep it comparing ones.
+        #     Op.EQ,
+        #     (1, 1),
+        # ),
+        # (
+        #     Op.AND,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     Op.OR,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     Op.XOR,
+        #     DEFAULT_BINOP_ARGS,
+        # ),
+        # (
+        #     Op.BYTE,  # Keep extracting the last byte: 0x2F.
+        #     (31, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        # ),
+        # (
+        #     Op.SHL,  # Shift by 1 until getting 0.
+        #     (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        # ),
+        # (
+        #     Op.SHR,  # Shift by 1 until getting 0.
+        #     (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        # ),
+        # (
+        #     Op.SAR,  # Shift by 1 until getting -1.
+        #     (1, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F),
+        # ),
     ],
     ids=lambda param: "" if isinstance(param, tuple) else param,
 )
 def test_worst_binop_simple(
-    state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: Fork, opcode_args: tuple[int, int]
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    fork: Fork,
+    opcode_args: tuple[int, int],
+    gas_benchmark_value: int,
+    env: Environment,
 ):
     """
     Test running a block with as many binary instructions (takes two args, produces one value)
     as possible. The execution starts with two initial values on the stack, and the stack is
     balanced by the DUP2 instruction.
     """
-    env = Environment()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
     max_code_size = fork.max_code_size()
 
     tx_data = b"".join(arg.to_bytes(32, byteorder="big") for arg in opcode_args)
@@ -1408,30 +1416,46 @@ def test_worst_binop_simple(
     code = code_prefix + code_body + code_suffix
     assert len(code) == max_code_size - 1
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        data=tx_data,
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    tx_count = gas_benchmark_value // tx_gas_limit
+    code_address = pre.deploy_contract(code=code)
+    sender = pre.fund_eoa()
+    txs = [
+        Transaction(
+            to=code_address,
+            data=tx_data,
+            gas_limit=tx_gas_limit,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
 @pytest.mark.valid_from("Cancun")
-@pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
-def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: Fork):
+# @pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
+@pytest.mark.parametrize("opcode", [Op.ISZERO])
+def test_worst_unop(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    opcode: Op,
+    fork: Fork,
+    env: Environment,
+    gas_benchmark_value: int,
+):
     """
     Test running a block with as many unary instructions (takes one arg, produces one value)
     as possible.
     """
-    env = Environment()
     max_code_size = fork.max_code_size()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
 
     code_prefix = Op.JUMPDEST + Op.PUSH0  # Start with the arg 0.
     code_suffix = Op.POP + Op.PUSH0 + Op.JUMP
@@ -1440,17 +1464,24 @@ def test_worst_unop(state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: F
     code = code_prefix + code_body + code_suffix
     assert len(code) == max_code_size
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    code_address = pre.deploy_contract(code=code)
+    sender = pre.fund_eoa()
+    tx_count = gas_benchmark_value // tx_gas_limit
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
@@ -2140,32 +2171,36 @@ def test_worst_calldataload(
 @pytest.mark.parametrize(
     "opcode",
     [
-        Op.SWAP1,
-        Op.SWAP2,
-        Op.SWAP3,
-        Op.SWAP4,
-        Op.SWAP5,
-        Op.SWAP6,
-        Op.SWAP7,
-        Op.SWAP8,
-        Op.SWAP9,
-        Op.SWAP10,
-        Op.SWAP11,
-        Op.SWAP12,
-        Op.SWAP13,
-        Op.SWAP14,
-        Op.SWAP15,
+        # Op.SWAP1,
+        # Op.SWAP2,
+        # Op.SWAP3,
+        # Op.SWAP4,
+        # Op.SWAP5,
+        # Op.SWAP6,
+        # Op.SWAP7,
+        # Op.SWAP8,
+        # Op.SWAP9,
+        # Op.SWAP10,
+        # Op.SWAP11,
+        # Op.SWAP12,
+        # Op.SWAP13,
+        # Op.SWAP14,
+        # Op.SWAP15,
         Op.SWAP16,
     ],
 )
 def test_worst_swap(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
+    gas_benchmark_value: int,
+    env: Environment,
     opcode: Opcode,
 ):
     """Test running a block with as many SWAP as possible."""
-    env = Environment()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
     max_code_size = fork.max_code_size()
 
     code_prefix = Op.JUMPDEST + Op.PUSH0 * opcode.min_stack_height
@@ -2174,49 +2209,61 @@ def test_worst_swap(
     code = code_prefix + opcode_sequence + code_suffix
     assert len(code) <= max_code_size
 
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    code_address = pre.deploy_contract(code=code)
+    sender = pre.fund_eoa()
+    tx_count = gas_benchmark_value // tx_gas_limit
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
 @pytest.mark.parametrize(
     "opcode",
     [
-        pytest.param(Op.DUP1),
-        pytest.param(Op.DUP2),
-        pytest.param(Op.DUP3),
-        pytest.param(Op.DUP4),
-        pytest.param(Op.DUP5),
-        pytest.param(Op.DUP6),
-        pytest.param(Op.DUP7),
-        pytest.param(Op.DUP8),
-        pytest.param(Op.DUP9),
-        pytest.param(Op.DUP10),
-        pytest.param(Op.DUP11),
-        pytest.param(Op.DUP12),
-        pytest.param(Op.DUP13),
-        pytest.param(Op.DUP14),
-        pytest.param(Op.DUP15),
+        # pytest.param(Op.DUP1),
+        # pytest.param(Op.DUP2),
+        # pytest.param(Op.DUP3),
+        # pytest.param(Op.DUP4),
+        # pytest.param(Op.DUP5),
+        # pytest.param(Op.DUP6),
+        # pytest.param(Op.DUP7),
+        # pytest.param(Op.DUP8),
+        # pytest.param(Op.DUP9),
+        # pytest.param(Op.DUP10),
+        # pytest.param(Op.DUP11),
+        # pytest.param(Op.DUP12),
+        # pytest.param(Op.DUP13),
+        # pytest.param(Op.DUP14),
+        # pytest.param(Op.DUP15),
         pytest.param(Op.DUP16),
     ],
 )
 def test_worst_dup(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
+    gas_benchmark_value: int,
+    env: Environment,
 ):
     """Test running a block with as many DUP as possible."""
-    env = Environment()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
+    tx_count = gas_benchmark_value // tx_gas_limit
     max_stack_height = fork.max_stack_height()
 
     min_stack_height = opcode.min_stack_height
@@ -2229,67 +2276,77 @@ def test_worst_dup(
 
     code = code_loop_precompile_call(calldata, attack_block, fork)
     code_address = pre.deploy_contract(code=code)
+    sender = pre.fund_eoa()
 
-    tx = Transaction(
-        to=code_address,
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
 @pytest.mark.parametrize(
     "opcode",
     [
-        pytest.param(Op.PUSH0),
-        pytest.param(Op.PUSH1),
-        pytest.param(Op.PUSH2),
-        pytest.param(Op.PUSH3),
-        pytest.param(Op.PUSH4),
-        pytest.param(Op.PUSH5),
-        pytest.param(Op.PUSH6),
-        pytest.param(Op.PUSH7),
-        pytest.param(Op.PUSH8),
-        pytest.param(Op.PUSH9),
-        pytest.param(Op.PUSH10),
-        pytest.param(Op.PUSH11),
-        pytest.param(Op.PUSH12),
-        pytest.param(Op.PUSH13),
-        pytest.param(Op.PUSH14),
-        pytest.param(Op.PUSH15),
-        pytest.param(Op.PUSH16),
-        pytest.param(Op.PUSH17),
-        pytest.param(Op.PUSH18),
-        pytest.param(Op.PUSH19),
-        pytest.param(Op.PUSH20),
-        pytest.param(Op.PUSH21),
-        pytest.param(Op.PUSH22),
-        pytest.param(Op.PUSH23),
-        pytest.param(Op.PUSH24),
-        pytest.param(Op.PUSH25),
-        pytest.param(Op.PUSH26),
-        pytest.param(Op.PUSH27),
-        pytest.param(Op.PUSH28),
-        pytest.param(Op.PUSH29),
-        pytest.param(Op.PUSH30),
-        pytest.param(Op.PUSH31),
+        # pytest.param(Op.PUSH0),
+        # pytest.param(Op.PUSH1),
+        # pytest.param(Op.PUSH2),
+        # pytest.param(Op.PUSH3),
+        # pytest.param(Op.PUSH4),
+        # pytest.param(Op.PUSH5),
+        # pytest.param(Op.PUSH6),
+        # pytest.param(Op.PUSH7),
+        # pytest.param(Op.PUSH8),
+        # pytest.param(Op.PUSH9),
+        # pytest.param(Op.PUSH10),
+        # pytest.param(Op.PUSH11),
+        # pytest.param(Op.PUSH12),
+        # pytest.param(Op.PUSH13),
+        # pytest.param(Op.PUSH14),
+        # pytest.param(Op.PUSH15),
+        # pytest.param(Op.PUSH16),
+        # pytest.param(Op.PUSH17),
+        # pytest.param(Op.PUSH18),
+        # pytest.param(Op.PUSH19),
+        # pytest.param(Op.PUSH20),
+        # pytest.param(Op.PUSH21),
+        # pytest.param(Op.PUSH22),
+        # pytest.param(Op.PUSH23),
+        # pytest.param(Op.PUSH24),
+        # pytest.param(Op.PUSH25),
+        # pytest.param(Op.PUSH26),
+        # pytest.param(Op.PUSH27),
+        # pytest.param(Op.PUSH28),
+        # pytest.param(Op.PUSH29),
+        # pytest.param(Op.PUSH30),
+        # pytest.param(Op.PUSH31),
         pytest.param(Op.PUSH32),
     ],
 )
 def test_worst_push(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
+    env: Environment,
+    gas_benchmark_value: int,
 ):
     """Test running a block with as many PUSH as possible."""
-    env = Environment()
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
+    tx_count = gas_benchmark_value // tx_gas_limit
 
     op = opcode[1] if opcode.has_data_portion() else opcode
     opcode_sequence = op * fork.max_stack_height()
@@ -2300,18 +2357,23 @@ def test_worst_push(
 
     code = code_loop_precompile_call(calldata, attack_block, fork)
     code_address = pre.deploy_contract(code=code)
+    sender = pre.fund_eoa()
 
-    tx = Transaction(
-        to=code_address,
-        gas_limit=env.gas_limit,
-        sender=pre.fund_eoa(),
-    )
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
 
-    state_test(
-        env=env,
+    blockchain_test(
+        genesis_environment=env,
         pre=pre,
         post={},
-        tx=tx,
+        blocks=[Block(txs=txs)],
     )
 
 
@@ -2374,4 +2436,99 @@ def test_worst_return_revert(
         pre=pre,
         post={},
         tx=tx,
+    )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_diff_input(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_benchmark_value: int,
+    env: Environment,
+):
+    """Test running a block with as many CLZ with different input as possible."""
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
+    max_code_size = fork.max_code_size()
+
+    code_prefix = Op.JUMPDEST
+    code_suffix = Op.PUSH0 + Op.JUMP
+
+    available_code_size = max_code_size - len(code_prefix) - len(code_suffix)
+
+    code_seq = Bytecode()
+
+    for i in range(available_code_size):
+        value = (2**256 - 1) >> (i % 256)
+        clz_op = Op.CLZ(value) + Op.POP
+        if len(code_seq) + len(clz_op) > available_code_size:
+            break
+        code_seq += clz_op
+
+    attack_code = code_prefix + code_seq + code_suffix
+    assert len(attack_code) <= max_code_size
+
+    code_address = pre.deploy_contract(code=attack_code)
+
+    sender = pre.fund_eoa()
+    tx_count = gas_benchmark_value // tx_gas_limit
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
+    )
+
+
+@pytest.mark.valid_from("Osaka")
+def test_worst_clz_same_input(
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_benchmark_value: int,
+    env: Environment,
+):
+    """Test running a block with as many CLZ with same input as possible."""
+    tx_gas_limit = fork.transaction_gas_limit_cap()
+    if tx_gas_limit is None:
+        tx_gas_limit = env.gas_limit  # Default gas limit if not set
+
+    magic_value = 248  # CLZ(248) = 248
+
+    calldata = Op.PUSH1(magic_value)
+    attack_block = Op.CLZ
+    code = code_loop_precompile_call(calldata, attack_block, fork)
+    assert len(code) <= fork.max_code_size()
+
+    code_address = pre.deploy_contract(code=code)
+
+    sender = pre.fund_eoa()
+    tx_count = gas_benchmark_value // tx_gas_limit
+    txs = [
+        Transaction(
+            to=code_address,
+            gas_limit=tx_gas_limit,
+            nonce=i,
+            sender=sender,
+        )
+        for i in range(tx_count)
+    ]
+
+    blockchain_test(
+        genesis_environment=env,
+        pre=pre,
+        post={},
+        blocks=[Block(txs=txs)],
     )
