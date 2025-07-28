@@ -51,7 +51,7 @@ args = [
     "--checklist-doc-gen",
     "--skip-index",
     "-m",
-    "benchmark or not blockchain_test_engine",
+    "not blockchain_test_engine",
     "-s",
     test_arg,
 ]
