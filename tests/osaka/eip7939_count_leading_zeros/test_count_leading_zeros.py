@@ -32,8 +32,10 @@ def clz_parameters():
     """Generate all test case parameters."""
     test_cases = []
 
+    # Format 0x000...000: all zeros
+    test_cases.append(("zero", 0, 256))
+
     # Format 0xb000...111: leading zeros followed by ones
-    # Special case: bits = 256 gives value=0 (all zeros)
     for bits in range(257):
         value = (2**256 - 1) >> bits
         expected_clz = bits
