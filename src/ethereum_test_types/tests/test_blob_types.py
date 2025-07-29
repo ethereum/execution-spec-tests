@@ -1,8 +1,10 @@
 """Test suite for blobs."""
 
 import copy
+import time
 
 import pytest
+from filelock import FileLock
 
 from ethereum_test_forks import (
     Cancun,
@@ -15,13 +17,66 @@ from ethereum_test_forks.forks.transition import (
     ShanghaiToCancunAtTime15k,
 )
 
-from ..blob_types import (
-    CACHED_BLOBS_DIRECTORY,
-    Blob,
-    BPO_Parameters,
-    bpo_get_value,
-    clear_blob_cache,
-)
+from ..blob_types import CACHED_BLOBS_DIRECTORY, Blob, clear_blob_cache
+
+
+def increment_counter(timeout: float = 10):
+    """
+    Increment counter in file, creating if doesn't exist.
+
+    This is needed because we require the unit test 'test_transition_fork_blobs' to run
+    at the end without having to include another dependency for ordering tests.
+    That test has to run at the end because it assumes that no json blobs not created
+    by itself are created while it is running.
+
+    The hardcoded counter value in the test above has to be updated if any new blob_related
+    unit tests that create json blobs are added in the future.
+
+    """
+    file_path = CACHED_BLOBS_DIRECTORY / "blob_unit_test_counter.txt"
+    lock_file = file_path.with_suffix(".lock")
+
+    with FileLock(lock_file, timeout=timeout):
+        # Read current value or start at 0
+        if file_path.exists():
+            current_value = int(file_path.read_text().strip())
+        else:
+            current_value = 0
+
+        # Increment and write back
+        new_value = current_value + 1
+        file_path.write_text(str(new_value))
+
+        return new_value
+
+
+def wait_until_counter_reached(target: int, poll_interval: float = 0.1):
+    """Wait until blob unit test counter reaches target value."""
+    file_path = CACHED_BLOBS_DIRECTORY / "blob_unit_test_counter.txt"
+    lock_file = file_path.with_suffix(".lock")  # Add lock file path
+
+    while True:
+        # Use FileLock when reading!
+        with FileLock(lock_file, timeout=10):
+            if file_path.exists():
+                try:
+                    current_value = int(file_path.read_text().strip())
+                    if current_value == target:
+                        # file_path.unlink()  # get rid to effectively reset counter to 0
+                        return current_value
+                    elif current_value > target:
+                        pytest.fail(
+                            f"The blob_unit_test lock counter is too high! "
+                            f"Expected {target}, but got {current_value}. "
+                            f"It probably reused an existing file that was not cleared. "
+                            f"Delete {file_path} manually to fix this."
+                        )
+                except Exception:
+                    current_value = 0
+            else:
+                current_value = 0
+
+        time.sleep(poll_interval)
 
 
 @pytest.mark.parametrize("seed", [0, 10, 100])
@@ -47,6 +102,8 @@ def test_blob_creation_and_writing_and_reading(
 
     # ensure file you read equals file you wrote
     assert b.model_dump() == restored.model_dump()
+
+    increment_counter()
 
 
 @pytest.mark.parametrize(
@@ -77,6 +134,8 @@ def test_blob_proof_corruption(
         "proof is unchanged!"
     )
 
+    increment_counter()
+
 
 @pytest.mark.parametrize("timestamp", [14999, 15000])
 @pytest.mark.parametrize(
@@ -87,6 +146,9 @@ def test_transition_fork_blobs(
     timestamp,
 ):
     """Generates blobs for transition forks (time 14999 is old fork, time 15000 is new fork)."""
+    # line below guarantees that this test runs only after the other blob unit tests are done
+    wait_until_counter_reached(21)
+
     clear_blob_cache(CACHED_BLOBS_DIRECTORY)
 
     print(f"Original fork: {fork}, Timestamp: {timestamp}")
@@ -116,23 +178,6 @@ def test_transition_fork_blobs(
             f"transitioned to {post_transition_fork_at_15k.name()} but is still at {b.fork.name()}"
         )
 
-
-@pytest.mark.parametrize("bpo_fork", ["cancun", "prague", "osaka", "bpo1", "bpo2"])
-@pytest.mark.parametrize(
-    "bpo_parameter",
-    [
-        BPO_Parameters.TARGET,
-        BPO_Parameters.MAX,
-        BPO_Parameters.BASE_FEE_UPDATE_FRACTION,
-        BPO_Parameters.TIME,
-    ],
-)
-def test_bpo_parameter_lookup(bpo_fork, bpo_parameter):
-    """Tries looking up different values from the BPO configuration json."""
-    result = bpo_get_value(bpo_fork=bpo_fork, bpo_parameter=bpo_parameter)
-    print(
-        f"\nbpo_fork: {bpo_fork}\n"
-        f"bpo_parameter: {bpo_parameter}\n"
-        f"retrieved value from config: {result}\n"
-    )
-    # TODO: when one day actual bpo_config is known assert correction of retrieved values
+    # delete counter at last iteration (otherwise re-running all unit tests will fail)
+    if timestamp == 15_000 and pre_transition_fork == Prague:
+        (CACHED_BLOBS_DIRECTORY / "blob_unit_test_counter.txt").unlink()
