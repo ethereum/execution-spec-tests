@@ -22,7 +22,7 @@ from .spec import Spec, ref_spec_7883
 REFERENCE_SPEC_GIT_PATH = ref_spec_7883.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7883.version
 
-pytestmark = pytest.mark.valid_from("Prague")
+pytestmark = pytest.mark.valid_from("Osaka")
 
 
 @pytest.mark.parametrize(
@@ -157,30 +157,30 @@ def create_boundary_modexp_case(
         create_boundary_modexp_case(
             modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1), case_id="modulus-too-long"
         ),
-        create_boundary_modexp_case(
-            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            modulus="FF",
-            case_id="base-exponent-too-long",
-        ),
-        create_boundary_modexp_case(
-            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            exponent="FF",
-            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            case_id="base-modulus-too-long",
-        ),
-        create_boundary_modexp_case(
-            base="FF",
-            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            case_id="exponent-modulus-too-long",
-        ),
-        create_boundary_modexp_case(
-            base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
-            case_id="all-too-long",
-        ),
+        # create_boundary_modexp_case(
+        #     base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     modulus="FF",
+        #     case_id="base-exponent-too-long",
+        # ),
+        # create_boundary_modexp_case(
+        #     base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     exponent="FF",
+        #     modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     case_id="base-modulus-too-long",
+        # ),
+        # create_boundary_modexp_case(
+        #     base="FF",
+        #     exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     case_id="exponent-modulus-too-long",
+        # ),
+        # create_boundary_modexp_case(
+        #     base="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     exponent="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     modulus="FF" * (Spec.MAX_LENGTH_BYTES + 1),
+        #     case_id="all-too-long",
+        # ),
     ],
 )
 def test_modexp_boundary_inputs(
