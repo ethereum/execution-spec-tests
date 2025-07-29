@@ -1337,6 +1337,14 @@
          <lastmod>2025-07-29</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call/</loc>
+         <lastmod>2025-07-29</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call/test_call_large_offset_mstore/</loc>
+         <lastmod>2025-07-29</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call_and_callcode_gas_calculation/</loc>
          <lastmod>2025-07-29</lastmod>
     </url>
