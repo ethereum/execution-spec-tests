@@ -492,10 +492,7 @@ class BlockchainTest(BaseTest):
         """Generate common block data for both make_fixture and make_hive_fixture."""
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
-
-        txs: List[Transaction] = []
-        for tx in block.txs:
-            txs.append(tx.with_signature_and_sender())
+        txs = [tx.with_signature_and_sender() for tx in block.txs]
 
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
             if failing_tx_count > 1:
