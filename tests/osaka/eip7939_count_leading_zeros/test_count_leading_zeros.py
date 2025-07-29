@@ -474,52 +474,47 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
 
 
 @pytest.mark.valid_from("Osaka")
-@pytest.mark.parametrize("bits", [0, 16, 64, 128, 255])
-def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc, bits: int):
+def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
     """Test CLZ opcode behavior when creating a contract."""
-    code = Op.SSTORE(1, Op.CLZ(1 << bits)) + Op.STOP
+    bits = [0, 1, 64, 128, 255]
 
-    code_address = pre.deploy_contract(code=code)
+    storage = Storage()
 
-    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
-
-    creation_code = (
-        init_code
-        + Op.EXTCODECOPY(
-            address=code_address,
-            dest_offset=0,
-            offset=0,
-            size=Op.EXTCODESIZE(code_address),
-        )
-        + Op.RETURN(0, Op.MSIZE)
-    )
+    init_code = Bytecode()
+    for bit in bits:
+        init_code += Op.SSTORE(storage.store_next(255 - bit), Op.CLZ(1 << bit))
 
     sender_address = pre.fund_eoa()
+
     contract_address = compute_create_address(address=sender_address, nonce=0)
+
     tx = Transaction(
         to=None,
         gas_limit=6_000_000,
-        data=creation_code,
+        data=init_code,
         sender=sender_address,
     )
 
-    expected_clz = 255 - bits
-
     post = {
-        contract_address: Account(storage={"0x00": expected_clz}),
+        contract_address: Account(storage=storage),
     }
 
     state_test(pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.valid_from("Osaka")
-@pytest.mark.parametrize("bits", [0, 1, 4, 8, 16])
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
-def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, bits: int, opcode: Op):
+def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op):
     """Test CLZ opcode behavior when creating a contract."""
-    init_code = Op.SSTORE(0, Op.CLZ(1 << bits))
+    bits = [0, 1, 64, 128, 255]  # expected values: [255, 254, 191, 127, 0]
 
-    ext_code = Op.SSTORE(1, Op.CLZ(1 << bits))
+    init_code = Bytecode()
+    ext_code = Bytecode()
+
+    for i, bit in enumerate(bits):
+        init_code += Op.SSTORE(i, Op.CLZ(1 << bit))
+        ext_code += Op.SSTORE(i + len(bits), Op.CLZ(1 << bit))
+
     ext_code_address = pre.deploy_contract(code=ext_code)
 
     creation_code = init_code + Op.EXTCODECOPY(
@@ -556,10 +551,13 @@ def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, bits: int,
         sender=sender_address,
     )
 
-    expected_clz = 255 - bits
-
     post = {
-        contract_address: Account(storage={"0x01": expected_clz}),
+        contract_address: Account(
+            storage={i + len(bits): 255 - bit for i, bit in enumerate(bits)},
+        ),
+        create_contract_address: Account(
+            storage={i: 255 - bit for i, bit in enumerate(bits)},
+        ),
     }
 
     state_test(pre=pre, post=post, tx=tx)
