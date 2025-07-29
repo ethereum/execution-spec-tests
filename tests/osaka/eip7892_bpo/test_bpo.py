@@ -41,6 +41,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7892.version
 
 @pytest.fixture
 def bpo_schedule() -> TimestampBlobSchedule:
+    """Create and return the BPO pseudo schedule used for the tests in this file."""
     bpo_schedule = TimestampBlobSchedule()
     # below ensure that there is a timestamp difference of at least 3 between each scheduled fork
     bpo_schedule.add_schedule(

@@ -1,6 +1,5 @@
 """Blob-related types for Ethereum tests."""
 
-import json
 import random
 from enum import Enum
 from hashlib import sha256
@@ -23,61 +22,23 @@ CACHED_BLOBS_DIRECTORY: Path = (
 logger = get_logger(__name__)
 
 
-class BPO_Parameters(Enum):  # noqa: N801
-    """Define BPO keys for IDE autocomplete."""
-
-    TARGET = "target"
-    MAX = "max"
-    BASE_FEE_UPDATE_FRACTION = "baseFeeUpdateFraction"
-    TIME = "Time"  # actually it is: <fork>Time
-
-
-def bpo_get_value(bpo_fork: str, bpo_parameter: BPO_Parameters) -> int:  # noqa: D417
-    """
-    Retrieve BPO values from the JSON config.
-
-    Arguments:
-    - bpo_fork: Any fork (e.g. cancun) or bpo forks (e.g. bpo1 or bpo2)
-    - bpo_parameter: Enum value that specifies what you want to access in the bpo config
-
-    Returns the retrieved int.
-
-    """
-    # ensure the bpo config exists and can be read
-    bpo_config_path = Path("src") / "ethereum_test_types" / "blob_bpo_config.json"
-    if not bpo_config_path.exists():
-        raise FileNotFoundError(f"Failed to find BPO config json: {bpo_config_path}")
-    with open(bpo_config_path, "r") as file:
-        bpo_config = json.load(file)
-
-    # force-lowercase the provided fork
-    bpo_fork = bpo_fork.lower()
-
-    # retrieve requested value
-    if bpo_parameter == BPO_Parameters.TARGET:
-        return bpo_config["blobSchedule"][bpo_fork][BPO_Parameters.TARGET.value]
-    elif bpo_parameter == BPO_Parameters.MAX:
-        return bpo_config["blobSchedule"][bpo_fork][BPO_Parameters.MAX.value]
-    elif bpo_parameter == BPO_Parameters.BASE_FEE_UPDATE_FRACTION:
-        return bpo_config["blobSchedule"][bpo_fork][BPO_Parameters.BASE_FEE_UPDATE_FRACTION.value]
-    elif bpo_parameter == BPO_Parameters.TIME:
-        return bpo_config[bpo_fork + BPO_Parameters.TIME.value]
-
-    raise NotImplementedError(
-        f"This function has not yet been updated to handle BPO Parameter: {bpo_parameter}"
-    )
-
-
 def clear_blob_cache(cached_blobs_folder_path: Path):
     """Delete all cached blobs."""
     if not cached_blobs_folder_path.is_dir():
         return
-    for f in cached_blobs_folder_path.glob("*.json"):  # only delete .json files
+
+    json_files = list(cached_blobs_folder_path.glob("*.json"))
+
+    for f in json_files:
+        lock_file_path = f.with_suffix(".lock")
+
         try:
-            f.unlink()  # permanently delete this file
+            # get file lock for what you want to delete
+            with FileLock(lock_file_path):
+                f.unlink()
         except Exception as e:
             print(
-                f"Critical error while trying to delete file {f}:{e}.. "
+                f"Error while trying to delete file {f}:{e}. "
                 "Aborting clearing of blob cache folder."
             )
             return
@@ -232,11 +193,15 @@ class Blob(CamelModel):
         # (blob related constants are needed and only available for normal forks)
         fork = fork.fork_at(timestamp=timestamp)
 
-        # if this blob already exists then load from file
+        # if this blob already exists then load from file. use lock
         blob_location: Path = Blob.get_filepath(fork, seed)
-        if blob_location.exists():
-            logger.debug(f"Blob exists already, reading it from file {blob_location}")
-            return Blob.from_file(Blob.get_filename(fork, seed))
+
+        # use lock to avoid race conditions
+        lock_file_path = blob_location.with_suffix(".lock")
+        with FileLock(lock_file_path):
+            if blob_location.exists():
+                logger.debug(f"Blob exists already, reading it from file {blob_location}")
+                return Blob.from_file(Blob.get_filename(fork, seed))
 
         assert fork.supports_blobs(), f"Provided fork {fork.name()} does not support blobs!"
 
@@ -283,17 +248,14 @@ class Blob(CamelModel):
         # determine path where this blob would be stored if it existed
         blob_file_location = CACHED_BLOBS_DIRECTORY / file_name
 
-        # use lock to avoid race conditions
-        lock_file_path = blob_file_location.with_suffix(".lock")
-        with FileLock(lock_file_path):
-            # check whether blob exists
-            assert blob_file_location.exists(), (
-                f"Tried to load blob from file but {blob_file_location} does not exist"
-            )
+        # check whether blob exists
+        assert blob_file_location.exists(), (
+            f"Tried to load blob from file but {blob_file_location} does not exist"
+        )
 
-            # read blob from file
-            with open(blob_file_location, "r", encoding="utf-8") as f:
-                json_str: str = f.read()
+        # read blob from file
+        with open(blob_file_location, "r", encoding="utf-8") as f:
+            json_str: str = f.read()
 
         # reconstruct and return blob object
         return Blob.model_validate_json(json_str)
