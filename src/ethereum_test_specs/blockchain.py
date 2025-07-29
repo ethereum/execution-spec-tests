@@ -7,6 +7,7 @@ import pytest
 from pydantic import ConfigDict, Field, field_validator
 
 from ethereum_clis import BlockExceptionWithMessage, Result, TransitionTool
+from ethereum_clis.types import TransitionToolOutput
 from ethereum_test_base_types import (
     Address,
     Bloom,
@@ -523,14 +524,15 @@ class BlockchainTest(BaseTest):
                 )
 
         # if a bpo schedule has been passed let it overwrite the blob_schedule
-        blob_schedule: BlobSchedule | None = fork.blob_schedule()
-        assert blob_schedule is not None
+        fork_blob_schedule: BlobSchedule | None = fork.blob_schedule()
+        assert fork_blob_schedule is not None
         if bpo_schedule is not None:
-            print(f"GENERATE BLOCK DATE: I got this bpo schedule: {bpo_schedule}")
-            # TODO: implement
+            # fork_blob_schedule = bpo_schedule
+            pass
+            # TODO:
 
         # get transition tool response
-        transition_tool_output = t8n.evaluate(
+        transition_tool_output: TransitionToolOutput = t8n.evaluate(
             transition_tool_data=TransitionTool.TransitionToolData(
                 alloc=previous_alloc,
                 txs=txs,
@@ -538,7 +540,7 @@ class BlockchainTest(BaseTest):
                 fork=fork,
                 chain_id=self.chain_id,
                 reward=fork.get_reward(env.number, env.timestamp),
-                blob_schedule=blob_schedule,
+                blob_schedule=fork_blob_schedule,
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=self.is_tx_gas_heavy_test(),
@@ -668,6 +670,13 @@ class BlockchainTest(BaseTest):
         self, t8n: TransitionTool, fork: Fork, bpo_schedule: TimestampBlobSchedule | None
     ) -> BlockchainFixture:
         """Create a fixture from the blockchain test definition."""
+        fork_blob_schedule: BlobSchedule | None = fork.blob_schedule()
+        assert fork_blob_schedule is not None
+        if bpo_schedule is not None:
+            # fork_blob_schedule = bpo_schedule
+            pass
+            # TODO:
+
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
         pre, genesis = self.make_genesis(fork=fork, apply_pre_allocation_blockchain=True)
@@ -714,7 +723,7 @@ class BlockchainTest(BaseTest):
             post_state_hash=alloc.state_root() if self.exclude_full_post_state_in_output else None,
             config=FixtureConfig(
                 fork=fork,
-                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
+                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork_blob_schedule),
                 chain_id=self.chain_id,
             ),
         )
@@ -727,6 +736,13 @@ class BlockchainTest(BaseTest):
         fixture_format: FixtureFormat = BlockchainEngineFixture,
     ) -> BlockchainEngineFixture | BlockchainEngineXFixture:
         """Create a hive fixture from the blocktest definition."""
+        fork_blob_schedule: BlobSchedule | None = fork.blob_schedule()
+        assert fork_blob_schedule is not None
+        if bpo_schedule is not None:
+            # fork_blob_schedule = bpo_schedule
+            pass
+            # TODO:
+
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
         pre, genesis = self.make_genesis(
@@ -800,7 +816,7 @@ class BlockchainTest(BaseTest):
             "config": FixtureConfig(
                 fork=fork,
                 chain_id=self.chain_id,
-                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
+                blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork_blob_schedule),
             ),
         }
 
