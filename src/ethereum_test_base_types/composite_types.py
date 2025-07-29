@@ -517,17 +517,19 @@ class TimestampBlobSchedule(BaseModel):
 
     root: List[Dict[int, ForkBlobSchedule]] = Field(default_factory=list, validate_default=True)
 
-    @classmethod
-    def add_schedule(cls, activation_timestamp: int, schedule: ForkBlobSchedule):
+    def add_schedule(self, activation_timestamp: int, schedule: ForkBlobSchedule):
         """Add a schedule to the schedule list."""
         assert activation_timestamp > -1
         assert schedule.max_blobs_per_block > 0
         assert schedule.base_fee_update_fraction > 0
         assert schedule.target_blobs_per_block > 0
 
+        if self.root is None:
+            self.root = []
+
         # ensure that the timestamp of each scheduled bpo fork is unique
         existing_keys: set = set()
-        for d in cls.root:
+        for d in self.root:
             existing_keys.update(d.keys())
         assert activation_timestamp not in existing_keys, (
             f"No duplicate activation forks allowed: Timestamp {activation_timestamp} already "
@@ -535,4 +537,4 @@ class TimestampBlobSchedule(BaseModel):
         )
 
         # add a scheduled bpo fork
-        cls.root.append({activation_timestamp: schedule})
+        self.root.append({activation_timestamp: schedule})

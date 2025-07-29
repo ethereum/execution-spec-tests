@@ -100,4 +100,8 @@ def to_number(input_number: NumberConvertible) -> int:
         return int(input_number, 0)
     if isinstance(input_number, bytes) or isinstance(input_number, SupportsBytes):
         return int.from_bytes(input_number, byteorder="big")
-    raise Exception("invalid type for `number`")
+
+    raise Exception(
+        f"Invalid type for `number`. Got {type(input_number)} but expected int, str or bytes!\n"
+        f"Value of `number` you passed: {input_number}"
+    )
