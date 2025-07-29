@@ -18,7 +18,6 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     Transaction,
-    compute_create2_address,
     compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -508,55 +507,36 @@ def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op
     """Test CLZ opcode behavior when creating a contract."""
     bits = [0, 1, 64, 128, 255]  # expected values: [255, 254, 191, 127, 0]
 
-    init_code = Bytecode()
+    storage = Storage()
     ext_code = Bytecode()
 
-    for i, bit in enumerate(bits):
-        init_code += Op.SSTORE(i, Op.CLZ(1 << bit))
-        ext_code += Op.SSTORE(i + len(bits), Op.CLZ(1 << bit))
-
-    ext_code_address = pre.deploy_contract(code=ext_code)
-
-    creation_code = init_code + Op.EXTCODECOPY(
-        address=ext_code_address,
-        dest_offset=0,
-        offset=0,
-        size=Op.EXTCODESIZE(ext_code_address),
-    )
+    for bit in bits:
+        ext_code += Op.SSTORE(storage.store_next(255 - bit), Op.CLZ(1 << bit))
 
     sender_address = pre.fund_eoa()
 
-    if opcode == Op.CREATE:
-        create_contract = creation_code + opcode(offset=0, size=len(ext_code))
-    elif opcode == Op.CREATE2:
-        create_contract = creation_code + opcode(
-            offset=0,
-            size=len(ext_code),
-            salt="00" * 32,
-        )
+    create_contract = (
+        Op.CALLDATACOPY(offset=0, size=len(ext_code))
+        + opcode(offset=0, size=len(ext_code))
+        + Op.STOP
+    )
 
-    create_contract_address = pre.deploy_contract(code=create_contract)
+    factory_contract_address = pre.deploy_contract(code=create_contract)
 
-    if opcode == Op.CREATE:
-        contract_address = compute_create_address(address=create_contract_address, nonce=1)
-    elif opcode == Op.CREATE2:
-        contract_address = compute_create2_address(
-            address=create_contract_address, salt="00" * 32, initcode=ext_code
-        )
+    created_contract_address = compute_create_address(
+        address=factory_contract_address, nonce=1, initcode=ext_code, opcode=opcode
+    )
 
     tx = Transaction(
-        to=create_contract_address,
-        gas_limit=6_000_000,
-        data=create_contract,
+        to=factory_contract_address,
+        gas_limit=200_000,
+        data=ext_code,
         sender=sender_address,
     )
 
     post = {
-        contract_address: Account(
-            storage={i + len(bits): 255 - bit for i, bit in enumerate(bits)},
-        ),
-        create_contract_address: Account(
-            storage={i: 255 - bit for i, bit in enumerate(bits)},
+        created_contract_address: Account(
+            storage=storage,
         ),
     }
 
