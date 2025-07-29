@@ -148,7 +148,7 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
         ),
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "InvalidBlobVersionedHashError",
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "BlobGasLimitExceededError",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "BlobCountExceededError",
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "NoBlobDataError",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "InsufficientTransactionGasError",
         TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "InsufficientTransactionGasError",
