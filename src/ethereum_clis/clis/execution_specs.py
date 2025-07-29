@@ -159,6 +159,7 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_CONTRACT_CREATION: "TransactionTypeContractCreationError('transaction type `BlobTransaction` not allowed to create contracts')",
         TransactionException.NONCE_IS_MAX: "NonceOverflowError",
         TransactionException.GAS_ALLOWANCE_EXCEEDED: "GasUsedExceedsLimitError",
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "TransactionGasLimitExceededError",
         BlockException.SYSTEM_CONTRACT_EMPTY: "System contract address",
         BlockException.SYSTEM_CONTRACT_CALL_FAILED: "call failed:",
         BlockException.INVALID_DEPOSIT_EVENT_LAYOUT: "deposit",
