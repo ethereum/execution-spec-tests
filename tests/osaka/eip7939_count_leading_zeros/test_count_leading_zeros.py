@@ -231,28 +231,29 @@ def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: F
 @pytest.mark.valid_from("Osaka")
 def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc):
     """Test CLZ opcode returns the same value via different push operations."""
-    code = Bytecode()
-    post = {}
+    storage = {}
+
+    code = Op.SSTORE(0, Op.CLZ(Op.PUSH0))
+    storage[0x00] = 256
 
     for bit in range(1, 33):  # PUSH value
         for push_n in range(bit, 33):  # PUSHn opcode
             op = getattr(Op, f"PUSH{push_n}")
             key = 100 * bit + push_n
             code += Op.SSTORE(key, Op.CLZ(op[1 << bit]))
+            storage[key] = 255 - bit
 
     code_address = pre.deploy_contract(code=code)
 
     tx = Transaction(
         to=code_address,
         sender=pre.fund_eoa(),
-        gas_limit=30_000_000,
+        gas_limit=12_000_000,
     )
 
     post = {
         code_address: Account(
-            storage={
-                bit * 100 + push_n: 255 - bit for bit in range(1, 33) for push_n in range(bit, 33)
-            }
+            storage=storage,
         )
     }
 
