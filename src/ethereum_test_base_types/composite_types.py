@@ -515,6 +515,7 @@ class TimestampBlobSchedule(BaseModel):
     object with the fields max, target and base_fee_update_fraction.
     """
 
+    # never directly modify root, instead use `add_schedule()`
     root: List[Dict[int, ForkBlobSchedule]] = Field(default_factory=list, validate_default=True)
 
     def add_schedule(self, activation_timestamp: int, schedule: ForkBlobSchedule):
@@ -538,3 +539,15 @@ class TimestampBlobSchedule(BaseModel):
 
         # add a scheduled bpo fork
         self.root.append({activation_timestamp: schedule})
+
+        # sort list ascending by dict keys (timestamp)
+        self.root = sorted(self.root, key=lambda d: list(d.keys())[0])
+
+        # sanity check to ensure that timestamps are at least 3 time units apart (relevant for bpo test logic)  # noqa: E501
+        prev_time: int = 0
+        for i in self.root:
+            cur_time = next(iter(i))  # get key of only key-value pair in dict
+            assert cur_time - prev_time >= 3, "The timestamp difference of the keys of scheduled "
+            "bpo_forks need to have a difference of at least 3! But you tried to append the "
+            f"dictionary {dict({activation_timestamp: schedule})} which would lead "  # noqa: C418
+            f"to a timestamp difference of just {cur_time - prev_time} compared to prev element"
