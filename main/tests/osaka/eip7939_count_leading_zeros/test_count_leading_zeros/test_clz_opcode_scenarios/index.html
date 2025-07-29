@@ -25686,7 +25686,7 @@
 
 
 <h1 id="test_clz_opcode_scenarios"><code>test_clz_opcode_scenarios()</code><a class="headerlink" href="#test_clz_opcode_scenarios" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3dca37e6747b4a01ef3cb94cdd24d2d2043f20e9/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L74"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios@3dca37e6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e4859609796c58cc833d695cca9863d35a4c8c25/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L81"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios@e4859609</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios --fork Osaka</span>
@@ -25713,14 +25713,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 74</span>
-<span class="normal"> 75</span>
-<span class="normal"> 76</span>
-<span class="normal"> 77</span>
-<span class="normal"> 78</span>
-<span class="normal"> 79</span>
-<span class="normal"> 80</span>
-<span class="normal"> 81</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 81</span>
 <span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
@@ -25751,7 +25744,14 @@
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
-<span class="normal">112</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;test_id,value,expected_clz&quot;</span><span class="p">,</span>
     <span class="n">clz_parameters</span><span class="p">(),</span>
@@ -25844,6 +25844,17 @@
                     </tr>
     </thead>
     <tbody>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-zero-expected_clz_256]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-zero-expected_clz_256]">
+                    ...fork_Osaka-state_test-zero-expected_clz_256
+                </abbr>
+            </td>
+                        <td>zero</td>
+                        <td>0</td>
+                        <td>256</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28674,17 +28685,6 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_0-expected_clz_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_0-expected_clz_255]">
-                    ...fork_Osaka-state_test-single_bit_0-expected_clz_255
-                </abbr>
-            </td>
-                        <td>single_bit_0</td>
-                        <td>1</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_1-expected_clz_254]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_1-expected_clz_254]">
                     ...fork_Osaka-state_test-single_bit_1-expected_clz_254
                 </abbr>
@@ -31490,6 +31490,17 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_256-expected_clz_256]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-single_bit_256-expected_clz_256]">
+                    ...fork_Osaka-state_test-single_bit_256-expected_clz_256
+                </abbr>
+            </td>
+                        <td>single_bit_256</td>
+                        <td>0</td>
+                        <td>256</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-arbitrary_0-expected_clz_3]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-state_test-arbitrary_0-expected_clz_3]">
                     ...fork_Osaka-state_test-arbitrary_0-expected_clz_3
                 </abbr>
@@ -31574,6 +31585,17 @@
                         <td>arbitrary_7</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819967</td>
                         <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-zero-expected_clz_256]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-zero-expected_clz_256]">
+                    ...fork_Osaka-blockchain_test_from_state_test-zero-expected_clz_256
+                </abbr>
+            </td>
+                        <td>zero</td>
+                        <td>0</td>
+                        <td>256</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
@@ -34405,17 +34427,6 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_0-expected_clz_255]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_0-expected_clz_255]">
-                    ...fork_Osaka-blockchain_test_from_state_test-single_bit_0-expected_clz_255
-                </abbr>
-            </td>
-                        <td>single_bit_0</td>
-                        <td>1</td>
-                        <td>255</td>
-                    </tr>
-                <tr data-fork="Osaka" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_1-expected_clz_254]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_1-expected_clz_254]">
                     ...fork_Osaka-blockchain_test_from_state_test-single_bit_1-expected_clz_254
                 </abbr>
@@ -37217,6 +37228,17 @@
                         <td>single_bit_255</td>
                         <td>57896044618658097711785492504343953926634992332820282019728792003956564819968</td>
                         <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_256-expected_clz_256]" title="tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_opcode_scenarios[fork_Osaka-blockchain_test_from_state_test-single_bit_256-expected_clz_256]">
+                    ...fork_Osaka-blockchain_test_from_state_test-single_bit_256-expected_clz_256
+                </abbr>
+            </td>
+                        <td>single_bit_256</td>
+                        <td>0</td>
+                        <td>256</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
