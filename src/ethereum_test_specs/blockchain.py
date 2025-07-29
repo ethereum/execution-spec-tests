@@ -1,7 +1,6 @@
 """Ethereum blockchain test spec definition and filler."""
 
 import warnings
-from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
 import pytest
@@ -18,6 +17,7 @@ from ethereum_test_base_types import (
     HexNumber,
     Number,
 )
+from ethereum_test_base_types.composite_types import BlobSchedule, TimestampBlobSchedule
 from ethereum_test_exceptions import (
     BlockException,
     EngineAPIError,
@@ -52,10 +52,13 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
+from pytest_plugins.logging import get_logger
 
 from .base import BaseTest, verify_result
 from .debugging import print_traces
 from .helpers import verify_block, verify_transactions
+
+logger = get_logger(__name__)
 
 
 def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
@@ -407,6 +410,7 @@ class BlockchainTest(BaseTest):
     verify_sync: bool = False
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
+    bpo_schedule: TimestampBlobSchedule = None  # type: ignore[assignment]
     """
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
@@ -489,21 +493,24 @@ class BlockchainTest(BaseTest):
         block: Block,
         previous_env: Environment,
         previous_alloc: Alloc,
+        bpo_schedule: TimestampBlobSchedule | None,
     ) -> BuiltBlock:
         """Generate common block data for both make_fixture and make_hive_fixture."""
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
 
         txs: List[Transaction] = []
+
+        # check if any tests are gas-heavy
         for tx in block.txs:
             if not self.is_tx_gas_heavy_test() and tx.gas_limit >= Environment().gas_limit:
                 warnings.warn(
                     f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
                     stacklevel=2,
                 )
-
             txs.append(tx.with_signature_and_sender())
 
+        # ensure exception test comes at the end, if it exists at all
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
             if failing_tx_count > 1:
                 raise Exception(
@@ -515,6 +522,14 @@ class BlockchainTest(BaseTest):
                     + "must be the last transaction in the block"
                 )
 
+        # if a bpo schedule has been passed let it overwrite the blob_schedule
+        blob_schedule: BlobSchedule | None = fork.blob_schedule()
+        assert blob_schedule is not None
+        if bpo_schedule is not None:
+            print(f"GENERATE BLOCK DATE: I got this bpo schedule: {bpo_schedule}")
+            # TODO: implement
+
+        # get transition tool response
         transition_tool_output = t8n.evaluate(
             transition_tool_data=TransitionTool.TransitionToolData(
                 alloc=previous_alloc,
@@ -523,7 +538,7 @@ class BlockchainTest(BaseTest):
                 fork=fork,
                 chain_id=self.chain_id,
                 reward=fork.get_reward(env.number, env.timestamp),
-                blob_schedule=fork.blob_schedule(),
+                blob_schedule=blob_schedule,
             ),
             debug_output_path=self.get_next_transition_tool_output_path(),
             slow_request=self.is_tx_gas_heavy_test(),
@@ -617,9 +632,13 @@ class BlockchainTest(BaseTest):
             verify_result(transition_tool_output.result, env)
         except Exception as e:
             print_traces(t8n.get_traces())
-            pprint(transition_tool_output.result)
-            pprint(previous_alloc)
-            pprint(transition_tool_output.alloc)
+
+            # only spam the cmd with t8n if debug logging is explicitly activated
+            logger.debug(
+                f"T8n output: {transition_tool_output.result}\n"
+                f"Previous alloc: {previous_alloc}\n"
+                f"T8n alloc: {transition_tool_output.alloc}"
+            )
             raise e
 
         if len(rejected_txs) > 0 and block.exception is None:
@@ -646,9 +665,7 @@ class BlockchainTest(BaseTest):
             raise e
 
     def make_fixture(
-        self,
-        t8n: TransitionTool,
-        fork: Fork,
+        self, t8n: TransitionTool, fork: Fork, bpo_schedule: TimestampBlobSchedule | None
     ) -> BlockchainFixture:
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
@@ -669,6 +686,7 @@ class BlockchainTest(BaseTest):
                 block=block,
                 previous_env=env,
                 previous_alloc=alloc,
+                bpo_schedule=bpo_schedule,
             )
             fixture_blocks.append(built_block.get_fixture_block())
             if block.exception is None:
@@ -705,6 +723,7 @@ class BlockchainTest(BaseTest):
         self,
         t8n: TransitionTool,
         fork: Fork,
+        bpo_schedule: TimestampBlobSchedule | None,
         fixture_format: FixtureFormat = BlockchainEngineFixture,
     ) -> BlockchainEngineFixture | BlockchainEngineXFixture:
         """Create a hive fixture from the blocktest definition."""
@@ -725,6 +744,7 @@ class BlockchainTest(BaseTest):
                 block=block,
                 previous_env=env,
                 previous_alloc=alloc,
+                bpo_schedule=bpo_schedule,
             )
             fixture_payloads.append(built_block.get_fixture_engine_new_payload())
             if block.exception is None:
@@ -765,6 +785,7 @@ class BlockchainTest(BaseTest):
                 block=Block(),
                 previous_env=env,
                 previous_alloc=alloc,
+                bpo_schedule=bpo_schedule,
             )
             sync_payload = sync_built_block.get_fixture_engine_new_payload()
 
@@ -813,13 +834,16 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat,
+        bpo_schedule: TimestampBlobSchedule | None = None,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
         if fixture_format in [BlockchainEngineFixture, BlockchainEngineXFixture]:
-            return self.make_hive_fixture(t8n, fork, fixture_format)
+            return self.make_hive_fixture(
+                t8n=t8n, fork=fork, bpo_schedule=bpo_schedule, fixture_format=fixture_format
+            )
         elif fixture_format == BlockchainFixture:
-            return self.make_fixture(t8n, fork)
+            return self.make_fixture(t8n=t8n, fork=fork, bpo_schedule=bpo_schedule)
 
         raise Exception(f"Unknown fixture format: {fixture_format}")
 
