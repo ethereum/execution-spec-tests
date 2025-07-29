@@ -135,10 +135,17 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
     mapping_substring: ClassVar[Dict[ExceptionBase, str]] = {
         TransactionException.TYPE_4_EMPTY_AUTHORIZATION_LIST: "EmptyAuthorizationListError",
         TransactionException.SENDER_NOT_EOA: "InvalidSenderError",
-        TransactionException.TYPE_4_TX_CONTRACT_CREATION: "TransactionTypeContractCreationError('transaction type `SetCodeTransaction` not allowed to create contracts')",
+        TransactionException.TYPE_4_TX_CONTRACT_CREATION: (
+            "TransactionTypeContractCreationError("
+            "'transaction type `SetCodeTransaction` not allowed to create contracts')"
+        ),
         TransactionException.INSUFFICIENT_ACCOUNT_FUNDS: "InsufficientBalanceError",
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "BlobGasLimitExceededError",
-        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: "InsufficientMaxFeePerBlobGasError",
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
+            "BlobGasLimitExceededError"
+        ),
+        TransactionException.INSUFFICIENT_MAX_FEE_PER_BLOB_GAS: (
+            "InsufficientMaxFeePerBlobGasError"
+        ),
         TransactionException.INSUFFICIENT_MAX_FEE_PER_GAS: "InsufficientMaxFeePerGasError",
         TransactionException.TYPE_3_TX_PRE_FORK: (
             "module 'ethereum.shanghai.transactions' has no attribute 'BlobTransaction'"
@@ -146,17 +153,24 @@ class ExecutionSpecsExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_4_TX_PRE_FORK: (
             "'ethereum.cancun.transactions' has no attribute 'SetCodeTransaction'"
         ),
-        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "InvalidBlobVersionedHashError",
+        TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: (
+            "InvalidBlobVersionedHashError"
+        ),
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "BlobCountExceededError",
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "NoBlobDataError",
         TransactionException.INTRINSIC_GAS_TOO_LOW: "InsufficientTransactionGasError",
         TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST: "InsufficientTransactionGasError",
         TransactionException.INITCODE_SIZE_EXCEEDED: "InitCodeTooLargeError",
-        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: "PriorityFeeGreaterThanMaxFeeError",
+        TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
+            "PriorityFeeGreaterThanMaxFeeError"
+        ),
         TransactionException.NONCE_MISMATCH_TOO_HIGH: "NonceMismatchError('nonce too high')",
         TransactionException.NONCE_MISMATCH_TOO_LOW: "NonceMismatchError('nonce too low')",
-        TransactionException.TYPE_3_TX_CONTRACT_CREATION: "TransactionTypeContractCreationError('transaction type `BlobTransaction` not allowed to create contracts')",
+        TransactionException.TYPE_3_TX_CONTRACT_CREATION: (
+            "TransactionTypeContractCreationError("
+            "'transaction type `BlobTransaction` not allowed to create contracts')"
+        ),
         TransactionException.NONCE_IS_MAX: "NonceOverflowError",
         TransactionException.GAS_ALLOWANCE_EXCEEDED: "GasUsedExceedsLimitError",
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "TransactionGasLimitExceededError",
