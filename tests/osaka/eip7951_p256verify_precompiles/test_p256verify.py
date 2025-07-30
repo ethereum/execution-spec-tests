@@ -90,6 +90,18 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Y(Spec.Y0.value + 1),
             id="point_not_on_curve_y",
         ),
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.Y0 + Spec.X0,
+            id="x_and_y_reversed",
+        ),
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Y(Spec.P + 1),
+            id="y_greater_than_p",
+        ),
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + X(Spec.P + 1) + Spec.Y0,
+            id="x_greater_than_p",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
