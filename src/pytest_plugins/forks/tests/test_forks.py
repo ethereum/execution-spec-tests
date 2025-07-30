@@ -188,7 +188,6 @@ def test_from_paris_until_paris_option_no_validity_marker(pytester: pytest.Pytes
                 expected_passed -= 1
                 assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" not in stdout
                 continue
-            print("ccccccccccccccccccccccccccc\n")
             assert f":test_all_forks[fork_{fork}-{fixture_format_label}]" in stdout
     result.assert_outcomes(
         passed=expected_passed,
