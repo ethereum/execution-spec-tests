@@ -6,6 +6,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
 from .spec import Spec, ref_spec_7883
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7883.git_path
@@ -17,7 +18,7 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
 @pytest.mark.parametrize(
     "modexp_input,modexp_expected,gas_old,gas_new",
     [
-        pytest.param(Spec.modexp_input, Spec.modexp_expected, 200, 500),  # Should be 1200
+        pytest.param(Spec.modexp_input, Spec.modexp_expected, 200, 1200),
     ],
 )
 def test_modexp_fork_transition(
@@ -27,6 +28,7 @@ def test_modexp_fork_transition(
     gas_old: int,
     gas_new: int,
     tx_gas_limit: int,
+    modexp_input: ModExpInput,
 ):
     """Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork."""
     call_code = Op.CALL(
@@ -66,6 +68,7 @@ def test_modexp_fork_transition(
             txs=[
                 Transaction(
                     to=contract,
+                    data=modexp_input,
                     sender=sender,
                     gas_limit=tx_gas_limit,
                 )
