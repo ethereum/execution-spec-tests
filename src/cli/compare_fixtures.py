@@ -85,7 +85,10 @@ def batch_remove_fixtures_from_files(removals_by_file):
             full_file = json.loads(file_path.read_text())
             for test_case_id in test_case_ids:
                 full_file.pop(test_case_id, None)
-            file_path.write_text(json.dumps(full_file, indent=2))
+            if len(full_file) > 0:
+                file_path.write_text(json.dumps(full_file, indent=2))
+            else:
+                file_path.unlink()
         except Exception as e:
             print(f"Error processing {file_path}: {e}")
 
