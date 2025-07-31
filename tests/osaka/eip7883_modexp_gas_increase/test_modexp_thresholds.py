@@ -77,33 +77,45 @@ def create_modexp_input(
 
 
 @pytest.mark.parametrize(
-    "modexp_input,modexp_expected,call_succeeds",
+    "modexp_input,",
     [
-        pytest.param(bytes(), bytes(), False, id="zero-length-calldata"),
+        pytest.param(bytes(), id="zero-length-calldata"),
         pytest.param(
             create_modexp_input(10, 11, 12, b_data="FF" * 9),
-            bytes(),
-            False,
             id="b-too-short",
         ),
         pytest.param(
             create_modexp_input(10, 11, 12, m_data="FF" * 10),
-            bytes(),
-            False,
             id="m-too-short",
         ),
         pytest.param(
             create_modexp_input(10, 11, 12, e_data="FF" * 11),
-            bytes(),
-            False,
             id="e-too-short",
         ),
         pytest.param(
             create_modexp_input(0, 0, 0),
-            bytes(),
-            False,
             id="all-zeros",
         ),
+        # These invalid inputs are from EIP-7823.
+        # Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7823.md#analysis
+        pytest.param(
+            bytes.fromhex("9e5faafc"),
+            id="invalid-case-1",
+        ),
+        pytest.param(
+            bytes.fromhex("85474728"),
+            id="invalid-case-2",
+        ),
+        pytest.param(
+            bytes.fromhex("9e281a98" + "00" * 54 + "021e19e0c9bab2400000"),
+            id="invalid-case-3",
+        ),
+    ],
+)
+@pytest.mark.parametrize(
+    "modexp_expected,call_succeeds",
+    [
+        pytest.param(bytes(), False),
     ],
 )
 @EIPChecklist.Precompile.Test.Inputs.AllZeros
