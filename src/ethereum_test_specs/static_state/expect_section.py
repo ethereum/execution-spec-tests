@@ -90,7 +90,7 @@ class StorageInExpectSection(EthereumTestRootModel, TagDependentData):
         """Check if the storage contains a key."""
         return key in self.root
 
-    def __iter__(self) -> Iterator[Address]:
+    def __iter__(self) -> Iterator[ValueOrCreateTagInFiller]:  # type: ignore[override]
         """Iterate over the storage."""
         return iter(self.root)
 
@@ -146,7 +146,7 @@ class CMP(StrEnum):
 
 
 class ForkConstrain(BaseModel):
-    """Sigle fork with an operand."""
+    """Single fork with an operand."""
 
     operand: CMP
     fork: Fork
@@ -229,19 +229,16 @@ class ForkSet(EthereumTestRootModel):
 
     def __hash__(self) -> int:
         """Return the hash of the fork set."""
-        h = None
+        h = hash(None)
         for fork in sorted([str(f) for f in self]):
-            if h is None:
-                h = hash(fork)
-            else:
-                h ^= hash(fork)
+            h ^= hash(fork)
         return h
 
     def __contains__(self, fork: Fork) -> bool:
         """Check if the fork set contains a fork."""
         return fork in self.root
 
-    def __iter__(self) -> Iterator[Fork]:
+    def __iter__(self) -> Iterator[Fork]:  # type: ignore[override]
         """Iterate over the fork set."""
         return iter(self.root)
 
@@ -293,7 +290,7 @@ class ResultInFiller(EthereumTestRootModel, TagDependentData):
         """Check if the result contains an address."""
         return address in self.root
 
-    def __iter__(self) -> Iterator[Address]:
+    def __iter__(self) -> Iterator[AddressOrCreateTagInFiller]:  # type: ignore[override]
         """Iterate over the result."""
         return iter(self.root)
 
@@ -318,7 +315,7 @@ class ExpectException(EthereumTestRootModel):
         """Check if the expect exception contains a fork."""
         return fork in self.root
 
-    def __iter__(self) -> Iterator[ForkSet]:
+    def __iter__(self) -> Iterator[ForkSet]:  # type: ignore[override]
         """Iterate over the expect exception."""
         return iter(self.root)
 
