@@ -145,7 +145,7 @@ class CMP(StrEnum):
     EQ = "="
 
 
-class ForkConstrain(BaseModel):
+class ForkConstraint(BaseModel):
     """Single fork with an operand."""
 
     operand: CMP
@@ -211,10 +211,10 @@ class ForkSet(EthereumTestRootModel):
             matches = re.findall(r"(<=|<|>=|>|=)([^<>=]+)", fork_with_operand)
             if matches:
                 all_fork_constrains = [
-                    ForkConstrain.model_validate(f"{op}{fork.strip()}") for op, fork in matches
+                    ForkConstraint.model_validate(f"{op}{fork.strip()}") for op, fork in matches
                 ]
             else:
-                all_fork_constrains = [ForkConstrain.model_validate(fork_with_operand.strip())]
+                all_fork_constrains = [ForkConstraint.model_validate(fork_with_operand.strip())]
 
             for fork in get_forks():
                 for f in all_fork_constrains:

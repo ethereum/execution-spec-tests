@@ -1,6 +1,6 @@
 """Ethereum General State Test filler static test spec parser."""
 
-from typing import Callable, ClassVar, List, Self, Union
+from typing import Callable, ClassVar, List, Self, Set, Union
 
 import pytest
 from _pytest.mark.structures import ParameterSet
@@ -193,9 +193,7 @@ class StateStaticTest(BaseStaticTest):
 
     def get_valid_at_forks(self) -> List[str]:
         """Return list of forks that are valid for this test."""
-        fork_list: List[Fork] = []
+        fork_set: Set[Fork] = set()
         for expect in self.expect:
-            for fork in expect.network:
-                if fork not in fork_list:
-                    fork_list.append(fork)
-        return sorted([str(f) for f in fork_list])
+            fork_set.update(expect.network)
+        return sorted([str(f) for f in fork_set])
