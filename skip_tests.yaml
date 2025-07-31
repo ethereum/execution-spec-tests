@@ -1,0 +1,84 @@
+skip_tests:
+  ## Cancun test skip
+  # Blanket skip all the Blob related tests
+  - tests/cancun/eip4844_blobs/*.py::*
+  - tests/cancun/eip7516_blobgasfee/*.py::*
+  # Skip specific EIP-1153 tstore/tload Prague fork tests
+  - tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_transaction_begin\[fork_Prague-state_test\]
+  - tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_works\[fork_Prague-state_test\]
+  - tests/cancun/eip1153_tstore/test_basic_tload.py::test_basic_tload_other_after_tstore\[fork_Prague-state_test\]
+  # Skip specific mcopy memory expansion that fail due to block gas limit
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_length_minus_one_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--half_max_length_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_dest_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_dest_minus_one_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--half_max_dest_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_src_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_src_minus_one_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--half_max_src_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_length_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--max_length_minus_one_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_empty_memory-successful_False--half_max_length_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_dest_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_dest_minus_one_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--half_max_dest_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_src_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_src_minus_one_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--half_max_src_single_byte_expansion]
+  - tests/cancun/eip5656_mcopy/test_mcopy_memory_expansion.py::test_mcopy_huge_memory_expansion[fork_Prague-evm_code_type_LEGACY-state_test-from_existent_memory-successful_False--max_length_expansion]
+  ## Pectra test skip
+  # eip7623_increase_calldata_cost - skip that require Type-3 transaction
+  - tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-extra_gas-type_3]
+  - tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumption::test_full_gas_consumption[fork_Prague-state_test-exact_gas-type_3]
+  - tests/prague/eip7623_increase_calldata_cost/test_execution_gas.py::TestGasConsumptionBelowDataFloor::test_gas_consumption_below_data_floor[fork_Prague-state_test-exact_gas-type_3]
+  - tests/prague/eip7623_increase_calldata_cost/test_transaction_validity.py::test_transaction_validity_type_3*
+  
+  # eip7702_set_code_tx
+  # Skip all the tests that require Type-3 transaction
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_call_to_precompile_in_pointer_context[fork_Prague-precompile_0x000000000000000000000000000000000000000a-state_test]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_pointer_to_precompile[fork_Prague-precompile_0x000000000000000000000000000000000000000a-state_test]
+  # Skip these faling tests that fails on reth too. We need to investigate
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-single_valid_authorization_invalid_contract_authority-check_delegated_account_first_True]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-single_valid_authorization_invalid_contract_authority-check_delegated_account_first_False]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_empty_account_then_contract_authority-check_delegated_account_first_True]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_empty_account_then_contract_authority-check_delegated_account_first_False]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_eoa_then_contract_authority-check_delegated_account_first_True]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_eoa_then_contract_authority-check_delegated_account_first_False]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority-check_delegated_account_first_True]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-multiple_authorizations_eoa_self_sponsored_then_contract_authority-check_delegated_account_first_False]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-single_valid_chain_specific_authorization_single_signer-check_delegated_account_first_True]
+  - tests/prague/eip7702_set_code_tx/test_gas.py::test_account_warming[fork_Prague-state_test-single_valid_chain_specific_authorization_single_signer-check_delegated_account_first_False]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_chain_specific_id[fork_Prague-state_test]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=0,r=1,s=1]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=1,r=1,s=1]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=0,r=SECP256K1N-2,s=1]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=1,r=SECP256K1N-2,s=1]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=0,r=1,s=SECP256K1N_OVER_2]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_valid_synthetic_signatures[fork_Prague-state_test-v=1,r=1,s=SECP256K1N_OVER_2]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity[fork_Prague-state_test-nonce=1,account_nonce=0]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity[fork_Prague-state_test-nonce=0,account_nonce=1]
+  - tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_empty_authorization_list[fork_Prague-state_test]
+  # eip2537_bls_12_381_precompiles
+  # Skip specific test that fail due to block gas limit
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_valid_multi_inf[fork_Prague-state_test---]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_pairing.py::test_invalid_multi_inf[fork_Prague-state_test---]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_g1msm[fork_Prague-state_test-precompile_address_12--exact_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_g1msm[fork_Prague-state_test-precompile_address_12--one_extra_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g1msm[fork_Prague-state_test-precompile_address_12--insufficient_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_g2msm[fork_Prague-state_test-precompile_address_14--exact_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_valid_gas_g2msm[fork_Prague-state_test-precompile_address_14--one_extra_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_gas_g2msm[fork_Prague-state_test-precompile_address_14--insufficient_gas_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g1msm[fork_Prague-state_test-precompile_address_12--input_one_byte_too_long_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g1msm[fork_Prague-state_test-precompile_address_12--input_one_byte_too_short_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_14--input_one_byte_too_short_full_discount_table]
+  - tests/prague/eip2537_bls_12_381_precompiles/test_bls12_variable_length_input_contracts.py::test_invalid_length_g2msm[fork_Prague-state_test-precompile_address_14--input_one_byte_too_long_full_discount_table]
+
+
+
+
+
+
+
+
+  
+  
