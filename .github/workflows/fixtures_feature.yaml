@@ -23,7 +23,7 @@ jobs:
           echo names=${names}
           echo names=${names} >> "$GITHUB_OUTPUT"
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: feature-names
     strategy:
       matrix:
