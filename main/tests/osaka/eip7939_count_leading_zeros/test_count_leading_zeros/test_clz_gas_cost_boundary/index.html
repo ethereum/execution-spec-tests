@@ -4640,6 +4640,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4940,6 +4944,52 @@
   
   <span class="md-ellipsis">
     <code>test_clz_with_memory_operation</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_initcode_context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_clz_initcode_context</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_initcode_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_clz_initcode_create</code>
     
   </span>
   
@@ -25956,7 +26006,7 @@
 
 
 <h1 id="test_clz_gas_cost_boundary"><code>test_clz_gas_cost_boundary()</code><a class="headerlink" href="#test_clz_gas_cost_boundary" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/810ff42c8373a1d5f317f1740655ed4e04b7e25d/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L146"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary@810ff42c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/96e85f88cfcb843c669f568d020e835b299b8dc2/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L147"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary@96e85f88</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary --fork Osaka</span>
@@ -25976,8 +26026,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">147</span>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
@@ -26007,7 +26056,8 @@
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
-<span class="normal">177</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">177</span>
+<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;bits&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">255</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;gas_cost_delta&quot;</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_clz_gas_cost_boundary</span><span class="p">(</span>

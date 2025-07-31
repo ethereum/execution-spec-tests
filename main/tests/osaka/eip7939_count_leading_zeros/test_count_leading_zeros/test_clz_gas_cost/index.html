@@ -4640,6 +4640,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4940,6 +4944,52 @@
   
   <span class="md-ellipsis">
     <code>test_clz_with_memory_operation</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_initcode_context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_clz_initcode_context</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_clz_initcode_create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_clz_initcode_create</code>
     
   </span>
   
@@ -25956,7 +26006,7 @@
 
 
 <h1 id="test_clz_gas_cost"><code>test_clz_gas_cost()</code><a class="headerlink" href="#test_clz_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/810ff42c8373a1d5f317f1740655ed4e04b7e25d/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L122"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost@810ff42c</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/96e85f88cfcb843c669f568d020e835b299b8dc2/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py#L123"><code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost@96e85f88</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost --fork Osaka</span>
@@ -25976,8 +26026,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">123</span>
 <span class="normal">124</span>
 <span class="normal">125</span>
 <span class="normal">126</span>
@@ -25997,7 +26046,8 @@
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_clz_gas_cost</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CLZ opcode gas cost.&quot;&quot;&quot;</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
