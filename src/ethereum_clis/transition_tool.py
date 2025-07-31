@@ -27,7 +27,9 @@ from ethereum_test_types import Alloc, Environment, Transaction
 from .ethereum_cli import EthereumCLI
 from .file_utils import dump_files_to_directory, write_json_file
 from .types import (
+    Traces,
     TransactionReceipt,
+    TransactionTraces,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
@@ -54,7 +56,7 @@ class TransitionTool(EthereumCLI):
     implementations.
     """
 
-    traces: List[List[List[Dict]]] | None = None
+    traces: List[Traces] | None = None
 
     registered_tools: List[Type["TransitionTool"]] = []
     default_tool: Optional[Type["TransitionTool"]] = None
@@ -109,13 +111,13 @@ class TransitionTool(EthereumCLI):
         """Reset the internal trace storage for a new test to begin."""
         self.traces = None
 
-    def append_traces(self, new_traces: List[List[Dict]]):
+    def append_traces(self, new_traces: Traces):
         """Append a list of traces of a state transition to the current list."""
         if self.traces is None:
             self.traces = []
         self.traces.append(new_traces)
 
-    def get_traces(self) -> List[List[List[Dict]]] | None:
+    def get_traces(self) -> List[Traces] | None:
         """Return the accumulated traces."""
         return self.traces
 
@@ -124,22 +126,21 @@ class TransitionTool(EthereumCLI):
         receipts: List[TransactionReceipt],
         temp_dir: tempfile.TemporaryDirectory,
         debug_output_path: str = "",
-    ) -> None:
+    ) -> Traces:
         """Collect the traces from the t8n tool output and store them in the traces list."""
-        traces: List[List[Dict]] = []
+        traces: Traces = Traces(root=[])
+        temp_dir_path = Path(temp_dir.name)
         for i, r in enumerate(receipts):
             trace_file_name = f"trace-{i}-{r.transaction_hash}.jsonl"
+            trace_file_path = temp_dir_path / trace_file_name
             if debug_output_path:
                 shutil.copy(
-                    os.path.join(temp_dir.name, trace_file_name),
-                    os.path.join(debug_output_path, trace_file_name),
+                    trace_file_path,
+                    Path(debug_output_path) / trace_file_name,
                 )
-            with open(os.path.join(temp_dir.name, trace_file_name), "r") as trace_file:
-                tx_traces: List[Dict] = []
-                for trace_line in trace_file.readlines():
-                    tx_traces.append(json.loads(trace_line))
-                traces.append(tx_traces)
+            traces.append(TransactionTraces.from_file(trace_file_path))
         self.append_traces(traces)
+        return traces
 
     @dataclass
     class TransitionToolData:
@@ -294,7 +295,9 @@ class TransitionTool(EthereumCLI):
             output_contents, context={"exception_mapper": self.exception_mapper}
         )
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
 
         temp_dir.cleanup()
 
@@ -392,7 +395,9 @@ class TransitionTool(EthereumCLI):
         )
 
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
         temp_dir.cleanup()
 
         if debug_output_path:
@@ -452,7 +457,9 @@ class TransitionTool(EthereumCLI):
             )
 
         if self.trace:
-            self.collect_traces(output.result.receipts, temp_dir, debug_output_path)
+            output.result.traces = self.collect_traces(
+                output.result.receipts, temp_dir, debug_output_path
+            )
             temp_dir.cleanup()
 
         return output

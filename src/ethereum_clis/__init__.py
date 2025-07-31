@@ -13,6 +13,7 @@ from .transition_tool import TransitionTool
 from .types import (
     BlockExceptionWithMessage,
     Result,
+    Traces,
     TransactionExceptionWithMessage,
     TransitionToolOutput,
 )
@@ -35,6 +36,7 @@ __all__ = (
     "NethtestFixtureConsumer",
     "NimbusTransitionTool",
     "Result",
+    "Traces",
     "TransactionExceptionWithMessage",
     "TransitionTool",
     "TransitionToolOutput",
