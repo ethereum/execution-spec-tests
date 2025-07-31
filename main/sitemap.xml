@@ -1709,6 +1709,14 @@
          <lastmod>2025-07-31</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_push_operation_same_value/</loc>
+         <lastmod>2025-07-31</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_stack_not_overflow/</loc>
+         <lastmod>2025-07-31</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros/test_clz_stack_underflow/</loc>
          <lastmod>2025-07-31</lastmod>
     </url>
