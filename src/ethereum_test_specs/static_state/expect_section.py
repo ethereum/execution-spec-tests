@@ -210,19 +210,19 @@ class ForkSet(EthereumTestRootModel):
         for fork_with_operand in value:
             matches = re.findall(r"(<=|<|>=|>|=)([^<>=]+)", fork_with_operand)
             if matches:
-                all_fork_constrains = [
+                all_fork_constraints = [
                     ForkConstraint.model_validate(f"{op}{fork.strip()}") for op, fork in matches
                 ]
             else:
-                all_fork_constrains = [ForkConstraint.model_validate(fork_with_operand.strip())]
+                all_fork_constraints = [ForkConstraint.model_validate(fork_with_operand.strip())]
 
             for fork in get_forks():
-                for f in all_fork_constrains:
+                for f in all_fork_constraints:
                     if not f.match(fork):
-                        # If any constrain does not match, skip adding
+                        # If any constraint does not match, skip adding
                         break
                 else:
-                    # All constrains match, add the fork to the set
+                    # All constraints match, add the fork to the set
                     fork_set.add(fork)
 
         return fork_set
