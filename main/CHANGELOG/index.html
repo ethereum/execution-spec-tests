@@ -28077,6 +28077,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>🔀 Disabled writing debugging information to the EVM "dump directory" to improve performance. To obtain debug output, the <code>--evm-dump-dir</code> flag must now be explicitly set. As a consequence, the now redundant <code>--skip-evm-dump</code> option was removed (<a href="https://github.com/ethereum/execution-spec-tests/pull/1874">#1874</a>).</li>
 <li>✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers (<a href="https://github.com/ethereum/execution-spec-tests/pull/1781">#1781</a>).</li>
 <li>✨ Added support for the <code>--benchmark-gas-values</code> flag in the <code>fill</code> command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. (<a href="https://github.com/ethereum/execution-spec-tests/pull/1895">#1895</a>).</li>
+<li>✨ Static tests can now specify a maximum fork where they should be filled for (<a href="https://github.com/ethereum/execution-spec-tests/pull/1977">#1977</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <ul>
