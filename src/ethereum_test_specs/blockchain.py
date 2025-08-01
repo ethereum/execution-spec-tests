@@ -33,6 +33,7 @@ from ethereum_test_execution import (
 from ethereum_test_fixtures import (
     BaseFixture,
     BlockchainEngineFixture,
+    BlockchainEngineSyncFixture,
     BlockchainEngineXFixture,
     BlockchainFixture,
     FixtureFormat,
@@ -415,6 +416,7 @@ class BlockchainTest(BaseTest):
         BlockchainFixture,
         BlockchainEngineFixture,
         BlockchainEngineXFixture,
+        BlockchainEngineSyncFixture,
     ]
     supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
@@ -427,6 +429,7 @@ class BlockchainTest(BaseTest):
     supported_markers: ClassVar[Dict[str, str]] = {
         "blockchain_test_engine_only": "Only generate a blockchain test engine fixture",
         "blockchain_test_only": "Only generate a blockchain test fixture",
+        "blockchain_engine_sync_test": "Generate a blockchain engine sync test fixture",
     }
 
     @classmethod
@@ -437,11 +440,18 @@ class BlockchainTest(BaseTest):
         markers: List[pytest.Mark],
     ) -> bool:
         """Discard a fixture format from filling if the appropriate marker is used."""
-        if "blockchain_test_only" in [m.name for m in markers]:
+        marker_names = [m.name for m in markers]
+
+        if "blockchain_test_only" in marker_names:
             return fixture_format != BlockchainFixture
-        if "blockchain_test_engine_only" in [m.name for m in markers]:
+        if "blockchain_test_engine_only" in marker_names:
             return fixture_format != BlockchainEngineFixture
-        return False
+        if "blockchain_engine_sync_test" in marker_names:
+            # Only generate sync fixture when marker is present
+            return fixture_format != BlockchainEngineSyncFixture
+        else:
+            # When sync marker is NOT present, exclude sync fixture
+            return fixture_format == BlockchainEngineSyncFixture
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
@@ -710,7 +720,7 @@ class BlockchainTest(BaseTest):
         t8n: TransitionTool,
         fork: Fork,
         fixture_format: FixtureFormat = BlockchainEngineFixture,
-    ) -> BlockchainEngineFixture | BlockchainEngineXFixture:
+    ) -> BlockchainEngineFixture | BlockchainEngineXFixture | BlockchainEngineSyncFixture:
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
@@ -755,15 +765,12 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, t8n_state=alloc)
 
         sync_payload: Optional[FixtureEngineNewPayload] = None
-        if self.verify_sync:
+        # Only include sync_payload for BlockchainEngineSyncFixture
+        if fixture_format == BlockchainEngineSyncFixture:
             # Test is marked for syncing verification.
-            assert genesis.header.block_hash != head_hash, (
-                "Invalid payload tests negative test via sync is not supported yet."
-            )
-
             # Most clients require the header to start the sync process, so we create an empty
-            # block on top of the last block of the test to send it as new payload and trigger the
-            # sync process.
+            # block on top of the last block of the test to send it as new payload and trigger
+            # the sync process.
             sync_built_block = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
@@ -802,6 +809,17 @@ class BlockchainTest(BaseTest):
                 }
             )
             return BlockchainEngineXFixture(**fixture_data)
+        elif fixture_format == BlockchainEngineSyncFixture:
+            # For sync fixture format
+            fixture_data.update(
+                {
+                    "payloads": fixture_payloads,
+                    "sync_payload": sync_payload,
+                    "pre": pre,
+                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                }
+            )
+            return BlockchainEngineSyncFixture(**fixture_data)
         else:
             # Standard engine fixture
             fixture_data.update(
@@ -822,7 +840,11 @@ class BlockchainTest(BaseTest):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
-        if fixture_format in [BlockchainEngineFixture, BlockchainEngineXFixture]:
+        if fixture_format in [
+            BlockchainEngineFixture,
+            BlockchainEngineXFixture,
+            BlockchainEngineSyncFixture,
+        ]:
             return self.make_hive_fixture(t8n, fork, fixture_format)
         elif fixture_format == BlockchainFixture:
             return self.make_fixture(t8n, fork)

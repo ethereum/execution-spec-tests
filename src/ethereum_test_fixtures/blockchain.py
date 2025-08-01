@@ -568,3 +568,29 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
 
     sync_payload: FixtureEngineNewPayload | None = None
     """Optional sync payload for blockchain synchronization."""
+
+
+class BlockchainEngineSyncFixture(BlockchainEngineFixtureCommon):
+    """
+    Engine Sync specific test fixture information.
+
+    This fixture format is specifically designed for sync testing where:
+    - The client under test receives all payloads
+    - A sync client attempts to sync from the client under test
+    - Both client types are parametrized from hive client config
+    """
+
+    format_name: ClassVar[str] = "blockchain_engine_sync_test"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture for Engine API testing with client sync."
+    )
+    pre: Alloc
+    genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
+    post_state: Alloc | None = Field(None)
+    payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
+    sync_payload: FixtureEngineNewPayload | None = None
+
+    @classmethod
+    def output_base_dir_name(cls) -> str:
+        """Return the proper output directory name for sync fixtures."""
+        return "blockchain_engine_sync_tests"
