@@ -82,6 +82,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
 - ✨ Static tests can now specify a maximum fork where they should be filled for ([#1977](https://github.com/ethereum/execution-spec-tests/pull/1977)).
 - ✨ Static tests can now be filled in every format using `--generate-all-formats` ([#2006](https://github.com/ethereum/execution-spec-tests/pull/2006)).
+- ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 
 #### `consume`
 
@@ -90,6 +91,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
 - 🔀 Add exponential retry logic to initial fcu within consume engine ([#1815](https://github.com/ethereum/execution-spec-tests/pull/1815)).
+- ✨ Add `consume sync` command to test client synchronization capabilities by having one client sync from another via Engine API and P2P networking ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 
 #### `execute`
 
