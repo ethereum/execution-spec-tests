@@ -1184,8 +1184,8 @@ Note: All test cases must use off-by-one values to ensure proper boundary condit
 ### Framework Changes
 
 - Introduce or update the validity constraint as a fork method that returns:
-  - If the constraint is newly introduced:
-    - `None` for forks before its first activation.
-    - A non-`None` value starting from the fork where the constraint is first applied.
-  - If the constraint already exists:
-    - An updated value starting from the fork where the constraint changes.
+    - If the constraint is newly introduced:
+        - `None` for forks before its first activation.
+        - A non-`None` value starting from the fork where the constraint is first applied.
+    - If the constraint already exists:
+        - An updated value starting from the fork where the constraint changes.
