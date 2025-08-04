@@ -142,6 +142,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Pre-Osaka tests have been updated to either (1) dynamically adapt to the transaction gas limit cap, or (2) reduce overall gas consumption to fit the new limit ([#1928](https://github.com/ethereum/EIPs/pull/1928)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
 - 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
+- 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

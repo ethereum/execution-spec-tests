@@ -155,28 +155,24 @@ def exact_size_transactions(
 
     if not specific_transaction_to_include:
         # use cached version when possible for performance
-        stubbed_transactions, gas_used = _exact_size_transactions_cached(
-            block_size_limit, fork, gas_limit, emit_logs_contract=log_contract
-        )
-    else:
-        # Direct calculation, no cache, since `Transaction` is not hashable
-        stubbed_transactions, gas_used = _exact_size_transactions_impl(
+        transactions, gas_used = _exact_size_transactions_cached(
             block_size_limit,
             fork,
             gas_limit,
+            sender,
+            emit_logs_contract=log_contract,
+        )
+    else:
+        # Direct calculation, no cache, since `Transaction` is not hashable
+        transactions, gas_used = _exact_size_transactions_impl(
+            block_size_limit,
+            fork,
+            gas_limit,
+            sender,
             specific_transaction_to_include=specific_transaction_to_include,
         )
 
-    test_transactions = []
-    for tx in stubbed_transactions:
-        # Create a new transaction with the correct sender, preserving all other fields
-        tx_dict = tx.model_dump(exclude_unset=True)
-        tx_dict.pop("r", None)
-        tx_dict.pop("s", None)
-        tx_dict.pop("v", None)
-        tx_dict["sender"] = sender
-        test_transactions.append(Transaction(**tx_dict))
-    return test_transactions, gas_used
+    return transactions, gas_used
 
 
 @lru_cache(maxsize=128)
@@ -184,6 +180,7 @@ def _exact_size_transactions_cached(
     block_size_limit: int,
     fork: Fork,
     gas_limit: int,
+    sender: EOA,
     emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
@@ -194,6 +191,7 @@ def _exact_size_transactions_cached(
         block_size_limit,
         fork,
         gas_limit,
+        sender,
         None,
         emit_logs_contract,
     )
@@ -203,6 +201,7 @@ def _exact_size_transactions_impl(
     block_size_limit: int,
     fork: Fork,
     block_gas_limit: int,
+    sender: EOA,
     specific_transaction_to_include: Transaction | None = None,
     emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
@@ -211,7 +210,6 @@ def _exact_size_transactions_impl(
     non-cached paths.
     """
     transactions = []
-    sender = EOA("0x" + "00" * 20, key=123)
     nonce = 0
     total_gas_used = 0
 
