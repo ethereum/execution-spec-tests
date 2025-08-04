@@ -44,6 +44,25 @@ def test_vectors_from_file(
     )
 
 
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,gas_old,gas_new",
+    vectors_from_file("legacy.json"),
+    ids=lambda v: v.name,
+)
+def test_vectors_from_legacy_tests(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    tx: Transaction,
+    post: Dict,
+):
+    """Test ModExp gas cost using the test vectors from legacy tests."""
+    state_test(
+        pre=pre,
+        tx=tx,
+        post=post,
+    )
+
+
 def create_modexp_input(
     bsize: int, esize: int, msize: int, e_data: str = "", m_data: str = "", b_data: str = ""
 ) -> bytes:

@@ -73,6 +73,8 @@ class ModExpInput(TestParameterGroup):
 
         modulus = input_data[current_index : current_index + modulus_length]
 
+        modulus = modulus.ljust(min(1024, modulus_length), b"\x00")
+
         return cls(base=base, exponent=exponent, modulus=modulus)
 
 
