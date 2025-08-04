@@ -24506,6 +24506,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -25299,6 +25303,52 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_same_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_same_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_diff_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_diff_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -26079,7 +26129,7 @@
 
 
 <h1 id="test_worst_memory_access"><code>test_worst_memory_access()</code><a class="headerlink" href="#test_worst_memory_access" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be6aba4a938fe080c519330973489b6839382ec5/tests/benchmark/test_worst_compute.py#L2195"><code>tests/benchmark/test_worst_compute.py::test_worst_memory_access@be6aba4a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/benchmark/test_worst_compute.py#L2196"><code>tests/benchmark/test_worst_compute.py::test_worst_memory_access@e64b1b62</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_memory_access --fork Osaka</span>
@@ -26099,8 +26149,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2195</span>
-<span class="normal">2196</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2196</span>
 <span class="normal">2197</span>
 <span class="normal">2198</span>
 <span class="normal">2199</span>
@@ -26140,7 +26189,8 @@
 <span class="normal">2233</span>
 <span class="normal">2234</span>
 <span class="normal">2235</span>
-<span class="normal">2236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">2236</span>
+<span class="normal">2237</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;opcode&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">MLOAD</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">MSTORE8</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">31</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;offset_initialized&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>

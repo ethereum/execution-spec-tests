@@ -24506,6 +24506,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -25229,6 +25233,52 @@
   
   <span class="md-ellipsis">
     <code>test_worst_return_revert</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_worst_clz_same_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_same_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_worst_clz_diff_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_diff_input</code>
     
   </span>
   
@@ -26019,7 +26069,7 @@
 
 
 <h1 id="test-worst-compute">Test Worst Compute<a class="headerlink" href="#test-worst-compute" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be6aba4a938fe080c519330973489b6839382ec5/tests/benchmark/test_worst_compute.py#L64"><code>tests/benchmark/test_worst_compute.py@be6aba4a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/benchmark/test_worst_compute.py#L65"><code>tests/benchmark/test_worst_compute.py@e64b1b62</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py --fork Osaka</span>
@@ -26249,6 +26299,18 @@
 <td>state_test</td>
 <td>10</td>
 <td>Test running a block with as many RETURN or REVERT as possible.</td>
+</tr>
+<tr>
+<td><a href="test_worst_clz_same_input/"><code>test_worst_clz_same_input</code></a></td>
+<td>blockchain_test</td>
+<td>1</td>
+<td>Test running a block with as many CLZ with same input as possible.</td>
+</tr>
+<tr>
+<td><a href="test_worst_clz_diff_input/"><code>test_worst_clz_diff_input</code></a></td>
+<td>blockchain_test</td>
+<td>1</td>
+<td>Test running a block with as many CLZ with different input as possible.</td>
 </tr>
 </tbody>
 </table>

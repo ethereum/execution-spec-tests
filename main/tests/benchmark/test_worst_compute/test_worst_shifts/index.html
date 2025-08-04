@@ -24506,6 +24506,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -25299,6 +25303,52 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_same_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_same_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_diff_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_diff_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -26079,7 +26129,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be6aba4a938fe080c519330973489b6839382ec5/tests/benchmark/test_worst_compute.py#L1924"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@be6aba4a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/benchmark/test_worst_compute.py#L1925"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@e64b1b62</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_shifts --fork Osaka</span>
@@ -26101,8 +26151,7 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1924</span>
-<span class="normal">1925</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1925</span>
 <span class="normal">1926</span>
 <span class="normal">1927</span>
 <span class="normal">1928</span>
@@ -26182,7 +26231,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 <span class="normal">2002</span>
 <span class="normal">2003</span>
 <span class="normal">2004</span>
-<span class="normal">2005</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">2005</span>
+<span class="normal">2006</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_shifts</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

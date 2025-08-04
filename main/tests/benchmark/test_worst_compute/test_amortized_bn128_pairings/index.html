@@ -24506,6 +24506,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -25299,6 +25303,52 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_same_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_same_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_diff_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_diff_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -26079,7 +26129,7 @@
 
 
 <h1 id="test_amortized_bn128_pairings"><code>test_amortized_bn128_pairings()</code><a class="headerlink" href="#test_amortized_bn128_pairings" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be6aba4a938fe080c519330973489b6839382ec5/tests/benchmark/test_worst_compute.py#L2357"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@be6aba4a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/benchmark/test_worst_compute.py#L2358"><code>tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings@e64b1b62</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_amortized_bn128_pairings --fork Osaka</span>
@@ -26099,8 +26149,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2357</span>
-<span class="normal">2358</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2358</span>
 <span class="normal">2359</span>
 <span class="normal">2360</span>
 <span class="normal">2361</span>
@@ -26162,7 +26211,8 @@
 <span class="normal">2417</span>
 <span class="normal">2418</span>
 <span class="normal">2419</span>
-<span class="normal">2420</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">2420</span>
+<span class="normal">2421</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_amortized_bn128_pairings</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>

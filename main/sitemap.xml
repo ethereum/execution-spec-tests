@@ -381,6 +381,14 @@
          <lastmod>2025-08-04</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_compute/test_worst_clz_diff_input/</loc>
+         <lastmod>2025-08-04</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_compute/test_worst_clz_same_input/</loc>
+         <lastmod>2025-08-04</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/benchmark/test_worst_compute/test_worst_dup/</loc>
          <lastmod>2025-08-04</lastmod>
     </url>

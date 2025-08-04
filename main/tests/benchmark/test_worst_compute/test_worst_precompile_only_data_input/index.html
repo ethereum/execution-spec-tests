@@ -24506,6 +24506,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -25299,6 +25303,52 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_same_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_same_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_worst_clz_diff_input/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_worst_clz_diff_input</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -26079,7 +26129,7 @@
 
 
 <h1 id="test_worst_precompile_only_data_input"><code>test_worst_precompile_only_data_input()</code><a class="headerlink" href="#test_worst_precompile_only_data_input" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/be6aba4a938fe080c519330973489b6839382ec5/tests/benchmark/test_worst_compute.py#L416"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input@be6aba4a</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/benchmark/test_worst_compute.py#L417"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input@e64b1b62</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_precompile_only_data_input --fork Osaka</span>
@@ -26099,8 +26149,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">416</span>
-<span class="normal">417</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">417</span>
 <span class="normal">418</span>
 <span class="normal">419</span>
 <span class="normal">420</span>
@@ -26174,7 +26223,8 @@
 <span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
-<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">491</span>
+<span class="normal">492</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;address,static_cost,per_word_dynamic_cost,bytes_per_unit_of_work&quot;</span><span class="p">,</span>
     <span class="p">[</span>
