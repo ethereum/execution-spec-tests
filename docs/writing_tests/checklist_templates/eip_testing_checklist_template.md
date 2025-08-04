@@ -1165,3 +1165,27 @@ Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically up
 ### Framework Changes
 
 - Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
+
+## Modified Transaction Validity Constraint
+
+### Test Vectors
+
+#### Fork transition
+
+| ID                                        | Description                                                                                                                               | Status | Tests |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `transaction_validity_constraint/test/fork_transition/accepted_before_fork` | If the validity constraint is new, verify that a block before the activation fork is accepted, even when the new constraint is not met. |        |       |
+| `transaction_validity_constraint/test/fork_transition/rejected_before_fork` | If the validity constraint is not new, verify that a block before the activation fork is rejected when the existing constraint is not met. |        |       |
+| `transaction_validity_constraint/test/fork_transition/accepted_after_fork` | Verify that a block after the activation fork is accepted when the new validity constraint is met. |        |       |
+| `transaction_validity_constraint/test/fork_transition/rejected_after_fork` | Verify that a block after the activation fork is rejected when the new validity constraint is not met. |        |       |
+
+Note: All test cases must use off-by-one values to ensure proper boundary condition verification.
+
+### Framework Changes
+
+- Introduce or update the validity constraint as a fork method that returns:
+  - If the constraint is newly introduced:
+    - `None` for forks before its first activation.
+    - A non-`None` value starting from the fork where the constraint is first applied.
+  - If the constraint already exists:
+    - An updated value starting from the fork where the constraint changes.
