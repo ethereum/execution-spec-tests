@@ -25,8 +25,8 @@ class Vector(BaseModel):
     )
     modexp_expected: Bytes = Field(..., alias="Expected")
     name: str = Field(..., alias="Name")
-    gas_old: int | None = Field(..., alias="GasOld")
-    gas_new: int | None = Field(..., alias="GasNew")
+    gas_old: int | None = Field(default=None, alias="GasOld")
+    gas_new: int | None = Field(default=None, alias="GasNew")
 
     model_config = ConfigDict(alias_generator=to_pascal)
 
