@@ -144,8 +144,8 @@ class EthereumCLI:
                 if result.stdout:
                     binary_output = result.stdout.decode().strip()
                     # e.g. 1.31.10+f62cfede9b4abfb5cd62d6f138240668620a2b0d should be treated as 1.31.10  # noqa: E501
-                    if "+" in binary_output:
-                        binary_output = binary_output.split("+")[0]
+                    # if "+" in binary_output:
+                    #     binary_output = binary_output.split("+")[0]
 
                     logger.debug(f"Stripped subprocess stdout: {binary_output}")
 
