@@ -26131,7 +26131,7 @@
 
 
 <h1 id="test_block_at_rlp_size_limit_boundary"><code>test_block_at_rlp_size_limit_boundary()</code><a class="headerlink" href="#test_block_at_rlp_size_limit_boundary" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e64b1b62128be4873a58e5612357f413d9746155/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L368"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary@e64b1b62</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b6eb5077e34f4aec9128b2e104ed55a4cb70b326/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L378"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary@b6eb5077</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_at_rlp_size_limit_boundary --fork Osaka</span>
@@ -26156,17 +26156,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">378</span>
 <span class="normal">379</span>
 <span class="normal">380</span>
 <span class="normal">381</span>
@@ -26212,7 +26202,18 @@
 <span class="normal">421</span>
 <span class="normal">422</span>
 <span class="normal">423</span>
-<span class="normal">424</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;delta&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;max_rlp_size_minus_1_byte&quot;</span><span class="p">),</span>
@@ -26242,6 +26243,7 @@
         <span class="n">block_size_limit</span><span class="p">,</span>
         <span class="n">fork</span><span class="p">,</span>
         <span class="n">pre</span><span class="p">,</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">gas_limit</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">block_rlp_size</span> <span class="o">=</span> <span class="n">get_block_rlp_size</span><span class="p">(</span><span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span><span class="o">=</span><span class="n">gas_used</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">block_rlp_size</span> <span class="o">==</span> <span class="n">block_size_limit</span><span class="p">,</span> <span class="p">(</span>
