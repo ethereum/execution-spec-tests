@@ -173,12 +173,6 @@ def total_cost_standard_per_token():
     return 4
 
 
-@pytest.fixture
-def gas_benchmark_value():
-    """Gas benchmark value for testing."""
-    return 30_000_000
-
-
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_data(
