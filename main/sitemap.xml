@@ -1357,6 +1357,10 @@
          <lastmod>2025-08-05</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call/test_call_memory_expands_on_early_revert/</loc>
+         <lastmod>2025-08-05</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/frontier/opcodes/test_call_and_callcode_gas_calculation/</loc>
          <lastmod>2025-08-05</lastmod>
     </url>
