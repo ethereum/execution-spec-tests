@@ -317,4 +317,8 @@ def test_block_full_access_list_and_data(
         pre=pre,
         post={},
         tx=tx,
+        expected_benchmark_gas_used=fork.transaction_intrinsic_cost_calculator()(
+            calldata=shuffled_calldata,
+            access_list=access_list,
+        ),
     )
