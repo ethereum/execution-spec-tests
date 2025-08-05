@@ -2,49 +2,19 @@
 stable:
   evm-type: stable
   fill-params: --until=Prague
-  solc: 0.8.21
 develop:
   evm-type: develop
   fill-params: --until=Osaka
-  solc: 0.8.21
 static:
   evm-type: static
   fill-params: --until=Osaka --fill-static-tests ./tests/static
-  solc: 0.8.21
-benchmark_1M:
+benchmark_test:
   evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 1000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_10M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 10000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_30M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 30000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_60M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 60000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_90M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 90000000 -m benchmark ./tests
-  solc: 0.8.21
-  feature_only: true
-benchmark_120M:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --block-gas-limit 120000000 -m benchmark ./tests
-  solc: 0.8.21
+  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,90,120 -m benchmark --generate-all-formats ./tests
   feature_only: true
 eip7692:
   evm-type: eip7692
   fill-params: --fork=EOFv1 ./tests/unscheduled
-  solc: 0.8.21
   eofwrap: true
   feature_only: true
 fusaka-devnet-2:

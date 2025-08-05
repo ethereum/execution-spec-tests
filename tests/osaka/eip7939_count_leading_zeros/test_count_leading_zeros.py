@@ -10,14 +10,19 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
+    AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     CodeGasMeasure,
+    Environment,
     StateTestFiller,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
+from ...prague.eip7702_set_code_tx.spec import Spec as Spec7702
 from .spec import Spec, ref_spec_7939
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7939.git_path
@@ -28,8 +33,10 @@ def clz_parameters():
     """Generate all test case parameters."""
     test_cases = []
 
+    # Format 0x000...000: all zeros
+    test_cases.append(("zero", 0, 256))
+
     # Format 0xb000...111: leading zeros followed by ones
-    # Special case: bits=256 gives value=0 (all zeros)
     for bits in range(257):
         value = (2**256 - 1) >> bits
         expected_clz = bits
@@ -39,10 +46,15 @@ def clz_parameters():
         )
         test_cases.append((f"leading_zeros_{bits}", value, expected_clz))
 
-    # Format 0xb010...000: single bit set
-    for bits in range(256):
-        value = 1 << bits
-        expected_clz = 255 - bits
+    # Format 0xb010...000: single bit set (1 << N for N = 1…256)
+    for bits in range(1, 257):
+        if bits == 256:
+            # Special case: 1 << 256 = 0 in 256-bit arithmetic (overflow)
+            value = 0
+            expected_clz = 256
+        else:
+            value = 1 << bits
+            expected_clz = 255 - bits
         assert expected_clz == Spec.calculate_clz(value), (
             f"CLZ calculation mismatch for single_bit_{bits}: "
             f"manual={expected_clz}, spec={Spec.calculate_clz(value)}, value={hex(value)}"
@@ -190,6 +202,64 @@ def test_clz_stack_underflow(state_test: StateTestFiller, pre: Alloc):
     state_test(pre=pre, post=post, tx=tx)
 
 
+@pytest.mark.valid_from("Osaka")
+def test_clz_stack_not_overflow(state_test: StateTestFiller, pre: Alloc, fork: Fork):
+    """Test CLZ opcode never causes stack overflow."""
+    max_stack_items = fork.max_stack_height()
+
+    code = Bytecode()
+    post = {}
+
+    code += Op.PUSH0 * (max_stack_items - 2)
+
+    for i in range(256):
+        code += Op.PUSH1(i) + Op.CLZ(1 << i) + Op.SWAP1 + Op.SSTORE
+
+    code_address = pre.deploy_contract(code=code)
+
+    post[code_address] = Account(storage={i: 255 - i for i in range(256)})
+
+    tx = Transaction(
+        to=code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=6_000_000,
+    )
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+def test_clz_push_operation_same_value(state_test: StateTestFiller, pre: Alloc):
+    """Test CLZ opcode returns the same value via different push operations."""
+    storage = {}
+
+    code = Op.SSTORE(0, Op.CLZ(Op.PUSH0))
+    storage[0x00] = 256
+
+    for bit in range(1, 33):  # PUSH value
+        for push_n in range(bit, 33):  # PUSHn opcode
+            op = getattr(Op, f"PUSH{push_n}")
+            key = 100 * bit + push_n
+            code += Op.SSTORE(key, Op.CLZ(op[1 << bit]))
+            storage[key] = 255 - bit
+
+    code_address = pre.deploy_contract(code=code)
+
+    tx = Transaction(
+        to=code_address,
+        sender=pre.fund_eoa(),
+        gas_limit=12_000_000,
+    )
+
+    post = {
+        code_address: Account(
+            storage=storage,
+        )
+    }
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
 @pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
 def test_clz_fork_transition(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """Test CLZ opcode behavior at fork transition."""
@@ -313,6 +383,55 @@ def test_clz_jump_operation(
     state_test(pre=pre, post=post, tx=tx)
 
 
+auth_account_start_balance = 0
+
+
+@pytest.mark.valid_from("Osaka")
+def test_clz_from_set_code(
+    state_test: StateTestFiller,
+    pre: Alloc,
+):
+    """Test the address opcode in a set-code transaction."""
+    storage = Storage()
+    auth_signer = pre.fund_eoa(auth_account_start_balance)
+
+    set_code = Bytecode()
+    for bits in [0, 1, 128, 255]:
+        expected_clz = 255 - bits
+        set_code += Op.SSTORE(storage.store_next(expected_clz), Op.CLZ(1 << bits))
+    set_code += Op.STOP
+
+    set_code_to_address = pre.deploy_contract(set_code)
+
+    tx = Transaction(
+        gas_limit=200_000,
+        to=auth_signer,
+        value=0,
+        authorization_list=[
+            AuthorizationTuple(
+                address=set_code_to_address,
+                nonce=0,
+                signer=auth_signer,
+            ),
+        ],
+        sender=pre.fund_eoa(),
+    )
+
+    state_test(
+        env=Environment(),
+        pre=pre,
+        tx=tx,
+        post={
+            set_code_to_address: Account(storage={}),
+            auth_signer: Account(
+                nonce=1,
+                code=Spec7702.delegation_designation(set_code_to_address),
+                storage=storage,
+            ),
+        },
+    )
+
+
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.parametrize("bits", [0, 64, 255])
 @pytest.mark.parametrize("opcode", [Op.CODECOPY, Op.EXTCODECOPY])
@@ -407,5 +526,148 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
         sender=pre.fund_eoa(),
         gas_limit=200_000,
     )
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
+    """Test CLZ opcode behavior when creating a contract."""
+    bits = [0, 1, 64, 128, 255]
+
+    storage = Storage()
+
+    init_code = Bytecode()
+    for bit in bits:
+        init_code += Op.SSTORE(storage.store_next(255 - bit), Op.CLZ(1 << bit))
+
+    sender_address = pre.fund_eoa()
+
+    contract_address = compute_create_address(address=sender_address, nonce=0)
+
+    tx = Transaction(
+        to=None,
+        gas_limit=6_000_000,
+        data=init_code,
+        sender=sender_address,
+    )
+
+    post = {
+        contract_address: Account(storage=storage),
+    }
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+def test_clz_initcode_create(state_test: StateTestFiller, pre: Alloc, opcode: Op):
+    """Test CLZ opcode behavior when creating a contract."""
+    bits = [0, 1, 64, 128, 255]  # expected values: [255, 254, 191, 127, 0]
+
+    storage = Storage()
+    ext_code = Bytecode()
+
+    for bit in bits:
+        ext_code += Op.SSTORE(storage.store_next(255 - bit), Op.CLZ(1 << bit))
+
+    sender_address = pre.fund_eoa()
+
+    create_contract = (
+        Op.CALLDATACOPY(offset=0, size=len(ext_code))
+        + opcode(offset=0, size=len(ext_code))
+        + Op.STOP
+    )
+
+    factory_contract_address = pre.deploy_contract(code=create_contract)
+
+    created_contract_address = compute_create_address(
+        address=factory_contract_address, nonce=1, initcode=ext_code, opcode=opcode
+    )
+
+    tx = Transaction(
+        to=factory_contract_address,
+        gas_limit=200_000,
+        data=ext_code,
+        sender=sender_address,
+    )
+
+    post = {
+        created_contract_address: Account(
+            storage=storage,
+        ),
+    }
+
+    state_test(pre=pre, post=post, tx=tx)
+
+
+class CallingContext:
+    """Context for calling operations."""
+
+    callee_context = 1  # CALL
+    caller_context = 2  # DELEGATECALL
+    no_context = 3  # STATICCALL
+
+
+@pytest.mark.valid_from("Osaka")
+@pytest.mark.parametrize(
+    "opcode,context",
+    [
+        pytest.param(Op.CALL, CallingContext.callee_context, id="call"),
+        pytest.param(Op.DELEGATECALL, CallingContext.caller_context, id="delegatecall"),
+        pytest.param(Op.CALLCODE, CallingContext.caller_context, id="callcode"),
+        pytest.param(Op.STATICCALL, CallingContext.no_context, id="staticcall"),
+    ],
+)
+def test_clz_call_operation(
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, context: CallingContext
+):
+    """Test CLZ opcode with call operation."""
+    test_cases = [0, 64, 255]
+
+    # Storage Layout
+    callee_storage = Storage()
+    caller_storage = Storage()
+
+    callee_code = Bytecode()
+
+    for bits in reversed(test_cases):
+        callee_code += Op.CLZ(1 << bits)
+
+    if context != CallingContext.no_context:
+        for bits in test_cases:
+            callee_code += Op.SSTORE(callee_storage.store_next(255 - bits), Op.CLZ(1 << bits))
+
+    for i in range(len(test_cases)):
+        callee_code += Op.PUSH32(i * 0x20) + Op.MSTORE
+
+    callee_code += Op.RETURN(0, len(test_cases) * 0x20)
+
+    callee_address = pre.deploy_contract(code=callee_code)
+
+    caller_code = opcode(
+        gas=0xFFFF, address=callee_address, ret_offset=0, ret_size=len(test_cases) * 0x20
+    )
+
+    for i, bits in enumerate(test_cases):
+        caller_code += Op.SSTORE(caller_storage.store_next(255 - bits), Op.MLOAD(i * 0x20))
+
+    caller_address = pre.deploy_contract(code=caller_code)
+
+    tx = Transaction(
+        to=caller_address,
+        sender=pre.fund_eoa(),
+        gas_limit=200_000,
+    )
+
+    post = {}
+
+    if context == CallingContext.caller_context:
+        post[caller_address] = Account(storage=callee_storage)
+    elif context == CallingContext.callee_context:
+        post[callee_address] = Account(storage=callee_storage)
+        post[caller_address] = Account(storage=caller_storage)
+    elif context == CallingContext.no_context:
+        post[caller_address] = Account(storage=caller_storage)
 
     state_test(pre=pre, post=post, tx=tx)

@@ -1,5 +1,6 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
+from enum import StrEnum, unique
 from typing import List
 
 import pytest
@@ -10,6 +11,27 @@ from ethereum_test_specs import BaseTest
 from ethereum_test_types import EOA, Alloc
 
 from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
+
+
+@unique
+class OpMode(StrEnum):
+    """Operation mode for the fill and execute."""
+
+    CONSENSUS = "consensus"
+    BENCHMARKING = "benchmarking"
+
+
+ALL_FIXTURE_PARAMETERS = {
+    "genesis_environment",
+    "env",
+}
+"""
+List of test parameters that have a default fixture value which can be retrieved and used
+for the test instance if it was not explicitly specified when calling from the test
+function.
+
+All parameter names included in this list must define a fixture in one of the plugins.
+"""
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -59,6 +81,9 @@ def pytest_configure(config: pytest.Config):
                 "markers",
                 (f"{marker}: {description}"),
             )
+
+    if not hasattr(config, "op_mode"):
+        config.op_mode = OpMode.CONSENSUS  # type: ignore[attr-defined]
 
     config.addinivalue_line(
         "markers",

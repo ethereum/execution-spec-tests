@@ -1,6 +1,5 @@
 """Ethereum blockchain test spec definition and filler."""
 
-import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
 
@@ -53,7 +52,7 @@ from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
 
-from .base import BaseTest, verify_result
+from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
 from .helpers import verify_block, verify_transactions
 
@@ -173,7 +172,7 @@ class Header(CamelModel):
 
     def verify(self, target: FixtureHeader):
         """Verify that the header fields from self are as expected."""
-        for field_name in self.model_fields:
+        for field_name in self.__class__.model_fields:
             baseline_value = getattr(self, field_name)
             if baseline_value is not None:
                 assert baseline_value is not Header.REMOVE_FIELD, "invalid header"
@@ -489,20 +488,12 @@ class BlockchainTest(BaseTest):
         block: Block,
         previous_env: Environment,
         previous_alloc: Alloc,
+        last_block: bool,
     ) -> BuiltBlock:
         """Generate common block data for both make_fixture and make_hive_fixture."""
         env = block.set_environment(previous_env)
         env = env.set_fork_requirements(fork)
-
-        txs: List[Transaction] = []
-        for tx in block.txs:
-            if not self.is_tx_gas_heavy_test() and tx.gas_limit >= Environment().gas_limit:
-                warnings.warn(
-                    f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
-                    stacklevel=2,
-                )
-
-            txs.append(tx.with_signature_and_sender())
+        txs = [tx.with_signature_and_sender() for tx in block.txs]
 
         if failing_tx_count := len([tx for tx in txs if tx.error]) > 0:
             if failing_tx_count > 1:
@@ -553,6 +544,18 @@ class BlockchainTest(BaseTest):
         if block.header_verify is not None:
             # Verify the header after transition tool processing.
             block.header_verify.verify(header)
+
+        if last_block and self._operation_mode == OpMode.BENCHMARKING:
+            expected_benchmark_gas_used = self.expected_benchmark_gas_used
+            assert expected_benchmark_gas_used is not None, (
+                "expected_benchmark_gas_used is not set"
+            )
+            gas_used = int(transition_tool_output.result.gas_used)
+            assert gas_used == expected_benchmark_gas_used, (
+                f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
+                f"({expected_benchmark_gas_used})"
+                f", difference: {gas_used - expected_benchmark_gas_used}"
+            )
 
         requests_list: List[Bytes] | None = None
         if fork.header_requests_required(header.number, header.timestamp):
@@ -659,7 +662,7 @@ class BlockchainTest(BaseTest):
         env = environment_from_parent_header(genesis.header)
         head = genesis.header.block_hash
         invalid_blocks = 0
-        for block in self.blocks:
+        for i, block in enumerate(self.blocks):
             # This is the most common case, the RLP needs to be constructed
             # based on the transactions to be included in the block.
             # Set the environment according to the block to execute.
@@ -669,6 +672,7 @@ class BlockchainTest(BaseTest):
                 block=block,
                 previous_env=env,
                 previous_alloc=alloc,
+                last_block=i == len(self.blocks) - 1,
             )
             fixture_blocks.append(built_block.get_fixture_block())
             if block.exception is None:
@@ -718,13 +722,14 @@ class BlockchainTest(BaseTest):
         env = environment_from_parent_header(genesis.header)
         head_hash = genesis.header.block_hash
         invalid_blocks = 0
-        for block in self.blocks:
+        for i, block in enumerate(self.blocks):
             built_block = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=block,
                 previous_env=env,
                 previous_alloc=alloc,
+                last_block=i == len(self.blocks) - 1,
             )
             fixture_payloads.append(built_block.get_fixture_engine_new_payload())
             if block.exception is None:
@@ -765,6 +770,7 @@ class BlockchainTest(BaseTest):
                 block=Block(),
                 previous_env=env,
                 previous_alloc=alloc,
+                last_block=False,
             )
             sync_payload = sync_built_block.get_fixture_engine_new_payload()
 

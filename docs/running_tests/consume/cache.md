@@ -114,6 +114,12 @@ You can override this location with the `--cache-folder` flag:
 uv run consume cache --input stable@latest --cache-folder /path/to/custom/cache
 ```
 
+Or extract directly to a specific directory (bypasses cache structure):
+
+```bash
+uv run consume cache --input fusaka-devnet-2@v1.1.0 --extract-to ./benchmark-fixtures
+```
+
 **Cache structure:**
 
 ```text

@@ -54,7 +54,7 @@ These releases are tagged using the format `<pre_release_name>@vX.Y.Z`.
 Examples:
 
 - [`fusaka-devnet-1@v1.0.0`](https://github.com/ethereum/execution-spec-tests/releases/tag/fusaka-devnet-1%40v1.0.0) - this fixture release contains tests adhering to the [Fusaka Devnet 1 spec](https://notes.ethereum.org/@ethpandaops/fusaka-devnet-1).
-- [`benchmark@v1.0.0`](https://github.com/ethereum/execution-spec-tests/releases/tag/benchmark%40v1.0.0) - this fixture release contains tests specifically aimed at benchmarking EVMs.
+- [`benchmark@v0.0.3`](https://github.com/ethereum/execution-spec-tests/releases/tag/benchmark%40v0.0.3) - this fixture release contains tests specifically aimed at benchmarking EVMs.
 
 Devnet releases should be treated as WIP and may not yet contain full test coverage (or even coverage for all EIPs). The coverage provided by these releases is detailed in the corresponding release notes.
 

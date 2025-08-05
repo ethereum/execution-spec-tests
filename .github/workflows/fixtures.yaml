@@ -29,7 +29,7 @@ jobs:
           echo "features=$(cat features.json)" >> "$GITHUB_OUTPUT"
   build:
     needs: features
-    runs-on: self-hosted
+    runs-on: [self-hosted-ghr, size-chungus-x64]
     strategy:
       matrix:
         name: ${{ fromJson(needs.features.outputs.features) }}
@@ -37,6 +37,24 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: true
+      - name: Fetch lllc
+        uses: ./.github/actions/fetch-binary
+        with:
+          version: v1.0.0
+          repo_owner: felix314159
+          repo_name: lllc-custom
+          remote_name: lllc
+          binary_name: lllc
+          expected_sha256: 865a0d5379acb3b5471337b5dcf686a2dd71587c6b65b9da6c963de627e0b300
+      - name: Fetch Solidity
+        uses: ./.github/actions/fetch-binary
+        with:
+          version: v0.8.24
+          repo_owner: ethereum
+          repo_name: solidity
+          remote_name: solc-static-linux
+          binary_name: solc
+          expected_sha256: fb03a29a517452b9f12bcf459ef37d0a543765bb3bbc911e70a87d6a37c30d5f
       - uses: ./.github/actions/build-fixtures
         with:
           release_name: ${{ matrix.name }}

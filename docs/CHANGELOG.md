@@ -47,7 +47,11 @@ Additionally, writing debugging information to the EVM "dump directory" by defau
 
 Due to the crossover between `zkevm` and `benchmark` tests, all instances of the former have been replaced with the latter nomenclature. Repository PR labels and titles are additionally updated to reflect this change.
 
-This update renames the `zkevm` feature release to `benchmark_30M` and further expands the latter for 1M, 10M, 60M, 90M, and 120M block gas limits in `fixtures_benchmark_1M.tar.gz`, `fixtures_benchmark_10M.tar.gz`, `fixtures_benchmark_30M.tar.gz`, `fixtures_benchmark_60M.tar.gz`, `fixtures_benchmark_90M.tar.gz`, and `fixtures_benchmark_120M.tar.gz` respectively.
+This update renames the `zkevm` feature release to `benchmark` and further expands the latter for 1M, 10M, 30M, 45M, 60M, 90M, and 120M block gas limits in `fixtures_benchmark.tar.gz`.
+
+To select a test for a given gas limit, the IDs of the tests have been expanded to contain `benchmark-gas-value_XM`, where `X` can be any of the aforementioned values.
+
+The benchmark release also now includes BlockchainEngineX format that combines most of the tests into a minimal amount of genesis files. For more info see [Blockchain Engine X Tests](https://eest.ethereum.org/main/running_tests/test_formats/blockchain_test_engine_x/) in the EEST documentation.
 
 Users can select any of the artifacts depending on their testing needs for their provers.
 
@@ -73,9 +77,12 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Changed INVALID_DEPOSIT_EVENT_LAYOUT to a BlockException instead of a TransactionException ([#1773](https://github.com/ethereum/execution-spec-tests/pull/1773)).
 - 🔀 Disabled writing debugging information to the EVM "dump directory" to improve performance. To obtain debug output, the `--evm-dump-dir` flag must now be explicitly set. As a consequence, the now redundant `--skip-evm-dump` option was removed ([#1874](https://github.com/ethereum/execution-spec-tests/pull/1874)).
 - ✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers ([#1781](https://github.com/ethereum/execution-spec-tests/pull/1781)).
+- ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
+- ✨ Static tests can now specify a maximum fork where they should be filled for ([#1977](https://github.com/ethereum/execution-spec-tests/pull/1977)).
 
 #### `consume`
 
+- ✨ Add `--extract-to` parameter to `consume cache` command for direct fixture extraction to specified directory, replacing the need for separate download scripts. ([#1861](https://github.com/ethereum/execution-spec-tests/pull/1861)).
 - 🐞 Fix `consume cache --cache-folder` parameter being ignored, now properly caches fixtures in the specified directory instead of always using the default system cache location.
 - 🔀 `consume` now automatically avoids GitHub API calls when using direct release URLs (better for CI environments), while release specifiers like `stable@latest` continue to use the API for version resolution ([#1788](https://github.com/ethereum/execution-spec-tests/pull/1788)).
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
@@ -89,6 +96,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 📋 Misc
 
+- ✨ Add pypy3.11 support ([#1854](https://github.com/ethereum/execution-spec-tests/pull/1854)).
 - 🔀 Use only relative imports in `tests/` directory ([#1848](https://github.com/ethereum/execution-spec-tests/pull/1848)).
 - 🔀 Convert absolute imports to relative imports in `src/` directory for better code maintainability ([#1907](https://github.com/ethereum/execution-spec-tests/pull/1907)).
 - 🔀 Misc. doc updates, including a navigation footer ([#1846](https://github.com/ethereum/execution-spec-tests/pull/1846)).
@@ -122,7 +130,7 @@ Users can select any of the artifacts depending on their testing needs for their
 
 - 🔀 Refactored `BLOBHASH` opcode context tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1637](https://github.com/ethereum/execution-spec-tests/pull/1637)).
 - 🔀 Refactored `SELFDESTRUCT` opcode collision tests to use the `pre_alloc` plugin in order to avoid contract and EOA address collisions ([#1643](https://github.com/ethereum/execution-spec-tests/pull/1643)).
-- ✨ EIP-7594: Sanity test cases to send blob transactions and verify `engine_getBlobsVX` using the `execute` command ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
+- ✨ EIP-7594: Sanity test cases to send blob transactions and verify `engine_getBlobsVX` using the `execute` command ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644),[#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
 - 🔀 Refactored EIP-145 static tests into python ([#1683](https://github.com/ethereum/execution-spec-tests/pull/1683)).
 - ✨ EIP-7823, EIP-7883: Add test cases for ModExp precompile gas-cost updates and input limits on Osaka ([#1579](https://github.com/ethereum/execution-spec-tests/pull/1579), [#1729](https://github.com/ethereum/execution-spec-tests/pull/1729), [#1881](https://github.com/ethereum/execution-spec-tests/pull/1881)).
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Add test cases for the transaction gas limit of 2^24 gas ([#1711](https://github.com/ethereum/execution-spec-tests/pull/1711), [#1882](https://github.com/ethereum/execution-spec-tests/pull/1882)).
@@ -130,8 +138,11 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Introduce blockchain tests for benchmark to cover the scenario of pure ether transfers [#1742](https://github.com/ethereum/execution-spec-tests/pull/1742).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
 - ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
-- ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)). Update the blob_base_cost ([#1915](https://github.com/ethereum/EIPs/pull/1915)).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
+- ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Pre-Osaka tests have been updated to either (1) dynamically adapt to the transaction gas limit cap, or (2) reduce overall gas consumption to fit the new limit ([#1928](https://github.com/ethereum/EIPs/pull/1928)).
+- ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
+- 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
+- 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

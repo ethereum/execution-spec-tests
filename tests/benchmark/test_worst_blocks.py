@@ -158,6 +158,7 @@ def test_block_full_of_ether_transfers(
         post=post_state,
         blocks=[Block(txs=txs)],
         exclude_full_post_state_in_output=True,
+        expected_benchmark_gas_used=iteration_count * intrinsic_cost,
     )
 
 
@@ -184,8 +185,6 @@ def test_block_full_data(
     gas_benchmark_value: int,
 ):
     """Test a block with empty payload."""
-    attack_gas_limit = gas_benchmark_value
-
     # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
     #
     #   tx.gasUsed = 21000 + max(
@@ -210,7 +209,7 @@ def test_block_full_data(
     #
     # So we calculate how many bytes we can fit into calldata based on available gas.
 
-    gas_available = attack_gas_limit - intrinsic_cost
+    gas_available = gas_benchmark_value - intrinsic_cost
 
     # Calculate the token_in_calldata
     max_tokens_in_calldata = gas_available // total_cost_floor_per_token
@@ -221,7 +220,7 @@ def test_block_full_data(
     tx = Transaction(
         to=pre.fund_eoa(),
         data=byte_data * num_of_bytes,
-        gas_limit=attack_gas_limit,
+        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 

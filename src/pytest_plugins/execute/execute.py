@@ -13,6 +13,7 @@ from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
 from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
 
+from ..shared.execute_fill import ALL_FIXTURE_PARAMETERS
 from ..shared.helpers import (
     get_spec_format_for_item,
     is_help_or_collectonly_mode,
@@ -252,6 +253,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
     Implementation detail: All spec fixtures must be scoped on test function level to avoid
     leakage between tests.
     """
+    cls_fixture_parameters = [p for p in ALL_FIXTURE_PARAMETERS if p in cls.model_fields]
 
     @pytest.fixture(
         scope="function",
@@ -289,6 +291,11 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     kwargs["pre"] = pre
                 elif kwargs["pre"] != pre:
                     raise ValueError("The pre-alloc object was modified by the test.")
+                kwargs |= {
+                    p: request.getfixturevalue(p)
+                    for p in cls_fixture_parameters
+                    if p not in kwargs
+                }
 
                 request.node.config.sender_address = str(pre._sender)
 
@@ -349,25 +356,30 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """Remove transition tests and add the appropriate execute markers to the test."""
-    for item in items[:]:  # use a copy of the list, as we'll be modifying it
+    items_for_removal = []
+    for i, item in enumerate(items):
         if isinstance(item, EIPSpecTestItem):
             continue
         params: Dict[str, Any] = item.callspec.params  # type: ignore
         if "fork" not in params or params["fork"] is None:
-            items.remove(item)
+            items_for_removal.append(i)
             continue
         fork: Fork = params["fork"]
         spec_type, execute_format = get_spec_format_for_item(params)
         assert issubclass(execute_format, BaseExecute)
         markers = list(item.iter_markers())
         if spec_type.discard_execute_format_by_marks(execute_format, fork, markers):
-            items.remove(item)
+            items_for_removal.append(i)
             continue
         for marker in markers:
             if marker.name == "execute":
                 for mark in marker.args:
                     item.add_marker(mark)
             elif marker.name == "valid_at_transition_to":
-                items.remove(item)
+                items_for_removal.append(i)
+                continue
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
+
+    for i in reversed(items_for_removal):
+        items.pop(i)
