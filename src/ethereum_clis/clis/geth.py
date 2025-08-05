@@ -1,6 +1,7 @@
 """Go-ethereum Transition tool interface."""
 
 import json
+import logging
 import re
 import shutil
 import subprocess
@@ -17,10 +18,21 @@ from ethereum_test_exceptions import (
 )
 from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
 from ethereum_test_forks import Fork
+from pytest_plugins.logging import get_logger
 
 from ..ethereum_cli import EthereumCLI
 from ..fixture_consumer_tool import FixtureConsumerTool
 from ..transition_tool import TransitionTool, dump_files_to_directory
+
+logger = get_logger(__name__)
+# logger.setLevel(logging.DEBUG)
+if not logger.handlers:
+    handler = logging.StreamHandler()
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+print(f"Actual logger created: {logger}, level: {logger.level}, handlers: {logger.handlers}")
 
 
 class GethExceptionMapper(ExceptionMapper):
@@ -124,8 +136,28 @@ class GethEvm(EthereumCLI):
         fixture_path: Path,
         debug_output_path: Path,
     ):
-        debug_fixture_path = debug_output_path / "fixtures.json"
-        consume_direct_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+
+        # remove element that holds path to cached_downloads json file
+        command = command[:-1]
+
+        # for the now last element (value of --run) ensure it is wrapped in quotations (only relevant for blocktest)  # noqa: E501
+        if "blocktest" in command:
+            if command[-1][0] not in {"'", '"'}:
+                command[-1] = '"' + command[-1] + '"'
+
+        # instead add path to fixtures.json file
+        debug_fixture_path = str(debug_output_path / "fixtures.json")
+        #     but only after fixing the unescaped brackets
+        debug_fixture_path.replace("[", r"\[").replace("]", r"\]")
+        command.append(debug_fixture_path)
+
+        # now turn list into a command string
+        consume_direct_call = " ".join(command)
+
         consume_direct_script = textwrap.dedent(
             f"""\
             #!/bin/bash

@@ -55,7 +55,12 @@ class Nethtest(EthereumCLI):
         result: subprocess.CompletedProcess,
         debug_output_path: Path,
     ):
-        # ensure that the --filter flag value is wrapped in parentheses
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+
+        # ensure that the --filter flag value is wrapped in double-quotes
         consume_direct_call = ""
         prev_command_was_filter_flag = False
         for s in command:
