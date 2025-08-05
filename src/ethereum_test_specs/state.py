@@ -35,11 +35,14 @@ from ethereum_test_types import (
     Environment,
     Transaction,
 )
+from pytest_plugins.logging import get_logger
 
 from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest, Header
 from .debugging import print_traces
 from .helpers import verify_transactions
+
+logger = get_logger(__name__)
 
 
 class StateTest(BaseTest):
@@ -120,10 +123,13 @@ class StateTest(BaseTest):
             modified_tool_output.result.traces,
             enable_post_processing,
         ):
+            logger.debug(f"Traces are not equivalent (gas_limit={current_gas_limit})")
             return False
         try:
             self.post.verify_post_alloc(modified_tool_output.alloc)
-        except Exception:
+        except Exception as e:
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+            logger.debug(e)
             return False
         try:
             verify_transactions(
@@ -131,25 +137,33 @@ class StateTest(BaseTest):
                 result=modified_tool_output.result,
                 transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
             )
-        except Exception:
+        except Exception as e:
+            logger.debug(f"Transactions are not equivalent (gas_limit={current_gas_limit})")
+            logger.debug(e)
             return False
         if len(base_tool_output.alloc.root) != len(modified_tool_output.alloc.root):
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
             return False
         if modified_tool_output.alloc.root.keys() != modified_tool_output.alloc.root.keys():
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
             return False
         for k in base_tool_output.alloc.root.keys():
             if k not in modified_tool_output.alloc:
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
                 return False
             base_account = base_tool_output.alloc[k]
             modified_account = modified_tool_output.alloc[k]
             if (modified_account is None) != (base_account is None):
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
                 return False
             if (
                 modified_account is not None
                 and base_account is not None
                 and base_account.nonce != modified_account.nonce
             ):
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
                 return False
+        logger.debug(f"Gas limit is equivalent (gas_limit={current_gas_limit})")
         return True
 
     @classmethod
