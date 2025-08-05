@@ -47,10 +47,15 @@ class StaticTestFile(EthereumTestRootModel):
 
 def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: bool, verbose: bool):
     """Perform some checks on the fixtures contained in the specified directory."""
+    # Load the test dictionary from the input JSON file
     test_dict = GasLimitDict.model_validate_json(input_path.read_text())
+
+    # Iterate through each unique test file that needs modification
     for test_file in test_dict.unique_files():
         tests = test_dict.get_tests_by_file_path(test_file)
         test_file_contents = test_file.read_text()
+
+        # Parse the test file based on its format (YAML or JSON)
         if test_file.suffix == ".yml" or test_file.suffix == ".yaml":
             loaded_yaml = yaml.load(test_file.read_text(), Loader=NoIntResolver)
             try:
@@ -61,20 +66,28 @@ def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: boo
                 ) from e
         else:
             parsed_test_file = StaticTestFile.model_validate_json(test_file_contents)
+
+        # Validate that the file contains exactly one test
         assert len(parsed_test_file.root) == 1, f"File {test_file} contains more than one test."
         _, parsed_test = parsed_test_file.root.popitem()
+
+        # Skip files with multiple gas limit values
         if len(parsed_test.transaction.gas_limit) != 1:
             if dry_run or verbose:
                 print(
                     f"Test file {test_file} contains more than one test (after parsing), skipping."
                 )
             continue
+
+        # Get the current gas limit and check if modification is needed
         current_gas_limit = int(parsed_test.transaction.gas_limit[0])
         if max_gas_limit is not None and current_gas_limit <= max_gas_limit:
             # Nothing to do, finished
             for test in tests:
                 test_dict.root.pop(test)
             continue
+
+        # Collect valid gas values for this test file
         gas_values: List[int] = []
         for gas_value in [test_dict.root[test] for test in tests]:
             if gas_value is None:
@@ -86,6 +99,8 @@ def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: boo
                 continue
             else:
                 gas_values.append(gas_value)
+
+        # Calculate the new gas limit (rounded up to nearest 100,000)
         new_gas_limit = max(gas_values)
         modified_new_gas_limit = ((new_gas_limit // 100000) + 1) * 100000
         if verbose:
@@ -94,6 +109,8 @@ def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: boo
                 f"rounded ({modified_new_gas_limit})"
             )
         new_gas_limit = modified_new_gas_limit
+
+        # Check if the new gas limit exceeds the maximum allowed
         if max_gas_limit is not None and new_gas_limit > max_gas_limit:
             if dry_run or verbose:
                 print(f"New gas limit ({new_gas_limit}) exceeds max ({max_gas_limit})")
@@ -102,6 +119,7 @@ def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: boo
         if dry_run or verbose:
             print(f"Test file {test_file} requires modification ({new_gas_limit})")
 
+        # Find the appropriate pattern to replace the current gas limit
         potential_types = [int, HexNumber, ZeroPaddedHexNumber]
         substitute_pattern = None
         substitute_string = None
@@ -123,23 +141,26 @@ def _check_fixtures(*, input_path: Path, max_gas_limit: int | None, dry_run: boo
 
             attempted_patterns.append(potential_substitute_pattern)
 
+        # Validate that a replacement pattern was found
         assert substitute_pattern is not None, (
             f"Current gas limit ({attempted_patterns}) not found in {test_file}"
         )
         assert substitute_string is not None
 
+        # Perform the replacement in the test file content
         new_test_file_contents = re.sub(substitute_pattern, substitute_string, test_file_contents)
 
         assert test_file_contents != new_test_file_contents, "Could not modify test file"
 
+        # Skip writing changes if this is a dry run
         if dry_run:
             continue
 
+        # Write the modified content back to the test file
         test_file.write_text(new_test_file_contents)
         for test in tests:
             test_dict.root.pop(test)
 
-        # Modify the test
     if dry_run:
         return
 
