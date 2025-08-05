@@ -26156,7 +26156,7 @@
 
 
 <h1 id="test_extra_logs"><code>test_extra_logs()</code><a class="headerlink" href="#test_extra_logs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1b0cb62b14f17d17aa4e15ec06f1c1314a38632d/tests/prague/eip6110_deposits/test_modified_contract.py#L56"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs@1b0cb62b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/646149c763a94de12322d322a11b3e1d5ac13ffe/tests/prague/eip6110_deposits/test_modified_contract.py#L56"><code>tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs@646149c7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip6110_deposits/test_modified_contract.py::test_extra_logs --fork Osaka</span>
@@ -26263,15 +26263,33 @@
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
-<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;include_deposit_event&quot;</span><span class="p">,</span>
     <span class="p">[</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">),</span>
-        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="kc">True</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+                <span class="s2">&quot;deposit_extra_logs_with_event&quot;</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deposit contract with Transfer log AND deposit event&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="kc">False</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+                <span class="s2">&quot;deposit_extra_logs_no_event&quot;</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deposit contract with Transfer log but NO deposit event&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
     <span class="p">],</span>
-<span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
-    <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Deploys custom deposit contract with different bytecode&quot;</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_extra_logs</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>

@@ -26156,7 +26156,7 @@
 
 
 <h1 id="test_beacon_root_transition"><code>test_beacon_root_transition()</code><a class="headerlink" href="#test_beacon_root_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1b0cb62b14f17d17aa4e15ec06f1c1314a38632d/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L471"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition@1b0cb62b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/646149c763a94de12322d322a11b3e1d5ac13ffe/tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py#L489"><code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition@646149c7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py::test_beacon_root_transition --fork Osaka</span>
@@ -26177,25 +26177,7 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4788_beacon_root/test_beacon_root_contract.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span>
 <span class="normal">492</span>
@@ -26298,7 +26280,25 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
 <span class="normal">589</span>
 <span class="normal">590</span>
 <span class="normal">591</span>
-<span class="normal">592</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;timestamps_factory&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">count_factory</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1000</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fork_transition&quot;</span><span class="p">)],</span>
 <span class="p">)</span>
@@ -26480,7 +26480,7 @@ transition timestamp do not contain beacon roots in the pre-deployed contract.</
                 </abbr>
             </td>
                         <td>20</td>
-                        <td><function count_factory.<locals>.<lambda> at 0x7f90966293a0></td>
+                        <td><function count_factory.<locals>.<lambda> at 0x7f5380cd11c0></td>
                     </tr>
             </tbody>
 </table>

@@ -26156,7 +26156,7 @@
 
 
 <h1 id="test_block_rlp_size_at_limit_with_all_typed_transactions"><code>test_block_rlp_size_at_limit_with_all_typed_transactions()</code><a class="headerlink" href="#test_block_rlp_size_at_limit_with_all_typed_transactions" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1b0cb62b14f17d17aa4e15ec06f1c1314a38632d/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L438"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_rlp_size_at_limit_with_all_typed_transactions@1b0cb62b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/646149c763a94de12322d322a11b3e1d5ac13ffe/tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py#L444"><code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_rlp_size_at_limit_with_all_typed_transactions@646149c7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py::test_block_rlp_size_at_limit_with_all_typed_transactions --fork Osaka</span>
@@ -26176,13 +26176,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7934_block_rlp_limit/test_max_block_rlp_size.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">444</span>
 <span class="normal">445</span>
 <span class="normal">446</span>
 <span class="normal">447</span>
@@ -26212,7 +26206,21 @@
 <span class="normal">471</span>
 <span class="normal">472</span>
 <span class="normal">473</span>
-<span class="normal">474</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_typed_transactions</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_typed_transactions</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_rlp_size_at_limit_with_all_typed_transactions</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -26222,8 +26230,16 @@
     <span class="n">block_size_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">typed_transaction</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+    <span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test the block RLP size limit with all transaction types.&quot;&quot;&quot;</span>
+    <span class="c1"># TODO: fix this for generate all formats.</span>
+    <span class="k">if</span> <span class="n">typed_transaction</span><span class="o">.</span><span class="n">ty</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">and</span> <span class="p">(</span>
+        <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;generate_pre_alloc_groups&quot;</span><span class="p">)</span>
+        <span class="ow">or</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">getoption</span><span class="p">(</span><span class="s2">&quot;use_pre_alloc_groups&quot;</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;EIP-7702 fixture generates different transactions in Phase 1&quot;</span><span class="p">)</span>
+
     <span class="n">transactions</span><span class="p">,</span> <span class="n">gas_used</span> <span class="o">=</span> <span class="n">exact_size_transactions</span><span class="p">(</span>
         <span class="n">sender</span><span class="p">,</span>
         <span class="n">block_size_limit</span><span class="p">,</span>
