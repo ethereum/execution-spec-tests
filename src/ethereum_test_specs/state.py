@@ -341,9 +341,15 @@ class StateTest(BaseTest):
                     ):
                         maximum_gas_limit = current_gas_limit
                     else:
-                        if current_gas_limit > 16_777_216:
-                            raise Exception("Requires more than the minimum 16_777_216 wanted.")
                         minimum_gas_limit = current_gas_limit + 1
+                        if (
+                            self._gas_optimization_max_gas_limit is not None
+                            and minimum_gas_limit > self._gas_optimization_max_gas_limit
+                        ):
+                            raise Exception(
+                                "Requires more than the minimum "
+                                f"{self._gas_optimization_max_gas_limit} wanted."
+                            )
 
                 assert self.verify_modified_gas_limit(
                     t8n=t8n,

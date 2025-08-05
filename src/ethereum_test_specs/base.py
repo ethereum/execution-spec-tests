@@ -70,6 +70,7 @@ class BaseTest(BaseModel):
     _request: pytest.FixtureRequest | None = PrivateAttr(None)
     _operation_mode: OpMode | None = PrivateAttr(None)
     _gas_optimization: int | None = PrivateAttr(None)
+    _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
 
     expected_benchmark_gas_used: int | None = None
 

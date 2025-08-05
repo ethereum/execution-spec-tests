@@ -579,6 +579,17 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
     optimize_gas_group.addoption(
+        "--optimize-gas-max-gas-limit",
+        action="store",
+        dest="optimize_gas_max_gas_limit",
+        default=None,
+        type=int,
+        help=(
+            "Maximum gas limit for gas optimization, if reached the search will stop and "
+            "fail for that given test. Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
         "--optimize-gas-post-processing",
         action="store_true",
         dest="optimize_gas_post_processing",
@@ -1220,6 +1231,13 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 self._operation_mode = request.config.op_mode
+                if (
+                    self._operation_mode == OpMode.OPTIMIZE_GAS
+                    or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                ):
+                    self._gas_optimization_max_gas_limit = request.config.getoption(
+                        "optimize_gas_max_gas_limit", None
+                    )
 
                 # Get the filling session from config
                 session: FillingSession = request.config.filling_session  # type: ignore
