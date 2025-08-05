@@ -295,6 +295,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """At genesis, payloads do not have block access list."""
+        return False
+
+    @classmethod
     def engine_new_payload_target_blobs_per_block(
         cls,
         block_number: int = 0,
@@ -1482,3 +1489,17 @@ class BlockAccessLists(Prague):
     def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """Hash of the block access list is required starting from this fork."""
         return True
+
+    @classmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """From BlockAccessLists, new payloads include the block access list as a parameter."""
+        return True
+
+    @classmethod
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """From BlockAccessLists, new payload calls must use version 5."""
+        return 5

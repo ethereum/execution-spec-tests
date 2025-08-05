@@ -362,6 +362,7 @@ class BuiltBlock(CamelModel):
             transactions=self.txs,
             withdrawals=self.withdrawals,
             requests=self.requests,
+            block_access_list=self.block_access_lists,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
         )

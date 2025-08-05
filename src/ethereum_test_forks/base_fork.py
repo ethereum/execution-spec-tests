@@ -430,6 +430,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """Return true if the engine api version requires block access list."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def engine_new_payload_target_blobs_per_block(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:

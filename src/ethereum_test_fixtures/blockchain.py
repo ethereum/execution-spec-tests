@@ -274,6 +274,7 @@ class FixtureExecutionPayload(CamelModel):
 
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
+    block_access_list: Bytes | None = Field(None)
 
     @classmethod
     def from_fixture_header(
@@ -302,9 +303,18 @@ EngineNewPayloadV4Parameters = Tuple[
     List[Bytes],
 ]
 
+EngineNewPayloadV5Parameters = Tuple[
+    FixtureExecutionPayload,
+    List[Hash],
+    Hash,
+    List[Bytes],
+    Bytes,  # block_access_list
+]
+
 # Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
 # has a weird behavior when the smaller tuple is checked first.
 EngineNewPayloadParameters = Union[
+    EngineNewPayloadV5Parameters,
     EngineNewPayloadV4Parameters,
     EngineNewPayloadV3Parameters,
     EngineNewPayloadV1Parameters,
@@ -344,6 +354,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -376,6 +387,10 @@ class FixtureEngineNewPayload(CamelModel):
             if requests is None:
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)
+        if fork.engine_new_payload_block_access_list(header.number, header.timestamp):
+            if block_access_list is None:
+                raise ValueError(f"Block access list is required for ${fork}.")
+            params.append(block_access_list)
 
         payload_params: EngineNewPayloadParameters = cast(
             EngineNewPayloadParameters,
