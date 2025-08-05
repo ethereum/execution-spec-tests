@@ -5,6 +5,8 @@ abstract: Tests that benchmark EVMs in worst-case block scenarios.
 Tests running worst-case block scenarios for EVMs.
 """
 
+import random
+
 import pytest
 
 from ethereum_test_forks import Fork
@@ -15,7 +17,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
     Hash,
     StateTestFiller,
     Transaction,
@@ -23,9 +24,9 @@ from ethereum_test_tools import (
 
 
 @pytest.fixture
-def iteration_count(intrinsic_cost: int):
+def iteration_count(intrinsic_cost: int, gas_benchmark_value: int):
     """Calculate the number of iterations based on the gas limit and intrinsic cost."""
-    return Environment().gas_limit // intrinsic_cost
+    return gas_benchmark_value // intrinsic_cost
 
 
 @pytest.fixture
@@ -153,7 +154,6 @@ def test_block_full_of_ether_transfers(
     )
 
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
@@ -173,6 +173,12 @@ def total_cost_standard_per_token():
     return 4
 
 
+@pytest.fixture
+def gas_benchmark_value():
+    """Gas benchmark value for testing."""
+    return 30_000_000
+
+
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_data(
@@ -181,9 +187,10 @@ def test_block_full_data(
     zero_byte: bool,
     intrinsic_cost: int,
     total_cost_floor_per_token: int,
+    gas_benchmark_value: int,
 ):
     """Test a block with empty payload."""
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
 
     # Gas cost calculation based on EIP-7683: (https://eips.ethereum.org/EIPS/eip-7683)
     #
@@ -225,7 +232,6 @@ def test_block_full_data(
     )
 
     state_test(
-        env=Environment(),
         pre=pre,
         post={},
         tx=tx,
@@ -239,11 +245,10 @@ def test_block_full_access_list_and_data(
     intrinsic_cost: int,
     total_cost_standard_per_token: int,
     fork: Fork,
+    gas_benchmark_value: int,
 ):
     """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
-    import random
-    
-    attack_gas_limit = Environment().gas_limit
+    attack_gas_limit = gas_benchmark_value
     gas_available = attack_gas_limit - intrinsic_cost
 
     # Split available gas: 60% for access lists, 40% for calldata
@@ -278,45 +283,44 @@ def test_block_full_access_list_and_data(
     # We want to split the gas budget:
     # - 29% of gas_for_calldata for zero bytes
     # - 71% of gas_for_calldata for non-zero bytes
-    
+
     max_tokens_in_calldata = gas_for_calldata // total_cost_standard_per_token
-    
+
     # Calculate how many tokens to allocate to each type
     tokens_for_zero_bytes = int(max_tokens_in_calldata * 0.29)
     tokens_for_non_zero_bytes = max_tokens_in_calldata - tokens_for_zero_bytes
-    
+
     # Convert tokens to actual byte counts
     # Zero bytes: 1 token per byte
     # Non-zero bytes: 4 tokens per byte
     num_zero_bytes = tokens_for_zero_bytes  # 1 token = 1 zero byte
     num_non_zero_bytes = tokens_for_non_zero_bytes // 4  # 4 tokens = 1 non-zero byte
-    
+
     # Create calldata with mixed bytes
     calldata = bytearray()
-    
+
     # Add zero bytes
     calldata.extend(b"\x00" * num_zero_bytes)
-    
+
     # Add non-zero bytes (random values from 0x01 to 0xff)
-    random.seed(42)  # For reproducibility
+    rng = random.Random(42)  # For reproducibility
     for _ in range(num_non_zero_bytes):
-        calldata.append(random.randint(1, 255))
-    
+        calldata.append(rng.randint(1, 255))
+
     # Shuffle the bytes to mix zero and non-zero bytes
     calldata_list = list(calldata)
-    random.shuffle(calldata_list)
-    calldata = bytes(calldata_list)
+    rng.shuffle(calldata_list)
+    shuffled_calldata = bytes(calldata_list)
 
     tx = Transaction(
-        to=pre.fund_eoa(),
-        data=calldata,
+        to=pre.fund_eoa(amount=0),
+        data=shuffled_calldata,
         gas_limit=attack_gas_limit,
         sender=pre.fund_eoa(),
         access_list=access_list,
     )
 
     state_test(
-        env=Environment(),
         pre=pre,
         post={},
         tx=tx,
