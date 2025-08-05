@@ -1,7 +1,6 @@
 """Go-ethereum Transition tool interface."""
 
 import json
-import logging
 import re
 import shutil
 import subprocess
@@ -18,21 +17,10 @@ from ethereum_test_exceptions import (
 )
 from ethereum_test_fixtures import BlockchainFixture, FixtureFormat, StateFixture
 from ethereum_test_forks import Fork
-from pytest_plugins.logging import get_logger
 
 from ..ethereum_cli import EthereumCLI
 from ..fixture_consumer_tool import FixtureConsumerTool
 from ..transition_tool import TransitionTool, dump_files_to_directory
-
-logger = get_logger(__name__)
-# logger.setLevel(logging.DEBUG)
-if not logger.handlers:
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.INFO)
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-print(f"Actual logger created: {logger}, level: {logger.level}, handlers: {logger.handlers}")
 
 
 class GethExceptionMapper(ExceptionMapper):
