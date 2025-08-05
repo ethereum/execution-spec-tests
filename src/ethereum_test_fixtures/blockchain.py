@@ -160,6 +160,7 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    bal_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(None)
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -243,6 +244,7 @@ class FixtureHeader(CamelModel):
             ),
             parent_beacon_block_root=env.parent_beacon_block_root,
             requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
+            bal_hash=Hash(0) if fork.header_bal_hash_required(0, 0) else None,
             fork=fork,
         )
 
@@ -272,6 +274,7 @@ class FixtureExecutionPayload(CamelModel):
 
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
+    block_access_list: Bytes | None = Field(None)
 
     @classmethod
     def from_fixture_header(
@@ -300,9 +303,18 @@ EngineNewPayloadV4Parameters = Tuple[
     List[Bytes],
 ]
 
+EngineNewPayloadV5Parameters = Tuple[
+    FixtureExecutionPayload,
+    List[Hash],
+    Hash,
+    List[Bytes],
+    Bytes,  # block_access_list
+]
+
 # Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
 # has a weird behavior when the smaller tuple is checked first.
 EngineNewPayloadParameters = Union[
+    EngineNewPayloadV5Parameters,
     EngineNewPayloadV4Parameters,
     EngineNewPayloadV3Parameters,
     EngineNewPayloadV1Parameters,
@@ -342,6 +354,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -374,6 +387,10 @@ class FixtureEngineNewPayload(CamelModel):
             if requests is None:
                 raise ValueError(f"Requests are required for ${fork}.")
             params.append(requests)
+        if fork.engine_new_payload_block_access_list(header.number, header.timestamp):
+            if block_access_list is None:
+                raise ValueError(f"Block access list is required for ${fork}.")
+            params.append(block_access_list)
 
         payload_params: EngineNewPayloadParameters = cast(
             EngineNewPayloadParameters,
@@ -420,6 +437,9 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
+    block_access_lists: Bytes | None = Field(
+        None, description="Serialized EIP-7928 Block Access Lists"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property

@@ -295,6 +295,13 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """At genesis, payloads do not have block access list."""
+        return False
+
+    @classmethod
     def engine_new_payload_target_blobs_per_block(
         cls,
         block_number: int = 0,
@@ -1473,3 +1480,26 @@ class EOFv1(Prague, solc_name="cancun"):
     def solc_min_version(cls) -> Version:
         """Return minimum version of solc that supports this fork."""
         return Version.parse("1.0.0")  # set a high version; currently unknown
+
+
+class BlockAccessLists(Prague):
+    """A development fork for Block Access Lists."""
+
+    @classmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Hash of the block access list is required starting from this fork."""
+        return True
+
+    @classmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """From BlockAccessLists, new payloads include the block access list as a parameter."""
+        return True
+
+    @classmethod
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """From BlockAccessLists, new payload calls must use version 5."""
+        return 5
