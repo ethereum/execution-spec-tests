@@ -24172,6 +24172,8 @@
       
         
       
+        
+      
     
     
     
@@ -24311,6 +24313,29 @@
   
   <span class="md-ellipsis">
     <code>test_block_full_data</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_block_full_access_list_and_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_full_access_list_and_data</code>
     
   </span>
   
@@ -26129,7 +26154,7 @@
 
 
 <h1 id="test_block_full_of_ether_transfers"><code>test_block_full_of_ether_transfers()</code><a class="headerlink" href="#test_block_full_of_ether_transfers" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e31f319165784dc57c69475376b99846b0a93400/tests/benchmark/test_worst_blocks.py#L104"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@e31f3191</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42a8a07eded44160e1a125a95ec041231d31341f/tests/benchmark/test_worst_blocks.py#L108"><code>tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers@42a8a07e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_of_ether_transfers --fork Osaka</span>
@@ -26155,11 +26180,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span>
-<span class="normal">107</span>
-<span class="normal">108</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
 <span class="normal">111</span>
@@ -26209,7 +26230,11 @@
 <span class="normal">155</span>
 <span class="normal">156</span>
 <span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;case_id&quot;</span><span class="p">,</span>
     <span class="p">[</span><span class="s2">&quot;a_to_a&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_b&quot;</span><span class="p">,</span> <span class="s2">&quot;a_to_diff_acc&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_acc_to_diff_acc&quot;</span><span class="p">],</span>

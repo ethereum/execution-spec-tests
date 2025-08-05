@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_block_full_of_ether_transfers/">
       
       
-        <link rel="next" href="../../test_worst_bytecode/">
+        <link rel="next" href="../test_block_full_access_list_and_data/">
       
       
       <link rel="icon" href="../../../../img/ETH-logo-icon.svg">
@@ -24172,6 +24172,8 @@
       
         
       
+        
+      
     
     
     
@@ -24316,6 +24318,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_block_full_access_list_and_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_block_full_access_list_and_data</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -26129,7 +26154,7 @@
 
 
 <h1 id="test_block_full_data"><code>test_block_full_data()</code><a class="headerlink" href="#test_block_full_data" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e31f319165784dc57c69475376b99846b0a93400/tests/benchmark/test_worst_blocks.py#L167"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@e31f3191</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42a8a07eded44160e1a125a95ec041231d31341f/tests/benchmark/test_worst_blocks.py#L177"><code>tests/benchmark/test_worst_blocks.py::test_block_full_data@42a8a07e</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_blocks.py::test_block_full_data --fork Osaka</span>
@@ -26149,17 +26174,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_blocks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
@@ -26203,7 +26218,17 @@
 <span class="normal">218</span>
 <span class="normal">219</span>
 <span class="normal">220</span>
-<span class="normal">221</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;zero_byte&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_block_full_data</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -26436,13 +26461,13 @@
         
         
           
-          <a href="../../test_worst_bytecode/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Worst Bytecode">
+          <a href="../test_block_full_access_list_and_data/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_block_full_access_list_and_data&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Worst Bytecode
+                <code>test_block_full_access_list_and_data</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">
