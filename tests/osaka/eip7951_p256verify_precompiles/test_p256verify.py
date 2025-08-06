@@ -185,3 +185,55 @@ def test_precompile_as_tx_entry_point(
 ):
     """Test P256Verify precompile entry point."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "input_data,expected_output",
+    [
+        # Test case where computed x-coordinate exceeds curve order N
+        # This tests the modular comparison: r' ≡ r (mod N)
+        pytest.param(
+            H(0xBB5A52F42F9C9261ED4361F59422A1E30036E7C32B270C8807A419FECA605023)
+            # R: A value that when used in ECDSA verification produces an x-coordinate > N
+            + R(0x2BA3A8BE6B94D5EC80A6D9D1190A436EFFE50D85A1EEE859B8CC6AF9BD5C2E18)
+            + S(0x4CD60B855D442F5B3C7B11EB6C4E0AE7525FE710FAB9AA7C77A67F79E6FADD76)
+            # X, Y: Public key coordinates that will produce x-coordinate > N during verification
+            + X(0x2927B10512BAE3EDDCFE467828128BAD2903269919F7086069C8C4DF6C732838)
+            + Y(0xC7787964EAAC00E5921FB1498A60F4606766B3D9685001558D1A974E7341513E),
+            Spec.SUCCESS_RETURN_VALUE,
+            id="modular_comparison_x_coordinate_exceeds_n",
+        ),
+        pytest.param(
+            Spec.H0
+            + R(Spec.N + 1)  # R = N + 1 ≡ 1 (mod N)
+            + Spec.S0
+            + Spec.X0
+            + Spec.Y0,
+            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 1 is not a valid signature
+            id="r_equals_n_plus_one",
+        ),
+        pytest.param(
+            Spec.H0
+            + R(Spec.N + 2)  # R = N + 2 ≡ 2 (mod N)
+            + Spec.S0
+            + Spec.X0
+            + Spec.Y0,
+            Spec.INVALID_RETURN_VALUE,  # Should fail because R = 2 is not a valid signature
+            id="r_equals_n_plus_two",
+        ),
+    ],
+)
+@pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("precompile/test/inputs/valid")
+@pytest.mark.eip_checklist("precompile/test/inputs/invalid/crypto")
+def test_modular_comparison(
+    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
+):
+    """
+    Test the modular comparison condition for secp256r1 precompile.
+
+    This tests that when the x-coordinate of R' exceeds the curve order N,
+    the verification should use modular arithmetic:
+    r' ≡ r (mod N) instead of direct equality r' == r.
+    """
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
