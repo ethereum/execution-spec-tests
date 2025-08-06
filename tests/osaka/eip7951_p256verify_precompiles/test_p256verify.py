@@ -135,6 +135,20 @@ def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transa
             False,
             id="insufficient_gas",
         ),
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.INVALID_RETURN_VALUE,
+            -6900,
+            False,
+            id="zero_gas",
+        ),
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.INVALID_RETURN_VALUE,
+            -3450,
+            False,
+            id="3450_gas",
+        ),
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
