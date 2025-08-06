@@ -26181,7 +26181,7 @@
 
 
 <h1 id="test_invalid_max_blobs_per_tx"><code>test_invalid_max_blobs_per_tx()</code><a class="headerlink" href="#test_invalid_max_blobs_per_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/58849adc263f4bc2aa59d09f54e10b77d3a59fe6/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L103"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_invalid_max_blobs_per_tx@58849adc</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/83a02aa7c4a2de0bc819247213d87c9505bc3903/tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py#L103"><code>tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_invalid_max_blobs_per_tx@83a02aa7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7594_peerdas/test_max_blob_per_tx.py::test_invalid_max_blobs_per_tx --fork Osaka</span>
@@ -26237,7 +26237,8 @@ the block limit.</p>
 <span class="normal">133</span>
 <span class="normal">134</span>
 <span class="normal">135</span>
-<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;blob_count&quot;</span><span class="p">,</span>
     <span class="k">lambda</span> <span class="n">fork</span><span class="p">:</span> <span class="p">[</span>
         <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_tx</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
@@ -26249,10 +26250,12 @@ the block limit.</p>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_max_blobs_per_tx</span><span class="p">(</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+    <span class="n">blob_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test that transactions exceeding MAX_BLOBS_PER_TX are rejected.</span>
@@ -26264,10 +26267,9 @@ the block limit.</p>
         <span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="o">.</span><span class="n">with_error</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_BLOB_COUNT_EXCEEDED</span><span class="p">,</span>
-                <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED</span><span class="p">,</span>
-            <span class="p">]</span>
+            <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED</span>
+            <span class="k">if</span> <span class="n">blob_count</span> <span class="o">&gt;</span> <span class="n">fork</span><span class="o">.</span><span class="n">max_blobs_per_block</span><span class="p">()</span>
+            <span class="k">else</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">TYPE_3_TX_BLOB_COUNT_EXCEEDED</span>
         <span class="p">),</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{},</span>
     <span class="p">)</span>
