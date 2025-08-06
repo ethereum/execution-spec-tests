@@ -35488,7 +35488,10 @@ unset.</p>
 <span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
-<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateStaticTest</span><span class="p">(</span><span class="n">BaseStaticTest</span><span class="p">):</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StateStaticTest</span><span class="p">(</span><span class="n">BaseStaticTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;General State Test static filler from ethereum/tests.&quot;&quot;&quot;</span>
 
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -35651,6 +35654,9 @@ unset.</p>
                 <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">fully_tagged</span><span class="p">(</span><span class="n">test_state_vectors</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">untagged</span><span class="p">(</span><span class="n">test_state_vectors</span><span class="p">)</span>
+            <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+                <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Uses hard-coded addresses&quot;</span>
+            <span class="p">)(</span><span class="n">test_state_vectors</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">test_state_vectors</span>
 
@@ -35995,7 +36001,10 @@ unset.</p>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
-<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a StateTest spec from a static file.&quot;&quot;&quot;</span>
     <span class="c1"># Check if this test uses tags</span>
     <span class="n">has_tags</span> <span class="o">=</span> <span class="kc">False</span>
@@ -36083,6 +36092,9 @@ unset.</p>
             <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">fully_tagged</span><span class="p">(</span><span class="n">test_state_vectors</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">untagged</span><span class="p">(</span><span class="n">test_state_vectors</span><span class="p">)</span>
+        <span class="n">test_state_vectors</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+            <span class="s2">&quot;separate&quot;</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Uses hard-coded addresses&quot;</span>
+        <span class="p">)(</span><span class="n">test_state_vectors</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">test_state_vectors</span>
 </code></pre></div></td></tr></table></div>
@@ -36112,12 +36124,12 @@ unset.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/static_state/state_static.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">197</span>
 <span class="normal">198</span>
-<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_at_forks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_at_forks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return list of forks that are valid for this test.&quot;&quot;&quot;</span>
     <span class="n">fork_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">expect</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">expect</span><span class="p">:</span>
