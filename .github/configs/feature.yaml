@@ -10,7 +10,7 @@ static:
   fill-params: --until=Osaka --fill-static-tests ./tests/static
 benchmark_test:
   evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,90,120 -m benchmark --generate-all-formats ./tests
+  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,100,150 -m benchmark --generate-all-formats ./tests
   feature_only: true
 eip7692:
   evm-type: eip7692
