@@ -2,22 +2,20 @@
 stable:
   evm-type: stable
   fill-params: --until=Prague
+
 develop:
-  evm-type: develop
+  evm-type: develop 
   fill-params: --until=Osaka
-static:
+
+static: # TODO: remove and add `--fill-static-tests` to both develop & static
   evm-type: static
   fill-params: --until=Osaka --fill-static-tests ./tests/static
-benchmark_test:
-  evm-type: benchmark
-  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,100,150 -m benchmark --generate-all-formats ./tests
-  feature_only: true
-eip7692:
-  evm-type: eip7692
-  fill-params: --fork=EOFv1 ./tests/unscheduled
-  eofwrap: true
-  feature_only: true
-fusaka-devnet-2:
+
+benchmark:
+  evm-type: benchmark # Evmone only fully supports up to Prague
+  fill-params: --fork=Prague --gas-benchmark-values 1,10,30,45,60,100,150 -m "benchmark and not state_test" ./tests/benchmark
+
+benchmark_develop:
   evm-type: develop
-  fill-params: --from=Prague --until=Osaka ./tests/osaka ./tests/shanghai/eip3860_initcode ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile ./tests/byzantium/eip198_modexp_precompile ./tests/frontier/precompiles/test_precompiles.py ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_sufficient_balance_blob_tx ./tests/cancun/eip4844_blobs/test_blob_txs.py::test_valid_blob_tx_combinations
+  fill-params: --fork=Osaka --gas-benchmark-values 1,10,30,45,60,100,150 -m "benchmark and not state_test" ./tests/benchmark
   feature_only: true
