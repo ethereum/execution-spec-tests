@@ -9,7 +9,7 @@ set -e
 
 CHANGED_TEST_FILES="$1"
 PATCH_TEST_PATH="$2"
-BLOCK_GAS_LIMIT="${3:-36000000}"
+BLOCK_GAS_LIMIT="${3:-45000000}"
 FILL_UNTIL="${4:-Cancun}"
 
 # Include basic evm operations into coverage by default

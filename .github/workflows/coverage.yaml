@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      BLOCK_GAS_LIMIT: "36000000"
+      BLOCK_GAS_LIMIT: "45000000"
       FILL_UNTIL: "Cancun"
 
     steps:
