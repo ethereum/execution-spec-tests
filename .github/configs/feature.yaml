@@ -13,9 +13,9 @@ static: # TODO: remove and add `--fill-static-tests` to both develop & static
 
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague
-  fill-params: --from=Cancun --until=Prague --gas-benchmark-values 1,10,30,45,60,100,150 ./tests/benchmark
+  fill-params: --fork=Prague --gas-benchmark-values 1,10,30,45,60,100,150 ./tests/benchmark
 
 benchmark_develop:
   evm-type: develop
-  fill-params: --from=Cancun --until=Osaka --gas-benchmark-values 1,10,30,45,60,100,150 ./tests/benchmark
+  fill-params: --fork=Cancun --gas-benchmark-values 1,10,30,45,60,100,150 ./tests/benchmark
   feature_only: true
