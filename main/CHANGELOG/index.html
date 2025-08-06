@@ -28161,6 +28161,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>🔀 Move <code>TransactionType</code> enum from test file to proper module location in <code>ethereum_test_types.transaction_types</code> for better code organization and reusability.</li>
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages.</li>
 <li>🔀 This PR removes the <code>solc</code> requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with <code>solc</code> and, as such, the <code>solc-select</code> dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (<code>./tests/static/</code>) locally, <code>solc</code> (ideally v0.8.24) must be available in your PATH.</li>
+<li>🔀 Updated default block gas limit from 36M to 45M to match mainnet environment.</li>
 </ul>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
