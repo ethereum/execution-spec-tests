@@ -655,7 +655,7 @@ def test_worst_precompile_only_data_input(
                 exponent="03",
                 modulus=6 * ("00" + 31 * "FF"),
             ),
-            id="mod_min_as_base_heavy",
+            id="mod_min_gas_base_heavy",
         ),
         # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L40
         pytest.param(
@@ -664,7 +664,7 @@ def test_worst_precompile_only_data_input(
                 exponent="07" + 75 * "FF",
                 modulus=7 * "FF",
             ),
-            id="mod_min_as_exp_heavy",
+            id="mod_min_gas_exp_heavy",
         ),
         # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L42
         pytest.param(
@@ -673,7 +673,7 @@ def test_worst_precompile_only_data_input(
                 exponent="01" + 3 * "FF",
                 modulus="00" + 38 * "FF",
             ),
-            id="mod_min_as_balanced",
+            id="mod_min_gas_balanced",
         ),
         # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L44
         pytest.param(
@@ -781,7 +781,7 @@ def test_worst_precompile_only_data_input(
                 exponent="07" + 6 * "FF",
                 modulus="00" + 46 * "FF",
             ),
-            id="mod_600_as_balanced",
+            id="mod_600_gas_balanced",
         ),
         # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/Modexp.cs#L68
         pytest.param(
