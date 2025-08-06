@@ -66,14 +66,14 @@ class ModExpInput(TestParameterGroup):
         assert not isinstance(input_data, str)
         padded_input_data = input_data
         if len(padded_input_data) < 96:
-            padded_input_data = padded_input_data.ljust(96, b"\0")
+            padded_input_data = Bytes(padded_input_data.ljust(96, b"\0"))
         base_length = int.from_bytes(padded_input_data[0:32], byteorder="big")
         exponent_length = int.from_bytes(padded_input_data[32:64], byteorder="big")
         modulus_length = int.from_bytes(padded_input_data[64:96], byteorder="big")
 
         total_required_length = 96 + base_length + exponent_length + modulus_length
         if len(padded_input_data) < total_required_length:
-            padded_input_data = padded_input_data.ljust(total_required_length, b"\0")
+            padded_input_data = Bytes(padded_input_data.ljust(total_required_length, b"\0"))
 
         current_index = 96
         base = padded_input_data[current_index : current_index + base_length]
