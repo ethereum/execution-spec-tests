@@ -10,7 +10,7 @@ set -e
 MODIFIED_DELETED_FILES="$1"
 BASE_TEST_PATH="$2"
 PATCH_TEST_PATH="$3"
-BLOCK_GAS_LIMIT="${4:-36000000}"
+BLOCK_GAS_LIMIT="${4:-45000000}"
 FILL_UNTIL="${5:-Cancun}"
 
 echo "--------------------"

@@ -62,6 +62,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Move `TransactionType` enum from test file to proper module location in `ethereum_test_types.transaction_types` for better code organization and reusability.
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
 - 🔀 This PR removes the `solc` requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with `solc` and, as such, the `solc-select` dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (`./tests/static/`) locally, `solc` (ideally v0.8.24) must be available in your PATH.
+- 🔀 Updated default block gas limit from 36M to 45M to match mainnet environment.
 
 #### `fill`
 
