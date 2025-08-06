@@ -873,6 +873,94 @@ def test_worst_precompile_only_data_input(
             ),
             id="mod_1360_gas_balanced",
         ),
+        pytest.param(
+            ModExpInput(
+                base=8 * "FF",
+                exponent=81 * "FF",
+                modulus=7 * "FF",
+            ),
+            id="mod_8_exp_648",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=8 * "FF",
+                exponent="FF" + 111 * "FF",
+                modulus=7 * "FF",
+            ),
+            id="mod_8_exp_896",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent=4 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_32",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent="0D" + 4 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_36",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent=5 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_40",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent=8 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_64",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent="01" + 8 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_65",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=32 * "FF",
+                exponent=16 * "FF",
+                modulus="00" + 31 * "FF",
+            ),
+            id="mod_32_exp_128",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=256 * "FF",
+                exponent="03" + 0 * "FF",
+                modulus=8 * ("00" + 31 * "FF"),
+            ),
+            id="mod_256_exp_2",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=264 * "FF",
+                exponent="03" + 0 * "FF",
+                modulus=8 * ("00" + 31 * "FF") + 7 * "FF",
+            ),
+            id="mod_264_exp_2",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=1024 * "FF",
+                exponent="03",
+                modulus=32 * ("00" + 31 * "FF"),
+            ),
+            id="mod_1024_exp_2",
+        ),
         # Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L122
         pytest.param(
             ModExpInput(
@@ -1160,6 +1248,14 @@ def test_worst_precompile_only_data_input(
                 modulus="30644e72e131a029b85045b68181585d2833e84879b9709143e1f593f0000001",
             ),
             id="mod_vul_common_200n3",
+        ),
+        pytest.param(
+            ModExpInput(
+                base="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                exponent="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+                modulus="fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe",
+            ),
+            id="mod_vul_zkevm_worst_case",
         ),
     ],
 )
