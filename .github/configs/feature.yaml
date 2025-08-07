@@ -1,15 +1,11 @@
 # Unless filling for special features, all features should fill for previous forks (starting from Frontier) too
 stable:
   evm-type: stable
-  fill-params: --until=Prague
+  fill-params: --until=Prague --fill-static-tests
 
 develop:
   evm-type: develop 
-  fill-params: --until=Osaka
-
-static: # TODO: remove and add `--fill-static-tests` to both develop & static
-  evm-type: static
-  fill-params: --until=Osaka --fill-static-tests ./tests/static
+  fill-params: --until=Osaka --fill-static-tests
 
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague
