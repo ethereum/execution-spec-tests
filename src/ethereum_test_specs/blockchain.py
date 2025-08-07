@@ -1,7 +1,7 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Tuple, Type
 
 import pytest
 from pydantic import ConfigDict, Field, field_validator
@@ -404,6 +404,8 @@ class BlockchainTest(BaseTest):
     post: Alloc
     blocks: List[Block]
     genesis_environment: Environment = Field(default_factory=Environment)
+    # If set to True, generate a BlockchainEngineSyncFixture to
+    # verify syncing between clients.
     verify_sync: bool = False
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
@@ -429,7 +431,7 @@ class BlockchainTest(BaseTest):
     supported_markers: ClassVar[Dict[str, str]] = {
         "blockchain_test_engine_only": "Only generate a blockchain test engine fixture",
         "blockchain_test_only": "Only generate a blockchain test fixture",
-        "blockchain_engine_sync_test": "Generate a blockchain engine sync test fixture",
+        "blockchain_test_sync_only": "Only generate a blockchain test sync fixture",
     }
 
     @classmethod
@@ -446,12 +448,11 @@ class BlockchainTest(BaseTest):
             return fixture_format != BlockchainFixture
         if "blockchain_test_engine_only" in marker_names:
             return fixture_format != BlockchainEngineFixture
-        if "blockchain_engine_sync_test" in marker_names:
-            # Only generate sync fixture when marker is present
-            return fixture_format != BlockchainEngineSyncFixture
-        else:
-            # When sync marker is NOT present, exclude sync fixture
-            return fixture_format == BlockchainEngineSyncFixture
+        # Note: Don't check for ``blockchain_test_sync_only`` here because the marker
+        # is added dynamically for tests with ``verify_sync=True``. The ``generate()``
+        # method handles skipping sync fixtures when ``verify_sync=False``.
+
+        return False
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
@@ -764,27 +765,11 @@ class BlockchainTest(BaseTest):
 
         self.verify_post_state(t8n, t8n_state=alloc)
 
-        sync_payload: Optional[FixtureEngineNewPayload] = None
-        # Only include sync_payload for BlockchainEngineSyncFixture
-        if fixture_format == BlockchainEngineSyncFixture:
-            # Test is marked for syncing verification.
-            # Most clients require the header to start the sync process, so we create an empty
-            # block on top of the last block of the test to send it as new payload and trigger
-            # the sync process.
-            sync_built_block = self.generate_block_data(
-                t8n=t8n,
-                fork=fork,
-                block=Block(),
-                previous_env=env,
-                previous_alloc=alloc,
-                last_block=False,
-            )
-            sync_payload = sync_built_block.get_fixture_engine_new_payload()
-
-        # Create base fixture data
+        # Create base fixture data, common to all fixture formats
         fixture_data = {
             "fork": fork,
             "genesis": genesis.header,
+            "payloads": fixture_payloads,
             "last_block_hash": head_hash,
             "post_state_hash": alloc.state_root()
             if self.exclude_full_post_state_in_output
@@ -802,19 +787,30 @@ class BlockchainTest(BaseTest):
             # and prepare for state diff optimization
             fixture_data.update(
                 {
-                    "payloads": fixture_payloads,
-                    "sync_payload": sync_payload,
                     "post_state": alloc if not self.exclude_full_post_state_in_output else None,
                     "pre_hash": "",  # Will be set by BaseTestWrapper
                 }
             )
             return BlockchainEngineXFixture(**fixture_data)
         elif fixture_format == BlockchainEngineSyncFixture:
-            # For sync fixture format
+            # Sync fixture format
+            assert genesis.header.block_hash != head_hash, (
+                "Invalid payload tests negative test via sync is not supported yet."
+            )
+            # Most clients require the header to start the sync process, so we create an empty
+            # block on top of the last block of the test to send it as new payload and trigger the
+            # sync process.
+            sync_built_block = self.generate_block_data(
+                t8n=t8n,
+                fork=fork,
+                block=Block(),
+                previous_env=env,
+                previous_alloc=alloc,
+                last_block=False,
+            )
             fixture_data.update(
                 {
-                    "payloads": fixture_payloads,
-                    "sync_payload": sync_payload,
+                    "sync_payload": sync_built_block.get_fixture_engine_new_payload(),
                     "pre": pre,
                     "post_state": alloc if not self.exclude_full_post_state_in_output else None,
                 }
@@ -824,8 +820,6 @@ class BlockchainTest(BaseTest):
             # Standard engine fixture
             fixture_data.update(
                 {
-                    "payloads": fixture_payloads,
-                    "sync_payload": sync_payload,
                     "pre": pre,
                     "post_state": alloc if not self.exclude_full_post_state_in_output else None,
                 }
@@ -839,6 +833,10 @@ class BlockchainTest(BaseTest):
         fixture_format: FixtureFormat,
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
+        # Skip sync fixture generation if verify_sync is False
+        if fixture_format == BlockchainEngineSyncFixture and not self.verify_sync:
+            raise pytest.skip("Skipping sync fixture for test without verify_sync=True")
+
         t8n.reset_traces()
         if fixture_format in [
             BlockchainEngineFixture,
