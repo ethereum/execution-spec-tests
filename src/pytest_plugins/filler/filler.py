@@ -343,11 +343,11 @@ def pytest_sessionstart(session: pytest.Session):
     load the pre-allocation groups for phase 2 execution.
     """
     # Initialize empty pre-allocation groups container for phase 1
-    if session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:
+    if session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:  # type: ignore[attr-defined]
         session.config.pre_alloc_groups = PreAllocGroups(root={})  # type: ignore[attr-defined]
 
     # Load the pre-allocation groups for phase 2
-    if FixtureFillingPhase.PRE_ALLOC_GENERATION in session.config.previous_filling_phases:
+    if FixtureFillingPhase.PRE_ALLOC_GENERATION in session.config.previous_filling_phases:  # type: ignore[attr-defined]
         pre_alloc_groups_folder = session.config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
         if pre_alloc_groups_folder.exists():
             session.config.pre_alloc_groups = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
@@ -485,7 +485,7 @@ def pytest_terminal_summary(
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
-        if config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:
+        if config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:  # type: ignore[attr-defined]
             # Generate summary stats
             pre_alloc_groups: PreAllocGroups
             if config.pluginmanager.hasplugin("xdist"):
@@ -1072,8 +1072,8 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
                 if not select_format_by_phases(
                     generate_all_formats=generate_all_formats,
-                    previous_filling_phases=metafunc.config.previous_filling_phases,
-                    current_filling_phase=metafunc.config.current_filling_phase,
+                    previous_filling_phases=metafunc.config.previous_filling_phases,  # type: ignore[attr-defined]
+                    current_filling_phase=metafunc.config.current_filling_phase,  # type: ignore[attr-defined]
                     format_phases=format_with_or_without_label.format_phases,
                 ):
                     continue
@@ -1165,7 +1165,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     # Save pre-allocation groups after phase 1
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
     if (
-        session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION
+        session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION  # type: ignore[attr-defined]
         and hasattr(session.config, "pre_alloc_groups")
     ):
         pre_alloc_groups_folder = fixture_output.pre_alloc_groups_folder_path
@@ -1186,7 +1186,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     # Generate index file for all produced fixtures.
     if (
         session.config.getoption("generate_index")
-        and not session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION
+        and not session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION  # type: ignore[attr-defined]
     ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False

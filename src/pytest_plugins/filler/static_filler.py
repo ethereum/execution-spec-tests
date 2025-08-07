@@ -189,8 +189,8 @@ class FillerFile(pytest.File):
                                 for fixture_format in test_type.supported_fixture_formats
                                 if select_format_by_phases(
                                     generate_all_formats=generate_all_formats,
-                                    previous_filling_phases=self.config.previous_filling_phases,
-                                    current_filling_phase=self.config.current_filling_phase,
+                                    previous_filling_phases=self.config.previous_filling_phases,  # type: ignore[attr-defined]
+                                    current_filling_phase=self.config.current_filling_phase,  # type: ignore[attr-defined]
                                     format_phases=fixture_format.format_phases,
                                 )
                             )
