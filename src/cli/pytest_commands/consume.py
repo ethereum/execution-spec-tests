@@ -39,12 +39,7 @@ def create_consume_command(
 def get_command_logic_test_paths(command_name: str, is_hive: bool) -> List[Path]:
     """Determine the command paths based on the command name and hive flag."""
     base_path = Path("pytest_plugins/consume")
-    if command_name == "hive":
-        commands = ["rlp", "engine"]
-        command_logic_test_paths = [
-            base_path / "simulators" / "simulator_logic" / f"test_via_{cmd}.py" for cmd in commands
-        ]
-    elif command_name in ["engine", "rlp"]:
+    if command_name in ["engine", "rlp"]:
         command_logic_test_paths = [
             base_path / "simulators" / "simulator_logic" / f"test_via_{command_name}.py"
         ]
@@ -104,12 +99,6 @@ def rlp() -> None:
 @consume_command(is_hive=True)
 def engine() -> None:
     """Client consumes via the Engine API."""
-    pass
-
-
-@consume_command(is_hive=True)
-def hive() -> None:
-    """Client consumes via all available hive methods (rlp, engine)."""
     pass
 
 
