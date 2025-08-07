@@ -41,6 +41,49 @@ def pytest_generate_tests(metafunc):
         )
 
 
+@pytest.hookimpl(trylast=True)
+def pytest_collection_modifyitems(session, config, items):
+    """Modify test IDs to show both client and sync client clearly."""
+    for item in items:
+        # Check if this test has both client_type and sync_client_type
+        if (
+            hasattr(item, "callspec")
+            and "client_type" in item.callspec.params
+            and "sync_client_type" in item.callspec.params
+        ):
+            # Get the client names and remove fork suffix if present
+            client_name = item.callspec.params["client_type"].name.replace("-", "_")
+            sync_client_name = item.callspec.params["sync_client_type"].name.replace("-", "_")
+
+            # Format: ``-{client}_sync_{sync_client}``
+            new_suffix = f"-{client_name}::sync_{sync_client_name}"
+
+            # client_param-tests/path/to/test.py::test_name[test_params]-sync_client_param
+            # 1. Remove the client prefix from the beginning
+            # 2. Replace the -client_param part at the end with our new format
+            nodeid = item.nodeid
+            prefix_index = item.nodeid.find("-tests/")
+            if prefix_index != -1:
+                nodeid = item.nodeid[prefix_index + 1 :]
+
+            # Find the last hyphen followed by client name pattern and replace
+            if "-" in nodeid:
+                # Split by the last hyphen to separate the client suffix
+                parts = nodeid.rsplit("]-", 1)
+                assert len(parts) == 2, (
+                    # expect "..._end_of_test]-client_name" suffix...
+                    f"Unexpected format to parse client name: {nodeid}"
+                )
+
+                base = parts[0]
+                if base.endswith("sync_test"):
+                    # Insert suffix before the closing bracket
+                    base = base + new_suffix + "]"
+                    item._nodeid = base
+                else:
+                    item._nodeid = base + new_suffix
+
+
 @pytest.fixture(scope="function")
 def engine_rpc(client: Client, client_exception_mapper: ExceptionMapper | None) -> EngineRPC:
     """Initialize engine RPC client for the execution client under test."""
