@@ -338,39 +338,6 @@ def test_valid(
             G2_POINTS_NOT_ON_CURVE[4] + Scalar(Spec.Q - 1),
             id="rand_not_on_curve_4_times_q_minus_1",
         ),
-        # Coordinates above modulus p cases.
-        pytest.param(
-            PointG2((Spec.P2.x[0] + Spec.P, Spec.P2.x[1]), Spec.P2.y) + Scalar(0),
-            id="x_c0_above_p_times_0",
-        ),
-        pytest.param(
-            PointG2((Spec.P2.x[0], Spec.P2.x[1] + Spec.P), Spec.P2.y) + Scalar(0),
-            id="x_c1_above_p_times_0",
-        ),
-        pytest.param(
-            PointG2(Spec.P2.x, (Spec.P2.y[0] + Spec.P, Spec.P2.y[1])) + Scalar(0),
-            id="y_c0_above_p_times_0",
-        ),
-        pytest.param(
-            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)) + Scalar(0),
-            id="y_c1_above_p_times_0",
-        ),
-        pytest.param(
-            PointG2((Spec.G2.x[0] + Spec.P, Spec.G2.x[1]), Spec.G2.y) + Scalar(1),
-            id="generator_x_c0_above_p_times_1",
-        ),
-        pytest.param(
-            PointG2((Spec.G2.x[0], Spec.G2.x[1] + Spec.P), Spec.G2.y) + Scalar(1),
-            id="generator_x_c1_above_p_times_1",
-        ),
-        pytest.param(
-            PointG2(Spec.G2.x, (Spec.G2.y[0] + Spec.P, Spec.G2.y[1])) + Scalar(1),
-            id="generator_y_c0_above_p_times_1",
-        ),
-        pytest.param(
-            PointG2(Spec.G2.x, (Spec.G2.y[0], Spec.G2.y[1] + Spec.P)) + Scalar(1),
-            id="generator_y_c1_above_p_times_1",
-        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

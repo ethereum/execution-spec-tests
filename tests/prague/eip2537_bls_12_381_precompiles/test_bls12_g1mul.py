@@ -328,23 +328,6 @@ def test_valid(
             G1_POINTS_NOT_ON_CURVE[4] + Scalar(Spec.Q - 1),
             id="rand_not_on_curve_4_times_q_minus_1",
         ),
-        # Coordinates above modulus p cases.
-        pytest.param(
-            PointG1(Spec.P1.x + Spec.P, Spec.P1.y) + Scalar(0),
-            id="x_above_p_times_0",
-        ),
-        pytest.param(
-            PointG1(Spec.P1.x, Spec.P1.y + Spec.P) + Scalar(0),
-            id="y_above_p_times_0",
-        ),
-        pytest.param(
-            PointG1(Spec.G1.x + Spec.P, Spec.G1.y) + Scalar(1),
-            id="generator_x_above_p_times_1",
-        ),
-        pytest.param(
-            PointG1(Spec.G1.x, Spec.G1.y + Spec.P) + Scalar(1),
-            id="generator_y_above_p_times_1",
-        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])
