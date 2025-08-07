@@ -449,7 +449,7 @@ class BlockchainTest(BaseTest):
         if "blockchain_test_engine_only" in marker_names:
             return fixture_format != BlockchainEngineFixture
         # Note: Don't check for ``blockchain_test_sync_only`` here because the marker
-        # is added dynamically for tests with ``verify_sync=True``. The ``generate()``
+        # is added dynamically for tests that use ``verify_sync``. The ``generate()``
         # method handles skipping sync fixtures when ``verify_sync=False``.
 
         return False
@@ -835,7 +835,7 @@ class BlockchainTest(BaseTest):
         """Generate the BlockchainTest fixture."""
         # Skip sync fixture generation if verify_sync is False
         if fixture_format == BlockchainEngineSyncFixture and not self.verify_sync:
-            raise pytest.skip("Skipping sync fixture for test without verify_sync=True")
+            raise pytest.skip(f"Skipping sync fixture, verify_sync={self.verify_sync}")
 
         t8n.reset_traces()
         if fixture_format in [

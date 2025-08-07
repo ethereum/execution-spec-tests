@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
+import inspect
 import os
 import warnings
 from enum import Enum
@@ -1121,11 +1122,9 @@ def pytest_collection_modifyitems(
     parametrization occurs in the forks plugin.
 
     Also dynamically adds custom markers to tests based on their parameters (e.g.,
-    `blockchain_test_sync_only` for tests that have `verify_sync=True` in their
+    `blockchain_test_sync_only` for tests that have `verify_sync` in their
     `blockchain_test` parameters).
     """
-    import inspect
-
     items_for_removal = []
     for i, item in enumerate(items):
         params: Dict[str, Any] | None = None
@@ -1146,27 +1145,14 @@ def pytest_collection_modifyitems(
             items_for_removal.append(i)
             continue
 
-        # Check if test has ``verify_sync=True`` and add marker if it does
-        # This needs to happen before we check ``discard_fixture_format_by_marks``
-        if hasattr(item, "function"):
-            try:
-                test_func = item.function
-                source = inspect.getsource(test_func)
-                if "verify_sync=True" in source:
-                    # Add the marker so pytest can filter it with `-m`
-                    item.add_marker(pytest.mark.blockchain_test_sync_only)
-            except Exception:
-                pass  # If we can't inspect, just continue
+        # Add ``blockchain_test_sync_only`` marker to blockchain fixture if it uses
+        # ``verify_sync``
+        if fixture_format == BlockchainEngineSyncFixture and isinstance(item, pytest.Function):
+            source = inspect.getsource(item.function)
+            if "verify_sync" in source:
+                item.add_marker(pytest.mark.blockchain_test_sync_only)
 
         markers = list(item.iter_markers())
-        # Check for ``-m blockchain_test_sync_only`` and only fill sync tests
-        if (
-            config.getoption("-m") == "blockchain_test_sync_only"
-            and "blockchain_test_sync_only" in [m.name for m in markers]
-            and fixture_format != BlockchainEngineSyncFixture
-        ):
-            items_for_removal.append(i)
-            continue
         if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):
             items_for_removal.append(i)
             continue
