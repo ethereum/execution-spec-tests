@@ -11,6 +11,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - Python 3.10 support was removed in this release ([#1808](https://github.com/ethereum/execution-spec-tests/pull/1808)).
 - Tests for the Prague fork are now marked as stable will be included in the `fixtures_stable.tar.gz` tarball from now on.
 - Tests for the Osaka fork are now included in the `fixtures_develop.tar.gz` tarball.
+- `fixtures_static.tar.gz` has been deprecated and filled static tests are now included in `fixtures_stable.tar.gz` and `fixtures_develop.tar.gz`.
 
 #### 💥 Important Change for EEST developers
 
@@ -80,6 +81,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers ([#1781](https://github.com/ethereum/execution-spec-tests/pull/1781)).
 - ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
 - ✨ Static tests can now specify a maximum fork where they should be filled for ([#1977](https://github.com/ethereum/execution-spec-tests/pull/1977)).
+- ✨ Static tests can now be filled in every format using `--generate-all-formats` ([#2006](https://github.com/ethereum/execution-spec-tests/pull/2006)).
 
 #### `consume`
 
