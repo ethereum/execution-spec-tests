@@ -315,7 +315,7 @@ def select_format_by_phases(
     current_filling_phase: FixtureFillingPhase,
     format_phases: Set[FixtureFillingPhase],
 ) -> bool:
-    """Determine the fixture formats that will be used ."""
+    """Determine the fixture formats that will be used."""
     if current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:
         # We are generating pre-allocation groups, so we can select any format that contains
         # the pre-allocation phase
