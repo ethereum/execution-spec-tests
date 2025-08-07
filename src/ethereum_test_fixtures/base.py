@@ -3,8 +3,9 @@
 import hashlib
 import json
 from functools import cached_property
-from typing import Annotated, Any, ClassVar, Dict, Type, Union
+from typing import Annotated, Any, ClassVar, Dict, List, Type, Union
 
+import pytest
 from pydantic import (
     Discriminator,
     Field,
@@ -144,6 +145,15 @@ class BaseFixture(CamelModel):
         By default, all fixtures support all forks.
         """
         return True
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        return False
 
 
 class LabeledFixtureFormat:

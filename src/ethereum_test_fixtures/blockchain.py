@@ -15,6 +15,7 @@ from typing import (
 )
 
 import ethereum_rlp as eth_rlp
+import pytest
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -568,3 +569,17 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
 
     sync_payload: FixtureEngineNewPayload | None = None
     """Optional sync payload for blockchain synchronization."""
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        marker_names = [m.name for m in markers]
+        if "untagged" in marker_names:
+            # Untagged static tests are incompatible with Engine X because they require a
+            # separate pre-alloc group each.
+            return True
+        return False

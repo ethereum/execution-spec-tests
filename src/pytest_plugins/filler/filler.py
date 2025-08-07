@@ -1134,6 +1134,11 @@ def pytest_collection_modifyitems(
             items_for_removal.append(i)
             continue
         markers = list(item.iter_markers())
+        # Both the fixture format itself and the spec filling it have a chance to veto the
+        # filling of a specific format.
+        if fixture_format.discard_fixture_format_by_marks(fork, markers):
+            items_for_removal.append(i)
+            continue
         if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):
             items_for_removal.append(i)
             continue
