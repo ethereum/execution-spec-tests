@@ -226,9 +226,7 @@ def test_precompile_as_tx_entry_point(
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.eip_checklist("precompile/test/inputs/valid")
 @pytest.mark.eip_checklist("precompile/test/inputs/invalid/crypto")
-def test_modular_comparison(
-    state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction
-):
+def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """
     Test the modular comparison condition for secp256r1 precompile.
 
