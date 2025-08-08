@@ -193,13 +193,13 @@ def test_precompile_as_tx_entry_point(
         # Test case where computed x-coordinate exceeds curve order N
         # This tests the modular comparison: r' ≡ r (mod N)
         pytest.param(
-            H(0xBB5A52F42F9C9261ED4361F59422A1E30036E7C32B270C8807A419FECA605023)
+            Spec.H0
             # R: A value that when used in ECDSA verification produces an x-coordinate > N
-            + R(0x2BA3A8BE6B94D5EC80A6D9D1190A436EFFE50D85A1EEE859B8CC6AF9BD5C2E18)
-            + S(0x4CD60B855D442F5B3C7B11EB6C4E0AE7525FE710FAB9AA7C77A67F79E6FADD76)
+            + R(0x000000000000000000000000000000004319055358E8617B0C46353D039CDAAB)
+            + S(0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254E)
             # X, Y: Public key coordinates that will produce x-coordinate > N during verification
-            + X(0x2927B10512BAE3EDDCFE467828128BAD2903269919F7086069C8C4DF6C732838)
-            + Y(0xC7787964EAAC00E5921FB1498A60F4606766B3D9685001558D1A974E7341513E),
+            + X(0x0AD99500288D466940031D72A9F5445A4D43784640855BF0A69874D2DE5FE103)
+            + Y(0xC5011E6EF2C42DCD50D5D3D29F99AE6EBA2C80C9244F4C5422F0979FF0C3BA5E),
             Spec.SUCCESS_RETURN_VALUE,
             id="modular_comparison_x_coordinate_exceeds_n",
         ),
