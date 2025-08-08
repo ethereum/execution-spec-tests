@@ -330,29 +330,6 @@ class FillingSession:
                 self.pre_alloc_groups[hash_key] = group
 
 
-# Global session instance (initialized in pytest_configure)
-_filling_session: FillingSession | None = None
-
-
-def get_filling_session() -> FillingSession:
-    """
-    Get the current filling session.
-
-    Returns:
-        The current FillingSession instance.
-
-    Raises:
-        RuntimeError: If the session has not been initialized.
-
-    """
-    if _filling_session is None:
-        raise RuntimeError(
-            "Filling session not initialized. This typically happens when accessing "
-            "the session outside of a pytest run or before pytest_configure."
-        )
-    return _filling_session
-
-
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     """
     Calculate the state difference between post_state and genesis_state.
@@ -595,17 +572,6 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
-def pytest_sessionstart(session: pytest.Session):
-    """
-    Initialize session-level state.
-
-    This hook is now simplified as all pre-alloc group initialization
-    is handled by the FillingSession during pytest_configure.
-    """
-    # Pre-alloc groups are now managed by the FillingSession instance
-    # created in pytest_configure. No additional setup needed.
-
-
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     """
@@ -629,12 +595,8 @@ def pytest_configure(config):
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
 
-    # Initialize global filling session
-    global _filling_session
-    _filling_session = FillingSession(config)
-
-    # Store session on config for access
-    config.filling_session = _filling_session
+    # Initialize filling session
+    config.filling_session = FillingSession(config)
 
     if is_help_or_collectonly_mode(config):
         return
@@ -648,7 +610,7 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and _filling_session.phase_manager.current_phase
+        and config.filling_session.phase_manager.current_phase  # type: ignore[attr-defined]
         != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
@@ -731,7 +693,7 @@ def pytest_terminal_summary(
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
-        session_instance = get_filling_session()
+        session_instance = config.filling_session  # type: ignore[attr-defined]
         if session_instance.phase_manager.is_pre_alloc_generation:
             # Generate summary stats
             pre_alloc_groups: PreAllocGroups
@@ -1224,8 +1186,8 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 self._request = request
                 self._operation_mode = request.config.op_mode
 
-                # Get the global filling session
-                session = get_filling_session()
+                # Get the filling session from config
+                session = request.config.filling_session  # type: ignore[attr-defined]
 
                 # Phase 1: Generate pre-allocation groups
                 if session.phase_manager.is_pre_alloc_generation:
@@ -1301,7 +1263,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     NOTE: The static test filler does NOT use this hook. See FillerFile.collect() in
     ./static_filler.py for more details.
     """
-    session = get_filling_session()
+    session = metafunc.config.filling_session  # type: ignore[attr-defined]
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
             parameters = []
@@ -1395,7 +1357,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
     # Save pre-allocation groups after phase 1
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-    session_instance = get_filling_session()
+    session_instance = session.config.filling_session  # type: ignore[attr-defined]
     if session_instance.phase_manager.is_pre_alloc_generation:
         session_instance.save_pre_alloc_groups()
         return

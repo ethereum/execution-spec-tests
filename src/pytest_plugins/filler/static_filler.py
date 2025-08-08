@@ -23,7 +23,6 @@ from ethereum_test_tools.code.yul import Yul
 
 from ..forks.forks import ValidityMarker, get_intersection_set
 from ..shared.helpers import labeled_format_parameter_set
-from .filler import get_filling_session
 
 
 def get_test_id_from_arg_names_and_values(
@@ -183,7 +182,7 @@ class FillerFile(pytest.File):
                         if test_type.pytest_parameter_name() in func_parameters:
                             assert not spec_parameter_name, "Multiple spec parameters found"
                             spec_parameter_name = test_type.pytest_parameter_name()
-                            session = get_filling_session()
+                            session = self.config.filling_session  # type: ignore[attr-defined]
                             fixture_formats.extend(
                                 fixture_format
                                 for fixture_format in test_type.supported_fixture_formats

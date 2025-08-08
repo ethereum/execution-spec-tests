@@ -14,7 +14,7 @@ from ethereum_test_fixtures import (
 from ethereum_test_forks import Prague
 from ethereum_test_types import Environment
 
-from ..filler import FillingSession, get_filling_session
+from ..filler import FillingSession
 
 
 class MockConfig:
@@ -293,35 +293,6 @@ class TestFillingSession:
 
         with pytest.raises(ValueError, match="Conflicting pre-alloc groups"):
             session.aggregate_pre_alloc_groups(worker_groups)
-
-
-class TestGlobalSession:
-    """Test cases for global session management."""
-
-    def test_get_filling_session_not_initialized(self):
-        """Test getting session before initialization."""
-        # Reset global session
-        import pytest_plugins.filler.filler
-
-        pytest_plugins.filler.filler._filling_session = None
-
-        with pytest.raises(RuntimeError, match="Filling session not initialized"):
-            get_filling_session()
-
-    def test_get_filling_session_initialized(self):
-        """Test getting session after initialization."""
-        import pytest_plugins.filler.filler
-
-        # Create a mock session
-        config = MockConfig()
-        with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
-            pytest_plugins.filler.filler._filling_session = session
-
-        assert get_filling_session() is session
-
-        # Clean up
-        pytest_plugins.filler.filler._filling_session = None
 
 
 if __name__ == "__main__":
