@@ -19,6 +19,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
+    BenchmarkStateTestFiller,
     Block,
     BlockchainTestFiller,
     Bytecode,
@@ -2764,8 +2765,9 @@ def test_worst_calldataload(
     ],
 )
 def test_worst_swap(
-    state_test: StateTestFiller,
+    benchmark_state_test: BenchmarkStateTestFiller,
     pre: Alloc,
+    env: Environment,
     fork: Fork,
     opcode: Opcode,
     gas_benchmark_value: int,
@@ -2785,8 +2787,10 @@ def test_worst_swap(
         sender=pre.fund_eoa(),
     )
 
-    state_test(
+    benchmark_state_test(
+        env=env,
         pre=pre,
+        gas_benchmark_value=gas_benchmark_value,
         post={},
         tx=tx,
     )
