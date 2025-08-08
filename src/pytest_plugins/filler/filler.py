@@ -642,26 +642,14 @@ def pytest_sessionstart(session: pytest.Session):
     """
     Initialize session-level state.
 
-    Either initialize an empty pre-allocation groups container for phase 1 or
-    load the pre-allocation groups for phase 2 execution.
+    This hook is now simplified as all pre-alloc group initialization
+    is handled by the FillingSession during pytest_configure.
     """
-    # Initialize empty pre-allocation groups container for phase 1
-    if session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:  # type: ignore[attr-defined]
-        session.config.pre_alloc_groups = PreAllocGroups(root={})  # type: ignore[attr-defined]
-
-    # Load the pre-allocation groups for phase 2
-    if FixtureFillingPhase.PRE_ALLOC_GENERATION in session.config.previous_filling_phases:  # type: ignore[attr-defined]
-        pre_alloc_groups_folder = session.config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
-        if pre_alloc_groups_folder.exists():
-            session.config.pre_alloc_groups = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
-                pre_alloc_groups_folder
-            )
-        else:
-            pytest.exit(
-                f"Pre-allocation groups folder not found: {pre_alloc_groups_folder}. "
-                "Run phase 1 with --generate-pre-alloc-groups first.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
+    # Pre-alloc groups are now managed by the FillingSession instance
+    # created in pytest_configure. Store reference on config for backward compatibility.
+    session_instance = get_filling_session()
+    if session_instance.pre_alloc_groups is not None:
+        session.config.pre_alloc_groups = session_instance.pre_alloc_groups  # type: ignore[attr-defined]
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -687,12 +675,14 @@ def pytest_configure(config):
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
 
-    # Determine the filling phase
-    config.previous_filling_phases, config.current_filling_phase = _determine_filling_phases(
-        generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
-        use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
-        generate_all_formats=config.getoption("generate_all_formats"),
-    )
+    # Initialize global filling session
+    global _filling_session
+    _filling_session = FillingSession(config)
+
+    # Store session on config for backward compatibility
+    config.filling_session = _filling_session
+    config.current_filling_phase = _filling_session.phase_manager.current_phase
+    config.previous_filling_phases = _filling_session.phase_manager.previous_phases
 
     if is_help_or_collectonly_mode(config):
         return
@@ -706,7 +696,8 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and config.current_filling_phase != FixtureFillingPhase.PRE_ALLOC_GENERATION
+        and _filling_session.phase_manager.current_phase
+        != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
@@ -1467,13 +1458,9 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     """
     # Save pre-allocation groups after phase 1
     fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-    if (
-        session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION  # type: ignore[attr-defined]
-        and hasattr(session.config, "pre_alloc_groups")
-    ):
-        pre_alloc_groups_folder = fixture_output.pre_alloc_groups_folder_path
-        pre_alloc_groups_folder.mkdir(parents=True, exist_ok=True)
-        session.config.pre_alloc_groups.to_folder(pre_alloc_groups_folder)
+    session_instance = get_filling_session()
+    if session_instance.phase_manager.is_pre_alloc_generation:
+        session_instance.save_pre_alloc_groups()
         return
 
     if xdist.is_xdist_worker(session):
