@@ -187,6 +187,172 @@ class FormatSelector:
             return format_phases == {FixtureFillingPhase.FILL}
 
 
+class FillingSession:
+    """
+    Manages all state for a single pytest fill session.
+
+    This class serves as the single source of truth for all filler state management,
+    including phase management, format selection, and pre-allocation groups.
+
+    Important: Each pytest run gets a fresh FillingSession instance. There is no
+    persistence between phase 1 (generate pre-alloc) and phase 2 (use pre-alloc)
+    except through file I/O.
+    """
+
+    def __init__(self, config: pytest.Config):
+        """
+        Initialize a filling session from pytest configuration.
+
+        Args:
+            config: The pytest configuration object.
+
+        """
+        self.config = config
+        self.fixture_output = FixtureOutput.from_config(config)
+        self.phase_manager = PhaseManager.from_config(config)
+        self.format_selector = FormatSelector(self.phase_manager)
+        self.pre_alloc_groups: PreAllocGroups | None = None
+
+        # Initialize pre-alloc groups based on phase
+        self._initialize_pre_alloc_groups()
+
+    def _initialize_pre_alloc_groups(self) -> None:
+        """Initialize pre-allocation groups based on the current phase."""
+        if self.phase_manager.is_pre_alloc_generation:
+            # Phase 1: Create empty container for collecting groups
+            self.pre_alloc_groups = PreAllocGroups(root={})
+        elif self.phase_manager.is_fill_after_pre_alloc:
+            # Phase 2: Load pre-alloc groups from disk
+            self._load_pre_alloc_groups_from_folder()
+
+    def _load_pre_alloc_groups_from_folder(self) -> None:
+        """Load pre-allocation groups from the output folder."""
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        if pre_alloc_folder.exists():
+            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder)
+        else:
+            raise FileNotFoundError(
+                f"Pre-allocation groups folder not found: {pre_alloc_folder}. "
+                "Run phase 1 with --generate-pre-alloc-groups first."
+            )
+
+    def should_generate_format(self, fixture_format: Type[BaseFixture] | Any) -> bool:
+        """
+        Determine if a fixture format should be generated in the current session.
+
+        Args:
+            fixture_format: The fixture format to check.
+
+        Returns:
+            True if the format should be generated.
+
+        """
+        generate_all = self.config.getoption("generate_all_formats", False)
+        return self.format_selector.should_generate(fixture_format, generate_all)
+
+    def get_pre_alloc_group(self, hash_key: str) -> PreAllocGroup:
+        """
+        Get a pre-allocation group by hash.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+
+        Returns:
+            The pre-allocation group.
+
+        Raises:
+            ValueError: If pre-alloc groups not initialized or hash not found.
+
+        """
+        if self.pre_alloc_groups is None:
+            raise ValueError("Pre-allocation groups not initialized")
+
+        if hash_key not in self.pre_alloc_groups:
+            pre_alloc_path = self.fixture_output.pre_alloc_groups_folder_path / hash_key
+            raise ValueError(
+                f"Pre-allocation hash {hash_key} not found in pre-allocation groups. "
+                f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
+                "Make sure phase 1 (--generate-pre-alloc-groups) was run before phase 2."
+            )
+
+        return self.pre_alloc_groups[hash_key]
+
+    def update_pre_alloc_group(self, hash_key: str, group: PreAllocGroup) -> None:
+        """
+        Update or add a pre-allocation group.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+            group: The pre-allocation group.
+
+        Raises:
+            ValueError: If not in pre-alloc generation phase.
+
+        """
+        if not self.phase_manager.is_pre_alloc_generation:
+            raise ValueError("Can only update pre-alloc groups in generation phase")
+
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        self.pre_alloc_groups[hash_key] = group
+
+    def save_pre_alloc_groups(self) -> None:
+        """Save pre-allocation groups to disk."""
+        if self.pre_alloc_groups is None:
+            return
+
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        pre_alloc_folder.mkdir(parents=True, exist_ok=True)
+        self.pre_alloc_groups.to_folder(pre_alloc_folder)
+
+    def aggregate_pre_alloc_groups(self, worker_groups: PreAllocGroups) -> None:
+        """
+        Aggregate pre-alloc groups from a worker process (xdist support).
+
+        Args:
+            worker_groups: Pre-alloc groups from a worker process.
+
+        """
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        for hash_key, group in worker_groups.root.items():
+            if hash_key in self.pre_alloc_groups:
+                # Merge if exists (should not happen in practice)
+                existing = self.pre_alloc_groups[hash_key]
+                if existing.pre != group.pre:
+                    raise ValueError(
+                        f"Conflicting pre-alloc groups for hash {hash_key}: "
+                        f"existing={self.pre_alloc_groups[hash_key].pre}, new={group.pre}"
+                    )
+            else:
+                self.pre_alloc_groups[hash_key] = group
+
+
+# Global session instance (initialized in pytest_configure)
+_filling_session: FillingSession | None = None
+
+
+def get_filling_session() -> FillingSession:
+    """
+    Get the current filling session.
+
+    Returns:
+        The current FillingSession instance.
+
+    Raises:
+        RuntimeError: If the session has not been initialized.
+
+    """
+    if _filling_session is None:
+        raise RuntimeError(
+            "Filling session not initialized. This typically happens when accessing "
+            "the session outside of a pytest run or before pytest_configure."
+        )
+    return _filling_session
+
+
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     """
     Calculate the state difference between post_state and genesis_state.
