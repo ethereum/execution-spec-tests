@@ -15,8 +15,9 @@ from ethereum_test_tools import (
     Account,
     Address,
     Alloc,
+    BenchmarkTestFiller,
     Block,
-    BlockchainTestFiller,
+    Environment,
     Hash,
     StateTestFiller,
     Transaction,
@@ -110,8 +111,9 @@ def ether_transfer_case(
     ["a_to_a", "a_to_b", "diff_acc_to_b", "a_to_diff_acc", "diff_acc_to_diff_acc"],
 )
 def test_block_full_of_ether_transfers(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
+    env: Environment,
     case_id: str,
     ether_transfer_case,
     iteration_count: int,
@@ -152,7 +154,8 @@ def test_block_full_of_ether_transfers(
         else {receiver: Account(balance=balance) for receiver, balance in balances.items()}
     )
 
-    blockchain_test(
+    benchmark_test(
+        genesis_environment=env,
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
