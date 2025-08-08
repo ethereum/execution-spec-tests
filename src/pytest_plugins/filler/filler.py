@@ -139,7 +139,6 @@ class FormatSelector:
 
         Args:
             fixture_format: The fixture format to check (may be wrapped in LabeledFixtureFormat)
-            generate_all: Whether --generate-all-formats flag is set
 
         Returns:
             True if the format should be generated in the current phase
