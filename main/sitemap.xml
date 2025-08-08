@@ -1769,6 +1769,10 @@
          <lastmod>2025-08-08</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_modular_comparison/</loc>
+         <lastmod>2025-08-08</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_as_tx_entry_point/</loc>
          <lastmod>2025-08-08</lastmod>
     </url>
