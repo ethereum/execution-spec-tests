@@ -52,9 +52,8 @@ class TestFillingSession:
         config = MockConfig()
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
-        assert session.config is config
         assert session.phase_manager.is_single_phase_fill
         assert session.pre_alloc_groups is None
 
@@ -63,7 +62,7 @@ class TestFillingSession:
         config = MockConfig(generate_pre_alloc_groups=True)
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         assert session.phase_manager.is_pre_alloc_generation
         assert session.pre_alloc_groups is not None
@@ -84,7 +83,7 @@ class TestFillingSession:
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
             with patch.object(Path, "exists", return_value=True):
                 with patch.object(PreAllocGroups, "from_folder", return_value=mock_groups):
-                    session = FillingSession(config)
+                    session = FillingSession.from_config(config)
 
         assert session.phase_manager.is_fill_after_pre_alloc
         assert session.pre_alloc_groups is mock_groups
@@ -98,14 +97,14 @@ class TestFillingSession:
                 with pytest.raises(
                     FileNotFoundError, match="Pre-allocation groups folder not found"
                 ):
-                    FillingSession(config)
+                    FillingSession.from_config(config)
 
     def test_should_generate_format(self):
         """Test format generation decision."""
         config = MockConfig()
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         # Mock fixture format
         class MockFormat:
@@ -122,7 +121,7 @@ class TestFillingSession:
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
             with patch.object(Path, "exists", return_value=True):
                 with patch.object(PreAllocGroups, "from_folder", return_value=mock_groups):
-                    session = FillingSession(config)
+                    session = FillingSession.from_config(config)
 
         # Mock fixture format that normally wouldn't generate in phase 2
         class MockFormat:
@@ -145,7 +144,7 @@ class TestFillingSession:
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
             with patch.object(Path, "exists", return_value=True):
                 with patch.object(PreAllocGroups, "from_folder", return_value=mock_groups):
-                    session = FillingSession(config)
+                    session = FillingSession.from_config(config)
 
         assert session.get_pre_alloc_group("test_hash") is test_group
 
@@ -158,7 +157,7 @@ class TestFillingSession:
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
             with patch.object(Path, "exists", return_value=True):
                 with patch.object(PreAllocGroups, "from_folder", return_value=mock_groups):
-                    session = FillingSession(config)
+                    session = FillingSession.from_config(config)
 
         with pytest.raises(ValueError, match="Pre-allocation hash .* not found"):
             session.get_pre_alloc_group("missing_hash")
@@ -168,7 +167,7 @@ class TestFillingSession:
         config = MockConfig()  # Normal fill, no pre-alloc groups
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         with pytest.raises(ValueError, match="Pre-allocation groups not initialized"):
             session.get_pre_alloc_group("any_hash")
@@ -178,7 +177,7 @@ class TestFillingSession:
         config = MockConfig(generate_pre_alloc_groups=True)
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         test_group = PreAllocGroup(
             pre=Alloc().model_dump(mode="json"),
@@ -195,7 +194,7 @@ class TestFillingSession:
         config = MockConfig()  # Normal fill
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         test_group = PreAllocGroup(
             pre=Alloc().model_dump(mode="json"),
@@ -212,7 +211,7 @@ class TestFillingSession:
         config = MockConfig(generate_pre_alloc_groups=True)
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         # Add a test group
         test_group = PreAllocGroup(
@@ -235,7 +234,7 @@ class TestFillingSession:
         config = MockConfig()  # Normal fill
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         # Should not raise, just return
         session.save_pre_alloc_groups()
@@ -245,7 +244,7 @@ class TestFillingSession:
         config = MockConfig(generate_pre_alloc_groups=True)
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         # Worker groups to aggregate
         group1 = PreAllocGroup(
@@ -270,7 +269,7 @@ class TestFillingSession:
         config = MockConfig(generate_pre_alloc_groups=True)
 
         with patch("pytest_plugins.filler.filler.FixtureOutput", MockFixtureOutput):
-            session = FillingSession(config)
+            session = FillingSession.from_config(config)
 
         # Add initial group
         alloc1 = Alloc().model_dump(mode="json")
@@ -293,7 +292,3 @@ class TestFillingSession:
 
         with pytest.raises(ValueError, match="Conflicting pre-alloc groups"):
             session.aggregate_pre_alloc_groups(worker_groups)
-
-
-if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
