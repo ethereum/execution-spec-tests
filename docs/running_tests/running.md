@@ -14,6 +14,7 @@ Both `consume` and `execute` provide sub-commands which correspond to different 
 | [`consume direct`](#direct)             | Client consume tests via a `statetest` interface                                        | EVM                                                          | None          | Module test                       |
 | [`consume direct`](#direct)             | Client consume tests via a `blocktest` interface                                        | EVM, block processing                                        | None          | Module test,</br>Integration test |
 | [`consume engine`](#engine)             | Client imports blocks via Engine API `EngineNewPayload` in Hive                         | EVM, block processing, Engine API                            | Staging, Hive | System test                       |
+| [`consume sync`](#sync)                 | Client syncs from another client using Engine API in Hive                               | EVM, block processing, Engine API, P2P sync                  | Staging, Hive | System test                       |
 | [`consume rlp`](#rlp)                   | Client imports RLP-encoded blocks upon start-up in Hive                                 | EVM, block processing, RLP import (sync\*)                   | Staging, Hive | System test                       |
 | [`execute hive`](./execute/hive.md)     | Tests executed against a client via JSON RPC `eth_sendRawTransaction` in Hive           | EVM, JSON RPC, mempool                                       | Staging, Hive | System test                       |
 | [`execute remote`](./execute/remote.md) | Tests executed against a client via JSON RPC `eth_sendRawTransaction` on a live network | EVM, JSON RPC, mempool, EL-EL/EL-CL interaction (indirectly) | Production    | System Test                       |
@@ -80,6 +81,25 @@ The `consume rlp` command:
 5. **Validates the client's final `blockHash`** via JSON RPC against the test's expectations.
 
 This method simulates how clients import blocks during historical sync, testing the complete block validation and state transition pipeline, see below for more details and a comparison to consumption via the Engine API.
+
+## Sync
+
+| Nomenclature   |                        |
+| -------------- |------------------------|
+| Command        | `consume sync`         |
+| Simulator      | None                   |
+| Fixture format | `blockchain_test_sync` |
+
+The consume sync method tests execution client synchronization capabilities by having one client sync from another via the Engine API and P2P networking. This method validates that clients can correctly synchronize state and blocks from peers, testing both the Engine API, sync triggering, and P2P block propagation mechanisms.
+
+The `consume sync` command:
+
+1. **Initializes the client under test** with genesis state and executes all test payloads.
+2. **Spins up a sync client** with the same genesis state.
+3. **Establishes P2P connection** between the two clients, utilizing ``admin_addPeer`` with enode url.
+4. **Triggers synchronization** by sending the target block to the sync client via `engine_newPayload` followed by `engine_forkchoiceUpdated` requests.
+5. **Monitors sync progress** and validates that the sync client reaches the same state.
+6. **Verifies final state** matches between both clients.
 
 ## Engine vs RLP Simulator
 

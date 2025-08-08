@@ -451,7 +451,6 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
     block_size_limit: int,
     env: Environment,
     typed_transaction: Transaction,
-    request: pytest.FixtureRequest,
 ) -> None:
     """Test the block RLP size limit with all transaction types."""
     transactions, gas_used = exact_size_transactions(
