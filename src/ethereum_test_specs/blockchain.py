@@ -431,7 +431,6 @@ class BlockchainTest(BaseTest):
     supported_markers: ClassVar[Dict[str, str]] = {
         "blockchain_test_engine_only": "Only generate a blockchain test engine fixture",
         "blockchain_test_only": "Only generate a blockchain test fixture",
-        "blockchain_test_sync_only": "Only generate a blockchain test sync fixture",
     }
 
     @classmethod
