@@ -1271,13 +1271,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 self._request = request
                 self._operation_mode = request.config.op_mode
 
+                # Get the global filling session
+                session = get_filling_session()
+
                 # Phase 1: Generate pre-allocation groups
-                if (
-                    request.config.current_filling_phase
-                    == FixtureFillingPhase.PRE_ALLOC_GENERATION
-                ):
+                if session.phase_manager.is_pre_alloc_generation:
+                    # Use the original update_pre_alloc_groups method which returns the groups
                     self.update_pre_alloc_groups(
-                        request.config.pre_alloc_groups, fork, request.node.nodeid
+                        session.pre_alloc_groups, fork, request.node.nodeid
                     )
                     return  # Skip fixture generation in phase 1
 
@@ -1285,19 +1286,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 pre_alloc_hash = None
                 if FixtureFillingPhase.PRE_ALLOC_GENERATION in fixture_format.format_phases:
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
-                    if pre_alloc_hash not in request.config.pre_alloc_groups:
-                        pre_alloc_path = (
-                            request.config.fixture_output.pre_alloc_groups_folder_path
-                            / pre_alloc_hash
-                        )
-                        raise ValueError(
-                            f"Pre-allocation hash {pre_alloc_hash} not found in "
-                            f"pre-allocation groups. "
-                            f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-pre-alloc-groups) was run "
-                            "before phase 2."
-                        )
-                    group: PreAllocGroup = request.config.pre_alloc_groups[pre_alloc_hash]  # type: ignore[annotation-unchecked]
+                    group = session.get_pre_alloc_group(pre_alloc_hash)
                     self.pre = group.pre
 
                 fixture = self.generate(
@@ -1315,7 +1304,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                     # Calculate state diff for efficiency
                     if hasattr(fixture, "post_state") and fixture.post_state is not None:
-                        group = request.config.pre_alloc_groups[pre_alloc_hash]
+                        group = session.get_pre_alloc_group(pre_alloc_hash)
                         fixture.post_state_diff = calculate_post_state_diff(
                             fixture.post_state, group.pre
                         )
@@ -1359,17 +1348,12 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     NOTE: The static test filler does NOT use this hook. See FillerFile.collect() in
     ./static_filler.py for more details.
     """
-    generate_all_formats = metafunc.config.getoption("generate_all_formats", False)
+    session = get_filling_session()
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
             parameters = []
             for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
-                if not select_format_by_phases(
-                    generate_all_formats=generate_all_formats,
-                    previous_filling_phases=metafunc.config.previous_filling_phases,  # type: ignore[attr-defined]
-                    current_filling_phase=metafunc.config.current_filling_phase,  # type: ignore[attr-defined]
-                    format_phases=format_with_or_without_label.format_phases,
-                ):
+                if not session.should_generate_format(format_with_or_without_label):
                     continue
                 parameter = labeled_format_parameter_set(format_with_or_without_label)
                 if i > 0:
