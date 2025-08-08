@@ -9,6 +9,7 @@ writes the generated fixtures to file.
 import configparser
 import datetime
 import os
+import shutil
 import warnings
 from enum import Enum
 from pathlib import Path
@@ -1195,9 +1196,27 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     if session.config.getoption("generate_index") and not session.config.getoption(
         "generate_pre_alloc_groups"
     ):
-        generate_fixtures_index(
-            fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
-        )
+        # only create fixtures dir if at least one test was filled
+        amount_of_collected_tests = getattr(session, "testscollected", 0)
+        if amount_of_collected_tests > 0:
+            generate_fixtures_index(
+                fixture_output.directory,
+                quiet_mode=True,
+                force_flag=False,
+                disable_infer_format=False,
+            )
+        else:
+            # nuke the fixtures dir, but only if:
+            #      * html output is disabled
+            # and
+            #      * no tests were filled
+            html_output_is_enabled = getattr(session.config.option, "htmlpath", None)
+            if not html_output_is_enabled:
+                # determine chosen fixtures output folder
+                fixture_output_obj: FixtureOutput = FixtureOutput.from_config(session.config)
+                fixture_output_folder: Path = fixture_output_obj.output_path
+                # and delete it
+                shutil.rmtree(fixture_output_folder)
 
     # Create tarball of the output directory if the output is a tarball.
     fixture_output.create_tarball()
