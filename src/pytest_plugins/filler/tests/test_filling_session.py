@@ -13,7 +13,8 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Prague
 from ethereum_test_types import Environment
-from pytest_plugins.filler.filler import FillingSession, get_filling_session
+
+from ..filler import FillingSession, get_filling_session
 
 
 class MockConfig:
