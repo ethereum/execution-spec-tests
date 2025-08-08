@@ -144,29 +144,11 @@ jobs:
         if: ${{ steps.pre-patch-fill.outputs.any_modified_fixtures == 'true' || steps.ported-from.outputs.any_ported == 'true' }}
         run: |
           echo "=== Original BASE (main) test IDs ==="
-          if [ -f "${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json" ]; then
-            uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
-          else
-            echo "No BASE test file found"
-          fi
-          
+          uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
           echo "=== Ported PATCH test IDs ==="
-          if [ -f "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json" ]; then
-            uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
-          else
-            echo "No PATCH test file found"
-          fi
-          
+          uv run python -c "import json; data=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); [print(tc['id']) for tc in data['test_cases']]"
           echo "=== SUMMARY ==="
-          if [ -f "${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json" ] && [ -f "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json" ]; then
-            uv run python -c "import json; base=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); patch=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); print(f'BASE: {len(base[\"test_cases\"])} tests, PATCH: {len(patch[\"test_cases\"])} tests, Difference: {len(patch[\"test_cases\"]) - len(base[\"test_cases\"])}')"
-          elif [ -f "${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json" ]; then
-            uv run python -c "import json; base=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); print(f'BASE: {len(base[\"test_cases\"])} tests, PATCH: 0 tests, Difference: -{len(base[\"test_cases\"])}')"
-          elif [ -f "${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json" ]; then
-            uv run python -c "import json; patch=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); print(f'BASE: 0 tests, PATCH: {len(patch[\"test_cases\"])} tests, Difference: {len(patch[\"test_cases\"])}')"
-          else
-            echo "BASE: 0 tests, PATCH: 0 tests, Difference: 0"
-          fi
+          uv run python -c "import json; base=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/BASE_TESTS/.meta/index.json')); patch=json.load(open('${{ github.workspace }}/evmtest_coverage/coverage/PATCH_TESTS/.meta/index.json')); print(f'BASE: {len(base[\"test_cases\"])} tests, PATCH: {len(patch[\"test_cases\"])} tests, Difference: {len(patch[\"test_cases\"]) - len(base[\"test_cases\"])}')"
 
       - name: Run coverage of the BASE tests
         uses: addnab/docker-run-action@4f65fabd2431ebc8d299f8e5a018d79a769ae185
