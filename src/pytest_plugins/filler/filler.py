@@ -50,6 +50,143 @@ from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
 
 
+class PhaseManager:
+    """
+    Manages the execution phase for fixture generation.
+
+    The filler plugin supports two-phase execution for pre-allocation group generation:
+    - Phase 1: Generate pre-allocation groups (pytest run with --generate-pre-alloc-groups).
+    - Phase 2: Fill fixtures using pre-allocation groups (pytest run with --use-pre-alloc-groups).
+
+    Note: These are separate pytest runs orchestrated by the CLI wrapper.
+    Each run gets a fresh PhaseManager instance (no persistence between phases).
+    """
+
+    def __init__(
+        self, current_phase: FixtureFillingPhase, previous_phases: Set[FixtureFillingPhase]
+    ):
+        """Initialize with the current phase and any previous phases."""
+        self.current_phase = current_phase
+        self.previous_phases = previous_phases
+
+    @classmethod
+    def from_config(cls, config: pytest.Config) -> "PhaseManager":
+        """
+        Create a PhaseManager from pytest configuration.
+
+        Flag logic:
+        - use_pre_alloc_groups: We're in phase 2 (FILL) after phase 1 (PRE_ALLOC_GENERATION).
+        - generate_pre_alloc_groups or generate_all_formats: We're in phase 1
+          (PRE_ALLOC_GENERATION).
+        - Otherwise: Normal single-phase filling (FILL).
+
+        Note: generate_all_formats triggers PRE_ALLOC_GENERATION because the CLI
+        passes it to phase 1 to ensure all formats are considered for grouping.
+        """
+        generate_pre_alloc = config.getoption("generate_pre_alloc_groups", False)
+        use_pre_alloc = config.getoption("use_pre_alloc_groups", False)
+        generate_all = config.getoption("generate_all_formats", False)
+
+        if use_pre_alloc:
+            # Phase 2: Using pre-generated groups
+            return cls(FixtureFillingPhase.FILL, {FixtureFillingPhase.PRE_ALLOC_GENERATION})
+        elif generate_pre_alloc or generate_all:
+            # Phase 1: Generating pre-allocation groups
+            return cls(FixtureFillingPhase.PRE_ALLOC_GENERATION, set())
+        else:
+            # Normal single-phase filling
+            return cls(FixtureFillingPhase.FILL, set())
+
+    @property
+    def is_pre_alloc_generation(self) -> bool:
+        """Check if we're in the pre-allocation generation phase."""
+        return self.current_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION
+
+    @property
+    def is_fill_after_pre_alloc(self) -> bool:
+        """Check if we're filling after pre-allocation generation."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION in self.previous_phases
+        )
+
+    @property
+    def is_single_phase_fill(self) -> bool:
+        """Check if we're in single-phase fill mode (no pre-allocation)."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION not in self.previous_phases
+        )
+
+
+class FormatSelector:
+    """
+    Handles fixture format selection based on the current phase and format capabilities.
+
+    This class encapsulates the complex logic for determining which fixture formats
+    should be generated in each phase of the two-phase execution model.
+    """
+
+    def __init__(self, phase_manager: PhaseManager):
+        """Initialize with a phase manager."""
+        self.phase_manager = phase_manager
+
+    def should_generate(
+        self, fixture_format: Type[BaseFixture] | Any, generate_all: bool = False
+    ) -> bool:
+        """
+        Determine if a fixture format should be generated in the current phase.
+
+        Args:
+            fixture_format: The fixture format to check (may be wrapped in LabeledFixtureFormat)
+            generate_all: Whether --generate-all-formats flag is set
+
+        Returns:
+            True if the format should be generated in the current phase
+
+        """
+        # Extract format phases from the fixture format
+        if hasattr(fixture_format, "format_phases"):
+            format_phases = fixture_format.format_phases
+        elif hasattr(fixture_format, "format") and hasattr(fixture_format.format, "format_phases"):
+            # Handle LabeledFixtureFormat
+            format_phases = fixture_format.format.format_phases
+        else:
+            # Default to FILL phase only
+            format_phases = {FixtureFillingPhase.FILL}
+
+        if self.phase_manager.is_pre_alloc_generation:
+            return self._should_generate_pre_alloc(format_phases)
+        else:  # FILL phase
+            return self._should_generate_fill(
+                format_phases, self.phase_manager.previous_phases, generate_all
+            )
+
+    def _should_generate_pre_alloc(self, format_phases: Set[FixtureFillingPhase]) -> bool:
+        """Determine if format should be generated during pre-alloc generation phase."""
+        # Only generate formats that need pre-allocation groups
+        return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+
+    def _should_generate_fill(
+        self,
+        format_phases: Set[FixtureFillingPhase],
+        previous_phases: Set[FixtureFillingPhase],
+        generate_all: bool,
+    ) -> bool:
+        """Determine if format should be generated during fill phase."""
+        if FixtureFillingPhase.PRE_ALLOC_GENERATION in previous_phases:
+            # Phase 2: After pre-alloc generation
+            if generate_all:
+                # Generate all formats, including those that don't need pre-alloc
+                return True
+            else:
+                # Only generate formats that needed pre-alloc groups
+                return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+        else:
+            # Single phase: Only generate fill-only formats
+            return format_phases == {FixtureFillingPhase.FILL}
+
+
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
     """
     Calculate the state difference between post_state and genesis_state.
