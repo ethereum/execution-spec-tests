@@ -1,5 +1,5 @@
 """
-Pytest fixtures for the `consume engine_sync` simulator.
+Pytest fixtures for the `consume sync` simulator.
 
 Configures the hive back-end & EL clients for each individual test execution.
 """

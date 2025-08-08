@@ -448,9 +448,10 @@ class BlockchainTest(BaseTest):
             return fixture_format != BlockchainFixture
         if "blockchain_test_engine_only" in marker_names:
             return fixture_format != BlockchainEngineFixture
-        # Note: Don't check for ``blockchain_test_sync_only`` here because the marker
-        # is added dynamically for tests that use ``verify_sync``. The ``generate()``
-        # method handles skipping sync fixtures when ``verify_sync=False``.
+
+        # Exception tests cannot be used for sync testing
+        if "exception_test" in marker_names and fixture_format == BlockchainEngineSyncFixture:
+            return True
 
         return False
 

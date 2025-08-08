@@ -8,7 +8,6 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
-import inspect
 import os
 import warnings
 from enum import Enum
@@ -27,7 +26,6 @@ from ethereum_clis.clis.geth import FixtureConsumerTool
 from ethereum_test_base_types import Account, Address, Alloc, ReferenceSpec
 from ethereum_test_fixtures import (
     BaseFixture,
-    BlockchainEngineSyncFixture,
     BlockchainEngineXFixture,
     FixtureCollector,
     FixtureConsumer,
@@ -339,10 +337,6 @@ def pytest_configure(config):
         it uses the modified `htmlpath` option.
     """
     # Register custom markers
-    config.addinivalue_line(
-        "markers", "blockchain_test_sync_only: Only generate blockchain sync test fixtures"
-    )
-
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
@@ -554,6 +548,7 @@ def pytest_runtest_makereport(item, call):
                 "state_test",
                 "blockchain_test",
                 "blockchain_test_engine",
+                "blockchain_test_sync",
             ]:
                 report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
             else:
@@ -1120,10 +1115,6 @@ def pytest_collection_modifyitems(
 
     These can't be handled in this plugins pytest_generate_tests() as the fork
     parametrization occurs in the forks plugin.
-
-    Also dynamically adds custom markers to tests based on their parameters (e.g.,
-    `blockchain_test_sync_only` for tests that have `verify_sync` in their
-    `blockchain_test` parameters).
     """
     items_for_removal = []
     for i, item in enumerate(items):
@@ -1144,13 +1135,6 @@ def pytest_collection_modifyitems(
         if not fixture_format.supports_fork(fork):
             items_for_removal.append(i)
             continue
-
-        # Add ``blockchain_test_sync_only`` marker to blockchain fixture if it uses
-        # ``verify_sync``
-        if fixture_format == BlockchainEngineSyncFixture and isinstance(item, pytest.Function):
-            source = inspect.getsource(item.function)
-            if "verify_sync" in source:
-                item.add_marker(pytest.mark.blockchain_test_sync_only)
 
         markers = list(item.iter_markers())
         if spec_type.discard_fixture_format_by_marks(fixture_format, fork, markers):

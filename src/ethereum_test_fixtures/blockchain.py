@@ -580,7 +580,7 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixtureCommon):
     - Both client types are parametrized from hive client config
     """
 
-    format_name: ClassVar[str] = "blockchain_engine_sync_test"
+    format_name: ClassVar[str] = "blockchain_test_sync"
     description: ClassVar[str] = (
         "Tests that generate a blockchain test fixture for Engine API testing with client sync."
     )
@@ -589,8 +589,3 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixtureCommon):
     post_state: Alloc | None = Field(None)
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     sync_payload: FixtureEngineNewPayload | None = None
-
-    @classmethod
-    def output_base_dir_name(cls) -> str:
-        """Return the proper output directory name for sync fixtures."""
-        return "blockchain_engine_sync_tests"
