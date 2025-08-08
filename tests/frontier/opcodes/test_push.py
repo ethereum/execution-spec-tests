@@ -115,7 +115,7 @@ def test_stack_overflow(
     """
     contract_code: Bytecode = Bytecode()
     for _ in range(stack_height - 2):
-        contract_code += Op.PUSH0  # mostly use push0 to avoid contract size limit exceeded
+        contract_code += Op.PUSH1(0)  # mostly push 0 to avoid contract size limit exceeded
     contract_code += push_opcode(excerpt) * 2 + Op.SSTORE
 
     contract = pre.deploy_contract(contract_code)
