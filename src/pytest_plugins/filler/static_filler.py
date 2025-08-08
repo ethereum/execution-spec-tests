@@ -23,7 +23,6 @@ from ethereum_test_tools.code.yul import Yul
 
 from ..forks.forks import ValidityMarker, get_intersection_set
 from ..shared.helpers import labeled_format_parameter_set
-from .filler import select_format_by_phases
 
 
 def get_test_id_from_arg_names_and_values(
@@ -179,20 +178,15 @@ class FillerFile(pytest.File):
 
                     fixture_formats: List[Type[BaseFixture] | LabeledFixtureFormat] = []
                     spec_parameter_name = ""
-                    generate_all_formats = self.config.getoption("generate_all_formats", False)
                     for test_type in BaseTest.spec_types.values():
                         if test_type.pytest_parameter_name() in func_parameters:
                             assert not spec_parameter_name, "Multiple spec parameters found"
                             spec_parameter_name = test_type.pytest_parameter_name()
+                            session = self.config.filling_session  # type: ignore[attr-defined]
                             fixture_formats.extend(
                                 fixture_format
                                 for fixture_format in test_type.supported_fixture_formats
-                                if select_format_by_phases(
-                                    generate_all_formats=generate_all_formats,
-                                    previous_filling_phases=self.config.previous_filling_phases,  # type: ignore[attr-defined]
-                                    current_filling_phase=self.config.current_filling_phase,  # type: ignore[attr-defined]
-                                    format_phases=fixture_format.format_phases,
-                                )
+                                if session.should_generate_format(fixture_format)
                             )
 
                     validity_markers: List[ValidityMarker] = (

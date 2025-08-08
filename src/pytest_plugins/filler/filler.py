@@ -10,8 +10,9 @@ import configparser
 import datetime
 import os
 import warnings
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Set, Tuple, Type
+from typing import Any, Dict, Generator, List, Self, Set, Type
 
 import pytest
 import xdist
@@ -28,6 +29,7 @@ from ethereum_test_fixtures import (
     FixtureCollector,
     FixtureConsumer,
     FixtureFillingPhase,
+    LabeledFixtureFormat,
     PreAllocGroup,
     PreAllocGroups,
     TestInfo,
@@ -48,6 +50,282 @@ from ..shared.helpers import (
 )
 from ..spec_version_checker.spec_version_checker import get_ref_spec_from_module
 from .fixture_output import FixtureOutput
+
+
+@dataclass(kw_only=True)
+class PhaseManager:
+    """
+    Manages the execution phase for fixture generation.
+
+    The filler plugin supports two-phase execution for pre-allocation group generation:
+    - Phase 1: Generate pre-allocation groups (pytest run with --generate-pre-alloc-groups).
+    - Phase 2: Fill fixtures using pre-allocation groups (pytest run with --use-pre-alloc-groups).
+
+    Note: These are separate pytest runs orchestrated by the CLI wrapper.
+    Each run gets a fresh PhaseManager instance (no persistence between phases).
+    """
+
+    current_phase: FixtureFillingPhase
+    previous_phases: Set[FixtureFillingPhase] = field(default_factory=set)
+
+    @classmethod
+    def from_config(cls, config: pytest.Config) -> "Self":
+        """
+        Create a PhaseManager from pytest configuration.
+
+        Flag logic:
+        - use_pre_alloc_groups: We're in phase 2 (FILL) after phase 1 (PRE_ALLOC_GENERATION).
+        - generate_pre_alloc_groups or generate_all_formats: We're in phase 1
+          (PRE_ALLOC_GENERATION).
+        - Otherwise: Normal single-phase filling (FILL).
+
+        Note: generate_all_formats triggers PRE_ALLOC_GENERATION because the CLI
+        passes it to phase 1 to ensure all formats are considered for grouping.
+        """
+        generate_pre_alloc = config.getoption("generate_pre_alloc_groups", False)
+        use_pre_alloc = config.getoption("use_pre_alloc_groups", False)
+        generate_all = config.getoption("generate_all_formats", False)
+
+        if use_pre_alloc:
+            # Phase 2: Using pre-generated groups
+            return cls(
+                current_phase=FixtureFillingPhase.FILL,
+                previous_phases={FixtureFillingPhase.PRE_ALLOC_GENERATION},
+            )
+        elif generate_pre_alloc or generate_all:
+            # Phase 1: Generating pre-allocation groups
+            return cls(current_phase=FixtureFillingPhase.PRE_ALLOC_GENERATION)
+        else:
+            # Normal single-phase filling
+            return cls(current_phase=FixtureFillingPhase.FILL)
+
+    @property
+    def is_pre_alloc_generation(self) -> bool:
+        """Check if we're in the pre-allocation generation phase."""
+        return self.current_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION
+
+    @property
+    def is_fill_after_pre_alloc(self) -> bool:
+        """Check if we're filling after pre-allocation generation."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION in self.previous_phases
+        )
+
+    @property
+    def is_single_phase_fill(self) -> bool:
+        """Check if we're in single-phase fill mode (no pre-allocation)."""
+        return (
+            self.current_phase == FixtureFillingPhase.FILL
+            and FixtureFillingPhase.PRE_ALLOC_GENERATION not in self.previous_phases
+        )
+
+
+@dataclass(kw_only=True)
+class FormatSelector:
+    """
+    Handles fixture format selection based on the current phase and format capabilities.
+
+    This class encapsulates the complex logic for determining which fixture formats
+    should be generated in each phase of the two-phase execution model.
+    """
+
+    phase_manager: PhaseManager
+    generate_all_formats: bool
+
+    def should_generate(self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat) -> bool:
+        """
+        Determine if a fixture format should be generated in the current phase.
+
+        Args:
+            fixture_format: The fixture format to check (may be wrapped in LabeledFixtureFormat)
+
+        Returns:
+            True if the format should be generated in the current phase
+
+        """
+        format_phases = fixture_format.format_phases
+
+        if self.phase_manager.is_pre_alloc_generation:
+            return self._should_generate_pre_alloc(format_phases)
+        else:  # FILL phase
+            return self._should_generate_fill(format_phases)
+
+    def _should_generate_pre_alloc(self, format_phases: Set[FixtureFillingPhase]) -> bool:
+        """Determine if format should be generated during pre-alloc generation phase."""
+        # Only generate formats that need pre-allocation groups
+        return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+
+    def _should_generate_fill(self, format_phases: Set[FixtureFillingPhase]) -> bool:
+        """Determine if format should be generated during fill phase."""
+        if FixtureFillingPhase.PRE_ALLOC_GENERATION in self.phase_manager.previous_phases:
+            # Phase 2: After pre-alloc generation
+            if self.generate_all_formats:
+                # Generate all formats, including those that don't need pre-alloc
+                return True
+            else:
+                # Only generate formats that needed pre-alloc groups
+                return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
+        else:
+            # Single phase: Only generate fill-only formats
+            return format_phases == {FixtureFillingPhase.FILL}
+
+
+@dataclass(kw_only=True)
+class FillingSession:
+    """
+    Manages all state for a single pytest fill session.
+
+    This class serves as the single source of truth for all filler state management,
+    including phase management, format selection, and pre-allocation groups.
+
+    Important: Each pytest run gets a fresh FillingSession instance. There is no
+    persistence between phase 1 (generate pre-alloc) and phase 2 (use pre-alloc)
+    except through file I/O.
+    """
+
+    fixture_output: FixtureOutput
+    phase_manager: PhaseManager
+    format_selector: FormatSelector
+    pre_alloc_groups: PreAllocGroups | None
+
+    @classmethod
+    def from_config(cls, config: pytest.Config) -> "Self":
+        """
+        Initialize a filling session from pytest configuration.
+
+        Args:
+            config: The pytest configuration object.
+
+        """
+        phase_manager = PhaseManager.from_config(config)
+        instance = cls(
+            fixture_output=FixtureOutput.from_config(config),
+            phase_manager=phase_manager,
+            format_selector=FormatSelector(
+                phase_manager=phase_manager,
+                generate_all_formats=config.getoption("generate_all_formats", False),
+            ),
+            pre_alloc_groups=None,
+        )
+
+        # Initialize pre-alloc groups based on phase
+        instance._initialize_pre_alloc_groups()
+        return instance
+
+    def _initialize_pre_alloc_groups(self) -> None:
+        """Initialize pre-allocation groups based on the current phase."""
+        if self.phase_manager.is_pre_alloc_generation:
+            # Phase 1: Create empty container for collecting groups
+            self.pre_alloc_groups = PreAllocGroups(root={})
+        elif self.phase_manager.is_fill_after_pre_alloc:
+            # Phase 2: Load pre-alloc groups from disk
+            self._load_pre_alloc_groups_from_folder()
+
+    def _load_pre_alloc_groups_from_folder(self) -> None:
+        """Load pre-allocation groups from the output folder."""
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        if pre_alloc_folder.exists():
+            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder)
+        else:
+            raise FileNotFoundError(
+                f"Pre-allocation groups folder not found: {pre_alloc_folder}. "
+                "Run phase 1 with --generate-pre-alloc-groups first."
+            )
+
+    def should_generate_format(
+        self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat
+    ) -> bool:
+        """
+        Determine if a fixture format should be generated in the current session.
+
+        Args:
+            fixture_format: The fixture format to check.
+
+        Returns:
+            True if the format should be generated.
+
+        """
+        return self.format_selector.should_generate(fixture_format)
+
+    def get_pre_alloc_group(self, hash_key: str) -> PreAllocGroup:
+        """
+        Get a pre-allocation group by hash.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+
+        Returns:
+            The pre-allocation group.
+
+        Raises:
+            ValueError: If pre-alloc groups not initialized or hash not found.
+
+        """
+        if self.pre_alloc_groups is None:
+            raise ValueError("Pre-allocation groups not initialized")
+
+        if hash_key not in self.pre_alloc_groups:
+            pre_alloc_path = self.fixture_output.pre_alloc_groups_folder_path / hash_key
+            raise ValueError(
+                f"Pre-allocation hash {hash_key} not found in pre-allocation groups. "
+                f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
+                "Make sure phase 1 (--generate-pre-alloc-groups) was run before phase 2."
+            )
+
+        return self.pre_alloc_groups[hash_key]
+
+    def update_pre_alloc_group(self, hash_key: str, group: PreAllocGroup) -> None:
+        """
+        Update or add a pre-allocation group.
+
+        Args:
+            hash_key: The hash of the pre-alloc group.
+            group: The pre-allocation group.
+
+        Raises:
+            ValueError: If not in pre-alloc generation phase.
+
+        """
+        if not self.phase_manager.is_pre_alloc_generation:
+            raise ValueError("Can only update pre-alloc groups in generation phase")
+
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        self.pre_alloc_groups[hash_key] = group
+
+    def save_pre_alloc_groups(self) -> None:
+        """Save pre-allocation groups to disk."""
+        if self.pre_alloc_groups is None:
+            return
+
+        pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
+        pre_alloc_folder.mkdir(parents=True, exist_ok=True)
+        self.pre_alloc_groups.to_folder(pre_alloc_folder)
+
+    def aggregate_pre_alloc_groups(self, worker_groups: PreAllocGroups) -> None:
+        """
+        Aggregate pre-alloc groups from a worker process (xdist support).
+
+        Args:
+            worker_groups: Pre-alloc groups from a worker process.
+
+        """
+        if self.pre_alloc_groups is None:
+            self.pre_alloc_groups = PreAllocGroups(root={})
+
+        for hash_key, group in worker_groups.root.items():
+            if hash_key in self.pre_alloc_groups:
+                # Merge if exists (should not happen in practice)
+                existing = self.pre_alloc_groups[hash_key]
+                if existing.pre != group.pre:
+                    raise ValueError(
+                        f"Conflicting pre-alloc groups for hash {hash_key}: "
+                        f"existing={self.pre_alloc_groups[hash_key].pre}, new={group.pre}"
+                    )
+            else:
+                self.pre_alloc_groups[hash_key] = group
 
 
 def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
@@ -292,75 +570,6 @@ def pytest_addoption(parser: pytest.Parser):
     )
 
 
-def _determine_filling_phases(
-    *,
-    generate_pre_alloc_groups: bool,
-    use_pre_alloc_groups: bool,
-    generate_all_formats: bool,
-) -> Tuple[Set[FixtureFillingPhase], FixtureFillingPhase]:
-    """Determine which execution phase we're in based on the flags."""
-    if use_pre_alloc_groups:
-        return {FixtureFillingPhase.PRE_ALLOC_GENERATION}, FixtureFillingPhase.FILL
-    elif generate_pre_alloc_groups or generate_all_formats:
-        return set(), FixtureFillingPhase.PRE_ALLOC_GENERATION
-    else:
-        # Normal filling
-        return set(), FixtureFillingPhase.FILL
-
-
-def select_format_by_phases(
-    *,
-    generate_all_formats: bool,
-    previous_filling_phases: Set[FixtureFillingPhase],
-    current_filling_phase: FixtureFillingPhase,
-    format_phases: Set[FixtureFillingPhase],
-) -> bool:
-    """Determine the fixture formats that will be used."""
-    if current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:
-        # We are generating pre-allocation groups, so we can select any format that contains
-        # the pre-allocation phase
-        return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
-    elif current_filling_phase == FixtureFillingPhase.FILL:
-        if FixtureFillingPhase.PRE_ALLOC_GENERATION in previous_filling_phases:
-            # We are filling and the pre-allocation already passed
-            if generate_all_formats:
-                # Generate all formats, including the ones that didn't need pre-allocation groups
-                return True
-            else:
-                # Generate only the formats that need pre-allocation groups
-                return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
-        else:
-            # Discriminate to select fixtures that only have the filling phase and not both
-            return format_phases == {FixtureFillingPhase.FILL}
-    raise ValueError(f"Invalid filling phase: {current_filling_phase}")
-
-
-def pytest_sessionstart(session: pytest.Session):
-    """
-    Initialize session-level state.
-
-    Either initialize an empty pre-allocation groups container for phase 1 or
-    load the pre-allocation groups for phase 2 execution.
-    """
-    # Initialize empty pre-allocation groups container for phase 1
-    if session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:  # type: ignore[attr-defined]
-        session.config.pre_alloc_groups = PreAllocGroups(root={})  # type: ignore[attr-defined]
-
-    # Load the pre-allocation groups for phase 2
-    if FixtureFillingPhase.PRE_ALLOC_GENERATION in session.config.previous_filling_phases:  # type: ignore[attr-defined]
-        pre_alloc_groups_folder = session.config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
-        if pre_alloc_groups_folder.exists():
-            session.config.pre_alloc_groups = PreAllocGroups.from_folder(  # type: ignore[attr-defined]
-                pre_alloc_groups_folder
-            )
-        else:
-            pytest.exit(
-                f"Pre-allocation groups folder not found: {pre_alloc_groups_folder}. "
-                "Run phase 1 with --generate-pre-alloc-groups first.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
-
-
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     """
@@ -384,12 +593,8 @@ def pytest_configure(config):
     # Initialize fixture output configuration
     config.fixture_output = FixtureOutput.from_config(config)
 
-    # Determine the filling phase
-    config.previous_filling_phases, config.current_filling_phase = _determine_filling_phases(
-        generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
-        use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
-        generate_all_formats=config.getoption("generate_all_formats"),
-    )
+    # Initialize filling session
+    config.filling_session = FillingSession.from_config(config)
 
     if is_help_or_collectonly_mode(config):
         return
@@ -403,7 +608,8 @@ def pytest_configure(config):
     if (
         not config.getoption("disable_html")
         and config.getoption("htmlpath") is None
-        and config.current_filling_phase != FixtureFillingPhase.PRE_ALLOC_GENERATION
+        and config.filling_session.phase_manager.current_phase  # type: ignore[attr-defined]
+        != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
 
@@ -485,7 +691,8 @@ def pytest_terminal_summary(
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
-        if config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION:  # type: ignore[attr-defined]
+        session_instance: FillingSession = config.filling_session  # type: ignore[attr-defined]
+        if session_instance.phase_manager.is_pre_alloc_generation:
             # Generate summary stats
             pre_alloc_groups: PreAllocGroups
             if config.pluginmanager.hasplugin("xdist"):
@@ -494,8 +701,8 @@ def pytest_terminal_summary(
                     config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
                 )
             else:
-                assert hasattr(config, "pre_alloc_groups")
-                pre_alloc_groups = config.pre_alloc_groups  # type: ignore[attr-defined]
+                assert session_instance.pre_alloc_groups is not None
+                pre_alloc_groups = session_instance.pre_alloc_groups
 
             total_groups = len(pre_alloc_groups.root)
             total_accounts = sum(
@@ -977,13 +1184,14 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 self._request = request
                 self._operation_mode = request.config.op_mode
 
+                # Get the filling session from config
+                session: FillingSession = request.config.filling_session  # type: ignore[attr-defined]
+
                 # Phase 1: Generate pre-allocation groups
-                if (
-                    request.config.current_filling_phase
-                    == FixtureFillingPhase.PRE_ALLOC_GENERATION
-                ):
+                if session.phase_manager.is_pre_alloc_generation:
+                    # Use the original update_pre_alloc_groups method which returns the groups
                     self.update_pre_alloc_groups(
-                        request.config.pre_alloc_groups, fork, request.node.nodeid
+                        session.pre_alloc_groups, fork, request.node.nodeid
                     )
                     return  # Skip fixture generation in phase 1
 
@@ -991,19 +1199,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 pre_alloc_hash = None
                 if FixtureFillingPhase.PRE_ALLOC_GENERATION in fixture_format.format_phases:
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
-                    if pre_alloc_hash not in request.config.pre_alloc_groups:
-                        pre_alloc_path = (
-                            request.config.fixture_output.pre_alloc_groups_folder_path
-                            / pre_alloc_hash
-                        )
-                        raise ValueError(
-                            f"Pre-allocation hash {pre_alloc_hash} not found in "
-                            f"pre-allocation groups. "
-                            f"Please check the pre-allocation groups file at: {pre_alloc_path}. "
-                            "Make sure phase 1 (--generate-pre-alloc-groups) was run "
-                            "before phase 2."
-                        )
-                    group: PreAllocGroup = request.config.pre_alloc_groups[pre_alloc_hash]  # type: ignore[annotation-unchecked]
+                    group = session.get_pre_alloc_group(pre_alloc_hash)
                     self.pre = group.pre
 
                 fixture = self.generate(
@@ -1021,7 +1217,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
 
                     # Calculate state diff for efficiency
                     if hasattr(fixture, "post_state") and fixture.post_state is not None:
-                        group = request.config.pre_alloc_groups[pre_alloc_hash]
+                        group = session.get_pre_alloc_group(pre_alloc_hash)
                         fixture.post_state_diff = calculate_post_state_diff(
                             fixture.post_state, group.pre
                         )
@@ -1065,17 +1261,12 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     NOTE: The static test filler does NOT use this hook. See FillerFile.collect() in
     ./static_filler.py for more details.
     """
-    generate_all_formats = metafunc.config.getoption("generate_all_formats", False)
+    session: FillingSession = metafunc.config.filling_session  # type: ignore[attr-defined]
     for test_type in BaseTest.spec_types.values():
         if test_type.pytest_parameter_name() in metafunc.fixturenames:
             parameters = []
             for i, format_with_or_without_label in enumerate(test_type.supported_fixture_formats):
-                if not select_format_by_phases(
-                    generate_all_formats=generate_all_formats,
-                    previous_filling_phases=metafunc.config.previous_filling_phases,  # type: ignore[attr-defined]
-                    current_filling_phase=metafunc.config.current_filling_phase,  # type: ignore[attr-defined]
-                    format_phases=format_with_or_without_label.format_phases,
-                ):
+                if not session.should_generate_format(format_with_or_without_label):
                     continue
                 parameter = labeled_format_parameter_set(format_with_or_without_label)
                 if i > 0:
@@ -1163,14 +1354,10 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     - Create tarball of the output directory if the output is a tarball.
     """
     # Save pre-allocation groups after phase 1
-    fixture_output = session.config.fixture_output  # type: ignore[attr-defined]
-    if (
-        session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION  # type: ignore[attr-defined]
-        and hasattr(session.config, "pre_alloc_groups")
-    ):
-        pre_alloc_groups_folder = fixture_output.pre_alloc_groups_folder_path
-        pre_alloc_groups_folder.mkdir(parents=True, exist_ok=True)
-        session.config.pre_alloc_groups.to_folder(pre_alloc_groups_folder)
+    fixture_output: FixtureOutput = session.config.fixture_output  # type: ignore[attr-defined]
+    session_instance: FillingSession = session.config.filling_session  # type: ignore[attr-defined]
+    if session_instance.phase_manager.is_pre_alloc_generation:
+        session_instance.save_pre_alloc_groups()
         return
 
     if xdist.is_xdist_worker(session):
@@ -1186,7 +1373,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     # Generate index file for all produced fixtures.
     if (
         session.config.getoption("generate_index")
-        and not session.config.current_filling_phase == FixtureFillingPhase.PRE_ALLOC_GENERATION  # type: ignore[attr-defined]
+        and not session_instance.phase_manager.is_pre_alloc_generation
     ):
         generate_fixtures_index(
             fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
