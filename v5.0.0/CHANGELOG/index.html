@@ -6185,6 +6185,8 @@
       
         
       
+        
+      
     
     
     
@@ -6333,6 +6335,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_modular_comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_modular_comparison</code>
     
   </span>
   
@@ -28125,6 +28150,7 @@
 <li>Python 3.10 support was removed in this release (<a href="https://github.com/ethereum/execution-spec-tests/pull/1808">#1808</a>).</li>
 <li>Tests for the Prague fork are now marked as stable will be included in the <code>fixtures_stable.tar.gz</code> tarball from now on.</li>
 <li>Tests for the Osaka fork are now included in the <code>fixtures_develop.tar.gz</code> tarball.</li>
+<li><code>fixtures_static.tar.gz</code> has been deprecated and filled static tests are now included in <code>fixtures_stable.tar.gz</code> and <code>fixtures_develop.tar.gz</code>.</li>
 </ul>
 <h4 id="important-change-for-eest-developers">💥 Important Change for EEST developers<a class="headerlink" href="#important-change-for-eest-developers" title="Permanent link">&para;</a></h4>
 <ul>
@@ -28179,6 +28205,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ Generate unique addresses with Python for compatible static tests, instead of using hard-coded addresses from legacy static test fillers (<a href="https://github.com/ethereum/execution-spec-tests/pull/1781">#1781</a>).</li>
 <li>✨ Added support for the <code>--benchmark-gas-values</code> flag in the <code>fill</code> command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. (<a href="https://github.com/ethereum/execution-spec-tests/pull/1895">#1895</a>).</li>
 <li>✨ Static tests can now specify a maximum fork where they should be filled for (<a href="https://github.com/ethereum/execution-spec-tests/pull/1977">#1977</a>).</li>
+<li>✨ Static tests can now be filled in every format using <code>--generate-all-formats</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/2006">#2006</a>).</li>
 </ul>
 <h4 id="consume"><code>consume</code><a class="headerlink" href="#consume" title="Permanent link">&para;</a></h4>
 <ul>
@@ -28228,6 +28255,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
+<li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7951">EIP-7951</a>: Add additional test cases for modular comparison.</li>
 <li>🔀 Refactored <code>BLOBHASH</code> opcode context tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1637">#1637</a>).</li>
 <li>🔀 Refactored <code>SELFDESTRUCT</code> opcode collision tests to use the <code>pre_alloc</code> plugin in order to avoid contract and EOA address collisions (<a href="https://github.com/ethereum/execution-spec-tests/pull/1643">#1643</a>).</li>
 <li>✨ EIP-7594: Sanity test cases to send blob transactions and verify <code>engine_getBlobsVX</code> using the <code>execute</code> command (<a href="https://github.com/ethereum/execution-spec-tests/pull/1644">#1644</a>,<a href="https://github.com/ethereum/execution-spec-tests/pull/1884">#1884</a>).</li>
