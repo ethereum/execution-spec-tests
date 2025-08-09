@@ -55,13 +55,31 @@ class Nethtest(EthereumCLI):
         result: subprocess.CompletedProcess,
         debug_output_path: Path,
     ):
-        consume_direct_call = " ".join(command)
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+
+        # ensure that the --filter flag value is wrapped in double-quotes
+        consume_direct_call = ""
+        prev_command_was_filter_flag = False
+        for s in command:
+            if prev_command_was_filter_flag:
+                if s[0] != '"':
+                    s = '"' + s + '"'
+                    prev_command_was_filter_flag = False
+            consume_direct_call += s + " "
+            if s.strip() == "--filter":
+                prev_command_was_filter_flag = True
+        consume_direct_call = consume_direct_call.strip()
+
         consume_direct_script = textwrap.dedent(
             f"""\
             #!/bin/bash
             {consume_direct_call}
             """
         )
+
         dump_files_to_directory(
             str(debug_output_path),
             {
