@@ -446,8 +446,6 @@ class BlockchainTest(BaseTest):
             and "blockchain_test_engine_only" in marker_names
         ):
             return True
-        if fixture_format == BlockchainEngineSyncFixture and "verify_sync" not in marker_names:
-            return True
         return False
 
     def get_genesis_environment(self, fork: Fork) -> Environment:

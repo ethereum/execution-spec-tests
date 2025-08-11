@@ -16,6 +16,7 @@ from typing import (
 )
 
 import ethereum_rlp as eth_rlp
+import pytest
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -586,3 +587,13 @@ class BlockchainEngineSyncFixture(BlockchainEngineFixture):
         "Tests that generate a blockchain test fixture for Engine API testing with client sync."
     )
     sync_payload: FixtureEngineNewPayload | None = None
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard the fixture format based on the provided markers."""
+        marker_names = [m.name for m in markers]
+        return "verify_sync" not in marker_names
