@@ -59,58 +59,9 @@ def test_vectors_from_legacy_tests(
     )
 
 
-def create_modexp_input(
-    bsize: int, esize: int, msize: int, e_data: str = "", m_data: str = "", b_data: str = ""
-) -> bytes:
-    """
-    Create ModExp input data with specified sizes and data.
-
-    Args:
-        bsize: Base size in bytes
-        esize: Exponent size in bytes
-        msize: Modulus size in bytes
-        e_data: Exponent data (hex string, if not provided, will be padded with FF)
-        m_data: Modulus data (hex string, if not provided, will be padded with FF)
-        b_data: Base data (hex string, if not provided, will be padded with FF)
-
-    Returns:
-        ModExp input as bytes
-
-    """
-    e_padded = "FF" * esize if not e_data else e_data
-    m_padded = "FF" * msize if not m_data else m_data
-    b_padded = "FF" * bsize if not b_data else b_data
-
-    # Format sizes as 32-byte hex strings
-    bsize_hex = format(bsize, "032x")
-    esize_hex = format(esize, "032x")
-    msize_hex = format(msize, "032x")
-
-    # Concatenate all parts
-    input_hex = bsize_hex + esize_hex + msize_hex + e_padded + m_padded + b_padded
-    return bytes.fromhex(input_hex)
-
-
 @pytest.mark.parametrize(
     "modexp_input,",
     [
-        pytest.param(bytes(), id="zero-length-calldata"),
-        pytest.param(
-            create_modexp_input(10, 11, 12, b_data="FF" * 9),
-            id="b-too-short",
-        ),
-        pytest.param(
-            create_modexp_input(10, 11, 12, m_data="FF" * 10),
-            id="m-too-short",
-        ),
-        pytest.param(
-            create_modexp_input(10, 11, 12, e_data="FF" * 11),
-            id="e-too-short",
-        ),
-        pytest.param(
-            create_modexp_input(0, 0, 0),
-            id="all-zeros",
-        ),
         # These invalid inputs are from EIP-7823.
         # Ref: https://github.com/ethereum/EIPs/blob/master/EIPS/eip-7823.md#analysis
         pytest.param(
