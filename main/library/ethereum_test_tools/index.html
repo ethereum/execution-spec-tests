@@ -5367,6 +5367,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BaseFixture.discard_fixture_format_by_marks" class="md-nav__link">
+    <span class="md-ellipsis">
+      discard_fixture_format_by_marks
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -32160,6 +32169,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ethereum_test_tools.BaseFixture.discard_fixture_format_by_marks" class="md-nav__link">
+    <span class="md-ellipsis">
+      discard_fixture_format_by_marks
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -44474,16 +44492,7 @@ when returning</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 41</span>
-<span class="normal"> 42</span>
-<span class="normal"> 43</span>
-<span class="normal"> 44</span>
-<span class="normal"> 45</span>
-<span class="normal"> 46</span>
-<span class="normal"> 47</span>
-<span class="normal"> 48</span>
-<span class="normal"> 49</span>
-<span class="normal"> 50</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 50</span>
 <span class="normal"> 51</span>
 <span class="normal"> 52</span>
 <span class="normal"> 53</span>
@@ -44579,7 +44588,26 @@ when returning</p>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BaseFixture</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a base Ethereum test fixture of any type.&quot;&quot;&quot;</span>
 
     <span class="c1"># Base Fixture class properties</span>
@@ -44592,6 +44620,7 @@ when returning</p>
     <span class="n">format_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
     <span class="n">output_file_extension</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;.json&quot;</span>
     <span class="n">description</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Unknown fixture format; it has not been set.&quot;</span>
+    <span class="n">format_phases</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Set</span><span class="p">[</span><span class="n">FixtureFillingPhase</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="n">FixtureFillingPhase</span><span class="o">.</span><span class="n">FILL</span><span class="p">}</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -44685,6 +44714,15 @@ when returning</p>
 <span class="sd">        By default, all fixtures support all forks.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+        <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -44718,10 +44756,10 @@ when returning</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">output_base_dir_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return name of the subdirectory where this type of fixture should be dumped to.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">format_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;tests&quot;</span><span class="p">)</span>
@@ -44757,17 +44795,7 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">70</span>
 <span class="normal">71</span>
 <span class="normal">72</span>
 <span class="normal">73</span>
@@ -44782,7 +44810,17 @@ as possible fixture formats.</p>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">__pydantic_init_subclass__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Register all subclasses of BaseFixture with a fixture format name set</span>
@@ -44891,13 +44929,13 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">107</span>
-<span class="normal">108</span>
-<span class="normal">109</span>
-<span class="normal">110</span>
-<span class="normal">111</span>
-<span class="normal">112</span>
-<span class="normal">113</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_dict_with_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hash_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">json_dict_with_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hash_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return JSON representation of the fixture with the info field.&quot;&quot;&quot;</span>
     <span class="n">dict_with_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">dict_with_info</span><span class="p">[</span><span class="s2">&quot;_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hash&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">hash</span><span class="p">}</span>
@@ -44931,17 +44969,7 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
 <span class="normal">128</span>
@@ -44949,7 +44977,17 @@ as possible fixture formats.</p>
 <span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_info</span><span class="p">(</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fill_info</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n_version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">test_case_description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -44995,9 +45033,9 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return fork of the fixture as a string.&quot;&quot;&quot;</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 </code></pre></div></td></tr></table></div>
@@ -45032,14 +45070,14 @@ as possible fixture formats.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">supports_fork</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return whether the fixture can be generated for the given fork.</span>
@@ -45047,6 +45085,52 @@ as possible fixture formats.</p>
 <span class="sd">    By default, all fixtures support all forks.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="ethereum_test_tools.BaseFixture.discard_fixture_format_by_marks" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">discard_fixture_format_by_marks</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">markers</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#ethereum_test_tools.BaseFixture.discard_fixture_format_by_marks" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Discard a fixture format from filling if the appropriate marker is used.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/ethereum_test_fixtures/base.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span>
+    <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -47570,7 +47654,11 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">844</span>
 <span class="normal">845</span>
 <span class="normal">846</span>
-<span class="normal">847</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockchainTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filler type that tests multiple blocks (valid or invalid) in a chain.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
@@ -47611,10 +47699,14 @@ This is the case when the test is not run in pytest.</p>
         <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;blockchain_test_only&quot;</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainFixture</span>
-        <span class="k">if</span> <span class="s2">&quot;blockchain_test_engine_only&quot;</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]:</span>
-            <span class="k">return</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainEngineFixture</span>
+        <span class="n">marker_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainFixture</span> <span class="ow">and</span> <span class="s2">&quot;blockchain_test_only&quot;</span> <span class="ow">in</span> <span class="n">marker_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">fixture_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">BlockchainEngineFixture</span><span class="p">,</span> <span class="n">BlockchainEngineXFixture</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="s2">&quot;blockchain_test_engine_only&quot;</span> <span class="ow">in</span> <span class="n">marker_names</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
@@ -48093,7 +48185,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">441</span>
 <span class="normal">442</span>
 <span class="normal">443</span>
-<span class="normal">444</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">discard_fixture_format_by_marks</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
@@ -48101,10 +48197,14 @@ In this case, the state verification is only performed based on the state root.<
     <span class="n">markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Mark</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Discard a fixture format from filling if the appropriate marker is used.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s2">&quot;blockchain_test_only&quot;</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainFixture</span>
-    <span class="k">if</span> <span class="s2">&quot;blockchain_test_engine_only&quot;</span> <span class="ow">in</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainEngineFixture</span>
+    <span class="n">marker_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">fixture_format</span> <span class="o">!=</span> <span class="n">BlockchainFixture</span> <span class="ow">and</span> <span class="s2">&quot;blockchain_test_only&quot;</span> <span class="ow">in</span> <span class="n">marker_names</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">fixture_format</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">BlockchainEngineFixture</span><span class="p">,</span> <span class="n">BlockchainEngineXFixture</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="s2">&quot;blockchain_test_engine_only&quot;</span> <span class="ow">in</span> <span class="n">marker_names</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -48133,12 +48233,12 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">446</span>
-<span class="normal">447</span>
-<span class="normal">448</span>
-<span class="normal">449</span>
-<span class="normal">450</span>
-<span class="normal">451</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_genesis_environment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Environment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the genesis environment for pre-allocation groups.&quot;&quot;&quot;</span>
     <span class="n">modified_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">genesis_environment</span><span class="o">.</span><span class="n">set_fork_requirements</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span>
         <span class="n">exclude_unset</span><span class="o">=</span><span class="kc">True</span>
@@ -48171,11 +48271,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span>
-<span class="normal">456</span>
-<span class="normal">457</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">457</span>
 <span class="normal">458</span>
 <span class="normal">459</span>
 <span class="normal">460</span>
@@ -48200,7 +48296,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">479</span>
 <span class="normal">480</span>
 <span class="normal">481</span>
-<span class="normal">482</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_genesis</span><span class="p">(</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_genesis</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span> <span class="n">apply_pre_allocation_blockchain</span><span class="p">:</span> <span class="nb">bool</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Alloc</span><span class="p">,</span> <span class="n">FixtureBlock</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a genesis block from the blockchain test definition.&quot;&quot;&quot;</span>
@@ -48257,11 +48357,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">488</span>
 <span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span>
@@ -48411,7 +48507,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">635</span>
 <span class="normal">636</span>
 <span class="normal">637</span>
-<span class="normal">638</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate_block_data</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -48593,16 +48693,16 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">644</span>
 <span class="normal">645</span>
 <span class="normal">646</span>
 <span class="normal">647</span>
 <span class="normal">648</span>
-<span class="normal">649</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_post_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n</span><span class="p">,</span> <span class="n">t8n_state</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">expected_state</span><span class="p">:</span> <span class="n">Alloc</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Verify post alloc after all block/s or payload/s are generated.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">expected_state</span><span class="p">:</span>
@@ -48639,11 +48739,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">655</span>
 <span class="normal">656</span>
 <span class="normal">657</span>
 <span class="normal">658</span>
@@ -48694,7 +48790,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">703</span>
 <span class="normal">704</span>
 <span class="normal">705</span>
-<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -48777,11 +48877,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">712</span>
 <span class="normal">713</span>
 <span class="normal">714</span>
 <span class="normal">715</span>
@@ -48884,7 +48980,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">812</span>
 <span class="normal">813</span>
 <span class="normal">814</span>
-<span class="normal">815</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">make_hive_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -49019,11 +49119,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">817</span>
-<span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">821</span>
 <span class="normal">822</span>
 <span class="normal">823</span>
 <span class="normal">824</span>
@@ -49032,7 +49128,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">827</span>
 <span class="normal">828</span>
 <span class="normal">829</span>
-<span class="normal">830</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -49073,11 +49173,7 @@ In this case, the state verification is only performed based on the state root.<
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blockchain.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">832</span>
-<span class="normal">833</span>
-<span class="normal">834</span>
-<span class="normal">835</span>
-<span class="normal">836</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
 <span class="normal">839</span>
@@ -49088,7 +49184,11 @@ In this case, the state verification is only performed based on the state root.<
 <span class="normal">844</span>
 <span class="normal">845</span>
 <span class="normal">846</span>
-<span class="normal">847</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">847</span>
+<span class="normal">848</span>
+<span class="normal">849</span>
+<span class="normal">850</span>
+<span class="normal">851</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
