@@ -5,7 +5,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Address, Alloc, Storage, Transaction
+from ethereum_test_tools import Account, Address, Alloc, Bytes, Storage, Transaction, keccak256
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
@@ -109,17 +109,11 @@ def gas_measure_contract(
 
     if call_succeeds:
         code += Op.SSTORE(call_contract_post_storage.store_next(precompile_gas), gas_calculation)
-        # + Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE())
-        # + Op.SSTORE(call_contract_post_storage.store_next(
-        #     keccak256(Bytes(vector.expected))), Op.SHA3(0, Op.RETURNDATASIZE()))
-
-        for i in range(len(modexp_expected) // 32):
-            code += Op.RETURNDATACOPY(0, i * 32, 32)
-            code += Op.SSTORE(
-                call_contract_post_storage.store_next(modexp_expected[i * 32 : (i + 1) * 32]),
-                Op.MLOAD(0),
-            )
-
+        code += Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE())
+        code += Op.SSTORE(
+            call_contract_post_storage.store_next(keccak256(Bytes(modexp_expected))),
+            Op.SHA3(0, Op.RETURNDATASIZE()),
+        )
     return pre.deploy_contract(code)
 
 
