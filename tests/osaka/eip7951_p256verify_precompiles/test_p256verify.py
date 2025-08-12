@@ -9,7 +9,6 @@ from ethereum_test_tools import (
     Alloc,
     Environment,
     StateTestFiller,
-    Storage,
     Transaction,
 )
 from ethereum_test_tools import Opcodes as Op
@@ -127,6 +126,7 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
 @pytest.mark.eip_checklist("precompile/test/inputs/invalid")
 @pytest.mark.eip_checklist("precompile/test/inputs/invalid/crypto")
 @pytest.mark.eip_checklist("precompile/test/inputs/invalid/corrupted")
+@pytest.mark.eip_checklist("precompile/test/input_lengths/zero")
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/correct")
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/too_short")
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/too_long")
@@ -171,20 +171,8 @@ def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transa
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.eip_checklist("precompile/test/gas_usage/constant/exact")
 @pytest.mark.eip_checklist("precompile/test/gas_usage/constant/oog")
-def test_gas(
-    state_test: StateTestFiller,
-    pre: Alloc,
-    post: dict,
-    tx: Transaction,
-    call_contract_post_storage: Storage,
-    call_succeeds: bool,
-):
+def test_gas(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile gas requirements."""
-    # Assert that the return status is zero if the call runs out of gas, but doesn't revert
-    if call_succeeds:
-        assert call_contract_post_storage[0] == 1
-    else:
-        assert call_contract_post_storage[0] == 0
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
