@@ -21,17 +21,13 @@ REFERENCE_SPEC_VERSION = ref_spec_7928.version
 class TestBALValidity:
     """Test BAL validity and data structure integrity."""
 
-    def test_bal_hash_basic_transaction(
+    def test_eth_transfer(
         self,
         pre: Alloc,
         blockchain_test: BlockchainTestFiller,
     ):
-        """Test BAL hash generation for basic ETH transfer."""
+        """Test ETH transfer and verify balances."""
         # Setup accounts for basic ETH transfer
-
-        # TODO: Populate BAL.
-        bal = BlockAccessList()
-
         transfer_amount = 1000
         sender = pre.fund_eoa()
         recipient = pre.fund_eoa(amount=0)
@@ -40,21 +36,24 @@ class TestBALValidity:
         tx = Transaction(
             sender=sender,
             to=recipient,
-            value=1000,
+            value=transfer_amount,
         )
 
-        # Create block with custom header that includes BAL hash
-        block = Block(txs=[tx], block_access_lists=bal.serialize())
+        # Create block with the transaction
+        block = Block(txs=[tx])
 
         # Execute the blockchain test
         blockchain_test(
             pre=pre,
             blocks=[block],
-            post={
-                sender: Account(
-                    nonce=1,
-                ),
-                recipient: Account(balance=transfer_amount),
+            post={},
+            block_access_list={
+                "account_changes": [
+                    {
+                        "address": recipient,
+                        "balance_changes": [{"tx_index": 0, "post_balance": transfer_amount}],
+                    },
+                ]
             },
         )
 
