@@ -40,7 +40,7 @@ class Spec:
     EXPONENT_THRESHOLD = 32
     GAS_DIVISOR = 3
 
-    # Test Constants
+    # Arbitrary Test Constants
     modexp_input = ModExpInput(
         base="e8e77626586f73b955364c7b4bbf0bb7f7685ebd40e852b164633a4acbd3244c0001020304050607",
         exponent="01ffffff",
