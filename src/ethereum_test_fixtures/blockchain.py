@@ -571,6 +571,20 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     """Engine API payloads for blockchain execution."""
 
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard a fixture format from filling if the appropriate marker is used."""
+        marker_names = [m.name for m in markers]
+        if "untagged" in marker_names:
+            # Note: untagged static tests require a separate pre-alloc group each;
+            # enginex fixtures provide no benefit in this case.
+            return True
+        return False
+
 
 class BlockchainEngineSyncFixture(BlockchainEngineFixture):
     """
