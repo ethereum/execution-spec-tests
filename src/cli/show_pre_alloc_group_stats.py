@@ -147,7 +147,7 @@ def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
 
     # Calculate frequency distribution of group sizes
     group_distribution, test_distribution = calculate_size_distribution(
-        [g["tests"] for g in group_details]
+        [g["tests"] for g in group_details]  # type: ignore
     )
 
     # Analyze test functions split across multiple size-1 groups
