@@ -1674,6 +1674,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sync
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#engine-vs-rlp-simulator" class="md-nav__link">
     <span class="md-ellipsis">
       Engine vs RLP Simulator
@@ -26271,6 +26280,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sync
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#engine-vs-rlp-simulator" class="md-nav__link">
     <span class="md-ellipsis">
       Engine vs RLP Simulator
@@ -26377,6 +26395,13 @@
 <td><a href="#engine"><code>consume engine</code></a></td>
 <td>Client imports blocks via Engine API <code>EngineNewPayload</code> in Hive</td>
 <td>EVM, block processing, Engine API</td>
+<td>Staging, Hive</td>
+<td>System test</td>
+</tr>
+<tr>
+<td><a href="#sync"><code>consume sync</code></a></td>
+<td>Client syncs from another client using Engine API in Hive</td>
+<td>EVM, block processing, Engine API, P2P sync</td>
 <td>Staging, Hive</td>
 <td>System test</td>
 </tr>
@@ -26504,6 +26529,39 @@
 <li><strong>Validates the client's final <code>blockHash</code></strong> via JSON RPC against the test's expectations.</li>
 </ol>
 <p>This method simulates how clients import blocks during historical sync, testing the complete block validation and state transition pipeline, see below for more details and a comparison to consumption via the Engine API.</p>
+<h2 id="sync">Sync<a class="headerlink" href="#sync" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Nomenclature</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command</td>
+<td><code>consume sync</code></td>
+</tr>
+<tr>
+<td>Simulator</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Fixture format</td>
+<td><code>blockchain_test_sync</code></td>
+</tr>
+</tbody>
+</table>
+<p>The consume sync method tests execution client synchronization capabilities by having one client sync from another via the Engine API and P2P networking. This method validates that clients can correctly synchronize state and blocks from peers, testing both the Engine API, sync triggering, and P2P block propagation mechanisms.</p>
+<p>The <code>consume sync</code> command:</p>
+<ol>
+<li><strong>Initializes the client under test</strong> with genesis state and executes all test payloads.</li>
+<li><strong>Spins up a sync client</strong> with the same genesis state.</li>
+<li><strong>Establishes P2P connection</strong> between the two clients, utilizing <code>admin_addPeer</code> with enode url.</li>
+<li><strong>Triggers synchronization</strong> by sending the target block to the sync client via <code>engine_newPayload</code> followed by <code>engine_forkchoiceUpdated</code> requests.</li>
+<li><strong>Monitors sync progress</strong> and validates that the sync client reaches the same state.</li>
+<li><strong>Verifies final state</strong> matches between both clients.</li>
+</ol>
 <h2 id="engine-vs-rlp-simulator">Engine vs RLP Simulator<a class="headerlink" href="#engine-vs-rlp-simulator" title="Permanent link">&para;</a></h2>
 <p>The RLP Simulator (<code>eest/consume-rlp</code>) and the Engine Simulator (<code>eest/consume-engine</code>) should be seen as complimentary to one another. Although they execute the same underlying EVM test cases, the block validation logic is executed via different client code paths (using different <a href="../test_formats/">fixture formats</a>). Therefore, ideally, <strong>both simulators should be executed for full coverage</strong>.</p>
 <h3 id="code-path-choices">Code Path Choices<a class="headerlink" href="#code-path-choices" title="Permanent link">&para;</a></h3>
@@ -26588,6 +26646,7 @@
     <nav>
       
         <a href="mailto:danceratopz@gmail.com">danceratopz</a>, 
+        <a href="mailto:fselmo2@gmail.com">felipe</a>, 
         <a href="mailto:kclowes@users.noreply.github.com">kclowes</a>
     </nav>
   </span>
