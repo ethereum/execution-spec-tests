@@ -24,8 +24,8 @@ jobs:
           echo names=${names} >> "$GITHUB_OUTPUT"
   build:
     needs: feature-names
-    runs-on: [self-hosted-ghr, size-megachungus-x64]
-    timeout-minutes: 720
+    runs-on: [self-hosted-ghr, size-gigachungus-x64]
+    timeout-minutes: 1440
     strategy:
       matrix:
         feature: ${{ fromJSON(needs.feature-names.outputs.names) }}
