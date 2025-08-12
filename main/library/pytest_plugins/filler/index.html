@@ -32709,7 +32709,26 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1345</span>
 <span class="normal">1346</span>
 <span class="normal">1347</span>
-<span class="normal">1348</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
+<span class="normal">1348</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span>
+<span class="normal">1355</span>
+<span class="normal">1356</span>
+<span class="normal">1357</span>
+<span class="normal">1358</span>
+<span class="normal">1359</span>
+<span class="normal">1360</span>
+<span class="normal">1361</span>
+<span class="normal">1362</span>
+<span class="normal">1363</span>
+<span class="normal">1364</span>
+<span class="normal">1365</span>
+<span class="normal">1366</span>
+<span class="normal">1367</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span> <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Function</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -32743,6 +32762,25 @@ parametrization occurs in the forks plugin.</p>
             <span class="k">continue</span>
 
         <span class="n">markers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">iter_markers</span><span class="p">())</span>
+
+        <span class="c1"># Automatically apply pre_alloc_group marker to slow tests that are not benchmark tests</span>
+        <span class="n">has_slow_marker</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;slow&quot;</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">)</span>
+        <span class="n">has_benchmark_marker</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;benchmark&quot;</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">)</span>
+        <span class="n">has_pre_alloc_group_marker</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">marker</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;pre_alloc_group&quot;</span> <span class="k">for</span> <span class="n">marker</span> <span class="ow">in</span> <span class="n">markers</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">has_slow_marker</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_benchmark_marker</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_pre_alloc_group_marker</span><span class="p">:</span>
+            <span class="c1"># Add pre_alloc_group marker to isolate slow non-benchmark tests</span>
+            <span class="n">pre_alloc_marker</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">pre_alloc_group</span><span class="p">(</span>
+                <span class="s2">&quot;separate&quot;</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="p">(</span>
+                    <span class="s2">&quot;Non-benchmark tests marked as slow should be generated &quot;</span>
+                    <span class="s2">&quot;with their own pre-alloc-group&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">add_marker</span><span class="p">(</span><span class="n">pre_alloc_marker</span><span class="p">)</span>
+            <span class="c1"># Re-collect markers after adding the new one</span>
+            <span class="n">markers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">iter_markers</span><span class="p">())</span>
+
         <span class="c1"># Both the fixture format itself and the spec filling it have a chance to veto the</span>
         <span class="c1"># filling of a specific format.</span>
         <span class="k">if</span> <span class="n">fixture_format</span><span class="o">.</span><span class="n">discard_fixture_format_by_marks</span><span class="p">(</span><span class="n">fork</span><span class="p">,</span> <span class="n">markers</span><span class="p">):</span>
@@ -32806,26 +32844,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1351</span>
-<span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
-<span class="normal">1358</span>
-<span class="normal">1359</span>
-<span class="normal">1360</span>
-<span class="normal">1361</span>
-<span class="normal">1362</span>
-<span class="normal">1363</span>
-<span class="normal">1364</span>
-<span class="normal">1365</span>
-<span class="normal">1366</span>
-<span class="normal">1367</span>
-<span class="normal">1368</span>
-<span class="normal">1369</span>
-<span class="normal">1370</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1370</span>
 <span class="normal">1371</span>
 <span class="normal">1372</span>
 <span class="normal">1373</span>
@@ -32842,7 +32861,26 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1384</span>
 <span class="normal">1385</span>
 <span class="normal">1386</span>
-<span class="normal">1387</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">1387</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span>
+<span class="normal">1394</span>
+<span class="normal">1395</span>
+<span class="normal">1396</span>
+<span class="normal">1397</span>
+<span class="normal">1398</span>
+<span class="normal">1399</span>
+<span class="normal">1400</span>
+<span class="normal">1401</span>
+<span class="normal">1402</span>
+<span class="normal">1403</span>
+<span class="normal">1404</span>
+<span class="normal">1405</span>
+<span class="normal">1406</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 
