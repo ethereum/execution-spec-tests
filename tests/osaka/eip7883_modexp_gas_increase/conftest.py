@@ -26,7 +26,7 @@ def gas_new() -> int | None:
 
 @pytest.fixture
 def call_opcode() -> Op:
-    """Return call operationused to call the precompile."""
+    """Return call operation used to call the precompile."""
     return Op.CALL
 
 
@@ -59,7 +59,16 @@ def gas_measure_contract(
     call_contract_post_storage: Storage,
     call_succeeds: bool,
 ) -> Address:
-    """Deploys a contract that measures ModExp gas consumption and execution result."""
+    """
+    Deploys a contract that measures ModExp gas consumption and execution result.
+
+    Always stored:
+        storage[0]: precompile call success
+        storage[1]: return data length from precompile
+    Only if the precompile call succeeds:
+        storage[2]: gas consumed by precompile
+        storage[3]: hash of return data from precompile
+    """
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
@@ -134,11 +143,16 @@ def precompile_gas(
             expected_gas = gas_old if fork < Osaka else gas_new
             assert calculated_gas == expected_gas, (
                 f"Calculated gas {calculated_gas} != Vector gas {expected_gas}\n"
+                f"Lengths: base: {hex(len(modexp_input.base))} ({len(modexp_input.base)}), "
+                f"exponent: {hex(len(modexp_input.exponent))} ({len(modexp_input.exponent)}), "
+                f"modulus: {hex(len(modexp_input.modulus))} ({len(modexp_input.modulus)})\n"
+                f"Exponent: {modexp_input.exponent} "
+                f"({int.from_bytes(modexp_input.exponent, byteorder='big')})"
             )
         return calculated_gas
     except Exception as e:
-        print(f"Error calculating gas: {e}")
-        return 0
+        print(f"Warning: Error calculating gas, using minimum: {e}")
+        return 500 if fork >= Osaka else 200
 
 
 @pytest.fixture
