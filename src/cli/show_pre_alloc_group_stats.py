@@ -102,7 +102,7 @@ def calculate_size_distribution(
 
 def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
     """Analyze pre-allocation folder and return statistics."""
-    pre_alloc_groups = PreAllocGroups.from_folder(folder)
+    pre_alloc_groups = PreAllocGroups.from_folder(folder, lazy_load=False)
 
     # Basic stats
     total_groups = len(pre_alloc_groups)
