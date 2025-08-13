@@ -1,7 +1,7 @@
 """List of all transition fork definitions."""
 
 from ..transition_base_fork import transition_fork
-from .forks import Berlin, Cancun, London, Osaka, Paris, Prague, Shanghai
+from .forks import BPO1, Berlin, Cancun, London, Osaka, Paris, Prague, Shanghai
 
 
 # Transition Forks
@@ -36,5 +36,12 @@ class CancunToPragueAtTime15k(Cancun):
 @transition_fork(to_fork=Osaka, at_timestamp=15_000)
 class PragueToOsakaAtTime15k(Prague):
     """Prague to Osaka transition at Timestamp 15k."""
+
+    pass
+
+
+@transition_fork(to_fork=BPO1, at_timestamp=15_000)
+class OsakaToBPO1AtTime15k(Osaka):
+    """Osaka to BPO1 transition at Timestamp 15k."""
 
     pass

@@ -2,6 +2,7 @@
 
 from .base_fork import ForkAttribute
 from .forks.forks import (
+    BPO1,
     ArrowGlacier,
     Berlin,
     Byzantium,
@@ -23,6 +24,7 @@ from .forks.forks import (
 from .forks.transition import (
     BerlinToLondonAt5,
     CancunToPragueAtTime15k,
+    OsakaToBPO1AtTime15k,
     ParisToShanghaiAtTime15k,
     PragueToOsakaAtTime15k,
     ShanghaiToCancunAtTime15k,
@@ -80,6 +82,8 @@ __all__ = [
     "Prague",
     "PragueToOsakaAtTime15k",
     "Osaka",
+    "OsakaToBPO1AtTime15k",
+    "BPO1",
     "get_transition_forks",
     "forks_from",
     "forks_from_until",

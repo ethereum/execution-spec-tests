@@ -1535,6 +1535,25 @@ class Osaka(Prague, solc_name="cancun"):
         return 6
 
 
+class BPO1(Osaka):
+    """BPO1 fork - Blob Parameter Only fork 1."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO1."""
+        return 8832827
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO1 have a target of 9 blobs per block."""
+        return 9
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO1 have a max of 14 blobs per block."""
+        return 14
+
+
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
 
