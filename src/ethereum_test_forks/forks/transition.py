@@ -2,7 +2,7 @@
 
 from ..transition_base_fork import transition_fork
 from .forks import Berlin, Cancun, London, Osaka, Paris, Prague, Shanghai
-from .forks import OsakaBPO1, OsakaBPO2, OsakaBPO3, OsakaBPO4, OsakaBPO5
+from .forks import BPO1
 
 
 # Transition Forks
