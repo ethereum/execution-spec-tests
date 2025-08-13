@@ -1535,7 +1535,76 @@ class Osaka(Prague, solc_name="cancun"):
         return 6
 
 
-class EOFv1(Prague, solc_name="cancun"):
+class BPO1(Osaka, solc_name="cancun", bpo_fork=True):
+    """BPO1 fork."""
+
+    BLOB_CONSTANTS = {
+        **Osaka.BLOB_CONSTANTS,
+    }
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blob base fee update fraction for BPO1."""
+        return 8_832_827
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Target blobs in BPO1."""
+        return 9
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Max blobs in BPO1."""
+        return 14
+
+
+class BPO2(BPO1, solc_name="cancun", bpo_fork=True):
+    """BPO2 fork."""
+
+    BLOB_CONSTANTS = {
+        **BPO1.BLOB_CONSTANTS,
+    }
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blob base fee update fraction for BPO2."""
+        return 13_739_630
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Target blobs in BPO2."""
+        return 14
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Max blobs in BPO2."""
+        return 21
+
+
+class BPO3(BPO2, solc_name="cancun", bpo_fork=True):
+    """BPO3 fork."""
+
+    BLOB_CONSTANTS = {
+        **BPO2.BLOB_CONSTANTS,
+    }
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blob base fee update fraction for BPO3."""
+        return 27_000_000
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Target blobs in BPO3."""
+        return 55
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Max blobs in BPO3."""
+        return 66
+
+
+class EOFv1(Prague, solc_name="cancun", bpo_fork=False):
     """EOF fork."""
 
     @classmethod

@@ -165,6 +165,7 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     _transition_tool_name: ClassVar[Optional[str]] = None
     _solc_name: ClassVar[Optional[str]] = None
     _ignore: ClassVar[bool] = False
+    _bpo_fork: ClassVar[bool] = False
 
     # make mypy happy
     BLOB_CONSTANTS: ClassVar[Dict[str, Union[int, Literal["big"]]]] = {}
@@ -180,11 +181,13 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         transition_tool_name: Optional[str] = None,
         solc_name: Optional[str] = None,
         ignore: bool = False,
+        bpo_fork: bool = False,
     ) -> None:
         """Initialize new fork with values that don't carry over to subclass forks."""
         cls._transition_tool_name = transition_tool_name
         cls._solc_name = solc_name
         cls._ignore = ignore
+        cls._bpo_fork = bpo_fork
 
     # Header information abstract methods
     @classmethod
