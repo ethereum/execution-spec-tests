@@ -281,12 +281,7 @@ ruleset: Dict[Fork, Dict[str, int]] = {
         "HIVE_CANCUN_TIMESTAMP": 0,
         "HIVE_PRAGUE_TIMESTAMP": 0,
         "HIVE_OSAKA_TIMESTAMP": 0,
-        # Arbitrary BPO timestamps to match transition times
-        "HIVE_BPO1_TIMESTAMP": 10000,
-        "HIVE_BPO2_TIMESTAMP": 20000, 
-        "HIVE_BPO3_TIMESTAMP": 30000,
-        "HIVE_BPO4_TIMESTAMP": 30000,
-        "HIVE_BPO5_TIMESTAMP": 30000,
+        "HIVE_BPO1_TIMESTAMP": 15000,
         **get_blob_schedule_entries(Osaka),
     },
     PragueToOsakaAtTime15k: {
