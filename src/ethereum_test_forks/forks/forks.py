@@ -1533,7 +1533,101 @@ class Osaka(Prague, solc_name="cancun"):
     def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs in Osaka, have a static max of 6 blobs per tx. Differs from the max per block."""
         return 6
+    
 
+class OsakaBPO1(Osaka):
+    """Osaka BPO1 fork - Blob Parameter Only fork 1."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO1."""
+        return 8832827
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO1 have a target of 9 blobs per block."""
+        return 9
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO1 have a max of 14 blobs per block."""
+        return 14
+
+
+class OsakaBPO2(OsakaBPO1):
+    """Osaka BPO2 fork - Blob Parameter Only fork 2."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO2."""
+        return 13739630
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO2 have a target of 14 blobs per block."""
+        return 14
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO2 have a max of 21 blobs per block."""
+        return 21
+
+
+class OsakaBPO3(OsakaBPO2):
+    """Osaka BPO3 fork - Blob Parameter Only fork 3."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO3."""
+        return 20609697
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO3 have a target of 21 blobs per block."""
+        return 21
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO3 have a max of 32 blobs per block."""
+        return 32
+
+
+class OsakaBPO4(OsakaBPO3):
+    """Osaka BPO4 fork - Blob Parameter Only fork 4."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO4."""
+        return 31404902
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO4 have a target of 32 blobs per block."""
+        return 32
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO4 have a max of 48 blobs per block."""
+        return 48
+
+
+class OsakaBPO5(OsakaBPO4):
+    """Osaka BPO5 fork - Blob Parameter Only fork 5."""
+
+    @classmethod
+    def blob_base_fee_update_fraction(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the blob base fee update fraction for BPO5."""
+        return 47107372
+
+    @classmethod
+    def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO5 have a target of 48 blobs per block."""
+        return 48
+
+    @classmethod
+    def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Blobs in BPO5 have a max of 72 blobs per block."""
+        return 72
 
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
