@@ -78,7 +78,7 @@ def storage_tx(
 
 
 @pytest.mark.valid_at_transition_to("BPO1")
-@pytest.mark.parametrize("base_fee_per_gas", [7, 1000])
+@pytest.mark.parametrize("block_base_fee_per_gas", [7, 1000])
 def test_blob_base_fee_update_with_bpo(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -86,7 +86,6 @@ def test_blob_base_fee_update_with_bpo(
     sender: Address,
     destination_account: Address,
     fork: Fork,
-    base_fee_per_gas: int,
 ):
     """
     Test BPO1 transition with blob base fee parameter changes.
@@ -113,9 +112,9 @@ def test_blob_base_fee_update_with_bpo(
     will use the blob base fee update fraction from BPO1 and not the previous Osaka block.
 
     When the `base_fee_per_gas=7` the EIP-7918 reserve mechanism is off triggering the EIP-4844
-    code path. When the `base_fee_per_gas=1000` the EIP-7918 reserve mechanism is on, where
-    clients will use the reserve price excess blob gas calculation instead of the standard
-    EIP-4844 excess blob gas calculation.
+    code path. When the `base_fee_per_gas=5000` the EIP-7918 reserve mechanism is on for all test
+    blocks, where clients will use the reserve price excess blob gas calculation instead of the
+    standard EIP-4844 excess blob gas calculation.
     """
     # Build up 48 excess blobs under Osaka parameters
     # Osaka: target=6, max=9, net=3 blobs per block
@@ -156,20 +155,17 @@ def test_blob_base_fee_update_with_bpo(
                     ),
                     storage_tx(sender, destination_account, nonce + 1),
                 ],
-                base_fee_per_gas=base_fee_per_gas,
             ),
             # BPO1 transition, excess falls from 48 to 39, store blob base fee of 2
             Block(
                 timestamp=15_000,  # BPO1 activation
                 txs=[storage_tx(sender, destination_account, nonce + 2)],
-                base_fee_per_gas=base_fee_per_gas,
             ),
             # BPO1, excess falls from 39 to 30, store blob base fee of 1 (remains the same)
             # Falls by BPO1 target blobs per block = 9
             Block(
                 timestamp=15_001,
                 txs=[storage_tx(sender, destination_account, nonce + 3)],
-                base_fee_per_gas=base_fee_per_gas,
             ),
         ]
     )
