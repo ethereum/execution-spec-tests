@@ -1533,7 +1533,7 @@ class Osaka(Prague, solc_name="cancun"):
     def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs in Osaka, have a static max of 6 blobs per tx. Differs from the max per block."""
         return 6
-    
+
 
 class BPO1(Osaka):
     """BPO1 fork - Blob Parameter Only fork 1."""
@@ -1552,7 +1552,6 @@ class BPO1(Osaka):
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs in BPO1 have a max of 14 blobs per block."""
         return 14
-
 
 
 class EOFv1(Prague, solc_name="cancun"):
