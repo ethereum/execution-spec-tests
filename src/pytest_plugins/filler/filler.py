@@ -226,7 +226,7 @@ class FillingSession:
         """Load pre-allocation groups from the output folder."""
         pre_alloc_folder = self.fixture_output.pre_alloc_groups_folder_path
         if pre_alloc_folder.exists():
-            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder)
+            self.pre_alloc_groups = PreAllocGroups.from_folder(pre_alloc_folder, lazy_load=True)
         else:
             raise FileNotFoundError(
                 f"Pre-allocation groups folder not found: {pre_alloc_folder}. "
@@ -315,7 +315,7 @@ class FillingSession:
         if self.pre_alloc_groups is None:
             self.pre_alloc_groups = PreAllocGroups(root={})
 
-        for hash_key, group in worker_groups.root.items():
+        for hash_key, group in worker_groups.items():
             if hash_key in self.pre_alloc_groups:
                 # Merge if exists (should not happen in practice)
                 existing = self.pre_alloc_groups[hash_key]
@@ -579,6 +579,7 @@ def pytest_configure(config):
         called before the pytest-html plugin's pytest_configure to ensure that
         it uses the modified `htmlpath` option.
     """
+    # Register custom markers
     # Modify the block gas limit if specified.
     if config.getoption("block_gas_limit"):
         EnvironmentDefaults.gas_limit = config.getoption("block_gas_limit")
@@ -691,16 +692,15 @@ def pytest_terminal_summary(
             if config.pluginmanager.hasplugin("xdist"):
                 # Load pre-allocation groups from disk
                 pre_alloc_groups = PreAllocGroups.from_folder(
-                    config.fixture_output.pre_alloc_groups_folder_path  # type: ignore[attr-defined]
+                    config.fixture_output.pre_alloc_groups_folder_path,  # type: ignore[attr-defined]
+                    lazy_load=False,
                 )
             else:
                 assert session_instance.pre_alloc_groups is not None
                 pre_alloc_groups = session_instance.pre_alloc_groups
 
             total_groups = len(pre_alloc_groups.root)
-            total_accounts = sum(
-                group.pre_account_count for group in pre_alloc_groups.root.values()
-            )
+            total_accounts = sum(group.pre_account_count for group in pre_alloc_groups.values())
 
             terminalreporter.write_sep(
                 "=",
@@ -795,6 +795,7 @@ def pytest_runtest_makereport(item, call):
                 "state_test",
                 "blockchain_test",
                 "blockchain_test_engine",
+                "blockchain_test_sync",
             ]:
                 report.user_properties.append(("evm_dump_dir", item.config.evm_dump_dir))
             else:
@@ -1304,7 +1305,27 @@ def pytest_collection_modifyitems(
         if not fixture_format.supports_fork(fork):
             items_for_removal.append(i)
             continue
+
         markers = list(item.iter_markers())
+
+        # Automatically apply pre_alloc_group marker to slow tests that are not benchmark tests
+        has_slow_marker = any(marker.name == "slow" for marker in markers)
+        has_benchmark_marker = any(marker.name == "benchmark" for marker in markers)
+        has_pre_alloc_group_marker = any(marker.name == "pre_alloc_group" for marker in markers)
+
+        if has_slow_marker and not has_benchmark_marker and not has_pre_alloc_group_marker:
+            # Add pre_alloc_group marker to isolate slow non-benchmark tests
+            pre_alloc_marker = pytest.mark.pre_alloc_group(
+                "separate",
+                reason=(
+                    "Non-benchmark tests marked as slow should be generated "
+                    "with their own pre-alloc-group"
+                ),
+            )
+            item.add_marker(pre_alloc_marker)
+            # Re-collect markers after adding the new one
+            markers = list(item.iter_markers())
+
         # Both the fixture format itself and the spec filling it have a chance to veto the
         # filling of a specific format.
         if fixture_format.discard_fixture_format_by_marks(fork, markers):
