@@ -41,7 +41,6 @@ def destination_account(pre: Alloc) -> Address:
 
 def blob_tx(
     sender: Address,
-    destination_account: Address,
     nonce: int,
     num_blobs: int,
 ) -> Transaction:
@@ -53,7 +52,7 @@ def blob_tx(
     return Transaction(
         ty=Spec.BLOB_TX_TYPE,
         sender=sender,
-        to=destination_account,
+        to=sender,
         gas_limit=100_000,
         max_fee_per_gas=50,
         max_priority_fee_per_gas=0,
@@ -79,7 +78,7 @@ def storage_tx(
 
 
 @pytest.mark.valid_at_transition_to("BPO1")
-def test_blob_base_fee_increment_with_bpo(
+def test_blob_base_fee_update_with_bpo(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     env: Environment,
@@ -87,47 +86,71 @@ def test_blob_base_fee_increment_with_bpo(
     destination_account: Address,
     fork: Fork,
 ):
-    """Test BPO transition consensus issue by building up `blob_base_fee = 2`."""
-    # Build up excess blobs for `blob_base_fee` to get ready to transition from 1 to 2.
-    target_excess_blobs = 15  # Start with 15 excess blobs.
+    """
+    Test BPO1 transition with blob base fee parameter changes.
 
-    # Osaka fork has a target of 6, max per block of 9, max per tx of 6.
-    # Net excess per block = max - target = 9 - 6 = 3 blobs.
-    net_blobs_per_block = fork.max_blobs_per_block() - fork.target_blobs_per_block()
-    setup_blocks_needed = target_excess_blobs // net_blobs_per_block
+    This test shows how the same excess blob count produces different
+    blob base fees when using different parameter sets:
+    - Osaka: `baseFeeUpdateFraction = 5007716`
+    - BPO1:  `baseFeeUpdateFraction = 8832827`
 
-    # Create blocks to build up excess blobs (each block uses 9 blobs: [6, 3])
+    We first create setup blocks to give us 45 excess blobs for the BPO1 transition block.
+    - 45 excess under Osaka parameters gives a `blob_base_fee = 3`
+      - Calculation: fake_exponential(1, 45 * 131072, 5007716) = 3
+    - 45 excess under BPO1 parameters gives a `blob_base_fee = 1`
+      - Calculation: fake_exponential(1, 45 * 131072, 8832827) = 1
+
+    The aim of the test is to check that clients correctly select the appropriate blob base fee
+    update fraction when transitioning through a BPO fork. Clients should use the blob base fee
+    update fraction from the current block's context. In this example the BPO1 transition block
+    will use the blob base fee update fraction from BPO1 and not the previous Osaka block.
+    """
+    # Build up 45 excess blobs under Osaka parameters
+    # Osaka: target=6, max=9, net=3 blobs per block
+    target_excess_blobs = 45
+
+    # Calculate setup blocks needed under Osaka parameters
+    net_blobs_per_block = fork.max_blobs_per_block(timestamp=0) - fork.target_blobs_per_block(
+        timestamp=0
+    )  # 9 - 6 = 3
+    setup_blocks_needed = target_excess_blobs // net_blobs_per_block  # 45 // 3 = 15
+
+    # Create setup blocks to give 45 excess blobs
     blocks = []
     nonce = 0
     for _ in range(setup_blocks_needed):
+        # Each block uses 9 blobs in 2 txs (6+3), adds net 3 excess blobs per block
         blocks.append(
             Block(
                 txs=[
-                    blob_tx(sender, destination_account, nonce, 6),  # 6 blobs
-                    blob_tx(sender, destination_account, nonce + 1, 3),  # 3 blobs
+                    blob_tx(sender, nonce, fork.target_blobs_per_block(timestamp=0)),  # 6 blobs
+                    blob_tx(sender, nonce + 1, net_blobs_per_block),  # 3 blobs
                 ],
             )
         )
-        nonce += 2  # 2 txs per setup block
+        nonce += 2
 
     # Blocks to trigger BPO1 transition with `blob_base_fee` increment
     blocks.extend(
         [
-            # Osaka, 3 more excess blobs to push from 15 to 18, store blob base fee at 1.
+            # Osaka, keep excess blobs the same, store blob base fee of 3
             Block(
                 timestamp=14_999,
                 txs=[
-                    blob_tx(sender, destination_account, nonce, 6),
-                    blob_tx(sender, destination_account, nonce, 3),
+                    blob_tx(  # Target blobs added to block so excess remains
+                        sender,
+                        nonce,
+                        fork.target_blobs_per_block(timestamp=14_999),
+                    ),
                     storage_tx(sender, destination_account, nonce + 1),
                 ],
             ),
-            # BPO1 transition, excess falls from 18 to 15, store blob base fee at 2.
+            # BPO1 transition, excess falls from 45 to 36, store blob base fee of 1
             Block(
                 timestamp=15_000,  # BPO1 activation
                 txs=[storage_tx(sender, destination_account, nonce + 2)],
             ),
-            # BPO1, store blob base fee at 1.
+            # BPO1, excess falls from 36 to 27, store blob base fee of 1 (remains the same)
             Block(
                 timestamp=15_001,
                 txs=[storage_tx(sender, destination_account, nonce + 3)],
@@ -138,8 +161,8 @@ def test_blob_base_fee_increment_with_bpo(
     post = {
         destination_account: Account(
             storage={
-                14_999: 1,
-                15_000: 2,
+                14_999: 3,
+                15_000: 1,
                 15_001: 1,
             },
         )
