@@ -25,8 +25,6 @@ from .spec import Spec, ref_spec_7918
 REFERENCE_SPEC_GIT_PATH = ref_spec_7918.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7918.version
 
-pytestmark = pytest.mark.valid_from("Osaka")
-
 
 @pytest.fixture
 def sender(pre: Alloc) -> Address:
@@ -80,7 +78,7 @@ def storage_tx(
     )
 
 
-@pytest.mark.valid_at_transition_to("OsakaBPO1")
+@pytest.mark.valid_at_transition_to("BPO1")
 def test_blob_base_fee_increment_with_bpo(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
