@@ -226,7 +226,6 @@ def storage_tx(
     )
 
 
-@pytest.mark.valid_from("Osaka")
 @pytest.mark.valid_at_transition_to("BPO1")
 @pytest.mark.parametrize("block_base_fee_per_gas", [7, 1000])
 def test_blob_base_fee_update_with_bpo(
@@ -333,8 +332,7 @@ def test_blob_base_fee_update_with_bpo(
     )
 
 
-# uv run fill -vv -s --clean --from=osaka --until=bpo1 ./tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_blob_base_fee_update_with_bpo  # noqa: E501
+# uv run fill -vv -s --clean ./tests/osaka/eip7918_blob_reserve_price/test_blob_base_fee.py::test_blob_base_fee_update_with_bpo  # noqa: E501
 
-# Problem: The markers 'valid_from' and 'valid_at_transition_to' can't be combined.
-#   But also: CI fails building the docs because it tries to get blob parameter for frontier
-#   But if you are not allowed to set valid_from then how to skip frontier in docs gen..
+# NotImplementedError: Target blobs per block is not supported in Frontier
+# Why does it not respect: pytest.mark.valid_at_transition_to("BPO1") ?
