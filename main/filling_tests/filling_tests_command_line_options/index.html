@@ -26193,11 +26193,10 @@ to fill (including the standard pytest and plugin command-line options) use <cod
             [--verify-fixtures-bin VERIFY_FIXTURES_BIN]
             [--gas-benchmark-values GAS_BENCHMARK_VALUES]
             [--filler-path FILLER_PATH] [--output OUTPUT] [--clean]
-            [--flat-output] [--single-fixture-per-file] [--no-html]
-            [--build-name BUILD_NAME] [--skip-index SKIP_INDEX]
-            [--block-gas-limit BLOCK_GAS_LIMIT] [--generate-pre-alloc-groups]
-            [--use-pre-alloc-groups] [--generate-all-formats]
-            [--evm-dump-dir EVM_DUMP_DIR]
+            [--single-fixture-per-file] [--no-html] [--build-name BUILD_NAME]
+            [--skip-index SKIP_INDEX] [--block-gas-limit BLOCK_GAS_LIMIT]
+            [--generate-pre-alloc-groups] [--use-pre-alloc-groups]
+            [--generate-all-formats] [--evm-dump-dir EVM_DUMP_DIR]
             [--show-ported-from [SHOW_PORTED_FROM]]
             [--skip-coverage-missed-reason]
             [--ported-from-output-file PORTED_FROM_OUTPUT_FILE]
@@ -26255,8 +26254,6 @@ Arguments defining filler location and output:
                         formats. Can be deleted. Default: &#39;./fixtures&#39;.
   --clean               Clean (remove) the output directory before filling
                         fixtures.
-  --flat-output         Output each test case in the directory without the
-                        folder structure.
   --single-fixture-per-file
                         Don&#39;t group fixtures in JSON files by test function;
                         write each fixture to its own file. This can be used
