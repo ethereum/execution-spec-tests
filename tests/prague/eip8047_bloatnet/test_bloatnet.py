@@ -24,23 +24,25 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
     # Get gas costs for the current fork
     gas_costs = fork.gas_costs()
 
-    storage_slot: int = 1
+    storage_slot: int = 0
 
     storage = {}
+    GasLimit = 30_000_000   # Default gas limit seems to be >90M in this env
 
     totalgas = gas_costs.G_BASE * 2  # Initial gas for PUSH0 + POP
     gas_increment  = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0
     i = 0
-    while totalgas + gas_increment < 30_000_000:
+    while totalgas + gas_increment < GasLimit:
         totalgas += gas_increment
         print(f"increment={gas_increment} < totalgas={totalgas} i={i}")
+        sstore_code = sstore_code + Op.PUSH1(1)
         if i < 256:
             sstore_code = sstore_code + Op.PUSH1(i)
         else:
             sstore_code = sstore_code + Op.PUSH2(i)
         
-        sstore_code = sstore_code + Op.PUSH1(1) + Op.SSTORE(unchecked=True)
+        sstore_code = sstore_code + Op.SSTORE(unchecked=True)
         
         storage[storage_slot] = 0x1
         storage_slot += 1
@@ -56,7 +58,7 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
 
     tx_0_1 = Transaction(
         to=contract_address,
-        gas_limit=30000000,
+        gas_limit=GasLimit,
         data=b"",
         value=0,
         sender=sender,
