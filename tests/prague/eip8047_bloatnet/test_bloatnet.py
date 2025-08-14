@@ -40,9 +40,9 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
             sstore_code = sstore_code + Op.PUSH1(i)
         else:
             sstore_code = sstore_code + Op.PUSH2(i)
-        
+
         sstore_code = sstore_code + Op.SSTORE(unchecked=True)
-        
+
         storage[storage_slot] = 0x02 << 248
         storage_slot += 1
         i += 1
