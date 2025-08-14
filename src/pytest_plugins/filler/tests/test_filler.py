@@ -624,6 +624,103 @@ def test_fixture_output_based_on_command_line_args(
         assert properties["build"] == build_name
 
 
+test_module_no_matching_tests = textwrap.dedent(
+    """\
+    import pytest
+
+    from ethereum_test_tools import Account, Environment, TestAddress, Transaction
+
+    @pytest.mark.valid_from("Paris")
+    def test_will_not_match_filter(state_test):
+        state_test(env=Environment(),
+                    pre={TestAddress: Account(balance=1_000_000)}, post={}, tx=Transaction())
+    """
+)
+
+
+def test_no_tests_collected_deletes_output_directory(testdir, default_t8n):
+    """
+    Test that when no tests are collected/run, the output directory is deleted.
+    """
+    tests_dir = testdir.mkdir("tests")
+
+    test_module = tests_dir.join("test_no_match.py")
+    test_module.write(test_module_no_matching_tests)
+
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args = [
+        "-c",
+        "pytest-fill.ini",
+        "-v",
+        "--t8n-server-url",
+        default_t8n.server_url,
+        "-k",
+        "no_such_test_contains_this_filter",  # Filter that won't match any test
+    ]
+
+    result = testdir.runpytest(*args)
+    result.assert_outcomes(
+        passed=0,
+        failed=0,
+        skipped=0,
+        errors=0,
+    )
+
+    # Check that no tests were selected (all were deselected)
+    assert "0 selected" in result.stdout.str()
+
+    # The output directory should be deleted when no tests ran
+    output_dir = Path(default_output_directory()).absolute()
+    assert not output_dir.exists(), (
+        f"Output directory {output_dir} should have been deleted when no tests ran"
+    )
+
+
+def test_html_report_message_suppressed_when_no_tests_ran(testdir, default_t8n):
+    """
+    Test that the HTML report message is suppressed when no tests are collected/run.
+    """
+    tests_dir = testdir.mkdir("tests")
+
+    test_module = tests_dir.join("test_no_match.py")
+    test_module.write(test_module_no_matching_tests)
+
+    testdir.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    args = [
+        "-c",
+        "pytest-fill.ini",
+        "-v",
+        "--t8n-server-url",
+        default_t8n.server_url,
+        "-k",
+        "no_such_test_contains_this_filter",  # Filter that won't match any test
+    ]
+
+    result = testdir.runpytest(*args)
+    result.assert_outcomes(
+        passed=0,
+        failed=0,
+        skipped=0,
+        errors=0,
+    )
+
+    # Check that no tests were selected (all were deselected)
+    assert "0 selected" in result.stdout.str()
+
+    # The HTML report message should NOT be present when no tests ran
+    # (even though HTML reporting is enabled, the message should be suppressed)
+    stdout_str = result.stdout.str()
+    assert "Generated html report:" not in stdout_str, (
+        "HTML report message should be suppressed when no tests ran"
+    )
+
+    # The output directory should still be deleted when no tests ran
+    output_dir = Path(default_output_directory()).absolute()
+    assert not output_dir.exists(), (
+        f"Output directory {output_dir} should have been deleted when no tests ran"
+    )
+
+
 test_module_environment_variables = textwrap.dedent(
     """\
     import pytest
