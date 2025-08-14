@@ -5,7 +5,7 @@ from enum import IntEnum
 from functools import cache
 from hashlib import sha256
 from itertools import count
-from typing import Iterator, Literal
+from typing import Iterator, List, Literal
 
 import pytest
 from pydantic import PrivateAttr
@@ -25,6 +25,7 @@ from ethereum_test_base_types.conversions import (
     FixedSizeBytesConvertible,
     NumberConvertible,
 )
+from ethereum_test_fixtures import LabeledFixtureFormat
 from ethereum_test_specs import BaseTest
 from ethereum_test_types import EOA
 from ethereum_test_types import Alloc as BaseAlloc
@@ -299,11 +300,21 @@ def sha256_from_string(s: str) -> int:
     return int.from_bytes(sha256(s.encode("utf-8")).digest(), "big")
 
 
-ALL_FIXTURE_FORMAT_NAMES = []
+ALL_FIXTURE_FORMAT_NAMES: List[str] = []
 
 for spec in BaseTest.spec_types.values():
     for labeled_fixture_format in spec.supported_fixture_formats:
-        ALL_FIXTURE_FORMAT_NAMES.append(labeled_fixture_format.format_name.lower())
+        name = (
+            labeled_fixture_format.label
+            if isinstance(labeled_fixture_format, LabeledFixtureFormat)
+            else labeled_fixture_format.format_name.lower()
+        )
+        if name not in ALL_FIXTURE_FORMAT_NAMES:
+            ALL_FIXTURE_FORMAT_NAMES.append(name)
+
+# Sort by length, from longest to shortest, since some fixture format names contain others
+# so we are always sure to catch the longest one first.
+ALL_FIXTURE_FORMAT_NAMES.sort(key=len, reverse=True)
 
 
 @pytest.fixture(scope="function")
