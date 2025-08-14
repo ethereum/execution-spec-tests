@@ -432,9 +432,28 @@ def pytest_terminal_summary(
     Emphasize that fixtures have only been filled; they must now be executed to
     actually run the tests.
     """
-    yield
     if config.fixture_output.is_stdout or hasattr(config, "workerinput"):  # type: ignore[attr-defined]
+        yield
         return
+    # if no tests were collected, suppress the "Generated html report" message;
+    # the html report will be deleted in pytest_sessionfinish hook
+    session = terminalreporter._session
+    if getattr(session, "testscollected", 0) == 0:
+        orig_write_sep = terminalreporter.write_sep
+
+        def filtered_write_sep(sep, msg, **kwargs):
+            if isinstance(msg, str) and "Generated html report:" in msg:
+                return  # swallow it
+            return orig_write_sep(sep, msg, **kwargs)
+
+        terminalreporter.write_sep = filtered_write_sep  # type: ignore
+        try:
+            yield  # let all other terminal_summary hooks run
+        finally:
+            terminalreporter.write_sep = orig_write_sep  # type: ignore
+    else:
+        # if tests ran, no action needed, just yield to run the rest of the hooks
+        yield
     stats = terminalreporter.stats
     if "passed" in stats and stats["passed"]:
         # Custom message for Phase 1 (pre-allocation group generation)
