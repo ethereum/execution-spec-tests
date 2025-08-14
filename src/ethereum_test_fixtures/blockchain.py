@@ -437,7 +437,7 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
-    block_access_lists: Bytes | None = Field(
+    block_access_list: Bytes | None = Field(
         None, description="Serialized EIP-7928 Block Access Lists"
     )
 

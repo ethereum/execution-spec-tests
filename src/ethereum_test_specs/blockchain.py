@@ -241,9 +241,9 @@ class Block(Header):
     """
     Post state for verification after block execution in BlockchainTest
     """
-    block_access_lists: Bytes | None = Field(None)
+    block_access_list: Bytes | None = Field(None)
     """
-        EIP-7928: Block-level access lists (serialized).
+        EIP-7928: Block-level access list (serialized).
     """
 
     def set_environment(self, env: Environment) -> Environment:
@@ -274,14 +274,14 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.bal_hash, Removable) and self.block_access_lists is not None:
-            new_env_values["bal_hash"] = self.block_access_lists.keccak256()
-            new_env_values["block_access_lists"] = self.block_access_lists
+        if not isinstance(self.bal_hash, Removable) and self.block_access_list is not None:
+            new_env_values["bal_hash"] = self.block_access_list.keccak256()
+            new_env_values["block_access_list"] = self.block_access_list
         if (
-            not isinstance(self.block_access_lists, Removable)
-            and self.block_access_lists is not None
+            not isinstance(self.block_access_list, Removable)
+            and self.block_access_list is not None
         ):
-            new_env_values["block_access_lists"] = self.block_access_lists
+            new_env_values["block_access_list"] = self.block_access_list
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -321,7 +321,7 @@ class BuiltBlock(CamelModel):
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
-    block_access_lists: Bytes
+    block_access_list: Bytes
 
     def get_fixture_block(self) -> FixtureBlock | InvalidFixtureBlock:
         """Get a FixtureBlockBase from the built block."""
@@ -333,7 +333,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
-            block_access_lists=self.block_access_lists,
+            block_access_list=self.block_access_list,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -362,7 +362,7 @@ class BuiltBlock(CamelModel):
             transactions=self.txs,
             withdrawals=self.withdrawals,
             requests=self.requests,
-            block_access_list=self.block_access_lists,
+            block_access_list=self.block_access_list,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
         )
@@ -590,7 +590,7 @@ class BlockchainTest(BaseTest):
             expected_exception=block.exception,
             engine_api_error_code=block.engine_api_error_code,
             fork=fork,
-            block_access_lists=block.block_access_lists,
+            block_access_list=block.block_access_list,
         )
 
         try:
