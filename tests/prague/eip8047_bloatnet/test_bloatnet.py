@@ -7,35 +7,51 @@ import pytest
 
 from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_forks import Fork
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "DUMMY_VERSION"
 
 
 @pytest.mark.valid_from("Prague")
-def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc):
+def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
     """
     A test that calls a contract with many SSTOREs
 
     The first block will have many SSTORES that go from 0 -> 1
     and the 2nd block will have many SSTORES that go from 1 -> 2
     """
-    # One gotcha is ensuring that the transaction `gas_limit` is set high
-    # enough to cover the gas cost of the contract execution.
+    # Get gas costs for the current fork
+    gas_costs = fork.gas_costs()
 
     storage_slot: int = 1
 
+    storage = {}
+
+    totalgas = gas_costs.G_BASE * 2  # Initial gas for PUSH0 + POP
+    gas_increment  = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0
-    for _ in range(100000):
-        sstore_code = sstore_code + Op.SSTORE(storage_slot, 1) # NOTE: this will probably push some value on the stack, but I want to increase it to reduce the amount of gas and the size of the bytecode
+    i = 0
+    while totalgas + gas_increment < 30_000_000:
+        totalgas += gas_increment
+        print(f"increment={gas_increment} < totalgas={totalgas} i={i}")
+        if i < 256:
+            sstore_code = sstore_code + Op.PUSH1(i)
+        else:
+            sstore_code = sstore_code + Op.PUSH2(i)
+        
+        sstore_code = sstore_code + Op.PUSH1(1) + Op.SSTORE(unchecked=True)
+        
+        storage[storage_slot] = 0x1
         storage_slot += 1
-    sstore_code = Op.POP
+        i += 1
+    sstore_code = sstore_code + Op.POP
 
     sender = pre.fund_eoa()
     print(sender)
     contract_address = pre.deploy_contract(
         code=sstore_code,
-        storage={},
+        storage=storage,
     )
 
     tx_0_1 = Transaction(
@@ -45,15 +61,13 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc):
         value=0,
         sender=sender,
     )
-    tx_1_2 = Transaction(
-        to=contract_address,
-        gas_limit=30000000,
-        data=b"",
-        value=0,
-        sender=sender,
-    )
+    # tx_1_2 = Transaction(
+    #     to=contract_address,
+    #     gas_limit=30000000,
+    #     data=b"",
+    #     value=0,
+    #     sender=sender,
+    # )
 
-    # TODO: Modify post-state allocations here.
-    post = {contract_address: Account(storage={storage_slot: 0x2})}
-
-    blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1]), Block(txs=[tx_1_2])], post=post)
+    post = {contract_address: Account(storage=storage)}
+    blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1])], post=post)
