@@ -326,13 +326,13 @@ def test_tx_gas_limit_cap_contract_creation(
     ],
 )
 @pytest.mark.valid_from("Osaka")
-def test_tx_gas_limit_cap_access_list(
+def test_tx_gas_limit_cap_access_list_with_diff_keys(
     state_test: StateTestFiller,
     exceed_tx_gas_limit: bool,
     pre: Alloc,
     fork: Fork,
 ):
-    """Test the transaction gas limit cap behavior for access list."""
+    """Test the transaction gas limit cap behavior for access list with different storage keys."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
 
@@ -353,6 +353,55 @@ def test_tx_gas_limit_cap_access_list(
             address=access_address,
             storage_keys=storage_keys,
         )
+    ]
+
+    tx = Transaction(
+        to=pre.fund_eoa(),
+        gas_limit=Spec.tx_gas_limit_cap,
+        sender=pre.fund_eoa(),
+        access_list=access_list,
+        error=TransactionException.INTRINSIC_GAS_TOO_LOW if exceed_tx_gas_limit else None,
+    )
+
+    state_test(
+        pre=pre,
+        post={},
+        tx=tx,
+    )
+
+
+@pytest.mark.parametrize(
+    "exceed_tx_gas_limit",
+    [
+        pytest.param(True, marks=pytest.mark.exception_test),
+        pytest.param(False),
+    ],
+)
+@pytest.mark.valid_from("Osaka")
+def test_tx_gas_limit_cap_access_list_with_diff_addr(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    exceed_tx_gas_limit: bool,
+):
+    """Test the transaction gas limit cap behavior for access list with different addresses."""
+    intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
+    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
+
+    gas_costs = fork.gas_costs()
+    gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
+    gas_per_storage_key = gas_costs.G_ACCESS_LIST_STORAGE
+
+    account_num = gas_available // (gas_per_address + gas_per_storage_key) + int(
+        exceed_tx_gas_limit
+    )
+
+    access_list = [
+        AccessList(
+            address=pre.fund_eoa(),
+            storage_keys=[Hash(i)],
+        )
+        for i in range(account_num)
     ]
 
     tx = Transaction(
