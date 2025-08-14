@@ -128,7 +128,9 @@ class BenchmarkTest(BaseTest):
                 genesis_environment=self.env,
             )
         else:
-            raise ValueError("Cannot create BlockchainTest without transactions or blocks")
+            raise ValueError(
+                "Cannot create BlockchainTest without transactions, blocks, or code_generator"
+            )
 
     def generate(
         self,

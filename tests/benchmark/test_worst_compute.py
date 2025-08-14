@@ -28,6 +28,7 @@ from ethereum_test_tools import (
     Transaction,
     add_kzg_version,
 )
+from ethereum_test_tools.benchmark_code_generator import JumpLoopGenerator
 from ethereum_test_types import TransactionType
 from ethereum_test_vm import Opcode
 from ethereum_test_vm import Opcodes as Op
@@ -1843,27 +1844,19 @@ def test_worst_jumpis(
 
 @pytest.mark.slow
 def test_worst_jumpdests(
-    state_test: StateTestFiller,
+    benchmark_state_test: BenchmarkStateTestFiller,
     pre: Alloc,
+    env: Environment,
     fork: Fork,
     gas_benchmark_value: int,
 ):
     """Test running a JUMPDEST-intensive contract."""
-    max_code_size = fork.max_code_size()
+    generator = JumpLoopGenerator(fork, Op.JUMPDEST)
+    tx = generator.generate_transaction(pre, gas_benchmark_value)
 
-    # Create and deploy a contract with many JUMPDESTs
-    code_suffix = Op.JUMP(Op.PUSH0)
-    code_body = Op.JUMPDEST * (max_code_size - len(code_suffix))
-    code = code_body + code_suffix
-    jumpdests_address = pre.deploy_contract(code=code)
-
-    tx = Transaction(
-        to=jumpdests_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-
-    state_test(
+    benchmark_state_test(
+        env=env,
+        gas_benchmark_value=gas_benchmark_value,
         pre=pre,
         post={},
         tx=tx,
@@ -2783,7 +2776,6 @@ def test_worst_swap(
 
     tx = Transaction(
         to=pre.deploy_contract(code=code),
-        gas_limit=gas_benchmark_value,
         sender=pre.fund_eoa(),
     )
 

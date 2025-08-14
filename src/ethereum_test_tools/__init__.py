@@ -86,6 +86,11 @@ from ethereum_test_vm import (
     call_return_code,
 )
 
+from .benchmark_code_generator import (
+    BenchmarkCodeGenerator,
+    ExtCallGenerator,
+    JumpLoopGenerator,
+)
 from .tools_code import (
     CalldataCase,
     Case,
@@ -116,6 +121,7 @@ __all__ = (
     "BalStorageSlot",
     "BaseFixture",
     "BaseTest",
+    "BenchmarkCodeGenerator",
     "BenchmarkTest",
     "BenchmarkTestFiller",
     "BenchmarkStateTest",
@@ -136,6 +142,7 @@ __all__ = (
     "CodeGasMeasure",
     "Conditional",
     "ConsolidationRequest",
+    "ExtCallGenerator",
     "DeploymentTestType",
     "DepositRequest",
     "EngineAPIError",
@@ -151,6 +158,7 @@ __all__ = (
     "Hash",
     "Header",
     "Initcode",
+    "JumpLoopGenerator",
     "Macro",
     "Macros",
     "NetworkWrappedTransaction",

@@ -29,7 +29,6 @@ from ethereum_test_fixtures.state import (
 )
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
-from ethereum_test_vm import Bytecode
 
 from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest
@@ -44,8 +43,6 @@ class BenchmarkStateTest(BaseTest):
     post: Alloc
     tx: Transaction
     gas_benchmark_value: int
-    setup_bytecode: Bytecode | None = None
-    attack_bytecode: Bytecode | None = None
     env: Environment
     chain_id: int = 1
 
