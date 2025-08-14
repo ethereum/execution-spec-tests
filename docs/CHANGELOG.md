@@ -82,6 +82,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added support for the `--benchmark-gas-values` flag in the `fill` command, allowing a single genesis file to be used across different gas limit settings when generating fixtures. ([#1895](https://github.com/ethereum/execution-spec-tests/pull/1895)).
 - ✨ Static tests can now specify a maximum fork where they should be filled for ([#1977](https://github.com/ethereum/execution-spec-tests/pull/1977)).
 - ✨ Static tests can now be filled in every format using `--generate-all-formats` ([#2006](https://github.com/ethereum/execution-spec-tests/pull/2006)).
+- 💥 Flag `--flat-output` has been removed due to having been unneeded for an extended period of time ([#2018](https://github.com/ethereum/execution-spec-tests/pull/2018)).
 - ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 
 #### `consume`
