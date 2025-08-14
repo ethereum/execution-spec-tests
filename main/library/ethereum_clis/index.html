@@ -29507,19 +29507,7 @@ for future reuse.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
@@ -29664,7 +29652,19 @@ for future reuse.</p>
 <span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
-<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GethFixtureConsumer</span><span class="p">(</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GethFixtureConsumer</span><span class="p">(</span>
     <span class="n">GethEvm</span><span class="p">,</span>
     <span class="n">FixtureConsumerTool</span><span class="p">,</span>
     <span class="n">fixture_formats</span><span class="o">=</span><span class="p">[</span><span class="n">StateFixture</span><span class="p">,</span> <span class="n">BlockchainFixture</span><span class="p">],</span>
@@ -29853,19 +29853,7 @@ specific fixture from the fixture file when executing.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
 <span class="normal">214</span>
@@ -29903,7 +29891,19 @@ specific fixture from the fixture file when executing.</p>
 <span class="normal">246</span>
 <span class="normal">247</span>
 <span class="normal">248</span>
-<span class="normal">249</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_blockchain_test</span><span class="p">(</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_blockchain_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -29989,19 +29989,7 @@ was requested.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
 <span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
@@ -30030,7 +30018,19 @@ was requested.</p>
 <span class="normal">289</span>
 <span class="normal">290</span>
 <span class="normal">291</span>
-<span class="normal">292</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test_file</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -30101,19 +30101,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">294</span>
-<span class="normal">295</span>
-<span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span>
-<span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">306</span>
 <span class="normal">307</span>
 <span class="normal">308</span>
 <span class="normal">309</span>
@@ -30131,7 +30119,19 @@ every time an select a single result from there.</p>
 <span class="normal">321</span>
 <span class="normal">322</span>
 <span class="normal">323</span>
-<span class="normal">324</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test</span><span class="p">(</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span>
+<span class="normal">330</span>
+<span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">fixture_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -30189,19 +30189,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">326</span>
-<span class="normal">327</span>
-<span class="normal">328</span>
-<span class="normal">329</span>
-<span class="normal">330</span>
-<span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span>
-<span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">338</span>
 <span class="normal">339</span>
 <span class="normal">340</span>
 <span class="normal">341</span>
@@ -30212,7 +30200,19 @@ every time an select a single result from there.</p>
 <span class="normal">346</span>
 <span class="normal">347</span>
 <span class="normal">348</span>
-<span class="normal">349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_fixture</span><span class="p">(</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span>
+<span class="normal">358</span>
+<span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -30282,19 +30282,7 @@ every time an select a single result from there.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
@@ -30313,7 +30301,19 @@ every time an select a single result from there.</p>
 <span class="normal">186</span>
 <span class="normal">187</span>
 <span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">GethEvm</span><span class="p">,</span> <span class="n">TransitionTool</span><span class="p">):</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">GethTransitionTool</span><span class="p">(</span><span class="n">GethEvm</span><span class="p">,</span> <span class="n">TransitionTool</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;go-ethereum `evm` Transition tool interface wrapper class.&quot;&quot;&quot;</span>
 
     <span class="n">subcommand</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;t8n&quot;</span>
@@ -30374,23 +30374,23 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
 <span class="normal">180</span>
-<span class="normal">181</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">exception_mapper</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ExceptionMapper</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -30435,13 +30435,13 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/geth.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">is_fork_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return True if the fork is supported by the tool.</span>
 
@@ -30494,79 +30494,87 @@ every time an select a single result from there.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Nethtest</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">):</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Nethtest</span><span class="p">(</span><span class="n">EthereumCLI</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Nethermind `nethtest` binary base class.&quot;&quot;&quot;</span>
 
     <span class="n">default_binary</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;nethtest&quot;</span><span class="p">)</span>
@@ -30603,13 +30611,21 @@ every time an select a single result from there.</p>
         <span class="n">result</span><span class="p">:</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">CompletedProcess</span><span class="p">,</span>
         <span class="n">debug_output_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="n">consume_direct_call</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+        <span class="c1"># our assumption is that each command element is a string</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">command</span><span class="p">),</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Not all elements of &#39;command&#39; list are strings: </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># ensure that flags with spaces are wrapped in double-quotes</span>
+        <span class="n">consume_direct_call</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">command</span><span class="p">)</span>
+
         <span class="n">consume_direct_script</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
             <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s2">            #!/bin/bash</span>
 <span class="s2">            </span><span class="si">{</span><span class="n">consume_direct_call</span><span class="si">}</span>
 <span class="s2">            &quot;&quot;&quot;</span>
         <span class="p">)</span>
+
         <span class="n">dump_files_to_directory</span><span class="p">(</span>
             <span class="nb">str</span><span class="p">(</span><span class="n">debug_output_path</span><span class="p">),</span>
             <span class="p">{</span>
@@ -30668,8 +30684,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
-<span class="normal">31</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
@@ -30678,7 +30693,8 @@ every time an select a single result from there.</p>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="normal">40</span>
+<span class="normal">41</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">binary</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
     <span class="n">trace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -30720,14 +30736,14 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">help</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subcommand</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the help string, optionally for a subcommand.&quot;&quot;&quot;</span>
     <span class="n">help_command</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">binary</span><span class="p">)]</span>
@@ -30768,15 +30784,15 @@ branch <a href="https://github.com/NethermindEth/nethermind/tree/feature/evm/eof
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span>
-<span class="normal">90</span>
-<span class="normal">91</span>
-<span class="normal">92</span>
-<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">has_eof_support</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return True if the `nethtest` binary supports the `--eofTest` flag.</span>
@@ -30831,16 +30847,7 @@ branch <a href="https://github.com/NethermindEth/nethermind/tree/feature/evm/eof
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
-<span class="normal">100</span>
-<span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">105</span>
 <span class="normal">106</span>
 <span class="normal">107</span>
 <span class="normal">108</span>
@@ -31054,7 +31061,16 @@ branch <a href="https://github.com/NethermindEth/nethermind/tree/feature/evm/eof
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
-<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NethtestFixtureConsumer</span><span class="p">(</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NethtestFixtureConsumer</span><span class="p">(</span>
     <span class="n">Nethtest</span><span class="p">,</span>
     <span class="n">FixtureConsumerTool</span><span class="p">,</span>
     <span class="n">fixture_formats</span><span class="o">=</span><span class="p">[</span><span class="n">StateFixture</span><span class="p">,</span> <span class="n">BlockchainFixture</span><span class="p">,</span> <span class="n">EOFFixture</span><span class="p">],</span>
@@ -31315,16 +31331,7 @@ was requested.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
 <span class="normal">138</span>
 <span class="normal">139</span>
 <span class="normal">140</span>
@@ -31349,7 +31356,16 @@ was requested.</p>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
-<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test_file</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -31413,16 +31429,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">173</span>
 <span class="normal">174</span>
 <span class="normal">175</span>
 <span class="normal">176</span>
@@ -31462,7 +31469,16 @@ every time an select a single result from there.</p>
 <span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
-<span class="normal">213</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test</span><span class="p">(</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_state_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">command</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -31539,16 +31555,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">224</span>
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
@@ -31558,7 +31565,16 @@ every time an select a single result from there.</p>
 <span class="normal">231</span>
 <span class="normal">232</span>
 <span class="normal">233</span>
-<span class="normal">234</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_blockchain_test</span><span class="p">(</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_blockchain_test</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">command</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -31609,16 +31625,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
 <span class="normal">246</span>
 <span class="normal">247</span>
 <span class="normal">248</span>
@@ -31633,7 +31640,16 @@ every time an select a single result from there.</p>
 <span class="normal">257</span>
 <span class="normal">258</span>
 <span class="normal">259</span>
-<span class="normal">260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@cache</span>  <span class="c1"># noqa</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">consume_eof_test_file</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
@@ -31685,16 +31701,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">271</span>
 <span class="normal">272</span>
 <span class="normal">273</span>
 <span class="normal">274</span>
@@ -31705,7 +31712,16 @@ every time an select a single result from there.</p>
 <span class="normal">279</span>
 <span class="normal">280</span>
 <span class="normal">281</span>
-<span class="normal">282</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_eof_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_name</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">):</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_eof_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">fixture_path</span><span class="p">,</span> <span class="n">fixture_name</span><span class="p">,</span> <span class="n">debug_output_path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute the the EOF fixture at `fixture_path` via `nethtest`.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_eof_support</span><span class="p">():</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;This version of nethtest does not support the `--eofTest` flag.&quot;</span><span class="p">)</span>
@@ -31753,16 +31769,7 @@ every time an select a single result from there.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_clis/clis/nethermind.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">284</span>
-<span class="normal">285</span>
-<span class="normal">286</span>
-<span class="normal">287</span>
-<span class="normal">288</span>
-<span class="normal">289</span>
-<span class="normal">290</span>
-<span class="normal">291</span>
-<span class="normal">292</span>
-<span class="normal">293</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">293</span>
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
@@ -31788,7 +31795,16 @@ every time an select a single result from there.</p>
 <span class="normal">316</span>
 <span class="normal">317</span>
 <span class="normal">318</span>
-<span class="normal">319</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_fixture</span><span class="p">(</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">consume_fixture</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">fixture_format</span><span class="p">:</span> <span class="n">FixtureFormat</span><span class="p">,</span>
     <span class="n">fixture_path</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span>
