@@ -92,6 +92,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture ([#1801](https://github.com/ethereum/execution-spec-tests/pull/1801)).
 - 🔀 Add exponential retry logic to initial fcu within consume engine ([#1815](https://github.com/ethereum/execution-spec-tests/pull/1815)).
 - ✨ Add `consume sync` command to test client synchronization capabilities by having one client sync from another via Engine API and P2P networking ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
+- 💥 Removed the `consume hive` command, this was a convenience command that ran `consume rlp` and `consume engine` in one pytest session; the individual commands should now be used instead ([#2008](https://github.com/ethereum/execution-spec-tests/pull/2008)).
 
 #### `execute`
 
@@ -101,7 +102,6 @@ Users can select any of the artifacts depending on their testing needs for their
 
 ### 📋 Misc
 
-- 🔀 Remove non-functional `consume hive` command. `consume rlp` and `consume engine` to be used instead instead. ([#2008](https://github.com/ethereum/execution-spec-tests/pull/2008)).
 - ✨ Add pypy3.11 support ([#1854](https://github.com/ethereum/execution-spec-tests/pull/1854)).
 - 🔀 Use only relative imports in `tests/` directory ([#1848](https://github.com/ethereum/execution-spec-tests/pull/1848)).
 - 🔀 Convert absolute imports to relative imports in `src/` directory for better code maintainability ([#1907](https://github.com/ethereum/execution-spec-tests/pull/1907)).
