@@ -2,6 +2,7 @@
 
 import json
 import re
+import shlex
 import shutil
 import subprocess
 import textwrap
@@ -128,23 +129,14 @@ class GethEvm(EthereumCLI):
         assert all(isinstance(x, str) for x in command), (
             f"Not all elements of 'command' list are strings: {command}"
         )
+        assert len(command) > 0
 
-        # remove element that holds path to cached_downloads json file
-        command = command[:-1]
-
-        # for the now last element (value of --run) ensure it is wrapped in quotations (only relevant for blocktest)  # noqa: E501
-        if "blocktest" in command:
-            if command[-1][0] not in {"'", '"'}:
-                command[-1] = '"' + command[-1] + '"'
-
-        # instead add path to fixtures.json file
+        # replace last value with debug fixture path
         debug_fixture_path = str(debug_output_path / "fixtures.json")
-        #     but only after fixing the unescaped brackets
-        debug_fixture_path.replace("[", r"\[").replace("]", r"\]")
-        command.append(debug_fixture_path)
+        command[-1] = debug_fixture_path
 
-        # now turn list into a command string
-        consume_direct_call = " ".join(command)
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
 
         consume_direct_script = textwrap.dedent(
             f"""\

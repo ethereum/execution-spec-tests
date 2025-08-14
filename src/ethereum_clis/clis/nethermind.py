@@ -2,6 +2,7 @@
 
 import json
 import re
+import shlex
 import subprocess
 import textwrap
 from functools import cache
@@ -60,18 +61,8 @@ class Nethtest(EthereumCLI):
             f"Not all elements of 'command' list are strings: {command}"
         )
 
-        # ensure that the --filter flag value is wrapped in double-quotes
-        consume_direct_call = ""
-        prev_command_was_filter_flag = False
-        for s in command:
-            if prev_command_was_filter_flag:
-                if s[0] != '"':
-                    s = '"' + s + '"'
-                    prev_command_was_filter_flag = False
-            consume_direct_call += s + " "
-            if s.strip() == "--filter":
-                prev_command_was_filter_flag = True
-        consume_direct_call = consume_direct_call.strip()
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
 
         consume_direct_script = textwrap.dedent(
             f"""\
