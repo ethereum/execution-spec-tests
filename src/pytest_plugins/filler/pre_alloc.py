@@ -26,6 +26,7 @@ from ethereum_test_base_types.conversions import (
     NumberConvertible,
 )
 from ethereum_test_fixtures import LabeledFixtureFormat
+from ethereum_test_forks import Fork
 from ethereum_test_specs import BaseTest
 from ethereum_test_types import EOA
 from ethereum_test_types import Alloc as BaseAlloc
@@ -318,19 +319,30 @@ ALL_FIXTURE_FORMAT_NAMES.sort(key=len, reverse=True)
 
 
 @pytest.fixture(scope="function")
-def request_node_id_without_fixture_format(request: pytest.FixtureRequest) -> str:
+def node_id_for_entropy(request: pytest.FixtureRequest, fork: Fork | None) -> str:
     """
-    Return the node id with the fixture format name stripped.
+    Return the node id with the fixture format name and fork name stripped.
 
     Used in cases where we are filling for pre-alloc groups, and we take the name of the
     test as source of entropy to get a deterministic address when generating the pre-alloc
-    grouping. Removing the fixture format from the node id before hashing results in
-    the contracts and senders addresses being the same across fixture types for the same test.
+    grouping.
+
+    Removing the fixture format and the fork name from the node id before hashing results in the
+    contracts and senders addresses being the same across fixture types and forks for the same
+    test.
     """
     node_id: str = request.node.nodeid
+    if fork is None:
+        # FIXME: Static tests don't have a fork, so we need to get it from the node.
+        assert hasattr(request.node, "fork")
+        fork = request.node.fork
     for fixture_format_name in ALL_FIXTURE_FORMAT_NAMES:
         if fixture_format_name in node_id:
-            return node_id.replace(fixture_format_name, "")
+            test_file_path, test_name = request.node.nodeid.split("::")
+            stripped_test_name = test_name.replace(fixture_format_name, "").replace(
+                fork.name(), ""
+            )
+            return f"{test_file_path}::{stripped_test_name}"
     raise Exception(f"Fixture format name not found in test {node_id}")
 
 
@@ -339,7 +351,7 @@ def contract_address_iterator(
     request: pytest.FixtureRequest,
     contract_start_address: int,
     contract_address_increments: int,
-    request_node_id_without_fixture_format: str,
+    node_id_for_entropy: str,
 ) -> Iterator[Address]:
     """Return iterator over contract addresses with dynamic scoping."""
     if request.config.getoption(
@@ -348,7 +360,7 @@ def contract_address_iterator(
         default=False,
     ) or request.config.getoption("use_pre_alloc_groups", default=False):
         # Use a starting address that is derived from the test node
-        contract_start_address = sha256_from_string(request_node_id_without_fixture_format)
+        contract_start_address = sha256_from_string(node_id_for_entropy)
     return iter(
         Address((contract_start_address + (i * contract_address_increments)) % 2**160)
         for i in count()
@@ -364,7 +376,7 @@ def eoa_by_index(i: int) -> EOA:
 @pytest.fixture(scope="function")
 def eoa_iterator(
     request: pytest.FixtureRequest,
-    request_node_id_without_fixture_format: str,
+    node_id_for_entropy: str,
 ) -> Iterator[EOA]:
     """Return iterator over EOAs copies with dynamic scoping."""
     if request.config.getoption(
@@ -373,7 +385,7 @@ def eoa_iterator(
         default=False,
     ) or request.config.getoption("use_pre_alloc_groups", default=False):
         # Use a starting address that is derived from the test node
-        eoa_start_pk = sha256_from_string(request_node_id_without_fixture_format)
+        eoa_start_pk = sha256_from_string(node_id_for_entropy)
         return iter(
             EOA(
                 key=(eoa_start_pk + i)
