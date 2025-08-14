@@ -28217,6 +28217,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>🔀 Refactor consume simulator architecture to use explicit pytest plugin structure with forward-looking architecture (<a href="https://github.com/ethereum/execution-spec-tests/pull/1801">#1801</a>).</li>
 <li>🔀 Add exponential retry logic to initial fcu within consume engine (<a href="https://github.com/ethereum/execution-spec-tests/pull/1815">#1815</a>).</li>
 <li>✨ Add <code>consume sync</code> command to test client synchronization capabilities by having one client sync from another via Engine API and P2P networking (<a href="https://github.com/ethereum/execution-spec-tests/pull/2007">#2007</a>).</li>
+<li>💥 Removed the <code>consume hive</code> command, this was a convenience command that ran <code>consume rlp</code> and <code>consume engine</code> in one pytest session; the individual commands should now be used instead (<a href="https://github.com/ethereum/execution-spec-tests/pull/2008">#2008</a>).</li>
 </ul>
 <h4 id="execute"><code>execute</code><a class="headerlink" href="#execute" title="Permanent link">&para;</a></h4>
 <ul>
