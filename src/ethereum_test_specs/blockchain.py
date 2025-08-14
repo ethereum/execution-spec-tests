@@ -274,7 +274,7 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.requests_hash, Removable) and self.block_access_lists is not None:
+        if not isinstance(self.bal_hash, Removable) and self.block_access_lists is not None:
             new_env_values["bal_hash"] = self.block_access_lists.keccak256()
             new_env_values["block_access_lists"] = self.block_access_lists
         if (
