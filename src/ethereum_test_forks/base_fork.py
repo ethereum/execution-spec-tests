@@ -216,6 +216,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         """Return true if the header must contain beacon chain requests."""
         pass
 
+    @classmethod
+    @abstractmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return true if the header must contain block access list hash."""
+        pass
+
     # Gas related abstract methods
 
     @classmethod
@@ -420,6 +426,14 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
     @abstractmethod
     def engine_new_payload_requests(cls, block_number: int = 0, timestamp: int = 0) -> bool:
         """Return true if the engine api version requires new payload calls to include requests."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def engine_new_payload_block_access_list(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> bool:
+        """Return true if the engine api version requires block access list."""
         pass
 
     @classmethod
