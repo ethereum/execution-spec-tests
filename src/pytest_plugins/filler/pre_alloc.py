@@ -25,6 +25,7 @@ from ethereum_test_base_types.conversions import (
     FixedSizeBytesConvertible,
     NumberConvertible,
 )
+from ethereum_test_specs import BaseTest
 from ethereum_test_types import EOA
 from ethereum_test_types import Alloc as BaseAlloc
 from ethereum_test_types.eof.v1 import Container
@@ -298,18 +299,45 @@ def sha256_from_string(s: str) -> int:
     return int.from_bytes(sha256(s.encode("utf-8")).digest(), "big")
 
 
+ALL_FIXTURE_FORMAT_NAMES = []
+
+for spec in BaseTest.spec_types.values():
+    for labeled_fixture_format in spec.supported_fixture_formats:
+        ALL_FIXTURE_FORMAT_NAMES.append(labeled_fixture_format.format_name.lower())
+
+
+@pytest.fixture(scope="function")
+def request_node_id_without_fixture_format(request: pytest.FixtureRequest) -> str:
+    """
+    Return the node id with the fixture format name stripped.
+
+    Used in cases where we are filling for pre-alloc groups, and we take the name of the
+    test as source of entropy to get a deterministic address when generating the pre-alloc
+    grouping. Removing the fixture format from the node id before hashing results in
+    the contracts and senders addresses being the same across fixture types for the same test.
+    """
+    node_id: str = request.node.nodeid
+    for fixture_format_name in ALL_FIXTURE_FORMAT_NAMES:
+        if fixture_format_name in node_id:
+            return node_id.replace(fixture_format_name, "")
+    raise Exception(f"Fixture format name not found in test {node_id}")
+
+
 @pytest.fixture(scope="function")
 def contract_address_iterator(
     request: pytest.FixtureRequest,
     contract_start_address: int,
     contract_address_increments: int,
+    request_node_id_without_fixture_format: str,
 ) -> Iterator[Address]:
     """Return iterator over contract addresses with dynamic scoping."""
     if request.config.getoption(
-        "generate_pre_alloc_groups", default=False
+        # TODO: Ideally, we should check the fixture format instead of checking parameters.
+        "generate_pre_alloc_groups",
+        default=False,
     ) or request.config.getoption("use_pre_alloc_groups", default=False):
         # Use a starting address that is derived from the test node
-        contract_start_address = sha256_from_string(request.node.nodeid)
+        contract_start_address = sha256_from_string(request_node_id_without_fixture_format)
     return iter(
         Address((contract_start_address + (i * contract_address_increments)) % 2**160)
         for i in count()
@@ -323,13 +351,18 @@ def eoa_by_index(i: int) -> EOA:
 
 
 @pytest.fixture(scope="function")
-def eoa_iterator(request: pytest.FixtureRequest) -> Iterator[EOA]:
+def eoa_iterator(
+    request: pytest.FixtureRequest,
+    request_node_id_without_fixture_format: str,
+) -> Iterator[EOA]:
     """Return iterator over EOAs copies with dynamic scoping."""
     if request.config.getoption(
-        "generate_pre_alloc_groups", default=False
+        # TODO: Ideally, we should check the fixture format instead of checking parameters.
+        "generate_pre_alloc_groups",
+        default=False,
     ) or request.config.getoption("use_pre_alloc_groups", default=False):
         # Use a starting address that is derived from the test node
-        eoa_start_pk = sha256_from_string(request.node.nodeid)
+        eoa_start_pk = sha256_from_string(request_node_id_without_fixture_format)
         return iter(
             EOA(
                 key=(eoa_start_pk + i)
