@@ -338,7 +338,9 @@ def node_id_for_entropy(request: pytest.FixtureRequest, fork: Fork | None) -> st
         fork = request.node.fork
     for fixture_format_name in ALL_FIXTURE_FORMAT_NAMES:
         if fixture_format_name in node_id:
-            test_file_path, test_name = request.node.nodeid.split("::")
+            parts = request.node.nodeid.split("::")
+            test_file_path = parts[0]
+            test_name = "::".join(parts[1:])
             stripped_test_name = test_name.replace(fixture_format_name, "").replace(
                 fork.name(), ""
             )
