@@ -89,6 +89,28 @@ def get_transition_forks() -> Set[Type[BaseFork]]:
     return set(transition_forks)
 
 
+def get_all_forks_chronologically() -> List[Type[BaseFork]]:
+    """
+    Return list of all forks (regular and transition) in chronological order.
+
+    Transition forks are placed immediately after their source fork.
+    For example: Prague, PragueToOsakaAtTime15k, Osaka
+    """
+    result = []
+    regular_forks = get_forks()
+    transition_forks_set = get_transition_forks()
+
+    for fork in regular_forks:
+        result.append(fork)
+        # Add any transition forks that start from this fork
+        for trans_fork in transition_forks_set:
+            if issubclass(trans_fork, TransitionBaseClass):
+                if trans_fork.transitions_from() == fork:
+                    result.append(trans_fork)
+
+    return result
+
+
 def get_transition_fork_predecessor(transition_fork: Type[BaseFork]) -> Type[BaseFork]:
     """Return the fork from which the transition fork transitions."""
     if not issubclass(transition_fork, TransitionBaseClass):
