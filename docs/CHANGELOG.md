@@ -132,6 +132,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages ([#1739](https://github.com/ethereum/execution-spec-tests/pull/1739), [#1856](https://github.com/ethereum/execution-spec-tests/pull/1856)).
 - ✨ All commands (`fill`, `consume`, `execute`) now work without having to clone the repository, e.g. `uv run --with git+https://github.com/ethereum/execution-spec-tests.git consume` now works from any folder ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
 - 🔀 Move Prague to stable and Osaka to develop ([#1573](https://github.com/ethereum/execution-spec-tests/pull/1573)).
+- ✨ Add a new CLI command to filter fixtures by fork ([#2045](https://github.com/ethereum/execution-spec-tests/pull/2045)).
 - ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 
 ### 🧪 Test Cases
