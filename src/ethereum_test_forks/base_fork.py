@@ -338,6 +338,18 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return whether the fork uses a reserve price mechanism for blobs or not."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def blob_base_cost(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base cost of a blob at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
         """Return the version of the full blob transaction wrapper at a given fork."""
         pass
