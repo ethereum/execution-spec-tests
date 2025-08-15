@@ -1,8 +1,8 @@
 {
     "EELSMaster": {
-        "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "forks/osaka",
-        "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+        "git_url": "https://github.com/marioevz/execution-specs.git",
+        "branch": "forks/bpo1",
+        "commit": "038c16f28906cee43544d73f694049265e51a8a5"
     },
     "Frontier": {
         "same_as": "EELSMaster"
@@ -38,6 +38,9 @@
         "same_as": "EELSMaster"
     },
     "Osaka": {
+        "same_as": "EELSMaster"
+    },
+    "BPO1": {
         "same_as": "EELSMaster"
     }
 }
