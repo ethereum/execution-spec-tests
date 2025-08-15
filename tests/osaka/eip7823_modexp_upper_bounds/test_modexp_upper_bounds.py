@@ -20,8 +20,12 @@ TX_GAS_LIMIT = 2**24
 
 
 @pytest.fixture
-def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
+def precompile_gas(fork: Fork, mod_exp_input: ModExpInput | bytes) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
+
+    if isinstance(mod_exp_input, bytes):
+        return 200
+
     spec = Spec if fork < Osaka else Spec7883
     calculated_gas = spec.calculate_gas_cost(mod_exp_input)
     return calculated_gas
@@ -175,6 +179,18 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
                 declared_exponent_length=0,
             ),
             id="zero_exp_mod_exceed",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\1",
+                exponent=b"",
+                modulus=b"\0" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="exp_0_base_1_mod_1025",
+        ),
+        pytest.param(
+            bytes.fromhex("0000000000000000000000000000000000000000000000000000000000000000 0000000000000000000000000000000000000000000000010000000000000000 0000000000000000000000000000000000000000000000000000000000000000 80"),
+            id="exp_2**64_base_0_mod_0",
         ),
     ],
 )
