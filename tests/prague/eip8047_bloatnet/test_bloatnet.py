@@ -11,7 +11,8 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "0.1"
-GAS_LIMIT = 30_000_000   # Default gas limit seems to be >90M in this env
+GAS_LIMIT = 30_000_000  # Default gas limit seems to be >90M in this env
+
 
 @pytest.mark.valid_from("Prague")
 def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
@@ -29,7 +30,7 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
     storage = {}
 
     totalgas = gas_costs.G_BASE * 2  # Initial gas for PUSH0 + CALLDATALOAD
-    gas_increment  = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
+    gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0 + Op.CALLDATALOAD + Op.DUP1
     i = 0
     while totalgas + gas_increment < GAS_LIMIT:
@@ -46,7 +47,7 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
         storage[storage_slot] = 0x02 << 248
         storage_slot += 1
         i += 1
-    sstore_code = sstore_code + Op.POP # Drop last value on the stack
+    sstore_code = sstore_code + Op.POP  # Drop last value on the stack
 
     sender = pre.fund_eoa()
     print(sender)
@@ -58,14 +59,14 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
     tx_0_1 = Transaction(
         to=contract_address,
         gas_limit=GAS_LIMIT,
-        data=b'\x01',  # Single byte 0x01
+        data=b"\x01",  # Single byte 0x01
         value=0,
         sender=sender,
     )
     tx_1_2 = Transaction(
         to=contract_address,
         gas_limit=GAS_LIMIT,
-        data=b'\x02',  # Single byte 0x02, turns into 0x02 << 248
+        data=b"\x02",  # Single byte 0x02, turns into 0x02 << 248
         value=0,
         sender=sender,
     )
