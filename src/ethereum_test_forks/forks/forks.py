@@ -251,6 +251,16 @@ class Frontier(BaseFork, solc_name="homestead"):
         raise NotImplementedError(f"Max blobs per block is not supported in {cls.name()}")
 
     @classmethod
+    def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Return whether the fork uses a reserve price mechanism for blobs or not."""
+        raise NotImplementedError(f"Blob reserve price is not supported in {cls.name()}")
+
+    @classmethod
+    def blob_base_cost(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base cost of a blob at a given fork."""
+        raise NotImplementedError(f"Blob base cost is not supported in {cls.name()}")
+
+    @classmethod
     def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
         """Return the version of the full blob transaction wrapper."""
         raise NotImplementedError(
@@ -1053,6 +1063,11 @@ class Cancun(Shanghai):
         return 6
 
     @classmethod
+    def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Blob reserve price is not supported in Cancun."""
+        return False
+
+    @classmethod
     def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
         """Pre-Osaka forks don't use tx wrapper versions for full blob transactions."""
         return None
@@ -1533,6 +1548,16 @@ class Osaka(Prague, solc_name="cancun"):
     def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """Blobs in Osaka, have a static max of 6 blobs per tx. Differs from the max per block."""
         return 6
+
+    @classmethod
+    def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Blob reserve price is supported in Osaka."""
+        return True
+
+    @classmethod
+    def blob_base_cost(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base cost of a blob at a given fork."""
+        return 2**13  # EIP-7918 new parameter
 
 
 class BPO1(Osaka):
