@@ -20,8 +20,12 @@ MAX_LENGTH_BYTES = 1024
 
 
 @pytest.fixture
-def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
+def precompile_gas(fork: Fork, mod_exp_input: ModExpInput | bytes) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
+
+    if isinstance(mod_exp_input, bytes):
+        return 200
+
     spec = Spec if fork < Osaka else Spec7883
     calculated_gas = spec.calculate_gas_cost(
         len(mod_exp_input.base),
@@ -125,6 +129,18 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
             ),
             id="exp_0_base_1_mod_1025",
         ),
+        pytest.param(
+            ModExpInput(
+                base=b"\1",
+                exponent=b"",
+                modulus=b"\0" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="exp_0_base_1_mod_1025",
+        ),
+        pytest.param(
+            bytes.fromhex("0000000000000000000000000000000000000000000000000000000000000000 0000000000000000000000000000000000000000000000010000000000000000 0000000000000000000000000000000000000000000000000000000000000000 80"),
+            id="exp_2**64_base_0_mod_0",
+        ),
     ],
 )
 def test_modexp_upper_bounds(
@@ -174,14 +190,20 @@ def test_modexp_upper_bounds(
         protected=True,
         sender=sender,
     )
-    if (
-        len(mod_exp_input.base) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.exponent) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.modulus) <= MAX_LENGTH_BYTES
-    ) or (fork < Osaka and not expensive):
-        output = ModExpOutput(call_success=True, returned_data="0x01")
+    if isinstance(mod_exp_input, bytes):
+        if fork < Osaka:
+            output = ModExpOutput(call_success=True, returned_data="0x01")
+        else:
+            output = ModExpOutput(call_success=False, returned_data="0x")
     else:
-        output = ModExpOutput(call_success=False, returned_data="0x")
+        if (
+            len(mod_exp_input.base) <= MAX_LENGTH_BYTES
+            and len(mod_exp_input.exponent) <= MAX_LENGTH_BYTES
+            and len(mod_exp_input.modulus) <= MAX_LENGTH_BYTES
+        ) or (fork < Osaka and not expensive):
+            output = ModExpOutput(call_success=True, returned_data="0x01")
+        else:
+            output = ModExpOutput(call_success=False, returned_data="0x")
 
     post = {account: Account(storage={0: output.call_success})}
 
