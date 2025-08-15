@@ -363,7 +363,7 @@ ruleset: Dict[Fork, Dict[str, int]] = {
         "HIVE_OSAKA_TIMESTAMP": 0,
         "HIVE_BPO1_TIMESTAMP": 0,
         "HIVE_BPO2_TIMESTAMP": 0,
-        **get_blob_schedule_entries(BPO1),
+        **get_blob_schedule_entries(BPO2),
     },
     BPO1ToBPO2AtTime15k: {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -383,7 +383,7 @@ ruleset: Dict[Fork, Dict[str, int]] = {
         "HIVE_OSAKA_TIMESTAMP": 0,
         "HIVE_BPO1_TIMESTAMP": 0,
         "HIVE_BPO2_TIMESTAMP": 15000,
-        **get_blob_schedule_entries(BPO1),
+        **get_blob_schedule_entries(BPO2),
     },
     BPO3: {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -404,7 +404,7 @@ ruleset: Dict[Fork, Dict[str, int]] = {
         "HIVE_BPO1_TIMESTAMP": 0,
         "HIVE_BPO2_TIMESTAMP": 0,
         "HIVE_BPO3_TIMESTAMP": 0,
-        **get_blob_schedule_entries(BPO1),
+        **get_blob_schedule_entries(BPO3),
     },
     BPO2ToBPO3AtTime15k: {
         "HIVE_FORK_HOMESTEAD": 0,
@@ -425,6 +425,6 @@ ruleset: Dict[Fork, Dict[str, int]] = {
         "HIVE_BPO1_TIMESTAMP": 0,
         "HIVE_BPO2_TIMESTAMP": 0,
         "HIVE_BPO3_TIMESTAMP": 15000,
-        **get_blob_schedule_entries(BPO1),
+        **get_blob_schedule_entries(BPO3),
     },
 }
