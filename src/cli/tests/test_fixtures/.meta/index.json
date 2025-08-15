@@ -1,0 +1,365 @@
+{
+  "root_hash": "0x0",
+  "created_at": "2025-08-15T10:57:12.072961",
+  "test_count": 42,
+  "forks": [
+    "ConstantinopleFix",
+    "PragueToOsakaAtTime15k",
+    "London",
+    "Byzantium",
+    "ShanghaiToCancunAtTime15k",
+    "Osaka",
+    "Prague",
+    "Cancun",
+    "Paris",
+    "Istanbul",
+    "CancunToPragueAtTime15k",
+    "Berlin",
+    "ParisToShanghaiAtTime15k",
+    "Shanghai"
+  ],
+  "fixture_formats": [
+    "state_test",
+    "blockchain_test_engine",
+    "blockchain_test_engine_x",
+    "blockchain_test"
+  ],
+  "test_cases": [
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_CancunToPragueAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]",
+      "fixture_hash": "0x649c04a9b130dbde89bb13d08f29dcaead1e8994fe4e4b03fe269645bc98654f",
+      "fork": "CancunToPragueAtTime15k",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0xc8f43a25afa28831",
+      "json_path": "blockchain_tests_engine_x/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ParisToShanghaiAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]",
+      "fixture_hash": "0x7ab9682ce1479b3c8215d4e8983741f7cf6e27ce815636f3d2367cd04b6ec312",
+      "fork": "ParisToShanghaiAtTime15k",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0x38039831b3e60c98",
+      "json_path": "blockchain_tests_engine_x/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_PragueToOsakaAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]",
+      "fixture_hash": "0x585c09aeb11182b9eb562e8b52e640fde7c48121f1db1fc643529ef747afa848",
+      "fork": "PragueToOsakaAtTime15k",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0xe732092c6f6dd981",
+      "json_path": "blockchain_tests_engine_x/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ShanghaiToCancunAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]",
+      "fixture_hash": "0xa59547545162a89d5cb62bd2b58613ba7709ef59df9817f9d107f759bb6d365d",
+      "fork": "ShanghaiToCancunAtTime15k",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0x076c2a2045a94054",
+      "json_path": "blockchain_tests_engine_x/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Cancun-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x8672c56fc02e72554677bedb4c4347f35fb8a4c94d9c8bb4a4e5c37bb9216faf",
+      "fork": "Cancun",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0xd451165ba1388dbf",
+      "json_path": "blockchain_tests_engine_x/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Osaka-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xc0c2e4bb0362adf7c1a8faccef80b2805c0a565ff3c2be71b9d27326200a6e8",
+      "fork": "Osaka",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0xf890dde7c5d1c85c",
+      "json_path": "blockchain_tests_engine_x/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Paris-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x77311da9f7ed596f5df07aee5042860d6273e7671d60f3936ddec2ab7978cdf8",
+      "fork": "Paris",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0x3c8f0acaa94f9b1d",
+      "json_path": "blockchain_tests_engine_x/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Prague-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x99a315e751fcf218790c84004a4719d7f1930be7778010f00c3f7ac30442901d",
+      "fork": "Prague",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0x680be093b9b276d3",
+      "json_path": "blockchain_tests_engine_x/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Shanghai-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x86346fbc1ae9e0ed4e558df8766ce1dc6967113618c034e84c29803bc29213d0",
+      "fork": "Shanghai",
+      "format": "blockchain_test_engine_x",
+      "pre_hash": "0x33b12b85f9ffc168",
+      "json_path": "blockchain_tests_engine_x/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_CancunToPragueAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test]",
+      "fixture_hash": "0xb3b37f50e2034370c67e549747ac392d27f2d92b2d45585825c20abb775464db",
+      "fork": "CancunToPragueAtTime15k",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ParisToShanghaiAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test]",
+      "fixture_hash": "0xa1dd18c52589dd4671d5c0468163bce0c1f89a0bad8f5b2b1d5a0bf697bd33a6",
+      "fork": "ParisToShanghaiAtTime15k",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_PragueToOsakaAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test]",
+      "fixture_hash": "0xd9e9cf9bf6ab9fd01f686146640d6228a169752e5b3be7da158805c8b943933",
+      "fork": "PragueToOsakaAtTime15k",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ShanghaiToCancunAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test]",
+      "fixture_hash": "0x3c7a1b03d0e77a6fc2241a377b18ef512ba363bcf8aa8d605a929d4e84c28378",
+      "fork": "ShanghaiToCancunAtTime15k",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Berlin-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x194f1da36a99fa6d0ae1fc2c25ac89498e30b333b730e3a75949f86addef7c55",
+      "fork": "Berlin",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Byzantium-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xaeee0e2f00b0b9ae60dd34baf9a1f3a4980d6bde9fc16ee6586e34c3b1ea98cd",
+      "fork": "Byzantium",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Cancun-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x15de4b92dc658c347b3e89df0bb695d2bccf0049367b70e2e52b27e32efd0b9b",
+      "fork": "Cancun",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_ConstantinopleFix-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xc9ac2af250c60c2392432f2d83595d42db54098c930240fa1c4236afd9cebe4b",
+      "fork": "ConstantinopleFix",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Istanbul-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x4c63179c74391c9f55ec73a49c37e47817b01f07ee3f3d0041d941446cbcaa86",
+      "fork": "Istanbul",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_London-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xe38e0989c5ff9eb4c6d85e9b6a9e39088cd3def55051aee48793b17ba82f2a8f",
+      "fork": "London",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Osaka-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x5d23d50e838cf619a44f6b259d8c85e12aafba5477e6b00074f6b128e97c3a7a",
+      "fork": "Osaka",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Paris-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x7e662cb05f5ff6e688fa1a7d134898655808dd75c26aa7a1108ec399fff75e93",
+      "fork": "Paris",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Prague-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xe6b5e8f92ccad3fc63856cce1566a0b00c86c8420afa8080be7d971623ce6a15",
+      "fork": "Prague",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Shanghai-blockchain_test_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xa685106bb3e840bb49b1273e1b8d1f969798e91e4ca52415673ce819a955f32",
+      "fork": "Shanghai",
+      "format": "blockchain_test",
+      "pre_hash": null,
+      "json_path": "blockchain_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_CancunToPragueAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine]",
+      "fixture_hash": "0x87855edc866bb521bfa6c48f8cd76da8d875b752e723f1cad6f6a75072aa25bb",
+      "fork": "CancunToPragueAtTime15k",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ParisToShanghaiAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine]",
+      "fixture_hash": "0x5ffa542b269f0c988fde9e51114ad8374f2c174b8bd1840e14550506e317372a",
+      "fork": "ParisToShanghaiAtTime15k",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_PragueToOsakaAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine]",
+      "fixture_hash": "0x9747b04bc46e18a960eed38e0e4e954f85ab456f20a8237ed663ddd3cd919a78",
+      "fork": "PragueToOsakaAtTime15k",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ShanghaiToCancunAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine]",
+      "fixture_hash": "0x6a28c928d6a1e2bc7dc05960de599ebc282bd964670ab3cbe319fb6f43891288",
+      "fork": "ShanghaiToCancunAtTime15k",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/berlin/eip2929_gas_cost_increases/precompile_warming/precompile_warming.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Cancun-blockchain_test_engine_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x57a777b66fc897687c2b7928af941fdadc2acd69c05fe51d739a40f2a8ce3506",
+      "fork": "Cancun",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Osaka-blockchain_test_engine_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x5bcf4093a7ff417253021c9bac2d07de33f0d5ed35f41f8375f2094241f9a703",
+      "fork": "Osaka",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Paris-blockchain_test_engine_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xe5f0fd0fb738cc3587c9418d18723fe01134a6bb3c5256812b91126676c3e58",
+      "fork": "Paris",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Prague-blockchain_test_engine_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xcb6dc5d6a62979a062725a6c9bf63c3d29ec64033245bcbf47bb36f1d269b50d",
+      "fork": "Prague",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Shanghai-blockchain_test_engine_from_state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x1d3abb29282713612cb71180ffa1e9ff7bf0acee7e98f6fded2b54518c47c2fb",
+      "fork": "Shanghai",
+      "format": "blockchain_test_engine",
+      "pre_hash": null,
+      "json_path": "blockchain_tests_engine/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Berlin-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xedbe94c49a56a554c28b72940cd11422ebe58d71b09b4c52e21e8fc4beff51ae",
+      "fork": "Berlin",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Byzantium-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xb85b516f4851fe3aa0e705befe9248542bc4423ecb4f4483896df6c20e855ca3",
+      "fork": "Byzantium",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Cancun-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xd5dd22d146e74fa65388be6017f038287bf8a9aa2764155766dc96e549f366ce",
+      "fork": "Cancun",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_ConstantinopleFix-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0xf509b6ae160cb3459cfd218fbd1266d2cb845e976cfe3b1e4bb1de20d4d5d90b",
+      "fork": "ConstantinopleFix",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Istanbul-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x8513c9a8fe47e2b8b869d459907d0f64977a903e55195614971f0432a4c85901",
+      "fork": "Istanbul",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_London-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x60f5275cca307d6be3319244e8e6385d3bec29d1b0a352fc8a6389fd8a9d60b3",
+      "fork": "London",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Osaka-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x69751e4622ef9fd4a67c597ff644a763b45ab70dd14bbcede6d6fb25902abc25",
+      "fork": "Osaka",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Paris-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x6d0a3f2586d007130d9648412135ae979d11b524bfab0459b2790fb36ab97516",
+      "fork": "Paris",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Prague-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x3c9de401cad9cd66fa6897db023502a7bddb34af1a5f563d545ba27b27bdf6af",
+      "fork": "Prague",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    },
+    {
+      "id": "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Shanghai-state_test-output_size_greater_than_input]",
+      "fixture_hash": "0x18d8ad6e9596ca48585e64db05462d5ea23fafe52840a72324c1311dcbf9c49f",
+      "fork": "Shanghai",
+      "format": "state_test",
+      "pre_hash": null,
+      "json_path": "state_tests/frontier/identity_precompile/identity_returndatasize/identity_precompile_returndata.json"
+    }
+  ]
+}
