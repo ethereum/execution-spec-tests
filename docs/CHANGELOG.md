@@ -85,6 +85,10 @@ Users can select any of the artifacts depending on their testing needs for their
 - 💥 Flag `--flat-output` has been removed due to having been unneeded for an extended period of time ([#2018](https://github.com/ethereum/execution-spec-tests/pull/2018)).
 - ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 
+#### `check_eip_versions`
+
+- 🔀 Refactor: Move EIP version report generation from external script into the `spec_version_checker` pytest plugin to eliminate brittle regex parsing of console output and improve maintainability.
+
 #### `consume`
 
 - ✨ Add `--extract-to` parameter to `consume cache` command for direct fixture extraction to specified directory, replacing the need for separate download scripts. ([#1861](https://github.com/ethereum/execution-spec-tests/pull/1861)).
