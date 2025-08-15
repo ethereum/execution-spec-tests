@@ -106,6 +106,7 @@ fillerconvert = "cli.fillerconvert.fillerconvert:main"
 groupstats = "cli.show_pre_alloc_group_stats:main"
 extract_config = "cli.extract_config:extract_config"
 compare_fixtures = "cli.compare_fixtures:main"
+filter_fixtures = "cli.filter_fixtures:filter_fixtures"
 
 [tool.setuptools.packages.find]
 where = ["src"]
