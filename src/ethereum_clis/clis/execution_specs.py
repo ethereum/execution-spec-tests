@@ -116,6 +116,8 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
+        if "bpo" in fork.name().lower():
+            return True
         return (fork.transition_tool_name() + "\n") in self.help_string
 
     def _generate_post_args(
