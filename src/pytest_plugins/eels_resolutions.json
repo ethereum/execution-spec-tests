@@ -2,7 +2,7 @@
     "EELSMaster": {
         "git_url": "https://github.com/marioevz/execution-specs.git",
         "branch": "forks/bpo1",
-        "commit": "e3a4a02fb63d9728f178ce07b4d02d635e8d2c63"
+        "commit": "3387e5f4aedfe99becfdc39b444d6371e25e0924"
     },
     "Frontier": {
         "same_as": "EELSMaster"
@@ -47,6 +47,9 @@
         "same_as": "EELSMaster"
     },
     "BPO3": {
+        "same_as": "EELSMaster"
+    },
+    "BPO4": {
         "same_as": "EELSMaster"
     }
 }
