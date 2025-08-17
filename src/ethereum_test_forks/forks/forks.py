@@ -1560,7 +1560,7 @@ class Osaka(Prague, solc_name="cancun"):
         return 2**13  # EIP-7918 new parameter
 
 
-class BPO1(Osaka):
+class BPO1(Osaka, bpo_fork=True):
     """BPO1 fork - Blob Parameter Only fork 1."""
 
     @classmethod
@@ -1579,7 +1579,7 @@ class BPO1(Osaka):
         return 14
 
 
-class BPO2(BPO1):
+class BPO2(BPO1, bpo_fork=True):
     """BPO2 fork - Blob Parameter Only fork 2."""
 
     @classmethod
@@ -1598,7 +1598,7 @@ class BPO2(BPO1):
         return 21
 
 
-class BPO3(BPO2):
+class BPO3(BPO2, bpo_fork=True):
     """BPO3 fork - Blob Parameter Only fork 3."""
 
     @classmethod
@@ -1617,7 +1617,7 @@ class BPO3(BPO2):
         return 32
 
 
-class BPO4(BPO3):
+class BPO4(BPO3, bpo_fork=True):
     """BPO4 fork - Blob Parameter Only fork 4."""
 
     @classmethod
