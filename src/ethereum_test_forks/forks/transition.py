@@ -1,7 +1,7 @@
 """List of all transition fork definitions."""
 
 from ..transition_base_fork import transition_fork
-from .forks import BPO1, BPO2, BPO3, Berlin, Cancun, London, Osaka, Paris, Prague, Shanghai
+from .forks import BPO1, BPO2, BPO3, BPO4, Berlin, Cancun, London, Osaka, Paris, Prague, Shanghai
 
 
 # Transition Forks
@@ -57,5 +57,12 @@ class BPO1ToBPO2AtTime15k(BPO1):
 @transition_fork(to_fork=BPO3, at_timestamp=15_000)
 class BPO2ToBPO3AtTime15k(BPO2):
     """BPO2 to BPO3 transition at Timestamp 15k."""
+
+    pass
+
+
+@transition_fork(to_fork=BPO4, at_timestamp=15_000)
+class BPO3ToBPO4AtTime15k(BPO3):
+    """BPO3 to BPO4 transition at Timestamp 15k."""
 
     pass
