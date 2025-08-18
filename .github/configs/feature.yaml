@@ -7,7 +7,7 @@ develop:
   evm-type: develop 
   fill-params: --until=BPO3 --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
 
-devnet-5:
+fusaka-devnet-5:
   evm-type: develop 
   fill-params: --from=Prague --until=BPO3
 
