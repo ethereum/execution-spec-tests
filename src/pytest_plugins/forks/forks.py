@@ -700,16 +700,19 @@ class ValidityMarker(ABC):
                 markers,
             ):
                 validity_markers.append(validity_marker)
-
-        if len(validity_markers) > 1:
+        non_flag_validity_markers = [
+            validity_marker for validity_marker in validity_markers if not validity_marker.flag
+        ]
+        if len(non_flag_validity_markers) > 1:
             mutually_exclusive_markers = [
                 validity_marker
-                for validity_marker in validity_markers
+                for validity_marker in non_flag_validity_markers
                 if validity_marker.mutually_exclusive
             ]
             if mutually_exclusive_markers:
                 names = [
-                    f"'{validity_marker.marker_name}'" for validity_marker in validity_markers
+                    f"'{validity_marker.marker_name}'"
+                    for validity_marker in non_flag_validity_markers
                 ]
                 concatenated_names = " and ".join([", ".join(names[:-1])] + names[-1:])
                 pytest.fail(f"'{test_name}': The markers {concatenated_names} can't be combined. ")
@@ -937,14 +940,13 @@ class ValidForBPOForks(ValidityMarker, marker_name="valid_for_bpo_forks", flag=T
 
     def _process_with_marker_args(self) -> Set[Fork]:
         """Process the fork arguments."""
-        if self.mark is None:
-            # Marker is absent from test, strip BPO forks from the list of valid forks
-            resulting_set: Set[Fork] = set()
-            for fork in self.all_forks:
-                if not fork.bpo_fork():
-                    resulting_set.add(fork)
-            return resulting_set
-        return self.all_forks
+        resulting_set: Set[Fork] = set()
+        include_bpo_forks = self.mark is not None
+        for fork in self.all_forks:
+            if not fork.bpo_fork() or include_bpo_forks:
+                resulting_set.add(fork)
+                resulting_set |= transition_fork_to(fork)
+        return resulting_set
 
 
 def get_intersection_set(
