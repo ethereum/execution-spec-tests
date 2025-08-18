@@ -955,6 +955,12 @@ def get_intersection_set(
     config: pytest.Config,
 ) -> Set[Fork]:
     """Get the intersection set of forks from the validity markers."""
+    filter_flags = [
+        validity_marker for validity_marker in validity_markers if validity_marker.flag
+    ]
+    validity_markers = [
+        validity_marker for validity_marker in validity_markers if not validity_marker.flag
+    ]
     if not validity_markers:
         # Limit to non-transition forks if no validity markers were applied
         test_fork_set: Set[Fork] = config.all_forks  # type: ignore
@@ -964,6 +970,10 @@ def get_intersection_set(
         for validity_marker in validity_markers:
             # Apply the validity markers to the test function if applicable
             test_fork_set = test_fork_set & validity_marker.process()
+
+    for filter_flag in filter_flags:
+        # Apply the filter to the test function if applicable
+        test_fork_set = test_fork_set & filter_flag.process()
 
     if not test_fork_set:
         pytest.fail(
