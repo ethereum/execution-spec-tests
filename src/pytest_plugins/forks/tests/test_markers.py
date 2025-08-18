@@ -154,6 +154,23 @@ def test_case(blockchain_test):
             {"passed": 2, "failed": 0, "skipped": 0, "errors": 0},
             id="valid_until_bpo_fork_with_bpo_test_marker",
         ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Osaka", subsequent_forks=True, until="BPO1"',
+            ),
+            ["--until=BPO1"],
+            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_without_bpo_test_marker",
+        ),
+        pytest.param(
+            generate_test(
+                valid_at_transition_to='"Osaka", subsequent_forks=True, until="BPO1"',
+                valid_for_bpo_forks="",
+            ),
+            ["--until=BPO1"],
+            {"passed": 2, "failed": 0, "skipped": 0, "errors": 0},
+            id="valid_at_transition_with_bpo_test_marker",
+        ),
     ],
 )
 def test_fork_markers(
