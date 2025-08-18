@@ -7,6 +7,10 @@ develop:
   evm-type: develop 
   fill-params: --until=BPO3 --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
 
+devnet-5:
+  evm-type: develop 
+  fill-params: --from=Prague --until=BPO3
+
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague
   fill-params: --fork=Prague --gas-benchmark-values 1,10,30,45,60,100,150 -m "benchmark and not state_test" ./tests/benchmark
