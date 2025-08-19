@@ -703,8 +703,14 @@ class BlockchainTest(BaseTest):
             ),
         )
 
+        # FIXME: this is a temporal hack to use an external binary for the execution witness
+        # filling. Whenever execution-spec filler supports the filling of this field, we can remove
+        # this.
+        subprocess.run(
+            ["cargo", "install", "--quiet", "--git", "https://github.com/kevaundray/reth.git", "--rev", "8016a8a5736e4427b3d285c82cd39c4ece70f8c4", "witness-filler"],
+        )
         result = subprocess.run(
-            ["/home/ignacio/code/kev-reth/target/release/witness-filler"],
+            ["witness-filler"],
             input=fixture.model_dump_json(by_alias=True),
             text=True,
             capture_output=True,
