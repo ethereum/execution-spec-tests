@@ -13,7 +13,6 @@ This command verifies that a client is correctly configured for a specific netwo
 - Chain ID.
 - Precompile addresses.
 - System contract addresses.
-- Fork hashes and IDs.
 
 ## Usage
 
