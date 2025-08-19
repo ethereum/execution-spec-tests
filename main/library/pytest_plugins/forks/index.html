@@ -26389,6 +26389,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pytest_plugins.forks.forks.ValidForBPOForks" class="md-nav__link">
+    <span class="md-ellipsis">
+      ValidForBPOForks
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pytest_plugins.forks.forks.get_intersection_set" class="md-nav__link">
     <span class="md-ellipsis">
       get_intersection_set
@@ -28780,7 +28789,25 @@ process the fork arguments.</p>
 <span class="normal">725</span>
 <span class="normal">726</span>
 <span class="normal">727</span>
-<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span>
+<span class="normal">738</span>
+<span class="normal">739</span>
+<span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ValidityMarker</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Abstract class to represent any fork validity marker.</span>
@@ -28797,14 +28824,15 @@ process the fork arguments.</p>
 
     <span class="n">marker_name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">mutually_exclusive</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
+    <span class="n">flag</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
 
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">all_forks</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span>
     <span class="n">all_forks_by_name</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Fork</span><span class="p">]</span>
-    <span class="n">mark</span><span class="p">:</span> <span class="n">Mark</span>
+    <span class="n">mark</span><span class="p">:</span> <span class="n">Mark</span> <span class="o">|</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Register the validity marker subclass.&quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">()</span>
@@ -28814,6 +28842,7 @@ process the fork arguments.</p>
             <span class="c1"># Use the class name converted to underscore: https://stackoverflow.com/a/1176023</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span> <span class="o">=</span> <span class="n">MARKER_NAME_REGEX</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">mutually_exclusive</span> <span class="o">=</span> <span class="n">mutually_exclusive</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span> <span class="o">=</span> <span class="n">flag</span>
         <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">ALL_VALIDITY_MARKERS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate validity marker class: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">ALL_VALIDITY_MARKERS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -28848,18 +28877,27 @@ process the fork arguments.</p>
 
 <span class="sd">        If the test function does not contain the marker, return None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_forks_by_name</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks_by_name</span>  <span class="c1"># type: ignore</span>
+        <span class="n">all_forks</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span>  <span class="c1"># type: ignore</span>
+
         <span class="n">validity_markers</span> <span class="o">=</span> <span class="p">[</span><span class="n">mark</span> <span class="k">for</span> <span class="n">mark</span> <span class="ow">in</span> <span class="n">markers</span> <span class="k">if</span> <span class="n">mark</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_markers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
+                <span class="c1"># Flags are also added as validity forks since they affect the behavior of tests</span>
+                <span class="c1"># that don&#39;t include the validity marker.</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+                    <span class="n">test_name</span><span class="o">=</span><span class="n">test_name</span><span class="p">,</span>
+                    <span class="n">all_forks_by_name</span><span class="o">=</span><span class="n">all_forks_by_name</span><span class="p">,</span>
+                    <span class="n">all_forks</span><span class="o">=</span><span class="n">all_forks</span><span class="p">,</span>
+                    <span class="n">mark</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Too many &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39; markers applied to test. &quot;</span><span class="p">)</span>
         <span class="n">mark</span> <span class="o">=</span> <span class="n">validity_markers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Missing fork argument with &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39; marker. &quot;</span><span class="p">)</span>
-
-        <span class="n">all_forks_by_name</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks_by_name</span>  <span class="c1"># type: ignore</span>
-        <span class="n">all_forks</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span>  <span class="c1"># type: ignore</span>
 
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
             <span class="n">test_name</span><span class="o">=</span><span class="n">test_name</span><span class="p">,</span>
@@ -28883,16 +28921,19 @@ process the fork arguments.</p>
                 <span class="n">markers</span><span class="p">,</span>
             <span class="p">):</span>
                 <span class="n">validity_markers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">validity_marker</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">non_flag_validity_markers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">validity_marker</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">flag</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_flag_validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">mutually_exclusive_markers</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">validity_marker</span>
-                <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span>
+                <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">non_flag_validity_markers</span>
                 <span class="k">if</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">mutually_exclusive</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="n">mutually_exclusive_markers</span><span class="p">:</span>
                 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">validity_marker</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">validity_marker</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">non_flag_validity_markers</span>
                 <span class="p">]</span>
                 <span class="n">concatenated_names</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+</span> <span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:])</span>
                 <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: The markers </span><span class="si">{</span><span class="n">concatenated_names</span><span class="si">}</span><span class="s2"> can&#39;t be combined. &quot;</span><span class="p">)</span>
@@ -28910,7 +28951,11 @@ process the fork arguments.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the fork arguments.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">mark</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mark</span>
+        <span class="k">if</span> <span class="n">mark</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="s2">&quot;Marker is `None` but validity marker is not a flag&quot;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">(</span><span class="o">*</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">mark</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_process_with_marker_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
@@ -28937,7 +28982,7 @@ process the fork arguments.</p>
 
 
 <h3 id="pytest_plugins.forks.forks.ValidityMarker.__init_subclass__" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">__init_subclass__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">__init_subclass__</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 <a href="#pytest_plugins.forks.forks.ValidityMarker.__init_subclass__" class="headerlink" title="Permanent link">&para;</a></h3>
 
@@ -28949,8 +28994,7 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">612</span>
-<span class="normal">613</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">613</span>
 <span class="normal">614</span>
 <span class="normal">615</span>
 <span class="normal">616</span>
@@ -28962,8 +29006,10 @@ process the fork arguments.</p>
 <span class="normal">622</span>
 <span class="normal">623</span>
 <span class="normal">624</span>
-<span class="normal">625</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span>
-    <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span>
+    <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">marker_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Register the validity marker subclass.&quot;&quot;&quot;</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init_subclass__</span><span class="p">()</span>
@@ -28973,6 +29019,7 @@ process the fork arguments.</p>
         <span class="c1"># Use the class name converted to underscore: https://stackoverflow.com/a/1176023</span>
         <span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span> <span class="o">=</span> <span class="n">MARKER_NAME_REGEX</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
     <span class="bp">cls</span><span class="o">.</span><span class="n">mutually_exclusive</span> <span class="o">=</span> <span class="n">mutually_exclusive</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span> <span class="o">=</span> <span class="n">flag</span>
     <span class="k">if</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">ALL_VALIDITY_MARKERS</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate validity marker class: </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="n">ALL_VALIDITY_MARKERS</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
@@ -29003,9 +29050,7 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">629</span>
 <span class="normal">630</span>
 <span class="normal">631</span>
 <span class="normal">632</span>
@@ -29019,7 +29064,9 @@ process the fork arguments.</p>
 <span class="normal">640</span>
 <span class="normal">641</span>
 <span class="normal">642</span>
-<span class="normal">643</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">process_fork_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">fork_args</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">process_fork_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">fork_args</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the fork arguments.&quot;&quot;&quot;</span>
     <span class="n">fork_names</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">fork_arg</span> <span class="ow">in</span> <span class="n">fork_args</span><span class="p">:</span>
@@ -29068,9 +29115,7 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">647</span>
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
@@ -29098,7 +29143,18 @@ process the fork arguments.</p>
 <span class="normal">672</span>
 <span class="normal">673</span>
 <span class="normal">674</span>
-<span class="normal">675</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@classmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_validity_marker</span><span class="p">(</span>
     <span class="bp">cls</span><span class="p">,</span>
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -29110,18 +29166,27 @@ process the fork arguments.</p>
 
 <span class="sd">    If the test function does not contain the marker, return None.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">all_forks_by_name</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks_by_name</span>  <span class="c1"># type: ignore</span>
+    <span class="n">all_forks</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span>  <span class="c1"># type: ignore</span>
+
     <span class="n">validity_markers</span> <span class="o">=</span> <span class="p">[</span><span class="n">mark</span> <span class="k">for</span> <span class="n">mark</span> <span class="ow">in</span> <span class="n">markers</span> <span class="k">if</span> <span class="n">mark</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_markers</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
+            <span class="c1"># Flags are also added as validity forks since they affect the behavior of tests</span>
+            <span class="c1"># that don&#39;t include the validity marker.</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+                <span class="n">test_name</span><span class="o">=</span><span class="n">test_name</span><span class="p">,</span>
+                <span class="n">all_forks_by_name</span><span class="o">=</span><span class="n">all_forks_by_name</span><span class="p">,</span>
+                <span class="n">all_forks</span><span class="o">=</span><span class="n">all_forks</span><span class="p">,</span>
+                <span class="n">mark</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Too many &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39; markers applied to test. &quot;</span><span class="p">)</span>
     <span class="n">mark</span> <span class="o">=</span> <span class="n">validity_markers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: Missing fork argument with &#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39; marker. &quot;</span><span class="p">)</span>
-
-    <span class="n">all_forks_by_name</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks_by_name</span>  <span class="c1"># type: ignore</span>
-    <span class="n">all_forks</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span>  <span class="c1"># type: ignore</span>
 
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
         <span class="n">test_name</span><span class="o">=</span><span class="n">test_name</span><span class="p">,</span>
@@ -29160,18 +29225,7 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">688</span>
 <span class="normal">689</span>
 <span class="normal">690</span>
 <span class="normal">691</span>
@@ -29189,7 +29243,21 @@ process the fork arguments.</p>
 <span class="normal">703</span>
 <span class="normal">704</span>
 <span class="normal">705</span>
-<span class="normal">706</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_all_validity_markers</span><span class="p">(</span>
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span>
@@ -29204,16 +29272,19 @@ process the fork arguments.</p>
             <span class="n">markers</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="n">validity_markers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">validity_marker</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="n">non_flag_validity_markers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">validity_marker</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">flag</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">non_flag_validity_markers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">mutually_exclusive_markers</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">validity_marker</span>
-            <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span>
+            <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">non_flag_validity_markers</span>
             <span class="k">if</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">mutually_exclusive</span>
         <span class="p">]</span>
         <span class="k">if</span> <span class="n">mutually_exclusive_markers</span><span class="p">:</span>
             <span class="n">names</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">validity_marker</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">validity_marker</span><span class="o">.</span><span class="n">marker_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">non_flag_validity_markers</span>
             <span class="p">]</span>
             <span class="n">concatenated_names</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+</span> <span class="n">names</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:])</span>
             <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">test_name</span><span class="si">}</span><span class="s2">&#39;: The markers </span><span class="si">{</span><span class="n">concatenated_names</span><span class="si">}</span><span class="s2"> can&#39;t be combined. &quot;</span><span class="p">)</span>
@@ -29250,14 +29321,14 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">708</span>
-<span class="normal">709</span>
-<span class="normal">710</span>
-<span class="normal">711</span>
-<span class="normal">712</span>
-<span class="normal">713</span>
-<span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_all_validity_markers_from_metafunc</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;ValidityMarker&quot;</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all the validity markers applied to the test function using its meta-function.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">ValidityMarker</span><span class="o">.</span><span class="n">get_all_validity_markers</span><span class="p">(</span>
@@ -29292,11 +29363,19 @@ process the fork arguments.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">717</span>
-<span class="normal">718</span>
-<span class="normal">719</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process the fork arguments.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">mark</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mark</span>
+    <span class="k">if</span> <span class="n">mark</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="s2">&quot;Marker is `None` but validity marker is not a flag&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process_with_marker_args</span><span class="p">(</span><span class="o">*</span><span class="n">mark</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">mark</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -29366,25 +29445,7 @@ Paris, Shanghai, Cancun, etc.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">731</span>
-<span class="normal">732</span>
-<span class="normal">733</span>
-<span class="normal">734</span>
-<span class="normal">735</span>
-<span class="normal">736</span>
-<span class="normal">737</span>
-<span class="normal">738</span>
-<span class="normal">739</span>
-<span class="normal">740</span>
-<span class="normal">741</span>
-<span class="normal">742</span>
-<span class="normal">743</span>
-<span class="normal">744</span>
-<span class="normal">745</span>
-<span class="normal">746</span>
-<span class="normal">747</span>
-<span class="normal">748</span>
-<span class="normal">749</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">749</span>
 <span class="normal">750</span>
 <span class="normal">751</span>
 <span class="normal">752</span>
@@ -29394,7 +29455,25 @@ Paris, Shanghai, Cancun, etc.</p>
 <span class="normal">756</span>
 <span class="normal">757</span>
 <span class="normal">758</span>
-<span class="normal">759</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidFrom</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span>
+<span class="normal">771</span>
+<span class="normal">772</span>
+<span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidFrom</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker used to specify the fork from which the test is valid. The test will not be filled for</span>
 <span class="sd">    forks before the specified fork.</span>
@@ -29494,25 +29573,7 @@ Berlin, Istanbul, etc.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">762</span>
-<span class="normal">763</span>
-<span class="normal">764</span>
-<span class="normal">765</span>
-<span class="normal">766</span>
-<span class="normal">767</span>
-<span class="normal">768</span>
-<span class="normal">769</span>
-<span class="normal">770</span>
-<span class="normal">771</span>
-<span class="normal">772</span>
-<span class="normal">773</span>
-<span class="normal">774</span>
-<span class="normal">775</span>
-<span class="normal">776</span>
-<span class="normal">777</span>
-<span class="normal">778</span>
-<span class="normal">779</span>
-<span class="normal">780</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">780</span>
 <span class="normal">781</span>
 <span class="normal">782</span>
 <span class="normal">783</span>
@@ -29522,7 +29583,25 @@ Berlin, Istanbul, etc.</p>
 <span class="normal">787</span>
 <span class="normal">788</span>
 <span class="normal">789</span>
-<span class="normal">790</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidUntil</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidUntil</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker to specify the fork until which the test is valid. The test will not be filled for</span>
 <span class="sd">    forks after the specified fork.</span>
@@ -29620,29 +29699,29 @@ Berlin, Istanbul, etc.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
-<span class="normal">801</span>
-<span class="normal">802</span>
-<span class="normal">803</span>
-<span class="normal">804</span>
-<span class="normal">805</span>
-<span class="normal">806</span>
-<span class="normal">807</span>
-<span class="normal">808</span>
-<span class="normal">809</span>
-<span class="normal">810</span>
-<span class="normal">811</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">811</span>
 <span class="normal">812</span>
 <span class="normal">813</span>
 <span class="normal">814</span>
-<span class="normal">815</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidAt</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidAt</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker to specify each fork individually for which the test is valid.</span>
 
@@ -29758,25 +29837,7 @@ Prague.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">818</span>
-<span class="normal">819</span>
-<span class="normal">820</span>
-<span class="normal">821</span>
-<span class="normal">822</span>
-<span class="normal">823</span>
-<span class="normal">824</span>
-<span class="normal">825</span>
-<span class="normal">826</span>
-<span class="normal">827</span>
-<span class="normal">828</span>
-<span class="normal">829</span>
-<span class="normal">830</span>
-<span class="normal">831</span>
-<span class="normal">832</span>
-<span class="normal">833</span>
-<span class="normal">834</span>
-<span class="normal">835</span>
-<span class="normal">836</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
 <span class="normal">839</span>
@@ -29842,7 +29903,25 @@ Prague.</p>
 <span class="normal">899</span>
 <span class="normal">900</span>
 <span class="normal">901</span>
-<span class="normal">902</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidAtTransitionTo</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="normal">902</span>
+<span class="normal">903</span>
+<span class="normal">904</span>
+<span class="normal">905</span>
+<span class="normal">906</span>
+<span class="normal">907</span>
+<span class="normal">908</span>
+<span class="normal">909</span>
+<span class="normal">910</span>
+<span class="normal">911</span>
+<span class="normal">912</span>
+<span class="normal">913</span>
+<span class="normal">914</span>
+<span class="normal">915</span>
+<span class="normal">916</span>
+<span class="normal">917</span>
+<span class="normal">918</span>
+<span class="normal">919</span>
+<span class="normal">920</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidAtTransitionTo</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">,</span> <span class="n">mutually_exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Marker to specify that a test is only meant to be filled at the transition to the specified</span>
 <span class="sd">    fork.</span>
@@ -29949,6 +30028,127 @@ Prague.</p>
 
 
 
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="pytest_plugins.forks.forks.ValidForBPOForks" class="doc doc-heading">
+            <code>ValidForBPOForks</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+<a href="#pytest_plugins.forks.forks.ValidForBPOForks" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="ValidityMarker
+
+
+  
+      dataclass
+   (pytest_plugins.forks.forks.ValidityMarker)" href="#pytest_plugins.forks.forks.ValidityMarker">ValidityMarker</a></code></p>
+
+
+        <p>Marker to specify that a test is valid for BPO forks.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ethereum_test_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">BlockchainTestFiller</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_for_bpo_forks</span><span class="p">()</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_something_in_a_bpo_fork</span><span class="p">(</span>
+    <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
+<span class="p">):</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+
+
+
+
+
+
+              <details class="quote">
+                <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">923</span>
+<span class="normal">924</span>
+<span class="normal">925</span>
+<span class="normal">926</span>
+<span class="normal">927</span>
+<span class="normal">928</span>
+<span class="normal">929</span>
+<span class="normal">930</span>
+<span class="normal">931</span>
+<span class="normal">932</span>
+<span class="normal">933</span>
+<span class="normal">934</span>
+<span class="normal">935</span>
+<span class="normal">936</span>
+<span class="normal">937</span>
+<span class="normal">938</span>
+<span class="normal">939</span>
+<span class="normal">940</span>
+<span class="normal">941</span>
+<span class="normal">942</span>
+<span class="normal">943</span>
+<span class="normal">944</span>
+<span class="normal">945</span>
+<span class="normal">946</span>
+<span class="normal">947</span>
+<span class="normal">948</span>
+<span class="normal">949</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ValidForBPOForks</span><span class="p">(</span><span class="n">ValidityMarker</span><span class="p">,</span> <span class="n">marker_name</span><span class="o">=</span><span class="s2">&quot;valid_for_bpo_forks&quot;</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Marker to specify that a test is valid for BPO forks.</span>
+
+<span class="sd">    ```python</span>
+<span class="sd">    import pytest</span>
+
+<span class="sd">    from ethereum_test_tools import Alloc, BlockchainTestFiller</span>
+
+<span class="sd">    @pytest.mark.valid_for_bpo_forks()</span>
+<span class="sd">    def test_something_in_a_bpo_fork(</span>
+<span class="sd">        blockchain_test: BlockchainTestFiller,</span>
+<span class="sd">        pre: Alloc</span>
+<span class="sd">    ):</span>
+<span class="sd">        pass</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_process_with_marker_args</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the fork arguments.&quot;&quot;&quot;</span>
+        <span class="n">resulting_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">include_bpo_forks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mark</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">fork</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_forks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">fork</span><span class="o">.</span><span class="n">bpo_fork</span><span class="p">()</span> <span class="ow">or</span> <span class="n">include_bpo_forks</span><span class="p">:</span>
+                <span class="n">resulting_set</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+                <span class="n">resulting_set</span> <span class="o">|=</span> <span class="n">transition_fork_to</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">resulting_set</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
 <div class="doc doc-object doc-function">
 
 
@@ -29965,37 +30165,53 @@ Prague.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">905</span>
-<span class="normal">906</span>
-<span class="normal">907</span>
-<span class="normal">908</span>
-<span class="normal">909</span>
-<span class="normal">910</span>
-<span class="normal">911</span>
-<span class="normal">912</span>
-<span class="normal">913</span>
-<span class="normal">914</span>
-<span class="normal">915</span>
-<span class="normal">916</span>
-<span class="normal">917</span>
-<span class="normal">918</span>
-<span class="normal">919</span>
-<span class="normal">920</span>
-<span class="normal">921</span>
-<span class="normal">922</span>
-<span class="normal">923</span>
-<span class="normal">924</span>
-<span class="normal">925</span>
-<span class="normal">926</span>
-<span class="normal">927</span>
-<span class="normal">928</span>
-<span class="normal">929</span>
-<span class="normal">930</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_intersection_set</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">952</span>
+<span class="normal">953</span>
+<span class="normal">954</span>
+<span class="normal">955</span>
+<span class="normal">956</span>
+<span class="normal">957</span>
+<span class="normal">958</span>
+<span class="normal">959</span>
+<span class="normal">960</span>
+<span class="normal">961</span>
+<span class="normal">962</span>
+<span class="normal">963</span>
+<span class="normal">964</span>
+<span class="normal">965</span>
+<span class="normal">966</span>
+<span class="normal">967</span>
+<span class="normal">968</span>
+<span class="normal">969</span>
+<span class="normal">970</span>
+<span class="normal">971</span>
+<span class="normal">972</span>
+<span class="normal">973</span>
+<span class="normal">974</span>
+<span class="normal">975</span>
+<span class="normal">976</span>
+<span class="normal">977</span>
+<span class="normal">978</span>
+<span class="normal">979</span>
+<span class="normal">980</span>
+<span class="normal">981</span>
+<span class="normal">982</span>
+<span class="normal">983</span>
+<span class="normal">984</span>
+<span class="normal">985</span>
+<span class="normal">986</span>
+<span class="normal">987</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_intersection_set</span><span class="p">(</span>
     <span class="n">test_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">validity_markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ValidityMarker</span><span class="p">],</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the intersection set of forks from the validity markers.&quot;&quot;&quot;</span>
+    <span class="n">filter_flags</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">validity_marker</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span> <span class="k">if</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">flag</span>
+    <span class="p">]</span>
+    <span class="n">validity_markers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">validity_marker</span> <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">flag</span>
+    <span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">validity_markers</span><span class="p">:</span>
         <span class="c1"># Limit to non-transition forks if no validity markers were applied</span>
         <span class="n">test_fork_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">Fork</span><span class="p">]</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">all_forks</span>  <span class="c1"># type: ignore</span>
@@ -30005,6 +30221,10 @@ Prague.</p>
         <span class="k">for</span> <span class="n">validity_marker</span> <span class="ow">in</span> <span class="n">validity_markers</span><span class="p">:</span>
             <span class="c1"># Apply the validity markers to the test function if applicable</span>
             <span class="n">test_fork_set</span> <span class="o">=</span> <span class="n">test_fork_set</span> <span class="o">&amp;</span> <span class="n">validity_marker</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">filter_flag</span> <span class="ow">in</span> <span class="n">filter_flags</span><span class="p">:</span>
+        <span class="c1"># Apply the filter to the test function if applicable</span>
+        <span class="n">test_fork_set</span> <span class="o">=</span> <span class="n">test_fork_set</span> <span class="o">&amp;</span> <span class="n">filter_flag</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">test_fork_set</span><span class="p">:</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span>
@@ -30043,57 +30263,57 @@ Prague.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">933</span>
-<span class="normal">934</span>
-<span class="normal">935</span>
-<span class="normal">936</span>
-<span class="normal">937</span>
-<span class="normal">938</span>
-<span class="normal">939</span>
-<span class="normal">940</span>
-<span class="normal">941</span>
-<span class="normal">942</span>
-<span class="normal">943</span>
-<span class="normal">944</span>
-<span class="normal">945</span>
-<span class="normal">946</span>
-<span class="normal">947</span>
-<span class="normal">948</span>
-<span class="normal">949</span>
-<span class="normal">950</span>
-<span class="normal">951</span>
-<span class="normal">952</span>
-<span class="normal">953</span>
-<span class="normal">954</span>
-<span class="normal">955</span>
-<span class="normal">956</span>
-<span class="normal">957</span>
-<span class="normal">958</span>
-<span class="normal">959</span>
-<span class="normal">960</span>
-<span class="normal">961</span>
-<span class="normal">962</span>
-<span class="normal">963</span>
-<span class="normal">964</span>
-<span class="normal">965</span>
-<span class="normal">966</span>
-<span class="normal">967</span>
-<span class="normal">968</span>
-<span class="normal">969</span>
-<span class="normal">970</span>
-<span class="normal">971</span>
-<span class="normal">972</span>
-<span class="normal">973</span>
-<span class="normal">974</span>
-<span class="normal">975</span>
-<span class="normal">976</span>
-<span class="normal">977</span>
-<span class="normal">978</span>
-<span class="normal">979</span>
-<span class="normal">980</span>
-<span class="normal">981</span>
-<span class="normal">982</span>
-<span class="normal">983</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 990</span>
+<span class="normal"> 991</span>
+<span class="normal"> 992</span>
+<span class="normal"> 993</span>
+<span class="normal"> 994</span>
+<span class="normal"> 995</span>
+<span class="normal"> 996</span>
+<span class="normal"> 997</span>
+<span class="normal"> 998</span>
+<span class="normal"> 999</span>
+<span class="normal">1000</span>
+<span class="normal">1001</span>
+<span class="normal">1002</span>
+<span class="normal">1003</span>
+<span class="normal">1004</span>
+<span class="normal">1005</span>
+<span class="normal">1006</span>
+<span class="normal">1007</span>
+<span class="normal">1008</span>
+<span class="normal">1009</span>
+<span class="normal">1010</span>
+<span class="normal">1011</span>
+<span class="normal">1012</span>
+<span class="normal">1013</span>
+<span class="normal">1014</span>
+<span class="normal">1015</span>
+<span class="normal">1016</span>
+<span class="normal">1017</span>
+<span class="normal">1018</span>
+<span class="normal">1019</span>
+<span class="normal">1020</span>
+<span class="normal">1021</span>
+<span class="normal">1022</span>
+<span class="normal">1023</span>
+<span class="normal">1024</span>
+<span class="normal">1025</span>
+<span class="normal">1026</span>
+<span class="normal">1027</span>
+<span class="normal">1028</span>
+<span class="normal">1029</span>
+<span class="normal">1030</span>
+<span class="normal">1031</span>
+<span class="normal">1032</span>
+<span class="normal">1033</span>
+<span class="normal">1034</span>
+<span class="normal">1035</span>
+<span class="normal">1036</span>
+<span class="normal">1037</span>
+<span class="normal">1038</span>
+<span class="normal">1039</span>
+<span class="normal">1040</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pytest hook used to dynamically generate test cases.&quot;&quot;&quot;</span>
     <span class="n">validity_markers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ValidityMarker</span><span class="p">]</span> <span class="o">=</span> <span class="n">ValidityMarker</span><span class="o">.</span><span class="n">get_all_validity_markers_from_metafunc</span><span class="p">(</span>
         <span class="n">metafunc</span>
@@ -30171,27 +30391,27 @@ Prague.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 986</span>
-<span class="normal"> 987</span>
-<span class="normal"> 988</span>
-<span class="normal"> 989</span>
-<span class="normal"> 990</span>
-<span class="normal"> 991</span>
-<span class="normal"> 992</span>
-<span class="normal"> 993</span>
-<span class="normal"> 994</span>
-<span class="normal"> 995</span>
-<span class="normal"> 996</span>
-<span class="normal"> 997</span>
-<span class="normal"> 998</span>
-<span class="normal"> 999</span>
-<span class="normal">1000</span>
-<span class="normal">1001</span>
-<span class="normal">1002</span>
-<span class="normal">1003</span>
-<span class="normal">1004</span>
-<span class="normal">1005</span>
-<span class="normal">1006</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_fork_covariant_parameters</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1043</span>
+<span class="normal">1044</span>
+<span class="normal">1045</span>
+<span class="normal">1046</span>
+<span class="normal">1047</span>
+<span class="normal">1048</span>
+<span class="normal">1049</span>
+<span class="normal">1050</span>
+<span class="normal">1051</span>
+<span class="normal">1052</span>
+<span class="normal">1053</span>
+<span class="normal">1054</span>
+<span class="normal">1055</span>
+<span class="normal">1056</span>
+<span class="normal">1057</span>
+<span class="normal">1058</span>
+<span class="normal">1059</span>
+<span class="normal">1060</span>
+<span class="normal">1061</span>
+<span class="normal">1062</span>
+<span class="normal">1063</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">add_fork_covariant_parameters</span><span class="p">(</span>
     <span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Iterate over the fork covariant descriptors and add their values to the test function.&quot;&quot;&quot;</span>
@@ -30239,45 +30459,45 @@ Prague.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1009</span>
-<span class="normal">1010</span>
-<span class="normal">1011</span>
-<span class="normal">1012</span>
-<span class="normal">1013</span>
-<span class="normal">1014</span>
-<span class="normal">1015</span>
-<span class="normal">1016</span>
-<span class="normal">1017</span>
-<span class="normal">1018</span>
-<span class="normal">1019</span>
-<span class="normal">1020</span>
-<span class="normal">1021</span>
-<span class="normal">1022</span>
-<span class="normal">1023</span>
-<span class="normal">1024</span>
-<span class="normal">1025</span>
-<span class="normal">1026</span>
-<span class="normal">1027</span>
-<span class="normal">1028</span>
-<span class="normal">1029</span>
-<span class="normal">1030</span>
-<span class="normal">1031</span>
-<span class="normal">1032</span>
-<span class="normal">1033</span>
-<span class="normal">1034</span>
-<span class="normal">1035</span>
-<span class="normal">1036</span>
-<span class="normal">1037</span>
-<span class="normal">1038</span>
-<span class="normal">1039</span>
-<span class="normal">1040</span>
-<span class="normal">1041</span>
-<span class="normal">1042</span>
-<span class="normal">1043</span>
-<span class="normal">1044</span>
-<span class="normal">1045</span>
-<span class="normal">1046</span>
-<span class="normal">1047</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parameters_from_fork_parametrizer_list</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1066</span>
+<span class="normal">1067</span>
+<span class="normal">1068</span>
+<span class="normal">1069</span>
+<span class="normal">1070</span>
+<span class="normal">1071</span>
+<span class="normal">1072</span>
+<span class="normal">1073</span>
+<span class="normal">1074</span>
+<span class="normal">1075</span>
+<span class="normal">1076</span>
+<span class="normal">1077</span>
+<span class="normal">1078</span>
+<span class="normal">1079</span>
+<span class="normal">1080</span>
+<span class="normal">1081</span>
+<span class="normal">1082</span>
+<span class="normal">1083</span>
+<span class="normal">1084</span>
+<span class="normal">1085</span>
+<span class="normal">1086</span>
+<span class="normal">1087</span>
+<span class="normal">1088</span>
+<span class="normal">1089</span>
+<span class="normal">1090</span>
+<span class="normal">1091</span>
+<span class="normal">1092</span>
+<span class="normal">1093</span>
+<span class="normal">1094</span>
+<span class="normal">1095</span>
+<span class="normal">1096</span>
+<span class="normal">1097</span>
+<span class="normal">1098</span>
+<span class="normal">1099</span>
+<span class="normal">1100</span>
+<span class="normal">1101</span>
+<span class="normal">1102</span>
+<span class="normal">1103</span>
+<span class="normal">1104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parameters_from_fork_parametrizer_list</span><span class="p">(</span>
     <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">ParameterSet</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the parameters from the fork parametrizers.&quot;&quot;&quot;</span>
@@ -30343,21 +30563,21 @@ Prague.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/forks/forks.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1050</span>
-<span class="normal">1051</span>
-<span class="normal">1052</span>
-<span class="normal">1053</span>
-<span class="normal">1054</span>
-<span class="normal">1055</span>
-<span class="normal">1056</span>
-<span class="normal">1057</span>
-<span class="normal">1058</span>
-<span class="normal">1059</span>
-<span class="normal">1060</span>
-<span class="normal">1061</span>
-<span class="normal">1062</span>
-<span class="normal">1063</span>
-<span class="normal">1064</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parametrize_fork</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1107</span>
+<span class="normal">1108</span>
+<span class="normal">1109</span>
+<span class="normal">1110</span>
+<span class="normal">1111</span>
+<span class="normal">1112</span>
+<span class="normal">1113</span>
+<span class="normal">1114</span>
+<span class="normal">1115</span>
+<span class="normal">1116</span>
+<span class="normal">1117</span>
+<span class="normal">1118</span>
+<span class="normal">1119</span>
+<span class="normal">1120</span>
+<span class="normal">1121</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">parametrize_fork</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">Metafunc</span><span class="p">,</span> <span class="n">fork_parametrizers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">ForkParametrizer</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the fork parameters to the test function.&quot;&quot;&quot;</span>
     <span class="n">param_names</span><span class="p">,</span> <span class="n">param_values</span> <span class="o">=</span> <span class="n">parameters_from_fork_parametrizer_list</span><span class="p">(</span><span class="n">fork_parametrizers</span><span class="p">)</span>
 
