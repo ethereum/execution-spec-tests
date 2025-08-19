@@ -81,14 +81,14 @@ EXPECTED_PRAGUE = json.loads("""
 EXPECTED_PRAGUE_FORK_ID = ForkHash("0x0929e24e")
 EXPECTED_BPO1 = json.loads("""
 {
-    "activationTime": 1742999833,
+    "activationTime": 1753477608,
     "blobSchedule": {
     "baseFeeUpdateFraction": 5007716,
     "max": 12,
     "target": 9
     },
     "chainId": "0x88bb0",
-    "forkId": "0xdf11b211",
+    "forkId": "0x5e2e4e84",
     "precompiles": {
     "BLAKE2F": "0x0000000000000000000000000000000000000009",
     "BLS12_G1ADD": "0x000000000000000000000000000000000000000b",
@@ -117,17 +117,17 @@ EXPECTED_BPO1 = json.loads("""
   }
 }
 """)
-EXPECTED_BPO1_FORK_ID = ForkHash("0xdf11b211")
+EXPECTED_BPO1_FORK_ID = ForkHash("0x5e2e4e84")
 EXPECTED_BPO2 = json.loads("""
 {
-    "activationTime": 1742999834,
+    "activationTime": 1753575912,
     "blobSchedule": {
     "baseFeeUpdateFraction": 5007716,
     "max": 15,
     "target": 12
     },
     "chainId": "0x88bb0",
-    "forkId": "0x0757e44f",
+    "forkId": "0x9d7b6bfb",
     "precompiles": {
     "BLAKE2F": "0x0000000000000000000000000000000000000009",
     "BLS12_G1ADD": "0x000000000000000000000000000000000000000b",
@@ -156,7 +156,124 @@ EXPECTED_BPO2 = json.loads("""
   }
 }
 """)
-EXPECTED_BPO2_FORK_ID = ForkHash("0x0757e44f")
+EXPECTED_BPO2_FORK_ID = ForkHash("0x9d7b6bfb")
+EXPECTED_BPO3 = json.loads("""
+{
+    "activationTime": 1753674216,
+    "blobSchedule": {
+    "baseFeeUpdateFraction": 5007716,
+    "max": 18,
+    "target": 15
+    },
+    "chainId": "0x88bb0",
+    "forkId": "0xbebdd3a1",
+    "precompiles": {
+    "BLAKE2F": "0x0000000000000000000000000000000000000009",
+    "BLS12_G1ADD": "0x000000000000000000000000000000000000000b",
+    "BLS12_G1MSM": "0x000000000000000000000000000000000000000c",
+    "BLS12_G2ADD": "0x000000000000000000000000000000000000000d",
+    "BLS12_G2MSM": "0x000000000000000000000000000000000000000e",
+    "BLS12_MAP_FP2_TO_G2": "0x0000000000000000000000000000000000000011",
+    "BLS12_MAP_FP_TO_G1": "0x0000000000000000000000000000000000000010",
+    "BLS12_PAIRING_CHECK": "0x000000000000000000000000000000000000000f",
+    "BN254_ADD": "0x0000000000000000000000000000000000000006",
+    "BN254_MUL": "0x0000000000000000000000000000000000000007",
+    "BN254_PAIRING": "0x0000000000000000000000000000000000000008",
+    "ECREC": "0x0000000000000000000000000000000000000001",
+    "ID": "0x0000000000000000000000000000000000000004",
+    "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
+    "MODEXP": "0x0000000000000000000000000000000000000005",
+    "RIPEMD160": "0x0000000000000000000000000000000000000003",
+    "SHA256": "0x0000000000000000000000000000000000000002"
+    },
+    "systemContracts": {
+    "BEACON_ROOTS_ADDRESS": "0x000f3df6d732807ef1319fb7b8bb8522d0beac02",
+    "CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS": "0x0000bbddc7ce488642fb579f8b00f3a590007251",
+    "DEPOSIT_CONTRACT_ADDRESS": "0x00000000219ab540356cbb839cbe05303d7705fa",
+    "HISTORY_STORAGE_ADDRESS": "0x0000f90827f1c53a10cb7a02335b175320002935",
+    "WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS": "0x00000961ef480eb55e80d19ad83579a64c007002"
+  }
+}
+""")
+EXPECTED_BPO3_FORK_ID = ForkHash("0xbebdd3a1")
+EXPECTED_BPO4 = json.loads("""
+{
+    "activationTime": 1753772520,
+    "blobSchedule": {
+    "baseFeeUpdateFraction": 5007716,
+    "max": 9,
+    "target": 6
+    },
+    "chainId": "0x88bb0",
+    "forkId": "0x190c2054",
+    "precompiles": {
+    "BLAKE2F": "0x0000000000000000000000000000000000000009",
+    "BLS12_G1ADD": "0x000000000000000000000000000000000000000b",
+    "BLS12_G1MSM": "0x000000000000000000000000000000000000000c",
+    "BLS12_G2ADD": "0x000000000000000000000000000000000000000d",
+    "BLS12_G2MSM": "0x000000000000000000000000000000000000000e",
+    "BLS12_MAP_FP2_TO_G2": "0x0000000000000000000000000000000000000011",
+    "BLS12_MAP_FP_TO_G1": "0x0000000000000000000000000000000000000010",
+    "BLS12_PAIRING_CHECK": "0x000000000000000000000000000000000000000f",
+    "BN254_ADD": "0x0000000000000000000000000000000000000006",
+    "BN254_MUL": "0x0000000000000000000000000000000000000007",
+    "BN254_PAIRING": "0x0000000000000000000000000000000000000008",
+    "ECREC": "0x0000000000000000000000000000000000000001",
+    "ID": "0x0000000000000000000000000000000000000004",
+    "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
+    "MODEXP": "0x0000000000000000000000000000000000000005",
+    "RIPEMD160": "0x0000000000000000000000000000000000000003",
+    "SHA256": "0x0000000000000000000000000000000000000002"
+    },
+    "systemContracts": {
+    "BEACON_ROOTS_ADDRESS": "0x000f3df6d732807ef1319fb7b8bb8522d0beac02",
+    "CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS": "0x0000bbddc7ce488642fb579f8b00f3a590007251",
+    "DEPOSIT_CONTRACT_ADDRESS": "0x00000000219ab540356cbb839cbe05303d7705fa",
+    "HISTORY_STORAGE_ADDRESS": "0x0000f90827f1c53a10cb7a02335b175320002935",
+    "WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS": "0x00000961ef480eb55e80d19ad83579a64c007002"
+  }
+}
+""")
+EXPECTED_BPO4_FORK_ID = ForkHash("0x190c2054")
+EXPECTED_BPO5 = json.loads("""
+{
+    "activationTime": 1753889256,
+    "blobSchedule": {
+    "baseFeeUpdateFraction": 5007716,
+    "max": 20,
+    "target": 15
+    },
+    "chainId": "0x88bb0",
+    "forkId": "0xd3a4880b",
+    "precompiles": {
+    "BLAKE2F": "0x0000000000000000000000000000000000000009",
+    "BLS12_G1ADD": "0x000000000000000000000000000000000000000b",
+    "BLS12_G1MSM": "0x000000000000000000000000000000000000000c",
+    "BLS12_G2ADD": "0x000000000000000000000000000000000000000d",
+    "BLS12_G2MSM": "0x000000000000000000000000000000000000000e",
+    "BLS12_MAP_FP2_TO_G2": "0x0000000000000000000000000000000000000011",
+    "BLS12_MAP_FP_TO_G1": "0x0000000000000000000000000000000000000010",
+    "BLS12_PAIRING_CHECK": "0x000000000000000000000000000000000000000f",
+    "BN254_ADD": "0x0000000000000000000000000000000000000006",
+    "BN254_MUL": "0x0000000000000000000000000000000000000007",
+    "BN254_PAIRING": "0x0000000000000000000000000000000000000008",
+    "ECREC": "0x0000000000000000000000000000000000000001",
+    "ID": "0x0000000000000000000000000000000000000004",
+    "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
+    "MODEXP": "0x0000000000000000000000000000000000000005",
+    "RIPEMD160": "0x0000000000000000000000000000000000000003",
+    "SHA256": "0x0000000000000000000000000000000000000002"
+    },
+    "systemContracts": {
+    "BEACON_ROOTS_ADDRESS": "0x000f3df6d732807ef1319fb7b8bb8522d0beac02",
+    "CONSOLIDATION_REQUEST_PREDEPLOY_ADDRESS": "0x0000bbddc7ce488642fb579f8b00f3a590007251",
+    "DEPOSIT_CONTRACT_ADDRESS": "0x00000000219ab540356cbb839cbe05303d7705fa",
+    "HISTORY_STORAGE_ADDRESS": "0x0000f90827f1c53a10cb7a02335b175320002935",
+    "WITHDRAWAL_REQUEST_PREDEPLOY_ADDRESS": "0x00000961ef480eb55e80d19ad83579a64c007002"
+  }
+}
+""")
+EXPECTED_BPO5_FORK_ID = ForkHash("0xd3a4880b")
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
@@ -223,14 +340,34 @@ HoodiWithBPOs:
     0:                  Cancun
     1742999832:         Prague
   bpoForkActivationTimes:
-    1742999833:
+    1753477608:
         target: 9
         max: 12
         base_fee_update_fraction: 5007716
-    1742999834:
+    1753575912:
         target: 12
         max: 15
         base_fee_update_fraction: 5007716
+    1753674216:
+        target: 15
+        max: 18
+        base_fee_update_fraction: 5007716
+    1753772520:
+        target: 6
+        max: 9
+        base_fee_update_fraction: 5007716
+    1753889256:
+        target: 15
+        max: 20
+        base_fee_update_fraction: 5007716
+  depositContractAddress: "0x00000000219ab540356cBB839Cbe05303d7705Fa"
+  pragueTime: 0
+  osakaTime: 1753379304
+  bpo1Time: 1753477608
+  bpo2Time: 1753575912
+  bpo3Time: 1753674216
+  bpo4Time: 1753772520
+  bpo5Time: 1753889256
 """
 
 
@@ -275,7 +412,7 @@ def eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
         ),
         pytest.param(
             "Hoodi",
-            1742999832,
+            1753477608,
             EthConfigResponse(
                 current=EXPECTED_PRAGUE,
             ),
@@ -287,27 +424,47 @@ def eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
             EthConfigResponse(
                 current=EXPECTED_PRAGUE,
                 next=EXPECTED_BPO1,
-                last=EXPECTED_BPO2,
+                last=EXPECTED_BPO5,
             ),
             id="Hoodi_prague_with_bpos_1",
         ),
         pytest.param(
             "HoodiWithBPOs",
-            1742999833,
+            1753575912,
             EthConfigResponse(
-                current=EXPECTED_BPO1,
-                next=EXPECTED_BPO2,
-                last=EXPECTED_BPO2,
+                current=EXPECTED_BPO2,
+                next=EXPECTED_BPO3,
+                last=EXPECTED_BPO5,
             ),
             id="Hoodi_prague_with_bpos_2",
         ),
         pytest.param(
             "HoodiWithBPOs",
-            1742999834,
+            1753674216,
             EthConfigResponse(
-                current=EXPECTED_BPO2,
+                current=EXPECTED_BPO3,
+                next=EXPECTED_BPO4,
+                last=EXPECTED_BPO5,
             ),
             id="Hoodi_prague_with_bpos_3",
+        ),
+        pytest.param(
+            "HoodiWithBPOs",
+            1753772520,
+            EthConfigResponse(
+                current=EXPECTED_BPO4,
+                next=EXPECTED_BPO5,
+                last=EXPECTED_BPO5,
+            ),
+            id="Hoodi_prague_with_bpos_4",
+        ),
+        pytest.param(
+            "HoodiWithBPOs",
+            1753889256,
+            EthConfigResponse(
+                current=EXPECTED_BPO5,
+            ),
+            id="Hoodi_prague_with_bpos_5",
         ),
     ],
     indirect=["network"],
