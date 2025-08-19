@@ -1,5 +1,6 @@
 """Ethereum blockchain test spec definition and filler."""
 
+import subprocess
 import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Tuple, Type
@@ -48,6 +49,7 @@ from ethereum_test_fixtures.blockchain import (
     FixtureTransaction,
     FixtureWithdrawal,
     InvalidFixtureBlock,
+    WitnessChunk,
 )
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
@@ -685,7 +687,7 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         self.verify_post_state(t8n, t8n_state=alloc)
-        return BlockchainFixture(
+        fixture = BlockchainFixture(
             fork=fork,
             genesis=genesis.header,
             genesis_rlp=genesis.rlp,
@@ -700,6 +702,20 @@ class BlockchainTest(BaseTest):
                 chain_id=self.chain_id,
             ),
         )
+
+        result = subprocess.run(
+            ["/home/ignacio/code/kev-reth/target/release/witness-filler"],
+            input=fixture.model_dump_json(by_alias=True),
+            text=True,
+            capture_output=True,
+        )
+        witnesses = WitnessChunk.from_json(result.stdout)
+        for (i, witness) in enumerate(witnesses):
+            if not isinstance(fixture.blocks[i], FixtureBlock):
+                raise Exception("Invalid block type")
+            fixture.blocks[i].executionWitness = witness
+
+        return fixture
 
     def make_hive_fixture(
         self,
