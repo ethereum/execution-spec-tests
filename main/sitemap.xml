@@ -1645,6 +1645,14 @@
          <lastmod>2025-08-19</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions/</loc>
+         <lastmod>2025-08-19</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions/test_reserve_price_at_transition/</loc>
+         <lastmod>2025-08-19</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7934_block_rlp_limit/</loc>
          <lastmod>2025-08-19</lastmod>
     </url>
