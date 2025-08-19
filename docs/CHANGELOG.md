@@ -84,6 +84,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Static tests can now be filled in every format using `--generate-all-formats` ([#2006](https://github.com/ethereum/execution-spec-tests/pull/2006)).
 - 💥 Flag `--flat-output` has been removed due to having been unneeded for an extended period of time ([#2018](https://github.com/ethereum/execution-spec-tests/pull/2018)).
 - ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
+- ✨ Framework is updated to include BPO ([EIP-7892](https://eips.ethereum.org/EIPS/eip-7892)) fork markers to enable the filling of BPO tests ([#2050](https://github.com/ethereum/execution-spec-tests/pull/2050)).
 
 #### `consume`
 
@@ -95,6 +96,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Add exponential retry logic to initial fcu within consume engine ([#1815](https://github.com/ethereum/execution-spec-tests/pull/1815)).
 - ✨ Add `consume sync` command to test client synchronization capabilities by having one client sync from another via Engine API and P2P networking ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 - 💥 Removed the `consume hive` command, this was a convenience command that ran `consume rlp` and `consume engine` in one pytest session; the individual commands should now be used instead ([#2008](https://github.com/ethereum/execution-spec-tests/pull/2008)).
+- ✨ Update the hive ruleset to include BPO ([EIP-7892](https://eips.ethereum.org/EIPS/eip-7892)) forks ([#2050](https://github.com/ethereum/execution-spec-tests/pull/2050)).
 
 #### `execute`
 
