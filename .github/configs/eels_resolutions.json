@@ -33,8 +33,20 @@
         "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Osaka": {
-        "git_url": "https://github.com/spencer-tb/execution-specs.git",
-        "branch": "forks/osaka",
-        "commit": "0e97247a9022b8c04c01e22cae6ec95d1b590838"
+        "git_url": "https://github.com/marioevz/execution-specs.git",
+        "branch": "forks/bpo1",
+        "commit": "3387e5f4aedfe99becfdc39b444d6371e25e0924"
+    },
+    "BPO1": {
+        "same_as": "Osaka"
+    },
+    "BPO2": {
+        "same_as": "Osaka"
+    },
+    "BPO3": {
+        "same_as": "Osaka"
+    },
+    "BPO4": {
+        "same_as": "Osaka"
     }
 }
