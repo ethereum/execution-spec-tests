@@ -1,6 +1,5 @@
 """Test the types in the `ethereum_test_rpc` package."""
 
-import json
 from typing import Any, Dict
 
 import pytest
@@ -101,7 +100,7 @@ eth_config_dict: Dict[str, Any] = {
 @pytest.fixture
 def eth_config_response() -> EthConfigResponse:
     """Get the `eth_config` response from the client to be verified by all tests."""
-    return EthConfigResponse.model_validate_json(json.dumps(eth_config_dict))
+    return EthConfigResponse.model_validate(eth_config_dict)
 
 
 def test_fork_config_get_hash(eth_config_response: EthConfigResponse) -> None:

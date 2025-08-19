@@ -360,14 +360,6 @@ HoodiWithBPOs:
         target: 15
         max: 20
         base_fee_update_fraction: 5007716
-  depositContractAddress: "0x00000000219ab540356cBB839Cbe05303d7705Fa"
-  pragueTime: 0
-  osakaTime: 1753379304
-  bpo1Time: 1753477608
-  bpo2Time: 1753575912
-  bpo3Time: 1753674216
-  bpo4Time: 1753772520
-  bpo5Time: 1753889256
 """
 
 
