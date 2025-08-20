@@ -2,8 +2,8 @@
 
 from dataclasses import dataclass
 
-ACTIVATION_FORK_NAME = "BlockAccessLists"
-"""The fork name for EIP-7928 activation."""
+# ACTIVATION_FORK_NAME = "BlockAccessLists"
+# """The fork name for EIP-7928 activation."""
 
 
 @dataclass(frozen=True)
