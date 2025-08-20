@@ -179,18 +179,27 @@ def get_selected_fork_set(
     Process sets derived from `--fork`, `--until` and `--from` to return an unified fork
     set.
     """
+    selected_fork_set = set()
     if single_fork:
-        return single_fork
+        selected_fork_set |= single_fork
     else:
         if not forks_from:
             forks_from = get_forks_with_no_parents(ALL_FORKS)
         if not forks_until:
             forks_until = get_last_descendants(set(get_deployed_forks()), forks_from)
         selected_fork_set = get_from_until_fork_set(ALL_FORKS, forks_from, forks_until)
-        for fork in list(selected_fork_set):
-            transition_fork_set = transition_fork_to(fork)
-            selected_fork_set |= transition_fork_set
-        return selected_fork_set
+    for fork in list(selected_fork_set):
+        # Get BPO forks
+        remaining_children = fork.children()
+        while remaining_children:
+            next_children = remaining_children.pop()
+            if next_children.bpo_fork() and next_children not in selected_fork_set:
+                selected_fork_set.add(next_children)
+                remaining_children |= next_children.children()
+    for fork in list(selected_fork_set):
+        transition_fork_set = transition_fork_to(fork)
+        selected_fork_set |= transition_fork_set
+    return selected_fork_set
 
 
 def transition_fork_from_to(
