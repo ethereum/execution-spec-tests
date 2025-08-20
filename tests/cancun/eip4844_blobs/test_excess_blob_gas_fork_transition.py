@@ -175,7 +175,9 @@ def post_fork_blocks(
                 blocks.append(
                     Block(
                         txs=[],
-                        excess_blob_gas=fork_block_excess_blob_gas,
+                        header_verify=Header(
+                            excess_blob_gas=fork_block_excess_blob_gas,
+                        ),
                     )
                 )
             else:
@@ -214,7 +216,9 @@ def post_fork_blocks(
             blocks.append(
                 Block(
                     txs=txs,
-                    excess_blob_gas=fork_block_excess_blob_gas,
+                    header_verify=Header(
+                        excess_blob_gas=fork_block_excess_blob_gas,
+                    ),
                 )
             )
         else:
