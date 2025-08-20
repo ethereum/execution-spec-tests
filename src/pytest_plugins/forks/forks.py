@@ -25,6 +25,9 @@ from ethereum_test_forks import (
     get_transition_forks,
     transition_fork_to,
 )
+from pytest_plugins.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 def pytest_addoption(parser):

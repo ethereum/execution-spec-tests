@@ -400,13 +400,18 @@ class EngineRPC(BaseRPC):
         versioned_hashes: List[Hash],
         *,
         version: int,
-    ) -> GetBlobsResponse:
+    ) -> GetBlobsResponse | None:
         """`engine_getBlobsVX`: Retrieves blobs from an execution layers tx pool."""
+        response = self.post_request(
+            f"getBlobsV{version}",
+            [f"{h}" for h in versioned_hashes],
+        )
+        if response is None:  # for tests that request non-existing blobs
+            print("get_blobs response received but it has value: None")
+            return None
+
         return GetBlobsResponse.model_validate(
-            self.post_request(
-                f"getBlobsV{version}",
-                [f"{h}" for h in versioned_hashes],
-            ),
+            response,
             context=self.response_validation_context,
         )
 
