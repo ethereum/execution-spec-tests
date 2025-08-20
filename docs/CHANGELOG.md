@@ -86,6 +86,10 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Add support for `BlockchainEngineSyncFixture` format for tests marked with `pytest.mark.verify_sync` to enable client synchronization testing via `consume sync` command ([#2007](https://github.com/ethereum/execution-spec-tests/pull/2007)).
 - ✨ Framework is updated to include BPO ([EIP-7892](https://eips.ethereum.org/EIPS/eip-7892)) fork markers to enable the filling of BPO tests ([#2050](https://github.com/ethereum/execution-spec-tests/pull/2050)).
 
+#### `check_eip_versions`
+
+- 🔀 Refactor: Move EIP version report generation from external script into the `spec_version_checker` pytest plugin to eliminate brittle regex parsing of console output and improve maintainability.
+
 #### `consume`
 
 - ✨ Add `--extract-to` parameter to `consume cache` command for direct fixture extraction to specified directory, replacing the need for separate download scripts. ([#1861](https://github.com/ethereum/execution-spec-tests/pull/1861)).
