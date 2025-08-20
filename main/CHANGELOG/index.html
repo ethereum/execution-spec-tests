@@ -28242,6 +28242,7 @@
 <li>Tests for the Prague fork are now marked as stable will be included in the <code>fixtures_stable.tar.gz</code> tarball from now on.</li>
 <li>Tests for the Osaka fork are now included in the <code>fixtures_develop.tar.gz</code> tarball.</li>
 <li><code>fixtures_static.tar.gz</code> has been deprecated and filled static tests are now included in <code>fixtures_stable.tar.gz</code> and <code>fixtures_develop.tar.gz</code>.</li>
+<li>When filling fixtures transition forks are included within there respective "to" fork, where <code>--fork Osaka</code> will now include <code>PragueToOsakaAtTime15k</code>. Previously transitions fork would only be included when filling with <code>--from Prague --until Osaka</code> flags.</li>
 </ul>
 <h4 id="important-change-for-eest-developers">💥 Important Change for EEST developers<a class="headerlink" href="#important-change-for-eest-developers" title="Permanent link">&para;</a></h4>
 <ul>
@@ -28279,6 +28280,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ Opcode classes now validate keyword arguments and raise <code>ValueError</code> with clear error messages.</li>
 <li>🔀 This PR removes the <code>solc</code> requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with <code>solc</code> and, as such, the <code>solc-select</code> dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (<code>./tests/static/</code>) locally, <code>solc</code> (ideally v0.8.24) must be available in your PATH.</li>
 <li>🔀 Updated default block gas limit from 36M to 45M to match mainnet environment.</li>
+<li>🔀 Refactor fork logic to include transition forks within there "to" fork (<a href="https://github.com/ethereum/execution-spec-tests/pull/2051">#2051</a>).</li>
 </ul>
 <h4 id="fill"><code>fill</code><a class="headerlink" href="#fill" title="Permanent link">&para;</a></h4>
 <ul>
