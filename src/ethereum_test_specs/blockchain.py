@@ -241,7 +241,7 @@ class Block(Header):
     """
     Post state for verification after block execution in BlockchainTest
     """
-    block_access_lists: Bytes | None = Field(None)
+    block_access_list: Bytes | None = Field(None)
     """
         EIP-7928: Block-level access lists (serialized).
     """
@@ -274,14 +274,14 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
-        if not isinstance(self.requests_hash, Removable) and self.block_access_lists is not None:
-            new_env_values["bal_hash"] = self.block_access_lists.keccak256()
-            new_env_values["block_access_lists"] = self.block_access_lists
+        if not isinstance(self.requests_hash, Removable) and self.block_access_list is not None:
+            new_env_values["bal_hash"] = self.block_access_list.keccak256()
+            new_env_values["block_access_list"] = self.block_access_list
         if (
-            not isinstance(self.block_access_lists, Removable)
-            and self.block_access_lists is not None
+            not isinstance(self.block_access_list, Removable)
+            and self.block_access_list is not None
         ):
-            new_env_values["block_access_lists"] = self.block_access_lists
+            new_env_values["block_access_list"] = self.block_access_list
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -321,7 +321,7 @@ class BuiltBlock(CamelModel):
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
-    block_access_lists: Bytes
+    block_access_list: Bytes
 
     def get_fixture_block(self) -> FixtureBlock | InvalidFixtureBlock:
         """Get a FixtureBlockBase from the built block."""
@@ -333,7 +333,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
-            block_access_lists=self.block_access_lists,
+            block_access_list=self.block_access_list,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -424,6 +424,12 @@ class BlockchainTest(BaseTest):
     """
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
+    """
+    expected_block_access_list: Any | None = None  # Will be BAL type
+    """
+    Expected block access list for verification.
+    If set, verifies that the block access list returned by the client matches expectations.
+    Use the BAL builder API to construct expectations.
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -618,7 +624,7 @@ class BlockchainTest(BaseTest):
             expected_exception=block.exception,
             engine_api_error_code=block.engine_api_error_code,
             fork=fork,
-            block_access_lists=block.block_access_lists,
+            block_access_list=transition_tool_output.result.block_access_list or Bytes(b""),
         )
 
         try:
@@ -672,6 +678,34 @@ class BlockchainTest(BaseTest):
             print_traces(t8n.get_traces())
             raise e
 
+    def verify_block_access_list(self, actual_bal: Bytes | None, expected_bal: Any | None):
+        """
+        Verify that the actual block access list matches expectations.
+
+        Args:
+            actual_bal: The block access list returned by the client (RLP-encoded)
+            expected_bal: The expected BlockAccessList object
+
+        """
+        if expected_bal is None:
+            return
+
+        from ethereum_test_types.block_access_list import BlockAccessList
+
+        if not isinstance(expected_bal, BlockAccessList):
+            raise Exception(
+                f"Invalid expected_bal type: {type(expected_bal)}. Use BlockAccessList."
+            )
+
+        if actual_bal is None or actual_bal == Bytes(b""):
+            raise Exception("Expected block access list but got none or empty.")
+
+        # Verify using the BlockAccessList's verification method
+        try:
+            expected_bal.verify_against(actual_bal)
+        except Exception as e:
+            raise Exception("Block access list verification failed.") from e
+
     def make_fixture(
         self,
         t8n: TransitionTool,
@@ -699,6 +733,13 @@ class BlockchainTest(BaseTest):
                 last_block=i == len(self.blocks) - 1,
             )
             fixture_blocks.append(built_block.get_fixture_block())
+
+            # Verify block access list if expected
+            if self.expected_block_access_list is not None:
+                self.verify_block_access_list(
+                    built_block.block_access_list, self.expected_block_access_list
+                )
+
             if block.exception is None:
                 # Update env, alloc and last block hash for the next block.
                 alloc = built_block.alloc
