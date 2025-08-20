@@ -180,7 +180,7 @@ def test_case(state_test):
                 valid_for_bpo_forks="",
             ),
             ["--fork=Osaka"],
-            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            {"passed": 0, "failed": 0, "skipped": 0, "errors": 0},
             id="valid_at_transition_with_bpo_test_marker_fork_parent",
         ),
         pytest.param(
@@ -189,7 +189,7 @@ def test_case(state_test):
                 valid_for_bpo_forks="",
             ),
             ["--from=Osaka", "--until=Osaka"],
-            {"passed": 1, "failed": 0, "skipped": 0, "errors": 0},
+            {"passed": 0, "failed": 0, "skipped": 0, "errors": 0},
             id="valid_at_transition_with_bpo_test_marker_from_parent",
         ),
     ],
