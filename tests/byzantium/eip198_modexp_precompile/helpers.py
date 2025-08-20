@@ -25,20 +25,62 @@ class ModExpInput(TestParameterGroup):
     extra_data: Bytes = Field(default_factory=Bytes)
     raw_input: Bytes | None = None
 
+    override_base_length: int | None = None
+    override_exponent_length: int | None = None
+    override_modulus_length: int | None = None
+
     @property
     def length_base(self) -> Bytes:
         """Return the length of the base."""
-        return Bytes(len(self.base).to_bytes(32, "big"))
+        length = (
+            self.override_base_length if self.override_base_length is not None else len(self.base)
+        )
+        return Bytes(length.to_bytes(32, "big"))
 
     @property
     def length_exponent(self) -> Bytes:
         """Return the length of the exponent."""
-        return Bytes(len(self.exponent).to_bytes(32, "big"))
+        length = (
+            self.override_exponent_length
+            if self.override_exponent_length is not None
+            else len(self.exponent)
+        )
+        return Bytes(length.to_bytes(32, "big"))
 
     @property
     def length_modulus(self) -> Bytes:
         """Return the length of the modulus."""
-        return Bytes(len(self.modulus).to_bytes(32, "big"))
+        length = (
+            self.override_modulus_length
+            if self.override_modulus_length is not None
+            else len(self.modulus)
+        )
+        return Bytes(length.to_bytes(32, "big"))
+
+    @property
+    def declared_base_length(self) -> int:
+        """Return the declared base length as int."""
+        return (
+            self.override_base_length if self.override_base_length is not None else len(self.base)
+        )
+
+    @property
+    def declared_exponent_length(self) -> int:
+        """Return the declared exponent length as int."""
+        return (
+            self.override_exponent_length
+            if self.override_exponent_length is not None
+            else len(self.exponent)
+        )
+
+    @property
+    def declared_modulus_length(self) -> int:
+        """Return the declared modulus length as int."""
+        return (
+            self.override_modulus_length
+            if self.override_modulus_length is not None
+            else len(self.modulus)
+        )
 
     def __bytes__(self):
         """Generate input for the MODEXP precompile."""
@@ -85,6 +127,26 @@ class ModExpInput(TestParameterGroup):
         modulus = padded_input_data[current_index : current_index + modulus_length]
 
         return cls(base=base, exponent=exponent, modulus=modulus, raw_input=input_data)
+
+    @classmethod
+    def create_mismatch(
+        cls,
+        base="",
+        exponent="",
+        modulus="",
+        declared_base_length=None,
+        declared_exponent_length=None,
+        declared_modulus_length=None,
+    ):
+        """Create a ModExpInput with mismatched lengths."""
+        return cls(
+            base=Bytes(base),
+            exponent=Bytes(exponent),
+            modulus=Bytes(modulus),
+            override_base_length=declared_base_length,
+            override_exponent_length=declared_exponent_length,
+            override_modulus_length=declared_modulus_length,
+        )
 
 
 class ModExpOutput(TestParameterGroup):
