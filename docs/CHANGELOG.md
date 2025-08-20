@@ -12,6 +12,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 - Tests for the Prague fork are now marked as stable will be included in the `fixtures_stable.tar.gz` tarball from now on.
 - Tests for the Osaka fork are now included in the `fixtures_develop.tar.gz` tarball.
 - `fixtures_static.tar.gz` has been deprecated and filled static tests are now included in `fixtures_stable.tar.gz` and `fixtures_develop.tar.gz`.
+- When filling fixtures transition forks are included within there respective "to" fork, where `--fork Osaka` will now include `PragueToOsakaAtTime15k`. Previously transitions fork would only be included when filling with `--from Prague --until Osaka` flags.
 
 #### 💥 Important Change for EEST developers
 
@@ -64,6 +65,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Opcode classes now validate keyword arguments and raise `ValueError` with clear error messages.
 - 🔀 This PR removes the `solc` requirement to fill Python test cases. Regular test contributors no longer need to concern themselves with `solc` and, as such, the `solc-select` dependency has been removed. The remaining tests that used Yul have been ported to the EEST opcode wrapper mini-lang and the use of Yul in Python tests is no longer supported. Maintainers only: To fill the "static" JSON and YAML tests (`./tests/static/`) locally, `solc` (ideally v0.8.24) must be available in your PATH.
 - 🔀 Updated default block gas limit from 36M to 45M to match mainnet environment.
+- 🔀 Refactor fork logic to include transition forks within there "to" fork ([#2051](https://github.com/ethereum/execution-spec-tests/pull/2051)).
 
 #### `fill`
 
