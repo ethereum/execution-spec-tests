@@ -26295,7 +26295,7 @@
 
 
 <h1 id="test_worst_modexp"><code>test_worst_modexp()</code><a class="headerlink" href="#test_worst_modexp" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/42da1229f6693ff6f48762b08d77cf8bda18197e/tests/benchmark/test_worst_compute.py#L495"><code>tests/benchmark/test_worst_compute.py::test_worst_modexp@42da1229</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/35829a41f184bea8b2e51e8274a3b700eff89954/tests/benchmark/test_worst_compute.py#L495"><code>tests/benchmark/test_worst_compute.py::test_worst_modexp@35829a41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_modexp --fork Osaka</span>
@@ -27114,7 +27114,13 @@ All the calls have the same parametrized input.</p>
 <span class="normal">1290</span>
 <span class="normal">1291</span>
 <span class="normal">1292</span>
-<span class="normal">1293</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1293</span>
+<span class="normal">1294</span>
+<span class="normal">1295</span>
+<span class="normal">1296</span>
+<span class="normal">1297</span>
+<span class="normal">1298</span>
+<span class="normal">1299</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;mod_exp_input&quot;</span><span class="p">],</span>
     <span class="p">[</span>
@@ -27798,6 +27804,12 @@ All the calls have the same parametrized input.</p>
                 <span class="n">modulus</span><span class="o">=</span><span class="s2">&quot;ffffffffffffffffffffffffffffffffffffffffffffffff&quot;</span><span class="p">,</span>
             <span class="p">),</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_vul_pawel_3_exp_heavy&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">ModExpInput</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span>
+                <span class="s2">&quot;000000000000000000000000000000000000000000000000000000000000001700000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000017bffffffffffffffffffffffffffffffffffffffffffffbffffffffffffffffff7ffffffffffffffffffffffffffffffffffffffffffe&quot;</span>
+            <span class="p">),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;mod_vul_pawel_3_exp_8&quot;</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="c1"># Ported from https://github.com/NethermindEth/nethermind/blob/ceb8d57b8530ce8181d7427c115ca593386909d6/tools/EngineRequestsGenerator/TestCases/ModexpVulnerability.cs#L172</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -28681,6 +28693,15 @@ All the calls have the same parametrized input.</p>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Cancun-state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_vul_pawel_4_exp_heavy]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-state_test-mod_vul_pawel_4_exp_heavy]">
                     ...fork_Cancun-state_test-mod_vul_pawel_4_exp_heavy
                 </abbr>
@@ -29469,6 +29490,15 @@ All the calls have the same parametrized input.</p>
                 </abbr>
             </td>
                         <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Cancun-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Cancun-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
@@ -30265,6 +30295,15 @@ All the calls have the same parametrized input.</p>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Prague-state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_vul_pawel_4_exp_heavy]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-state_test-mod_vul_pawel_4_exp_heavy]">
                     ...fork_Prague-state_test-mod_vul_pawel_4_exp_heavy
                 </abbr>
@@ -31053,6 +31092,15 @@ All the calls have the same parametrized input.</p>
                 </abbr>
             </td>
                         <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Prague-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Prague-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
@@ -31849,6 +31897,15 @@ All the calls have the same parametrized input.</p>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Osaka-state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_vul_pawel_4_exp_heavy]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-state_test-mod_vul_pawel_4_exp_heavy]">
                     ...fork_Osaka-state_test-mod_vul_pawel_4_exp_heavy
                 </abbr>
@@ -32637,6 +32694,15 @@ All the calls have the same parametrized input.</p>
                 </abbr>
             </td>
                         <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]" title="tests/benchmark/test_worst_compute.py::test_worst_modexp[fork_Osaka-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8]">
+                    ...fork_Osaka-blockchain_test_from_state_test-mod_vul_pawel_3_exp_8
+                </abbr>
+            </td>
+                        <td>base=b'\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe' extra_data=b'' raw_input=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x17\xbf\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfb\xff\xff\xff\xff\xff\xff\xff\xff\xff\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe'</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
