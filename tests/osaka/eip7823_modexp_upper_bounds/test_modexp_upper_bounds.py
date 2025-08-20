@@ -24,9 +24,9 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
     spec = Spec if fork < Osaka else Spec7883
     calculated_gas = spec.calculate_gas_cost(
-        len(mod_exp_input.base),
-        len(mod_exp_input.modulus),
-        len(mod_exp_input.exponent),
+        mod_exp_input.declared_base_length,
+        mod_exp_input.declared_modulus_length,
+        mod_exp_input.declared_exponent_length,
         mod_exp_input.exponent,
     )
     return calculated_gas
@@ -125,6 +125,13 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
             ),
             id="exp_0_base_1_mod_1025",
         ),
+        pytest.param(
+            ModExpInput.create_mismatch(
+                exponent="80",
+                declared_exponent_length=2**64,
+            ),
+            id="exp_2_pow_64_base_0_mod_0",
+        ),
     ],
 )
 def test_modexp_upper_bounds(
@@ -174,10 +181,11 @@ def test_modexp_upper_bounds(
         protected=True,
         sender=sender,
     )
+
     if (
-        len(mod_exp_input.base) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.exponent) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.modulus) <= MAX_LENGTH_BYTES
+        mod_exp_input.declared_base_length <= MAX_LENGTH_BYTES
+        and mod_exp_input.declared_exponent_length <= MAX_LENGTH_BYTES
+        and mod_exp_input.declared_modulus_length <= MAX_LENGTH_BYTES
     ) or (fork < Osaka and not expensive):
         output = ModExpOutput(call_success=True, returned_data="0x01")
     else:
