@@ -628,8 +628,8 @@ class ValidityMarker(ABC):
             if cls.flag and cls.marker_name not in markers_dict:
                 markers_dict[cls.marker_name] = cls(mark=None)
 
-        for marker_name, marker in markers_dict.items():
-            for incompatible_marker in marker.mutually_exclusive:
+        for marker_name, validity_marker in markers_dict.items():
+            for incompatible_marker in validity_marker.mutually_exclusive:
                 if incompatible_marker.marker_name in markers_dict:
                     raise Exception(
                         f"The markers '{incompatible_marker.marker_name}' and "
