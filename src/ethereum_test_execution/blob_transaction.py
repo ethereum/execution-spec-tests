@@ -52,6 +52,7 @@ class BlobTransaction(BaseExecute):
     requires_engine_rpc: ClassVar[bool] = True
 
     txs: List[NetworkWrappedTransaction | Transaction]
+    nonexisting_blob_hashes: List[Hash] | None = None
 
     def execute(self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None):
         """Execute the format."""
@@ -74,15 +75,26 @@ class BlobTransaction(BaseExecute):
             )
         version = fork.engine_get_blobs_version()
         assert version is not None, "Engine get blobs version is not supported by the fork."
-        blob_response = engine_rpc.get_blobs(list(versioned_hashes.keys()), version=version)
+
+        # ensure that clients respond 'null' when they have no access to at least one blob
+        list_versioned_hashes = list(versioned_hashes.keys())
+        if self.nonexisting_blob_hashes is not None:
+            list_versioned_hashes.extend(self.nonexisting_blob_hashes)
+
+        blob_response = engine_rpc.get_blobs(list_versioned_hashes, version=version)
+
+        # if non-existing blob hashes were request then the response must be 'null'
+        if self.nonexisting_blob_hashes is not None:
+            assert blob_response.root is None, "Non-existing blob hashes were requested and "
+            "the client was expected to respond with 'null', but instead it replied: "
+            f"{blob_response.root}"
+
         local_blobs_and_proofs = list(versioned_hashes.values())
-        if len(blob_response) != len(local_blobs_and_proofs):
-            raise ValueError(
-                f"Expected {len(local_blobs_and_proofs)} blobs and proofs, "
-                f"got {len(blob_response)}."
-            )
+        assert len(blob_response) == len(local_blobs_and_proofs), "Expected "
+        f"{len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
+
         for expected_blob, received_blob in zip(
-            local_blobs_and_proofs, blob_response.root, strict=False
+            local_blobs_and_proofs, blob_response.root, strict=True
         ):
             if received_blob is None:
                 raise ValueError("Received blob is empty.")

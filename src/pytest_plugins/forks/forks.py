@@ -24,6 +24,9 @@ from ethereum_test_forks import (
     get_transition_forks,
     transition_fork_to,
 )
+from pytest_plugins.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 def pytest_addoption(parser):
@@ -542,12 +545,14 @@ def pytest_configure(config: pytest.Config):
     if evm_bin is None:
         assert TransitionTool.default_tool is not None, "No default transition tool found"
         t8n = TransitionTool.default_tool()
+        logger.info(f"Since no evm_bin was specified I am falling back to the default: {t8n}")
     elif evm_bin is not None:
         t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
 
     config.unsupported_forks = frozenset(  # type: ignore
         fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
     )
+    logger.info(f"List of unsupported forks: {list(config.unsupported_forks)}")  # type: ignore
 
 
 @pytest.hookimpl(trylast=True)
