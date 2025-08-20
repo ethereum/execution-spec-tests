@@ -20,19 +20,6 @@ def test_case(state_test):
 """
 
 
-def generate_blockchain_test(**kwargs: str):
-    """Generate a test function with the given fork markers."""
-    markers = [f"@pytest.mark.{key}({value})" for key, value in kwargs.items()]
-    marker_lines = "\n".join(markers)
-    return f"""
-import pytest
-{marker_lines}
-@pytest.mark.blockchain_test_only
-def test_case(blockchain_test):
-    pass
-"""
-
-
 @pytest.mark.parametrize(
     "test_function,pytest_args,outcomes",
     [
