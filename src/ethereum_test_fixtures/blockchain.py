@@ -17,8 +17,6 @@ from typing import (
 
 import ethereum_rlp as eth_rlp
 import pytest
-
-from ethereum.osaka.ssz_types import BlockAccessList
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -235,7 +233,6 @@ class FixtureHeader(CamelModel):
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
             "bal_hash": Hash(0) if fork.header_bal_hash_required(0, 0) else None,
             "fork": fork,
-
         }
         return FixtureHeader(**environment_values, **extras)
 

@@ -2,6 +2,15 @@
 
 from .account_types import EOA, Alloc
 from .blob_types import Blob
+from .block_access_list import (
+    BalAccountChange,
+    BalBalanceChange,
+    BalCodeChange,
+    BalNonceChange,
+    BalStorageChange,
+    BalStorageSlot,
+    BlockAccessList,
+)
 from .block_types import (
     Environment,
     EnvironmentDefaults,
@@ -35,7 +44,14 @@ from .utils import Removable, keccak256
 __all__ = (
     "Alloc",
     "AuthorizationTuple",
+    "BalAccountChange",
+    "BalBalanceChange",
+    "BalCodeChange",
+    "BalNonceChange",
+    "BalStorageChange",
+    "BalStorageSlot",
     "Blob",
+    "BlockAccessList",
     "ConsolidationRequest",
     "DepositRequest",
     "Environment",

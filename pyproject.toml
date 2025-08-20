@@ -49,7 +49,6 @@ dependencies = [
     "eth-abi>=5.2.0",
     "joblib>=1.4.2",
     "ckzg>=2.1.1",
-    "ethereum-execution",
 ]
 
 [project.urls]
@@ -176,4 +175,3 @@ required-version = ">=0.7.0"
 
 [tool.uv.sources]
 ethereum-spec-evm-resolver = { git = "https://github.com/spencer-tb/ethereum-spec-evm-resolver", rev = "aec6a628b8d0f1c791a8378c5417a089566135ac" }
-ethereum-execution = { git = "https://github.com/nerolation/execution-specs", rev = "bals" }
