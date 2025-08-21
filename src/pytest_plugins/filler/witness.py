@@ -18,12 +18,13 @@ def pytest_addoption(parser: pytest.Parser):
     witness_group = parser.getgroup("witness", "Arguments for witness functionality")
     witness_group.addoption(
         "--witness",
+        "--witness-the-fitness",
         action="store_true",
         dest="witness",
         default=False,
         help=(
             "Install the witness-filler tool and generate execution witness data for blockchain "
-            "test fixtures"
+            "test fixtures."
         ),
     )
 
