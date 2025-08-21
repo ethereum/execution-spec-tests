@@ -27,7 +27,7 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_7928.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7928.version
 
 
-@pytest.mark.valid_from("Osaka")
+@pytest.mark.valid_from("Amsterdam")
 def test_bal_nonce_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -62,7 +62,7 @@ def test_bal_nonce_changes(
     )
 
 
-@pytest.mark.valid_from("Osaka")
+@pytest.mark.valid_from("Amsterdam")
 def test_bal_balance_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -122,7 +122,7 @@ def test_bal_balance_changes(
     )
 
 
-@pytest.mark.valid_from("Osaka")
+@pytest.mark.valid_from("Amsterdam")
 def test_bal_storage_writes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -162,7 +162,7 @@ def test_bal_storage_writes(
     )
 
 
-@pytest.mark.valid_from("Osaka")
+@pytest.mark.valid_from("Amsterdam")
 def test_bal_storage_reads(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
@@ -200,7 +200,7 @@ def test_bal_storage_reads(
     )
 
 
-@pytest.mark.valid_from("Osaka")
+@pytest.mark.valid_from("Amsterdam")
 def test_bal_code_changes(
     pre: Alloc,
     blockchain_test: BlockchainTestFiller,
