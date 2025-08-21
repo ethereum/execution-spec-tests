@@ -331,6 +331,17 @@ class EngineRPC(BaseRPC):
     simulators.
     """
 
+    jwt_secret: bytes
+
+    def __init__(
+        self,
+        *args,
+        jwt_secret: bytes = b"secretsecretsecretsecretsecretse",  # Default secret used in hive
+    ):
+        """Initialize Engine RPC class with the given JWT secret."""
+        super().__init__(*args)
+        self.jwt_secret = jwt_secret
+
     def post_request(
         self,
         method: str,
@@ -343,7 +354,7 @@ class EngineRPC(BaseRPC):
             extra_headers = {}
         jwt_token = encode(
             {"iat": int(time.time())},
-            b"secretsecretsecretsecretsecretse",  # the secret used within clients in hive
+            self.jwt_secret,
             algorithm="HS256",
         )
         extra_headers = {
