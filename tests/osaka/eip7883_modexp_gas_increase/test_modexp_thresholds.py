@@ -18,14 +18,13 @@ from .spec import Spec, ref_spec_7883
 REFERENCE_SPEC_GIT_PATH = ref_spec_7883.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7883.version
 
-pytestmark = pytest.mark.valid_from("Osaka")
-
 
 @pytest.mark.parametrize(
     "modexp_input,modexp_expected,gas_old,gas_new",
     vectors_from_file("vectors.json"),
     ids=lambda v: v.name,
 )
+@pytest.mark.valid_from("Berlin")
 def test_vectors_from_eip(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -45,6 +44,7 @@ def test_vectors_from_eip(
     vectors_from_file("legacy.json"),
     ids=lambda v: v.name,
 )
+@pytest.mark.valid_from("Berlin")
 def test_vectors_from_legacy_tests(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -85,6 +85,7 @@ def test_vectors_from_legacy_tests(
     ],
 )
 @EIPChecklist.Precompile.Test.Inputs.AllZeros
+@pytest.mark.valid_from("Berlin")
 def test_modexp_invalid_inputs(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -144,6 +145,7 @@ def test_modexp_invalid_inputs(
         ),
     ],
 )
+@pytest.mark.valid_from("Osaka")
 def test_modexp_boundary_inputs(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -177,6 +179,7 @@ def test_modexp_boundary_inputs(
 @EIPChecklist.Precompile.Test.CallContexts.Delegate
 @EIPChecklist.Precompile.Test.CallContexts.Callcode
 @EIPChecklist.Precompile.Test.CallContexts.Normal
+@pytest.mark.valid_from("Berlin")
 def test_modexp_call_operations(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -220,6 +223,7 @@ def test_modexp_call_operations(
 @EIPChecklist.Precompile.Test.ValueTransfer.Fee.Over
 @EIPChecklist.Precompile.Test.ValueTransfer.Fee.Exact
 @EIPChecklist.Precompile.Test.ValueTransfer.Fee.Under
+@pytest.mark.valid_from("Berlin")
 def test_modexp_gas_usage_contract_wrapper(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -256,6 +260,7 @@ def test_modexp_gas_usage_contract_wrapper(
         ),
     ],
 )
+@pytest.mark.valid_from("Berlin")
 def test_modexp_used_in_transaction_entry_points(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -397,6 +402,7 @@ def create_modexp_variable_gas_test_cases():
     "modexp_input,modexp_expected",
     create_modexp_variable_gas_test_cases(),
 )
+@pytest.mark.valid_from("Berlin")
 def test_modexp_variable_gas_cost(
     state_test: StateTestFiller,
     pre: Alloc,
