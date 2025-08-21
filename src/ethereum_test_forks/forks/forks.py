@@ -1603,11 +1603,6 @@ class Prague(Cancun):
 class Osaka(Prague, solc_name="cancun"):
     """Osaka fork."""
 
-    @classmethod
-    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Hash of the block access list is required starting from Osaka fork."""
-        return True
-
     # update some blob constants
     BLOB_CONSTANTS = {
         **Prague.BLOB_CONSTANTS,  # same base constants as prague
@@ -1812,6 +1807,15 @@ class BPO4(BPO3, bpo_fork=True):
         return 21
 
 
+class Amsterdam(Osaka):
+    """Amsterdam fork."""
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """Return True if this fork is deployed."""
+        return False
+
+
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
 
@@ -1841,21 +1845,3 @@ class EOFv1(Prague, solc_name="cancun"):
         development.
         """
         return False
-
-
-class Amsterdam(Osaka):
-    """Amsterdam fork."""
-
-    @classmethod
-    def is_deployed(cls) -> bool:
-        """Return True if this fork is deployed."""
-        return False
-
-
-class BlockAccessLists(Prague):
-    """A development fork for Block Access Lists."""
-
-    @classmethod
-    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Hash of the block access list is required starting from this fork."""
-        return True
