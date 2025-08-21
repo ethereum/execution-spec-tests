@@ -1432,6 +1432,11 @@ class Prague(Cancun):
 class Osaka(Prague, solc_name="cancun"):
     """Osaka fork."""
 
+    @classmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """Hash of the block access list is required starting from Osaka fork."""
+        return True
+
     # update some blob constants
     BLOB_CONSTANTS = {
         **Prague.BLOB_CONSTANTS,  # same base constants as prague
