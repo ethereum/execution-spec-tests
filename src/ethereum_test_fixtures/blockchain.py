@@ -164,7 +164,9 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
-    bal_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(None)
+    block_access_list_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(
+        None, alias="blockAccessListHash"
+    )
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -231,7 +233,8 @@ class FixtureHeader(CamelModel):
         extras = {
             "state_root": state_root,
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
-            "bal_hash": Hash(0) if fork.header_bal_hash_required(0, 0) else None,
+            # TODO: How should we handle the genesis block access list? Is `Hash(0)` fine?
+            "block_access_list_hash": Hash(0) if fork.header_bal_hash_required(0, 0) else None,
             "fork": fork,
         }
         return FixtureHeader(**environment_values, **extras)
@@ -410,8 +413,8 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
-    block_access_lists: Bytes | None = Field(
-        None, description="Serialized EIP-7928 Block Access Lists"
+    block_access_list: Bytes | None = Field(
+        None, description="Serialized EIP-7928 Block Access List", alias="blockAccessList"
     )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
