@@ -81,12 +81,23 @@ def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] |
         if not hasattr(fixture, "blocks") or not fixture.blocks:
             return
 
-        result = subprocess.run(
-            ["witness-filler"],
-            input=fixture.model_dump_json(by_alias=True),
-            text=True,
-            capture_output=True,
-        )
+        # Hotfix: witness-filler expects "Merge" but execution-spec-tests uses "Paris"
+        original_fork = None
+        if hasattr(fixture, "fork") and str(fixture.fork) == "Paris":
+            original_fork = fixture.fork
+            fixture.fork = "Merge"
+
+        try:
+            result = subprocess.run(
+                ["witness-filler"],
+                input=fixture.model_dump_json(by_alias=True),
+                text=True,
+                capture_output=True,
+            )
+        finally:
+            # Restore original fork value
+            if original_fork is not None:
+                fixture.fork = original_fork
 
         if result.returncode != 0:
             raise RuntimeError(
