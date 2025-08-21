@@ -8,11 +8,13 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.block_access_list import (
     BalAccountChange,
     BalBalanceChange,
+    BalCodeChange,
     BalNonceChange,
     BalStorageChange,
     BalStorageSlot,
@@ -87,7 +89,9 @@ def test_bal_balance_changes(
     )
 
     block = Block(txs=[tx])
-    alice_initial_balance = pre[alice].balance
+    alice_account = pre[alice]
+    assert alice_account is not None, "Alice account should exist"
+    alice_initial_balance = alice_account.balance
 
     # Account for both the value sent and gas cost (gas_price * gas_used)
     alice_final_balance = alice_initial_balance - 100 - (intrinsic_gas_cost * 1_000_000_000)
@@ -202,17 +206,32 @@ def test_bal_code_changes(
     blockchain_test: BlockchainTestFiller,
 ):
     """Ensure BAL captures changes to account code."""
-    deployed_code = Op.PUSH1(0x42) + Op.PUSH1(0x00) + Op.SSTORE + Op.STOP
+    runtime_code = Op.STOP
+    runtime_code_bytes = bytes(runtime_code)
 
-    deployed_code_bytes = bytes(deployed_code)
+    init_code = (
+        Op.PUSH1(len(runtime_code_bytes))  # size = 1
+        + Op.DUP1  # duplicate size for return
+        + Op.PUSH1(0x0C)  # offset in init code where runtime code starts
+        + Op.PUSH1(0x00)  # dest offset
+        + Op.CODECOPY  # copy runtime code to memory
+        + Op.PUSH1(0x00)  # memory offset for return
+        + Op.RETURN  # return runtime code
+        + runtime_code  # the actual runtime code to deploy
+    )
+    init_code_bytes = bytes(init_code)
+
+    # Factory contract that uses CREATE to deploy
     factory_code = (
-        Op.PUSH32(deployed_code_bytes)  # Contract code
-        + Op.PUSH1(0x00)  # Memory offset
-        + Op.MSTORE  # Store code in memory
-        + Op.PUSH1(len(deployed_code_bytes))  # Code size
-        + Op.PUSH1(0x00)  # Memory offset
-        + Op.PUSH1(0x00)  # Value to send
-        + Op.CREATE  # CREATE opcode
+        # Push init code to memory
+        Op.PUSH32(init_code_bytes)
+        + Op.PUSH1(0x00)
+        + Op.MSTORE  # Store at memory position 0
+        # CREATE parameters: value, offset, size
+        + Op.PUSH1(len(init_code_bytes))  # size of init code
+        + Op.PUSH1(32 - len(init_code_bytes))  # offset in memory (account for padding)
+        + Op.PUSH1(0x00)  # value = 0 (no ETH sent)
+        + Op.CREATE  # Deploy the contract
         + Op.STOP
     )
 
@@ -227,29 +246,33 @@ def test_bal_code_changes(
 
     block = Block(txs=[tx])
 
-    # The CREATE opcode will deploy to a deterministic address
-    # We'll need to calculate or determine what that address will be
-    # For now, we'll focus on the factory contract having a code change
+    created_contract = compute_create_address(address=factory_contract, nonce=1)
+
     blockchain_test(
         pre=pre,
         blocks=[block],
         post={
             alice: Account(nonce=1),
-            factory_contract: Account(),
-            # The newly created contract would be here but we'd need to calculate its address
+            factory_contract: Account(nonce=2),  # incremented by CREATE to 2
+            created_contract: Account(
+                code=runtime_code_bytes,
+                storage={},
+            ),
         },
-        # Note: This test might need adjustment based on how CREATE addresses are calculated
-        # and how code changes are tracked in the BAL
         expected_block_access_list=BlockAccessList(
             account_changes=[
-                # {
-                #     "address": alice,
-                #     "nonce_changes": [{"tx_index": 0, "post_nonce": 1}],
-                # },
-                # {
-                #     "address": factory_contract,
-                #     "code_changes": [{"tx_index": 0, "new_code": deployed_code}],
-                # },
+                BalAccountChange(
+                    address=alice,
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                BalAccountChange(
+                    address=factory_contract,
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=2)],
+                ),
+                BalAccountChange(
+                    address=created_contract,
+                    code_changes=[BalCodeChange(tx_index=1, new_code=runtime_code_bytes)],
+                ),
             ]
         ),
     )
