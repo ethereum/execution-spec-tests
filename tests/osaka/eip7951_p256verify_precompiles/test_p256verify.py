@@ -10,6 +10,7 @@ from ethereum_test_tools import (
     Environment,
     StateTestFiller,
     Transaction,
+    compute_create_address,
 )
 from ethereum_test_tools import Opcodes as Op
 
@@ -277,4 +278,69 @@ def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict,
     the verification should use modular arithmetic:
     r' ≡ r (mod N) instead of direct equality r' == r.
     """
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "input_data,expected_output",
+    [
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.SUCCESS_RETURN_VALUE,
+            id="valid_input",
+        ),
+        pytest.param(
+            b"\x00" * 160,
+            Spec.INVALID_RETURN_VALUE,
+            id="invalid_input",
+        ),
+    ],
+)
+@pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+def test_contract_creation_transaction(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+    input_data: bytes,
+    expected_output: bytes,
+):
+    """Test the contract creation for the P256VERIFY precompile."""
+    sender = pre.fund_eoa()
+
+    contract_address = compute_create_address(address=sender, nonce=0)
+    contract_bytecode = (
+        Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(input_data)), len(input_data))
+        + Op.SSTORE(
+            0,
+            Op.CALL(
+                gas=Spec.P256VERIFY_GAS,
+                address=Spec.P256VERIFY,
+                value=0,
+                args_offset=0,
+                args_size=len(input_data),
+                ret_offset=0,
+                ret_size=len(input_data) + 32,
+            ),
+        )
+        + Op.SSTORE(1, Op.MLOAD(0))
+        + Op.RETURN(0, 32)
+    )
+
+    tx = Transaction(
+        sender=sender,
+        gas_limit=1000000,
+        to=None,
+        value=0,
+        data=contract_bytecode + input_data,
+    )
+
+    post = {
+        contract_address: {
+            "storage": {
+                0: 1,
+                1: expected_output,
+            }
+        }
+    }
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
