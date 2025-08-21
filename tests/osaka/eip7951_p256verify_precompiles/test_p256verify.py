@@ -344,3 +344,83 @@ def test_contract_creation_transaction(
         }
     }
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "input_data,expected_output",
+    [
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.SUCCESS_RETURN_VALUE,
+            id="valid_input",
+        ),
+        pytest.param(
+            b"\x00" * 160,
+            Spec.INVALID_RETURN_VALUE,
+            id="invalid_input",
+        ),
+    ],
+)
+@pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+def test_contract_initcode(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+    input_data: bytes,
+    expected_output: bytes,
+    opcode: Op,
+):
+    """Test P256VERIFY behavior from contract creation."""
+    sender = pre.fund_eoa()
+
+    call_256verify_bytecode = (
+        Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(input_data)), len(input_data))
+        + Op.SSTORE(
+            0,
+            Op.CALL(
+                gas=Spec.P256VERIFY_GAS,
+                address=Spec.P256VERIFY,
+                value=0,
+                args_offset=0,
+                args_size=len(input_data),
+                ret_offset=0,
+                ret_size=len(input_data) + 32,
+            ),
+        )
+        + Op.SSTORE(1, Op.MLOAD(0))
+        + Op.RETURN(0, 32)
+    )
+
+    total_bytecode_length = len(call_256verify_bytecode) + len(input_data)
+
+    create_contract = (
+        Op.CALLDATACOPY(offset=0, size=total_bytecode_length)
+        + opcode(offset=0, size=total_bytecode_length)
+        + Op.STOP
+    )
+
+    factory_contract_address = pre.deploy_contract(code=create_contract)
+    contract_address = compute_create_address(
+        address=factory_contract_address, nonce=1, initcode=call_256verify_bytecode, opcode=opcode
+    )
+
+    tx = Transaction(
+        sender=sender,
+        gas_limit=200_000,
+        to=factory_contract_address,
+        value=0,
+        data=call_256verify_bytecode + input_data,
+    )
+
+    post = {
+        contract_address: {
+            "storage": {
+                0: 1,  # CALL success (1 = success, 0 = failure)
+                1: expected_output,  # precompile return value
+            }
+        }
+    }
+
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
