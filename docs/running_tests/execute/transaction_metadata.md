@@ -5,6 +5,7 @@ The `execute` plugin automatically adds metadata to all transactions it sends to
 ## Overview
 
 Transaction metadata provides context about each transaction sent during test execution, making it easier to:
+
 - Debug test failures by correlating blockchain transactions with test operations
 - Monitor test execution patterns and performance
 - Track transaction flow across different phases of test execution
