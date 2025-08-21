@@ -32,6 +32,19 @@ It is recommended to only run a subset of the tests when executing on a live net
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 ```
 
+## Transaction Metadata on Remote Networks
+
+When executing tests on remote networks, all transactions include metadata that helps with debugging and monitoring. This metadata is embedded in the RPC request ID and includes:
+
+- **Test identification**: Each transaction is tagged with the specific test being executed
+- **Execution phase**: Transactions are categorized as setup, testing, or cleanup
+- **Action tracking**: Specific actions like contract deployment, funding, or refunding are tracked
+- **Target identification**: The account or contract being targeted is labeled
+
+This metadata is particularly useful when debugging test failures on live networks, as it allows you to correlate blockchain transactions with specific test operations and phases.
+
+See [Transaction Metadata](./transaction_metadata.md) for details.
+
 ## `execute` Command Test Execution
 
 The `execute remote` and `execute hive` commands first creates a random sender account from which all required test accounts will be deployed and funded, and this account is funded by sweeping (by default) this "seed" account.
