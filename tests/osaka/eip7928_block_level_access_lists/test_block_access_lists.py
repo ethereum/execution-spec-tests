@@ -53,9 +53,7 @@ def test_bal_nonce_changes(
             account_changes=[
                 BalAccountChange(
                     address=alice,
-                    nonce_changes=[
-                        BalNonceChange(tx_index=1, post_nonce=1)
-                    ],
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
             ]
         ),
@@ -105,18 +103,14 @@ def test_bal_balance_changes(
             account_changes=[
                 BalAccountChange(
                     address=alice,
-                    nonce_changes=[
-                        BalNonceChange(tx_index=1, post_nonce=1)
-                    ],
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                     balance_changes=[
                         BalBalanceChange(tx_index=1, post_balance=alice_final_balance)
                     ],
                 ),
                 BalAccountChange(
                     address=bob,
-                    balance_changes=[
-                        BalBalanceChange(tx_index=1, post_balance=100)
-                    ],
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
                 ),
                 # TODO: Validate coinbase
             ]
@@ -155,11 +149,7 @@ def test_bal_storage_writes(
                     storage_changes=[
                         BalStorageSlot(
                             slot=0x01,
-                            slot_changes=[
-                                BalStorageChange(
-                                    tx_index=1, post_value=0x42
-                                )
-                            ],
+                            slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)],
                         )
                     ],
                 ),

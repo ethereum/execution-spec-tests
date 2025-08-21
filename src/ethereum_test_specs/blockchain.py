@@ -52,6 +52,7 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
+from ethereum_test_types.block_access_list import BlockAccessList
 
 from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
@@ -321,7 +322,7 @@ class BuiltBlock(CamelModel):
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
-    block_access_list: Bytes
+    block_access_list: BlockAccessList | None
 
     def get_fixture_block(self) -> FixtureBlock | InvalidFixtureBlock:
         """Get a FixtureBlockBase from the built block."""
@@ -333,7 +334,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
-            block_access_list=self.block_access_list,
+            block_access_list=self.block_access_list.rlp() if self.block_access_list else None,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -606,6 +607,17 @@ class BlockchainTest(BaseTest):
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
             requests_list = block.requests
 
+        if fork.header_bal_hash_required(header.number, header.timestamp):
+            if transition_tool_output.result.block_access_list is not None:
+                rlp = transition_tool_output.result.block_access_list.rlp()
+                computed_bal_hash = Hash(rlp.keccak256())
+                if computed_bal_hash != header.block_access_list_hash:
+                    raise Exception(
+                        "Block access list hash in header does not match the "
+                        f"computed hash from BAL: {header.block_access_list_hash} "
+                        f"!= {computed_bal_hash}"
+                    )
+
         if block.rlp_modifier is not None:
             # Modify any parameter specified in the `rlp_modifier` after
             # transition tool processing.
@@ -624,7 +636,7 @@ class BlockchainTest(BaseTest):
             expected_exception=block.exception,
             engine_api_error_code=block.engine_api_error_code,
             fork=fork,
-            block_access_list=transition_tool_output.result.block_access_list or Bytes(b""),
+            block_access_list=transition_tool_output.result.block_access_list,
         )
 
         try:
@@ -678,27 +690,27 @@ class BlockchainTest(BaseTest):
             print_traces(t8n.get_traces())
             raise e
 
-    def verify_block_access_list(self, actual_bal: Bytes | None, expected_bal: Any | None):
+    def verify_block_access_list(
+        self, actual_bal: BlockAccessList | None, expected_bal: Any | None
+    ):
         """
         Verify that the actual block access list matches expectations.
 
         Args:
-            actual_bal: The block access list returned by the client (RLP-encoded)
+            actual_bal: The BlockAccessList returned by the client
             expected_bal: The expected BlockAccessList object
 
         """
         if expected_bal is None:
             return
 
-        from ethereum_test_types.block_access_list import BlockAccessList
-
         if not isinstance(expected_bal, BlockAccessList):
             raise Exception(
                 f"Invalid expected_bal type: {type(expected_bal)}. Use BlockAccessList."
             )
 
-        if actual_bal is None or actual_bal == Bytes(b""):
-            raise Exception("Expected block access list but got none or empty.")
+        if actual_bal is None:
+            raise Exception("Expected block access list but got none.")
 
         # Verify using the BlockAccessList's verification method
         try:
