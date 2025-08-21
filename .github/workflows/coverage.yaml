@@ -13,7 +13,7 @@ jobs:
     
     env:
       BLOCK_GAS_LIMIT: "45000000"
-      FILL_UNTIL: "Cancun"
+      FILL_UNTIL: "Prague"
 
     steps:
       - name: Checkout code

@@ -11,7 +11,7 @@ MODIFIED_DELETED_FILES="$1"
 BASE_TEST_PATH="$2"
 PATCH_TEST_PATH="$3"
 BLOCK_GAS_LIMIT="${4:-45000000}"
-FILL_UNTIL="${5:-Cancun}"
+FILL_UNTIL="${5:-Prague}"
 
 echo "--------------------"
 echo "converted-ethereum-tests.txt seem untouched, try to fill pre-patched version of .py files:"
