@@ -17,6 +17,7 @@ from ethereum_test_base_types import (
     RLPSerializable,
     StorageKey,
 )
+from ethereum_test_base_types.serialization import to_serializable_element
 
 
 class BalNonceChange(CamelModel, RLPSerializable):
@@ -123,9 +124,6 @@ class BlockAccessList(CamelModel, RLPSerializable):
     """
     Expected Block Access List for verification.
 
-    This follows the same pattern as AccessList and AuthorizationTuple -
-    a simple data class that can be used directly in tests.
-
     Example:
         expected_block_access_list = BlockAccessList(
             account_changes=[
@@ -142,7 +140,10 @@ class BlockAccessList(CamelModel, RLPSerializable):
                     address=bob,
                     balance_changes=[
                         BalBalanceChange(tx_index=0, post_balance=100)
-                    ]
+                    ],
+                    code_changes=[
+                        BalCodeChange(tx_index=0, new_code=b"0x1234")
+                    ],
                 ),
             ]
         )
@@ -163,8 +164,6 @@ class BlockAccessList(CamelModel, RLPSerializable):
         that contains a list, per EIP-7928.
         """
         # Return the list of accounts directly, not wrapped in another list
-        from ethereum_test_base_types.serialization import to_serializable_element
-
         return to_serializable_element(self.account_changes)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -242,13 +241,13 @@ class BlockAccessList(CamelModel, RLPSerializable):
                     extra = actual_set - expected_set
                     msg = "Storage reads mismatch."
                     if missing:
-                        msg += f" Missing: {
-                            [v.hex() if isinstance(v, bytes) else str(v) for v in missing]
-                        }."
+                        missing_str = [
+                            v.hex() if isinstance(v, bytes) else str(v) for v in missing
+                        ]
+                        msg += f" Missing: {missing_str}."
                     if extra:
-                        msg += f" Extra: {
-                            [v.hex() if isinstance(v, bytes) else str(v) for v in extra]
-                        }."
+                        extra_str = [v.hex() if isinstance(v, bytes) else str(v) for v in extra]
+                        msg += f" Extra: {extra_str}."
                     raise AssertionError(msg)
 
             elif isinstance(expected_value, list):
