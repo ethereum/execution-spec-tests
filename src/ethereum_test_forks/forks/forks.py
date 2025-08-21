@@ -1560,6 +1560,15 @@ class Osaka(Prague, solc_name="cancun"):
         return 2**13  # EIP-7918 new parameter
 
 
+class Amsterdam(Osaka):
+    """Amsterdam fork."""
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """Return True if this fork is deployed."""
+        return False
+
+
 class BPO1(Osaka, bpo_fork=True):
     """BPO1 fork - Blob Parameter Only fork 1."""
 
