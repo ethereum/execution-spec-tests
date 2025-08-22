@@ -5,14 +5,16 @@ Following the established pattern in the codebase (AccessList, AuthorizationTupl
 these are simple data classes that can be composed together.
 """
 
-from typing import Any, ClassVar, Dict, List
+from typing import Any, ClassVar, List
 
+import ethereum_rlp as eth_rlp
 from pydantic import Field
 
 from ethereum_test_base_types import (
     Address,
     Bytes,
     CamelModel,
+    EthereumTestRootModel,
     HexNumber,
     Number,
     RLPSerializable,
@@ -98,55 +100,60 @@ class BalAccountChange(CamelModel, RLPSerializable):
     ]
 
 
-class BlockAccessList(CamelModel, RLPSerializable):
+class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
     """
-    Expected Block Access List for verification.
+    Block Access List for t8n tool communication and fixtures.
+
+    This model represents the BAL exactly as defined in EIP-7928 - it is itself a list
+    of account changes (root model), not a container. Used for:
+    - Communication with t8n tools
+    - Fixture generation
+    - RLP encoding for hash verification
 
     Example:
-        expected_block_access_list = BlockAccessList(
+        bal = BlockAccessList([
+            BalAccountChange(address=alice, nonce_changes=[...]),
+            BalAccountChange(address=bob, balance_changes=[...])
+        ])
+
+    """
+
+    root: List[BalAccountChange] = Field(default_factory=list)
+
+    def to_list(self) -> List[Any]:
+        """Return the list for RLP encoding per EIP-7928."""
+        return to_serializable_element(self.root)
+
+    def rlp(self) -> Bytes:
+        """Return the RLP encoded block access list for hash verification."""
+        return Bytes(eth_rlp.encode(self.to_list()))
+
+
+class BlockAccessListExpectation(CamelModel):
+    """
+    Block Access List expectation model for test writing.
+
+    This model is used to define expected BAL values in tests. It supports:
+    - Partial validation (only checks explicitly set fields)
+    - Convenient test syntax with named parameters
+    - Verification against actual BAL from t8n
+
+    Example:
+        # In test definition
+        expected_block_access_list = BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=alice,
-                    nonce_changes=[
-                        BalNonceChange(tx_index=0, post_nonce=1)
-                    ],
-                    balance_changes=[
-                        BalBalanceChange(tx_index=0, post_balance=9000)
-                    ]
-                ),
-                BalAccountChange(
-                    address=bob,
-                    balance_changes=[
-                        BalBalanceChange(tx_index=0, post_balance=100)
-                    ],
-                    code_changes=[
-                        BalCodeChange(tx_index=0, new_code=b"0x1234")
-                    ],
-                ),
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
+                )
             ]
         )
 
     """
 
     account_changes: List[BalAccountChange] = Field(
-        default_factory=list, description="List of account changes in the block"
+        default_factory=list, description="Expected account changes to verify"
     )
-
-    rlp_fields: ClassVar[List[str]] = ["account_changes"]
-
-    def to_list(self, signing: bool = False) -> List[Any]:
-        """
-        Override to_list to return the account changes list directly.
-
-        The BlockAccessList IS the list of account changes, not a container
-        that contains a list, per EIP-7928.
-        """
-        # Return the list of accounts directly, not wrapped in another list
-        return to_serializable_element(self.account_changes)
-
-    def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary for serialization."""
-        return self.model_dump(exclude_none=True)
 
     def verify_against(self, actual_bal: "BlockAccessList") -> None:
         """
@@ -159,7 +166,7 @@ class BlockAccessList(CamelModel, RLPSerializable):
             Exception: If verification fails
 
         """
-        actual_accounts_by_addr = {acc.address: acc for acc in actual_bal.account_changes}
+        actual_accounts_by_addr = {acc.address: acc for acc in actual_bal.root}
         expected_accounts_by_addr = {acc.address: acc for acc in self.account_changes}
 
         # Check for missing accounts

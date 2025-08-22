@@ -52,7 +52,7 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
-from ethereum_test_types.block_access_list import BlockAccessList
+from ethereum_test_types.block_access_list import BlockAccessList, BlockAccessListExpectation
 
 from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
@@ -426,11 +426,11 @@ class BlockchainTest(BaseTest):
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
     """
-    expected_block_access_list: Any | None = None  # Will be BAL type
+    expected_block_access_list: BlockAccessListExpectation | None = None
     """
     Expected block access list for verification.
     If set, verifies that the block access list returned by the client matches expectations.
-    Use the BAL builder API to construct expectations.
+    Use BlockAccessListExpectation to define partial validation expectations.
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -691,7 +691,7 @@ class BlockchainTest(BaseTest):
             raise e
 
     def verify_block_access_list(
-        self, actual_bal: BlockAccessList | None, expected_bal: Any | None
+        self, actual_bal: BlockAccessList | None, expected_bal: BlockAccessListExpectation | None
     ):
         """
         Verify that the actual block access list matches expectations.
@@ -704,15 +704,9 @@ class BlockchainTest(BaseTest):
         if expected_bal is None:
             return
 
-        if not isinstance(expected_bal, BlockAccessList):
-            raise Exception(
-                f"Invalid expected_bal type: {type(expected_bal)}. Use BlockAccessList."
-            )
-
         if actual_bal is None:
             raise Exception("Expected block access list but got none.")
 
-        # Verify using the BlockAccessList's verification method
         try:
             expected_bal.verify_against(actual_bal)
         except Exception as e:
