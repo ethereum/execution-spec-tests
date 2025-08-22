@@ -330,6 +330,7 @@ consume cache --help
 
 - 🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. `state_test`, `blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
 - ✨ Markers can now be used to execute only tests from a specific test spec type (e.g. `-m state_test`, `-m blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
+- ✨ Command `execute remote` now allows specification of an Engine API endpoint to drive the chain via `--engine-endpoint` and either `--engine-jwt-secret` or `--engine-jwt-secret-file`. This mode is useful when there's no consensus client connected to the execution client so `execute` will automatically request blocks via the Engine API when it sends transactions ([#2070](https://github.com/ethereum/execution-spec-tests/pull/2070)).
 
 ### 📋 Misc
 
