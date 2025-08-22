@@ -24,6 +24,26 @@ One last requirement is that the `--rpc-chain-id` flag is set to the chain id of
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345
 ```
 
+## Engine RPC Endpoint (Optional)
+
+By default, the `execute remote` command assumes that the execution client is connected to a beacon node and the chain progresses automatically. However, you can optionally specify an Engine RPC endpoint to drive the chain manually when new transactions are submitted.
+
+To use this feature, you need to provide both the `--engine-endpoint` and JWT authentication:
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --engine-endpoint=https://engine.endpoint.io --engine-jwt-secret "your-jwt-secret-here"
+```
+
+Alternatively, you can provide the JWT secret from a file:
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --engine-endpoint=https://engine.endpoint.io --engine-jwt-secret-file /path/to/jwt-secret.txt
+```
+
+The JWT secret file must contain only the JWT secret as a hex string.
+
+When an engine endpoint is provided, the test execution will use the Engine API to create new blocks and include transactions, giving you full control over the chain progression.
+
 The `execute remote` command will connect to the client via the RPC endpoint and will start executing every test in the `./tests` folder in the same way as the `execute hive` command, but instead of using the Engine API to generate blocks, it will send the transactions to the client via the RPC endpoint.
 
 It is recommended to only run a subset of the tests when executing on a live network. To do so, a path to a specific test can be provided to the command:
