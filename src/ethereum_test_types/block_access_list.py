@@ -5,7 +5,7 @@ Following the established pattern in the codebase (AccessList, AuthorizationTupl
 these are simple data classes that can be composed together.
 """
 
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Dict, List
 
 from pydantic import Field
 
@@ -14,6 +14,7 @@ from ethereum_test_base_types import (
     Bytes,
     CamelModel,
     HexNumber,
+    Number,
     RLPSerializable,
     StorageKey,
 )
@@ -23,8 +24,8 @@ from ethereum_test_base_types.serialization import to_serializable_element
 class BalNonceChange(CamelModel, RLPSerializable):
     """Represents a nonce change in the block access list."""
 
-    tx_index: int = Field(..., description="Transaction index where the change occurred")
-    post_nonce: int = Field(..., description="Nonce value after the transaction")
+    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    post_nonce: Number = Field(..., description="Nonce value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_nonce"]
 
@@ -32,7 +33,7 @@ class BalNonceChange(CamelModel, RLPSerializable):
 class BalBalanceChange(CamelModel, RLPSerializable):
     """Represents a balance change in the block access list."""
 
-    tx_index: int = Field(..., description="Transaction index where the change occurred")
+    tx_index: Number = Field(..., description="Transaction index where the change occurred")
     post_balance: HexNumber = Field(..., description="Balance after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_balance"]
@@ -41,7 +42,7 @@ class BalBalanceChange(CamelModel, RLPSerializable):
 class BalCodeChange(CamelModel, RLPSerializable):
     """Represents a code change in the block access list."""
 
-    tx_index: int = Field(..., description="Transaction index where the change occurred")
+    tx_index: Number = Field(..., description="Transaction index where the change occurred")
     new_code: Bytes = Field(..., description="New code bytes")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "new_code"]
@@ -50,7 +51,7 @@ class BalCodeChange(CamelModel, RLPSerializable):
 class BalStorageChange(CamelModel, RLPSerializable):
     """Represents a change to a specific storage slot."""
 
-    tx_index: int = Field(..., description="Transaction index where the change occurred")
+    tx_index: Number = Field(..., description="Transaction index where the change occurred")
     post_value: StorageKey = Field(..., description="Value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_value"]
@@ -71,18 +72,20 @@ class BalAccountChange(CamelModel, RLPSerializable):
     """Represents all changes to a specific account in a block."""
 
     address: Address = Field(..., description="Account address")
-    nonce_changes: Optional[List[BalNonceChange]] = Field(
-        None, description="List of nonce changes"
+    nonce_changes: List[BalNonceChange] = Field(
+        default_factory=list, description="List of nonce changes"
     )
-    balance_changes: Optional[List[BalBalanceChange]] = Field(
-        None, description="List of balance changes"
+    balance_changes: List[BalBalanceChange] = Field(
+        default_factory=list, description="List of balance changes"
     )
-    code_changes: Optional[List[BalCodeChange]] = Field(None, description="List of code changes")
-    storage_changes: Optional[List[BalStorageSlot]] = Field(
-        None, description="List of storage changes"
+    code_changes: List[BalCodeChange] = Field(
+        default_factory=list, description="List of code changes"
     )
-    storage_reads: Optional[List[StorageKey]] = Field(
-        None, description="List of storage slots that were read"
+    storage_changes: List[BalStorageSlot] = Field(
+        default_factory=list, description="List of storage changes"
+    )
+    storage_reads: List[StorageKey] = Field(
+        default_factory=list, description="List of storage slots that were read"
     )
 
     rlp_fields: ClassVar[List[str]] = [
@@ -93,31 +96,6 @@ class BalAccountChange(CamelModel, RLPSerializable):
         "nonce_changes",
         "code_changes",
     ]
-
-    def to_list(self, signing: bool = False) -> List[Any]:
-        """
-        Override to handle None list fields properly.
-        None list fields should serialize as empty lists, not empty bytes.
-        """
-        from ethereum_test_base_types.serialization import to_serializable_element
-
-        result: list[Any] = []
-        for field_name in self.rlp_fields:
-            value = getattr(self, field_name)
-
-            # Special handling for None list fields - they should be empty lists
-            if value is None and field_name in [
-                "storage_changes",
-                "storage_reads",
-                "balance_changes",
-                "nonce_changes",
-                "code_changes",
-            ]:
-                result.append([])
-            else:
-                result.append(to_serializable_element(value))
-
-        return result
 
 
 class BlockAccessList(CamelModel, RLPSerializable):
