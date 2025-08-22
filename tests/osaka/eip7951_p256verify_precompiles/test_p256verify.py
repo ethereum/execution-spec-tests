@@ -9,6 +9,7 @@ from ethereum_test_tools import (
     Alloc,
     Environment,
     StateTestFiller,
+    Storage,
     Transaction,
     compute_create_address,
 )
@@ -308,23 +309,23 @@ def test_contract_creation_transaction(
     """Test the contract creation for the P256VERIFY precompile."""
     sender = pre.fund_eoa()
 
+    storage = Storage()
     contract_address = compute_create_address(address=sender, nonce=0)
     contract_bytecode = (
         Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(input_data)), len(input_data))
-        + Op.SSTORE(
-            0,
-            Op.CALL(
-                gas=Spec.P256VERIFY_GAS,
-                address=Spec.P256VERIFY,
-                value=0,
-                args_offset=0,
-                args_size=len(input_data),
-                ret_offset=0,
-                ret_size=len(input_data) + 32,
-            ),
+        + Op.CALL(
+            gas=Spec.P256VERIFY_GAS,
+            address=Spec.P256VERIFY,
+            value=0,
+            args_offset=0,
+            args_size=len(input_data),
+            ret_offset=0,
+            ret_size=32,
         )
-        + Op.SSTORE(1, Op.MLOAD(0))
-        + Op.RETURN(0, 32)
+        + Op.SSTORE(storage.store_next(True), Op.DUP1())
+        + Op.SSTORE(storage.store_next(expected_output), Op.MLOAD(0))
+        + Op.SSTORE(storage.store_next(len(expected_output)), Op.RETURNDATASIZE())
+        + Op.STOP
     )
 
     tx = Transaction(
@@ -337,10 +338,7 @@ def test_contract_creation_transaction(
 
     post = {
         contract_address: {
-            "storage": {
-                0: 1,
-                1: expected_output,
-            }
+            "storage": storage,
         }
     }
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
@@ -375,24 +373,25 @@ def test_contract_initcode(
     """Test P256VERIFY behavior from contract creation."""
     sender = pre.fund_eoa()
 
+    storage = Storage()
+
     call_256verify_bytecode = (
         Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(input_data)), len(input_data))
-        + Op.SSTORE(
-            0,
-            Op.CALL(
-                gas=Spec.P256VERIFY_GAS,
-                address=Spec.P256VERIFY,
-                value=0,
-                args_offset=0,
-                args_size=len(input_data),
-                ret_offset=0,
-                ret_size=len(input_data) + 32,
-            ),
+        + Op.CALL(
+            gas=Spec.P256VERIFY_GAS,
+            address=Spec.P256VERIFY,
+            value=0,
+            args_offset=0,
+            args_size=len(input_data),
+            ret_offset=0,
+            ret_size=32,
         )
-        + Op.SSTORE(1, Op.MLOAD(0))
-        + Op.RETURN(0, 32)
+        + Op.SSTORE(storage.store_next(True), Op.DUP1())
+        + Op.SSTORE(storage.store_next(expected_output), Op.MLOAD(0))
+        + Op.SSTORE(storage.store_next(len(expected_output)), Op.RETURNDATASIZE())
+        + Op.STOP
     )
-
+    full_initcode = call_256verify_bytecode + input_data
     total_bytecode_length = len(call_256verify_bytecode) + len(input_data)
 
     create_contract = (
@@ -403,7 +402,7 @@ def test_contract_initcode(
 
     factory_contract_address = pre.deploy_contract(code=create_contract)
     contract_address = compute_create_address(
-        address=factory_contract_address, nonce=1, initcode=call_256verify_bytecode, opcode=opcode
+        address=factory_contract_address, nonce=1, initcode=full_initcode, opcode=opcode
     )
 
     tx = Transaction(
@@ -416,10 +415,7 @@ def test_contract_initcode(
 
     post = {
         contract_address: {
-            "storage": {
-                0: 1,  # CALL success (1 = success, 0 = failure)
-                1: expected_output,  # precompile return value
-            }
+            "storage": storage,
         }
     }
 
