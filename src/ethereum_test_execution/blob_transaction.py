@@ -7,6 +7,7 @@ from ethereum_test_base_types import Hash
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import BlobAndProofV1, BlobAndProofV2, EngineRPC, EthRPC
+from ethereum_test_rpc.types import GetBlobsResponse
 from ethereum_test_types import NetworkWrappedTransaction, Transaction
 
 from .base import BaseExecute
@@ -81,14 +82,26 @@ class BlobTransaction(BaseExecute):
         if self.nonexisting_blob_hashes is not None:
             list_versioned_hashes.extend(self.nonexisting_blob_hashes)
 
-        blob_response = engine_rpc.get_blobs(list_versioned_hashes, version=version)
+        blob_response: GetBlobsResponse | None = engine_rpc.get_blobs(
+            list_versioned_hashes, version=version
+        )  # noqa: E501
 
         # if non-existing blob hashes were request then the response must be 'null'
         if self.nonexisting_blob_hashes is not None:
-            assert blob_response.root is None, "Non-existing blob hashes were requested and "
-            "the client was expected to respond with 'null', but instead it replied: "
-            f"{blob_response.root}"
+            if blob_response is not None:
+                raise ValueError(
+                    f"Non-existing blob hashes were requested and "
+                    "the client was expected to respond with 'null', but instead it replied: "
+                    f"{blob_response.root}"
+                )
+            else:
+                print(
+                    "Test was passed (partial responses are not allowed and the client "
+                    "correctly returned 'null')"
+                )
+                return
 
+        assert blob_response is not None
         local_blobs_and_proofs = list(versioned_hashes.values())
         assert len(blob_response) == len(local_blobs_and_proofs), "Expected "
         f"{len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
