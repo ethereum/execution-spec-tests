@@ -26,9 +26,10 @@ echo "$MODIFIED_DELETED_FILES"
 
 rm -rf fixtures
 
+set +e
 uv run fill $MODIFIED_DELETED_FILES --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $BASE_TEST_PATH
 FILL_RETURN_CODE=$?
-echo $FILL_RETURN_CODE
+set -e
 if [ $FILL_RETURN_CODE -eq 5 ]; then
     echo "any_modified_fixtures=false" >> "$GITHUB_OUTPUT"
     exit 0
