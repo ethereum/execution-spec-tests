@@ -48,16 +48,19 @@ Address stubs allow you to map contract labels used in tests to actual addresses
 You can provide address stubs in several formats:
 
 **JSON string:**
+
 ```bash
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs '{"DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa", "UNISWAP_V3_FACTORY": "0x1F98431c8aD98523631AE4a59f267346ea31F984"}'
 ```
 
 **JSON file:**
+
 ```bash
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.json
 ```
 
 **YAML file:**
+
 ```bash
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.yaml
 ```
@@ -65,6 +68,7 @@ uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc
 ### Address Stubs File Format
 
 **JSON format (contracts.json):**
+
 ```json
 {
   "DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa",
@@ -74,6 +78,7 @@ uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc
 ```
 
 **YAML format (contracts.yaml):**
+
 ```yaml
 DEPOSIT_CONTRACT: 0x00000000219ab540356cbb839cbe05303d7705fa
 UNISWAP_V3_FACTORY: 0x1F98431c8aD98523631AE4a59f267346ea31F984
@@ -99,6 +104,7 @@ Address stubs are especially valuable when testing on **bloat-net**, a specializ
 - Redeploying these contracts would lose the valuable historical state and storage bloat
 
 Using address stubs on bloat-net allows you to:
+
 - Test against contracts with realistic storage bloat patterns
 - Preserve the complex state that has been built up over time
 - Avoid the computational and storage costs of recreating this state
