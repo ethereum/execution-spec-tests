@@ -68,12 +68,14 @@ class BaseRPC:
         self.extra_headers = extra_headers
         self.response_validation_context = response_validation_context
 
-    def __init_subclass__(cls) -> None:
+    def __init_subclass__(cls, namespace: str | None = None) -> None:
         """Set namespace of the RPC class to the lowercase of the class name."""
-        namespace = cls.__name__
-        if namespace.endswith("RPC"):
-            namespace = namespace.removesuffix("RPC")
-        cls.namespace = namespace.lower()
+        if namespace is None:
+            namespace = cls.__name__
+            if namespace.endswith("RPC"):
+                namespace = namespace.removesuffix("RPC")
+            namespace = namespace.lower()
+        cls.namespace = namespace
 
     def post_request(
         self,
