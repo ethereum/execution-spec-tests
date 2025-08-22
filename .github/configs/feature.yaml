@@ -15,3 +15,7 @@ benchmark_develop:
   evm-type: develop
   fill-params: --fork=Osaka --gas-benchmark-values 1,10,30,45,60,100,150 -m "benchmark and not state_test" ./tests/benchmark
   feature_only: true
+
+fusaka-devnet-5:
+  evm-type: develop 
+  fill-params: --from Prague --until=BPO3
