@@ -12,8 +12,13 @@ from ethereum_test_exceptions import (
     TransactionException,
     UndefinedException,
 )
-from ethereum_test_types import Alloc, Environment, Transaction, TransactionReceipt
-from ethereum_test_types.block_access_list import BlockAccessList
+from ethereum_test_types import (
+    Alloc,
+    BlockAccessList,
+    Environment,
+    Transaction,
+    TransactionReceipt,
+)
 
 
 class TransactionExceptionWithMessage(ExceptionWithMessage[TransactionException]):
