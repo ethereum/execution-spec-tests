@@ -57,15 +57,12 @@ class BaseRPC:
     def __init__(
         self,
         url: str,
-        extra_headers: Dict | None = None,
+        *,
         response_validation_context: Any | None = None,
     ):
         """Initialize BaseRPC class with the given url."""
-        if extra_headers is None:
-            extra_headers = {}
         self.url = url
         self.request_id_counter = count(1)
-        self.extra_headers = extra_headers
         self.response_validation_context = response_validation_context
 
     def __init_subclass__(cls, namespace: str | None = None) -> None:
@@ -101,7 +98,7 @@ class BaseRPC:
         base_header = {
             "Content-Type": "application/json",
         }
-        headers = base_header | self.extra_headers | extra_headers
+        headers = base_header | extra_headers
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
@@ -127,18 +124,12 @@ class EthRPC(BaseRPC):
 
     def __init__(
         self,
-        url: str,
-        extra_headers: Dict | None = None,
-        *,
+        *args,
         transaction_wait_timeout: int = 60,
-        response_validation_context: Any | None = None,
+        **kwargs,
     ):
         """Initialize EthRPC class with the given url and transaction wait timeout."""
-        if extra_headers is None:
-            extra_headers = {}
-        super().__init__(
-            url, extra_headers, response_validation_context=response_validation_context
-        )
+        super().__init__(*args, **kwargs)
         self.transaction_wait_timeout = transaction_wait_timeout
 
     def config(self):
@@ -339,9 +330,10 @@ class EngineRPC(BaseRPC):
         self,
         *args,
         jwt_secret: bytes = b"secretsecretsecretsecretsecretse",  # Default secret used in hive
+        **kwargs,
     ):
         """Initialize Engine RPC class with the given JWT secret."""
-        super().__init__(*args)
+        super().__init__(*args, **kwargs)
         self.jwt_secret = jwt_secret
 
     def post_request(
