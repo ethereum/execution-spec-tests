@@ -18,7 +18,7 @@ from ethereum_test_types.block_access_list import (
     BalNonceChange,
     BalStorageChange,
     BalStorageSlot,
-    BlockAccessList,
+    BlockAccessListExpectation,
 )
 
 from .spec import ref_spec_7928
@@ -51,7 +51,7 @@ def test_bal_nonce_changes(
             alice: Account(nonce=1),
             bob: Account(balance=100),
         },
-        expected_block_access_list=BlockAccessList(
+        expected_block_access_list=BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=alice,
@@ -103,7 +103,7 @@ def test_bal_balance_changes(
             alice: Account(nonce=1, balance=alice_final_balance),
             bob: Account(balance=100),
         },
-        expected_block_access_list=BlockAccessList(
+        expected_block_access_list=BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=alice,
@@ -146,7 +146,7 @@ def test_bal_storage_writes(
             alice: Account(nonce=1),
             storage_contract: Account(storage={0x01: 0x42}),
         },
-        expected_block_access_list=BlockAccessList(
+        expected_block_access_list=BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=storage_contract,
@@ -189,7 +189,7 @@ def test_bal_storage_reads(
             alice: Account(nonce=1),
             storage_contract: Account(storage={0x01: 0x42}),
         },
-        expected_block_access_list=BlockAccessList(
+        expected_block_access_list=BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=storage_contract,
@@ -259,7 +259,7 @@ def test_bal_code_changes(
                 storage={},
             ),
         },
-        expected_block_access_list=BlockAccessList(
+        expected_block_access_list=BlockAccessListExpectation(
             account_changes=[
                 BalAccountChange(
                     address=alice,

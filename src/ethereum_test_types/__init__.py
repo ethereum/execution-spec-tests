@@ -10,6 +10,7 @@ from .block_access_list import (
     BalStorageChange,
     BalStorageSlot,
     BlockAccessList,
+    BlockAccessListExpectation,
 )
 from .block_types import (
     Environment,
@@ -52,6 +53,7 @@ __all__ = (
     "BalStorageSlot",
     "Blob",
     "BlockAccessList",
+    "BlockAccessListExpectation",
     "ConsolidationRequest",
     "DepositRequest",
     "Environment",
