@@ -26,8 +26,6 @@ from .spec import Spec, ref_spec_7918
 REFERENCE_SPEC_GIT_PATH = ref_spec_7918.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7918.version
 
-BASE_FEE_MAX_CHANGE_DENOMINATOR = 8
-ELASTICITY_MULTIPLIER = 2
 MIN_BLOB_GASPRICE = 1
 
 
@@ -96,111 +94,67 @@ def transition_fork_gas_per_blob(fork: Fork) -> int:
 
 
 @pytest.fixture
-def env(
-    parent_excess_blob_gas: int,
+def genesis_base_fee_per_gas(
+    fork: Fork,
     parent_base_fee_per_gas: int,
+) -> int:
+    """Genesis base fee per gas."""
+    # Base fee always drops from genesis to block 1 because the genesis block never uses
+    # any tx gas.
+    return (parent_base_fee_per_gas * fork.base_fee_max_change_denominator()) // 7
+
+
+@pytest.fixture
+def genesis_excess_blob_gas(
+    fork: Fork,
+    genesis_base_fee_per_gas: int,
+    parent_excess_blob_gas: int,
     source_fork_target_blobs: int,
     source_fork_gas_per_blob: int,
+) -> int:
+    """Genesis excess blob gas."""
+    genesis_excess_blob_gas = parent_excess_blob_gas + (
+        source_fork_target_blobs * source_fork_gas_per_blob
+    )
+    excess_blob_gas_calculator = fork.excess_blob_gas_calculator(timestamp=0)
+    current_excess_blob_gas = excess_blob_gas_calculator(
+        parent_excess_blob_gas=genesis_excess_blob_gas,
+        parent_blob_count=0,
+        parent_base_fee_per_gas=genesis_base_fee_per_gas,
+    )
+    if current_excess_blob_gas == parent_excess_blob_gas:
+        return genesis_excess_blob_gas
+
+    if current_excess_blob_gas > parent_excess_blob_gas:
+        minimum = 0
+        maximum = genesis_excess_blob_gas
+        while minimum < maximum:
+            mid = (minimum + maximum) // 2
+            next_excess_blob_gas = excess_blob_gas_calculator(
+                parent_excess_blob_gas=mid,
+                parent_blob_count=0,
+                parent_base_fee_per_gas=genesis_base_fee_per_gas,
+            )
+            if next_excess_blob_gas == parent_excess_blob_gas:
+                return mid
+            if next_excess_blob_gas > parent_excess_blob_gas:
+                maximum = mid - 1
+            else:
+                minimum = mid + 1
+    raise ValueError("No excess blob gas found")
+
+
+@pytest.fixture
+def env(
+    genesis_excess_blob_gas: int,
+    genesis_base_fee_per_gas: int,
 ) -> Environment:
     """Environment for the test."""
     return Environment(
         # Excess blob gas always drops from genesis to block 1 because genesis uses no blob gas.
-        excess_blob_gas=parent_excess_blob_gas
-        + (source_fork_target_blobs * source_fork_gas_per_blob),
-        base_fee_per_gas=(parent_base_fee_per_gas * BASE_FEE_MAX_CHANGE_DENOMINATOR)
-        // 7,  # Base fee always drops from genesis to block 1 because the genesis block never
-        # tx gas.
+        excess_blob_gas=genesis_excess_blob_gas,
+        base_fee_per_gas=genesis_base_fee_per_gas,
         gas_limit=16_000_000,  # To make it easier to reach the requirement with a single tx
-    )
-
-
-def calculate_gas_required_for_base_fee_change(
-    *,
-    parent_gas_limit: int,
-    parent_base_fee_per_gas: int,
-    required_base_fee_per_gas: int,
-) -> int:
-    """
-    Calculate the required gas used by transactions to raise or drop the base fee in
-    the following block.
-
-    EIP-1559 pseudo code:
-
-    if INITIAL_FORK_BLOCK_NUMBER == block.number:
-        expected_base_fee_per_gas = INITIAL_BASE_FEE
-    elif parent_gas_used == parent_gas_target:
-        expected_base_fee_per_gas = parent_base_fee_per_gas
-    elif parent_gas_used > parent_gas_target:
-        gas_used_delta = parent_gas_used - parent_gas_target
-        base_fee_per_gas_delta = max(
-            parent_base_fee_per_gas * gas_used_delta // parent_gas_target \
-                // BASE_FEE_MAX_CHANGE_DENOMINATOR,
-            1,
-        )
-        expected_base_fee_per_gas = parent_base_fee_per_gas + base_fee_per_gas_delta
-    else:
-        gas_used_delta = parent_gas_target - parent_gas_used
-        base_fee_per_gas_delta = (
-            parent_base_fee_per_gas * gas_used_delta // \
-                parent_gas_target // BASE_FEE_MAX_CHANGE_DENOMINATOR
-        )
-        expected_base_fee_per_gas = parent_base_fee_per_gas - base_fee_per_gas_delta
-    """
-    parent_gas_target = parent_gas_limit // ELASTICITY_MULTIPLIER
-
-    if parent_base_fee_per_gas == required_base_fee_per_gas:
-        parent_gas_used = parent_gas_target
-    elif required_base_fee_per_gas > parent_base_fee_per_gas:
-        # Base fee needs to go up, so we need to use more than gas_limit // 2
-        base_fee_per_gas_delta = required_base_fee_per_gas - parent_base_fee_per_gas
-        parent_gas_used = (
-            (base_fee_per_gas_delta * BASE_FEE_MAX_CHANGE_DENOMINATOR * parent_gas_target)
-            // parent_base_fee_per_gas
-        ) + parent_gas_target
-    elif required_base_fee_per_gas < parent_base_fee_per_gas:
-        # Base fee needs to go down, so we need to use less than gas_limit // 2
-        base_fee_per_gas_delta = parent_base_fee_per_gas - required_base_fee_per_gas
-
-        parent_gas_used = (
-            parent_gas_target
-            - (
-                (base_fee_per_gas_delta * BASE_FEE_MAX_CHANGE_DENOMINATOR * parent_gas_target)
-                // parent_base_fee_per_gas
-            )
-            - 1
-        )
-
-    if parent_gas_used == parent_gas_target:
-        expected_base_fee_per_gas = parent_base_fee_per_gas
-    elif parent_gas_used > parent_gas_target:
-        gas_used_delta = parent_gas_used - parent_gas_target
-        base_fee_per_gas_delta = max(
-            parent_base_fee_per_gas
-            * gas_used_delta
-            // parent_gas_target
-            // BASE_FEE_MAX_CHANGE_DENOMINATOR,
-            1,
-        )
-        expected_base_fee_per_gas = parent_base_fee_per_gas + base_fee_per_gas_delta
-    else:
-        gas_used_delta = parent_gas_target - parent_gas_used
-        base_fee_per_gas_delta = (
-            parent_base_fee_per_gas
-            * gas_used_delta
-            // parent_gas_target
-            // BASE_FEE_MAX_CHANGE_DENOMINATOR
-        )
-        expected_base_fee_per_gas = parent_base_fee_per_gas - base_fee_per_gas_delta
-
-    if expected_base_fee_per_gas == required_base_fee_per_gas:
-        return parent_gas_used
-
-    raise Exception(
-        f"Unable to calculate required gas limit given inputs: gas_limit={parent_gas_limit}, "
-        f"parent_base_fee_per_gas={parent_base_fee_per_gas}, "
-        f"required_base_fee_per_gas={required_base_fee_per_gas}, "
-        f"parent_gas_used={parent_gas_used}, "
-        f"expected_base_fee_per_gas={expected_base_fee_per_gas}"
     )
 
 
@@ -264,6 +218,7 @@ def blob_cap_per_transaction(fork: Fork) -> int:
 
 @pytest.fixture
 def parent_block_txs(
+    fork: Fork,
     sender: EOA,
     destination_account: Address,
     gas_spender_contract: Address,
@@ -292,7 +247,7 @@ def parent_block_txs(
         block_base_fee_per_gas=parent_base_fee_per_gas * 10,
         tx_max_fee_per_blob_gas=tx_max_fee_per_blob_gas,
     )
-    required_gas_used = calculate_gas_required_for_base_fee_change(
+    required_gas_used = fork.base_fee_change_calculator()(
         parent_gas_limit=env.gas_limit,
         parent_base_fee_per_gas=parent_base_fee_per_gas,
         required_base_fee_per_gas=transition_block_base_fee_per_gas,
