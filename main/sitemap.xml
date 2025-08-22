@@ -1593,6 +1593,10 @@
          <lastmod>2025-08-22</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/spec/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/</loc>
          <lastmod>2025-08-22</lastmod>
     </url>
@@ -1601,7 +1605,39 @@
          <lastmod>2025-08-22</lastmod>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_transaction_gas_limit_cap_at_transition/</loc>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_larger_than_block_gas_limit/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_access_list_with_diff_addr/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_access_list_with_diff_keys/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_authorized_tx/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_contract_creation/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_full_calldata/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_tx_gas_limit_cap_subcall_context/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork/test_transaction_gas_limit_cap_at_transition/</loc>
          <lastmod>2025-08-22</lastmod>
     </url>
     <url>
