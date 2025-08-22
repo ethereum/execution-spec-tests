@@ -1621,7 +1621,43 @@
          <lastmod>2025-08-22</lastmod>
     </url>
     <url>
-         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_vectors_from_file/</loc>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_boundary_inputs/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_call_operations/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_gas_usage_contract_wrapper/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_invalid_inputs/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_used_in_transaction_entry_points/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_variable_gas_cost/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_vectors_from_eip/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_vectors_from_legacy_tests/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition/</loc>
+         <lastmod>2025-08-22</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition/test_modexp_fork_transition/</loc>
          <lastmod>2025-08-22</lastmod>
     </url>
     <url>
