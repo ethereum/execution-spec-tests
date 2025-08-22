@@ -25,23 +25,15 @@ echo "Select files that were changed and exist on the main branch:"
 echo "$MODIFIED_DELETED_FILES"
 
 rm -rf fixtures
-rm -f filloutput.log
 
-uv run fill $MODIFIED_DELETED_FILES --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $BASE_TEST_PATH > >(tee -a filloutput.log) 2> >(tee -a filloutput.log >&2)
-
-if grep -q "no tests ran" filloutput.log; then
+uv run fill $MODIFIED_DELETED_FILES --clean --until=$FILL_UNTIL --evm-bin evmone-t8n --block-gas-limit $BLOCK_GAS_LIMIT -m "state_test or blockchain_test" --output $BASE_TEST_PATH
+FILL_RETURN_CODE=$?
+if [ $FILL_RETURN_CODE -eq 5 ]; then
     echo "any_modified_fixtures=false" >> "$GITHUB_OUTPUT"
     exit 0
-fi
-
-if grep -q "FAILURES" filloutput.log; then
+elif [ $FILL_RETURN_CODE -ne 0 ]; then
     echo "Error: failed to generate .py tests from before the PR."
-    exit 1
-fi
-
-if grep -q "ERROR collecting test session" filloutput.log; then
-    echo "Error: failed to generate .py tests from before the PR."
-    exit 1
+    exit $FILL_RETURN_CODE
 fi
 
 git checkout $PATCH_COMMIT
