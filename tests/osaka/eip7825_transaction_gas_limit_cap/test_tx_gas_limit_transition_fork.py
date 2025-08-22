@@ -16,7 +16,10 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from .spec import Spec
+from .spec import ref_spec_7825
+
+REFERENCE_SPEC_GIT_PATH = ref_spec_7825.git_path
+REFERENCE_SPEC_VERSION = ref_spec_7825.version
 
 
 @pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
@@ -38,26 +41,26 @@ def test_transaction_gas_limit_cap_at_transition(
     )
 
     pre_cap = fork.transaction_gas_limit_cap()
-    if pre_cap is None:
-        pre_cap = Spec.tx_gas_limit_cap
+    post_cap = fork.transaction_gas_limit_cap(timestamp=15_000)
+    assert post_cap is not None, "Post cap should not be None"
+
+    pre_cap = pre_cap if pre_cap else post_cap + 1
+
+    assert post_cap <= pre_cap, (
+        "Post cap should be less than or equal to pre cap, test needs update"
+    )
 
     # Transaction with gas limit above the cap before transition
     high_gas_tx = Transaction(
         ty=0,  # Legacy transaction
         to=contract_address,
-        gas_limit=pre_cap + 1,
+        gas_limit=pre_cap,
         data=b"",
         value=0,
         sender=sender,
     )
 
-    post_cap = fork.transaction_gas_limit_cap(timestamp=15_000)
     post_cap_tx_error = TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
-
-    assert post_cap is not None, "Post cap should not be None"
-    assert post_cap <= pre_cap, (
-        "Post cap should be less than or equal to pre cap, test needs update"
-    )
 
     # Transaction with gas limit at the cap
     cap_gas_tx = Transaction(

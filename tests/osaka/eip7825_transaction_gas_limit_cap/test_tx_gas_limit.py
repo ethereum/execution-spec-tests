@@ -7,7 +7,6 @@ from typing import List
 
 import pytest
 
-from ethereum_test_exceptions import BlockException
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
@@ -129,14 +128,17 @@ def test_transaction_gas_limit_cap(
 )
 @pytest.mark.valid_from("Osaka")
 def test_tx_gas_limit_cap_subcall_context(
-    blockchain_test: BlockchainTestFiller, pre: Alloc, opcode: Op, fork: Fork, env: Environment
+    state_test: StateTestFiller, pre: Alloc, opcode: Op, fork: Fork, env: Environment
 ):
     """Test the transaction gas limit cap behavior for subcall context."""
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+
     caller_address = pre.deploy_contract(
         code=Op.SSTORE(
             0,
             opcode(
-                gas=Op.CALLDATALOAD(0),
+                gas=tx_gas_limit_cap + 1,
                 address=pre.deploy_contract(code=Op.MSTORE(0, Op.GAS) + Op.RETURN(0, 0x20)),
                 ret_offset=0,
                 ret_size=0,
@@ -148,21 +150,17 @@ def test_tx_gas_limit_cap_subcall_context(
     # All tests should pass and the *CALL operations should succeed
     # Gas forwarded = min(remaining gas, specified gas parameter)
 
-    txs = [
-        Transaction(
-            to=caller_address,
-            sender=pre.fund_eoa(),
-            gas_limit=Spec.tx_gas_limit_cap,
-            data=bytes(Spec.tx_gas_limit_cap + modifier),
-        )
-        for modifier in [-1, 0, 1]
-    ]
+    tx = Transaction(
+        to=caller_address,
+        sender=pre.fund_eoa(),
+        gas_limit=tx_gas_limit_cap,
+    )
 
     post = {
         caller_address: Account(storage={"0x00": 1}),
     }
 
-    blockchain_test(env=env, pre=pre, post=post, blocks=[Block(txs=txs)])
+    state_test(env=env, pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.parametrize(
@@ -177,40 +175,45 @@ def test_tx_gas_larger_than_block_gas_limit(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     env: Environment,
+    fork: Fork,
     exceed_block_gas_limit: bool,
 ):
     """Test multiple transactions with total gas larger than the block gas limit."""
-    code = Op.JUMPDEST + Op.JUMP(0)  # Gas Cost = 1 (JUMPDEST) + 3 (PUSH1) + 8 (JUMP) = 12
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
 
-    tx_count = env.gas_limit // Spec.tx_gas_limit_cap
+    tx_count = env.gas_limit // tx_gas_limit_cap
 
+    gas_spender_contract = pre.deploy_contract(code=Op.INVALID)
     block = Block(
         txs=[
             Transaction(
-                to=pre.deploy_contract(code=code),
+                to=gas_spender_contract,
                 sender=pre.fund_eoa(),
-                gas_limit=Spec.tx_gas_limit_cap,
+                gas_limit=tx_gas_limit_cap,
                 error=TransactionException.GAS_ALLOWANCE_EXCEEDED if i >= tx_count else None,
             )
             for i in range(tx_count + int(exceed_block_gas_limit))
         ],
-        exception=BlockException.GASLIMIT_TOO_BIG if exceed_block_gas_limit else None,
+        exception=TransactionException.GAS_ALLOWANCE_EXCEEDED if exceed_block_gas_limit else None,
     )
 
     blockchain_test(env=env, pre=pre, post={}, blocks=[block])
 
 
 @pytest.fixture
-def total_cost_floor_per_token():
+def total_cost_floor_per_token(fork: Fork):
     """Total cost floor per token."""
-    return 10
+    gas_costs = fork.gas_costs()
+    return gas_costs.G_TX_DATA_FLOOR_TOKEN_COST
 
 
 @pytest.mark.parametrize(
-    "exceed_tx_gas_limit",
+    "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
-        pytest.param(True, marks=pytest.mark.exception_test),
-        pytest.param(False),
+        pytest.param(True, False, marks=pytest.mark.exception_test),
+        pytest.param(True, True, marks=pytest.mark.exception_test),
+        pytest.param(False, True),
     ],
 )
 @pytest.mark.parametrize("zero_byte", [True, False])
@@ -221,11 +224,14 @@ def test_tx_gas_limit_cap_full_calldata(
     zero_byte: bool,
     total_cost_floor_per_token: int,
     exceed_tx_gas_limit: bool,
+    correct_intrinsic_cost_in_transaction_gas_limit: bool,
     fork: Fork,
 ):
     """Test the transaction gas limit cap behavior for full calldata."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    gas_available = tx_gas_limit_cap - intrinsic_cost()
 
     max_tokens_in_calldata = gas_available // total_cost_floor_per_token
     num_of_bytes = max_tokens_in_calldata if zero_byte else max_tokens_in_calldata // 4
@@ -243,12 +249,30 @@ def test_tx_gas_limit_cap_full_calldata(
 
     byte_data = b"\x00" if zero_byte else b"\xff"
 
+    correct_intrinsic_cost = intrinsic_cost(calldata=byte_data * num_of_bytes)
+    if exceed_tx_gas_limit:
+        assert correct_intrinsic_cost > tx_gas_limit_cap, (
+            "Correct intrinsic cost should exceed the tx gas limit cap"
+        )
+    else:
+        assert correct_intrinsic_cost <= tx_gas_limit_cap, (
+            "Correct intrinsic cost should be less than or equal to the tx gas limit cap"
+        )
+
+    tx_gas_limit = (
+        correct_intrinsic_cost
+        if correct_intrinsic_cost_in_transaction_gas_limit
+        else tx_gas_limit_cap
+    )
+
     tx = Transaction(
         to=pre.fund_eoa(),
         data=byte_data * num_of_bytes,
-        gas_limit=Spec.tx_gas_limit_cap,
+        gas_limit=tx_gas_limit,
         sender=pre.fund_eoa(),
-        error=TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
+        error=TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
+        if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
+        else TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
         if exceed_tx_gas_limit
         else None,
     )
@@ -263,7 +287,7 @@ def test_tx_gas_limit_cap_full_calldata(
 @pytest.mark.parametrize(
     "exceed_tx_gas_limit",
     [
-        pytest.param(True, marks=pytest.mark.exception_test),
+        pytest.param(True),
         pytest.param(False),
     ],
 )
@@ -277,7 +301,9 @@ def test_tx_gas_limit_cap_contract_creation(
 ):
     """Test the transaction gas limit cap behavior for contract creation."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost(contract_creation=True)
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    gas_available = tx_gas_limit_cap - intrinsic_cost(contract_creation=True)
 
     max_tokens_in_calldata = gas_available // total_cost_floor_per_token
     num_of_bytes = (max_tokens_in_calldata // 4) + int(exceed_tx_gas_limit)
@@ -304,10 +330,10 @@ def test_tx_gas_limit_cap_contract_creation(
     tx = Transaction(
         to=None,
         data=code,
-        gas_limit=Spec.tx_gas_limit_cap,
+        gas_limit=tx_gas_limit_cap,
         sender=pre.fund_eoa(),
         error=TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
-        if total_cost > Spec.tx_gas_limit_cap
+        if total_cost > tx_gas_limit_cap
         else None,
     )
 
@@ -319,22 +345,26 @@ def test_tx_gas_limit_cap_contract_creation(
 
 
 @pytest.mark.parametrize(
-    "exceed_tx_gas_limit",
+    "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
-        pytest.param(True, marks=pytest.mark.exception_test),
-        pytest.param(False),
+        pytest.param(True, False, marks=pytest.mark.exception_test),
+        pytest.param(True, True, marks=pytest.mark.exception_test),
+        pytest.param(False, True),
     ],
 )
 @pytest.mark.valid_from("Osaka")
 def test_tx_gas_limit_cap_access_list_with_diff_keys(
     state_test: StateTestFiller,
     exceed_tx_gas_limit: bool,
+    correct_intrinsic_cost_in_transaction_gas_limit: bool,
     pre: Alloc,
     fork: Fork,
 ):
     """Test the transaction gas limit cap behavior for access list with different storage keys."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    gas_available = tx_gas_limit_cap - intrinsic_cost()
 
     gas_costs = fork.gas_costs()
     gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
@@ -355,12 +385,32 @@ def test_tx_gas_limit_cap_access_list_with_diff_keys(
         )
     ]
 
+    correct_intrinsic_cost = intrinsic_cost(access_list=access_list)
+    if exceed_tx_gas_limit:
+        assert correct_intrinsic_cost > tx_gas_limit_cap, (
+            "Correct intrinsic cost should exceed the tx gas limit cap"
+        )
+    else:
+        assert correct_intrinsic_cost <= tx_gas_limit_cap, (
+            "Correct intrinsic cost should be less than or equal to the tx gas limit cap"
+        )
+
+    tx_gas_limit = (
+        correct_intrinsic_cost
+        if correct_intrinsic_cost_in_transaction_gas_limit
+        else tx_gas_limit_cap
+    )
+
     tx = Transaction(
         to=pre.fund_eoa(),
-        gas_limit=Spec.tx_gas_limit_cap,
+        gas_limit=tx_gas_limit,
         sender=pre.fund_eoa(),
         access_list=access_list,
-        error=TransactionException.INTRINSIC_GAS_TOO_LOW if exceed_tx_gas_limit else None,
+        error=TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
+        if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
+        else TransactionException.INTRINSIC_GAS_TOO_LOW
+        if exceed_tx_gas_limit
+        else None,
     )
 
     state_test(
@@ -371,10 +421,11 @@ def test_tx_gas_limit_cap_access_list_with_diff_keys(
 
 
 @pytest.mark.parametrize(
-    "exceed_tx_gas_limit",
+    "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
-        pytest.param(True, marks=pytest.mark.exception_test),
-        pytest.param(False),
+        pytest.param(True, False, marks=pytest.mark.exception_test),
+        pytest.param(True, True, marks=pytest.mark.exception_test),
+        pytest.param(False, True),
     ],
 )
 @pytest.mark.valid_from("Osaka")
@@ -383,10 +434,13 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
     pre: Alloc,
     fork: Fork,
     exceed_tx_gas_limit: bool,
+    correct_intrinsic_cost_in_transaction_gas_limit: bool,
 ):
     """Test the transaction gas limit cap behavior for access list with different addresses."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    gas_available = tx_gas_limit_cap - intrinsic_cost()
 
     gas_costs = fork.gas_costs()
     gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
@@ -404,12 +458,32 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
         for i in range(account_num)
     ]
 
+    correct_intrinsic_cost = intrinsic_cost(access_list=access_list)
+    if exceed_tx_gas_limit:
+        assert correct_intrinsic_cost > tx_gas_limit_cap, (
+            "Correct intrinsic cost should exceed the tx gas limit cap"
+        )
+    else:
+        assert correct_intrinsic_cost <= tx_gas_limit_cap, (
+            "Correct intrinsic cost should be less than or equal to the tx gas limit cap"
+        )
+
+    tx_gas_limit = (
+        correct_intrinsic_cost
+        if correct_intrinsic_cost_in_transaction_gas_limit
+        else tx_gas_limit_cap
+    )
+
     tx = Transaction(
         to=pre.fund_eoa(),
-        gas_limit=Spec.tx_gas_limit_cap,
+        gas_limit=tx_gas_limit,
         sender=pre.fund_eoa(),
         access_list=access_list,
-        error=TransactionException.INTRINSIC_GAS_TOO_LOW if exceed_tx_gas_limit else None,
+        error=TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
+        if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
+        else TransactionException.INTRINSIC_GAS_TOO_LOW
+        if exceed_tx_gas_limit
+        else None,
     )
 
     state_test(
@@ -420,10 +494,11 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
 
 
 @pytest.mark.parametrize(
-    "exceed_tx_gas_limit",
+    "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [
-        pytest.param(True, marks=pytest.mark.exception_test),
-        pytest.param(False),
+        pytest.param(True, False, marks=pytest.mark.exception_test),
+        pytest.param(True, True, marks=pytest.mark.exception_test),
+        pytest.param(False, True),
     ],
 )
 @pytest.mark.valid_from("Osaka")
@@ -432,10 +507,13 @@ def test_tx_gas_limit_cap_authorized_tx(
     pre: Alloc,
     fork: Fork,
     exceed_tx_gas_limit: bool,
+    correct_intrinsic_cost_in_transaction_gas_limit: bool,
 ):
     """Test a transaction limit cap with authorized tx."""
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
-    gas_available = Spec.tx_gas_limit_cap - intrinsic_cost()
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    gas_available = tx_gas_limit_cap - intrinsic_cost()
 
     gas_costs = fork.gas_costs()
     gas_per_address = gas_costs.G_ACCESS_LIST_ADDRESS
@@ -477,13 +555,35 @@ def test_tx_gas_limit_cap_authorized_tx(
         for signer in auth_signers
     ]
 
+    correct_intrinsic_cost = intrinsic_cost(
+        access_list=access_list, authorization_list_or_count=auth_list_length
+    )
+    if exceed_tx_gas_limit:
+        assert correct_intrinsic_cost > tx_gas_limit_cap, (
+            "Correct intrinsic cost should exceed the tx gas limit cap"
+        )
+    else:
+        assert correct_intrinsic_cost <= tx_gas_limit_cap, (
+            "Correct intrinsic cost should be less than or equal to the tx gas limit cap"
+        )
+
+    tx_gas_limit = (
+        correct_intrinsic_cost
+        if correct_intrinsic_cost_in_transaction_gas_limit
+        else tx_gas_limit_cap
+    )
+
     tx = Transaction(
         to=pre.fund_eoa(),
-        gas_limit=Spec.tx_gas_limit_cap,
+        gas_limit=tx_gas_limit,
         sender=pre.fund_eoa(),
         access_list=access_list,
         authorization_list=auth_tuples,
-        error=TransactionException.INTRINSIC_GAS_TOO_LOW if exceed_tx_gas_limit else None,
+        error=TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
+        if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
+        else TransactionException.INTRINSIC_GAS_TOO_LOW
+        if exceed_tx_gas_limit
+        else None,
     )
 
     state_test(
