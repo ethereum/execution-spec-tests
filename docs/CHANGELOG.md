@@ -105,6 +105,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added new `Blob` class which can use the ckzg library to generate valid blobs at runtime ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
 - ✨ Added `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 - ✨ Added `execute eth-config` command to test the `eth_config` RPC endpoint of a client, and includes configurations by default for Mainnet, Sepolia, Holesky, and Hoodi ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
+- ✨ Command `execute remote` now allows specification of an Engine API endpoint to drive the chain via `--engine-endpoint` and either `--engine-jwt-secret` or `--engine-jwt-secret-file`. This mode is useful when there's no consensus client connected to the execution client so `execute` will automatically request blocks via the Engine API when it sends transactions ([#2070](https://github.com/ethereum/execution-spec-tests/pull/2070)).
 
 ### 📋 Misc
 
@@ -330,7 +331,6 @@ consume cache --help
 
 - 🔀 Test IDs have changed to include the name of the test spec where the test came from (e.g. `state_test`, `blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
 - ✨ Markers can now be used to execute only tests from a specific test spec type (e.g. `-m state_test`, `-m blockchain_test`, etc) ([#1367](https://github.com/ethereum/execution-spec-tests/pull/1367)).
-- ✨ Command `execute remote` now allows specification of an Engine API endpoint to drive the chain via `--engine-endpoint` and either `--engine-jwt-secret` or `--engine-jwt-secret-file`. This mode is useful when there's no consensus client connected to the execution client so `execute` will automatically request blocks via the Engine API when it sends transactions ([#2070](https://github.com/ethereum/execution-spec-tests/pull/2070)).
 
 ### 📋 Misc
 
