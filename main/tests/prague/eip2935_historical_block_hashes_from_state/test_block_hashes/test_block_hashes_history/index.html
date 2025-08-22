@@ -26297,7 +26297,7 @@
 
 
 <h1 id="test_block_hashes_history"><code>test_block_hashes_history()</code><a class="headerlink" href="#test_block_hashes_history" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/3e72c6288d81346c1c556706443cff2375b37aba/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py#L207"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history@3e72c628</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/f1d66acc530889a6f05c4fc38c83ccbdffa5ac68/tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py#L207"><code>tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history@f1d66acc</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2935_historical_block_hashes_from_state/test_block_hashes.py::test_block_hashes_history --fork Osaka</span>
@@ -26439,7 +26439,7 @@ new one.</p>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">HISTORY_SERVE_WINDOW</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
             <span class="kc">False</span><span class="p">,</span>
-            <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Slow test not relevant anymore&quot;</span><span class="p">),</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">slow</span><span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;full_history_plus_one_check_blockhash_first&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
