@@ -1,11 +1,9 @@
 """Pytest plugin to test the `eth_config` RPC endpoint in a node."""
 
-import json
 import re
-from hashlib import sha256
 from os.path import realpath
 from pathlib import Path
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
 import pytest
 import requests
@@ -80,7 +78,10 @@ def pytest_configure(config: pytest.Config) -> None:
     network_name = config.getoption("network")
     network_configs_path = config.getoption("network_config_file")
     clients = config.getoption("clients")
-    rpc_endpoint = config.getoption("rpc_endpoint")
+
+    # set flags for defining whether to run majority eth_config test or not, and how
+    config.option.majority_eth_config_test_enabled = False
+    config.option.majority_clients = []  # List[str]
 
     # either load network file or activate majority test mode
     if network_configs_path is not None:  # case 1: load provided networks file
@@ -105,9 +106,9 @@ def pytest_configure(config: pytest.Config) -> None:
                 pytest.exit(f"Unsupported client was passed: {c}")
         print(f"Activating majority mode\nProvided client list: {clients}")
 
-        # request and store and compare all eth_config responses, then terminate
-        majority_eth_config_test(exec_clients=clients, rpc_endpoint=rpc_endpoint)
-        return  # TODO: how to not run the other tests, exit(1)?
+        # store majority mode configuration
+        config.option.majority_eth_config_test_enabled = True
+        config.option.majority_clients = clients  # List[str]
 
     if config.getoption("collectonly", default=False):
         return
@@ -138,82 +139,6 @@ def eth_rpc(rpc_endpoint: str) -> EthRPC:
     return EthRPC(rpc_endpoint)
 
 
-def majority_eth_config_test(exec_clients: List[str], rpc_endpoint: str):  # noqa: D103
-    # sanity checks
-    assert ".ethpandaops.io" in rpc_endpoint
-    assert len(exec_clients) > 0
-    if "geth" in exec_clients and "devnet-3" in rpc_endpoint:
-        print("Devnet-3 geth does not support eth_config")
-        return
-
-    # generate client-specific URLs from provided rpc_endpoint (it does not matter which client the original rpc_endpoint specifies)  # noqa: E501
-    # we want all combinations of consensus and execution clients (sometimes an exec client is only reachable via a subset of consensus client combinations)  # noqa: E501
-    pattern = r"(.*?@rpc\.)([^-]+)-([^-]+)(-.*)"
-    url_dict = {
-        exec_client: [
-            re.sub(
-                pattern,
-                f"\\g<1>{consensus}-{exec_client}\\g<4>",
-                rpc_endpoint,
-            )
-            for consensus in CONSENSUS_CLIENTS
-        ]
-        for exec_client in exec_clients
-    }
-    # url_dict looks like this:
-    # {
-    #     'besu': ["url for grandine+besu", "url for lighthouse+besu"], ...
-    #     'erigon': ["url for grandine+erigon", "url for lighthouse+erigon"], ...
-    #     ...
-    # }
-
-    # print("Majority test might contact some of these URLs:")
-    # pprint(url_dict)
-
-    # responses dict maps exec-client name to its response
-    responses = dict()  # noqa: C408
-    for exec_client in url_dict.keys():
-        # try only as many consensus+exec client combinations until you receive a response
-        # if all combinations fail we panic
-        for url in url_dict[exec_client]:
-            success, response = get_eth_config(url)
-            if not success:
-                # safely split url to not leak rpc_endpoint in logs
-                print(
-                    f"When trying to get eth_config from {url.split('@', 1)[-1] if '@' in url else ''} the following problem occurred: {response}"  # noqa: E501
-                )
-                continue
-
-            responses[exec_client] = response
-            print(f"Response of {exec_client}: {response}\n\n")
-            break  # no need to gather more responses for this client
-
-    assert len(responses.keys()) == len(exec_clients), "Failed to get an eth_config response "
-    f" from each specified execution client. Full list of execution clients is {exec_clients} "
-    f"but we were only able to gather eth_config responses from: {responses.keys()}\nWill try "
-    "again with a different consensus-execution client combination for this execution client"
-
-    # determine hashes of client responses
-    client_to_hash_dict = dict()  # noqa: C408
-    for client in responses.keys():
-        response_bytes = json.dumps(responses[client], sort_keys=True).encode("utf-8")
-        response_hash = sha256(response_bytes).digest().hex()
-        print(f"Response hash of client {client}: {response_hash}")
-        client_to_hash_dict[client] = response_hash
-
-    # if not all responses have the same hash there is a critical consensus issue
-    expected_hash = ""
-    for h in client_to_hash_dict.keys():
-        if expected_hash == "":
-            expected_hash = client_to_hash_dict[h]
-            continue
-
-        if client_to_hash_dict[h] != expected_hash:
-            pytest.exit("Critical consensus issue: Not all eth_config responses are the same!")
-
-    print("All clients returned the same eth_config response. Test has been passed!")
-
-
 def get_eth_config(url: str) -> Tuple[bool, str]:  # success, response
     """Request data from devnet node via JSON_RPC."""
     payload = {
@@ -234,3 +159,38 @@ def get_eth_config(url: str) -> Tuple[bool, str]:  # success, response
 
     except Exception as e:
         return False, f"error: {e}"
+
+
+def get_rpc_url_combinations_el_cl(
+    el_clients: List[str], rpc_endpoint: str
+) -> None | Dict[str, List[str]]:
+    """Get cl+el url combinations for json rpc."""
+    # sanity checks
+    assert ".ethpandaops.io" in rpc_endpoint
+    assert len(el_clients) > 0
+    if "geth" in el_clients and "fusaka-devnet-3" in rpc_endpoint:
+        print("fusaka-devnet-3 geth does not support eth_config")
+        return None
+
+    # generate client-specific URLs from provided rpc_endpoint (it does not matter which client the original rpc_endpoint specifies)  # noqa: E501
+    # we want all combinations of consensus and execution clients (sometimes an exec client is only reachable via a subset of consensus client combinations)  # noqa: E501
+    pattern = r"(.*?@rpc\.)([^-]+)-([^-]+)(-.*)"
+    url_dict: Dict[str, List[str]] = {
+        exec_client: [
+            re.sub(
+                pattern,
+                f"\\g<1>{consensus}-{exec_client}\\g<4>",
+                rpc_endpoint,
+            )
+            for consensus in CONSENSUS_CLIENTS
+        ]
+        for exec_client in el_clients
+    }
+    # url_dict looks like this:
+    # {
+    #     'besu': ["url for grandine+besu", "url for lighthouse+besu"], ...
+    #     'erigon': ["url for grandine+erigon", "url for lighthouse+erigon"], ...
+    #     ...
+    # }
+
+    return url_dict
