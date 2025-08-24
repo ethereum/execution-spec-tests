@@ -118,6 +118,31 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x3E5141734E971A8D55015068D9B3666760F4608A49B11F92E500ACEA647978C7),
             id="wrong_endianness",
         ),
+        # Critical fuzzer-discovered edge cases for field arithmetic boundaries
+        pytest.param(
+            # Test near-field boundary modular reduction with P-1, P-2 values
+            H(0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFE)  # H = P - 1
+            + R(0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254F)  # R = N - 2
+            + S(0x7FFFFFFF800000007FFFFFFF7FFFFFFF5D576E7357A4501DDFE92F46681B20A0)  # S = (N+1)/2
+            + X(0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFD)  # X = P - 2
+            + Y(
+                0x8C4F5775D9E104872685065BECB8F37242FDB8542B44A8E8E3C84E6587FD60F7
+            ),  # Valid Y for X=P-2
+            id="near_field_boundary_p_minus_values",
+        ),
+        pytest.param(
+            # Test scalar multiplication edge case with special bit patterns
+            H(0x1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF)
+            + R(
+                0x8000000000000000000000000000000000000000000000000000000000000000
+            )  # Single high bit
+            + S(
+                0x5555555555555555555555555555555555555555555555555555555555555555
+            )  # Alternating bits
+            + X(0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296)  # Generator X
+            + Y(0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5),  # Generator Y
+            id="scalar_mult_special_bit_patterns",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
