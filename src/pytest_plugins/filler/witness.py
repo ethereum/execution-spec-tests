@@ -47,7 +47,7 @@ def pytest_configure(config):
                 "--git",
                 "https://github.com/kevaundray/reth.git",
                 "--rev",
-                "8016a8a5736e4427b3d285c82cd39c4ece70f8c4",
+                "e7efffd314a003018883caf2489c39733fc59388",
                 "witness-filler",
             ],
         )
