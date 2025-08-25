@@ -118,17 +118,17 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x3E5141734E971A8D55015068D9B3666760F4608A49B11F92E500ACEA647978C7),
             id="wrong_endianness",
         ),
-        # Critical fuzzer-discovered edge cases for field arithmetic boundaries
+        # Critical edge cases for field arithmetic boundaries
         pytest.param(
-            # Test near-field boundary modular reduction with P-1, P-2 values
+            # Test near-field boundary modular reduction with P-3 (P-2 has no valid Y on curve)
             H(0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFE)  # H = P - 1
             + R(0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC63254F)  # R = N - 2
-            + S(0x7FFFFFFF800000007FFFFFFF7FFFFFFF5D576E7357A4501DDFE92F46681B20A0)  # S = (N+1)/2
-            + X(0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFD)  # X = P - 2
+            + S(0x7FFFFFFF800000007FFFFFFFFFFFFFFFDE737D56D38BCF4279DCE5617E3192A8)  # S = (N-1)/2
+            + X(0xFFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC)  # X = P - 3
             + Y(
-                0x8C4F5775D9E104872685065BECB8F37242FDB8542B44A8E8E3C84E6587FD60F7
-            ),  # Valid Y for X=P-2
-            id="near_field_boundary_p_minus_values",
+                0x19719BEBF6AEA13F25C96DFD7C71F5225D4C8FC09EB5A0AB9F39E9178E55C121
+            ),  # Valid Y for X=P-3
+            id="near_field_boundary_p_minus_3",
         ),
         pytest.param(
             # Test scalar multiplication edge case with special bit patterns
