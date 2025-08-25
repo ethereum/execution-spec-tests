@@ -18,7 +18,7 @@ CURRENT_FOLDER = CURRENT_FILE.parent
 DEFAULT_NETWORK_CONFIGS_FILE = CURRENT_FOLDER / "networks.yml"
 DEFAULT_NETWORKS = NetworkConfigFile.from_yaml(DEFAULT_NETWORK_CONFIGS_FILE)
 
-EXECUTION_CLIENTS = ["besu", "erigon", "geth", "nethermind", "reth"]
+EXECUTION_CLIENTS = ["besu", "erigon", "geth", "nethermind", "nimbusel", "reth"]
 CONSENSUS_CLIENTS = ["grandine", "lighthouse", "lodestar", "nimbus", "prysm", "teku"]
 
 
@@ -83,32 +83,34 @@ def pytest_configure(config: pytest.Config) -> None:
     config.option.majority_eth_config_test_enabled = False
     config.option.majority_clients = []  # List[str]
 
-    # either load network file or activate majority test mode
-    if network_configs_path is not None:  # case 1: load provided networks file
-        if not network_configs_path.exists():
-            pytest.exit(f'Specified networks file "{network_configs_path}" does not exist.')
-        try:
-            network_configs = NetworkConfigFile.from_yaml(network_configs_path)
-        except Exception as e:
-            pytest.exit(f"Could not load file {network_configs_path}: {e}")
+    # load provided networks file
+    if network_configs_path is None:
+        pytest.exit("You must specify a value for the --network-config-file flag.")
+    if not network_configs_path.exists():
+        pytest.exit(f'Specified networks file "{network_configs_path}" does not exist.')
+    try:
+        network_configs = NetworkConfigFile.from_yaml(network_configs_path)
+    except Exception as e:
+        pytest.exit(f"Could not load file {network_configs_path}: {e}")
 
-        if network_name not in network_configs.root:
-            pytest.exit(
-                f'Network "{network_name}" could not be found in file "{network_configs_path}".'
-            )
-        config.network = network_configs.root[network_name]  # type: ignore
-    else:  # case 2: activate majority test mode
-        #   parse clients list
-        clients.replace(" ", "")
-        clients = clients.split(",")
-        for c in clients:
-            if c not in EXECUTION_CLIENTS:
-                pytest.exit(f"Unsupported client was passed: {c}")
-        print(f"Activating majority mode\nProvided client list: {clients}")
+    if network_name not in network_configs.root:
+        pytest.exit(
+            f'Network "{network_name}" could not be found in file "{network_configs_path}".'
+        )
+    config.network = network_configs.root[network_name]  # type: ignore
 
-        # store majority mode configuration
-        config.option.majority_eth_config_test_enabled = True
-        config.option.majority_clients = clients  # List[str]
+    # prepare majority test mode
+    #   parse clients list
+    clients.replace(" ", "")
+    clients = clients.split(",")
+    for c in clients:
+        if c not in EXECUTION_CLIENTS:
+            pytest.exit(f"Unsupported client was passed: {c}")
+    print(f"Activating majority mode\nProvided client list: {clients}")
+
+    # store majority mode configuration
+    config.option.majority_eth_config_test_enabled = True
+    config.option.majority_clients = clients  # List[str]
 
     if config.getoption("collectonly", default=False):
         return
@@ -116,10 +118,13 @@ def pytest_configure(config: pytest.Config) -> None:
     # Test out the RPC endpoint to be able to fail fast if it's not working
     eth_rpc = EthRPC(config.getoption("rpc_endpoint"))
     try:
-        eth_rpc.chain_id()
+        print("Will now perform a connection check (request chain_id)..")
+        chain_id = eth_rpc.chain_id()
+        print(f"Connection check ok (successfully got chain id {chain_id} from {eth_rpc.url})")
     except Exception as e:
         pytest.exit(f"Could not connect to RPC endpoint {config.getoption('rpc_endpoint')}: {e}")
     try:
+        print(f"Will now briefly check whether {eth_rpc.url} supports eth_config..")
         eth_rpc.config()
     except Exception as e:
         pytest.exit(

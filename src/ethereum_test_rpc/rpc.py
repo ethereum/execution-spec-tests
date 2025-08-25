@@ -105,7 +105,6 @@ class BaseRPC:
         headers = base_header | self.extra_headers | extra_headers
 
         print(f"Sending RPC request to {self.url}, timeout is set to {timeout}...")
-        # WHY IS TIMEOUT ALWAYS NONE IT SHOULD HAVE RECEIVED AN ACTUAL VALUE
         response = requests.post(self.url, json=json, headers=headers, timeout=timeout)
         response.raise_for_status()
         response_json = response.json()
@@ -163,7 +162,7 @@ class EthRPC(BaseRPC):
 
     def chain_id(self) -> int:
         """`eth_chainId`: Returns the current chain id."""
-        response = self.post_request(method="chainId")
+        response = self.post_request(method="chainId", timeout=10)
 
         return int(response, 16)
 

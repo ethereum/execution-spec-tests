@@ -22,8 +22,7 @@ def eth_config_response(eth_rpc: EthRPC) -> EthConfigResponse | None:
 @pytest.fixture(scope="session")
 def network(request) -> NetworkConfig:
     """Get the network that will be used to verify all tests."""
-    config = request.config
-    return config.getoption("network")
+    return request.config.network
 
 
 @pytest.fixture(scope="session")
@@ -35,6 +34,7 @@ def current_time() -> int:
 @pytest.fixture(scope="session")
 def expected_eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
     """Calculate the current fork value to verify against the client's response."""
+    print(f"Network provided: {network}, Type: {type(network)}")
     return network.get_eth_config(current_time)
 
 
@@ -149,9 +149,10 @@ def test_eth_config_next_fork_id(
 def test_eth_config_last(
     eth_config_response: EthConfigResponse | None,
     expected_eth_config: EthConfigResponse,
-    config: pytest.Config,
+    request,
 ) -> None:
     """Validate `last` field of the `eth_config` RPC endpoint."""
+    config = request.config
     if config.getoption("network_config_file") is None:
         pytest.skip("Skipping test because no 'network_config_file' was specified")
 
@@ -175,9 +176,10 @@ def test_eth_config_last(
 def test_eth_config_last_fork_id(
     eth_config_response: EthConfigResponse | None,
     expected_eth_config: EthConfigResponse,
-    config: pytest.Config,
+    request,
 ) -> None:
     """Validate `forkId` field within the `last` configuration object."""
+    config = request.config
     if config.getoption("network_config_file") is None:
         pytest.skip("Skipping test because no 'network_config_file' was specified")
 
