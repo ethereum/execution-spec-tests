@@ -1,5 +1,6 @@
 """Test execution plugin for pytest, to run Ethereum tests using in live networks."""
 
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
@@ -8,7 +9,7 @@ import pytest
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from ethereum_test_execution import BaseExecute
-from ethereum_test_forks import Fork
+from ethereum_test_forks import Fork, ForkAdapter
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
 from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
@@ -73,6 +74,30 @@ def pytest_addoption(parser):
             f"(Default: {EnvironmentDefaults.gas_limit // 4})"
         ),
     )
+    execute_group.addoption(
+        "--fork",
+        action="store",
+        dest="fork",
+        required=True,
+        type=ForkAdapter.validate_python,
+        help="Fork to be used for the tests.",
+    )
+    execute_group.addoption(
+        "--transactions-per-block",
+        action="store",
+        dest="transactions_per_block",
+        type=int,
+        default=None,
+        help=("Number of transactions to send before producing the next block."),
+    )
+    execute_group.addoption(
+        "--get-payload-wait-time",
+        action="store",
+        dest="get_payload_wait_time",
+        type=float,
+        default=0.3,
+        help=("Time to wait after sending a forkchoice_updated before getting the payload."),
+    )
 
     report_group = parser.getgroup("tests", "Arguments defining html report behavior")
     report_group.addoption(
@@ -116,23 +141,6 @@ def pytest_configure(config):
 
     command_line_args = "fill " + " ".join(config.invocation_params.args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
-
-    selected_fork_set = config.selected_fork_set
-
-    # remove the transition forks from the selected forks
-    for fork in set(selected_fork_set):
-        if hasattr(fork, "transitions_to"):
-            selected_fork_set.remove(fork)
-
-    if len(selected_fork_set) != 1:
-        pytest.exit(
-            f"""
-            Expected exactly one fork to be specified, got {len(selected_fork_set)}
-            ({selected_fork_set}).
-            Make sure to specify exactly one fork using the --fork command line argument.
-            """,
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
 
 
 def pytest_metadata(metadata):
@@ -189,6 +197,24 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
+
+
+@pytest.fixture(scope="session")
+def fork(request) -> Fork:
+    """Return the fork to be used for the tests."""
+    return request.config.getoption("fork")
+
+
+@pytest.fixture(scope="session")
+def transactions_per_block(request) -> int:  # noqa: D103
+    if transactions_per_block := request.config.getoption("transactions_per_block"):
+        return transactions_per_block
+
+    # Get the number of workers for the test
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
 
 
 @pytest.fixture(scope="session")
@@ -361,10 +387,7 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
         if isinstance(item, EIPSpecTestItem):
             continue
         params: Dict[str, Any] = item.callspec.params  # type: ignore
-        if "fork" not in params or params["fork"] is None:
-            items_for_removal.append(i)
-            continue
-        fork: Fork = params["fork"]
+        fork: Fork = config.getoption("fork")
         spec_type, execute_format = get_spec_format_for_item(params)
         assert issubclass(execute_format, BaseExecute)
         markers = list(item.iter_markers())
