@@ -57,6 +57,30 @@ class TransactionDataFloorCostCalculator(Protocol):
         pass
 
 
+class BaseFeePerGasCalculator(Protocol):
+    """A protocol to calculate the base fee per gas at a given fork."""
+
+    def __call__(
+        self, *, parent_base_fee_per_gas: int, parent_gas_used: int, parent_gas_limit: int
+    ) -> int:
+        """Return the base fee per gas at a given fork."""
+        pass
+
+
+class BaseFeeChangeCalculator(Protocol):
+    """A protocol to calculate the gas that needs to be used to change the base fee."""
+
+    def __call__(
+        self,
+        *,
+        parent_base_fee_per_gas: int,
+        parent_gas_limit: int,
+        required_base_fee_per_gas: int,
+    ) -> int:
+        """Return the gas that needs to be used to change the base fee."""
+        pass
+
+
 class TransactionIntrinsicCostCalculator(Protocol):
     """A protocol to calculate the intrinsic gas cost of a transaction at a given fork."""
 
@@ -270,6 +294,37 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
         Return callable that calculates the transaction gas cost for its calldata
         depending on its contents.
         """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_per_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeePerGasCalculator:
+        """Return a callable that calculates the base fee per gas at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_change_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeeChangeCalculator:
+        """
+        Return a callable that calculates the gas that needs to be used to change the
+        base fee.
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_max_change_denominator(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee max change denominator at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def base_fee_elasticity_multiplier(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee elasticity multiplier at a given fork."""
         pass
 
     @classmethod

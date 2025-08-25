@@ -11,6 +11,8 @@ from ethereum_test_base_types.conversions import BytesConvertible
 from ethereum_test_vm import EVMCodeType, Opcodes
 
 from ..base_fork import (
+    BaseFeeChangeCalculator,
+    BaseFeePerGasCalculator,
     BaseFork,
     BlobGasPriceCalculator,
     CalldataGasCalculator,
@@ -160,6 +162,37 @@ class Frontier(BaseFork, solc_name="homestead"):
             return cost
 
         return fn
+
+    @classmethod
+    def base_fee_per_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeePerGasCalculator:
+        """Return a callable that calculates the base fee per gas at a given fork."""
+        raise NotImplementedError(f"Base fee per gas calculator is not supported in {cls.name()}")
+
+    @classmethod
+    def base_fee_change_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeeChangeCalculator:
+        """
+        Return a callable that calculates the gas that needs to be used to change the
+        base fee.
+        """
+        raise NotImplementedError(f"Base fee change calculator is not supported in {cls.name()}")
+
+    @classmethod
+    def base_fee_max_change_denominator(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee max change denominator at a given fork."""
+        raise NotImplementedError(
+            f"Base fee max change denominator is not supported in {cls.name()}"
+        )
+
+    @classmethod
+    def base_fee_elasticity_multiplier(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee elasticity multiplier at a given fork."""
+        raise NotImplementedError(
+            f"Base fee elasticity multiplier is not supported in {cls.name()}"
+        )
 
     @classmethod
     def transaction_data_floor_cost_calculator(
@@ -874,6 +907,139 @@ class London(Berlin):
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.BASEFEE] + super(London, cls).valid_opcodes()
+
+    @classmethod
+    def base_fee_max_change_denominator(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee max change denominator at London."""
+        return 8
+
+    @classmethod
+    def base_fee_elasticity_multiplier(cls, block_number: int = 0, timestamp: int = 0) -> int:
+        """Return the base fee elasticity multiplier at London."""
+        return 2
+
+    @classmethod
+    def base_fee_per_gas_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeePerGasCalculator:
+        """
+        Return a callable that calculates the base fee per gas at London.
+
+        EIP-1559 block validation pseudo code:
+
+        if INITIAL_FORK_BLOCK_NUMBER == block.number:
+            expected_base_fee_per_gas = INITIAL_BASE_FEE
+        elif parent_gas_used == parent_gas_target:
+            expected_base_fee_per_gas = parent_base_fee_per_gas
+        elif parent_gas_used > parent_gas_target:
+            gas_used_delta = parent_gas_used - parent_gas_target
+            base_fee_per_gas_delta = max(
+                parent_base_fee_per_gas * gas_used_delta // parent_gas_target \
+                    // BASE_FEE_MAX_CHANGE_DENOMINATOR,
+                1,
+            )
+            expected_base_fee_per_gas = parent_base_fee_per_gas + base_fee_per_gas_delta
+        else:
+            gas_used_delta = parent_gas_target - parent_gas_used
+            base_fee_per_gas_delta = (
+                parent_base_fee_per_gas * gas_used_delta // \
+                    parent_gas_target // BASE_FEE_MAX_CHANGE_DENOMINATOR
+            )
+            expected_base_fee_per_gas = parent_base_fee_per_gas - base_fee_per_gas_delta
+        """
+        base_fee_max_change_denominator = cls.base_fee_max_change_denominator(
+            block_number, timestamp
+        )
+        elasticity_multiplier = cls.base_fee_elasticity_multiplier(block_number, timestamp)
+
+        def fn(
+            *, parent_base_fee_per_gas: int, parent_gas_used: int, parent_gas_limit: int
+        ) -> int:
+            parent_gas_target = parent_gas_limit // elasticity_multiplier
+            if parent_gas_used == parent_gas_target:
+                return parent_base_fee_per_gas
+            elif parent_gas_used > parent_gas_target:
+                gas_used_delta = parent_gas_used - parent_gas_target
+                base_fee_per_gas_delta = max(
+                    parent_base_fee_per_gas
+                    * gas_used_delta
+                    // parent_gas_target
+                    // base_fee_max_change_denominator,
+                    1,
+                )
+                return parent_base_fee_per_gas + base_fee_per_gas_delta
+            else:
+                gas_used_delta = parent_gas_target - parent_gas_used
+                base_fee_per_gas_delta = (
+                    parent_base_fee_per_gas
+                    * gas_used_delta
+                    // parent_gas_target
+                    // base_fee_max_change_denominator
+                )
+                return parent_base_fee_per_gas - base_fee_per_gas_delta
+
+        return fn
+
+    @classmethod
+    def base_fee_change_calculator(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> BaseFeeChangeCalculator:
+        """
+        Return a callable that calculates the gas that needs to be used to change the
+        base fee.
+        """
+        base_fee_max_change_denominator = cls.base_fee_max_change_denominator(
+            block_number, timestamp
+        )
+        elasticity_multiplier = cls.base_fee_elasticity_multiplier(block_number, timestamp)
+        base_fee_per_gas_calculator = cls.base_fee_per_gas_calculator(block_number, timestamp)
+
+        def fn(
+            *,
+            parent_base_fee_per_gas: int,
+            parent_gas_limit: int,
+            required_base_fee_per_gas: int,
+        ) -> int:
+            parent_gas_target = parent_gas_limit // elasticity_multiplier
+
+            if parent_base_fee_per_gas == required_base_fee_per_gas:
+                return parent_gas_target
+            elif required_base_fee_per_gas > parent_base_fee_per_gas:
+                # Base fee needs to go up, so we need to use more than target
+                base_fee_per_gas_delta = required_base_fee_per_gas - parent_base_fee_per_gas
+                parent_gas_used = (
+                    (base_fee_per_gas_delta * base_fee_max_change_denominator * parent_gas_target)
+                    // parent_base_fee_per_gas
+                ) + parent_gas_target
+            elif required_base_fee_per_gas < parent_base_fee_per_gas:
+                # Base fee needs to go down, so we need to use less than target
+                base_fee_per_gas_delta = parent_base_fee_per_gas - required_base_fee_per_gas
+
+                parent_gas_used = (
+                    parent_gas_target
+                    - (
+                        (
+                            base_fee_per_gas_delta
+                            * base_fee_max_change_denominator
+                            * parent_gas_target
+                        )
+                        // parent_base_fee_per_gas
+                    )
+                    - 1
+                )
+
+            assert (
+                base_fee_per_gas_calculator(
+                    parent_base_fee_per_gas=parent_base_fee_per_gas,
+                    parent_gas_used=parent_gas_used,
+                    parent_gas_limit=parent_gas_limit,
+                )
+                == required_base_fee_per_gas
+            )
+
+            return parent_gas_used
+
+        return fn
 
 
 # Glacier forks skipped, unless explicitly specified
