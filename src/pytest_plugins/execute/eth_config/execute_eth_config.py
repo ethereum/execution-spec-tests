@@ -9,14 +9,14 @@ import pytest
 
 from ethereum_test_rpc import EthConfigResponse, EthRPC
 
-from .eth_config import get_eth_config, get_rpc_url_combinations_el_cl
+from .eth_config import get_rpc_url_combinations_el_cl, request_eth_config
 from .types import NetworkConfig
 
 
 @pytest.fixture(scope="session")
 def eth_config_response(eth_rpc: EthRPC) -> EthConfigResponse | None:
     """Get the `eth_config` response from the client to be verified by all tests."""
-    return eth_rpc.config()
+    return eth_rpc.config(timeout=10)
 
 
 @pytest.fixture(scope="session")
@@ -93,8 +93,6 @@ def test_eth_config_next(
     config = request.config
     if config.getoption("network_config_file") is None:
         pytest.skip("Skipping test because no 'network_config_file' was specified")
-    else:
-        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
     assert eth_config_response is not None, "Client did not return a valid `eth_config` response."
     expected_next = expected_eth_config.next
@@ -226,12 +224,13 @@ def test_eth_config_majority(
         el_clients=el_clients, rpc_endpoint=rpc_endpoint
     )
     assert url_dict is not None
+
     responses = dict()  # noqa: C408
     for exec_client in url_dict.keys():
         # try only as many consensus+exec client combinations until you receive a response
         # if all combinations fail we panic
         for url in url_dict[exec_client]:
-            success, response = get_eth_config(url)
+            success, response = request_eth_config(url=url, timeout=9)
             if not success:
                 # safely split url to not leak rpc_endpoint in logs
                 print(

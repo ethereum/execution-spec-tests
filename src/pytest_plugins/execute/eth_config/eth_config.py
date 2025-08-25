@@ -139,7 +139,7 @@ def eth_rpc(rpc_endpoint: str) -> EthRPC:
     return EthRPC(rpc_endpoint)
 
 
-def get_eth_config(url: str) -> Tuple[bool, str]:  # success, response
+def request_eth_config(*, url: str, timeout: int = 10) -> Tuple[bool, str]:  # success, response
     """Request data from devnet node via JSON_RPC."""
     payload = {
         "jsonrpc": "2.0",
@@ -152,7 +152,7 @@ def get_eth_config(url: str) -> Tuple[bool, str]:  # success, response
 
     try:
         # Make the request
-        response = requests.post(url, json=payload, headers=headers, timeout=20)
+        response = requests.post(url, json=payload, headers=headers, timeout=timeout)
 
         # Return JSON response
         return True, response.json()
