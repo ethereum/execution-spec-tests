@@ -1,7 +1,6 @@
 """BlockchainTest types."""
 
 import json
-from dataclasses import dataclass
 from functools import cached_property
 from typing import (
     Annotated,
@@ -403,8 +402,7 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
         return cls(**w.model_dump())
 
 
-@dataclass(slots=True)
-class WitnessChunk:
+class WitnessChunk(CamelModel):
     """Represents execution witness data for a block."""
 
     state: List[str]
