@@ -411,8 +411,12 @@ class WitnessChunk(CamelModel):
     headers: List[str]
 
     @classmethod
-    def from_json(cls, s: str) -> List["WitnessChunk"]:
-        """Parse witness chunks from JSON string."""
+    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+        """
+        Parse multiple witness chunks from JSON string.
+
+        Returns a list of WitnessChunk instances parsed from the JSON array.
+        """
         return [cls(**obj) for obj in json.loads(s)]
 
 

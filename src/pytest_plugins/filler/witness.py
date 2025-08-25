@@ -106,7 +106,7 @@ def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] |
             )
 
         try:
-            witnesses = WitnessChunk.from_json(result.stdout)
+            witnesses = WitnessChunk.parse_witness_chunks(result.stdout)
             for i, witness in enumerate(witnesses):
                 if i < len(fixture.blocks) and isinstance(fixture.blocks[i], FixtureBlock):
                     fixture.blocks[i].execution_witness = witness
