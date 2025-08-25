@@ -10,7 +10,7 @@ import time
 from abc import abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, LiteralString, Mapping, Optional, Type
+from typing import Any, ClassVar, Dict, List, LiteralString, Mapping, Optional, Type
 from urllib.parse import urlencode
 
 from requests import Response
@@ -67,6 +67,8 @@ class TransitionTool(EthereumCLI):
     t8n_use_server: bool = False
     server_url: str | None = None
     process: Optional[subprocess.Popen] = None
+
+    supports_xdist: ClassVar[bool] = True
 
     @abstractmethod
     def __init__(
