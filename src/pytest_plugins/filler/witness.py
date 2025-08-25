@@ -6,11 +6,18 @@ and generates execution witness data for blockchain test fixtures when enabled.
 """
 
 import subprocess
-from typing import Any, Callable
+from typing import Any, Callable, List
 
 import pytest
 
+from ethereum_test_base_types import EthereumTestRootModel
 from ethereum_test_fixtures.blockchain import FixtureBlock, WitnessChunk
+
+
+class WitnessFillerResult(EthereumTestRootModel[List[WitnessChunk]]):
+    """Model that defines the expected result from the `witness-filler` command."""
+
+    root: List[WitnessChunk]
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -106,11 +113,13 @@ def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] |
             )
 
         try:
-            witnesses = WitnessChunk.parse_witness_chunks(result.stdout)
+            result_model = WitnessFillerResult.model_validate_json(result.stdout)
+            witnesses = result_model.root
+
             for i, witness in enumerate(witnesses):
                 if i < len(fixture.blocks) and isinstance(fixture.blocks[i], FixtureBlock):
                     fixture.blocks[i].execution_witness = witness
-        except (ValueError, IndexError, AttributeError) as e:
+        except Exception as e:
             raise RuntimeError(
                 f"Failed to parse witness data from witness-filler tool. "
                 f"Output was: {result.stdout[:500]}{'...' if len(result.stdout) > 500 else ''}"
