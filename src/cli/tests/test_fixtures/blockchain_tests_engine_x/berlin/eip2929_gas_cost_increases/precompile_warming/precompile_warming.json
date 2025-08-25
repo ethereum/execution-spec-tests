@@ -1,0 +1,364 @@
+{
+    "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_CancunToPragueAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]": {
+        "network": "CancunToPragueAtTime15k",
+        "lastblockhash": "0x04081ef3816d15a124b0a8a6ea9cc658e204a82e1c92bcfa996b6d0763297e3f",
+        "config": {
+            "network": "CancunToPragueAtTime15k",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                },
+                "Prague": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                }
+            }
+        },
+        "preHash": "0xc8f43a25afa28831",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x2983add0d6e9a484cba88e6ff0fc99de9ceaab33b849524d984c889305dc3adb",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x9cd3ca7b2d5b2d832f1de224d292ae263d3f5f4e7e9d5de740ad0263f12d2a89",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x2710",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0x1b23a81894efbecb726758eb4a763930d79c204dba3b04e62780e576a0515bcc",
+                        "transactions": [
+                            "0xf860800a830f42409401bee13d3d084e0bb01b75abdb5e81761baa6496808025a0cb4174f93c5cfa073f28e4c9554008ed1c6ae58cbd9ea88181f7aa2826649eb8a04f9cef64e936f54c248a5cbdf0f230a23988fd9ce2b30c56d5fddce55d4269bb"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "newPayloadVersion": "3",
+                "forkchoiceUpdatedVersion": "3"
+            },
+            {
+                "params": [
+                    {
+                        "parentHash": "0x1b23a81894efbecb726758eb4a763930d79c204dba3b04e62780e576a0515bcc",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0xa43b2ed9d27a0e24878943adc9675bcf22217db5136aaaec85f2100e8d0c8ed1",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x2",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x4e20",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0x04081ef3816d15a124b0a8a6ea9cc658e204a82e1c92bcfa996b6d0763297e3f",
+                        "transactions": [
+                            "0xf860010a830f42409401bee13d3d084e0bb01b75abdb5e81761baa6596808026a05fa4edada1b11b2d0a70c3924cf8bb4c94220636dc577593d2e0740216cd001ea05d71bb1ad3b9ce5d61271596b4f9cba8607c4b9ac26c1058c946e869b8d25ea2"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    []
+                ],
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0x649c04a9b130dbde89bb13d08f29dcaead1e8994fe4e4b03fe269645bc98654f",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Call BALANCE of a precompile addresses before and after a fork.\n\n    According to EIP-2929, when a transaction begins, accessed_addresses is initialized to include:\n    - tx.sender, tx.to\n    - and the set of all precompiles\n\n    This test verifies that:\n    1. Precompiles that exist in the predecessor fork are always \"warm\" (lower gas cost)\n    2. New precompiles added in a fork are \"cold\" before the fork and become \"warm\" after",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L68",
+            "fixture-format": "blockchain_test_engine_x",
+            "reference-spec": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2929.md",
+            "reference-spec-version": "0e11417265a623adb680c527b15d0cb6701b870b",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ParisToShanghaiAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]": {
+        "network": "ParisToShanghaiAtTime15k",
+        "lastblockhash": "0xbd2974ac2ebe895092f16b73c1913f10a83ebe27a1377b4e94141ab5d3d493b1",
+        "config": {
+            "network": "ParisToShanghaiAtTime15k",
+            "chainid": "0x01"
+        },
+        "preHash": "0x38039831b3e60c98",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0xde20d33c4a1528470ca5c1ff2aef6b36e097ce852de8c22a3b71ff95496dc4a7",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0xf9464faec69f79d577c9804821d8862fbbfbbf3d0b45eb93dc9fba4c9aa863fc",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x2710",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blockHash": "0x8c3fddd8ce277b42cfccab0364598826b4fdff3434d1fff1098ac9fc646b1bda",
+                        "transactions": [
+                            "0xf860800a830f42409464e51356cbed62ff86cc55b020d7e52052b3cfd9808025a07c5fa56a9d230e596af99792add6ffbdff384fdb5e1091eec4aaeb37f3e5d85fa026ff8d68b1441344a33947d907de70e203cfdb896159b9c855dbbd1556139463"
+                        ]
+                    }
+                ],
+                "newPayloadVersion": "1",
+                "forkchoiceUpdatedVersion": "1"
+            },
+            {
+                "params": [
+                    {
+                        "parentHash": "0x8c3fddd8ce277b42cfccab0364598826b4fdff3434d1fff1098ac9fc646b1bda",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x17f691404065576669168a1f284349391c6ef555e05dd1762a4805989e1c37d4",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x2",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x4e20",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blockHash": "0xbd2974ac2ebe895092f16b73c1913f10a83ebe27a1377b4e94141ab5d3d493b1",
+                        "transactions": [
+                            "0xf860010a830f42409464e51356cbed62ff86cc55b020d7e52052b3d0d9808026a006a8578ac95f13786ebc7d7dccdd63fcab9f21370e26942ebe2d57c5b24e6e81a04e11a48cf8a39e48afab42e52b4e850e73893bba09de947a11e2b0e6a8fe195e"
+                        ],
+                        "withdrawals": []
+                    }
+                ],
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
+            }
+        ],
+        "_info": {
+            "hash": "0x7ab9682ce1479b3c8215d4e8983741f7cf6e27ce815636f3d2367cd04b6ec312",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Call BALANCE of a precompile addresses before and after a fork.\n\n    According to EIP-2929, when a transaction begins, accessed_addresses is initialized to include:\n    - tx.sender, tx.to\n    - and the set of all precompiles\n\n    This test verifies that:\n    1. Precompiles that exist in the predecessor fork are always \"warm\" (lower gas cost)\n    2. New precompiles added in a fork are \"cold\" before the fork and become \"warm\" after",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L68",
+            "fixture-format": "blockchain_test_engine_x",
+            "reference-spec": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2929.md",
+            "reference-spec-version": "0e11417265a623adb680c527b15d0cb6701b870b",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_PragueToOsakaAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]": {
+        "network": "PragueToOsakaAtTime15k",
+        "lastblockhash": "0xd6b041f78899183ec438e3e0e0b85a61b42665c6db79ec37e0d5eb5aa06d59ef",
+        "config": {
+            "network": "PragueToOsakaAtTime15k",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                },
+                "Prague": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                },
+                "Osaka": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                }
+            }
+        },
+        "preHash": "0xe732092c6f6dd981",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x60bef4f5adb3cc552eae4bde8ca553dd90517e5800a2e7aaf35ac5732ec4b3d7",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x3da00c8f1b40d599c6f73b15cd6829e1b67f38c5535ae60cf6d6d47208ab49cc",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x2710",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0xa2650559598140081980aec7071cbb6530618ccd2c4d70963aef43dec77c4bb3",
+                        "transactions": [
+                            "0xf860800a830f424094ee4ce478072dbd67043ad6adaefd00a85b5e17fe808025a0a10271c39452d907fa1c77ff415928d8ec4f7ae6fc74af3b10a1e8883cc2d2cea05fd5de17501d042a6e497372faebd3f1bd2ba7c80cd5e141facd28ae288cee4d"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    []
+                ],
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3"
+            },
+            {
+                "params": [
+                    {
+                        "parentHash": "0xa2650559598140081980aec7071cbb6530618ccd2c4d70963aef43dec77c4bb3",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x6beb04c1fdec26b9a4fcb87700264e5b8a27e5361c9268adc3d7525db34a0d81",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x2",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x4e20",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0xd6b041f78899183ec438e3e0e0b85a61b42665c6db79ec37e0d5eb5aa06d59ef",
+                        "transactions": [
+                            "0xf860010a830f424094ee4ce478072dbd67043ad6adaefd00a85b5e18fe808025a0bce13276e6e5fecd3bd6926000f7f75292150fde9d9c1f780de3cdf865c80363a00f9ff39b86d6d713970e1ed50485c5610a15cf2c5c7f9e2fb014c09ff35e3ca4"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    []
+                ],
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0x585c09aeb11182b9eb562e8b52e640fde7c48121f1db1fc643529ef747afa848",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Call BALANCE of a precompile addresses before and after a fork.\n\n    According to EIP-2929, when a transaction begins, accessed_addresses is initialized to include:\n    - tx.sender, tx.to\n    - and the set of all precompiles\n\n    This test verifies that:\n    1. Precompiles that exist in the predecessor fork are always \"warm\" (lower gas cost)\n    2. New precompiles added in a fork are \"cold\" before the fork and become \"warm\" after",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L68",
+            "fixture-format": "blockchain_test_engine_x",
+            "reference-spec": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2929.md",
+            "reference-spec-version": "0e11417265a623adb680c527b15d0cb6701b870b",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming[fork_ShanghaiToCancunAtTime15k-address_0x0000000000000000000000000000000000000001-precompile_in_successor_True-precompile_in_predecessor_True-blockchain_test_engine_x]": {
+        "network": "ShanghaiToCancunAtTime15k",
+        "lastblockhash": "0x184d07ce27c22ca430d4a54f65c45d86f18fd3c4079fbe3c8cc2e2bf9b46d5a2",
+        "config": {
+            "network": "ShanghaiToCancunAtTime15k",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                }
+            }
+        },
+        "preHash": "0x076c2a2045a94054",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x6c2a22db523a3dce9c2bde21ad94c379d84e9136dd7aa648caa32af0fb7e64ea",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x7a1d73a63ac3d99c2f5c7f845644d0f866341b52ba771dfb59ccd6bc45c83495",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x2710",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blockHash": "0xecfaef6adfee541875161312d7f17779847e466ae1ef3a1205755de2419b4dff",
+                        "transactions": [
+                            "0xf860800a830f424094c0d9768e474e1b2db1e368d7beb435d3204b7050808025a05cb4359a35b40b7d655dbef6a508733f1ab1ecc555f463b3e1637481a621da7ba014f9bda1fdeaad2f016c5ea1484fcebd2662bfc9472bbc6e07753fd17fd4a98a"
+                        ],
+                        "withdrawals": []
+                    }
+                ],
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
+            },
+            {
+                "params": [
+                    {
+                        "parentHash": "0xecfaef6adfee541875161312d7f17779847e466ae1ef3a1205755de2419b4dff",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x77f627b808b64eef92acdd171d2559721a56f4c1a53aad850c01c98b77a47694",
+                        "receiptsRoot": "0x8a83406d45a4497363802599ed5049373399e302b9bb0c76005d76e005bafa61",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x2",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0x6606",
+                        "timestamp": "0x4e20",
+                        "extraData": "0x",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0x184d07ce27c22ca430d4a54f65c45d86f18fd3c4079fbe3c8cc2e2bf9b46d5a2",
+                        "transactions": [
+                            "0xf860010a830f424094c0d9768e474e1b2db1e368d7beb435d3204b7150808025a040df7a3278df295d1cce60e9b22f4daaf090bd15b533a60848ddfc4bfd69dc74a0037c6cfc23a6fbc0c99695c2ae12eebaefb6ddd5d21cb55709e7bf4d671943a8"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "newPayloadVersion": "3",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0xa59547545162a89d5cb62bd2b58613ba7709ef59df9817f9d107f759bb6d365d",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Call BALANCE of a precompile addresses before and after a fork.\n\n    According to EIP-2929, when a transaction begins, accessed_addresses is initialized to include:\n    - tx.sender, tx.to\n    - and the set of all precompiles\n\n    This test verifies that:\n    1. Precompiles that exist in the predecessor fork are always \"warm\" (lower gas cost)\n    2. New precompiles added in a fork are \"cold\" before the fork and become \"warm\" after",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L68",
+            "fixture-format": "blockchain_test_engine_x",
+            "reference-spec": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-2929.md",
+            "reference-spec-version": "0e11417265a623adb680c527b15d0cb6701b870b",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    }
+}
