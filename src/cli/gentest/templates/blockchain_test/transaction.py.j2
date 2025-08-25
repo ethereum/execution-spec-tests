@@ -8,7 +8,13 @@ from typing import Dict
 
 import pytest
 
-from ethereum_test_tools import Account, Environment, StateTestFiller, Storage, Transaction
+from ethereum_test_rpc.types import TransactionByHashResponse
+from ethereum_test_tools import (
+    Account,
+    Environment,
+    StateTestFiller,
+    Storage,
+)
 
 REFERENCE_SPEC_GIT_PATH = "N/A"
 REFERENCE_SPEC_VERSION = "N/A"
