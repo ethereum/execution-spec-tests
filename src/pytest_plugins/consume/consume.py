@@ -88,7 +88,7 @@ class FixtureDownloader:
         response.raise_for_status()
 
         with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:
-            tar.extractall(path=self.destination_folder, filter="data")
+            tar.extractall(path=self.destination_folder)
 
         return self.detect_extracted_directory()
 
