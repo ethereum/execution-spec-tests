@@ -14,6 +14,7 @@ from .base_types import (
     HexNumber,
     Number,
     NumberBoundTypeVar,
+    StorageKey,
     Wei,
     ZeroPaddedHexNumber,
 )
@@ -72,6 +73,7 @@ __all__ = (
     "RLPSerializable",
     "SignableRLPSerializable",
     "Storage",
+    "StorageKey",
     "StorageRootType",
     "TestAddress",
     "TestAddress2",

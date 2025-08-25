@@ -283,6 +283,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         return False
 
     @classmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """At genesis, header must not contain block access list hash."""
+        return False
+
+    @classmethod
     def engine_new_payload_version(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> Optional[int]:
@@ -1636,6 +1641,15 @@ class BPO4(BPO3, bpo_fork=True):
         return 21
 
 
+class Amsterdam(Osaka):
+    """Amsterdam fork."""
+
+    @classmethod
+    def is_deployed(cls) -> bool:
+        """Return True if this fork is deployed."""
+        return False
+
+
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
 
@@ -1664,13 +1678,4 @@ class EOFv1(Prague, solc_name="cancun"):
         Flag that the fork has not been deployed to mainnet; it is under active
         development.
         """
-        return False
-
-
-class Amsterdam(Osaka):
-    """Amsterdam fork."""
-
-    @classmethod
-    def is_deployed(cls) -> bool:
-        """Return True if this fork is deployed."""
         return False
