@@ -105,6 +105,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Added new `Blob` class which can use the ckzg library to generate valid blobs at runtime ([#1614](https://github.com/ethereum/execution-spec-tests/pull/1614)).
 - ✨ Added `blob_transaction_test` execute test spec, which allows tests that send blob transactions to a running client and verifying its `engine_getBlobsVX` endpoint behavior ([#1644](https://github.com/ethereum/execution-spec-tests/pull/1644)).
 - ✨ Added `execute eth-config` command to test the `eth_config` RPC endpoint of a client, and includes configurations by default for Mainnet, Sepolia, Holesky, and Hoodi ([#1863](https://github.com/ethereum/execution-spec-tests/pull/1863)).
+- ✨ Added `--address-stubs` flag to the `execute` command which allows to specify a JSON-formatted string, JSON file or YAML file which contains label-to-address of specific pre-deployed contracts already existing in the network where the tests are executed ([#2073](https://github.com/ethereum/execution-spec-tests/pull/2073)).
 
 ### 📋 Misc
 
