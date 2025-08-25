@@ -171,9 +171,11 @@ def get_last_descendants(
 
 
 def get_selected_fork_set(
+    *,
     single_fork: Set[Type[BaseFork]],
     forks_from: Set[Type[BaseFork]],
     forks_until: Set[Type[BaseFork]],
+    transition_forks: bool = True,
 ) -> Set[Type[BaseFork]]:
     """
     Process sets derived from `--fork`, `--until` and `--from` to return an unified fork
@@ -188,9 +190,10 @@ def get_selected_fork_set(
         if not forks_until:
             forks_until = get_last_descendants(set(get_deployed_forks()), forks_from)
         selected_fork_set = get_from_until_fork_set(ALL_FORKS, forks_from, forks_until)
-    for fork in list(selected_fork_set):
-        transition_fork_set = transition_fork_to(fork)
-        selected_fork_set |= transition_fork_set
+    if transition_forks:
+        for fork in list(selected_fork_set):
+            transition_fork_set = transition_fork_to(fork)
+            selected_fork_set |= transition_fork_set
     return selected_fork_set
 
 

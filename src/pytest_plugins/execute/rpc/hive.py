@@ -164,14 +164,6 @@ def pytest_configure(config):  # noqa: D103
 
 
 @pytest.fixture(scope="session")
-def base_fork(request) -> Fork:
-    """Get the base fork for all tests."""
-    fork = get_fork_option(request, "single_fork")
-    assert fork is not None, "invalid fork requested"
-    return fork
-
-
-@pytest.fixture(scope="session")
 def seed_sender(session_temp_folder: Path) -> EOA:
     """Determine the seed sender account for the client's genesis."""
     base_name = "seed_sender"
@@ -201,11 +193,11 @@ def base_pre(request, seed_sender: EOA, worker_count: int) -> Alloc:
 
 @pytest.fixture(scope="session")
 def base_pre_genesis(
-    base_fork: Fork,
+    session_fork: Fork,
     base_pre: Alloc,
 ) -> Tuple[Alloc, FixtureHeader]:
     """Create a genesis block from the blockchain test definition."""
-    env = Environment().set_fork_requirements(base_fork)
+    env = Environment().set_fork_requirements(session_fork)
     assert env.withdrawals is None or len(env.withdrawals) == 0, (
         "withdrawals must be empty at genesis"
     )
@@ -214,7 +206,7 @@ def base_pre_genesis(
     )
 
     pre_alloc = Alloc.merge(
-        Alloc.model_validate(base_fork.pre_allocation_blockchain()),
+        Alloc.model_validate(session_fork.pre_allocation_blockchain()),
         base_pre,
     )
     if empty_accounts := pre_alloc.empty_accounts():
@@ -246,7 +238,7 @@ def base_pre_genesis(
         ),
         parent_beacon_block_root=env.parent_beacon_block_root,
         requests_hash=Requests()
-        if base_fork.header_requests_required(block_number=block_number, timestamp=timestamp)
+        if session_fork.header_requests_required(block_number=block_number, timestamp=timestamp)
         else None,
     )
 
@@ -295,17 +287,17 @@ def client_files(
 
 
 @pytest.fixture(scope="session")
-def environment(base_fork: Fork) -> dict:
+def environment(session_fork: Fork) -> dict:
     """
     Define the environment that hive will start the client with using the fork
     rules specific for the simulator.
     """
-    assert base_fork in ruleset, f"fork '{base_fork}' missing in hive ruleset"
+    assert session_fork in ruleset, f"fork '{session_fork}' missing in hive ruleset"
     return {
         "HIVE_CHAIN_ID": "1",
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
-        **{k: f"{v:d}" for k, v in ruleset[base_fork].items()},
+        **{k: f"{v:d}" for k, v in ruleset[session_fork].items()},
     }
 
 
@@ -833,7 +825,7 @@ def eth_rpc(
     client: Client,
     engine_rpc: EngineRPC,
     base_genesis_header: FixtureHeader,
-    base_fork: Fork,
+    session_fork: Fork,
     transactions_per_block: int,
     session_temp_folder: Path,
 ) -> EthRPC:
@@ -842,7 +834,7 @@ def eth_rpc(
     tx_wait_timeout = request.config.getoption("tx_wait_timeout")
     return EthRPC(
         client=client,
-        fork=base_fork,
+        fork=session_fork,
         engine_rpc=engine_rpc,
         base_genesis_header=base_genesis_header,
         transactions_per_block=transactions_per_block,
