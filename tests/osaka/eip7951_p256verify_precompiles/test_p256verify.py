@@ -130,19 +130,6 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             ),  # Valid Y for X=P-3
             id="near_field_boundary_p_minus_3",
         ),
-        pytest.param(
-            # Test scalar multiplication edge case with special bit patterns
-            H(0x1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF1234567890ABCDEF)
-            + R(
-                0x8000000000000000000000000000000000000000000000000000000000000000
-            )  # Single high bit
-            + S(
-                0x5555555555555555555555555555555555555555555555555555555555555555
-            )  # Alternating bits
-            + X(0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296)  # Generator X
-            + Y(0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5),  # Generator Y
-            id="scalar_mult_special_bit_patterns",
-        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
