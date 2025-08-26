@@ -20,6 +20,7 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "0.1"
 
+
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
 def test_bloatnet(
@@ -68,14 +69,14 @@ def test_bloatnet(
     tx_0_1 = Transaction(
         to=contract_address,
         gas_limit=Environment().gas_limit,
-        data=(final_storage_value//2).to_bytes(32, 'big').rstrip(b'\x00'),
+        data=(final_storage_value // 2).to_bytes(32, "big").rstrip(b"\x00"),
         value=0,
         sender=sender,
     )
     tx_1_2 = Transaction(
         to=contract_address,
         gas_limit=Environment().gas_limit,
-        data=final_storage_value.to_bytes(32, 'big').rstrip(b'\x00'),
+        data=final_storage_value.to_bytes(32, "big").rstrip(b"\x00"),
         value=0,
         sender=sender,
     )
