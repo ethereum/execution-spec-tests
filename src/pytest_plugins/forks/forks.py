@@ -554,7 +554,7 @@ def pytest_report_header(config, start_path):
 @pytest.fixture(autouse=True)
 def fork(request: pytest.FixtureRequest) -> Fork:
     """Specific fork that is used to fill the test."""
-    raise Exception(f"Test was '{request.node.nodeid}' not correctly parametrized")
+    raise Exception(f"Test '{request.node.nodeid}' was not correctly parametrized")
 
 
 @pytest.fixture(autouse=True, scope="session")
