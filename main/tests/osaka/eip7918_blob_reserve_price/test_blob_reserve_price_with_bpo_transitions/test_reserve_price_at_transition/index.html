@@ -5849,6 +5849,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6020,6 +6024,52 @@
   
   <span class="md-ellipsis">
     <code>test_modular_comparison</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7951_p256verify_precompiles/test_p256verify/test_contract_creation_transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_creation_transaction</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../eip7951_p256verify_precompiles/test_p256verify/test_contract_initcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_initcode</code>
     
   </span>
   
@@ -26829,7 +26879,7 @@
 
 
 <h1 id="test_reserve_price_at_transition"><code>test_reserve_price_at_transition()</code><a class="headerlink" href="#test_reserve_price_at_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/056415cb6ce0b8be5d84579babb00ea33dcba7d8/tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py#L606"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition@056415cb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/857c41ebaae2fd24e62c828be115acfddad0b511/tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py#L524"><code>tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition@857c41eb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition --fork Osaka</span>
@@ -26849,33 +26899,33 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span>
-<span class="normal">620</span>
-<span class="normal">621</span>
-<span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="p">[</span>
         <span class="s2">&quot;parent_base_fee_per_gas&quot;</span><span class="p">,</span>
         <span class="s2">&quot;parent_excess_blob_gas&quot;</span><span class="p">,</span>
@@ -26961,6 +27011,34 @@
                 <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_0-parent_blobs_6-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_0-parent_blobs_6-blockchain_test]">
+                    ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_0-parent_blobs_6-blockchain_test
+                </abbr>
+            </td>
+                        <td>17</td>
+                        <td>0</td>
+                        <td>6</td>
+                        <td>16</td>
+                        <td>6</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_1-parent_blobs_6-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_1-parent_blobs_6-blockchain_test]">
+                    ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_1-parent_blobs_6-blockchain_test
+                </abbr>
+            </td>
+                        <td>17</td>
+                        <td>131072</td>
+                        <td>6</td>
+                        <td>16</td>
+                        <td>6</td>
+                        <td>None</td>
+                    </tr>
+                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_0-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_0-blockchain_test]">
                     ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_0-blockchain_test
                 </abbr>
@@ -26989,20 +27067,6 @@
                 <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_9-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_9-blockchain_test]">
-                    ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_10-parent_blobs_9-blockchain_test
-                </abbr>
-            </td>
-                        <td>17</td>
-                        <td>1310720</td>
-                        <td>9</td>
-                        <td>16</td>
-                        <td>6</td>
-                        <td>None</td>
-                    </tr>
-                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_0-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_0-blockchain_test]">
                     ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_0-blockchain_test
                 </abbr>
@@ -27024,20 +27088,6 @@
                         <td>209</td>
                         <td>13107200</td>
                         <td>6</td>
-                        <td>208</td>
-                        <td>6</td>
-                        <td>None</td>
-                    </tr>
-                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_9-blockchain_test]" title="tests/osaka/eip7918_blob_reserve_price/test_blob_reserve_price_with_bpo_transitions.py::test_reserve_price_at_transition[fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_9-blockchain_test]">
-                    ...fork_PragueToOsakaAtTime15k-at_reserve_base_fee_threshold-parent_excess_blobs_100-parent_blobs_9-blockchain_test
-                </abbr>
-            </td>
-                        <td>209</td>
-                        <td>13107200</td>
-                        <td>9</td>
                         <td>208</td>
                         <td>6</td>
                         <td>None</td>

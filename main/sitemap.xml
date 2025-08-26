@@ -1849,6 +1849,14 @@
          <lastmod>2025-08-26</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_contract_creation_transaction/</loc>
+         <lastmod>2025-08-26</lastmod>
+    </url>
+    <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_contract_initcode/</loc>
+         <lastmod>2025-08-26</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_gas/</loc>
          <lastmod>2025-08-26</lastmod>
     </url>

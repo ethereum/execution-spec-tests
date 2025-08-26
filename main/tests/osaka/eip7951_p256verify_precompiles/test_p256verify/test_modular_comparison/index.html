@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_precompile_as_tx_entry_point/">
       
       
-        <link rel="next" href="../../test_p256verify_before_fork/">
+        <link rel="next" href="../test_contract_creation_transaction/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -5789,6 +5789,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -6025,6 +6029,52 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_creation_transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_creation_transaction</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_initcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_initcode</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -26829,7 +26879,7 @@
 
 
 <h1 id="test_modular_comparison"><code>test_modular_comparison()</code><a class="headerlink" href="#test_modular_comparison" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/056415cb6ce0b8be5d84579babb00ea33dcba7d8/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L241"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@056415cb</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/857c41ebaae2fd24e62c828be115acfddad0b511/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L243"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison@857c41eb</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_modular_comparison --fork Osaka</span>
@@ -26852,9 +26902,7 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
@@ -26899,7 +26947,9 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
 <span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
-<span class="normal">288</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># Test case where computed x-coordinate exceeds curve order N</span>
@@ -27120,13 +27170,13 @@ r' ≡ r (mod N) instead of direct equality r' == r.</p>
         
         
           
-          <a href="../../test_p256verify_before_fork/" class="md-footer__link md-footer__link--next" aria-label="Next: Test P256verify Before Fork">
+          <a href="../test_contract_creation_transaction/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_contract_creation_transaction&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test P256verify Before Fork
+                <code>test_contract_creation_transaction</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">
