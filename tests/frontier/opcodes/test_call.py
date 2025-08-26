@@ -151,14 +151,16 @@ def test_call_memory_expands_on_early_revert(
 
 # TODO: There's an issue with gas definitions on forks previous to Berlin, remove this when fixed.
 # https://github.com/ethereum/execution-spec-tests/pull/1952#discussion_r2237634275
+@pytest.mark.with_all_call_opcodes
 @pytest.mark.valid_from("Berlin")
 def test_call_large_args_offset_size_zero(
     state_test: StateTestFiller,
     pre: Alloc,
     fork: Fork,
+    call_opcode: Op,
 ):
     """
-    Test CALL with an extremely large args_offset and args_size set to zero.
+    Test xCALL with an extremely large args_offset and args_size set to zero.
     Since the size is zero, the large offset should not cause a revert.
     """
     sender = pre.fund_eoa()
@@ -167,11 +169,10 @@ def test_call_large_args_offset_size_zero(
     very_large_offset = 2**100
 
     call_measure = CodeGasMeasure(
-        code=Op.CALL(gas=0, args_offset=very_large_offset, args_size=0),
-        overhead_cost=gsc.G_VERY_LOW * len(Op.CALL.kwargs),  # Cost of pushing CALL args
-        extra_stack_items=1,  # Because CALL pushes 1 item to the stack
+        code=call_opcode(gas=0, args_offset=very_large_offset, args_size=0),
+        overhead_cost=gsc.G_VERY_LOW * len(call_opcode.kwargs),  # Cost of pushing xCALL args
+        extra_stack_items=1,  # Because xCALL pushes 1 item to the stack
         sstore_key=0,
-        stop=False,  # Because it's the first CodeGasMeasure
     )
 
     contract = pre.deploy_contract(call_measure)
