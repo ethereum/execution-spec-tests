@@ -39,20 +39,13 @@ def test_bloatnet(
 
     storage = Storage()
 
-    totalgas = gas_costs.G_BASE * 2  # Initial gas for PUSH0 + CALLDATALOAD
+    totalgas = gas_costs.G_BASE * 3 + gas_costs.G_VERY_LOW  # Initial gas for PUSH0 + CALLDATALOAD + DUP1 + POP (at the end)
     gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0 + Op.CALLDATALOAD + Op.DUP1
     i = 0
     while totalgas + gas_increment < Environment().gas_limit:
         totalgas += gas_increment
-        # print(f"increment={gas_increment} < totalgas={totalgas} i={i}")
-        sstore_code = sstore_code + Op.DUP1
-        if i < 256:
-            sstore_code = sstore_code + Op.PUSH1(i)
-        else:
-            sstore_code = sstore_code + Op.PUSH2(i)
-
-        sstore_code = sstore_code + Op.SSTORE(unchecked=True)
+        sstore_code = sstore_code + Op.SSTORE(i, Op.DUP4)
 
         storage[storage_slot] = final_storage_value
         storage_slot += 1
