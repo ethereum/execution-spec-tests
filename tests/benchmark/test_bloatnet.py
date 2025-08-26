@@ -56,7 +56,7 @@ def test_bloatnet(
     print(sender)
     contract_address = pre.deploy_contract(
         code=sstore_code,
-        storage=storage,
+        storage=Storage(),
     )
 
     tx_0_1 = Transaction(
