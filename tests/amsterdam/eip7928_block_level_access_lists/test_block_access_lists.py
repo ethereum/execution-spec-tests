@@ -7,6 +7,7 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
+    Storage,
     Transaction,
     compute_create_address,
 )
@@ -128,7 +129,12 @@ def test_bal_storage_writes(
     blockchain_test: BlockchainTestFiller,
 ):
     """Ensure BAL captures storage writes."""
-    storage_contract = pre.deploy_contract(code=Op.SSTORE(0x01, 0x42) + Op.STOP)
+    storage = Storage({0x01: 0})  # type: ignore
+    storage_contract = pre.deploy_contract(
+        code=Op.SSTORE(0x01, 0x42) + Op.STOP,
+        # pre-fill with canary value to detect writes in post-state
+        storage=storage.canary(),
+    )
     alice = pre.fund_eoa()
 
     tx = Transaction(
