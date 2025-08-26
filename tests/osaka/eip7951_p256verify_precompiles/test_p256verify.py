@@ -118,6 +118,14 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x3E5141734E971A8D55015068D9B3666760F4608A49B11F92E500ACEA647978C7),
             id="wrong_endianness",
         ),
+        pytest.param(
+            H(Spec.P - 1)
+            + R(Spec.N - 2)
+            + S((Spec.N - 1) // 2)
+            + X(Spec.P - 3)
+            + Y(0x19719BEBF6AEA13F25C96DFD7C71F5225D4C8FC09EB5A0AB9F39E9178E55C121),
+            id="near_field_boundary_p_minus_3",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
