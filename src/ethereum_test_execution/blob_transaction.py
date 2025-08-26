@@ -113,6 +113,7 @@ class BlobTransaction(BaseExecute):
                     "Test was passed (partial responses are not allowed and the client "
                     "correctly returned 'null')"
                 )
+                eth_rpc.wait_for_transactions(sent_txs)
                 return
 
         assert blob_response is not None

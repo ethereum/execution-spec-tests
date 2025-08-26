@@ -120,6 +120,7 @@ class ExecutionSpecsTransitionTool(TransitionTool):
         """
         fork_is_supported = (fork.transition_tool_name() + "\n") in self.help_string
         logger.debug(f"EELS supports fork {fork}: {fork_is_supported}")
+
         return fork_is_supported
 
     def _generate_post_args(
