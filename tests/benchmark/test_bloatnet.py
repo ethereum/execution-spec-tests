@@ -35,21 +35,19 @@ def test_bloatnet(
     # Get gas costs for the current fork
     gas_costs = fork.gas_costs()
 
-    storage_slot: int = 0
 
     storage = Storage()
 
-    totalgas = gas_costs.G_BASE * 3 + gas_costs.G_VERY_LOW  # Initial gas for PUSH0 + CALLDATALOAD + DUP1 + POP (at the end)
+    totalgas = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW # Initial gas for PUSH0 + CALLDATALOAD + POP (at the end)
     gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
-    sstore_code = Op.PUSH0 + Op.CALLDATALOAD + Op.DUP1
-    i = 0
+    sstore_code = Op.PUSH0 + Op.CALLDATALOAD
+    storage_slot: int = 0
     while totalgas + gas_increment < Environment().gas_limit:
         totalgas += gas_increment
-        sstore_code = sstore_code + Op.SSTORE(i, Op.DUP4)
-
+        sstore_code = sstore_code + Op.SSTORE(Op.DUP2, storage_slot)
         storage[storage_slot] = final_storage_value
         storage_slot += 1
-        i += 1
+
     sstore_code = sstore_code + Op.POP  # Drop last value on the stack
 
     sender = pre.fund_eoa()
