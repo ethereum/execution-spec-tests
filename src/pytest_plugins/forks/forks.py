@@ -557,12 +557,14 @@ def fork(request: pytest.FixtureRequest) -> Fork:
     raise Exception(f"Test '{request.node.nodeid}' was not correctly parametrized")
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture(scope="session")
 def session_fork(request: pytest.FixtureRequest) -> Fork | None:
     """Session-wide fork object used if the plugin is configured in single-fork mode."""
     if hasattr(request.config, "single_fork_mode") and request.config.single_fork_mode:
         return list(request.config.selected_fork_set)[0]  # type: ignore
-    return None
+    raise AssertionError(
+        "Plugin used `session_fork` fixture without the correct configuration (single_fork_mode)."
+    )
 
 
 ALL_VALIDITY_MARKERS: Dict[str, "Type[ValidityMarker]"] = {}
