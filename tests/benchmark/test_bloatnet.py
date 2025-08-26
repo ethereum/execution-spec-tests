@@ -6,7 +6,15 @@ abstract: Tests [EIP-8047 BloatNet](https://eips.ethereum.org/EIPS/eip-8047)
 import pytest
 
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Environment, Storage, Transaction
+from ethereum_test_tools import (
+    Account,
+    Alloc,
+    Block,
+    BlockchainTestFiller,
+    Environment,
+    Storage,
+    Transaction,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
@@ -14,7 +22,9 @@ REFERENCE_SPEC_VERSION = "0.1"
 
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
-def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, final_storage_value: int):
+def test_bloatnet(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, final_storage_value: int
+):
     """
     A test that calls a contract with many SSTOREs.
 
