@@ -114,25 +114,12 @@ def pytest_configure(config):
         # generate an html report by default, unless explicitly disabled
         config.option.htmlpath = Path(default_html_report_file_path())
 
-    command_line_args = "fill " + " ".join(config.invocation_params.args)
+    command_line_args = "execute " + " ".join(config.invocation_params.args)
     config.stash[metadata_key]["Command-line args"] = f"<code>{command_line_args}</code>"
 
-    selected_fork_set = config.selected_fork_set
-
-    # remove the transition forks from the selected forks
-    for fork in set(selected_fork_set):
-        if hasattr(fork, "transitions_to"):
-            selected_fork_set.remove(fork)
-
-    if len(selected_fork_set) != 1:
-        pytest.exit(
-            f"""
-            Expected exactly one fork to be specified, got {len(selected_fork_set)}
-            ({selected_fork_set}).
-            Make sure to specify exactly one fork using the --fork command line argument.
-            """,
-            returncode=pytest.ExitCode.USAGE_ERROR,
-        )
+    # Configuration for the forks pytest plugin
+    config.skip_transition_forks = True
+    config.single_fork_mode = True
 
 
 def pytest_metadata(metadata):

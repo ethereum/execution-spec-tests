@@ -400,7 +400,6 @@ fork_covariant_decorators: List[Type[CovariantDecorator]] = [
 ]
 
 
-@pytest.hookimpl(tryfirst=True)
 def pytest_configure(config: pytest.Config):
     """
     Register the plugin's custom markers and process command-line options.
@@ -488,7 +487,23 @@ def pytest_configure(config: pytest.Config):
         )
         pytest.exit("Invalid command-line options.", returncode=pytest.ExitCode.USAGE_ERROR)
 
-    selected_fork_set = get_selected_fork_set(single_fork, forks_from, forks_until)
+    transition_forks = not getattr(config, "skip_transition_forks", False)
+
+    selected_fork_set = get_selected_fork_set(
+        single_fork=single_fork,
+        forks_from=forks_from,
+        forks_until=forks_until,
+        transition_forks=transition_forks,
+    )
+    if getattr(config, "single_fork_mode", False) and len(selected_fork_set) != 1:
+        pytest.exit(
+            f"""
+            Expected exactly one fork to be specified, got {len(selected_fork_set)}
+            ({selected_fork_set}).
+            Make sure to specify exactly one fork using the --fork command line argument.
+            """,
+            returncode=pytest.ExitCode.USAGE_ERROR,
+        )
     config.selected_fork_set = selected_fork_set  # type: ignore
 
     if not selected_fork_set:
@@ -503,21 +518,12 @@ def pytest_configure(config: pytest.Config):
             returncode=pytest.ExitCode.USAGE_ERROR,
         )
 
-    # with --collect-only, we don't have access to these config options
     config.unsupported_forks: Set[Fork] = set()  # type: ignore
-    if config.option.collectonly:
-        return
-
-    evm_bin = config.getoption("evm_bin", None)
-    if evm_bin is None:
-        assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool()
-    elif evm_bin is not None:
-        t8n = TransitionTool.from_binary_path(binary_path=evm_bin)
-
-    config.unsupported_forks = frozenset(  # type: ignore
-        fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
-    )
+    t8n: TransitionTool | None = getattr(config, "t8n", None)
+    if t8n:
+        config.unsupported_forks = frozenset(  # type: ignore
+            fork for fork in selected_fork_set if not t8n.is_fork_supported(fork)
+        )
 
 
 @pytest.hookimpl(trylast=True)
@@ -546,9 +552,19 @@ def pytest_report_header(config, start_path):
 
 
 @pytest.fixture(autouse=True)
-def fork(request):
-    """Parametrize test cases by fork."""
-    pass
+def fork(request: pytest.FixtureRequest) -> Fork:
+    """Specific fork that is used to fill the test."""
+    raise Exception(f"Test '{request.node.nodeid}' was not correctly parametrized")
+
+
+@pytest.fixture(scope="session")
+def session_fork(request: pytest.FixtureRequest) -> Fork | None:
+    """Session-wide fork object used if the plugin is configured in single-fork mode."""
+    if hasattr(request.config, "single_fork_mode") and request.config.single_fork_mode:
+        return list(request.config.selected_fork_set)[0]  # type: ignore
+    raise AssertionError(
+        "Plugin used `session_fork` fixture without the correct configuration (single_fork_mode)."
+    )
 
 
 ALL_VALIDITY_MARKERS: Dict[str, "Type[ValidityMarker]"] = {}
@@ -945,7 +961,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
                         pytest.mark.skip(
                             reason=(
                                 f"Fork '{fork}' unsupported by "
-                                f"'{metafunc.config.getoption('evm_bin')}'."
+                                f"{metafunc.config.t8n.__class__.__name__}."  # type: ignore
                             )
                         )
                     ],

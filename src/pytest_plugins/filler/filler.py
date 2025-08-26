@@ -610,22 +610,30 @@ def pytest_configure(config):
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
     evm_bin = config.getoption("evm_bin")
+    trace = config.getoption("evm_collect_traces")
+    t8n_server_url = config.getoption("t8n_server_url")
+    kwargs = {
+        "trace": trace,
+    }
+    if t8n_server_url is not None:
+        kwargs["server_url"] = t8n_server_url
     if evm_bin is None:
         assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(trace=config.getoption("evm_collect_traces"))
+        t8n = TransitionTool.default_tool(**kwargs)
     else:
-        t8n = TransitionTool.from_binary_path(
-            binary_path=evm_bin, trace=config.getoption("evm_collect_traces")
+        t8n = TransitionTool.from_binary_path(binary_path=evm_bin, **kwargs)
+
+    if (
+        isinstance(config.getoption("numprocesses"), int)
+        and config.getoption("numprocesses") > 0
+        and not t8n.supports_xdist
+    ):
+        pytest.exit(
+            f"The {t8n.__class__.__name__} t8n tool does not work well with the xdist plugin;"
+            "use -n=0.",
+            returncode=pytest.ExitCode.USAGE_ERROR,
         )
-        if (
-            isinstance(config.getoption("numprocesses"), int)
-            and config.getoption("numprocesses") > 0
-            and "Besu" in str(t8n.detect_binary_pattern)
-        ):
-            pytest.exit(
-                "The Besu t8n tool does not work well with the xdist plugin; use -n=0.",
-                returncode=pytest.ExitCode.USAGE_ERROR,
-            )
+    config.t8n = t8n
 
     if "Tools" not in config.stash[metadata_key]:
         config.stash[metadata_key]["Tools"] = {
@@ -823,26 +831,9 @@ def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
 
 
 @pytest.fixture(autouse=True, scope="session")
-def t8n_server_url(request: pytest.FixtureRequest) -> str | None:
-    """Return configured t8n server url."""
-    return request.config.getoption("t8n_server_url")
-
-
-@pytest.fixture(autouse=True, scope="session")
-def t8n(
-    request: pytest.FixtureRequest, evm_bin: Path | None, t8n_server_url: str | None
-) -> Generator[TransitionTool, None, None]:
+def t8n(request: pytest.FixtureRequest) -> Generator[TransitionTool, None, None]:
     """Return configured transition tool."""
-    kwargs = {
-        "trace": request.config.getoption("evm_collect_traces"),
-    }
-    if t8n_server_url is not None:
-        kwargs["server_url"] = t8n_server_url
-    if evm_bin is None:
-        assert TransitionTool.default_tool is not None, "No default transition tool found"
-        t8n = TransitionTool.default_tool(**kwargs)
-    else:
-        t8n = TransitionTool.from_binary_path(binary_path=evm_bin, **kwargs)
+    t8n: TransitionTool = request.config.t8n  # type: ignore
     if not t8n.exception_mapper.reliable:
         warnings.warn(
             f"The t8n tool that is currently being used to fill tests ({t8n.__class__.__name__}) "
