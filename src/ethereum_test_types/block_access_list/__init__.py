@@ -5,7 +5,7 @@ Following the established pattern in the codebase (AccessList, AuthorizationTupl
 these are simple data classes that can be composed together.
 """
 
-from typing import Any, ClassVar, List
+from typing import Any, Callable, ClassVar, List, Optional
 
 import ethereum_rlp as eth_rlp
 from pydantic import Field
@@ -21,6 +21,20 @@ from ethereum_test_base_types import (
     StorageKey,
 )
 from ethereum_test_base_types.serialization import to_serializable_element
+
+
+def compose(
+    *modifiers: Callable[["BlockAccessList"], "BlockAccessList"],
+) -> Callable[["BlockAccessList"], "BlockAccessList"]:
+    """Compose multiple modifiers into a single modifier."""
+
+    def composed(bal: BlockAccessList) -> BlockAccessList:
+        result = bal
+        for modifier in modifiers:
+            result = modifier(result)
+        return result
+
+    return composed
 
 
 class BalNonceChange(CamelModel, RLPSerializable):
@@ -154,6 +168,60 @@ class BlockAccessListExpectation(CamelModel):
     account_changes: List[BalAccountChange] = Field(
         default_factory=list, description="Expected account changes to verify"
     )
+
+    modifier: Optional[Callable[["BlockAccessList"], "BlockAccessList"]] = Field(
+        None,
+        exclude=True,
+        description="Optional modifier to modify the BAL for invalid tests",
+    )
+
+    def modify(
+        self, *modifiers: Callable[["BlockAccessList"], "BlockAccessList"]
+    ) -> "BlockAccessListExpectation":
+        """
+        Create a new expectation with a modifier for invalid test cases.
+
+        Args:
+            modifiers: One or more functions that take and return a BlockAccessList
+
+        Returns:
+            A new BlockAccessListExpectation instance with the modifiers applied
+
+        Example:
+            from ethereum_test_types.block_access_list.modifiers import remove_nonces
+
+            expectation = BlockAccessListExpectation(
+                account_changes=[...]
+            ).modify(remove_nonces(alice))
+
+        """
+        new_instance = self.model_copy(deep=True)
+        new_instance.modifier = compose(*modifiers)
+        return new_instance
+
+    def to_fixture_bal(self, t8n_bal: "BlockAccessList") -> "BlockAccessList":
+        """
+        Convert t8n BAL to fixture BAL, optionally applying transformations.
+
+        1. First validates expectations are met (if any)
+        2. Then applies modifier if specified (for invalid tests)
+
+        Args:
+            t8n_bal: The BlockAccessList from t8n tool
+
+        Returns:
+            The potentially transformed BlockAccessList for the fixture
+
+        """
+        # Only validate if we have expectations
+        if self.account_changes:
+            self.verify_against(t8n_bal)
+
+        # Apply modifier if present (for invalid tests)
+        if self.modifier:
+            return self.modifier(t8n_bal)
+
+        return t8n_bal
 
     def verify_against(self, actual_bal: "BlockAccessList") -> None:
         """
@@ -320,3 +388,17 @@ class BlockAccessListExpectation(CamelModel):
                 raise AssertionError(msg)
 
         return True
+
+
+__all__ = [
+    # Core models
+    "BlockAccessList",
+    "BlockAccessListExpectation",
+    # Change types
+    "BalAccountChange",
+    "BalNonceChange",
+    "BalBalanceChange",
+    "BalCodeChange",
+    "BalStorageChange",
+    "BalStorageSlot",
+]

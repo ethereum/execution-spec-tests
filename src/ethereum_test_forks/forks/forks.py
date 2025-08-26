@@ -1817,6 +1817,11 @@ class Amsterdam(Osaka):
     """Amsterdam fork."""
 
     @classmethod
+    def header_bal_hash_required(cls, block_number: int = 0, timestamp: int = 0) -> bool:
+        """From Amsterdam, header must contain block access list hash (EIP-7928)."""
+        return block_number > 0  # Not required in genesis block
+
+    @classmethod
     def is_deployed(cls) -> bool:
         """Return True if this fork is deployed."""
         return False
