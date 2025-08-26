@@ -13,7 +13,8 @@ REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "0.1"
 
 @pytest.mark.valid_from("Prague")
-def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
+@pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
+def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, final_storage_value: int):
     """
     A test that calls a contract with many SSTOREs.
 
@@ -42,7 +43,7 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
 
         sstore_code = sstore_code + Op.SSTORE(unchecked=True)
 
-        storage[storage_slot] = 0x02 << 248
+        storage[storage_slot] = final_storage_value
         storage_slot += 1
         i += 1
     sstore_code = sstore_code + Op.POP  # Drop last value on the stack
@@ -57,14 +58,14 @@ def test_bloatnet(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork)
     tx_0_1 = Transaction(
         to=contract_address,
         gas_limit=Environment().gas_limit,
-        data=b"\x01",  # Single byte 0x01
+        data=(final_storage_value//2).to_bytes(32, 'big').rstrip(b'\x00'),
         value=0,
         sender=sender,
     )
     tx_1_2 = Transaction(
         to=contract_address,
         gas_limit=Environment().gas_limit,
-        data=b"\x02",  # Single byte 0x02, turns into 0x02 << 248
+        data=final_storage_value.to_bytes(32, 'big').rstrip(b'\x00'),
         value=0,
         sender=sender,
     )
