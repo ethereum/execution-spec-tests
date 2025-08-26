@@ -35,16 +35,19 @@ def test_bloatnet(
     # Get gas costs for the current fork
     gas_costs = fork.gas_costs()
 
+    # this is only used for computing the intinsic gas
+    data = final_storage_value.to_bytes(32, "big").rstrip(b"\x00")
 
     storage = Storage()
 
     totalgas = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW # Initial gas for PUSH0 + CALLDATALOAD + POP (at the end)
+    totalgas = totalgas + fork.transaction_intrinsic_cost_calculator()(calldata=data);
     gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0 + Op.CALLDATALOAD
     storage_slot: int = 0
     while totalgas + gas_increment < Environment().gas_limit:
         totalgas += gas_increment
-        sstore_code = sstore_code + Op.SSTORE(Op.DUP2, storage_slot)
+        sstore_code = sstore_code + Op.SSTORE(storage_slot, Op.DUP1)
         storage[storage_slot] = final_storage_value
         storage_slot += 1
 
