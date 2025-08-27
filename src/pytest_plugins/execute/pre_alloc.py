@@ -1,14 +1,13 @@
 """Pre-allocation fixtures using for test filling."""
 
-import json
 from itertools import count
 from pathlib import Path
 from random import randint
-from typing import Any, Dict, Generator, Iterator, List, Literal, Tuple
+from typing import Dict, Generator, Iterator, List, Literal, Self, Tuple
 
 import pytest
 import yaml
-from pydantic import PrivateAttr, model_validator
+from pydantic import PrivateAttr
 
 from ethereum_test_base_types import (
     Bytes,
@@ -40,6 +39,10 @@ from ethereum_test_types import TransactionTestMetadata
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
+MAX_BYTECODE_SIZE = 24576
+
+MAX_INITCODE_SIZE = MAX_BYTECODE_SIZE * 2
+
 
 class AddressStubs(EthereumTestRootModel[Dict[str, Address]]):
     """
@@ -59,25 +62,31 @@ class AddressStubs(EthereumTestRootModel[Dict[str, Address]]):
         """Get an item from the address stubs."""
         return self.root[item]
 
-    @model_validator(mode="before")
     @classmethod
-    def load_contents_from_file(cls, value: Any) -> Any:
+    def model_validate_json_or_file(cls, json_data_or_path: str) -> Self:
         """
         Try to load from file if the value resembles a path that ends with .json/.yml and the
         file exists.
         """
-        if isinstance(value, str):
-            if value.endswith(".json") or value.endswith(".yml") or value.endswith(".yaml"):
-                path = Path(value)
-                if path.is_file():
-                    if value.endswith(".json"):
-                        return json.loads(path.read_text())
-                    elif value.endswith(".yml") or value.endswith(".yaml"):
-                        loaded_yaml = yaml.safe_load(path.read_text())
-                        if loaded_yaml is None:
-                            return {}
-                        return loaded_yaml
-        return value
+        lower_json_data_or_path = json_data_or_path.lower()
+        if (
+            lower_json_data_or_path.endswith(".json")
+            or lower_json_data_or_path.endswith(".yml")
+            or lower_json_data_or_path.endswith(".yaml")
+        ):
+            path = Path(json_data_or_path)
+            if path.is_file():
+                path_suffix = path.suffix.lower()
+                if path_suffix == ".json":
+                    return cls.model_validate_json(path.read_text())
+                elif path_suffix in [".yml", ".yaml"]:
+                    loaded_yaml = yaml.safe_load(path.read_text())
+                    if loaded_yaml is None:
+                        return cls(root={})
+                    return cls.model_validate(loaded_yaml)
+        if json_data_or_path.strip() == "":
+            return cls(root={})
+        return cls.model_validate_json(json_data_or_path)
 
 
 def pytest_addoption(parser):
@@ -115,7 +124,7 @@ def pytest_addoption(parser):
         action="store",
         dest="address_stubs",
         default=AddressStubs(root={}),
-        type=AddressStubs.model_validate,
+        type=AddressStubs.model_validate_json_or_file,
         help="The address stubs for contracts that have already been placed in the chain and to "
         "use for the test. Can be a JSON formatted string or a path to a YAML or JSON file.",
     )
@@ -239,9 +248,7 @@ class Alloc(BaseAlloc):
         )
         code = self.code_pre_processor(code, evm_code_type=evm_code_type)
 
-        assert len(code) <= self._fork.max_code_size(), (
-            f"code too large: {len(code)} > {self._fork.max_code_size()}"
-        )
+        assert len(code) <= MAX_BYTECODE_SIZE, f"code too large: {len(code)} > {MAX_BYTECODE_SIZE}"
 
         deploy_gas_limit += len(bytes(code)) * 200
 
@@ -255,8 +262,8 @@ class Alloc(BaseAlloc):
             memory_expansion_gas_calculator = self._fork.memory_expansion_gas_calculator()
             deploy_gas_limit += memory_expansion_gas_calculator(new_bytes=len(bytes(initcode)))
 
-        assert len(initcode) <= self._fork.max_initcode_size(), (
-            f"initcode too large {len(initcode)} > {self._fork.max_initcode_size()}"
+        assert len(initcode) <= MAX_INITCODE_SIZE, (
+            f"initcode too large {len(initcode)} > {MAX_INITCODE_SIZE}"
         )
 
         calldata_gas_calculator = self._fork.calldata_gas_calculator()

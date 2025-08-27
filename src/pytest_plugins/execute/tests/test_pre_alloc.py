@@ -13,15 +13,20 @@ from ..pre_alloc import AddressStubs
     "input_value,expected",
     [
         pytest.param(
-            {},
+            "{}",
             AddressStubs({}),
-            id="empty_address_stubs",
+            id="empty_address_stubs_string",
+        ),
+        pytest.param(
+            '{"some_address": "0x0000000000000000000000000000000000000001"}',
+            AddressStubs({"some_address": Address("0x0000000000000000000000000000000000000001")}),
+            id="address_stubs_string_with_some_address",
         ),
     ],
 )
 def test_address_stubs(input_value: Any, expected: AddressStubs):
     """Test the address stubs."""
-    assert AddressStubs.model_validate(input_value) == expected
+    assert AddressStubs.model_validate_json_or_file(input_value) == expected
 
 
 @pytest.mark.parametrize(
@@ -75,4 +80,4 @@ def test_address_stubs_from_files(
     filename = pytester.path.joinpath(file_name)
     filename.write_text(file_contents)
 
-    assert AddressStubs.model_validate(str(filename)) == expected
+    assert AddressStubs.model_validate_json_or_file(str(filename)) == expected
