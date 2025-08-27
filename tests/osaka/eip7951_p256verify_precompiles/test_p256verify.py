@@ -128,6 +128,19 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x19719BEBF6AEA13F25C96DFD7C71F5225D4C8FC09EB5A0AB9F39E9178E55C121),
             id="near_field_boundary_p_minus_3",
         ),
+        pytest.param(
+            # Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod p)
+            # instead of the correct P-256 equation y² = x³ - 3x + b where
+            # b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B
+            # This tests that the implementation properly validates the curve equation
+            # and rejects points on different curves (CVE-2020-0601 class vulnerability)
+            Spec.H0
+            + Spec.R0
+            + Spec.S0
+            + X(0x4)
+            + Y(0x872A856D521EED42D28A60CCC2EAE42E1572F33BE2BF616DC9A762D51C459E2A),
+            id="invalid_curve_attack_b_equals_one",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
