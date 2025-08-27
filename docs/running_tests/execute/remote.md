@@ -32,6 +32,84 @@ It is recommended to only run a subset of the tests when executing on a live net
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 ```
 
+## Address Stubs for Pre-deployed Contracts
+
+When running tests on networks that already have specific contracts deployed (such as mainnet or testnets with pre-deployed contracts), you can use the `--address-stubs` flag to specify these contracts instead of deploying new ones.
+
+Address stubs allow you to map contract labels used in tests to actual addresses where those contracts are already deployed on the network. This is particularly useful for:
+
+- Testing against mainnet with existing contracts (e.g., Uniswap, Compound)
+- Using pre-deployed contracts on testnets
+- Testing on bloat-net, a network containing pre-existing contracts with extensive storage history
+- Avoiding redeployment of large contracts to save gas and time
+
+### Using Address Stubs
+
+You can provide address stubs in several formats:
+
+**JSON string:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs '{"DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa", "UNISWAP_V3_FACTORY": "0x1F98431c8aD98523631AE4a59f267346ea31F984"}'
+```
+
+**JSON file:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.json
+```
+
+**YAML file:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.yaml
+```
+
+### Address Stubs File Format
+
+**JSON format (contracts.json):**
+
+```json
+{
+  "DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa",
+  "UNISWAP_V3_FACTORY": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+  "COMPOUND_COMPTROLLER": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
+}
+```
+
+**YAML format (contracts.yaml):**
+
+```yaml
+DEPOSIT_CONTRACT: 0x00000000219ab540356cbb839cbe05303d7705fa
+UNISWAP_V3_FACTORY: 0x1F98431c8aD98523631AE4a59f267346ea31F984
+COMPOUND_COMPTROLLER: 0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B
+```
+
+### How Address Stubs Work
+
+When a test uses a contract label that matches a key in the address stubs, the test framework will:
+
+1. Use the pre-deployed contract at the specified address instead of deploying a new contract
+2. Skip the contract deployment transaction, saving gas and time
+3. Use the existing contract's code and state for the test
+
+This is particularly useful when testing interactions with well-known contracts that are expensive to deploy or when you want to test against the actual deployed versions of contracts.
+
+### Bloat-net Testing
+
+Address stubs are especially valuable when testing on **bloat-net**, a specialized network that contains pre-existing contracts with extensive storage history. On bloat-net:
+
+- Contracts have been deployed and used extensively, accumulating large amounts of storage data
+- The storage state represents real-world usage patterns with complex data structures
+- Redeploying these contracts would lose the valuable historical state and storage bloat
+
+Using address stubs on bloat-net allows you to:
+
+- Test against contracts with realistic storage bloat patterns
+- Preserve the complex state that has been built up over time
+- Avoid the computational and storage costs of recreating this state
+- Test edge cases that only emerge with large, real-world storage datasets
+
 ## Transaction Metadata on Remote Networks
 
 When executing tests on remote networks, all transactions include metadata that helps with debugging and monitoring. This metadata is embedded in the RPC request ID and includes:
