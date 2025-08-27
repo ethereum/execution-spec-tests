@@ -2363,6 +2363,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#address-stubs-for-pre-deployed-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Stubs for Pre-deployed Contracts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Address Stubs for Pre-deployed Contracts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-address-stubs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Address Stubs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address-stubs-file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Stubs File Format
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-address-stubs-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Address Stubs Work
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloat-net-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bloat-net Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#transaction-metadata-on-remote-networks" class="md-nav__link">
     <span class="md-ellipsis">
       Transaction Metadata on Remote Networks
@@ -26856,6 +26907,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#address-stubs-for-pre-deployed-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Stubs for Pre-deployed Contracts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Address Stubs for Pre-deployed Contracts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-address-stubs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Address Stubs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#address-stubs-file-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Address Stubs File Format
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-address-stubs-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Address Stubs Work
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bloat-net-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bloat-net Testing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#transaction-metadata-on-remote-networks" class="md-nav__link">
     <span class="md-ellipsis">
       Transaction Metadata on Remote Networks
@@ -26924,6 +27026,61 @@
 <p>It is recommended to only run a subset of the tests when executing on a live network. To do so, a path to a specific test can be provided to the command:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 </code></pre></div>
+<h2 id="address-stubs-for-pre-deployed-contracts">Address Stubs for Pre-deployed Contracts<a class="headerlink" href="#address-stubs-for-pre-deployed-contracts" title="Permanent link">&para;</a></h2>
+<p>When running tests on networks that already have specific contracts deployed (such as mainnet or testnets with pre-deployed contracts), you can use the <code>--address-stubs</code> flag to specify these contracts instead of deploying new ones.</p>
+<p>Address stubs allow you to map contract labels used in tests to actual addresses where those contracts are already deployed on the network. This is particularly useful for:</p>
+<ul>
+<li>Testing against mainnet with existing contracts (e.g., Uniswap, Compound)</li>
+<li>Using pre-deployed contracts on testnets</li>
+<li>Testing on bloat-net, a network containing pre-existing contracts with extensive storage history</li>
+<li>Avoiding redeployment of large contracts to save gas and time</li>
+</ul>
+<h3 id="using-address-stubs">Using Address Stubs<a class="headerlink" href="#using-address-stubs" title="Permanent link">&para;</a></h3>
+<p>You can provide address stubs in several formats:</p>
+<p><strong>JSON string:</strong></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--address-stubs<span class="w"> </span><span class="s1">&#39;{&quot;DEPOSIT_CONTRACT&quot;: &quot;0x00000000219ab540356cbb839cbe05303d7705fa&quot;, &quot;UNISWAP_V3_FACTORY&quot;: &quot;0x1F98431c8aD98523631AE4a59f267346ea31F984&quot;}&#39;</span>
+</code></pre></div>
+<p><strong>JSON file:</strong></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--address-stubs<span class="w"> </span>./contracts.json
+</code></pre></div>
+<p><strong>YAML file:</strong></p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--address-stubs<span class="w"> </span>./contracts.yaml
+</code></pre></div>
+<h3 id="address-stubs-file-format">Address Stubs File Format<a class="headerlink" href="#address-stubs-file-format" title="Permanent link">&para;</a></h3>
+<p><strong>JSON format (contracts.json):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;DEPOSIT_CONTRACT&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x00000000219ab540356cbb839cbe05303d7705fa&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;UNISWAP_V3_FACTORY&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x1F98431c8aD98523631AE4a59f267346ea31F984&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;COMPOUND_COMPTROLLER&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>YAML format (contracts.yaml):</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">DEPOSIT_CONTRACT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x00000000219ab540356cbb839cbe05303d7705fa</span>
+<span class="nt">UNISWAP_V3_FACTORY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x1F98431c8aD98523631AE4a59f267346ea31F984</span>
+<span class="nt">COMPOUND_COMPTROLLER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B</span>
+</code></pre></div>
+<h3 id="how-address-stubs-work">How Address Stubs Work<a class="headerlink" href="#how-address-stubs-work" title="Permanent link">&para;</a></h3>
+<p>When a test uses a contract label that matches a key in the address stubs, the test framework will:</p>
+<ol>
+<li>Use the pre-deployed contract at the specified address instead of deploying a new contract</li>
+<li>Skip the contract deployment transaction, saving gas and time</li>
+<li>Use the existing contract's code and state for the test</li>
+</ol>
+<p>This is particularly useful when testing interactions with well-known contracts that are expensive to deploy or when you want to test against the actual deployed versions of contracts.</p>
+<h3 id="bloat-net-testing">Bloat-net Testing<a class="headerlink" href="#bloat-net-testing" title="Permanent link">&para;</a></h3>
+<p>Address stubs are especially valuable when testing on <strong>bloat-net</strong>, a specialized network that contains pre-existing contracts with extensive storage history. On bloat-net:</p>
+<ul>
+<li>Contracts have been deployed and used extensively, accumulating large amounts of storage data</li>
+<li>The storage state represents real-world usage patterns with complex data structures</li>
+<li>Redeploying these contracts would lose the valuable historical state and storage bloat</li>
+</ul>
+<p>Using address stubs on bloat-net allows you to:</p>
+<ul>
+<li>Test against contracts with realistic storage bloat patterns</li>
+<li>Preserve the complex state that has been built up over time</li>
+<li>Avoid the computational and storage costs of recreating this state</li>
+<li>Test edge cases that only emerge with large, real-world storage datasets</li>
+</ul>
 <h2 id="transaction-metadata-on-remote-networks">Transaction Metadata on Remote Networks<a class="headerlink" href="#transaction-metadata-on-remote-networks" title="Permanent link">&para;</a></h2>
 <p>When executing tests on remote networks, all transactions include metadata that helps with debugging and monitoring. This metadata is embedded in the RPC request ID and includes:</p>
 <ul>
