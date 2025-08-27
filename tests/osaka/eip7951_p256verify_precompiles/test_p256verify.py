@@ -128,6 +128,63 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
             + Y(0x19719BEBF6AEA13F25C96DFD7C71F5225D4C8FC09EB5A0AB9F39E9178E55C121),
             id="near_field_boundary_p_minus_3",
         ),
+        pytest.param(
+            # Invalid curve attack: This point satisfies y² = x³ - 3x + 1 (mod p)
+            # instead of the correct P-256 equation y² = x³ - 3x + b where
+            # b = 0x5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B
+            # This tests that the implementation properly validates the curve equation
+            # and rejects points on different curves (CVE-2020-0601 class vulnerability)
+            Spec.H0
+            + Spec.R0
+            + Spec.S0
+            + X(0x4)
+            + Y(0x872A856D521EED42D28A60CCC2EAE42E1572F33BE2BF616DC9A762D51C459E2A),
+            id="invalid_curve_attack_b_equals_one",
+        ),
+        pytest.param(
+            # Invalid curve attack: Singular curve with b = 0
+            # Point satisfies y² = x³ - 3x (mod p) - a singular/degenerate curve
+            # Singular curves have discriminant = 0 and provide no security guarantees
+            # This tests rejection of points on curves with catastrophic security failures
+            Spec.H0
+            + Spec.R0
+            + Spec.S0
+            + X(0x2)
+            + Y(0x507442007322AA895340CBA4ABC2D730BFD0B16C2C79A46815F8780D2C55A2DD),
+            id="invalid_curve_attack_singular_b_zero",
+        ),
+        pytest.param(
+            # Invalid curve attack: Boundary value b = p-1
+            # Point satisfies y² = x³ - 3x + (p-1) (mod p)
+            # Tests proper parameter validation at modular arithmetic boundaries
+            # Ensures implementations handle field arithmetic edge cases correctly
+            Spec.H0
+            + Spec.R0
+            + Spec.S0
+            + X(0x1)
+            + Y(0x6522AED9EA48F2623B8EEAE3E213B99DA32E74C9421835804D374CE28FCCA662),
+            id="invalid_curve_attack_b_equals_p_minus_1",
+        ),
+        pytest.param(
+            # Invalid curve attack: Small discriminant curve with b = 2
+            # Point satisfies y² = x³ - 3x + 2 (mod p)
+            # Curves with small discriminants are vulnerable to specialized attacks
+            # Tests rejection of cryptographically weak curve parameters
+            Spec.H0 + Spec.R0 + Spec.S0 + X(0x1) + Y(0x0),
+            id="invalid_curve_attack_small_discriminant",
+        ),
+        pytest.param(
+            # Invalid curve attack: Composite order curve with b = 7
+            # Point satisfies y² = x³ - 3x + 7 (mod p)
+            # Curve order has small factors enabling Pohlig-Hellman attacks
+            # Tests protection against small subgroup confinement attacks
+            Spec.H0
+            + Spec.R0
+            + Spec.S0
+            + X(0x1)
+            + Y(0x85EC5A4AF40176B63189069AEFFCB229C96D3E046E0283ED2F9DAC21B15AD3C),
+            id="invalid_curve_attack_composite_order",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID_RETURN_VALUE], ids=[""])
