@@ -40,8 +40,9 @@ def test_bloatnet(
 
     storage = Storage()
 
-    totalgas = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW # Initial gas for PUSH0 + CALLDATALOAD + POP (at the end)
-    totalgas = totalgas + fork.transaction_intrinsic_cost_calculator()(calldata=data);
+    # Initial gas for PUSH0 + CALLDATALOAD + POP (at the end)
+    totalgas = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW
+    totalgas = totalgas + fork.transaction_intrinsic_cost_calculator()(calldata=data)
     gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
     sstore_code = Op.PUSH0 + Op.CALLDATALOAD
     storage_slot: int = 0
