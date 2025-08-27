@@ -4,10 +4,11 @@ from os.path import realpath
 from pathlib import Path
 
 import pytest
+import requests
 
 from ethereum_test_rpc import EthRPC
 
-from .types import NetworkConfigFile
+from .types import Genesis, NetworkConfigFile
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
@@ -23,7 +24,7 @@ def pytest_addoption(parser):
         "--network",
         action="store",
         dest="network",
-        required=True,
+        required=False,
         type=str,
         default=None,
         help=(
@@ -41,6 +42,26 @@ def pytest_addoption(parser):
         help="Path to the yml file that contains custom network configuration.",
     )
     eth_config_group.addoption(
+        "--genesis-config-file",
+        action="store",
+        dest="genesis_config_file",
+        required=False,
+        type=Path,
+        default=None,
+        help="Path to a genesis JSON file from which a custom network configuration "
+        "must be derived.",
+    )
+    eth_config_group.addoption(
+        "--genesis-config-url",
+        action="store",
+        dest="genesis_config_url",
+        required=False,
+        type=str,
+        default=None,
+        help="URL to a genesis JSON file from which a custom network configuration "
+        "must be derived.",
+    )
+    eth_config_group.addoption(
         "--rpc-endpoint",
         required=True,
         action="store",
@@ -54,21 +75,44 @@ def pytest_configure(config: pytest.Config) -> None:
     Load the network configuration file and load the specific network to be used for
     the test.
     """
+    genesis_config_file = config.getoption("genesis_config_file")
+    genesis_config_url = config.getoption("genesis_config_url")
     network_configs_path = config.getoption("network_config_file", default=None)
-    if network_configs_path is None:
-        network_configs_path = DEFAULT_NETWORK_CONFIGS_FILE
-    if not network_configs_path.exists():
-        pytest.exit(f'Specified networks file "{network_configs_path}" does not exist.')
-    try:
-        network_configs = NetworkConfigFile.from_yaml(network_configs_path)
-    except Exception as e:
-        pytest.exit(f"Could not load file {network_configs_path}: {e}")
     network_name = config.getoption("network")
-    if network_name not in network_configs.root:
-        pytest.exit(
-            f'Network "{network_name}" could not be found in file "{network_configs_path}".'
-        )
-    config.network = network_configs.root[network_name]  # type: ignore
+
+    if genesis_config_file is not None or genesis_config_url is not None:
+        if network_name is not None:
+            pytest.exit(
+                "Cannot specify a network name when using the --genesis-config-file or "
+                "--genesis-config-url flag."
+            )
+        if genesis_config_file is not None and genesis_config_url is not None:
+            pytest.exit(
+                "Cannot specify both the --genesis-config-file and --genesis-config-url flags."
+            )
+        genesis_config_contents = None
+        if genesis_config_file is not None:
+            genesis_config_contents = genesis_config_file.read_text()
+        else:
+            genesis_config_contents = requests.get(genesis_config_url).text
+        genesis_config = Genesis.model_validate_json(genesis_config_contents)
+        config.network = genesis_config.network_config()  # type: ignore
+    else:
+        # load provided networks file
+        if network_configs_path is None:
+            network_configs_path = DEFAULT_NETWORK_CONFIGS_FILE
+        if not network_configs_path.exists():
+            pytest.exit(f'Specified networks file "{network_configs_path}" does not exist.')
+        try:
+            network_configs = NetworkConfigFile.from_yaml(network_configs_path)
+        except Exception as e:
+            pytest.exit(f"Could not load file {network_configs_path}: {e}")
+
+        if network_name not in network_configs.root:
+            pytest.exit(
+                f'Network "{network_name}" could not be found in file "{network_configs_path}".'
+            )
+        config.network = network_configs.root[network_name]  # type: ignore
 
     if config.getoption("collectonly", default=False):
         return
