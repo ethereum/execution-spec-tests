@@ -32,12 +32,16 @@ uv run execute eth-config --network <NETWORK_NAME> --rpc-endpoint <RPC_URL> [OPT
 
 ### Required Arguments
 
-- `--network`: Name of the network to verify (e.g., `Mainnet`, `Sepolia`, `Holesky`, `Hoodi`)
 - `--rpc-endpoint`: RPC endpoint URL of the execution client to test
 
 ### Optional Arguments
 
+- `--network`: Name of the network to verify (e.g., `Mainnet`, `Sepolia`, `Holesky`, `Hoodi`) - required when not using genesis config flags
 - `--network-config-file`: Path to a custom YAML file containing network configurations (defaults to `src/pytest_plugins/execute/eth_config/networks.yml`)
+- `--genesis-config-file`: Path to a genesis JSON file from which a custom network configuration must be derived
+- `--genesis-config-url`: URL to a genesis JSON file from which a custom network configuration must be derived
+
+**Note**: You cannot specify both `--network` and genesis config flags (`--genesis-config-file` or `--genesis-config-url`) at the same time. You also cannot specify both `--genesis-config-file` and `--genesis-config-url` simultaneously.
 
 ## Examples
 
@@ -57,6 +61,18 @@ uv run execute eth-config --network Sepolia --rpc-endpoint http://localhost:8545
 
 ```bash
 uv run execute eth-config --network MyCustomNet --rpc-endpoint http://localhost:8545 --network-config-file ./my-networks.yml
+```
+
+### Using a Genesis JSON File
+
+```bash
+uv run execute eth-config --genesis-config-file ./genesis.json --rpc-endpoint http://localhost:8545
+```
+
+### Using a Genesis JSON URL
+
+```bash
+uv run execute eth-config --genesis-config-url https://example.com/genesis.json --rpc-endpoint http://localhost:8545
 ```
 
 ## Network Configuration File Format
