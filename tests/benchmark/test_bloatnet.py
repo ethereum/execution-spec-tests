@@ -1,10 +1,11 @@
 """
-abstract: Tests [EIP-8047 BloatNet](https://eips.ethereum.org/EIPS/eip-8047)
-    Test cases for [EIP-8047 BloatNet](https://eips.ethereum.org/EIPS/eip-8047)].
+abstract: Tests [BloatNet](https://bloatnet.info)
+    Test cases for [BloatNet](https://bloatnet.info).
 """
 
 import pytest
 
+from ethereum_test_base_types import HashInt
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -79,3 +80,89 @@ def test_bloatnet(
     post = {contract_address: Account(storage=storage)}
 
     blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1, tx_1_2])], post=post)
+
+
+# Warm reads are very cheap, which means you can really fill a block
+# with them. Only fill the block by a factor of SPEEDUP.
+SPEEDUP: int = 100
+
+
+@pytest.mark.valid_from("Prague")
+def test_bloatnet_sload_warm(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
+    """Test that loads warm storage locations many times."""
+    gas_costs = fork.gas_costs()
+
+    # Pre-fill storage with values
+    num_slots = 100  # Number of storage slots to warm up
+    storage = Storage({HashInt(i): HashInt(0xDEADBEEF + i) for i in range(num_slots)})
+
+    # Calculate gas costs
+    totalgas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
+
+    # First pass - warm up all slots (cold access)
+    warmup_gas = num_slots * (gas_costs.G_COLD_SLOAD + gas_costs.G_BASE)
+    totalgas += warmup_gas
+
+    # Calculate how many warm loads we can fit
+    gas_increment = gas_costs.G_WARM_SLOAD + gas_costs.G_BASE  # Warm SLOAD + POP
+    remaining_gas = Environment().gas_limit - totalgas
+    num_warm_loads = remaining_gas // (SPEEDUP * gas_increment)
+
+    # Build the complete code: warmup + repeated warm loads
+    sload_code = Op.SLOAD(0) + Op.POP if num_slots > 0 else Op.STOP
+    for i in range(1, num_slots):
+        sload_code = sload_code + Op.SLOAD(i) + Op.POP
+    for i in range(num_warm_loads):
+        sload_code = sload_code + Op.SLOAD(i % num_slots) + Op.POP
+
+    sender = pre.fund_eoa()
+    contract_address = pre.deploy_contract(
+        code=sload_code,
+        storage=storage,
+    )
+
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=Environment().gas_limit,
+        data=b"",
+        value=0,
+        sender=sender,
+    )
+
+    post = {contract_address: Account(storage=storage)}
+    blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)
+
+
+@pytest.mark.valid_from("Prague")
+def test_bloatnet_sload_cold(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
+    """Test that loads many different cold storage locations."""
+    gas_costs = fork.gas_costs()
+
+    # Calculate gas costs and max slots
+    totalgas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
+    # PUSH + Cold SLOAD + POP
+    gas_increment = gas_costs.G_VERY_LOW + gas_costs.G_COLD_SLOAD + gas_costs.G_BASE
+    max_slots = (Environment().gas_limit - totalgas) // gas_increment
+
+    # Build storage and code for all slots
+    storage = Storage({HashInt(i): HashInt(0xC0FFEE + i) for i in range(max_slots)})
+    sload_code = Op.SLOAD(0) + Op.POP if max_slots > 0 else Op.STOP
+    for i in range(1, max_slots):
+        sload_code = sload_code + Op.SLOAD(i) + Op.POP
+
+    sender = pre.fund_eoa()
+    contract_address = pre.deploy_contract(
+        code=sload_code,
+        storage=storage,
+    )
+
+    tx = Transaction(
+        to=contract_address,
+        gas_limit=Environment().gas_limit,
+        data=b"",
+        value=0,
+        sender=sender,
+    )
+
+    post = {contract_address: Account(storage=storage)}
+    blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)
