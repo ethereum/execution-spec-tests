@@ -6,18 +6,31 @@ and generates execution witness data for blockchain test fixtures when enabled.
 """
 
 import subprocess
-from typing import Any, Callable, List
+from typing import Callable, List
 
 import pytest
 
 from ethereum_test_base_types import EthereumTestRootModel
-from ethereum_test_fixtures.blockchain import FixtureBlock, WitnessChunk
+from ethereum_test_fixtures.blockchain import BlockchainFixture, FixtureBlock, WitnessChunk
+from ethereum_test_forks import Paris
 
 
 class WitnessFillerResult(EthereumTestRootModel[List[WitnessChunk]]):
     """Model that defines the expected result from the `witness-filler` command."""
 
     root: List[WitnessChunk]
+
+
+class Merge(Paris):
+    """
+    Paris fork that serializes as 'Merge' for witness-filler compatibility.
+
+    IMPORTANT: This class MUST be named 'Merge' (not 'MergeForWitness' or similar)
+    because the class name is used directly in Pydantic serialization, and
+    witness-filler expects exactly 'Merge' for this fork.
+    """
+
+    pass
 
 
 def pytest_addoption(parser: pytest.Parser):
@@ -71,28 +84,30 @@ def pytest_configure(config):
 
 
 @pytest.fixture
-def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] | None:
+def witness_generator(
+    request: pytest.FixtureRequest,
+) -> Callable[[BlockchainFixture], None] | None:
     """
     Provide a witness generator function if --witness is enabled.
 
     Returns:
         None if witness functionality is disabled.
-        Callable that generates witness data for a fixture if enabled.
+        Callable that generates witness data for a BlockchainFixture if enabled.
 
     """
     if not request.config.getoption("witness"):
         return None
 
-    def generate_witness(fixture: Any) -> None:
-        """Generate witness data for a fixture using the witness-filler tool."""
-        if not hasattr(fixture, "blocks") or not fixture.blocks:
-            return
+    def generate_witness(fixture: BlockchainFixture) -> None:
+        """Generate witness data for a blockchain fixture using the witness-filler tool."""
+        if not isinstance(fixture, BlockchainFixture):
+            return None
 
         # Hotfix: witness-filler expects "Merge" but execution-spec-tests uses "Paris"
         original_fork = None
-        if hasattr(fixture, "fork") and str(fixture.fork) == "Paris":
+        if fixture.fork is Paris:
             original_fork = fixture.fork
-            fixture.fork = "Merge"
+            fixture.fork = Merge
 
         try:
             result = subprocess.run(
@@ -102,7 +117,6 @@ def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] |
                 capture_output=True,
             )
         finally:
-            # Restore original fork value
             if original_fork is not None:
                 fixture.fork = original_fork
 
@@ -117,8 +131,10 @@ def witness_generator(request: pytest.FixtureRequest) -> Callable[[Any], None] |
             witnesses = result_model.root
 
             for i, witness in enumerate(witnesses):
-                if i < len(fixture.blocks) and isinstance(fixture.blocks[i], FixtureBlock):
-                    fixture.blocks[i].execution_witness = witness
+                if i < len(fixture.blocks):
+                    block = fixture.blocks[i]
+                    if isinstance(block, FixtureBlock):
+                        block.execution_witness = witness
         except Exception as e:
             raise RuntimeError(
                 f"Failed to parse witness data from witness-filler tool. "
