@@ -1,10 +1,11 @@
 """
 Pytest plugin for witness functionality.
 
-Provides --witness command-line option that installs the witness-filler tool
+Provides --witness command-line option that checks for the witness-filler tool in PATH
 and generates execution witness data for blockchain test fixtures when enabled.
 """
 
+import shutil
 import subprocess
 from typing import Callable, List
 
@@ -43,8 +44,8 @@ def pytest_addoption(parser: pytest.Parser):
         dest="witness",
         default=False,
         help=(
-            "Install the witness-filler tool and generate execution witness data for blockchain "
-            "test fixtures."
+            "Generate execution witness data for blockchain test fixtures using the "
+            "witness-filler tool (must be installed separately)."
         ),
     )
 
@@ -53,34 +54,18 @@ def pytest_configure(config):
     """
     Pytest hook called after command line options have been parsed.
 
-    If --witness is enabled, installs the witness-filler tool from the specified
-    git repository.
+    If --witness is enabled, checks that the witness-filler tool is available in PATH.
     """
     if config.getoption("witness"):
-        print("🔧 Installing witness-filler tool from kevaundray/reth...")
-        print("   This may take several minutes for first-time compilation...")
-
-        result = subprocess.run(
-            [
-                "cargo",
-                "install",
-                "--git",
-                "https://github.com/kevaundray/reth.git",
-                "--rev",
-                "e7efffd314a003018883caf2489c39733fc59388",
-                "witness-filler",
-            ],
-        )
-
-        if result.returncode != 0:
+        # Check if witness-filler binary is available in PATH
+        if not shutil.which("witness-filler"):
             pytest.exit(
-                f"Failed to install witness-filler tool (exit code: {result.returncode}). "
-                "Please ensure you have a compatible Rust toolchain installed. "
-                "You may need to update your Rust version to 1.86+ or run without --witness.",
+                "witness-filler tool not found in PATH. Please build and install witness-filler "
+                "from https://github.com/kevaundray/reth.git before using --witness flag.\n"
+                "Example: cargo install --git https://github.com/kevaundray/reth.git "
+                "witness-filler",
                 1,
             )
-        else:
-            print("✅ witness-filler tool installed successfully!")
 
 
 @pytest.fixture
