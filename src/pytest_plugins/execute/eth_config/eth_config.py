@@ -80,24 +80,29 @@ def pytest_configure(config: pytest.Config) -> None:
     network_configs_path = config.getoption("network_config_file", default=None)
     network_name = config.getoption("network")
 
-    if genesis_config_file is not None or genesis_config_url is not None:
-        if network_name is not None:
-            pytest.exit(
-                "Cannot specify a network name when using the --genesis-config-file or "
-                "--genesis-config-url flag."
-            )
-        if genesis_config_file is not None and genesis_config_url is not None:
-            pytest.exit(
-                "Cannot specify both the --genesis-config-file and --genesis-config-url flags."
-            )
-        genesis_config_contents = None
-        if genesis_config_file is not None:
-            genesis_config_contents = genesis_config_file.read_text()
-        else:
-            genesis_config_contents = requests.get(genesis_config_url).text
+    if genesis_config_file and genesis_config_url:
+        pytest.exit(
+            "Cannot specify both the --genesis-config-file and --genesis-config-url flags."
+        )
+
+    if (genesis_config_file or genesis_config_url) and network_name:
+        pytest.exit(
+            "Cannot specify a network name when using the --genesis-config-file or "
+            "--genesis-config-url flag."
+        )
+    # handle the one of the three flags that was passed
+    #   case 1: genesis_config_file
+    if genesis_config_file:
+        genesis_config_contents = genesis_config_file.read_text()
         genesis_config = Genesis.model_validate_json(genesis_config_contents)
         config.network = genesis_config.network_config()  # type: ignore
-    else:
+    #   case 2: genesis_config_url
+    elif genesis_config_url:
+        genesis_config_contents = requests.get(genesis_config_url).text
+        genesis_config = Genesis.model_validate_json(genesis_config_contents)
+        config.network = genesis_config.network_config()  # type: ignore
+    #   case 3: network_name
+    elif network_name:
         # load provided networks file
         if network_configs_path is None:
             network_configs_path = DEFAULT_NETWORK_CONFIGS_FILE
