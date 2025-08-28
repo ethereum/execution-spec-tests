@@ -1131,6 +1131,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         test_case_description: str,
         fixture_source_url: str,
         gas_benchmark_value: int,
+        witness_generator,
     ):
         """
         Fixture used to instantiate an auto-fillable BaseTest object from within
@@ -1213,6 +1214,10 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     ref_spec=reference_spec,
                     _info_metadata=t8n._info_metadata,
                 )
+
+                # Generate witness data if witness functionality is enabled via the witness plugin
+                if witness_generator is not None:
+                    witness_generator(fixture)
 
                 fixture_path = fixture_collector.add_fixture(
                     node_to_test_info(request.node),

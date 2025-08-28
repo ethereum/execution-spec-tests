@@ -1,5 +1,6 @@
 """BlockchainTest types."""
 
+import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -401,6 +402,24 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
         return cls(**w.model_dump())
 
 
+class WitnessChunk(CamelModel):
+    """Represents execution witness data for a block."""
+
+    state: List[str]
+    codes: List[str]
+    keys: List[str]
+    headers: List[str]
+
+    @classmethod
+    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+        """
+        Parse multiple witness chunks from JSON string.
+
+        Returns a list of WitnessChunk instances parsed from the JSON array.
+        """
+        return [cls(**obj) for obj in json.loads(s)]
+
+
 class FixtureBlockBase(CamelModel):
     """Representation of an Ethereum block within a test Fixture without RLP bytes."""
 
@@ -408,6 +427,7 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
+    execution_witness: WitnessChunk | None = None
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property

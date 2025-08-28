@@ -87,6 +87,7 @@ def pytest_configure(config):
                 "defining debug",
                 "pre-allocation behavior during test filling",
                 "ported",
+                "witness",
             ],
         )
     elif config.getoption("show_consume_help"):
