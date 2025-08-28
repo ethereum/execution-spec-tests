@@ -26869,7 +26869,7 @@ to fill (including the standard pytest and plugin command-line options) use <cod
             [--single-fixture-per-file] [--no-html] [--build-name BUILD_NAME]
             [--skip-index SKIP_INDEX] [--block-gas-limit BLOCK_GAS_LIMIT]
             [--generate-pre-alloc-groups] [--use-pre-alloc-groups]
-            [--generate-all-formats] [--evm-dump-dir EVM_DUMP_DIR]
+            [--generate-all-formats] [--evm-dump-dir EVM_DUMP_DIR] [--witness]
             [--show-ported-from [SHOW_PORTED_FROM]]
             [--skip-coverage-missed-reason]
             [--ported-from-output-file PORTED_FROM_OUTPUT_FILE]
@@ -26959,6 +26959,12 @@ Arguments defining debug behavior:
   --evm-dump-dir EVM_DUMP_DIR, --t8n-dump-dir EVM_DUMP_DIR
                         Path to dump the transition tool debug output. Only
                         creates debug output when explicitly specified.
+
+Arguments for witness functionality:
+  --witness, --witness-the-fitness
+                        Generate execution witness data for blockchain test
+                        fixtures using the witness-filler tool (must be
+                        installed separately).
 
 Arguments for showing ported_from marker information:
   --show-ported-from [SHOW_PORTED_FROM]

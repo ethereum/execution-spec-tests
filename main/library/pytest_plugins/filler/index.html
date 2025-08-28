@@ -28765,6 +28765,10 @@ Otherwise, verify the directory is empty before proceeding.</p>
 
 
 
+
+
+
+
   </div>
 
     </div>
@@ -33016,7 +33020,12 @@ leakage between tests.</p>
 <span class="normal">1228</span>
 <span class="normal">1229</span>
 <span class="normal">1230</span>
-<span class="normal">1231</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
+<span class="normal">1231</span>
+<span class="normal">1232</span>
+<span class="normal">1233</span>
+<span class="normal">1234</span>
+<span class="normal">1235</span>
+<span class="normal">1236</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">base_test_parametrizer</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseTest</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate pytest.fixture for a given BaseTest subclass.</span>
 
@@ -33041,6 +33050,7 @@ leakage between tests.</p>
         <span class="n">test_case_description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">fixture_source_url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">gas_benchmark_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">witness_generator</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Fixture used to instantiate an auto-fillable BaseTest object from within</span>
@@ -33124,6 +33134,10 @@ leakage between tests.</p>
                     <span class="n">_info_metadata</span><span class="o">=</span><span class="n">t8n</span><span class="o">.</span><span class="n">_info_metadata</span><span class="p">,</span>
                 <span class="p">)</span>
 
+                <span class="c1"># Generate witness data if witness functionality is enabled via the witness plugin</span>
+                <span class="k">if</span> <span class="n">witness_generator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">witness_generator</span><span class="p">(</span><span class="n">fixture</span><span class="p">)</span>
+
                 <span class="n">fixture_path</span> <span class="o">=</span> <span class="n">fixture_collector</span><span class="o">.</span><span class="n">add_fixture</span><span class="p">(</span>
                     <span class="n">node_to_test_info</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="p">),</span>
                     <span class="n">fixture</span><span class="p">,</span>
@@ -33169,12 +33183,7 @@ test spec supports.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1240</span>
-<span class="normal">1241</span>
-<span class="normal">1242</span>
-<span class="normal">1243</span>
-<span class="normal">1244</span>
-<span class="normal">1245</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1245</span>
 <span class="normal">1246</span>
 <span class="normal">1247</span>
 <span class="normal">1248</span>
@@ -33193,7 +33202,12 @@ test spec supports.</p>
 <span class="normal">1261</span>
 <span class="normal">1262</span>
 <span class="normal">1263</span>
-<span class="normal">1264</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
+<span class="normal">1264</span>
+<span class="normal">1265</span>
+<span class="normal">1266</span>
+<span class="normal">1267</span>
+<span class="normal">1268</span>
+<span class="normal">1269</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_generate_tests</span><span class="p">(</span><span class="n">metafunc</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Metafunc</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pytest hook used to dynamically generate test cases for each fixture format a given</span>
 <span class="sd">    test spec supports.</span>
@@ -33249,12 +33263,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1267</span>
-<span class="normal">1268</span>
-<span class="normal">1269</span>
-<span class="normal">1270</span>
-<span class="normal">1271</span>
-<span class="normal">1272</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1272</span>
 <span class="normal">1273</span>
 <span class="normal">1274</span>
 <span class="normal">1275</span>
@@ -33331,7 +33340,12 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1346</span>
 <span class="normal">1347</span>
 <span class="normal">1348</span>
-<span class="normal">1349</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
+<span class="normal">1349</span>
+<span class="normal">1350</span>
+<span class="normal">1351</span>
+<span class="normal">1352</span>
+<span class="normal">1353</span>
+<span class="normal">1354</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_collection_modifyitems</span><span class="p">(</span>
     <span class="n">config</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Config</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">Item</span> <span class="o">|</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Function</span><span class="p">]</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -33447,12 +33461,7 @@ parametrization occurs in the forks plugin.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/pytest_plugins/filler/filler.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1352</span>
-<span class="normal">1353</span>
-<span class="normal">1354</span>
-<span class="normal">1355</span>
-<span class="normal">1356</span>
-<span class="normal">1357</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1357</span>
 <span class="normal">1358</span>
 <span class="normal">1359</span>
 <span class="normal">1360</span>
@@ -33483,7 +33492,12 @@ parametrization occurs in the forks plugin.</p>
 <span class="normal">1385</span>
 <span class="normal">1386</span>
 <span class="normal">1387</span>
-<span class="normal">1388</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="normal">1388</span>
+<span class="normal">1389</span>
+<span class="normal">1390</span>
+<span class="normal">1391</span>
+<span class="normal">1392</span>
+<span class="normal">1393</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">pytest_sessionfinish</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">Session</span><span class="p">,</span> <span class="n">exitstatus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform session finish tasks.</span>
 
