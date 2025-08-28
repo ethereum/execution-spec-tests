@@ -5,7 +5,7 @@ stable:
 
 develop:
   evm-type: develop 
-  fill-params: --until=Osaka --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
+  fill-params: --until=BPO4 --fill-static-tests --ignore=tests/static/state_tests/stQuadraticComplexityTest
 
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague

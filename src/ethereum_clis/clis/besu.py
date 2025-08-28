@@ -35,6 +35,8 @@ class BesuTransitionTool(TransitionTool):
     server_url: str
     besu_trace_dir: Optional[tempfile.TemporaryDirectory]
 
+    supports_xdist: ClassVar[bool] = False
+
     def __init__(
         self,
         *,

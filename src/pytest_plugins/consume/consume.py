@@ -88,7 +88,7 @@ class FixtureDownloader:
         response.raise_for_status()
 
         with tarfile.open(fileobj=BytesIO(response.content), mode="r:gz") as tar:
-            tar.extractall(path=self.destination_folder, filter="data")
+            tar.extractall(path=self.destination_folder)
 
         return self.detect_extracted_directory()
 
@@ -506,5 +506,8 @@ def pytest_generate_tests(metafunc):
     metafunc.parametrize("test_case", param_list)
 
     if "client_type" in metafunc.fixturenames:
-        client_ids = [client.name for client in metafunc.config.hive_execution_clients]
-        metafunc.parametrize("client_type", metafunc.config.hive_execution_clients, ids=client_ids)
+        metafunc.parametrize(
+            "client_type",
+            metafunc.config.hive_execution_clients,
+            ids=[client.name for client in metafunc.config.hive_execution_clients],
+        )
