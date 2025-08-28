@@ -12,7 +12,7 @@ from ethereum_test_execution import BaseExecute
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_tools import BaseTest
-from ethereum_test_types import EnvironmentDefaults, TransactionDefaults
+from ethereum_test_types import ChainConfigDefaults, EnvironmentDefaults, TransactionDefaults
 
 from ..shared.execute_fill import ALL_FIXTURE_PARAMETERS
 from ..shared.helpers import (
@@ -90,6 +90,15 @@ def pytest_addoption(parser):
         default=0.3,
         help=("Time to wait after sending a forkchoice_updated before getting the payload."),
     )
+    execute_group.addoption(
+        "--chain-id",
+        action="store",
+        dest="chain_id",
+        required=False,
+        type=int,
+        default=None,
+        help="ID of the chain where the tests will be executed.",
+    )
 
     report_group = parser.getgroup("tests", "Arguments defining html report behavior")
     report_group.addoption(
@@ -137,6 +146,22 @@ def pytest_configure(config):
     # Configuration for the forks pytest plugin
     config.skip_transition_forks = True
     config.single_fork_mode = True
+
+    # Configure the chain ID for the tests.
+    rpc_chain_id = config.getoption("rpc_chain_id", None)
+    chain_id = config.getoption("chain_id")
+    if rpc_chain_id is not None or chain_id is not None:
+        if rpc_chain_id is not None and chain_id is not None:
+            if chain_id != rpc_chain_id:
+                pytest.exit(
+                    "Conflicting chain ID configuration. "
+                    "The --rpc-chain-id flag is deprecated and will be removed in a future "
+                    "release. Use --chain-id instead."
+                )
+        if rpc_chain_id is not None:
+            ChainConfigDefaults.chain_id = rpc_chain_id
+        if chain_id is not None:
+            ChainConfigDefaults.chain_id = chain_id
 
 
 def pytest_metadata(metadata):
@@ -394,6 +419,9 @@ def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item
             elif marker.name == "valid_at_transition_to":
                 items_for_removal.append(i)
                 continue
+            elif marker.name == "pre_alloc_modify":
+                item.add_marker(pytest.mark.skip(reason="Pre-alloc modification not supported"))
+
         if "yul" in item.fixturenames:  # type: ignore
             item.add_marker(pytest.mark.yul_test)
 

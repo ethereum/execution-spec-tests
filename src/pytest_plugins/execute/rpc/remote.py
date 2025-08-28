@@ -6,7 +6,6 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
-from ethereum_test_types import TransactionDefaults
 
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
@@ -25,10 +24,12 @@ def pytest_addoption(parser):
         "--rpc-chain-id",
         action="store",
         dest="rpc_chain_id",
-        required=True,
+        required=False,
         type=int,
         default=None,
-        help="ID of the chain where the tests will be executed.",
+        help="DEPRECATED: ID of the chain where the tests will be executed. "
+        "This flag is deprecated and will be removed in a future release."
+        "Use --chain-id instead.",
     )
     remote_rpc_group.addoption(
         "--tx-wait-timeout",
@@ -71,6 +72,12 @@ def pytest_addoption(parser):
     )
 
 
+def pytest_configure(config: pytest.Config):
+    """Check if a chain ID configuration is provided."""
+    if config.getoption("rpc_chain_id") is None and config.getoption("chain_id") is None:
+        pytest.exit("No chain ID configuration found. Please use --chain-id.")
+
+
 @pytest.fixture(scope="session")
 def engine_rpc(request) -> EngineRPC | None:
     """Execute remote command does not have access to the engine RPC."""
@@ -101,15 +108,6 @@ def engine_rpc(request) -> EngineRPC | None:
 def rpc_endpoint(request) -> str:
     """Return remote RPC endpoint to be used to make requests to the execution client."""
     return request.config.getoption("rpc_endpoint")
-
-
-@pytest.fixture(autouse=True, scope="session")
-def chain_id(request) -> int:
-    """Return chain id where the tests will be executed."""
-    chain_id = request.config.getoption("rpc_chain_id")
-    if chain_id is not None:
-        TransactionDefaults.chain_id = chain_id
-    return chain_id
 
 
 @pytest.fixture(autouse=True, scope="session")
