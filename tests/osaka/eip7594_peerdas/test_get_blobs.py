@@ -338,9 +338,4 @@ def test_get_blobs_nonexisting(
 ):
     """Test that ensures clients respond with 'null' when at least one requested blob is not available."""  # noqa: E501
     nonexisting_blob_hashes = [Hash(sha256(str(i).encode()).digest()) for i in range(5)]
-    # for index, h in enumerate(nonexisting_blob_hashes):
-    #     print(f"\nIndex: {index}, Hash: {h.hex()}")
-    # print()
-
     blobs_test(pre=pre, txs=txs, nonexisting_blob_hashes=nonexisting_blob_hashes)
-    # TODO: why do all tests run twice (and fail the second time)? ethereum_test_rpc.rpc.SendTransactionExceptionError: JSONRPCError(code=-32000, message=address already reserved)  # noqa: E501

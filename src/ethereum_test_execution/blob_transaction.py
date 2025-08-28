@@ -12,8 +12,11 @@ from ethereum_test_rpc import BlobAndProofV1, BlobAndProofV2, EngineRPC, EthRPC
 from ethereum_test_rpc.types import GetBlobsResponse
 from ethereum_test_types import NetworkWrappedTransaction, Transaction
 from ethereum_test_types.transaction_types import TransactionTestMetadata
+from pytest_plugins.logging import get_logger
 
 from .base import BaseExecute
+
+logger = get_logger(__name__)
 
 
 def versioned_hashes_with_blobs_and_proofs(
@@ -109,7 +112,7 @@ class BlobTransaction(BaseExecute):
                     f"{blob_response.root}"
                 )
             else:
-                print(
+                logger.info(
                     "Test was passed (partial responses are not allowed and the client "
                     "correctly returned 'null')"
                 )
