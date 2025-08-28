@@ -1,6 +1,6 @@
 """
-abstract: Tests [BloatNet](https://bloatnet.info)
-    Test cases for [BloatNet](https://bloatnet.info).
+abstract: Tests that benchmarks EVMs to estimate the costs of  stateful opcodes.
+    Tests that benchmarks EVMs to estimate the costs of stateful opcodes..
 """
 
 import pytest
@@ -18,8 +18,8 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
-REFERENCE_SPEC_VERSION = "0.1"
+REFERENCE_SPEC_GIT_PATH = "TODO"
+REFERENCE_SPEC_VERSION = "TODO"
 
 
 @pytest.mark.valid_from("Prague")
