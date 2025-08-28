@@ -3,7 +3,6 @@ Suicide scenario requested test
 https://github.com/ethereum/execution-spec-tests/issues/381.
 """
 
-from itertools import count
 from typing import Dict, Union
 
 import pytest
@@ -31,7 +30,7 @@ REFERENCE_SPEC_VERSION = "1b6a0e94cc47e859b9866e570391cf37dc55059a"
 @pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
-    (True, False),
+    (pytest.param(True, marks=pytest.mark.execute(pytest.mark.skip("Modifies pre"))), False),
 )
 @pytest.mark.parametrize(
     "call_create2_contract_in_between,call_create2_contract_at_the_end",
@@ -197,15 +196,9 @@ def test_dynamic_create2_selfdestruct_collision(
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x0,
-        nonce=0,
         to=address_to,
-        gas_price=10,
-        protected=False,
         data=initcode,
-        gas_limit=5000000,
-        value=0,
+        gas_limit=5_000_000,
         sender=sender,
     )
 
@@ -215,7 +208,7 @@ def test_dynamic_create2_selfdestruct_collision(
 @pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
-    (True, False),
+    (pytest.param(True, marks=pytest.mark.execute(pytest.mark.skip("Modifies pre"))), False),
 )
 @pytest.mark.parametrize(
     "call_create2_contract_at_the_end",
@@ -414,8 +407,6 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
         pre=pre,
         post=post,
@@ -423,27 +414,15 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
             Block(
                 txs=[
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to_second,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                 ]
@@ -648,8 +627,6 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
         pre=pre,
         post=post,
@@ -657,27 +634,15 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
             Block(
                 txs=[
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                 ]
