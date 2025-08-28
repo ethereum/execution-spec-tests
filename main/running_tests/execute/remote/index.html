@@ -2363,6 +2363,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#engine-rpc-endpoint-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engine RPC Endpoint (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#address-stubs-for-pre-deployed-contracts" class="md-nav__link">
     <span class="md-ellipsis">
       Address Stubs for Pre-deployed Contracts
@@ -26907,6 +26916,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#engine-rpc-endpoint-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Engine RPC Endpoint (Optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#address-stubs-for-pre-deployed-contracts" class="md-nav__link">
     <span class="md-ellipsis">
       Address Stubs for Pre-deployed Contracts
@@ -27022,6 +27040,16 @@
 <p>One last requirement is that the <code>--rpc-chain-id</code> flag is set to the chain id of the network that is being tested:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span>
 </code></pre></div>
+<h2 id="engine-rpc-endpoint-optional">Engine RPC Endpoint (Optional)<a class="headerlink" href="#engine-rpc-endpoint-optional" title="Permanent link">&para;</a></h2>
+<p>By default, the <code>execute remote</code> command assumes that the execution client is connected to a beacon node and the chain progresses automatically. However, you can optionally specify an Engine RPC endpoint to drive the chain manually when new transactions are submitted.</p>
+<p>To use this feature, you need to provide both the <code>--engine-endpoint</code> and JWT authentication:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--engine-endpoint<span class="o">=</span>https://engine.endpoint.io<span class="w"> </span>--engine-jwt-secret<span class="w"> </span><span class="s2">&quot;your-jwt-secret-here&quot;</span>
+</code></pre></div>
+<p>Alternatively, you can provide the JWT secret from a file:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--engine-endpoint<span class="o">=</span>https://engine.endpoint.io<span class="w"> </span>--engine-jwt-secret-file<span class="w"> </span>/path/to/jwt-secret.txt
+</code></pre></div>
+<p>The JWT secret file must contain only the JWT secret as a hex string.</p>
+<p>When an engine endpoint is provided, the test execution will use the Engine API to create new blocks and include transactions, giving you full control over the chain progression.</p>
 <p>The <code>execute remote</code> command will connect to the client via the RPC endpoint and will start executing every test in the <code>./tests</code> folder in the same way as the <code>execute hive</code> command, but instead of using the Engine API to generate blocks, it will send the transactions to the client via the RPC endpoint.</p>
 <p>It is recommended to only run a subset of the tests when executing on a live network. To do so, a path to a specific test can be provided to the command:</p>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>remote<span class="w"> </span>--fork<span class="o">=</span>Prague<span class="w"> </span>--rpc-endpoint<span class="o">=</span>https://rpc.endpoint.io<span class="w"> </span>--rpc-seed-key<span class="w"> </span>0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f<span class="w"> </span>--rpc-chain-id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
