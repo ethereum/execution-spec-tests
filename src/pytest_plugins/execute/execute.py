@@ -1,5 +1,6 @@
 """Test execution plugin for pytest, to run Ethereum tests using in live networks."""
 
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, Generator, List, Type
@@ -72,6 +73,22 @@ def pytest_addoption(parser):
             "Will be used as ceiling for tests that attempt to consume the entire block gas limit."
             f"(Default: {EnvironmentDefaults.gas_limit // 4})"
         ),
+    )
+    execute_group.addoption(
+        "--transactions-per-block",
+        action="store",
+        dest="transactions_per_block",
+        type=int,
+        default=None,
+        help=("Number of transactions to send before producing the next block."),
+    )
+    execute_group.addoption(
+        "--get-payload-wait-time",
+        action="store",
+        dest="get_payload_wait_time",
+        type=float,
+        default=0.3,
+        help=("Time to wait after sending a forkchoice_updated before getting the payload."),
     )
 
     report_group = parser.getgroup("tests", "Arguments defining html report behavior")
@@ -176,6 +193,18 @@ def pytest_runtest_makereport(item, call):
 def pytest_html_report_title(report):
     """Set the HTML report title (pytest-html plugin)."""
     report.title = "Execute Test Report"
+
+
+@pytest.fixture(scope="session")
+def transactions_per_block(request) -> int:  # noqa: D103
+    if transactions_per_block := request.config.getoption("transactions_per_block"):
+        return transactions_per_block
+
+    # Get the number of workers for the test
+    worker_count_env = os.environ.get("PYTEST_XDIST_WORKER_COUNT")
+    if not worker_count_env:
+        return 1
+    return max(int(worker_count_env), 1)
 
 
 @pytest.fixture(scope="session")
