@@ -427,7 +427,7 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
-    execution_witness: WitnessChunk | None = Field(None, alias="executionWitness")
+    execution_witness: WitnessChunk | None = None
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
