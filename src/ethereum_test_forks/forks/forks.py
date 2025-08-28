@@ -1802,6 +1802,12 @@ class BPO4(BPO3, bpo_fork=True):
         return 21
 
 
+class BPO5(BPO4, bpo_fork=True):
+    """BPO5 fork - Blob Parameter Only fork 5 (Required to parse Fusaka devnet genesis files)."""
+
+    pass
+
+
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
 
