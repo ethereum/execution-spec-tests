@@ -2482,6 +2482,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#using-a-genesis-json-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Genesis JSON File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-genesis-json-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Genesis JSON URL
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -27063,6 +27081,24 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#using-a-genesis-json-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Genesis JSON File
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-a-genesis-json-url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using a Genesis JSON URL
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -27151,13 +27187,16 @@
 </code></pre></div>
 <h3 id="required-arguments">Required Arguments<a class="headerlink" href="#required-arguments" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>--network</code>: Name of the network to verify (e.g., <code>Mainnet</code>, <code>Sepolia</code>, <code>Holesky</code>, <code>Hoodi</code>)</li>
 <li><code>--rpc-endpoint</code>: RPC endpoint URL of the execution client to test</li>
 </ul>
 <h3 id="optional-arguments">Optional Arguments<a class="headerlink" href="#optional-arguments" title="Permanent link">&para;</a></h3>
 <ul>
+<li><code>--network</code>: Name of the network to verify (e.g., <code>Mainnet</code>, <code>Sepolia</code>, <code>Holesky</code>, <code>Hoodi</code>) - required when not using genesis config flags</li>
 <li><code>--network-config-file</code>: Path to a custom YAML file containing network configurations (defaults to <code>src/pytest_plugins/execute/eth_config/networks.yml</code>)</li>
+<li><code>--genesis-config-file</code>: Path to a genesis JSON file from which a custom network configuration must be derived</li>
+<li><code>--genesis-config-url</code>: URL to a genesis JSON file from which a custom network configuration must be derived</li>
 </ul>
+<p><strong>Note</strong>: You cannot specify both <code>--network</code> and genesis config flags (<code>--genesis-config-file</code> or <code>--genesis-config-url</code>) at the same time. You also cannot specify both <code>--genesis-config-file</code> and <code>--genesis-config-url</code> simultaneously.</p>
 <h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
 <h3 id="testing-a-mainnet-client">Testing a Mainnet Client<a class="headerlink" href="#testing-a-mainnet-client" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>eth-config<span class="w"> </span>--network<span class="w"> </span>Mainnet<span class="w"> </span>--rpc-endpoint<span class="w"> </span>http://localhost:8545
@@ -27167,6 +27206,12 @@
 </code></pre></div>
 <h3 id="using-a-custom-network-configuration">Using a Custom Network Configuration<a class="headerlink" href="#using-a-custom-network-configuration" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>eth-config<span class="w"> </span>--network<span class="w"> </span>MyCustomNet<span class="w"> </span>--rpc-endpoint<span class="w"> </span>http://localhost:8545<span class="w"> </span>--network-config-file<span class="w"> </span>./my-networks.yml
+</code></pre></div>
+<h3 id="using-a-genesis-json-file">Using a Genesis JSON File<a class="headerlink" href="#using-a-genesis-json-file" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>eth-config<span class="w"> </span>--genesis-config-file<span class="w"> </span>./genesis.json<span class="w"> </span>--rpc-endpoint<span class="w"> </span>http://localhost:8545
+</code></pre></div>
+<h3 id="using-a-genesis-json-url">Using a Genesis JSON URL<a class="headerlink" href="#using-a-genesis-json-url" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>execute<span class="w"> </span>eth-config<span class="w"> </span>--genesis-config-url<span class="w"> </span>https://example.com/genesis.json<span class="w"> </span>--rpc-endpoint<span class="w"> </span>http://localhost:8545
 </code></pre></div>
 <h2 id="network-configuration-file-format">Network Configuration File Format<a class="headerlink" href="#network-configuration-file-format" title="Permanent link">&para;</a></h2>
 <p>The network configuration file is a YAML file that defines the parameters for each network. Here's the structure:</p>
