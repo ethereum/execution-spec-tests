@@ -1,13 +1,21 @@
 """Pre-allocation fixtures using for test filling."""
 
 from itertools import count
+from pathlib import Path
 from random import randint
-from typing import Generator, Iterator, List, Literal, Tuple
+from typing import Dict, Generator, Iterator, List, Literal, Self, Tuple
 
 import pytest
+import yaml
 from pydantic import PrivateAttr
 
-from ethereum_test_base_types import Bytes, Number, StorageRootType, ZeroPaddedHexNumber
+from ethereum_test_base_types import (
+    Bytes,
+    EthereumTestRootModel,
+    Number,
+    StorageRootType,
+    ZeroPaddedHexNumber,
+)
 from ethereum_test_base_types.conversions import (
     BytesConvertible,
     FixedSizeBytesConvertible,
@@ -34,6 +42,51 @@ from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 MAX_BYTECODE_SIZE = 24576
 
 MAX_INITCODE_SIZE = MAX_BYTECODE_SIZE * 2
+
+
+class AddressStubs(EthereumTestRootModel[Dict[str, Address]]):
+    """
+    Address stubs class.
+
+    The key represents the label that is used in the test to tag the contract, and the value
+    is the address where the contract is already located at in the current network.
+    """
+
+    root: Dict[str, Address]
+
+    def __contains__(self, item: str) -> bool:
+        """Check if an item is in the address stubs."""
+        return item in self.root
+
+    def __getitem__(self, item: str) -> Address:
+        """Get an item from the address stubs."""
+        return self.root[item]
+
+    @classmethod
+    def model_validate_json_or_file(cls, json_data_or_path: str) -> Self:
+        """
+        Try to load from file if the value resembles a path that ends with .json/.yml and the
+        file exists.
+        """
+        lower_json_data_or_path = json_data_or_path.lower()
+        if (
+            lower_json_data_or_path.endswith(".json")
+            or lower_json_data_or_path.endswith(".yml")
+            or lower_json_data_or_path.endswith(".yaml")
+        ):
+            path = Path(json_data_or_path)
+            if path.is_file():
+                path_suffix = path.suffix.lower()
+                if path_suffix == ".json":
+                    return cls.model_validate_json(path.read_text())
+                elif path_suffix in [".yml", ".yaml"]:
+                    loaded_yaml = yaml.safe_load(path.read_text())
+                    if loaded_yaml is None:
+                        return cls(root={})
+                    return cls.model_validate(loaded_yaml)
+        if json_data_or_path.strip() == "":
+            return cls(root={})
+        return cls.model_validate_json(json_data_or_path)
 
 
 def pytest_addoption(parser):
@@ -66,6 +119,15 @@ def pytest_addoption(parser):
         type=int,
         help="The default amount of wei to fund each EOA in each test with.",
     )
+    pre_alloc_group.addoption(
+        "--address-stubs",
+        action="store",
+        dest="address_stubs",
+        default=AddressStubs(root={}),
+        type=AddressStubs.model_validate_json_or_file,
+        help="The address stubs for contracts that have already been placed in the chain and to "
+        "use for the test. Can be a JSON formatted string or a path to a YAML or JSON file.",
+    )
 
 
 @pytest.hookimpl(trylast=True)
@@ -78,6 +140,12 @@ def pytest_report_header(config):
         (bold + f"Start seed for EOA: {hex(eoa_start)} " + reset),
     ]
     return header
+
+
+@pytest.fixture(scope="session")
+def address_stubs(request) -> AddressStubs:
+    """Return an address stubs object."""
+    return request.config.getoption("address_stubs")
 
 
 @pytest.fixture(scope="session")
@@ -100,6 +168,7 @@ class Alloc(BaseAlloc):
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
     _chain_id: int = PrivateAttr()
     _node_id: str = PrivateAttr("")
+    _address_stubs: AddressStubs = PrivateAttr()
 
     def __init__(
         self,
@@ -112,6 +181,7 @@ class Alloc(BaseAlloc):
         eoa_fund_amount_default: int,
         evm_code_type: EVMCodeType | None = None,
         node_id: str = "",
+        address_stubs: AddressStubs | None = None,
         **kwargs,
     ):
         """Initialize the pre-alloc with the given parameters."""
@@ -124,6 +194,7 @@ class Alloc(BaseAlloc):
         self._chain_id = chain_id
         self._eoa_fund_amount_default = eoa_fund_amount_default
         self._node_id = node_id
+        self._address_stubs = address_stubs or AddressStubs(root={})
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """Set account associated with an address."""
@@ -160,6 +231,9 @@ class Alloc(BaseAlloc):
 
         if not isinstance(storage, Storage):
             storage = Storage(storage)  # type: ignore
+
+        if label and label in self._address_stubs:
+            return self._address_stubs[label]
 
         initcode_prefix = Bytecode()
 
@@ -435,6 +509,7 @@ def pre(
     chain_id: int,
     eoa_fund_amount_default: int,
     default_gas_price: int,
+    address_stubs: AddressStubs,
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""
@@ -451,6 +526,7 @@ def pre(
         chain_id=chain_id,
         eoa_fund_amount_default=eoa_fund_amount_default,
         node_id=request.node.nodeid,
+        address_stubs=address_stubs,
     )
 
     # Yield the pre-alloc for usage during the test

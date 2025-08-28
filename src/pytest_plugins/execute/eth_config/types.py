@@ -1,26 +1,33 @@
 """Types used to test `eth_config`."""
 
 from binascii import crc32
+from collections import defaultdict
+from functools import cached_property
 from pathlib import Path
-from typing import Dict, Self, Set
+from typing import Annotated, Any, ClassVar, Dict, List, Self, Set
 
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, BeforeValidator, Field, model_validator
 
 from ethereum_test_base_types import (
     Address,
+    Bytes,
     CamelModel,
     EthereumTestRootModel,
     ForkHash,
     Hash,
+    HeaderNonce,
     HexNumber,
+    Number,
 )
-from ethereum_test_forks import Fork
+from ethereum_test_fixtures.blockchain import FixtureHeader
+from ethereum_test_forks import Fork, Frontier
 from ethereum_test_rpc import (
     EthConfigResponse,
     ForkConfig,
     ForkConfigBlobSchedule,
 )
+from ethereum_test_types import Alloc, Environment
 
 
 class AddressOverrideDict(EthereumTestRootModel):
@@ -40,50 +47,7 @@ class ForkConfigBuilder(BaseModel):
     activation_time: int
     chain_id: int
     address_overrides: AddressOverrideDict
-    bpo_blob_schedule_override: ForkConfigBlobSchedule | None = None
-
-    @property
-    def blob_schedule(self) -> ForkConfigBlobSchedule | None:
-        """Get the blob schedule."""
-        if self.bpo_blob_schedule_override is not None:
-            return self.bpo_blob_schedule_override
-        return ForkConfigBlobSchedule.from_fork_blob_schedule(
-            self.fork.blob_schedule()[self.fork.name()]
-        )
-
-    def add(
-        self, fork_or_blob_schedule: Fork | ForkConfigBlobSchedule, activation_time: int
-    ) -> Self:
-        """Add or change the base fork or blob schedule."""
-        if isinstance(fork_or_blob_schedule, ForkConfigBlobSchedule):
-            return self.__class__(
-                fork=self.fork,
-                activation_time=activation_time,
-                chain_id=self.chain_id,
-                address_overrides=self.address_overrides,
-                bpo_blob_schedule_override=fork_or_blob_schedule,
-            )
-        else:
-            fork: Fork = fork_or_blob_schedule
-            return self.__class__(
-                fork=fork,
-                activation_time=activation_time,
-                chain_id=self.chain_id,
-                address_overrides=self.address_overrides,
-                bpo_blob_schedule_override=None
-                if fork.blob_schedule() is not None
-                else self.bpo_blob_schedule_override,
-            )
-
-    def with_fork_id(self, fork_id: ForkHash) -> Self:
-        """Set the fork_id for this builder."""
-        return self.__class__(
-            fork=self.fork,
-            activation_time=self.activation_time,
-            chain_id=self.chain_id,
-            address_overrides=self.address_overrides,
-            bpo_blob_schedule_override=self.bpo_blob_schedule_override,
-        )
+    blob_schedule: ForkConfigBlobSchedule | None = None
 
     @property
     def precompiles(self) -> Dict[str, Address]:
@@ -126,8 +90,63 @@ def calculate_fork_id(genesis_hash: Hash, activation_times: Set[int]) -> ForkHas
     """Calculate the fork Id given the genesis hash and each fork activation times."""
     buffer = bytes(genesis_hash)
     for activation_time in sorted(activation_times):
+        if activation_time == 0:
+            continue
         buffer += activation_time.to_bytes(length=8, byteorder="big")
     return ForkHash(crc32(buffer))
+
+
+class ForkActivationTimes(EthereumTestRootModel[Dict[Fork, int]]):
+    """Fork activation times."""
+
+    root: Dict[Fork, int]
+
+    def forks_by_activation_time(self) -> Dict[int, Set[Fork]]:
+        """Get the forks by activation time."""
+        forks_by_activation_time = defaultdict(set)
+        for fork, activation_time in self.root.items():
+            forks_by_activation_time[activation_time].add(fork)
+        return forks_by_activation_time
+
+    def active_forks(self, current_time: int) -> List[Fork]:
+        """Get the active forks."""
+        forks_by_activation_time = self.forks_by_activation_time()
+        active_forks = []
+        for activation_time in sorted(forks_by_activation_time.keys()):
+            if activation_time <= current_time:
+                active_forks.extend(sorted(forks_by_activation_time[activation_time]))
+        return active_forks
+
+    def next_forks(self, current_time: int) -> List[Fork]:
+        """Get the next forks."""
+        forks_by_activation_time = self.forks_by_activation_time()
+        next_forks = []
+        for activation_time in sorted(forks_by_activation_time.keys()):
+            if activation_time > current_time:
+                next_forks.extend(sorted(forks_by_activation_time[activation_time]))
+        return next_forks
+
+    def active_fork(self, current_time: int) -> Fork:
+        """Get the active fork."""
+        return self.active_forks(current_time)[-1]
+
+    def next_fork(self, current_time: int) -> Fork | None:
+        """Get the next fork."""
+        next_forks = self.next_forks(current_time)
+        if next_forks:
+            return next_forks[0]
+        return None
+
+    def last_fork(self, current_time: int) -> Fork | None:
+        """Get the last fork."""
+        next_forks = self.next_forks(current_time)
+        if next_forks:
+            return next_forks[-1]
+        return None
+
+    def __getitem__(self, key: Fork) -> int:
+        """Get the activation time for a given fork."""
+        return self.root[key]
 
 
 class NetworkConfig(CamelModel):
@@ -135,79 +154,70 @@ class NetworkConfig(CamelModel):
 
     chain_id: HexNumber
     genesis_hash: Hash
-    fork_activation_times: Dict[int, Fork]
-    bpo_fork_activation_times: Dict[int, ForkConfigBlobSchedule] = {}
+    fork_activation_times: ForkActivationTimes
+    blob_schedule: Dict[Fork, ForkConfigBlobSchedule] = Field(default_factory=dict)
     address_overrides: AddressOverrideDict = Field(default_factory=lambda: AddressOverrideDict({}))
 
     def get_eth_config(self, current_time: int) -> EthConfigResponse:
         """Get the current and next forks based on the given time."""
-        all_activations: Dict[int, Fork | ForkConfigBlobSchedule] = {
-            **self.fork_activation_times,
-            **self.bpo_fork_activation_times,
-        }
         network_kwargs = {
             "chain_id": self.chain_id,
             "address_overrides": self.address_overrides,
         }
+
+        activation_times = set(self.fork_activation_times.forks_by_activation_time().keys())
+
+        current_activation_times = {
+            activation_time
+            for activation_time in activation_times
+            if activation_time <= current_time
+        }
+        next_activation_times = {
+            activation_time
+            for activation_time in activation_times
+            if activation_time > current_time
+        }
+        active_fork = self.fork_activation_times.active_fork(current_time)
         current_config_builder: ForkConfigBuilder = ForkConfigBuilder(
-            fork=all_activations[0],
-            activation_time=0,
+            fork=active_fork,
+            activation_time=self.fork_activation_times[active_fork],
+            blob_schedule=self.blob_schedule.get(active_fork),
             **network_kwargs,
         )
-        current_activation_times: Set[int] = set()
-
-        next_config_builder: ForkConfigBuilder | None = None
-        next_activation_times: Set[int] = set()
-        next_processed: bool = False
-
-        last_config_builder: ForkConfigBuilder | None = None
-        last_activation_times: Set[int] = set()
-
-        for activation_time in all_activations.keys():
-            if activation_time == 0:
-                continue
-            if activation_time <= current_time:
-                current_config_builder = current_config_builder.add(
-                    all_activations[activation_time], activation_time
-                )
-                current_activation_times.add(activation_time)
-                next_activation_times.add(activation_time)
-                last_activation_times.add(activation_time)
-            else:
-                if not next_processed:
-                    next_config_builder = current_config_builder.add(
-                        all_activations[activation_time], activation_time
-                    )
-                    next_activation_times.add(activation_time)
-                    next_processed = True
-
-                    last_config_builder = current_config_builder.add(
-                        all_activations[activation_time], activation_time
-                    )
-                    last_activation_times.add(activation_time)
-                else:
-                    assert last_config_builder is not None, "Last config builder is None"
-                    last_config_builder = last_config_builder.add(
-                        all_activations[activation_time], activation_time
-                    )
-                    last_activation_times.add(activation_time)
-
         current_config = current_config_builder.get_config(
             calculate_fork_id(self.genesis_hash, current_activation_times)
         )
-        kwargs = {
-            "current": current_config,
-        }
-        if next_config_builder is not None:
-            next_config = next_config_builder.get_config(
-                calculate_fork_id(self.genesis_hash, next_activation_times)
+        kwargs = {"current": current_config}
+
+        next_fork = self.fork_activation_times.next_fork(current_time)
+        if next_fork:
+            next_config_builder: ForkConfigBuilder = ForkConfigBuilder(
+                fork=next_fork,
+                activation_time=self.fork_activation_times[next_fork],
+                blob_schedule=self.blob_schedule.get(next_fork),
+                **network_kwargs,
             )
-            kwargs["next"] = next_config
-        if last_config_builder is not None:
-            last_config = last_config_builder.get_config(
-                calculate_fork_id(self.genesis_hash, last_activation_times)
+            kwargs["next"] = next_config_builder.get_config(
+                calculate_fork_id(
+                    self.genesis_hash,
+                    current_activation_times | {sorted(next_activation_times)[0]},
+                )
             )
-            kwargs["last"] = last_config
+
+        last_fork = self.fork_activation_times.last_fork(current_time)
+        if last_fork:
+            last_config_builder: ForkConfigBuilder = ForkConfigBuilder(
+                fork=last_fork,
+                activation_time=self.fork_activation_times[last_fork],
+                blob_schedule=self.blob_schedule.get(last_fork),
+                **network_kwargs,
+            )
+            kwargs["last"] = last_config_builder.get_config(
+                calculate_fork_id(
+                    self.genesis_hash,
+                    current_activation_times | next_activation_times,
+                )
+            )
 
         return EthConfigResponse(**kwargs)
 
@@ -223,3 +233,117 @@ class NetworkConfigFile(EthereumTestRootModel):
         with path.open("r") as file:
             config_data = yaml.safe_load(file)
             return cls.model_validate(config_data)
+
+
+class GenesisConfig(CamelModel):
+    """Config model contained in a Geth-type genesis file."""
+
+    chain_id: int
+    terminal_total_difficulty: int
+    terminal_total_difficulty_passed: bool
+    deposit_contract_address: Address = Address(0x00000000219AB540356CBB839CBE05303D7705FA)
+    fork_activation_times: ForkActivationTimes
+    blob_schedule: Dict[Fork, ForkConfigBlobSchedule]
+
+    fork_synonyms: ClassVar[Dict[str, str | None]] = {
+        # TODO: Ideally add fork synonyms, but not important for now.
+        "eip150": None,
+        "eip155": None,
+        "eip158": None,
+        "petersburg": None,
+        "mergeNetsplit": "paris",
+    }
+
+    @property
+    def address_overrides(self) -> AddressOverrideDict:
+        """Get the address overrides."""
+        if self.deposit_contract_address == Address(0x00000000219AB540356CBB839CBE05303D7705FA):
+            return AddressOverrideDict({})
+        return AddressOverrideDict(
+            {Address(0x00000000219AB540356CBB839CBE05303D7705FA): self.deposit_contract_address}
+        )
+
+    def fork(self) -> Fork:
+        """Return the latest fork active at genesis."""
+        current_fork: Fork = Frontier
+        for fork, activation_block_time in self.fork_activation_times.root.items():
+            if activation_block_time == 0 and fork > current_fork:
+                current_fork = fork
+        return current_fork
+
+    @model_validator(mode="before")
+    @classmethod
+    def preprocess_fork_times_blocks(cls, data: Any):
+        """
+        Pre-process the dictionary to put fork block numbers and times in the correct format.
+
+        Fork times and block numbers have the following format in the root of the object:
+
+        ```
+        "berlinBlock": 0,
+        "londonBlock": 0,
+        ...
+        "pragueTime": 0,
+        "osakaTime": 1753379304,
+        ```
+
+        This function strips the "*Block" and "*Time" part and moves the values.
+
+        """
+        if isinstance(data, dict):
+            fork_activation_times: Dict[str, int] = {}
+            for key in list(data.keys()):
+                assert isinstance(key, str)
+                if key.endswith("Block") or key.endswith("Time"):
+                    if key.endswith("Block"):
+                        stripped_key = key.removesuffix("Block")
+                    else:
+                        stripped_key = key.removesuffix("Time")
+                    if stripped_key in cls.fork_synonyms:
+                        synonym = cls.fork_synonyms[stripped_key]
+                        if synonym:
+                            stripped_key = synonym
+                        else:
+                            continue
+                    fork_activation_times[stripped_key] = data.pop(key)
+            if fork_activation_times:
+                data["forkActivationTimes"] = fork_activation_times
+        return data
+
+
+class Genesis(CamelModel):
+    """Geth-type genesis file."""
+
+    config: GenesisConfig
+    alloc: Alloc
+    fee_recipient: Address = Field(validation_alias="coinbase")
+    difficulty: HexNumber
+    extra_data: Bytes
+    gas_limit: HexNumber
+    nonce: Annotated[HeaderNonce, BeforeValidator(lambda x: HexNumber(x))]
+    mixhash: Hash
+    timestamp: Number
+    parent_hash: Hash
+    base_fee_per_gas: HexNumber = HexNumber(10**9)
+    number: HexNumber = HexNumber(0)
+
+    @cached_property
+    def hash(self) -> Hash:
+        """Calculate the genesis hash."""
+        dumped_genesis = self.model_dump(mode="json", exclude={"config", "alloc"})
+        genesis_fork = self.config.fork()
+        env = Environment(**dumped_genesis).set_fork_requirements(genesis_fork)
+        genesis_header = FixtureHeader.genesis(genesis_fork, env, self.alloc.state_root())
+        genesis_header.extra_data = self.extra_data
+        genesis_header.nonce = self.nonce
+        return genesis_header.block_hash
+
+    def network_config(self) -> NetworkConfig:
+        """Get the network config."""
+        return NetworkConfig(
+            chain_id=self.config.chain_id,
+            genesis_hash=self.hash,
+            fork_activation_times=self.config.fork_activation_times,
+            blob_schedule=self.config.blob_schedule,
+            address_overrides=self.config.address_overrides,
+        )

@@ -105,6 +105,7 @@ EXPECTED_BPO1 = json.loads("""
     "ID": "0x0000000000000000000000000000000000000004",
     "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
     "MODEXP": "0x0000000000000000000000000000000000000005",
+    "P256VERIFY": "0x0000000000000000000000000000000000000100",
     "RIPEMD160": "0x0000000000000000000000000000000000000003",
     "SHA256": "0x0000000000000000000000000000000000000002"
     },
@@ -144,6 +145,7 @@ EXPECTED_BPO2 = json.loads("""
     "ID": "0x0000000000000000000000000000000000000004",
     "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
     "MODEXP": "0x0000000000000000000000000000000000000005",
+    "P256VERIFY": "0x0000000000000000000000000000000000000100",
     "RIPEMD160": "0x0000000000000000000000000000000000000003",
     "SHA256": "0x0000000000000000000000000000000000000002"
     },
@@ -183,6 +185,7 @@ EXPECTED_BPO3 = json.loads("""
     "ID": "0x0000000000000000000000000000000000000004",
     "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
     "MODEXP": "0x0000000000000000000000000000000000000005",
+    "P256VERIFY": "0x0000000000000000000000000000000000000100",
     "RIPEMD160": "0x0000000000000000000000000000000000000003",
     "SHA256": "0x0000000000000000000000000000000000000002"
     },
@@ -222,6 +225,7 @@ EXPECTED_BPO4 = json.loads("""
     "ID": "0x0000000000000000000000000000000000000004",
     "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
     "MODEXP": "0x0000000000000000000000000000000000000005",
+    "P256VERIFY": "0x0000000000000000000000000000000000000100",
     "RIPEMD160": "0x0000000000000000000000000000000000000003",
     "SHA256": "0x0000000000000000000000000000000000000002"
     },
@@ -261,6 +265,7 @@ EXPECTED_BPO5 = json.loads("""
     "ID": "0x0000000000000000000000000000000000000004",
     "KZG_POINT_EVALUATION": "0x000000000000000000000000000000000000000a",
     "MODEXP": "0x0000000000000000000000000000000000000005",
+    "P256VERIFY": "0x0000000000000000000000000000000000000100",
     "RIPEMD160": "0x0000000000000000000000000000000000000003",
     "SHA256": "0x0000000000000000000000000000000000000002"
     },
@@ -285,32 +290,50 @@ Mainnet:
   chainId:              0x1
   genesisHash:          0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3
   forkActivationTimes:
-    0:                  Frontier
-    1150000:            Homestead
-    1920000:            DAOFork
-    2463000:            Tangerine
-    2675000:            SpuriousDragon
-    4370000:            Byzantium
-    7280000:            Constantinople
-    9069000:            Istanbul
-    9200000:            MuirGlacier
-    12244000:           Berlin
-    12965000:           London
-    13773000:           ArrowGlacier
-    15050000:           GrayGlacier
-    1681338455:         Shanghai
-    1710338135:         Cancun
-    1746612311:         Prague
+    Frontier:           0
+    Homestead:          1150000
+    DAOFork:            1920000
+    Tangerine:          2463000
+    SpuriousDragon:     2675000
+    Byzantium:          4370000
+    Constantinople:     7280000
+    Istanbul:           9069000
+    MuirGlacier:        9200000
+    Berlin:             12244000
+    London:             12965000
+    ArrowGlacier:       13773000
+    GrayGlacier:        15050000
+    Shanghai:           1681338455
+    Cancun:             1710338135
+    Prague:             1746612311
+  blobSchedule:
+    Cancun:
+      target: 3
+      max: 6
+      baseFeeUpdateFraction: 3338477
+    Prague:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
 
 Sepolia:
   chainId:              0xaa36a7
   genesisHash:          0x25a5cc106eea7138acab33231d7160d69cb777ee0c2c553fcddf5138993e6dd9
   forkActivationTimes:
-    0:                  Berlin
-    1735371:            London
-    1677557088:         Shanghai
-    1706655072:         Cancun
-    1741159776:         Prague
+    Berlin:             0
+    London:             1735371
+    Shanghai:           1677557088
+    Cancun:             1706655072
+    Prague:             1741159776
+  blobSchedule:
+    Cancun:
+      target: 3
+      max: 6
+      baseFeeUpdateFraction: 3338477
+    Prague:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
   addressOverrides:
     0x00000000219ab540356cbb839cbe05303d7705fa: 0x7f02c3e3c98b133055b8b348b2ac625669ed295d
 
@@ -318,48 +341,79 @@ Hoodi:
   chainId:              0x88BB0
   genesisHash:          0xbbe312868b376a3001692a646dd2d7d1e4406380dfd86b98aa8a34d1557c971b
   forkActivationTimes:
-    0:                  Cancun
-    1742999832:         Prague
+    Cancun:             0
+    Prague:             1742999832
+  blobSchedule:
+    Cancun:
+      target: 3
+      max: 6
+      baseFeeUpdateFraction: 3338477
+    Prague:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
 
 Holesky:
   chainId:              0x4268
   genesisHash:          0xb5f7f912443c940f21fd611f12828d75b534364ed9e95ca4e307729a4661bde4
   forkActivationTimes:
-    0:                  Paris
-    1696000704:         Shanghai
-    1707305664:         Cancun
-    1740434112:         Prague
+    Paris:              0
+    Shanghai:           1696000704
+    Cancun:             1707305664
+    Prague:             1740434112
   addressOverrides:
     0x00000000219ab540356cbb839cbe05303d7705fa: 0x4242424242424242424242424242424242424242
+  blobSchedule:
+    Cancun:
+      target: 3
+      max: 6
+      baseFeeUpdateFraction: 3338477
+    Prague:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
 
 # Test-only network configs.
 HoodiWithBPOs:
   chainId:              0x88BB0
   genesisHash:          0xbbe312868b376a3001692a646dd2d7d1e4406380dfd86b98aa8a34d1557c971b
   forkActivationTimes:
-    0:                  Cancun
-    1742999832:         Prague
-  bpoForkActivationTimes:
-    1753477608:
-        target: 9
-        max: 12
-        base_fee_update_fraction: 5007716
-    1753575912:
-        target: 12
-        max: 15
-        base_fee_update_fraction: 5007716
-    1753674216:
-        target: 15
-        max: 18
-        base_fee_update_fraction: 5007716
-    1753772520:
-        target: 6
-        max: 9
-        base_fee_update_fraction: 5007716
-    1753889256:
-        target: 15
-        max: 20
-        base_fee_update_fraction: 5007716
+    Cancun:             0
+    Prague:             1742999832
+    Osaka:              1753477608
+    BPO1:               1753575912
+    BPO2:               1753674216
+    BPO3:               1753772520
+    BPO4:               1753889256
+  blobSchedule:
+    Cancun:
+      target: 3
+      max: 6
+      baseFeeUpdateFraction: 3338477
+    Prague:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
+    Osaka:
+      target: 9
+      max: 12
+      baseFeeUpdateFraction: 5007716
+    BPO1:
+      target: 12
+      max: 15
+      baseFeeUpdateFraction: 5007716
+    BPO2:
+      target: 15
+      max: 18
+      baseFeeUpdateFraction: 5007716
+    BPO3:
+      target: 6
+      max: 9
+      baseFeeUpdateFraction: 5007716
+    BPO4:
+      target: 15
+      max: 20
+      baseFeeUpdateFraction: 5007716
 """
 
 
