@@ -9,9 +9,14 @@ from ethereum_test_base_types import Address, Hash
 from ethereum_test_base_types.base_types import Bytes
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import BlobAndProofV1, BlobAndProofV2, EngineRPC, EthRPC
-from ethereum_test_types import NetworkWrappedTransaction, Transaction, TransactionTestMetadata
+from ethereum_test_rpc.types import GetBlobsResponse
+from ethereum_test_types import NetworkWrappedTransaction, Transaction
+from ethereum_test_types.transaction_types import TransactionTestMetadata
+from pytest_plugins.logging import get_logger
 
 from .base import BaseExecute
+
+logger = get_logger(__name__)
 
 
 def versioned_hashes_with_blobs_and_proofs(
@@ -54,6 +59,7 @@ class BlobTransaction(BaseExecute):
     requires_engine_rpc: ClassVar[bool] = True
 
     txs: List[NetworkWrappedTransaction | Transaction]
+    nonexisting_blob_hashes: List[Hash] | None = None
 
     def execute(
         self, fork: Fork, eth_rpc: EthRPC, engine_rpc: EngineRPC | None, request: FixtureRequest
@@ -87,15 +93,39 @@ class BlobTransaction(BaseExecute):
             )
         version = fork.engine_get_blobs_version()
         assert version is not None, "Engine get blobs version is not supported by the fork."
-        blob_response = engine_rpc.get_blobs(list(versioned_hashes.keys()), version=version)
+
+        # ensure that clients respond 'null' when they have no access to at least one blob
+        list_versioned_hashes = list(versioned_hashes.keys())
+        if self.nonexisting_blob_hashes is not None:
+            list_versioned_hashes.extend(self.nonexisting_blob_hashes)
+
+        blob_response: GetBlobsResponse | None = engine_rpc.get_blobs(
+            list_versioned_hashes, version=version
+        )  # noqa: E501
+
+        # if non-existing blob hashes were request then the response must be 'null'
+        if self.nonexisting_blob_hashes is not None:
+            if blob_response is not None:
+                raise ValueError(
+                    f"Non-existing blob hashes were requested and "
+                    "the client was expected to respond with 'null', but instead it replied: "
+                    f"{blob_response.root}"
+                )
+            else:
+                logger.info(
+                    "Test was passed (partial responses are not allowed and the client "
+                    "correctly returned 'null')"
+                )
+                eth_rpc.wait_for_transactions(sent_txs)
+                return
+
+        assert blob_response is not None
         local_blobs_and_proofs = list(versioned_hashes.values())
-        if len(blob_response) != len(local_blobs_and_proofs):
-            raise ValueError(
-                f"Expected {len(local_blobs_and_proofs)} blobs and proofs, "
-                f"got {len(blob_response)}."
-            )
+        assert len(blob_response) == len(local_blobs_and_proofs), "Expected "
+        f"{len(local_blobs_and_proofs)} blobs and proofs, got {len(blob_response)}."
+
         for expected_blob, received_blob in zip(
-            local_blobs_and_proofs, blob_response.root, strict=False
+            local_blobs_and_proofs, blob_response.root, strict=True
         ):
             if received_blob is None:
                 raise ValueError("Received blob is empty.")

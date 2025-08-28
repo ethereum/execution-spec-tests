@@ -11,6 +11,7 @@ from pydantic import ValidationError
 
 from ethereum_test_base_types import Address, Bytes, Hash, to_json
 from ethereum_test_types import Transaction
+from pytest_plugins.logging import get_logger
 
 from .types import (
     EthConfigResponse,
@@ -23,6 +24,8 @@ from .types import (
     PayloadStatus,
     TransactionByHashResponse,
 )
+
+logger = get_logger(__name__)
 
 BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
@@ -405,13 +408,18 @@ class EngineRPC(BaseRPC):
         versioned_hashes: List[Hash],
         *,
         version: int,
-    ) -> GetBlobsResponse:
+    ) -> GetBlobsResponse | None:
         """`engine_getBlobsVX`: Retrieves blobs from an execution layers tx pool."""
+        response = self.post_request(
+            f"getBlobsV{version}",
+            [f"{h}" for h in versioned_hashes],
+        )
+        if response is None:  # for tests that request non-existing blobs
+            logger.debug("get_blobs response received but it has value: None")
+            return None
+
         return GetBlobsResponse.model_validate(
-            self.post_request(
-                f"getBlobsV{version}",
-                [f"{h}" for h in versioned_hashes],
-            ),
+            response,
             context=self.response_validation_context,
         )
 

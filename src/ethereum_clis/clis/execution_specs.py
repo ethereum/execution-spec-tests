@@ -19,10 +19,12 @@ from ethereum_test_exceptions import (
     TransactionException,
 )
 from ethereum_test_forks import Fork
+from pytest_plugins.logging import get_logger
 
 from ..transition_tool import TransitionTool
 
 DAEMON_STARTUP_TIMEOUT_SECONDS = 5
+logger = get_logger(__name__)
 
 
 class ExecutionSpecsTransitionTool(TransitionTool):
@@ -116,7 +118,10 @@ class ExecutionSpecsTransitionTool(TransitionTool):
 
         `ethereum-spec-evm` appends newlines to forks in the help string.
         """
-        return (fork.transition_tool_name() + "\n") in self.help_string
+        fork_is_supported = (fork.transition_tool_name() + "\n") in self.help_string
+        logger.debug(f"EELS supports fork {fork}: {fork_is_supported}")
+
+        return fork_is_supported
 
     def _generate_post_args(
         self, t8n_data: TransitionTool.TransitionToolData
