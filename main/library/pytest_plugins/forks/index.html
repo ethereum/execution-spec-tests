@@ -29264,7 +29264,7 @@ initialization.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Specific fork that is used to fill the test.</p>
+        <p>Parametrize test cases by fork.</p>
 
 
             <details class="quote">
@@ -29273,9 +29273,9 @@ initialization.</p>
 <span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">FixtureRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fork</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Specific fork that is used to fill the test.&quot;&quot;&quot;</span>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">nodeid</span><span class="si">}</span><span class="s2">&#39; was not correctly parametrized&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">fork</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parametrize test cases by fork.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
