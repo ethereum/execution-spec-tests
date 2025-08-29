@@ -319,6 +319,7 @@ def test_precompile_will_return_success_with_tx_value(
     tx: Transaction,
     call_contract_address: Address,
     input_data: bytes,
+    expected_output: bytes,
 ):
     """Test P256Verify precompile will not fail if value is sent."""
     sender = pre.fund_eoa()
