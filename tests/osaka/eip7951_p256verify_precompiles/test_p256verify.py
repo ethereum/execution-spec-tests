@@ -363,6 +363,7 @@ def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict,
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("precompile/test/call_contexts/initcode/tx")
 def test_contract_creation_transaction(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -426,6 +427,9 @@ def test_contract_creation_transaction(
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+@pytest.mark.eip_checklist("precompile/test/call_contexts/create")
+@pytest.mark.eip_checklist("precompile/test/call_contexts/create2")
+@pytest.mark.eip_checklist("precompile/test/call_contexts/initcode/CREATE")
 def test_contract_initcode(
     state_test: StateTestFiller,
     pre: Alloc,

@@ -17,12 +17,31 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka")
 
 
 @pytest.mark.parametrize(
-    "precompile_address,input_data",
+    "precompile_address,input_data,expected_output,precompile_gas_modifier,call_succeeds",
     [
         pytest.param(
             Spec.P256VERIFY,
             Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
-            id="P256VERIFY",
+            Spec.INVALID_RETURN_VALUE,
+            0,
+            True,
+            id="P256VERIFY_valid_input_6900_gas",
+        ),
+        pytest.param(
+            Spec.P256VERIFY,
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.X0,
+            Spec.INVALID_RETURN_VALUE,
+            0,
+            True,
+            id="P256VERIFY_invalid_input",
+        ),
+        pytest.param(
+            Spec.P256VERIFY,
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.INVALID_RETURN_VALUE,
+            -6900,
+            True,
+            id="P256VERIFY_valid_input_zero_gas",
         ),
     ],
 )
@@ -30,6 +49,7 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka")
     "expected_output,call_succeeds", [pytest.param(b"", True, id=pytest.HIDDEN_PARAM)]
 )
 @pytest.mark.eip_checklist("precompile/test/fork_transition/before/invalid_input")
+@pytest.mark.eip_checklist("precompile/test/fork_transition/before/zero_gas")
 def test_precompile_before_fork(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,

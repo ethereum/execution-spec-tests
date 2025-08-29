@@ -70,6 +70,8 @@ def precompile_addresses_in_predecessor_successor(
     "address,precompile_in_successor,precompile_in_predecessor",
     precompile_addresses_in_predecessor_successor,
 )
+@pytest.mark.eip_checklist("precompile/test/fork_transition/before/cold")
+@pytest.mark.eip_checklist("precompile/test/fork_transition/after/warm")
 def test_precompile_warming(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
