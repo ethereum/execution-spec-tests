@@ -20,3 +20,8 @@ bal:
   evm-type: develop
   fill-params: --fork=Amsterdam ./tests/amsterdam/eip7928_block_level_access_lists
   feature_only: true
+
+fusaka-devnet-5:
+  evm-type: develop
+  fill-params: --from Osaka --until=BPO3
+  feature_only: true
