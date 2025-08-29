@@ -122,8 +122,7 @@ def test_isogeny_kernel_values(
         pytest.param(bytes([0xFF]) + bytes(FP(0))[1:], id="fp_invalid_first_byte"),
         pytest.param(Spec.INF_G1, id="g1_inf_input"),
         pytest.param(
-            FP(int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big")),
-            id="non_zero_byte_16_boundary_violation",
+            FP((Spec.P - 1) | Spec.MAX_FP_BIT_SET), id="non_zero_byte_16_boundary_violation"
         ),
     ],
 )

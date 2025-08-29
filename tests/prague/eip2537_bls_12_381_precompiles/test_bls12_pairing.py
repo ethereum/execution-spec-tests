@@ -292,11 +292,30 @@ def test_valid_multi_inf(
             Spec.INF_G1 + PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)),
             id="inf_g1_with_g2_y_c1_above_p",
         ),
-        # Non-zero byte 16 boundary violation test case.
+        # Non-zero byte 16 boundary violation test cases.
         pytest.param(
-            PointG1(int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big"), Spec.G1.y)
-            + Spec.INF_G2,
+            PointG1(Spec.G1.x | Spec.MAX_FP_BIT_SET, Spec.G1.y) + Spec.INF_G2,
             id="non_zero_byte_16_boundary_violation_g1_x",
+        ),
+        pytest.param(
+            PointG1(Spec.G1.x, Spec.G1.y | Spec.MAX_FP_BIT_SET) + Spec.INF_G2,
+            id="non_zero_byte_16_boundary_violation_g1_y",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.G2.x[0] | Spec.MAX_FP_BIT_SET, Spec.G2.x[1]), Spec.G2.y),
+            id="non_zero_byte_16_boundary_violation_g1_x1",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2((Spec.G2.x[0], Spec.G2.x[1] | Spec.MAX_FP_BIT_SET), Spec.G2.y),
+            id="non_zero_byte_16_boundary_violation_g1_x2",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.G2.x, (Spec.G2.y[0] | Spec.MAX_FP_BIT_SET, Spec.G2.y[1])),
+            id="non_zero_byte_16_boundary_violation_g1_y1",
+        ),
+        pytest.param(
+            Spec.INF_G1 + PointG2(Spec.G2.x, (Spec.G2.y[0], Spec.G2.y[1] | Spec.MAX_FP_BIT_SET)),
+            id="non_zero_byte_16_boundary_violation_g1_y2",
         ),
     ],
 )

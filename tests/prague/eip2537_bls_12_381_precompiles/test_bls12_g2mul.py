@@ -268,9 +268,20 @@ def test_valid(
             id="mixed_g2_scalar_truncated",
         ),
         pytest.param(
-            PointG2(Spec.G2.x, (0, int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big")))
-            + Scalar(1),
-            id="non_zero_byte_16_boundary_violation_y_c1",
+            PointG2((Spec.P2.x[0] | Spec.MAX_FP_BIT_SET, Spec.P2.x[1]), Spec.P2.y) + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_x1",
+        ),
+        pytest.param(
+            PointG2((Spec.P2.x[0], Spec.P2.x[1] | Spec.MAX_FP_BIT_SET), Spec.P2.y) + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_x2",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0] | Spec.MAX_FP_BIT_SET, Spec.P2.y[1])) + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_y1",
+        ),
+        pytest.param(
+            PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] | Spec.MAX_FP_BIT_SET)) + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_y2",
         ),
         # Not in the r-order subgroup test cases.
         pytest.param(
