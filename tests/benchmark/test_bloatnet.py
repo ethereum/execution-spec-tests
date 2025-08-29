@@ -18,9 +18,6 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-REFERENCE_SPEC_GIT_PATH = "TODO"
-REFERENCE_SPEC_VERSION = "TODO"
-
 
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
@@ -79,7 +76,7 @@ def test_bloatnet(
 
     post = {contract_address: Account(storage=storage)}
 
-    blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1, tx_1_2])], post=post)
+    blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1]), Block(txs=[tx_1_2])], post=post)
 
 
 # Warm reads are very cheap, which means you can really fill a block
