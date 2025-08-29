@@ -58,10 +58,10 @@ def pytest_addoption(parser):
         action="store",
         dest="clients",
         type=str,
-        default="besu,erigon,geth,nethermind,reth",
-        help="Comma-separated list of clients to be tested in majority mode. This flag will be "
-        "ignored when you pass a value for the network-config-file flag. Default: "
-        "besu,erigon,geth,nethermind,reth",
+        default=None,
+        help="Comma-separated list of clients to be tested in majority mode. Example: "
+        '"besu,erigon,geth,nethermind,nimbusel,reth"\nIf you do not pass a value, majority mode '
+        "testing will be disabled.",
     )
     eth_config_group.addoption(
         "--genesis-config-file",
@@ -167,15 +167,15 @@ def pytest_configure(config: pytest.Config) -> None:
     # Test out the RPC endpoint to be able to fail fast if it's not working
     eth_rpc = EthRPC(rpc_endpoint)
     try:
-        print("Will now perform a connection check (request chain_id)..")
+        logger.debug("Will now perform a connection check (request chain_id)..")
         chain_id = eth_rpc.chain_id()
-        print(f"Connection check ok (successfully got chain id {chain_id})")
+        logger.debug(f"Connection check ok (successfully got chain id {chain_id})")
     except Exception as e:
         pytest.exit(f"Could not connect to RPC endpoint {rpc_endpoint}: {e}")
     try:
-        print("Will now briefly check whether eth_config is supported by target rpc..")
+        logger.debug("Will now briefly check whether eth_config is supported by target rpc..")
         eth_rpc.config()
-        print("Connection check ok (successfully got eth_config response)")
+        logger.debug("Connection check ok (successfully got eth_config response)")
     except Exception as e:
         pytest.exit(f"RPC endpoint {rpc_endpoint} does not support `eth_config`: {e}")
 
@@ -184,12 +184,6 @@ def pytest_configure(config: pytest.Config) -> None:
 def rpc_endpoint(request) -> str:
     """Return remote RPC endpoint to be used to make requests to the execution client."""
     return request.config.getoption("rpc_endpoint")
-
-
-# @pytest.fixture(autouse=True, scope="session")
-# def eth_rpc(rpc_endpoint: str) -> EthRPC:
-#     """Initialize ethereum RPC client for the execution client under test."""
-#     return EthRPC(rpc_endpoint)
 
 
 def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
@@ -231,7 +225,9 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
     if metafunc.definition.name == "test_eth_config_majority":
         if len(all_rpc_endpoints_dict) < 2:
             # The test function is not run because we only have a single client, so no majority comparison  # noqa: E501
-            print("Skipping eth_config majority because less than 2 exec clients were passed")
+            logger.info(
+                "Skipping eth_config majority because less than 2 exec clients were passed"
+            )
             metafunc.parametrize(
                 ["all_rpc_endpoints"],
                 [],

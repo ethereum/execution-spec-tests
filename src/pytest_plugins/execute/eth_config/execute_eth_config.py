@@ -8,8 +8,11 @@ from typing import Dict, List
 import pytest
 
 from ethereum_test_rpc import EthConfigResponse, EthRPC
+from pytest_plugins.logging import get_logger
 
 from .types import NetworkConfig
+
+logger = get_logger(__name__)
 
 
 @pytest.fixture(scope="function")
@@ -34,7 +37,6 @@ def current_time() -> int:
 @pytest.fixture(scope="function")
 def expected_eth_config(network: NetworkConfig, current_time: int) -> EthConfigResponse:
     """Calculate the current fork value to verify against the client's response."""
-    print(f"Network provided: {network}, Type: {type(network)}")
     return network.get_eth_config(current_time)
 
 
@@ -191,7 +193,7 @@ def test_eth_config_majority(
             response = eth_rpc_target.config(timeout=10)
             if response is None:
                 # safely split url to not leak rpc_endpoint in logs
-                print(
+                logger.warning(
                     f"When trying to get eth_config from {eth_rpc_target} a problem occurred"  # problem itself is logged by .config() call # noqa: E501
                 )
                 continue
@@ -201,7 +203,7 @@ def test_eth_config_majority(
             client_to_url_used_dict[exec_client] = (
                 eth_rpc_target.url
             )  # remember which cl+el combination was used  # noqa: E501
-            print(f"Response of {exec_client}: {response_str}\n\n")
+            logger.info(f"Response of {exec_client}: {response_str}\n\n")
 
             break  # no need to gather more responses for this client
 
@@ -218,7 +220,7 @@ def test_eth_config_majority(
     for client in responses.keys():
         response_bytes = json.dumps(responses[client], sort_keys=True).encode("utf-8")
         response_hash = sha256(response_bytes).digest().hex()
-        print(f"Response hash of client {client}: {response_hash}")
+        logger.info(f"Response hash of client {client}: {response_hash}")
         client_to_hash_dict[client] = response_hash
 
     # if not all responses have the same hash there is a critical consensus issue
@@ -236,4 +238,4 @@ def test_eth_config_majority(
         )
     assert expected_hash != ""
 
-    print("All clients returned the same eth_config response. Test has been passed!")
+    logger.info("All clients returned the same eth_config response. Test has been passed!")

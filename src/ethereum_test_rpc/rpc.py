@@ -26,7 +26,6 @@ from .types import (
 )
 
 logger = get_logger(__name__)
-
 BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
 
@@ -81,7 +80,7 @@ class BaseRPC:
         self,
         *,
         method: str,
-        params: Any | None = None,
+        params: List[Any] | None = None,
         extra_headers: Dict | None = None,
         request_id: int | str | None = None,
         timeout: int | None = None,
@@ -89,6 +88,9 @@ class BaseRPC:
         """Send JSON-RPC POST request to the client RPC server at port defined in the url."""
         if extra_headers is None:
             extra_headers = {}
+        if params is None:
+            params = []
+
         assert self.namespace, "RPC namespace not set"
 
         next_request_id_counter = next(self.request_id_counter)
@@ -106,8 +108,7 @@ class BaseRPC:
         }
         headers = base_header | extra_headers
 
-        # print(f"Sending RPC request to {self.url}, timeout is set to {timeout}...")
-        print(f"Sending RPC request, timeout is set to {timeout}...")  # don't leak url in logs
+        logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
         response = requests.post(self.url, json=json, headers=headers, timeout=timeout)
         response.raise_for_status()
         response_json = response.json()
@@ -145,7 +146,7 @@ class EthRPC(BaseRPC):
         try:
             response = self.post_request(method="config", timeout=timeout)
             if response is None:
-                print("eth_config request: failed to get response")
+                logger.warning("eth_config request: failed to get response")
                 return None
             return EthConfigResponse.model_validate(
                 response, context=self.response_validation_context
@@ -154,7 +155,7 @@ class EthRPC(BaseRPC):
             pprint(e.errors())
             raise e
         except Exception as e:
-            print(f"exception occurred when sending JSON-RPC request: {e}")
+            logger.error(f"exception occurred when sending JSON-RPC request: {e}")
             raise e
 
     def chain_id(self) -> int:
@@ -211,7 +212,7 @@ class EthRPC(BaseRPC):
         """`eth_getTransactionByHash`: Returns transaction details."""
         try:
             response = self.post_request(
-                method="getTransactionByHash", params=f"{transaction_hash}"
+                method="getTransactionByHash", params=[f"{transaction_hash}"]
             )
             if response is None:
                 return None
@@ -245,7 +246,7 @@ class EthRPC(BaseRPC):
         try:
             response = self.post_request(
                 method="sendRawTransaction",
-                params=f"{transaction_rlp.hex()}",
+                params=[transaction_rlp.hex()],
                 request_id=request_id,  # noqa: E501
             )
 
@@ -261,7 +262,7 @@ class EthRPC(BaseRPC):
         try:
             response = self.post_request(
                 method="sendRawTransaction",
-                params=f"{transaction.rlp().hex()}",
+                params=[transaction.rlp().hex()],
                 request_id=transaction.metadata_string(),  # noqa: E501
             )
 
@@ -431,7 +432,7 @@ class EngineRPC(BaseRPC):
         if payload_attributes is None:
             params = [to_json(forkchoice_state)]
         else:
-            params = [to_json(forkchoice_state), to_json(payload_attributes)]
+            params = [to_json(forkchoice_state), None]
 
         return ForkchoiceUpdateResponse.model_validate(
             self.post_request(
@@ -456,7 +457,7 @@ class EngineRPC(BaseRPC):
         return GetPayloadResponse.model_validate(
             self.post_request(
                 method=method,
-                params=f"{payload_id}",
+                params=[f"{payload_id}"],
             ),
             context=self.response_validation_context,
         )
@@ -499,4 +500,4 @@ class AdminRPC(BaseRPC):
 
     def add_peer(self, enode: str) -> bool:
         """`admin_addPeer`: Add a peer by enode URL."""
-        return self.post_request(method="addPeer", params=enode)
+        return self.post_request(method="addPeer", params=[enode])
