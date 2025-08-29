@@ -19,7 +19,6 @@ from .types import (
     ForkchoiceUpdateResponse,
     GetBlobsResponse,
     GetPayloadResponse,
-    JSONRPCError,
     PayloadAttributes,
     PayloadStatus,
     TransactionByHashResponse,
@@ -110,11 +109,18 @@ class BaseRPC:
 
         logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
         response = requests.post(self.url, json=json, headers=headers, timeout=timeout)
-        response.raise_for_status()
-        response_json = response.json()
 
+        try:
+            response_json = response.json()
+        except Exception as e:
+            logger.debug(f"Failed to deserialize response: {e}")
+            return None
+
+        # response.raise_for_status()
         if "error" in response_json:
-            raise JSONRPCError(**response_json["error"])
+            # raise JSONRPCError(**response_json["error"])
+            logger.debug(f"Got response with error: {response_json}")
+            return None
 
         assert "result" in response_json, "RPC response didn't contain a result field"
         result = response_json["result"]
@@ -155,7 +161,7 @@ class EthRPC(BaseRPC):
             pprint(e.errors())
             raise e
         except Exception as e:
-            logger.error(f"exception occurred when sending JSON-RPC request: {e}")
+            logger.debug(f"exception occurred when sending JSON-RPC request: {e}")
             raise e
 
     def chain_id(self) -> int:
