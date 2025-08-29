@@ -6,7 +6,7 @@ abstract: Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Account, Alloc, Bytes, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput, ModExpOutput
@@ -23,12 +23,7 @@ TX_GAS_LIMIT = 2**24
 def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
     spec = Spec if fork < Osaka else Spec7883
-    calculated_gas = spec.calculate_gas_cost(
-        len(mod_exp_input.base),
-        len(mod_exp_input.modulus),
-        len(mod_exp_input.exponent),
-        mod_exp_input.exponent,
-    )
+    calculated_gas = spec.calculate_gas_cost(mod_exp_input)
     return calculated_gas
 
 
@@ -125,6 +120,15 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
             ),
             id="exp_0_base_1_mod_1025",
         ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                exponent=Bytes("80"),
+                modulus=b"",
+                declared_exponent_length=2**64,
+            ),
+            id="exp_2_pow_64_base_0_mod_0",
+        ),
     ],
 )
 def test_modexp_upper_bounds(
@@ -174,10 +178,11 @@ def test_modexp_upper_bounds(
         protected=True,
         sender=sender,
     )
+    base_length, exp_length, mod_length = mod_exp_input.get_declared_lengths()
     if (
-        len(mod_exp_input.base) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.exponent) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.modulus) <= MAX_LENGTH_BYTES
+        base_length <= MAX_LENGTH_BYTES
+        and exp_length <= MAX_LENGTH_BYTES
+        and mod_length <= MAX_LENGTH_BYTES
     ) or (fork < Osaka and not expensive):
         output = ModExpOutput(call_success=True, returned_data="0x01")
     else:

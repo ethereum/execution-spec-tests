@@ -1,5 +1,7 @@
 """Helper functions for the EIP-198 ModExp precompile tests."""
 
+from typing import Tuple
+
 from pydantic import Field
 
 from ethereum_test_tools import Bytes, TestParameterGroup
@@ -24,21 +26,37 @@ class ModExpInput(TestParameterGroup):
     modulus: Bytes
     extra_data: Bytes = Field(default_factory=Bytes)
     raw_input: Bytes | None = None
+    declared_base_length: int | None = None
+    declared_exponent_length: int | None = None
+    declared_modulus_length: int | None = None
 
     @property
     def length_base(self) -> Bytes:
         """Return the length of the base."""
-        return Bytes(len(self.base).to_bytes(32, "big"))
+        length = (
+            self.declared_base_length if self.declared_base_length is not None else len(self.base)
+        )
+        return Bytes(length.to_bytes(32, "big"))
 
     @property
     def length_exponent(self) -> Bytes:
         """Return the length of the exponent."""
-        return Bytes(len(self.exponent).to_bytes(32, "big"))
+        length = (
+            self.declared_exponent_length
+            if self.declared_exponent_length is not None
+            else len(self.exponent)
+        )
+        return Bytes(length.to_bytes(32, "big"))
 
     @property
     def length_modulus(self) -> Bytes:
         """Return the length of the modulus."""
-        return Bytes(len(self.modulus).to_bytes(32, "big"))
+        length = (
+            self.declared_modulus_length
+            if self.declared_modulus_length is not None
+            else len(self.modulus)
+        )
+        return Bytes(length.to_bytes(32, "big"))
 
     def __bytes__(self):
         """Generate input for the MODEXP precompile."""
@@ -85,6 +103,30 @@ class ModExpInput(TestParameterGroup):
         modulus = padded_input_data[current_index : current_index + modulus_length]
 
         return cls(base=base, exponent=exponent, modulus=modulus, raw_input=input_data)
+
+    def get_declared_lengths(self) -> Tuple[int, int, int]:
+        """Extract declared lengths from the raw input bytes."""
+        raw = self.raw_input if self.raw_input is not None else bytes(self)
+        if len(raw) < 96:
+            raw = raw.ljust(96, b"\0")
+        base_length = int.from_bytes(raw[0:32], byteorder="big")
+        exponent_length = int.from_bytes(raw[32:64], byteorder="big")
+        modulus_length = int.from_bytes(raw[64:96], byteorder="big")
+        return base_length, exponent_length, modulus_length
+
+    def get_exponent_head(self) -> int:
+        """Get the first 32 bytes of the exponent as an integer."""
+        raw = self.raw_input if self.raw_input is not None else bytes(self)
+        base_length, exponent_length, _ = self.get_declared_lengths()
+        exp_start = 96 + base_length
+
+        # Extract up to 32 bytes of exponent data
+        exp_head_bytes = raw[exp_start : exp_start + min(32, exponent_length)]
+
+        # Pad with zeros if less than 32 bytes
+        exp_head_bytes = exp_head_bytes.rjust(32, b"\0")
+
+        return int.from_bytes(exp_head_bytes[:32], byteorder="big")
 
 
 class ModExpOutput(TestParameterGroup):

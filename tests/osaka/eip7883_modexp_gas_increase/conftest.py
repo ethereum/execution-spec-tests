@@ -133,12 +133,7 @@ def precompile_gas(
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
     spec = Spec if fork < Osaka else Spec7883
     try:
-        calculated_gas = spec.calculate_gas_cost(
-            len(modexp_input.base),
-            len(modexp_input.modulus),
-            len(modexp_input.exponent),
-            modexp_input.exponent,
-        )
+        calculated_gas = spec.calculate_gas_cost(modexp_input)
         if gas_old is not None and gas_new is not None:
             expected_gas = gas_old if fork < Osaka else gas_new
             assert calculated_gas == expected_gas, (
@@ -150,8 +145,9 @@ def precompile_gas(
                 f"({int.from_bytes(modexp_input.exponent, byteorder='big')})"
             )
         return calculated_gas
-    except Exception as e:
-        print(f"Warning: Error calculating gas, using minimum: {e}")
+    except Exception:
+        # Used for `test_modexp_invalid_inputs` we expect the call to not succeed.
+        # Return is for completeness.
         return 500 if fork >= Osaka else 200
 
 
