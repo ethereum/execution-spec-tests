@@ -27286,6 +27286,8 @@
       
         
       
+        
+      
     
     
     
@@ -27365,6 +27367,29 @@
   
   <span class="md-ellipsis">
     <code>test_call_memory_expands_on_early_revert</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tests/frontier/opcodes/test_call/test_call_large_args_offset_size_zero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_call_large_args_offset_size_zero</code>
     
   </span>
   
@@ -47666,8 +47691,7 @@ This is the case when the test is not run in pytest.</p>
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_specs/blobs.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
-<span class="normal">19</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
@@ -47701,11 +47725,14 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlobsTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlobsTest</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test specification for blob tests.&quot;&quot;&quot;</span>
 
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span>
     <span class="n">txs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">NetworkWrappedTransaction</span> <span class="o">|</span> <span class="n">Transaction</span><span class="p">]</span>
+    <span class="n">nonexisting_blob_hashes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Hash</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">supported_execute_formats</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">LabeledExecuteFormat</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">LabeledExecuteFormat</span><span class="p">(</span>
@@ -47734,7 +47761,7 @@ This is the case when the test is not run in pytest.</p>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">BlobTransaction</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">BlobTransaction</span><span class="p">(</span>
-                <span class="n">txs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">,</span>
+                <span class="n">txs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">,</span> <span class="n">nonexisting_blob_hashes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nonexisting_blob_hashes</span>
             <span class="p">)</span>
         <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -47766,15 +47793,15 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blobs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">34</span>
 <span class="normal">35</span>
 <span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
-<span class="normal">40</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">t8n</span><span class="p">:</span> <span class="n">TransitionTool</span><span class="p">,</span>
@@ -47810,9 +47837,7 @@ This is the case when the test is not run in pytest.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_specs/blobs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
@@ -47821,7 +47846,9 @@ This is the case when the test is not run in pytest.</p>
 <span class="normal">50</span>
 <span class="normal">51</span>
 <span class="normal">52</span>
-<span class="normal">53</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
@@ -47830,7 +47857,7 @@ This is the case when the test is not run in pytest.</p>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate the list of test fixtures.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">execute_format</span> <span class="o">==</span> <span class="n">BlobTransaction</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">BlobTransaction</span><span class="p">(</span>
-            <span class="n">txs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">,</span>
+            <span class="n">txs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">txs</span><span class="p">,</span> <span class="n">nonexisting_blob_hashes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nonexisting_blob_hashes</span>
         <span class="p">)</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported execute format: </span><span class="si">{</span><span class="n">execute_format</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>

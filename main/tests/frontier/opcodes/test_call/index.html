@@ -23650,6 +23650,8 @@
       
         
       
+        
+      
     
     
     
@@ -23729,6 +23731,29 @@
   
   <span class="md-ellipsis">
     <code>test_call_memory_expands_on_early_revert</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_call_large_args_offset_size_zero/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_call_large_args_offset_size_zero</code>
     
   </span>
   
@@ -26819,7 +26844,7 @@
 
 
 <h1 id="test-call">Test CALL<a class="headerlink" href="#test-call" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2d66b262d65855effbfcae63602ae2b6fde3eaf4/tests/frontier/opcodes/test_call.py#L19"><code>tests/frontier/opcodes/test_call.py@2d66b262</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/058baa6dc8696971ef7dc33280f83ca78bcca07b/tests/frontier/opcodes/test_call.py#L19"><code>tests/frontier/opcodes/test_call.py@058baa6d</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call.py --fork Osaka</span>
@@ -26876,6 +26901,12 @@
 <td>state_test</td>
 <td>1</td>
 <td>When CALL reverts early (e.g. because of not enough balance by the sender),</td>
+</tr>
+<tr>
+<td><a href="test_call_large_args_offset_size_zero/"><code>test_call_large_args_offset_size_zero</code></a></td>
+<td>state_test</td>
+<td>4</td>
+<td>Test xCALL with an extremely large args_offset and args_size set to zero.</td>
 </tr>
 </tbody>
 </table>
