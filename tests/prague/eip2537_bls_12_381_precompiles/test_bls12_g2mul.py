@@ -267,6 +267,11 @@ def test_valid(
             bytes(Spec.G2) + bytes(Scalar(0))[128:],
             id="mixed_g2_scalar_truncated",
         ),
+        pytest.param(
+            PointG2(Spec.G2.x, (0, int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big")))
+            + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_y_c1",
+        ),
         # Not in the r-order subgroup test cases.
         pytest.param(
             Spec.P2_NOT_IN_SUBGROUP + Scalar(0),

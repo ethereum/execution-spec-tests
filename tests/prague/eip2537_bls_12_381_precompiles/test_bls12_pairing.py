@@ -292,6 +292,12 @@ def test_valid_multi_inf(
             Spec.INF_G1 + PointG2(Spec.P2.x, (Spec.P2.y[0], Spec.P2.y[1] + Spec.P)),
             id="inf_g1_with_g2_y_c1_above_p",
         ),
+        # Non-zero byte 16 boundary violation test case.
+        pytest.param(
+            PointG1(int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big"), Spec.G1.y)
+            + Spec.INF_G2,
+            id="non_zero_byte_16_boundary_violation_g1_x",
+        ),
     ],
 )
 @pytest.mark.parametrize("expected_output", [Spec.INVALID], ids=[""])

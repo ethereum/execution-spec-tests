@@ -341,6 +341,11 @@ def test_valid(
             b"\xc0" + b"\x00" * 47 + b"\xc0" + b"\x00" * 47,
             id="comp_instead_of_uncomp",
         ),
+        pytest.param(
+            PointG1(int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big"), Spec.G1.y)
+            + Spec.INF_G1,
+            id="non_zero_byte_16_boundary_violation_x",
+        ),
         # Not on the curve cases using random generated points.
         pytest.param(
             G1_POINTS_NOT_ON_CURVE[0] + Spec.INF_G1,

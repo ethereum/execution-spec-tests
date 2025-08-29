@@ -249,6 +249,11 @@ def test_valid(
             Scalar(1) + Scalar(1),
             id="two_scalars",
         ),
+        pytest.param(
+            PointG1(Spec.G1.x, int.from_bytes(b"\x00" * 15 + b"\x01" + b"\x00" * 48, "big"))
+            + Scalar(1),
+            id="non_zero_byte_16_boundary_violation_y",
+        ),
         # Not in the r-order subgroup test cases.
         pytest.param(
             Spec.P1_NOT_IN_SUBGROUP + Scalar(1),
