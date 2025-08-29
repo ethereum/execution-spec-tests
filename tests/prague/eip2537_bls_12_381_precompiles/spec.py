@@ -135,6 +135,7 @@ class Spec:
     P = (X - 1) ** 2 * Q // 3 + X
     LEN_PER_PAIR = len(PointG1() + PointG2())
     MSM_MULTIPLIER = 1_000
+    MAX_FP_BIT_SET = 1 << (48 * 8)
     # fmt: off
     G1MSM_DISCOUNT_TABLE = [
         0,
