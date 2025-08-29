@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_invalid"><code>test_invalid()</code><a class="headerlink" href="#test_invalid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/058baa6dc8696971ef7dc33280f83ca78bcca07b/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L123"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid@058baa6d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dd5efdd7938fee349eb1d250e3e9f925af789752/tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py#L123"><code>tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid@dd5efdd7</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid --fork Osaka</span>
@@ -26961,7 +26961,15 @@
 <span class="normal">157</span>
 <span class="normal">158</span>
 <span class="normal">159</span>
-<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data&quot;</span><span class="p">,</span>
     <span class="c1"># Test vectors from the reference spec (from the cryptography team)</span>
     <span class="n">vectors_from_file</span><span class="p">(</span><span class="s2">&quot;fail-map_fp2_to_G2_bls.json&quot;</span><span class="p">)</span>
@@ -26983,6 +26991,14 @@
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">FP2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))[:</span><span class="mi">95</span><span class="p">],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fp2_one_byte_short&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="nb">bytes</span><span class="p">([</span><span class="mh">0xFF</span><span class="p">])</span> <span class="o">+</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">FP2</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fp2_invalid_first_byte&quot;</span><span class="p">),</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">INF_G2</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;g2_inf_input&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">FP2</span><span class="p">(((</span><span class="n">Spec</span><span class="o">.</span><span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_FP_BIT_SET</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;non_zero_byte_16_boundary_violation_c0&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">FP2</span><span class="p">((</span><span class="n">Spec</span><span class="o">.</span><span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">P</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">Spec</span><span class="o">.</span><span class="n">MAX_FP_BIT_SET</span><span class="p">)),</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;non_zero_byte_16_boundary_violation_c1&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;expected_output&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">INVALID</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
@@ -27296,6 +27312,28 @@
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
                         <td>17</td>
                     </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-state_test--non_zero_byte_16_boundary_violation_c0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-state_test--non_zero_byte_16_boundary_violation_c0-]">
+                    ...fork_Prague-state_test--non_zero_byte_16_boundary_violation_c0-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-state_test--non_zero_byte_16_boundary_violation_c1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-state_test--non_zero_byte_16_boundary_violation_c1-]">
+                    ...fork_Prague-state_test--non_zero_byte_16_boundary_violation_c1-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786, 43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602))</td>
+                        <td>17</td>
+                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -27536,6 +27574,28 @@
             </td>
                         <td></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-]">
+                    ...fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-]">
+                    ...fork_Prague-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786, 43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602))</td>
                         <td>17</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -27780,6 +27840,28 @@
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
                         <td>17</td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c0-]">
+                    ...fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c0-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c1-]">
+                    ...fork_Osaka-state_test--non_zero_byte_16_boundary_violation_c1-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786, 43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602))</td>
+                        <td>17</td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28020,6 +28102,28 @@
             </td>
                         <td></td>
                         <td>PointG2(x=(0, 0), y=(0, 0))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-]">
+                    ...fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c0-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602, 4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786))</td>
+                        <td>17</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-]" title="tests/prague/eip2537_bls_12_381_precompiles/test_bls12_map_fp2_to_g2.py::test_invalid[fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-]">
+                    ...fork_Osaka-blockchain_test_from_state_test--non_zero_byte_16_boundary_violation_c1-
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>FP2(x=(4002409555221667393417789825735904156556882819939007885332058136124031650490837864442687629129015664037894272559786, 43404415751616146605696829925879517961636622090404454553280351540369753421988048475856953884013931304844522262866602))</td>
                         <td>17</td>
                     </tr>
             </tbody>

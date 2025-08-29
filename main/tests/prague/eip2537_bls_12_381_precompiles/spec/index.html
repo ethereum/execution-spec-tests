@@ -26902,7 +26902,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/058baa6dc8696971ef7dc33280f83ca78bcca07b/tests/prague/eip2537_bls_12_381_precompiles/spec.py"><code>tests/prague/eip2537_bls_12_381_precompiles/spec.py@058baa6d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/dd5efdd7938fee349eb1d250e3e9f925af789752/tests/prague/eip2537_bls_12_381_precompiles/spec.py"><code>tests/prague/eip2537_bls_12_381_precompiles/spec.py@dd5efdd7</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27080,7 +27080,8 @@
 <span class="normal">223</span>
 <span class="normal">224</span>
 <span class="normal">225</span>
-<span class="normal">226</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">226</span>
+<span class="normal">227</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters from the EIP-2537 specifications as defined at</span>
@@ -27113,6 +27114,7 @@
     <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Q</span> <span class="o">//</span> <span class="mi">3</span> <span class="o">+</span> <span class="n">X</span>
     <span class="n">LEN_PER_PAIR</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">PointG1</span><span class="p">()</span> <span class="o">+</span> <span class="n">PointG2</span><span class="p">())</span>
     <span class="n">MSM_MULTIPLIER</span> <span class="o">=</span> <span class="mi">1_000</span>
+    <span class="n">MAX_FP_BIT_SET</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">48</span> <span class="o">*</span> <span class="mi">8</span><span class="p">)</span>
     <span class="c1"># fmt: off</span>
     <span class="n">G1MSM_DISCOUNT_TABLE</span> <span class="o">=</span> <span class="p">[</span>
         <span class="mi">0</span><span class="p">,</span>
