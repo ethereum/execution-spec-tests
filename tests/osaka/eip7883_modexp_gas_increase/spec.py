@@ -79,14 +79,29 @@ class Spec:
         return max(iteration_count, 1)
 
     @classmethod
-    def calculate_gas_cost(
-        cls, base_length: int, modulus_length: int, exponent_length: int, exponent: bytes
-    ) -> int:
-        """Calculate the ModExp gas cost according to EIP-2565 specification."""
+    def calculate_gas_cost(cls, modexp_input: ModExpInput) -> int:
+        """
+        Calculate the ModExp gas cost according to EIP-2565 specification, overridden by the
+        constants within `Spec7883` when calculating for the EIP-7883 specification.
+
+        This handles length mismatch cases by using declared lengths from the raw input
+        and only the first 32 bytes of exponent data for iteration calculation.
+        """
+        base_length, exponent_length, modulus_length = modexp_input.get_declared_lengths()
+        exponent_head = modexp_input.get_exponent_head()
         multiplication_complexity = cls.calculate_multiplication_complexity(
             base_length, modulus_length
         )
-        iteration_count = cls.calculate_iteration_count(exponent_length, exponent)
+        if exponent_length <= cls.EXPONENT_THRESHOLD and exponent_head == 0:
+            iteration_count = 0
+        elif exponent_length <= cls.EXPONENT_THRESHOLD:
+            iteration_count = exponent_head.bit_length() - 1 if exponent_head > 0 else 0
+        else:
+            # For large exponents: length_part + bits from first 32 bytes
+            length_part = cls.EXPONENT_BYTE_MULTIPLIER * (exponent_length - 32)
+            bits_part = exponent_head.bit_length() - 1 if exponent_head > 0 else 0
+            iteration_count = length_part + bits_part
+        iteration_count = max(iteration_count, 1)
         return max(cls.MIN_GAS, (multiplication_complexity * iteration_count // cls.GAS_DIVISOR))
 
 
