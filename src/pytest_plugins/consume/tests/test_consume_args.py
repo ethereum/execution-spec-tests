@@ -6,30 +6,39 @@ from pathlib import Path
 from typing import List
 
 import pytest
-from click.testing import CliRunner
+from filelock import FileLock
 from pytest import Pytester, TempPathFactory
 
-from cli.pytest_commands.fill import fill
+from ethereum_clis import TransitionTool
+
+MINIMAL_TEST_FILE_NAME = "test_example.py"
+MINIMAL_TEST_CONTENTS = """
+from ethereum_test_tools import Transaction
+def test_function(state_test, pre):
+    tx = Transaction(to=0, gas_limit=21_000, sender=pre.fund_eoa())
+    state_test(pre=pre, post={}, tx=tx)
+"""
 
 
-@pytest.fixture(scope="module")
-def test_paths() -> list[Path]:
-    """Specify the test paths to be filled."""
-    return [
-        Path("tests/istanbul/eip1344_chainid/test_chainid.py"),
-    ]
+@pytest.fixture
+def minimal_test_path(pytester: pytest.Pytester) -> Path:
+    """Minimal test file that's written to a file using pytester and ready to fill."""
+    tests_dir = pytester.mkdir("tests")
+    test_file = tests_dir / MINIMAL_TEST_FILE_NAME
+    test_file.write_text(MINIMAL_TEST_CONTENTS)
+    return test_file
 
 
 @pytest.fixture(scope="module")
 def consume_test_case_ids() -> list[str]:
     """Hard-coded expected output of `consume direct --collectonly -q`."""
     return [
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test_from_state_test]]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-blockchain_test_from_state_test]]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-blockchain_test_from_state_test]]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-state_test]]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-state_test]]",
-        "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-state_test]]",
+        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]",
     ]
 
 
@@ -51,24 +60,41 @@ def fixtures_dir(tmp_path_factory: TempPathFactory) -> Path:
     return tmp_path_factory.mktemp("fixtures")
 
 
-@pytest.fixture(autouse=True, scope="module")
+@pytest.fixture(autouse=True)
 def fill_tests(
-    fixtures_dir: Path, fill_fork_from: str, fill_fork_until: str, test_paths: List[Path]
+    pytester: Pytester,
+    fixtures_dir: Path,
+    fill_fork_from: str,
+    fill_fork_until: str,
+    minimal_test_path: Path,
+    default_t8n: TransitionTool,
 ) -> None:
-    """Run fill to generate test fixtures for use with testing consume."""
-    fill_result = CliRunner().invoke(
-        fill,
-        [
-            "-m",
-            "not blockchain_test_engine",
-            f"--from={fill_fork_from}",
-            f"--until={fill_fork_until}",
-            f"--output={str(fixtures_dir)}",
-            *[str(p) for p in test_paths],
-            # if we fill many tests, it might help to add -n 8/auto
-        ],
-    )
-    assert fill_result.exit_code == 0, f"Fill command failed:\n{fill_result.output}"
+    """
+    Run fill to generate test fixtures for use with testing consume.
+
+    We only need to do this once so ideally the scope of this fixture should be "module",
+    however the `pytester` fixture's scope is function and cannot be accessed from a higher
+    scope fixture.
+
+    Instead we use a file lock and only write the fixtures once to the directory.
+    """
+    with FileLock(fixtures_dir.with_suffix(".lock")):
+        meta_folder = fixtures_dir / ".meta"
+        if not meta_folder.exists():
+            pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+            args = [
+                "-c",
+                "pytest-fill.ini",
+                "-m",
+                "not blockchain_test_engine",
+                f"--from={fill_fork_from}",
+                f"--until={fill_fork_until}",
+                f"--output={str(fixtures_dir)}",
+                f"--t8n-server-url={default_t8n.server_url}",
+                str(minimal_test_path),
+            ]
+            fill_result = pytester.runpytest(*args)
+            assert fill_result.ret == 0, f"Fill command failed:\n{str(fill_result.stdout)}"
 
 
 @pytest.fixture(autouse=True, scope="function")
@@ -103,7 +129,7 @@ def copy_consume_test_paths(pytester: Pytester):
         shutil.move("conftest.py", target_dir / "conftest.py")
 
 
-single_test_id = "src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]]"  # noqa: E501
+single_test_id = f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"  # noqa: E501
 
 
 @pytest.mark.parametrize(

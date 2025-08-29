@@ -8,7 +8,7 @@ import pytest
 from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_specs import BaseTest
-from ethereum_test_types import EOA, Alloc
+from ethereum_test_types import EOA, Alloc, ChainConfig
 
 from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
 
@@ -199,6 +199,12 @@ def pytest_runtest_call(item: pytest.Item):
 def sender(pre: Alloc) -> EOA:
     """Fund an EOA from pre-alloc."""
     return pre.fund_eoa()
+
+
+@pytest.fixture(scope="session")
+def chain_config() -> ChainConfig:
+    """Return chain configuration."""
+    return ChainConfig()
 
 
 def pytest_addoption(parser: pytest.Parser):

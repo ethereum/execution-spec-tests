@@ -37,6 +37,7 @@ from pytest_plugins.logging import get_logger
 
 from .account_types import EOA
 from .blob_types import Blob
+from .chain_config_types import ChainConfigDefaults
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
 
@@ -57,7 +58,6 @@ class TransactionType(IntEnum):
 class TransactionDefaults:
     """Default values for transactions."""
 
-    chain_id: int = 1
     gas_price = 10
     max_fee_per_gas = 7
     max_priority_fee_per_gas: int = 0
@@ -167,7 +167,9 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
 
     ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
-    chain_id: NumberBoundTypeVar = Field(default_factory=lambda: TransactionDefaults.chain_id)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(
+        default_factory=lambda: ChainConfigDefaults.chain_id, validate_default=True
+    )  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None

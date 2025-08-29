@@ -20,6 +20,7 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Bytecode,
     Bytes,
+    ChainConfig,
     CodeGasMeasure,
     StateTestFiller,
     Storage,
@@ -215,6 +216,7 @@ class AuthorizationWithProperties:
 
 @pytest.fixture
 def authorization_list_with_properties(
+    chain_config: ChainConfig,
     signer_type: SignerType,
     authorization_invalidity_type: AuthorizationInvalidityType | None,
     authorizations_count: int,
@@ -227,6 +229,7 @@ def authorization_list_with_properties(
 ) -> List[AuthorizationWithProperties]:
     """Fixture to return the authorization-list-with-properties for the given case."""
     authorization_list: List[AuthorizationWithProperties] = []
+    environment_chain_id = chain_config.chain_id
     match signer_type:
         case SignerType.SINGLE_SIGNER:
             authority_with_properties = next(authority_iterator)
@@ -258,10 +261,9 @@ def authorization_list_with_properties(
                         nonce = 1 if increased_nonce else 0
                     case _:
                         nonce = i if not increased_nonce else i + 1
-
-                chain_id = 0 if chain_id_type == ChainIDType.GENERIC else 1
+                chain_id = 0 if chain_id_type == ChainIDType.GENERIC else environment_chain_id
                 if invalidity_type == AuthorizationInvalidityType.INVALID_CHAIN_ID:
-                    chain_id = 2
+                    chain_id = environment_chain_id + 1
 
                 skip = (
                     authority_with_properties.address_type == AddressType.EOA_WITH_SET_CODE
@@ -316,9 +318,9 @@ def authorization_list_with_properties(
                     else:
                         nonce = 0
 
-                chain_id = 0 if chain_id_type == ChainIDType.GENERIC else 1
+                chain_id = 0 if chain_id_type == ChainIDType.GENERIC else environment_chain_id
                 if invalidity_type == AuthorizationInvalidityType.INVALID_CHAIN_ID:
-                    chain_id = 2
+                    chain_id = environment_chain_id + 1
 
                 skip = False
                 if (

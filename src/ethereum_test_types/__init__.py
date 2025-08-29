@@ -7,6 +7,7 @@ from .block_types import (
     EnvironmentDefaults,
     Withdrawal,
 )
+from .chain_config_types import ChainConfig, ChainConfigDefaults
 from .helpers import (
     TestParameterGroup,
     add_kzg_version,
@@ -36,6 +37,8 @@ __all__ = (
     "Alloc",
     "AuthorizationTuple",
     "Blob",
+    "ChainConfig",
+    "ChainConfigDefaults",
     "ConsolidationRequest",
     "DepositRequest",
     "Environment",
