@@ -1,0 +1,296 @@
+{
+    "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Cancun-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]": {
+        "network": "Cancun",
+        "lastblockhash": "0xbc6772e72b634456dcb9e65ca7576f317c16519ef78bc0e9493268081d4c2163",
+        "config": {
+            "network": "Cancun",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                }
+            }
+        },
+        "preHash": "0xd451165ba1388dbf",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x8d7fa77a73117bb033cd0a8838c1a825906b2ca770ef535fe3bcbbb238d96b15",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0xd07e8a49326050e64bd8e1c661c6ba26ce474c7131bee31ee20aaef7788d0a46",
+                        "receiptsRoot": "0xc12c0a6204237acd6f0be57cdc5371e43c86b47b700661769ba71e9720cd08fd",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0xa907",
+                        "timestamp": "0x3e8",
+                        "extraData": "0x00",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0xbc6772e72b634456dcb9e65ca7576f317c16519ef78bc0e9493268081d4c2163",
+                        "transactions": [
+                            "0xf860800a83030d4094caac4400eee89210cf02680baa559cc6b73887bc808025a049122b5c4c74543e65f7e976a8a4d5d3b24aad613b8f2e5d6cf422ebcb93b2d4a01dd6ad71bf7420b7a6f26eda121630ef086717b23fa93497140c17fcf6464ae4"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000"
+                ],
+                "newPayloadVersion": "3",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0x8672c56fc02e72554677bedb4c4347f35fb8a4c94d9c8bb4a4e5c37bb9216faf",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Test identity precompile RETURNDATA is sized correctly based on the input size.",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18",
+            "fixture-format": "blockchain_test_engine_x",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Osaka-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]": {
+        "network": "Osaka",
+        "lastblockhash": "0x8c0d2ead3649b2e3bcdbfdefc532f527c37fc646dd5e86ddbf4486d5d95d54ef",
+        "config": {
+            "network": "Osaka",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                },
+                "Prague": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                },
+                "Osaka": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                }
+            }
+        },
+        "preHash": "0xf890dde7c5d1c85c",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0xeb5d4f7f791fe5b944f1e24b6756a2652f62aef837130c736ff4cb62260c483a",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0xa9ccc9b9e8f1e4cb8d0c2c2b901baa5b5f2270023419441618108d5bb988fe3f",
+                        "receiptsRoot": "0xc12c0a6204237acd6f0be57cdc5371e43c86b47b700661769ba71e9720cd08fd",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0xa907",
+                        "timestamp": "0x3e8",
+                        "extraData": "0x00",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0x8c0d2ead3649b2e3bcdbfdefc532f527c37fc646dd5e86ddbf4486d5d95d54ef",
+                        "transactions": [
+                            "0xf860800a83030d40944f8954acaaab765b37c599fe8ec658293c710f14808025a07e44eace1662c393931b7dd21547c93bbcf426bf69091b5ea10ab09b80672996a0079aea286fd8e43e157c3f1fd033e848470521dbc13eab991727fb549e31fbe6"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    []
+                ],
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0x0c0c2e4bb0362adf7c1a8faccef80b2805c0a565ff3c2be71b9d27326200a6e8",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Test identity precompile RETURNDATA is sized correctly based on the input size.",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18",
+            "fixture-format": "blockchain_test_engine_x",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Paris-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]": {
+        "network": "Paris",
+        "lastblockhash": "0x3873ce0cf81f9df191a9f34fea1d6e0f84fde472e6a82c4a83f9dc42140f6431",
+        "config": {
+            "network": "Paris",
+            "chainid": "0x01"
+        },
+        "preHash": "0x3c8f0acaa94f9b1d",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0xf15aaec9a8a9c4a6f6996eb4b7af191e84c97245c755e1506f1e7cc3abac7573",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x69dda49e58913b08efe36565796b10df1925b1af8b8e1fef185ede0421d75b25",
+                        "receiptsRoot": "0xc12c0a6204237acd6f0be57cdc5371e43c86b47b700661769ba71e9720cd08fd",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0xa907",
+                        "timestamp": "0x3e8",
+                        "extraData": "0x00",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blockHash": "0x3873ce0cf81f9df191a9f34fea1d6e0f84fde472e6a82c4a83f9dc42140f6431",
+                        "transactions": [
+                            "0xf860800a83030d4094417f52b17987b1e37b84ee3abd3054c235f1e332808026a09291fbee70b8b25ebeb9bf3709dda89427f99380cb6392e4e2a16531fe96887ca03abf129081f443b1c849c1eb745be4420a335fd7d07c5cb70e78c3ec74aff868"
+                        ]
+                    }
+                ],
+                "newPayloadVersion": "1",
+                "forkchoiceUpdatedVersion": "1"
+            }
+        ],
+        "_info": {
+            "hash": "0x77311da9f7ed596f5df07aee5042860d6273e7671d60f3936ddec2ab7978cdf8",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Test identity precompile RETURNDATA is sized correctly based on the input size.",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18",
+            "fixture-format": "blockchain_test_engine_x",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Prague-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]": {
+        "network": "Prague",
+        "lastblockhash": "0x96e7026b228873386bc861b3e14de64ad0d0118450ee6d632b813cdafccce567",
+        "config": {
+            "network": "Prague",
+            "chainid": "0x01",
+            "blobSchedule": {
+                "Cancun": {
+                    "target": "0x03",
+                    "max": "0x06",
+                    "baseFeeUpdateFraction": "0x32f0ed"
+                },
+                "Prague": {
+                    "target": "0x06",
+                    "max": "0x09",
+                    "baseFeeUpdateFraction": "0x4c6964"
+                }
+            }
+        },
+        "preHash": "0x680be093b9b276d3",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x4ba431cbce347702d4838de90ac2fc4275a62cebb43d0e6ced786c25d4601077",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x49448772b60823bb69920b00dc788c8f0ad9b82cc2464c41658ad43040425f42",
+                        "receiptsRoot": "0xc12c0a6204237acd6f0be57cdc5371e43c86b47b700661769ba71e9720cd08fd",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0xa907",
+                        "timestamp": "0x3e8",
+                        "extraData": "0x00",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blobGasUsed": "0x0",
+                        "excessBlobGas": "0x0",
+                        "blockHash": "0x96e7026b228873386bc861b3e14de64ad0d0118450ee6d632b813cdafccce567",
+                        "transactions": [
+                            "0xf860800a83030d4094f7d4d8962ddac23cd52796f886f9cc8439a6f5d9808026a0e3b3b3f3a9e84b3275a2bdf1a567d7eaa5c8c66b63409a98ac9d934cc7c20cafa041668d968fef503283c1cd23a8c73e09b5e174257f4908ba98dfb3f53ab6ad5e"
+                        ],
+                        "withdrawals": []
+                    },
+                    [],
+                    "0x0000000000000000000000000000000000000000000000000000000000000000",
+                    []
+                ],
+                "newPayloadVersion": "4",
+                "forkchoiceUpdatedVersion": "3"
+            }
+        ],
+        "_info": {
+            "hash": "0x99a315e751fcf218790c84004a4719d7f1930be7778010f00c3f7ac30442901d",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Test identity precompile RETURNDATA is sized correctly based on the input size.",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18",
+            "fixture-format": "blockchain_test_engine_x",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    },
+    "tests/frontier/identity_precompile/test_identity_returndatasize.py::test_identity_precompile_returndata[fork_Shanghai-blockchain_test_engine_x_from_state_test-output_size_greater_than_input]": {
+        "network": "Shanghai",
+        "lastblockhash": "0x6ad61044502354971b68b4f758e4d2c4b97975194e414da613c0f71d2a4c1f82",
+        "config": {
+            "network": "Shanghai",
+            "chainid": "0x01"
+        },
+        "preHash": "0x33b12b85f9ffc168",
+        "engineNewPayloads": [
+            {
+                "params": [
+                    {
+                        "parentHash": "0x0d3add2199b5d9749af09a71fbd7ccc86797e9a27f40326b12aa38db34f70948",
+                        "feeRecipient": "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
+                        "stateRoot": "0x95c1101ad77aa74b422ded11e217730316118194bb2145253ab4ffff80ef9fa0",
+                        "receiptsRoot": "0xc12c0a6204237acd6f0be57cdc5371e43c86b47b700661769ba71e9720cd08fd",
+                        "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                        "blockNumber": "0x1",
+                        "gasLimit": "0x55d4a80",
+                        "gasUsed": "0xa907",
+                        "timestamp": "0x3e8",
+                        "extraData": "0x00",
+                        "prevRandao": "0x0000000000000000000000000000000000000000000000000000000000000000",
+                        "baseFeePerGas": "0x7",
+                        "blockHash": "0x6ad61044502354971b68b4f758e4d2c4b97975194e414da613c0f71d2a4c1f82",
+                        "transactions": [
+                            "0xf860800a83030d409494a7cc211447d3c4354a2dc79296a1c380f62307808025a0c7ff0796efc613c773f012af4a099c280de86ec11f5ecc1ba207646763c22feaa0586f2aa6f4d22478464a7c7ad2edf90c5868a549d6dd5631e19f5015199571c5"
+                        ],
+                        "withdrawals": []
+                    }
+                ],
+                "newPayloadVersion": "2",
+                "forkchoiceUpdatedVersion": "2"
+            }
+        ],
+        "_info": {
+            "hash": "0x86346fbc1ae9e0ed4e558df8766ce1dc6967113618c034e84c29803bc29213d0",
+            "comment": "`execution-spec-tests` generated test",
+            "filling-transition-tool": "ethereum-spec-evm-resolver 0.0.5",
+            "description": "Test identity precompile RETURNDATA is sized correctly based on the input size.",
+            "url": "https://github.com/ethereum/execution-spec-tests/blob/5220d21ba64a9a4cbdc7e4025a7f1a032a957c78/tests/frontier/identity_precompile/test_identity_returndatasize.py#L18",
+            "fixture-format": "blockchain_test_engine_x",
+            "eels-resolution": {
+                "git-url": "https://github.com/ethereum/execution-specs.git",
+                "branch": "forks/osaka",
+                "commit": "5a49b2f39a909be6a8c84bb70611febdc2b2fd98"
+            }
+        }
+    }
+}
