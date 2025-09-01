@@ -87,32 +87,45 @@ def pytest_configure(config: pytest.Config):
             f"the configured chain ID ({ChainConfigDefaults.chain_id})."
             "Please check if the chain ID is correctly configured with the --chain-id flag."
         )
-
-
-@pytest.fixture(scope="session")
-def engine_rpc(request) -> EngineRPC | None:
-    """Execute remote command does not have access to the engine RPC."""
-    engine_endpoint = request.config.getoption("engine_endpoint")
+    engine_endpoint = config.getoption("engine_endpoint")
+    engine_rpc = None
     if engine_endpoint is not None:
-        jwt_secret = request.config.getoption("engine_jwt_secret")
-        if jwt_secret is None:
-            jwt_secret_file = request.config.getoption("engine_jwt_secret_file")
-            if jwt_secret_file is None:
-                raise ValueError("JWT secret must be provided if engine endpoint is provided")
+        jwt_secret = config.getoption("engine_jwt_secret")
+        jwt_secret_file = config.getoption("engine_jwt_secret_file")
+        if jwt_secret is None and jwt_secret_file is None:
+            pytest.exit(
+                "JWT secret must be provided if engine endpoint is provided. "
+                "Please check if the JWT secret is correctly configured with the "
+                "--engine-jwt-secret or --engine-jwt-secret-file flag."
+            )
+        elif jwt_secret_file is not None:
             with open(jwt_secret_file, "r") as f:
                 jwt_secret = f.read().strip()
             if jwt_secret.startswith("0x"):
                 jwt_secret = jwt_secret[2:]
-            jwt_secret = bytes.fromhex(jwt_secret)
-        if jwt_secret is None:
-            raise ValueError("JWT secret must be provided if engine endpoint is provided")
+            try:
+                jwt_secret = bytes.fromhex(jwt_secret)
+            except ValueError:
+                pytest.exit(
+                    "JWT secret must be a hex string if provided as a file. "
+                    "Please check if the JWT secret is correctly configured with the "
+                    "--engine-jwt-secret-file flag."
+                )
         if isinstance(jwt_secret, str):
             jwt_secret = jwt_secret.encode("utf-8")
         assert isinstance(jwt_secret, bytes), (
             f"JWT secret must be a bytes object, got {type(jwt_secret)}"
         )
-        return EngineRPC(engine_endpoint, jwt_secret=jwt_secret)
-    return None
+        engine_rpc = EngineRPC(engine_endpoint, jwt_secret=jwt_secret)
+        # TODO: Perform a request to the engine endpoint to verify that the JWT secret is valid.
+        # Potentially could be `engine_getClientVersionV1` but need to implement this in rpc.py.
+    config.engine_rpc = engine_rpc  # type: ignore
+
+
+@pytest.fixture(scope="session")
+def engine_rpc(request) -> EngineRPC | None:
+    """Execute remote command does not have access to the engine RPC."""
+    return request.config.engine_rpc  # type: ignore
 
 
 @pytest.fixture(autouse=True, scope="session")
