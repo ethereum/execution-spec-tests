@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_invalid_auth_signature"><code>test_invalid_auth_signature()</code><a class="headerlink" href="#test_invalid_auth_signature" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L79"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L80"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_auth_signature --fork Osaka</span>
@@ -26924,8 +26924,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 79</span>
-<span class="normal"> 80</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 80</span>
 <span class="normal"> 81</span>
 <span class="normal"> 82</span>
 <span class="normal"> 83</span>
@@ -26973,7 +26972,9 @@
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;v,r,s&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;v=2**8&quot;</span><span class="p">),</span>
@@ -26990,6 +26991,7 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_auth_signature</span><span class="p">(</span>
+    <span class="n">chain_config</span><span class="p">:</span> <span class="n">ChainConfig</span><span class="p">,</span>
     <span class="n">transaction_test</span><span class="p">:</span> <span class="n">TransactionTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -27006,7 +27008,7 @@
             <span class="n">AuthorizationTuple</span><span class="p">(</span>
                 <span class="n">address</span><span class="o">=</span><span class="n">delegate_address</span><span class="p">,</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_config</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
                 <span class="n">r</span><span class="o">=</span><span class="n">r</span><span class="p">,</span>
                 <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span>

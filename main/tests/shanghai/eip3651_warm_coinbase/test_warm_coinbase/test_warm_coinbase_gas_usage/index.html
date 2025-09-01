@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_warm_coinbase_gas_usage"><code>test_warm_coinbase_gas_usage()</code><a class="headerlink" href="#test_warm_coinbase_gas_usage" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py#L206"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py#L202"><code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py::test_warm_coinbase_gas_usage --fork Osaka</span>
@@ -26934,7 +26934,11 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/shanghai/eip3651_warm_coinbase/test_warm_coinbase.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">206</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
 <span class="normal">209</span>
@@ -26986,15 +26990,7 @@
 <span class="normal">255</span>
 <span class="normal">256</span>
 <span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
+<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>  <span class="c1"># these tests fill for fork &gt;= Berlin</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,code_gas_measure&quot;</span><span class="p">,</span>
     <span class="n">gas_measured_opcodes</span><span class="p">,</span>
@@ -27031,12 +27027,8 @@
         <span class="n">expected_gas</span> <span class="o">=</span> <span class="mi">2600</span>  <span class="c1"># Cold account access cost before EIP-3651</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
-        <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">measure_address</span><span class="p">,</span>
         <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
-        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 

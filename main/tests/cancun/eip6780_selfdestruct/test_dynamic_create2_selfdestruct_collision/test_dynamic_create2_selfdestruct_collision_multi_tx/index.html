@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_dynamic_create2_selfdestruct_collision_multi_tx"><code>test_dynamic_create2_selfdestruct_collision_multi_tx()</code><a class="headerlink" href="#test_dynamic_create2_selfdestruct_collision_multi_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L455"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py#L434"><code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py::test_dynamic_create2_selfdestruct_collision_multi_tx --fork Osaka</span>
@@ -26936,7 +26936,28 @@ Verify that the test case described in
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip6780_selfdestruct/test_dynamic_create2_selfdestruct_collision.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">455</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
 <span class="normal">456</span>
 <span class="normal">457</span>
 <span class="normal">458</span>
@@ -27132,42 +27153,7 @@ Verify that the test case described in
 <span class="normal">648</span>
 <span class="normal">649</span>
 <span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span>
-<span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
+<span class="normal">651</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;selfdestruct_on_first_tx,recreate_on_first_tx&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27363,8 +27349,6 @@ Verify that the test case described in
 
     <span class="n">post</span><span class="p">[</span><span class="n">sendall_destination</span><span class="p">]</span> <span class="o">=</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="n">sendall_destination_balance</span><span class="p">)</span>
 
-    <span class="n">nonce</span> <span class="o">=</span> <span class="n">count</span><span class="p">()</span>
-
     <span class="n">blockchain_test</span><span class="p">(</span>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span>
@@ -27372,27 +27356,15 @@ Verify that the test case described in
             <span class="n">Block</span><span class="p">(</span>
                 <span class="n">txs</span><span class="o">=</span><span class="p">[</span>
                     <span class="n">Transaction</span><span class="p">(</span>
-                        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                        <span class="n">nonce</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">nonce</span><span class="p">),</span>
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
-                        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
-                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
-                        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5_000_000</span><span class="p">,</span>
                         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
                     <span class="p">),</span>
                     <span class="n">Transaction</span><span class="p">(</span>
-                        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-                        <span class="n">nonce</span><span class="o">=</span><span class="nb">next</span><span class="p">(</span><span class="n">nonce</span><span class="p">),</span>
                         <span class="n">to</span><span class="o">=</span><span class="n">address_to</span><span class="p">,</span>
-                        <span class="n">gas_price</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                        <span class="n">protected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">initcode</span><span class="p">,</span>
-                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5000000</span><span class="p">,</span>
-                        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">5_000_000</span><span class="p">,</span>
                         <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
                     <span class="p">),</span>
                 <span class="p">]</span>

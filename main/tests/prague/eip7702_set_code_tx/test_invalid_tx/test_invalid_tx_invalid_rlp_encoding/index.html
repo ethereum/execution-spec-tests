@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_invalid_tx_invalid_rlp_encoding"><code>test_invalid_tx_invalid_rlp_encoding()</code><a class="headerlink" href="#test_invalid_tx_invalid_rlp_encoding" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L575"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/prague/eip7702_set_code_tx/test_invalid_tx.py#L577"><code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_invalid_tx.py::test_invalid_tx_invalid_rlp_encoding --fork Osaka</span>
@@ -26925,9 +26925,7 @@ invalid.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_invalid_tx.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
 <span class="normal">580</span>
@@ -26976,7 +26974,9 @@ invalid.</p>
 <span class="normal">623</span>
 <span class="normal">624</span>
 <span class="normal">625</span>
-<span class="normal">626</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;invalid_rlp_mode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">InvalidRLPMode</span><span class="o">.</span><span class="n">TRUNCATED_RLP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;truncated_rlp&quot;</span><span class="p">),</span>

@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_value_transfer_gas_calculation"><code>test_value_transfer_gas_calculation()</code><a class="headerlink" href="#test_value_transfer_gas_calculation" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py#L140"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py#L138"><code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation --fork Osaka</span>
@@ -26924,7 +26924,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
 <span class="normal">143</span>
@@ -26939,10 +26941,7 @@
 <span class="normal">152</span>
 <span class="normal">153</span>
 <span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">155</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;callee_opcode, caller_gas_limit, is_sufficient_gas&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">,</span> <span class="n">CALL_SUFFICIENT_GAS</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
@@ -26952,7 +26951,6 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;London&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_until</span><span class="p">(</span><span class="s2">&quot;Shanghai&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_value_transfer_gas_calculation</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -26966,7 +26964,7 @@
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_value_transfer_gas_calculation.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -26982,7 +26980,10 @@
                 <option value="all">All Forks</option>
                                                 <option value="London" >London</option>
                                 <option value="Paris" >Paris</option>
-                                <option value="Shanghai" selected>Shanghai</option>
+                                <option value="Shanghai" >Shanghai</option>
+                                <option value="Cancun" >Cancun</option>
+                                <option value="Prague" >Prague</option>
+                                <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
         <div class="filter_wrapper">
@@ -27275,6 +27276,270 @@
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
                 <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Shanghai-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Shanghai-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
                     ...fork_Shanghai-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Cancun-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Cancun-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Cancun-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Prague-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Prague-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Prague-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Prague-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Osaka-state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Osaka-state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True]">
+                    ...fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False]">
+                    ...fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALL-caller_gas_limit_36619-is_sufficient_gas_False
+                </abbr>
+            </td>
+                        <td>CALL</td>
+                        <td>36619</td>
+                        <td>False</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True]">
+                    ...fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11620-is_sufficient_gas_True
+                </abbr>
+            </td>
+                        <td>CALLCODE</td>
+                        <td>11620</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]" title="tests/frontier/opcodes/test_call_and_callcode_gas_calculation.py::test_value_transfer_gas_calculation[fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False]">
+                    ...fork_Osaka-blockchain_test_from_state_test-callee_opcode_CALLCODE-caller_gas_limit_11619-is_sufficient_gas_False
                 </abbr>
             </td>
                         <td>CALLCODE</td>

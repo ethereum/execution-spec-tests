@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_chainid"><code>test_chainid()</code><a class="headerlink" href="#test_chainid" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/istanbul/eip1344_chainid/test_chainid.py#L15"><code>tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/istanbul/eip1344_chainid/test_chainid.py#L15"><code>tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid --fork Osaka</span>
@@ -26944,33 +26944,35 @@
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
-<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">test_chainid</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">):</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_typed_transactions</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Istanbul&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_chainid</span><span class="p">(</span>
+    <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
+    <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">chain_config</span><span class="p">:</span> <span class="n">ChainConfig</span><span class="p">,</span>
+    <span class="n">typed_transaction</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test CHAINID opcode.&quot;&quot;&quot;</span>
-    <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
-
+    <span class="n">chain_id</span> <span class="o">=</span> <span class="n">chain_config</span><span class="o">.</span><span class="n">chain_id</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">CHAINID</span><span class="p">)</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">)</span>
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
 
-    <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
-        <span class="n">ty</span><span class="o">=</span><span class="mh">0x0</span><span class="p">,</span>
-        <span class="n">chain_id</span><span class="o">=</span><span class="mh">0x01</span><span class="p">,</span>
+    <span class="n">tx</span> <span class="o">=</span> <span class="n">typed_transaction</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span>
+        <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_id</span><span class="p">,</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;0x01&quot;</span><span class="p">:</span> <span class="s2">&quot;0x01&quot;</span><span class="p">}),</span>
+        <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="n">chain_id</span><span class="p">}),</span>
     <span class="p">}</span>
 
-    <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
+    <span class="n">state_test</span><span class="p">(</span><span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
 
 </div><h2 id="parametrized-test-cases">Parametrized Test Cases<a class="headerlink" href="#parametrized-test-cases" title="Permanent link">&para;</a></h2>
-<p>This test case is only parametrized by fork and fixture format.</p>
+<p>The interactive table below is also available as a <a href="../test_chainid.html">standalone page</a>.</p>
 <div class="control_panel">
     <div class="panel_row filters">
         <div class="filter_wrapper">
@@ -27020,136 +27022,477 @@
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>typed_transaction</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="Istanbul" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-state_test]">
-                    ...fork_Istanbul-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-typed_transaction_0-state_test]">
+                    ...fork_Istanbul-typed_transaction_0-state_test
                 </abbr>
             </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Istanbul" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-blockchain_test_from_state_test]">
-                    ...fork_Istanbul-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Istanbul-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Istanbul-typed_transaction_0-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-state_test]">
-                    ...fork_Berlin-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_1-state_test]">
+                    ...fork_Berlin-typed_transaction_1-state_test
                 </abbr>
             </td>
+                        <td>1</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-blockchain_test_from_state_test]">
-                    ...fork_Berlin-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Berlin-typed_transaction_1-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_0-state_test]">
+                    ...fork_Berlin-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Berlin-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Berlin-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-state_test]">
-                    ...fork_London-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_2-state_test]">
+                    ...fork_London-typed_transaction_2-state_test
                 </abbr>
             </td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-blockchain_test_from_state_test]">
-                    ...fork_London-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_London-typed_transaction_2-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_1-state_test]">
+                    ...fork_London-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_London-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_0-state_test]">
+                    ...fork_London-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_London-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_London-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-state_test]">
-                    ...fork_Paris-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_2-state_test]">
+                    ...fork_Paris-typed_transaction_2-state_test
                 </abbr>
             </td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-blockchain_test_from_state_test]">
-                    ...fork_Paris-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_Paris-typed_transaction_2-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_1-state_test]">
+                    ...fork_Paris-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Paris-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_0-state_test]">
+                    ...fork_Paris-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Paris-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Paris-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-state_test]">
-                    ...fork_Shanghai-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_2-state_test]">
+                    ...fork_Shanghai-typed_transaction_2-state_test
                 </abbr>
             </td>
+                        <td>2</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-blockchain_test_from_state_test]">
-                    ...fork_Shanghai-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_Shanghai-typed_transaction_2-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_1-state_test]">
+                    ...fork_Shanghai-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Shanghai-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_0-state_test]">
+                    ...fork_Shanghai-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Shanghai-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Shanghai-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-state_test]">
-                    ...fork_Cancun-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_3-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_3-state_test]">
+                    ...fork_Cancun-typed_transaction_3-state_test
                 </abbr>
             </td>
+                        <td>3</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-blockchain_test_from_state_test]">
-                    ...fork_Cancun-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_3-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_3-blockchain_test_from_state_test]">
+                    ...fork_Cancun-typed_transaction_3-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_2-state_test]">
+                    ...fork_Cancun-typed_transaction_2-state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_Cancun-typed_transaction_2-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_1-state_test]">
+                    ...fork_Cancun-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Cancun-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_0-state_test]">
+                    ...fork_Cancun-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Cancun-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Cancun-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-state_test]">
-                    ...fork_Prague-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_4-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_4-state_test]">
+                    ...fork_Prague-typed_transaction_4-state_test
                 </abbr>
             </td>
+                        <td>4</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-blockchain_test_from_state_test]">
-                    ...fork_Prague-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_4-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_4-blockchain_test_from_state_test]">
+                    ...fork_Prague-typed_transaction_4-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_3-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_3-state_test]">
+                    ...fork_Prague-typed_transaction_3-state_test
+                </abbr>
+            </td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_3-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_3-blockchain_test_from_state_test]">
+                    ...fork_Prague-typed_transaction_3-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_2-state_test]">
+                    ...fork_Prague-typed_transaction_2-state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_Prague-typed_transaction_2-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_1-state_test]">
+                    ...fork_Prague-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Prague-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_0-state_test]">
+                    ...fork_Prague-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Prague-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Prague-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-state_test]">
-                    ...fork_Osaka-state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_4-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_4-state_test]">
+                    ...fork_Osaka-typed_transaction_4-state_test
                 </abbr>
             </td>
+                        <td>4</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-blockchain_test_from_state_test]">
-                    ...fork_Osaka-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_4-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_4-blockchain_test_from_state_test]">
+                    ...fork_Osaka-typed_transaction_4-blockchain_test_from_state_test
                 </abbr>
             </td>
+                        <td>4</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_3-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_3-state_test]">
+                    ...fork_Osaka-typed_transaction_3-state_test
+                </abbr>
+            </td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_3-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_3-blockchain_test_from_state_test]">
+                    ...fork_Osaka-typed_transaction_3-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>3</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_2-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_2-state_test]">
+                    ...fork_Osaka-typed_transaction_2-state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_2-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_2-blockchain_test_from_state_test]">
+                    ...fork_Osaka-typed_transaction_2-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>2</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_1-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_1-state_test]">
+                    ...fork_Osaka-typed_transaction_1-state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_1-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_1-blockchain_test_from_state_test]">
+                    ...fork_Osaka-typed_transaction_1-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>1</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_0-state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_0-state_test]">
+                    ...fork_Osaka-typed_transaction_0-state_test
+                </abbr>
+            </td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_0-blockchain_test_from_state_test]" title="tests/istanbul/eip1344_chainid/test_chainid.py::test_chainid[fork_Osaka-typed_transaction_0-blockchain_test_from_state_test]">
+                    ...fork_Osaka-typed_transaction_0-blockchain_test_from_state_test
+                </abbr>
+            </td>
+                        <td>0</td>
                     </tr>
             </tbody>
 </table>

@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_set_code_using_chain_specific_id"><code>test_set_code_using_chain_specific_id()</code><a class="headerlink" href="#test_set_code_using_chain_specific_id" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2040"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_chain_specific_id@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2042"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_chain_specific_id@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_using_chain_specific_id --fork Osaka</span>
@@ -26924,9 +26924,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2040</span>
-<span class="normal">2041</span>
-<span class="normal">2042</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2042</span>
 <span class="normal">2043</span>
 <span class="normal">2044</span>
 <span class="normal">2045</span>
@@ -26964,9 +26962,13 @@
 <span class="normal">2077</span>
 <span class="normal">2078</span>
 <span class="normal">2079</span>
-<span class="normal">2080</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_set_code_using_chain_specific_id</span><span class="p">(</span>
+<span class="normal">2080</span>
+<span class="normal">2081</span>
+<span class="normal">2082</span>
+<span class="normal">2083</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_set_code_using_chain_specific_id</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
+    <span class="n">chain_config</span><span class="p">:</span> <span class="n">ChainConfig</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test sending a transaction to set the code of an account using a chain-specific ID.&quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">auth_account_start_balance</span><span class="p">)</span>
@@ -26984,7 +26986,7 @@
             <span class="n">AuthorizationTuple</span><span class="p">(</span>
                 <span class="n">address</span><span class="o">=</span><span class="n">set_code_to_address</span><span class="p">,</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                <span class="n">chain_id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">chain_id</span><span class="o">=</span><span class="n">chain_config</span><span class="o">.</span><span class="n">chain_id</span><span class="p">,</span>
                 <span class="n">signer</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>

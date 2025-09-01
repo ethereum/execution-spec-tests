@@ -26904,7 +26904,7 @@
 
 
 <h1 id="test_authorization_reusing_nonce"><code>test_authorization_reusing_nonce()</code><a class="headerlink" href="#test_authorization_reusing_nonce" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/748fdbb607e474f7bf6553834cad9cf4f7e5e28b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3593"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_authorization_reusing_nonce@748fdbb6</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/508fa1e231539476a3fba98fd4ee418b31e04324/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3626"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_authorization_reusing_nonce@508fa1e2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_authorization_reusing_nonce --fork Osaka</span>
@@ -26925,40 +26925,7 @@ block.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3593</span>
-<span class="normal">3594</span>
-<span class="normal">3595</span>
-<span class="normal">3596</span>
-<span class="normal">3597</span>
-<span class="normal">3598</span>
-<span class="normal">3599</span>
-<span class="normal">3600</span>
-<span class="normal">3601</span>
-<span class="normal">3602</span>
-<span class="normal">3603</span>
-<span class="normal">3604</span>
-<span class="normal">3605</span>
-<span class="normal">3606</span>
-<span class="normal">3607</span>
-<span class="normal">3608</span>
-<span class="normal">3609</span>
-<span class="normal">3610</span>
-<span class="normal">3611</span>
-<span class="normal">3612</span>
-<span class="normal">3613</span>
-<span class="normal">3614</span>
-<span class="normal">3615</span>
-<span class="normal">3616</span>
-<span class="normal">3617</span>
-<span class="normal">3618</span>
-<span class="normal">3619</span>
-<span class="normal">3620</span>
-<span class="normal">3621</span>
-<span class="normal">3622</span>
-<span class="normal">3623</span>
-<span class="normal">3624</span>
-<span class="normal">3625</span>
-<span class="normal">3626</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3626</span>
 <span class="normal">3627</span>
 <span class="normal">3628</span>
 <span class="normal">3629</span>
@@ -26966,7 +26933,41 @@ block.</p>
 <span class="normal">3631</span>
 <span class="normal">3632</span>
 <span class="normal">3633</span>
-<span class="normal">3634</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_authorization_reusing_nonce</span><span class="p">(</span>
+<span class="normal">3634</span>
+<span class="normal">3635</span>
+<span class="normal">3636</span>
+<span class="normal">3637</span>
+<span class="normal">3638</span>
+<span class="normal">3639</span>
+<span class="normal">3640</span>
+<span class="normal">3641</span>
+<span class="normal">3642</span>
+<span class="normal">3643</span>
+<span class="normal">3644</span>
+<span class="normal">3645</span>
+<span class="normal">3646</span>
+<span class="normal">3647</span>
+<span class="normal">3648</span>
+<span class="normal">3649</span>
+<span class="normal">3650</span>
+<span class="normal">3651</span>
+<span class="normal">3652</span>
+<span class="normal">3653</span>
+<span class="normal">3654</span>
+<span class="normal">3655</span>
+<span class="normal">3656</span>
+<span class="normal">3657</span>
+<span class="normal">3658</span>
+<span class="normal">3659</span>
+<span class="normal">3660</span>
+<span class="normal">3661</span>
+<span class="normal">3662</span>
+<span class="normal">3663</span>
+<span class="normal">3664</span>
+<span class="normal">3665</span>
+<span class="normal">3666</span>
+<span class="normal">3667</span>
+<span class="normal">3668</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_authorization_reusing_nonce</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
 <span class="p">):</span>
@@ -26976,18 +26977,19 @@ block.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_signer</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
+    <span class="n">recipient</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(</span><span class="n">amount</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">txs</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">Transaction</span><span class="p">(</span>
             <span class="n">sender</span><span class="o">=</span><span class="n">auth_signer</span><span class="p">,</span>
             <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">21_000</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">recipient</span><span class="p">,</span>
             <span class="n">value</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">),</span>
         <span class="n">Transaction</span><span class="p">(</span>
             <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
             <span class="n">gas_limit</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-            <span class="n">to</span><span class="o">=</span><span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+            <span class="n">to</span><span class="o">=</span><span class="n">recipient</span><span class="p">,</span>
             <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">authorization_list</span><span class="o">=</span><span class="p">[</span>
                 <span class="n">AuthorizationTuple</span><span class="p">(</span>
@@ -27003,7 +27005,7 @@ block.</p>
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">blocks</span><span class="o">=</span><span class="p">[</span><span class="n">Block</span><span class="p">(</span><span class="n">txs</span><span class="o">=</span><span class="n">txs</span><span class="p">)],</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">Address</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">recipient</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
             <span class="n">auth_signer</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">),</span>
             <span class="n">sender</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">nonce</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
         <span class="p">},</span>
