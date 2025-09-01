@@ -6,6 +6,7 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
+from ethereum_test_types.chain_config_types import ChainConfigDefaults
 
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
@@ -76,6 +77,16 @@ def pytest_configure(config: pytest.Config):
     """Check if a chain ID configuration is provided."""
     if config.getoption("rpc_chain_id") is None and config.getoption("chain_id") is None:
         pytest.exit("No chain ID configuration found. Please use --chain-id.")
+    # Verify the chain ID configuration is consistent with the remote RPC endpoint
+    rpc_endpoint = config.getoption("rpc_endpoint")
+    eth_rpc = EthRPC(rpc_endpoint)
+    remote_chain_id = eth_rpc.chain_id()
+    if remote_chain_id != ChainConfigDefaults.chain_id:
+        pytest.exit(
+            f"Chain ID obtained from the remote RPC endpoint ({remote_chain_id}) does not match "
+            f"the configured chain ID ({ChainConfigDefaults.chain_id})."
+            "Please check if the chain ID is correctly configured with the --chain-id flag."
+        )
 
 
 @pytest.fixture(scope="session")
