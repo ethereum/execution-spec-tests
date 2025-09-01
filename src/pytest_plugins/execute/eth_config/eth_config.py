@@ -4,6 +4,7 @@ import re
 from os.path import realpath
 from pathlib import Path
 from typing import Dict, List
+from urllib.parse import urlparse
 
 import pytest
 import requests
@@ -191,7 +192,13 @@ def all_rpc_endpoints(config) -> Dict[str, List[EthRPC]]:
     rpc_endpoint = config.getoption("rpc_endpoint")
     el_clients: List[str] = config.getoption("majority_clients")  # besu, erigon, ..
     if len(el_clients) == 0:
-        return {}
+        endpoint_name = rpc_endpoint
+        try:
+            parsed = urlparse(rpc_endpoint)
+            endpoint_name = parsed.hostname
+        except Exception:
+            pass
+        return {endpoint_name: [EthRPC(rpc_endpoint)]}
 
     pattern = r"(.*?@rpc\.)([^-]+)-([^-]+)(-.*)"
     url_dict: Dict[str, List[EthRPC]] = {
@@ -230,12 +237,23 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             )
             metafunc.parametrize(
                 ["all_rpc_endpoints"],
-                [],
+                [
+                    pytest.param(
+                        all_rpc_endpoints_dict,
+                        id=metafunc.definition.name,
+                        marks=pytest.mark.skip("Only one client"),
+                    )
+                ],
             )
         else:
             metafunc.parametrize(
                 ["all_rpc_endpoints"],
-                [[all_rpc_endpoints_dict]],  # interpret it as a single argument dict
+                [
+                    pytest.param(
+                        all_rpc_endpoints_dict,
+                        id=metafunc.definition.name,
+                    )
+                ],
                 scope="function",
             )
     else:
@@ -244,7 +262,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
             [
                 pytest.param(
                     rpc_endpoint,
-                    id=endpoint_name,
+                    id=f"{metafunc.definition.name}[{endpoint_name}]",
                 )
                 for endpoint_name, rpc_endpoint in all_rpc_endpoints_dict.items()
             ],

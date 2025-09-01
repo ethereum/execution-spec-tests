@@ -18,8 +18,15 @@ logger = get_logger(__name__)
 @pytest.fixture(scope="function")
 def eth_config_response(eth_rpc: List[EthRPC]) -> EthConfigResponse | None:
     """Get the `eth_config` response from the client to be verified by all tests."""
-    assert len(eth_rpc) > 0
-    return eth_rpc[0].config()  # just pick the first of possible URLs for this exec client
+    for rpc in eth_rpc:
+        try:
+            response = rpc.config()
+            if response is not None:
+                return response
+        except Exception:
+            pass
+    else:
+        raise Exception("Could not connect to any RPC client.")
 
 
 @pytest.fixture(scope="function")
@@ -198,7 +205,7 @@ def test_eth_config_majority(
                 )
                 continue
 
-            response_str = json.dumps(response.model_dump(mode="json"))
+            response_str = json.dumps(response.model_dump(mode="json"), sort_keys=True)
             responses[exec_client] = response_str
             client_to_url_used_dict[exec_client] = (
                 eth_rpc_target.url
@@ -218,7 +225,7 @@ def test_eth_config_majority(
     # determine hashes of client responses
     client_to_hash_dict = dict()  # Dict[exec_client : response hash] # noqa: C408
     for client in responses.keys():
-        response_bytes = json.dumps(responses[client], sort_keys=True).encode("utf-8")
+        response_bytes = responses[client].encode("utf-8")
         response_hash = sha256(response_bytes).digest().hex()
         logger.info(f"Response hash of client {client}: {response_hash}")
         client_to_hash_dict[client] = response_hash
@@ -231,10 +238,15 @@ def test_eth_config_majority(
             continue
 
         assert client_to_hash_dict[h] == expected_hash, (
-            "Critical consensus issue: Not all eth_config responses are the same! "
-            f"Here is an overview of client response hashes:\n{'\n\t'.join(f'{k}: {v}' for k, v in client_to_hash_dict.items())}\n\n"  # noqa: E501
-            f"Here is an overview of which URLs were contacted:\n\t{'\n\t'.join(f'{k}: @{v.split("@")[1]}' for k, v in client_to_url_used_dict.items())}\n\n"  # log which cl+el combinations were used without leaking full url # noqa: E501
-            f"Here is a dump of all client responses:\n{'\n\n'.join(f'{k}: {v}' for k, v in responses.items())}"  # noqa: E501
+            "Critical consensus issue: Not all eth_config responses are the same!\n"
+            "Here is an overview of client response hashes:\n"
+            + "\n\t".join(f"{k}: {v}" for k, v in client_to_hash_dict.items())
+            + "\n\n"  # noqa: E501
+            "Here is an overview of which URLs were contacted:\n\t"
+            + "\n\t".join(f"{k}: @{v.split('@')[1]}" for k, v in client_to_url_used_dict.items())
+            + "\n\n"  # log which cl+el combinations were used without leaking full url # noqa: E501
+            "Here is a dump of all client responses:\n"
+            + "\n\n".join(f"{k}: {v}" for k, v in responses.items())  # noqa: E501
         )
     assert expected_hash != ""
 
