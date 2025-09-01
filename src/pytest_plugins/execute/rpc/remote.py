@@ -6,7 +6,7 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
-from ethereum_test_types import TransactionDefaults
+from ethereum_test_types.chain_config_types import ChainConfigDefaults
 
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
@@ -25,10 +25,12 @@ def pytest_addoption(parser):
         "--rpc-chain-id",
         action="store",
         dest="rpc_chain_id",
-        required=True,
+        required=False,
         type=int,
         default=None,
-        help="ID of the chain where the tests will be executed.",
+        help="DEPRECATED: ID of the chain where the tests will be executed. "
+        "This flag is deprecated and will be removed in a future release."
+        "Use --chain-id instead.",
     )
     remote_rpc_group.addoption(
         "--tx-wait-timeout",
@@ -71,45 +73,65 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture(scope="session")
-def engine_rpc(request) -> EngineRPC | None:
-    """Execute remote command does not have access to the engine RPC."""
-    engine_endpoint = request.config.getoption("engine_endpoint")
+def pytest_configure(config: pytest.Config):
+    """Check if a chain ID configuration is provided."""
+    if config.getoption("rpc_chain_id") is None and config.getoption("chain_id") is None:
+        pytest.exit("No chain ID configuration found. Please use --chain-id.")
+    # Verify the chain ID configuration is consistent with the remote RPC endpoint
+    rpc_endpoint = config.getoption("rpc_endpoint")
+    eth_rpc = EthRPC(rpc_endpoint)
+    remote_chain_id = eth_rpc.chain_id()
+    if remote_chain_id != ChainConfigDefaults.chain_id:
+        pytest.exit(
+            f"Chain ID obtained from the remote RPC endpoint ({remote_chain_id}) does not match "
+            f"the configured chain ID ({ChainConfigDefaults.chain_id})."
+            "Please check if the chain ID is correctly configured with the --chain-id flag."
+        )
+    engine_endpoint = config.getoption("engine_endpoint")
+    engine_rpc = None
     if engine_endpoint is not None:
-        jwt_secret = request.config.getoption("engine_jwt_secret")
-        if jwt_secret is None:
-            jwt_secret_file = request.config.getoption("engine_jwt_secret_file")
-            if jwt_secret_file is None:
-                raise ValueError("JWT secret must be provided if engine endpoint is provided")
+        jwt_secret = config.getoption("engine_jwt_secret")
+        jwt_secret_file = config.getoption("engine_jwt_secret_file")
+        if jwt_secret is None and jwt_secret_file is None:
+            pytest.exit(
+                "JWT secret must be provided if engine endpoint is provided. "
+                "Please check if the JWT secret is correctly configured with the "
+                "--engine-jwt-secret or --engine-jwt-secret-file flag."
+            )
+        elif jwt_secret_file is not None:
             with open(jwt_secret_file, "r") as f:
                 jwt_secret = f.read().strip()
             if jwt_secret.startswith("0x"):
                 jwt_secret = jwt_secret[2:]
-            jwt_secret = bytes.fromhex(jwt_secret)
-        if jwt_secret is None:
-            raise ValueError("JWT secret must be provided if engine endpoint is provided")
+            try:
+                jwt_secret = bytes.fromhex(jwt_secret)
+            except ValueError:
+                pytest.exit(
+                    "JWT secret must be a hex string if provided as a file. "
+                    "Please check if the JWT secret is correctly configured with the "
+                    "--engine-jwt-secret-file flag."
+                )
         if isinstance(jwt_secret, str):
             jwt_secret = jwt_secret.encode("utf-8")
         assert isinstance(jwt_secret, bytes), (
             f"JWT secret must be a bytes object, got {type(jwt_secret)}"
         )
-        return EngineRPC(engine_endpoint, jwt_secret=jwt_secret)
-    return None
+        engine_rpc = EngineRPC(engine_endpoint, jwt_secret=jwt_secret)
+        # TODO: Perform a request to the engine endpoint to verify that the JWT secret is valid.
+        # Potentially could be `engine_getClientVersionV1` but need to implement this in rpc.py.
+    config.engine_rpc = engine_rpc  # type: ignore
+
+
+@pytest.fixture(scope="session")
+def engine_rpc(request) -> EngineRPC | None:
+    """Execute remote command does not have access to the engine RPC."""
+    return request.config.engine_rpc  # type: ignore
 
 
 @pytest.fixture(autouse=True, scope="session")
 def rpc_endpoint(request) -> str:
     """Return remote RPC endpoint to be used to make requests to the execution client."""
     return request.config.getoption("rpc_endpoint")
-
-
-@pytest.fixture(autouse=True, scope="session")
-def chain_id(request) -> int:
-    """Return chain id where the tests will be executed."""
-    chain_id = request.config.getoption("rpc_chain_id")
-    if chain_id is not None:
-        TransactionDefaults.chain_id = chain_id
-    return chain_id
 
 
 @pytest.fixture(autouse=True, scope="session")

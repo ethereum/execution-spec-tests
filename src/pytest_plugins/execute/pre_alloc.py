@@ -35,7 +35,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools import Alloc as BaseAlloc
 from ethereum_test_tools import Opcodes as Op
-from ethereum_test_types import TransactionTestMetadata
+from ethereum_test_types import ChainConfig, TransactionTestMetadata
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 
@@ -506,7 +506,7 @@ def pre(
     eoa_iterator: Iterator[EOA],
     eth_rpc: EthRPC,
     evm_code_type: EVMCodeType,
-    chain_id: int,
+    chain_config: ChainConfig,
     eoa_fund_amount_default: int,
     default_gas_price: int,
     address_stubs: AddressStubs,
@@ -523,7 +523,7 @@ def pre(
         eth_rpc=eth_rpc,
         eoa_iterator=eoa_iterator,
         evm_code_type=evm_code_type,
-        chain_id=chain_id,
+        chain_id=chain_config.chain_id,
         eoa_fund_amount_default=eoa_fund_amount_default,
         node_id=request.node.nodeid,
         address_stubs=address_stubs,

@@ -25,7 +25,7 @@ from ethereum_test_tools import (
     Hash,
     Withdrawal,
 )
-from ethereum_test_types import Requests
+from ethereum_test_types import ChainConfig, Requests
 
 from ...consume.simulators.helpers.ruleset import ruleset
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
@@ -181,14 +181,14 @@ def client_files(
 
 
 @pytest.fixture(scope="session")
-def environment(session_fork: Fork) -> dict:
+def environment(session_fork: Fork, chain_config: ChainConfig) -> dict:
     """
     Define the environment that hive will start the client with using the fork
     rules specific for the simulator.
     """
     assert session_fork in ruleset, f"fork '{session_fork}' missing in hive ruleset"
     return {
-        "HIVE_CHAIN_ID": "1",
+        "HIVE_CHAIN_ID": str(chain_config.chain_id),
         "HIVE_FORK_DAO_VOTE": "1",
         "HIVE_NODETYPE": "full",
         **{k: f"{v:d}" for k, v in ruleset[session_fork].items()},
@@ -331,12 +331,6 @@ def client(
             client.stop()
             base_file.unlink()
             users_file.unlink()
-
-
-@pytest.fixture(scope="session")
-def chain_id() -> int:
-    """Return chain id where the tests will be executed."""
-    return 1
 
 
 @pytest.fixture(scope="session")

@@ -80,7 +80,7 @@ def callee_code(pre: Alloc, callee_opcode: Op) -> Bytecode:
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender for all transactions."""
-    return pre.fund_eoa(0x0BA1A9CE)
+    return pre.fund_eoa()
 
 
 @pytest.fixture
@@ -121,11 +121,9 @@ def caller_address(pre: Alloc, caller_code: Bytecode) -> Address:
 def caller_tx(sender: EOA, caller_address: Address) -> Transaction:
     """Transaction that performs the call to the caller contract."""
     return Transaction(
-        chain_id=0x01,
         to=caller_address,
         value=1,
-        gas_limit=500000,
-        gas_price=7,
+        gas_limit=500_000,
         sender=sender,
     )
 
@@ -147,7 +145,6 @@ def post(caller_address: Address, is_sufficient_gas: bool) -> Dict[Address, Acco
     ],
 )
 @pytest.mark.valid_from("London")
-@pytest.mark.valid_until("Shanghai")
 def test_value_transfer_gas_calculation(
     state_test: StateTestFiller,
     pre: Alloc,
