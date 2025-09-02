@@ -20,63 +20,194 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 
 @pytest.mark.valid_from("Prague")
-@pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
-def test_bloatnet(
-    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, final_storage_value: int
+@pytest.mark.parametrize("storage_value", [0x01 << 248, 0x01])
+def test_bloatnet_sstore_0_to_1(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int, storage_value: int
 ):
     """
-    A test that calls a contract with many SSTOREs.
+    Benchmark test that maximizes SSTORE operations (0 -> 1) by filling
+    a block with multiple transactions, with each one containing a contract
+    that performs a set of SSTOREs.
 
-    The first block will have many SSTORES that go from 0 -> 1
-    and the 2nd block will have many SSTORES that go from 1 -> 2
+    The test iteratively creates new transactions until the cumulative gas used
+    reaches the block's gas benchmark value. Each transaction deploys a contract
+    that performs as many SSTOREs as possible within the transaction's gas limit.
     """
-    # Get gas costs for the current fork
     gas_costs = fork.gas_costs()
+    intrinsic_gas_calc = fork.transaction_intrinsic_cost_calculator()
 
-    # this is only used for computing the intinsic gas
-    data = final_storage_value.to_bytes(32, "big").rstrip(b"\x00")
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
 
-    storage = Storage()
+    calldata = storage_value.to_bytes(32, "big").rstrip(b"\x00")
 
-    # Initial gas for PUSH0 + CALLDATALOAD + POP (at the end)
-    totalgas = gas_costs.G_BASE * 2 + gas_costs.G_VERY_LOW
-    totalgas = totalgas + fork.transaction_intrinsic_cost_calculator()(calldata=data)
-    gas_increment = gas_costs.G_VERY_LOW * 2 + gas_costs.G_STORAGE_SET + gas_costs.G_COLD_SLOAD
-    sstore_code = Op.PUSH0 + Op.CALLDATALOAD
-    storage_slot: int = 0
-    while totalgas + gas_increment < Environment().gas_limit:
-        totalgas += gas_increment
-        sstore_code = sstore_code + Op.SSTORE(storage_slot, Op.DUP1)
-        storage[storage_slot] = final_storage_value
-        storage_slot += 1
+    total_sstores = 0
+    total_block_gas_used = 0
+    all_txs = []
 
-    sstore_code = sstore_code + Op.POP  # Drop last value on the stack
+    expected_storage_state = {}
 
-    sender = pre.fund_eoa()
-    print(sender)
-    contract_address = pre.deploy_contract(
-        code=sstore_code,
-        storage=Storage(),
+    while total_block_gas_used <= gas_benchmark_value:
+        remaining_block_gas = gas_benchmark_value - total_block_gas_used
+        tx_gas_limit = min(remaining_block_gas, tx_gas_cap)
+
+        intrinsic_gas_with_data_floor = intrinsic_gas_calc(calldata=calldata)
+        if tx_gas_limit <= intrinsic_gas_with_data_floor:
+            break
+
+        opcode_gas_budget = tx_gas_limit - intrinsic_gas_with_data_floor
+
+        # Setup code to load value from calldata
+        tx_contract_code = Op.PUSH0 + Op.CALLDATALOAD
+        tx_opcode_gas = gas_costs.G_BASE + gas_costs.G_VERY_LOW  # PUSH0 + CALLDATALOAD
+
+        sstore_per_op_cost = (
+            gas_costs.G_VERY_LOW * 2  # PUSH + DUP1
+            + gas_costs.G_COLD_SLOAD
+            + gas_costs.G_STORAGE_SET  # SSTORE
+        )
+
+        tx_sstores_count = (opcode_gas_budget - tx_opcode_gas) // sstore_per_op_cost
+
+        # If no SSTOREs could be added, we've filled the block
+        if tx_sstores_count == 0:
+            break
+
+        tx_opcode_gas += sstore_per_op_cost * tx_sstores_count
+        for slot in range(total_sstores, total_sstores + tx_sstores_count):
+            tx_contract_code += Op.SSTORE(slot, Op.DUP1)
+
+        contract_address = pre.deploy_contract(code=tx_contract_code)
+        tx = Transaction(
+            to=contract_address,
+            gas_limit=tx_gas_limit,
+            data=calldata,
+            sender=pre.fund_eoa(),
+        )
+        all_txs.append(tx)
+
+        actual_intrinsic_consumed = intrinsic_gas_calc(
+            calldata=calldata,
+            # The actual gas consumed uses the standard intrinsic cost
+            # (prior execution), not the floor cost used for validation
+            return_cost_deducted_prior_execution=True,
+        )
+
+        tx_gas_used = actual_intrinsic_consumed + tx_opcode_gas
+        total_block_gas_used += tx_gas_used
+
+        # update expected storage state for each contract
+        expected_storage_state[contract_address] = Account(
+            storage=Storage(
+                {
+                    HashInt(slot): HashInt(storage_value)
+                    for slot in range(total_sstores, total_sstores + tx_sstores_count)
+                }
+            )
+        )
+
+        total_sstores += tx_sstores_count
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=all_txs)],
+        post=expected_storage_state,
+        expected_benchmark_gas_used=total_block_gas_used,
     )
 
-    tx_0_1 = Transaction(
-        to=contract_address,
-        gas_limit=Environment().gas_limit,
-        data=(final_storage_value // 2).to_bytes(32, "big").rstrip(b"\x00"),
-        value=0,
-        sender=sender,
-    )
-    tx_1_2 = Transaction(
-        to=contract_address,
-        gas_limit=Environment().gas_limit,
-        data=final_storage_value.to_bytes(32, "big").rstrip(b"\x00"),
-        value=0,
-        sender=sender,
-    )
 
-    post = {contract_address: Account(storage=storage)}
+@pytest.mark.valid_from("Prague")
+@pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
+def test_bloatnet_sstore_1_to_2(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int, final_storage_value: int
+):
+    """
+    Benchmark test that maximizes SSTORE operations (1 -> 2).
 
-    blockchain_test(pre=pre, blocks=[Block(txs=[tx_0_1]), Block(txs=[tx_1_2])], post=post)
+    This test pre-fills storage slots with value=1, then overwrites them with value=2.
+    This represents the case of changing a non-zero value to a different non-zero value,
+    """
+    gas_costs = fork.gas_costs()
+    intrinsic_gas_calc = fork.transaction_intrinsic_cost_calculator()
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
+
+    initial_value = final_storage_value // 2
+    calldata = final_storage_value.to_bytes(32, "big").rstrip(b"\x00")
+
+    total_sstores = 0
+    total_block_gas_used = 0
+    all_txs = []
+    expected_storage_state = {}
+
+    while total_block_gas_used <= gas_benchmark_value:
+        remaining_block_gas = gas_benchmark_value - total_block_gas_used
+        tx_gas_limit = min(remaining_block_gas, tx_gas_cap)
+
+        intrinsic_gas_with_data_floor = intrinsic_gas_calc(calldata=calldata)
+        if tx_gas_limit <= intrinsic_gas_with_data_floor:
+            break
+
+        opcode_gas_budget = tx_gas_limit - intrinsic_gas_with_data_floor
+
+        # Setup code to load value from calldata
+        tx_contract_code = Op.PUSH0 + Op.CALLDATALOAD
+        tx_opcode_gas = gas_costs.G_BASE + gas_costs.G_VERY_LOW  # PUSH0 + CALLDATALOAD
+
+        sstore_per_op_cost = (
+            gas_costs.G_VERY_LOW * 2  # PUSH + DUP1
+            + gas_costs.G_COLD_SLOAD
+            + gas_costs.G_STORAGE_RESET  # SSTORE
+        )
+
+        tx_sstores_count = (opcode_gas_budget - tx_opcode_gas) // sstore_per_op_cost
+
+        if tx_sstores_count == 0:
+            break
+
+        tx_opcode_gas += sstore_per_op_cost * tx_sstores_count
+        for slot in range(total_sstores, total_sstores + tx_sstores_count):
+            tx_contract_code += Op.SSTORE(slot, Op.DUP1)
+
+        # Pre-fill storage with initial values
+        initial_storage = {
+            slot: initial_value for slot in range(total_sstores, total_sstores + tx_sstores_count)
+        }
+
+        contract_address = pre.deploy_contract(
+            code=tx_contract_code,
+            storage=initial_storage,  # type: ignore
+        )
+        tx = Transaction(
+            to=contract_address,
+            gas_limit=tx_gas_limit,
+            data=calldata,
+            sender=pre.fund_eoa(),
+        )
+        all_txs.append(tx)
+
+        actual_intrinsic_consumed = intrinsic_gas_calc(
+            calldata=calldata, return_cost_deducted_prior_execution=True
+        )
+
+        tx_gas_used = actual_intrinsic_consumed + tx_opcode_gas
+        total_block_gas_used += tx_gas_used
+
+        expected_storage_state[contract_address] = Account(
+            storage=Storage(
+                {
+                    HashInt(slot): HashInt(final_storage_value)
+                    for slot in range(total_sstores, total_sstores + tx_sstores_count)
+                }
+            )
+        )
+
+        total_sstores += tx_sstores_count
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=all_txs)],
+        post=expected_storage_state,
+        expected_benchmark_gas_used=total_block_gas_used,
+    )
 
 
 # Warm reads are very cheap, which means you can really fill a block
