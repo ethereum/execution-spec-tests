@@ -430,9 +430,9 @@ class EngineRPC(BaseRPC):
         method = f"forkchoiceUpdatedV{version}"
 
         if payload_attributes is None:
-            params = [to_json(forkchoice_state)]
-        else:
             params = [to_json(forkchoice_state), None]
+        else:
+            params = [to_json(forkchoice_state), to_json(payload_attributes)]
 
         return ForkchoiceUpdateResponse.model_validate(
             self.post_request(
