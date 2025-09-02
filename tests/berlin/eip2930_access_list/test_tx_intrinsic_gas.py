@@ -156,7 +156,7 @@ def test_tx_intrinsic_gas(
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     intrinsic_gas_cost = intrinsic_gas_cost_calculator(calldata=data, access_list=access_list)
 
-    exception: TransactionException | None = None
+    exception: List[TransactionException] | TransactionException | None = None
     if below_intrinsic:
         data_floor_gas_cost_calculator = fork.transaction_data_floor_cost_calculator()
         data_floor_gas_cost = data_floor_gas_cost_calculator(data=data)
