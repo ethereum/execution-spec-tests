@@ -197,11 +197,14 @@ def test_eth_config_majority(
         # try only as many consensus+exec client combinations until you receive a response
         # if all combinations for a given exec client fail we panic
         for eth_rpc_target in all_rpc_endpoints[exec_client]:
-            response = eth_rpc_target.config(timeout=10)
-            if response is None:
-                # safely split url to not leak rpc_endpoint in logs
+            try:
+                response = eth_rpc_target.config(timeout=5)
+                if response is None:
+                    logger.warning(f"Got 'None' as eth_config response from {eth_rpc_target}")
+                    continue
+            except Exception as e:
                 logger.warning(
-                    f"When trying to get eth_config from {eth_rpc_target} a problem occurred"  # problem itself is logged by .config() call # noqa: E501
+                    f"When trying to get eth_config from {eth_rpc_target} a problem occurred: {e}"
                 )
                 continue
 

@@ -19,6 +19,7 @@ from .types import (
     ForkchoiceUpdateResponse,
     GetBlobsResponse,
     GetPayloadResponse,
+    JSONRPCError,
     PayloadAttributes,
     PayloadStatus,
     TransactionByHashResponse,
@@ -96,7 +97,7 @@ class BaseRPC:
         if request_id is None:
             request_id = next_request_id_counter
 
-        json = {
+        payload = {
             "jsonrpc": "2.0",
             "method": f"{self.namespace}_{method}",
             "params": params,
@@ -108,19 +109,12 @@ class BaseRPC:
         headers = base_header | extra_headers
 
         logger.debug(f"Sending RPC request, timeout is set to {timeout}...")
-        response = requests.post(self.url, json=json, headers=headers, timeout=timeout)
+        response = requests.post(self.url, json=payload, headers=headers, timeout=timeout)
+        response.raise_for_status()
+        response_json = response.json()
 
-        try:
-            response_json = response.json()
-        except Exception as e:
-            logger.debug(f"Failed to deserialize response: {e}")
-            return None
-
-        # response.raise_for_status()
         if "error" in response_json:
-            # raise JSONRPCError(**response_json["error"])
-            logger.debug(f"Got response with error: {response_json}")
-            return None
+            raise JSONRPCError(**response_json["error"])
 
         assert "result" in response_json, "RPC response didn't contain a result field"
         result = response_json["result"]
