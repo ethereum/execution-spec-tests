@@ -333,7 +333,7 @@ values using the `with_all_*` markers listed in the
 
 Benchmark tests aim to maximize the usage of a specific opcode, precompile, or operation within a transaction or block.
 
-To run a benchmark test, in addition to the usual test flags, you must include the `-m benchmark` flag. This is necessary because benchmark tests are ignored by default.
+To fill a benchmark test, in addition to the usual test flags, you must include the `-m benchmark` flag. This is necessary because benchmark tests are ignored by default.
 
 ### Setting the Gas Limit for Benchmarking
 
