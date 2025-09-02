@@ -297,11 +297,11 @@ class BlockAccessListExpectation(CamelModel):
             expected_value = getattr(expected, field_name)
             actual_value = getattr(actual, field_name)
 
-            # explicit check for None
-            if expected_value is None:
-                if actual_value is not None and actual_value != []:
+            # empty list explicitly set (no changes expected)
+            if not expected_value:
+                if actual_value:
                     raise AssertionError(
-                        f"Expected {field_name} to be `None` but found: {actual_value}"
+                        f"Expected {field_name} to be empty but found: {actual_value}"
                     )
                 continue
 
