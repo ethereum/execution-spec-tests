@@ -430,12 +430,6 @@ class BlockchainTest(BaseTest):
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
     """
-    expected_block_access_list: BlockAccessListExpectation | None = None
-    """
-    Expected block access list for verification.
-    If set, verifies that the block access list returned by the client matches expectations.
-    Use BlockAccessListExpectation to define partial validation expectations.
-    """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
@@ -612,15 +606,18 @@ class BlockchainTest(BaseTest):
             requests_list = block.requests
 
         if fork.header_bal_hash_required(header.number, header.timestamp):
-            if transition_tool_output.result.block_access_list is not None:
-                rlp = transition_tool_output.result.block_access_list.rlp()
-                computed_bal_hash = Hash(rlp.keccak256())
-                if computed_bal_hash != header.block_access_list_hash:
-                    raise Exception(
-                        "Block access list hash in header does not match the "
-                        f"computed hash from BAL: {header.block_access_list_hash} "
-                        f"!= {computed_bal_hash}"
-                    )
+            assert transition_tool_output.result.block_access_list is not None, (
+                "Block access list is required for this block but was not provided "
+                "by the transition tool"
+            )
+
+            rlp = transition_tool_output.result.block_access_list.rlp()
+            computed_bal_hash = Hash(rlp.keccak256())
+            assert computed_bal_hash == header.block_access_list_hash, (
+                "Block access list hash in header does not match the "
+                f"computed hash from BAL: {header.block_access_list_hash} "
+                f"!= {computed_bal_hash}"
+            )
 
         if block.rlp_modifier is not None:
             # Modify any parameter specified in the `rlp_modifier` after
@@ -707,28 +704,6 @@ class BlockchainTest(BaseTest):
         except Exception as e:
             print_traces(t8n.get_traces())
             raise e
-
-    def verify_block_access_list(
-        self, actual_bal: BlockAccessList | None, expected_bal: BlockAccessListExpectation | None
-    ):
-        """
-        Verify that the actual block access list matches expectations.
-
-        Args:
-            actual_bal: The BlockAccessList returned by the client
-            expected_bal: The expected BlockAccessList object
-
-        """
-        if expected_bal is None:
-            return
-
-        if actual_bal is None:
-            raise Exception("Expected block access list but got none.")
-
-        try:
-            expected_bal.verify_against(actual_bal)
-        except Exception as e:
-            raise Exception("Block access list verification failed.") from e
 
     def make_fixture(
         self,

@@ -5,7 +5,7 @@ Following the established pattern in the codebase (AccessList, AuthorizationTupl
 these are simple data classes that can be composed together.
 """
 
-from typing import Any, Callable, ClassVar, List, Optional
+from typing import Any, Callable, ClassVar, List
 
 import ethereum_rlp as eth_rlp
 from pydantic import Field
@@ -169,7 +169,7 @@ class BlockAccessListExpectation(CamelModel):
         default_factory=list, description="Expected account changes to verify"
     )
 
-    modifier: Optional[Callable[["BlockAccessList"], "BlockAccessList"]] = Field(
+    modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = Field(
         None,
         exclude=True,
         description="Optional modifier to modify the BAL for invalid tests",
@@ -280,10 +280,6 @@ class BlockAccessListExpectation(CamelModel):
                         f"Expected {field_name} to be empty/None but found: {actual_value}"
                     )
                 continue
-
-            # If actual is ``None`` but we expected something, raise
-            if actual_value is None:
-                raise AssertionError(f"Expected {field_name} but found none")
 
             if field_name == "storage_reads":
                 # Convert to comparable format (both are lists of 32-byte values)

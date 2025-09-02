@@ -63,8 +63,8 @@ class Result(CamelModel):
     blob_gas_used: HexNumber | None = None
     requests_hash: Hash | None = None
     requests: List[Bytes] | None = None
-    block_access_list: BlockAccessList | None = Field(None, alias="blockAccessList")
-    block_access_list_hash: Hash | None = Field(None, alias="blockAccessListHash")
+    block_access_list: BlockAccessList | None = None
+    block_access_list_hash: Hash | None = None
     block_exception: Annotated[
         BlockExceptionWithMessage | UndefinedException | None, ExceptionMapperValidator
     ] = None

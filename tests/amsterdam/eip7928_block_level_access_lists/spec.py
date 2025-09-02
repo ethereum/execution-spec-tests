@@ -21,8 +21,8 @@ ref_spec_7928 = ReferenceSpec(
 class Spec:
     """Constants and parameters from EIP-7928."""
 
-    # SSZ encoding is used for block access list data structures
-    BAL_ENCODING_FORMAT: str = "SSZ"
+    # RLP encoding is used for block access list data structures
+    BAL_ENCODING_FORMAT: str = "RLP"
 
     # Maximum limits for block access list data structures
     TARGET_MAX_GAS_LIMIT = 600_000_000
