@@ -13,7 +13,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.block_access_list import (
-    BalAccountChange,
+    BalAccountExpectation,
     BalBalanceChange,
     BalCodeChange,
     BalNonceChange,
@@ -53,12 +53,11 @@ def test_bal_nonce_changes(
             bob: Account(balance=100),
         },
         expected_block_access_list=BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=alice,
+            account_expectations={
+                alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-            ]
+            }
         ),
     )
 
@@ -105,20 +104,17 @@ def test_bal_balance_changes(
             bob: Account(balance=100),
         },
         expected_block_access_list=BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=alice,
+            account_expectations={
+                alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                     balance_changes=[
                         BalBalanceChange(tx_index=1, post_balance=alice_final_balance)
                     ],
                 ),
-                BalAccountChange(
-                    address=bob,
+                bob: BalAccountExpectation(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)],
                 ),
-                # TODO: Validate coinbase
-            ]
+            }
         ),
     )
 
@@ -153,9 +149,8 @@ def test_bal_storage_writes(
             storage_contract: Account(storage={0x01: 0x42}),
         },
         expected_block_access_list=BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=storage_contract,
+            account_expectations={
+                storage_contract: BalAccountExpectation(
                     storage_changes=[
                         BalStorageSlot(
                             slot=0x01,
@@ -163,7 +158,7 @@ def test_bal_storage_writes(
                         )
                     ],
                 ),
-            ]
+            }
         ),
     )
 
@@ -196,12 +191,11 @@ def test_bal_storage_reads(
             storage_contract: Account(storage={0x01: 0x42}),
         },
         expected_block_access_list=BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=storage_contract,
+            account_expectations={
+                storage_contract: BalAccountExpectation(
                     storage_reads=[0x01],
                 ),
-            ]
+            }
         ),
     )
 
@@ -266,19 +260,16 @@ def test_bal_code_changes(
             ),
         },
         expected_block_access_list=BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=alice,
+            account_expectations={
+                alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                 ),
-                BalAccountChange(
-                    address=factory_contract,
+                factory_contract: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=2)],
                 ),
-                BalAccountChange(
-                    address=created_contract,
+                created_contract: BalAccountExpectation(
                     code_changes=[BalCodeChange(tx_index=1, new_code=runtime_code_bytes)],
                 ),
-            ]
+            }
         ),
     )

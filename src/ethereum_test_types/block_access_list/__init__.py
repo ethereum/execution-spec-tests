@@ -5,7 +5,8 @@ Following the established pattern in the codebase (AccessList, AuthorizationTupl
 these are simple data classes that can be composed together.
 """
 
-from typing import Any, Callable, ClassVar, List
+from functools import cached_property
+from typing import Any, Callable, ClassVar, Dict, List
 
 import ethereum_rlp as eth_rlp
 from pydantic import Field
@@ -138,9 +139,39 @@ class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
         """Return the list for RLP encoding per EIP-7928."""
         return to_serializable_element(self.root)
 
+    @cached_property
     def rlp(self) -> Bytes:
         """Return the RLP encoded block access list for hash verification."""
         return Bytes(eth_rlp.encode(self.to_list()))
+
+    @cached_property
+    def rlp_hash(self) -> Bytes:
+        """Return the hash of the RLP encoded block access list."""
+        return self.rlp.keccak256()
+
+
+class BalAccountExpectation(CamelModel):
+    """
+    Represents expected changes to a specific account in a block.
+
+    Same as BalAccountChange but without the address field, used for expectations.
+    """
+
+    nonce_changes: List[BalNonceChange] = Field(
+        default_factory=list, description="List of expected nonce changes"
+    )
+    balance_changes: List[BalBalanceChange] = Field(
+        default_factory=list, description="List of expected balance changes"
+    )
+    code_changes: List[BalCodeChange] = Field(
+        default_factory=list, description="List of expected code changes"
+    )
+    storage_changes: List[BalStorageSlot] = Field(
+        default_factory=list, description="List of expected storage changes"
+    )
+    storage_reads: List[StorageKey] = Field(
+        default_factory=list, description="List of expected read storage slots"
+    )
 
 
 class BlockAccessListExpectation(CamelModel):
@@ -151,22 +182,23 @@ class BlockAccessListExpectation(CamelModel):
     - Partial validation (only checks explicitly set fields)
     - Convenient test syntax with named parameters
     - Verification against actual BAL from t8n
+    - Explicit exclusion of addresses (using None values)
 
     Example:
         # In test definition
         expected_block_access_list = BlockAccessListExpectation(
-            account_changes=[
-                BalAccountChange(
-                    address=alice,
+            account_expectations={
+                alice: BalAccountExpectation(
                     nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)]
-                )
-            ]
+                ),
+                bob: None,  # Bob should NOT be in the BAL
+            }
         )
 
     """
 
-    account_changes: List[BalAccountChange] = Field(
-        default_factory=list, description="Expected account changes to verify"
+    account_expectations: Dict[Address, BalAccountExpectation | None] = Field(
+        default_factory=dict, description="Expected account changes or exclusions to verify"
     )
 
     modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = Field(
@@ -191,7 +223,7 @@ class BlockAccessListExpectation(CamelModel):
             from ethereum_test_types.block_access_list.modifiers import remove_nonces
 
             expectation = BlockAccessListExpectation(
-                account_changes=[...]
+                account_expectations={...}
             ).modify(remove_nonces(alice))
 
         """
@@ -213,8 +245,7 @@ class BlockAccessListExpectation(CamelModel):
             The potentially transformed BlockAccessList for the fixture
 
         """
-        # Only validate if we have expectations
-        if self.account_changes:
+        if self.account_expectations:
             self.verify_against(t8n_bal)
 
         # Apply modifier if present (for invalid tests)
@@ -235,49 +266,42 @@ class BlockAccessListExpectation(CamelModel):
 
         """
         actual_accounts_by_addr = {acc.address: acc for acc in actual_bal.root}
-        expected_accounts_by_addr = {acc.address: acc for acc in self.account_changes}
 
-        # Check for missing accounts
-        missing_accounts = set(expected_accounts_by_addr.keys()) - set(
-            actual_accounts_by_addr.keys()
-        )
-        if missing_accounts:
-            raise Exception(
-                "Expected accounts not found in actual BAL: "
-                f"{', '.join(str(a) for a in missing_accounts)}"
-            )
+        for address, expectation in self.account_expectations.items():
+            if expectation is None:
+                # check explicit exclusion of address when set to `None`
+                if address in actual_accounts_by_addr:
+                    raise Exception(f"Address {address} should not be in BAL but was found")
+            else:
+                # Address should be in BAL with expected values
+                if address not in actual_accounts_by_addr:
+                    raise Exception(f"Expected address {address} not found in actual BAL")
 
-        # Verify each expected account
-        for address, expected_account in expected_accounts_by_addr.items():
-            actual_account = actual_accounts_by_addr[address]
+                actual_account = actual_accounts_by_addr[address]
+                try:
+                    self._compare_account_expectations(expectation, actual_account)
+                except AssertionError as e:
+                    raise Exception(f"Account {address}: {str(e)}") from e
 
-            try:
-                self._compare_account_changes(expected_account, actual_account)
-            except AssertionError as e:
-                raise Exception(f"Account {address}: {str(e)}") from e
-
-    def _compare_account_changes(
-        self, expected: BalAccountChange, actual: BalAccountChange
+    def _compare_account_expectations(
+        self, expected: BalAccountExpectation, actual: BalAccountChange
     ) -> None:
         """
-        Compare two BalAccountChange models with detailed error reporting.
+        Compare expected account changes with actual BAL account entry.
 
         Only validates fields that were explicitly set in the expected model,
         using model_fields_set to determine what was intentionally specified.
         """
         # Only check fields that were explicitly set in the expected model
         for field_name in expected.model_fields_set:
-            if field_name == "address":
-                continue  # Already matched by account lookup
-
             expected_value = getattr(expected, field_name)
             actual_value = getattr(actual, field_name)
 
-            # If we explicitly set a field to None, verify it's None/empty
+            # explicit check for None
             if expected_value is None:
                 if actual_value is not None and actual_value != []:
                     raise AssertionError(
-                        f"Expected {field_name} to be empty/None but found: {actual_value}"
+                        f"Expected {field_name} to be `None` but found: {actual_value}"
                     )
                 continue
 
@@ -314,7 +338,8 @@ class BlockAccessListExpectation(CamelModel):
                     # The comparison method will raise with details
                     pass
 
-    def _compare_change_lists(self, field_name: str, expected: List, actual: List) -> bool:
+    @staticmethod
+    def _compare_change_lists(field_name: str, expected: List, actual: List) -> bool:
         """Compare lists of change objects using set operations for better error messages."""
         if field_name == "storage_changes":
             # Storage changes are nested (slot -> changes)
@@ -390,6 +415,7 @@ __all__ = [
     # Core models
     "BlockAccessList",
     "BlockAccessListExpectation",
+    "BalAccountExpectation",
     # Change types
     "BalAccountChange",
     "BalNonceChange",

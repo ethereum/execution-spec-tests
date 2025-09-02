@@ -338,7 +338,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
-            block_access_list=self.block_access_list.rlp() if self.block_access_list else None,
+            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -611,7 +611,7 @@ class BlockchainTest(BaseTest):
                 "by the transition tool"
             )
 
-            rlp = transition_tool_output.result.block_access_list.rlp()
+            rlp = transition_tool_output.result.block_access_list.rlp
             computed_bal_hash = Hash(rlp.keccak256())
             assert computed_bal_hash == header.block_access_list_hash, (
                 "Block access list hash in header does not match the "

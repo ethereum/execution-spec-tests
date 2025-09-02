@@ -38,6 +38,7 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import (
+    BlockAccessList,
     Environment,
     Requests,
     Transaction,
@@ -234,7 +235,9 @@ class FixtureHeader(CamelModel):
         extras = {
             "state_root": state_root,
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
-            "block_access_list_hash": Hash([]) if fork.header_bal_hash_required(0, 0) else None,
+            "block_access_list_hash": (
+                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
+            ),
             "fork": fork,
         }
         return FixtureHeader(**environment_values, **extras)
