@@ -17,6 +17,7 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Bytecode
 
 
 @pytest.mark.valid_from("Prague")
@@ -224,7 +225,9 @@ SPEEDUP: int = 100
 
 
 @pytest.mark.valid_from("Prague")
-def test_bloatnet_sload_warm(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
+def test_bloatnet_sload_warm(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int
+):
     """Test that loads warm storage locations many times."""
     gas_costs = fork.gas_costs()
 
@@ -236,19 +239,23 @@ def test_bloatnet_sload_warm(blockchain_test: BlockchainTestFiller, pre: Alloc, 
     totalgas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
 
     # First pass - warm up all slots (cold access)
-    warmup_gas = num_slots * (gas_costs.G_COLD_SLOAD + gas_costs.G_BASE)
+    # PUSH + SLOAD + POP for each slot
+    warmup_gas = num_slots * (gas_costs.G_VERY_LOW + gas_costs.G_COLD_SLOAD + gas_costs.G_BASE)
     totalgas += warmup_gas
 
     # Calculate how many warm loads we can fit
-    gas_increment = gas_costs.G_WARM_SLOAD + gas_costs.G_BASE  # Warm SLOAD + POP
-    remaining_gas = Environment().gas_limit - totalgas
+    # PUSH + SLOAD + POP for warm access
+    gas_increment = gas_costs.G_VERY_LOW + gas_costs.G_WARM_SLOAD + gas_costs.G_BASE
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
+    remaining_gas = tx_gas_cap - totalgas
     num_warm_loads = remaining_gas // (SPEEDUP * gas_increment)
 
     # Build the complete code: warmup + repeated warm loads
-    sload_code = Op.SLOAD(0) + Op.POP if num_slots > 0 else Op.STOP
-    for i in range(1, num_slots):
+    sload_code = Bytecode()
+    for i in range(num_slots):
         sload_code = sload_code + Op.SLOAD(i) + Op.POP
     for i in range(num_warm_loads):
+        totalgas += gas_increment
         sload_code = sload_code + Op.SLOAD(i % num_slots) + Op.POP
 
     sender = pre.fund_eoa()
@@ -259,18 +266,22 @@ def test_bloatnet_sload_warm(blockchain_test: BlockchainTestFiller, pre: Alloc, 
 
     tx = Transaction(
         to=contract_address,
-        gas_limit=Environment().gas_limit,
+        gas_limit=tx_gas_cap,
         data=b"",
         value=0,
         sender=sender,
     )
 
     post = {contract_address: Account(storage=storage)}
-    blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)
+    blockchain_test(
+        pre=pre, blocks=[Block(txs=[tx])], post=post, expected_benchmark_gas_used=totalgas
+    )
 
 
 @pytest.mark.valid_from("Prague")
-def test_bloatnet_sload_cold(blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork):
+def test_bloatnet_sload_cold(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int
+):
     """Test that loads many different cold storage locations."""
     gas_costs = fork.gas_costs()
 
@@ -278,12 +289,14 @@ def test_bloatnet_sload_cold(blockchain_test: BlockchainTestFiller, pre: Alloc, 
     totalgas = fork.transaction_intrinsic_cost_calculator()(calldata=b"")
     # PUSH + Cold SLOAD + POP
     gas_increment = gas_costs.G_VERY_LOW + gas_costs.G_COLD_SLOAD + gas_costs.G_BASE
-    max_slots = (Environment().gas_limit - totalgas) // gas_increment
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
+    max_slots = (tx_gas_cap - totalgas) // gas_increment
 
     # Build storage and code for all slots
     storage = Storage({HashInt(i): HashInt(0xC0FFEE + i) for i in range(max_slots)})
-    sload_code = Op.SLOAD(0) + Op.POP if max_slots > 0 else Op.STOP
-    for i in range(1, max_slots):
+    sload_code = Bytecode()
+    for i in range(0, max_slots):
+        totalgas += gas_increment
         sload_code = sload_code + Op.SLOAD(i) + Op.POP
 
     sender = pre.fund_eoa()
@@ -294,11 +307,13 @@ def test_bloatnet_sload_cold(blockchain_test: BlockchainTestFiller, pre: Alloc, 
 
     tx = Transaction(
         to=contract_address,
-        gas_limit=Environment().gas_limit,
+        gas_limit=tx_gas_cap,
         data=b"",
         value=0,
         sender=sender,
     )
 
     post = {contract_address: Account(storage=storage)}
-    blockchain_test(pre=pre, blocks=[Block(txs=[tx])], post=post)
+    blockchain_test(
+        pre=pre, blocks=[Block(txs=[tx])], post=post, expected_benchmark_gas_used=totalgas
+    )
