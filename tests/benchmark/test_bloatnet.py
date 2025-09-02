@@ -22,7 +22,11 @@ from ethereum_test_tools.vm.opcode import Opcodes as Op
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("storage_value", [0x01 << 248, 0x01])
 def test_bloatnet_sstore_0_to_1(
-    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int, storage_value: int
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_benchmark_value: int,
+    storage_value: int,
 ):
     """
     Benchmark test that maximizes SSTORE operations (0 -> 1) by filling
@@ -118,7 +122,11 @@ def test_bloatnet_sstore_0_to_1(
 @pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("final_storage_value", [0x02 << 248, 0x02])
 def test_bloatnet_sstore_1_to_2(
-    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int, final_storage_value: int
+    blockchain_test: BlockchainTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    gas_benchmark_value: int,
+    final_storage_value: int,
 ):
     """
     Benchmark test that maximizes SSTORE operations (1 -> 2).
