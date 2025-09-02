@@ -12,7 +12,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
     Storage,
     Transaction,
 )
