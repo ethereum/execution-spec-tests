@@ -29,7 +29,12 @@ from ethereum_test_fixtures.state import (
     FixtureTransaction,
 )
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import (
+    Alloc,
+    BlockAccessListExpectation,
+    Environment,
+    Transaction,
+)
 
 from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest, Header
@@ -50,6 +55,7 @@ class StateTest(BaseTest):
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
     blockchain_test_rlp_modifier: Optional[Header] = None
+    expected_block_access_list: Optional[BlockAccessListExpectation] = None
     chain_id: int = 1
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -164,6 +170,7 @@ class StateTest(BaseTest):
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(fork=fork),
+            expected_block_access_list=self.expected_block_access_list,
         )
 
     def make_state_test_fixture(

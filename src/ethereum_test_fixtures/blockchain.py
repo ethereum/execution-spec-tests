@@ -279,15 +279,17 @@ class FixtureExecutionPayload(CamelModel):
         header: FixtureHeader,
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
+        block_access_list: Bytes | None = None,
     ) -> "FixtureExecutionPayload":
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list
-        of transactions and a list of withdrawals.
+        of transactions, a list of withdrawals, and an optional block access list.
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
             transactions=[tx.rlp() for tx in transactions],
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
 
@@ -342,6 +344,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -355,6 +358,7 @@ class FixtureEngineNewPayload(CamelModel):
             header=header,
             transactions=transactions,
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
         params: List[Any] = [execution_payload]

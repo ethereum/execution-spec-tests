@@ -369,6 +369,7 @@ class BuiltBlock(CamelModel):
             requests=self.requests,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
+            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
         )
 
     def verify_transactions(self, transition_tool_exceptions_reliable: bool) -> List[int]:
