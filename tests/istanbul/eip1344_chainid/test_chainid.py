@@ -12,7 +12,13 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-1344.md"
 REFERENCE_SPEC_VERSION = "02e46aebc80e6e5006ab4d2daa41876139f9a9e2"
 
 
-@pytest.mark.with_all_typed_transactions
+@pytest.mark.with_all_typed_transactions(
+    marks=lambda tx_type: pytest.mark.execute(
+        pytest.mark.skip(reason="type 3 transactions aren't supported in execute mode")
+    )
+    if tx_type == 3
+    else None
+)
 @pytest.mark.valid_from("Istanbul")
 def test_chainid(
     state_test: StateTestFiller,
