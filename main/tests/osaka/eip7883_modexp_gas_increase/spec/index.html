@@ -26920,7 +26920,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/61f8ac90841770d9fc407f1498ec0e5229b27508/tests/osaka/eip7883_modexp_gas_increase/spec.py"><code>tests/osaka/eip7883_modexp_gas_increase/spec.py@61f8ac90</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/5c5167bf396539dafc89a68b39e169783e7be56a/tests/osaka/eip7883_modexp_gas_increase/spec.py"><code>tests/osaka/eip7883_modexp_gas_increase/spec.py@5c5167bf</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27039,7 +27039,11 @@
 <span class="normal">87</span>
 <span class="normal">88</span>
 <span class="normal">89</span>
-<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">90</span>
+<span class="normal">91</span>
+<span class="normal">92</span>
+<span class="normal">93</span>
+<span class="normal">94</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Constants and helpers for the ModExp gas cost calculation.&quot;&quot;&quot;</span>
 
@@ -27076,32 +27080,36 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">LARGE_BASE_MODULUS_MULTIPLIER</span> <span class="o">*</span> <span class="n">words</span><span class="o">**</span><span class="mi">2</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_iteration_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">exponent_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the iteration count of the ModExp precompile.&quot;&quot;&quot;</span>
-        <span class="n">iteration_count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">exponent_value</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">exponent</span><span class="p">,</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">exponent_length</span> <span class="o">&lt;=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPONENT_THRESHOLD</span> <span class="ow">and</span> <span class="n">exponent_value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_iteration_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the iteration count of the ModExp precompile.</span>
+<span class="sd">        This handles length mismatch cases by using declared lengths from the raw input</span>
+<span class="sd">        and only the first 32 bytes of exponent data for iteration calculation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">exponent_length</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_declared_lengths</span><span class="p">()</span>
+        <span class="n">exponent_head</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_exponent_head</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">exponent_length</span> <span class="o">&lt;=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPONENT_THRESHOLD</span> <span class="ow">and</span> <span class="n">exponent_head</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">iteration_count</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">elif</span> <span class="n">exponent_length</span> <span class="o">&lt;=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPONENT_THRESHOLD</span><span class="p">:</span>
-            <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">exponent_value</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
-        <span class="k">elif</span> <span class="n">exponent_length</span> <span class="o">&gt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPONENT_THRESHOLD</span><span class="p">:</span>
-            <span class="n">exponent_head</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">exponent</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">32</span><span class="p">],</span> <span class="n">byteorder</span><span class="o">=</span><span class="s2">&quot;big&quot;</span><span class="p">)</span>
+            <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">exponent_head</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">exponent_head</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># For large exponents: length_part + bits from first 32 bytes</span>
             <span class="n">length_part</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">EXPONENT_BYTE_MULTIPLIER</span> <span class="o">*</span> <span class="p">(</span><span class="n">exponent_length</span> <span class="o">-</span> <span class="mi">32</span><span class="p">)</span>
-            <span class="n">bits_part</span> <span class="o">=</span> <span class="n">exponent_head</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">bits_part</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">bits_part</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="n">bits_part</span> <span class="o">=</span> <span class="n">exponent_head</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">exponent_head</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
             <span class="n">iteration_count</span> <span class="o">=</span> <span class="n">length_part</span> <span class="o">+</span> <span class="n">bits_part</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">iteration_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_gas_cost</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">base_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">modulus_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">exponent_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">bytes</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the ModExp gas cost according to EIP-2565 specification.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_gas_cost</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the ModExp gas cost according to EIP-2565 specification, overridden by the</span>
+<span class="sd">        constants within `Spec7883` when calculating for the EIP-7883 specification.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">base_length</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">modulus_length</span> <span class="o">=</span> <span class="n">modexp_input</span><span class="o">.</span><span class="n">get_declared_lengths</span><span class="p">()</span>
         <span class="n">multiplication_complexity</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">calculate_multiplication_complexity</span><span class="p">(</span>
             <span class="n">base_length</span><span class="p">,</span> <span class="n">modulus_length</span>
         <span class="p">)</span>
-        <span class="n">iteration_count</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">calculate_iteration_count</span><span class="p">(</span><span class="n">exponent_length</span><span class="p">,</span> <span class="n">exponent</span><span class="p">)</span>
+        <span class="n">iteration_count</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">calculate_iteration_count</span><span class="p">(</span><span class="n">modexp_input</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">MIN_GAS</span><span class="p">,</span> <span class="p">(</span><span class="n">multiplication_complexity</span> <span class="o">*</span> <span class="n">iteration_count</span> <span class="o">//</span> <span class="bp">cls</span><span class="o">.</span><span class="n">GAS_DIVISOR</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -27161,11 +27169,7 @@ These override the original Spec class variables for EIP-7883.</p>
 
               <details class="quote">
                 <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/spec.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 93</span>
-<span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
 <span class="normal">100</span>
@@ -27183,7 +27187,11 @@ These override the original Spec class variables for EIP-7883.</p>
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Spec7883</span><span class="p">(</span><span class="n">Spec</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Constants and helpers for the ModExp gas cost increase EIP.</span>
