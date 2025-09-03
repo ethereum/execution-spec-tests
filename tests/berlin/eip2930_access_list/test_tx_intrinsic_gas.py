@@ -156,6 +156,21 @@ def test_tx_intrinsic_gas(
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     intrinsic_gas_cost = intrinsic_gas_cost_calculator(calldata=data, access_list=access_list)
 
+    exception: List[TransactionException] | TransactionException | None = None
+    if below_intrinsic:
+        data_floor_gas_cost_calculator = fork.transaction_data_floor_cost_calculator()
+        data_floor_gas_cost = data_floor_gas_cost_calculator(data=data)
+        if data_floor_gas_cost > intrinsic_gas_cost:
+            exception = TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
+        elif data_floor_gas_cost == intrinsic_gas_cost:
+            # Depending on the implementation, client might raise either exception.
+            exception = [
+                TransactionException.INTRINSIC_GAS_TOO_LOW,
+                TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST,
+            ]
+        else:
+            exception = TransactionException.INTRINSIC_GAS_TOO_LOW
+
     tx = Transaction(
         ty=tx_type,
         sender=pre.fund_eoa(),
@@ -163,7 +178,7 @@ def test_tx_intrinsic_gas(
         data=data,
         access_list=access_list,
         gas_limit=intrinsic_gas_cost + (-1 if below_intrinsic else 0),
-        error=TransactionException.INTRINSIC_GAS_TOO_LOW if below_intrinsic else None,
+        error=exception,
         protected=True,
     )
 
