@@ -2,6 +2,7 @@
 
 import pytest
 
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
 from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -21,6 +22,8 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
         pytest.param(Spec.modexp_input, Spec.modexp_expected, 200, 1200),
     ],
 )
+@EIPChecklist.GasCostChanges.Test.ForkTransition.Before()
+@EIPChecklist.GasCostChanges.Test.ForkTransition.After()
 def test_modexp_fork_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
