@@ -88,7 +88,6 @@ def clz_parameters():
 def test_clz_opcode_scenarios(
     state_test: StateTestFiller,
     pre: Alloc,
-    test_id: str,
     value: int,
     expected_clz: int,
 ):
