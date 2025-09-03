@@ -386,4 +386,6 @@ def test_empty_block(
     )
 ```
 
-This is a safety check to make sure the benchmark works as expected. For example, if a test uses the `JUMP` instruction but the jump destination is invalid, each transaction will stop early. That means it won’t use as much gas as we expected. This check helps catch such issues, and post storage comparison method via `SSTORE`, which introduces additional storage cost, is no longer needed.
+This is a safety check to make sure the benchmark works as expected. For example, if a test uses the `JUMP` instruction but the jump destination is invalid, each transaction will stop early. That means it won’t use as much gas as we expected.
+
+This check helps catch such issues. As a result, the post-storage comparison method via `SSTORE` is no longer needed, thereby reducing the additional storage cost.
