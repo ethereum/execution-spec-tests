@@ -141,6 +141,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Move Prague to stable and Osaka to develop ([#1573](https://github.com/ethereum/execution-spec-tests/pull/1573)).
 - ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 - ✨ Add basic support for ``Amsterdam`` fork in order to begin testing Glamsterdam ([#2069](https://github.com/ethereum/execution-spec-tests/pull/2069)).
+- ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add initial framework support for `Block Level Access Lists (BAL)` testing for Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
 
 ### 🧪 Test Cases
 
@@ -154,12 +155,13 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ [EIP-7951](https://eips.ethereum.org/EIPS/eip-7951): add test cases for `P256VERIFY` precompile to support secp256r1 curve [#1670](https://github.com/ethereum/execution-spec-tests/pull/1670).
 - ✨ Introduce blockchain tests for benchmark to cover the scenario of pure ether transfers [#1742](https://github.com/ethereum/execution-spec-tests/pull/1742).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add test cases for the block RLP max limit of 10MiB ([#1730](https://github.com/ethereum/execution-spec-tests/pull/1730)).
-- ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939) Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
+- ✨ [EIP-7939](https://eips.ethereum.org/EIPS/eip-7939): Add count leading zeros (CLZ) opcode tests for Osaka ([#1733](https://github.com/ethereum/execution-spec-tests/pull/1733)).
 - ✨ [EIP-7934](https://eips.ethereum.org/EIPS/eip-7934): Add additional test cases for block RLP max limit with all typed transactions and for a log-creating transactions ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 - ✨ [EIP-7825](https://eips.ethereum.org/EIPS/eip-7825): Pre-Osaka tests have been updated to either (1) dynamically adapt to the transaction gas limit cap, or (2) reduce overall gas consumption to fit the new limit ([#1924](https://github.com/ethereum/EIPs/pull/1924), [#1928](https://github.com/ethereum/EIPs/pull/1928), [#1980](https://github.com/ethereum/EIPs/pull/1980)).
 - ✨ [EIP-7918](https://eips.ethereum.org/EIPS/eip-7918): Blob base fee bounded by execution cost test cases (initial), includes some adjustments to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) tests ([#1685](https://github.com/ethereum/execution-spec-tests/pull/1685)).
 - 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
 - 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
+- ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add test cases for `Block Level Access Lists (BAL)` to Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

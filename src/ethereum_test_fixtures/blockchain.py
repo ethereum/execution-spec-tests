@@ -38,6 +38,7 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import (
+    BlockAccessList,
     Environment,
     Requests,
     Transaction,
@@ -165,6 +166,9 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    block_access_list_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(
+        None, alias="blockAccessListHash"
+    )
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -231,6 +235,9 @@ class FixtureHeader(CamelModel):
         extras = {
             "state_root": state_root,
             "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "block_access_list_hash": (
+                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
+            ),
             "fork": fork,
         }
         return FixtureHeader(**environment_values, **extras)
@@ -262,21 +269,27 @@ class FixtureExecutionPayload(CamelModel):
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
 
+    block_access_list: Bytes | None = Field(
+        None, description="RLP-serialized EIP-7928 Block Access List"
+    )
+
     @classmethod
     def from_fixture_header(
         cls,
         header: FixtureHeader,
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
+        block_access_list: Bytes | None = None,
     ) -> "FixtureExecutionPayload":
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list
-        of transactions and a list of withdrawals.
+        of transactions, a list of withdrawals, and an optional block access list.
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
             transactions=[tx.rlp() for tx in transactions],
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
 
@@ -331,6 +344,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -344,6 +358,7 @@ class FixtureEngineNewPayload(CamelModel):
             header=header,
             transactions=transactions,
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
         params: List[Any] = [execution_payload]
@@ -428,6 +443,9 @@ class FixtureBlockBase(CamelModel):
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
     execution_witness: WitnessChunk | None = None
+    block_access_list: BlockAccessList | None = Field(
+        None, description="EIP-7928 Block Access List"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
@@ -445,6 +463,9 @@ class FixtureBlockBase(CamelModel):
 
         if self.withdrawals is not None:
             block.append([w.to_serializable_list() for w in self.withdrawals])
+
+        if self.block_access_list is not None:
+            block.append(self.block_access_list.to_list())
 
         return FixtureBlock(
             **self.model_dump(),
