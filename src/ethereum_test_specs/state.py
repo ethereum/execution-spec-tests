@@ -153,6 +153,7 @@ class StateTest(BaseTest):
             "ommers": [],
             "header_verify": self.blockchain_test_header_verify,
             "rlp_modifier": self.blockchain_test_rlp_modifier,
+            "expected_block_access_list": self.expected_block_access_list,
         }
         if not fork.header_prev_randao_required():
             kwargs["difficulty"] = self.env.difficulty
@@ -170,7 +171,6 @@ class StateTest(BaseTest):
             pre=self.pre,
             post=self.post,
             blocks=self._generate_blockchain_blocks(fork=fork),
-            expected_block_access_list=self.expected_block_access_list,
         )
 
     def make_state_test_fixture(
