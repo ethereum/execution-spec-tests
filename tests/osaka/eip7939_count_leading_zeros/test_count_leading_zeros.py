@@ -541,7 +541,6 @@ def test_clz_with_memory_operation(state_test: StateTestFiller, pre: Alloc, bits
     state_test(pre=pre, post=post, tx=tx)
 
 
-@EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior()
 @EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior.Tx()
 @pytest.mark.valid_from("Osaka")
 def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
@@ -572,7 +571,6 @@ def test_clz_initcode_context(state_test: StateTestFiller, pre: Alloc):
     state_test(pre=pre, post=post, tx=tx)
 
 
-@EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior()
 @EIPChecklist.Opcode.Test.ExecutionContext.Initcode.Behavior.Opcode()
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
