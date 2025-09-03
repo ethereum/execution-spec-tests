@@ -113,6 +113,10 @@ class Environment(EnvironmentGeneric[ZeroPaddedHexNumber]):
     withdrawals: List[Withdrawal] | None = Field(None)
     extra_data: Bytes = Field(Bytes(b"\x00"), exclude=True)
 
+    # EIP-7928: Block-level access lists
+    bal_hash: Hash | None = Field(None)
+    block_access_lists: Bytes | None = Field(None)
+
     @computed_field  # type: ignore[misc]
     @cached_property
     def parent_hash(self) -> Hash | None:

@@ -15,7 +15,7 @@ The test works by:
 3. Having the sync client synchronize from the client under test.
 4. Verifying that both clients reach the same final state.
 
-A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`SyncFixture`](#syncfixture) test object, with the key string representing the test name.
+A single JSON fixture file is composed of a JSON object where each key-value pair is a different [`HiveFixture`](#hivefixture) test object, with the key string representing the test name.
 
 The JSON file path plus the test name are used as the unique test identifier, as well as a `{client under test}::sync_{sync client}` identifier.
 

@@ -48,5 +48,10 @@
     },
     "BPO4": {
         "same_as": "Osaka"
+    },
+    "Amsterdam": {
+        "git_url": "https://github.com/fselmo/execution-specs.git",
+        "branch": "feat/amsterdam-fork-and-block-access-lists",
+        "commit": "a5c7b29a658320c2432de78883d350e9f4444d14"
     }
 }

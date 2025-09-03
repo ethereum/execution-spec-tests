@@ -52,6 +52,7 @@ from ethereum_test_fixtures.blockchain import (
 from ethereum_test_fixtures.common import FixtureBlobSchedule
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Removable, Requests, Transaction, Withdrawal
+from ethereum_test_types.block_access_list import BlockAccessList, BlockAccessListExpectation
 
 from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
@@ -121,6 +122,7 @@ class Header(CamelModel):
     excess_blob_gas: Removable | HexNumber | None = None
     parent_beacon_block_root: Removable | Hash | None = None
     requests_hash: Removable | Hash | None = None
+    bal_hash: Removable | Hash | None = None
 
     REMOVE_FIELD: ClassVar[Removable] = Removable()
     """
@@ -206,6 +208,10 @@ class Block(Header):
     An RLP modifying header which values would be used to override the ones
     returned by the `ethereum_clis.TransitionTool`.
     """
+    expected_block_access_list: BlockAccessListExpectation | None = None
+    """
+    If set, the block access list will be verified and potentially corrupted for invalid tests.
+    """
     exception: BLOCK_EXCEPTION_TYPE = None
     """
     If set, the block is expected to be rejected by the client.
@@ -240,6 +246,10 @@ class Block(Header):
     """
     Post state for verification after block execution in BlockchainTest
     """
+    block_access_list: Bytes | None = Field(None)
+    """
+        EIP-7928: Block-level access lists (serialized).
+    """
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -269,6 +279,14 @@ class Block(Header):
             new_env_values["blob_gas_used"] = self.blob_gas_used
         if not isinstance(self.parent_beacon_block_root, Removable):
             new_env_values["parent_beacon_block_root"] = self.parent_beacon_block_root
+        if not isinstance(self.requests_hash, Removable) and self.block_access_list is not None:
+            new_env_values["bal_hash"] = self.block_access_list.keccak256()
+            new_env_values["block_access_list"] = self.block_access_list
+        if (
+            not isinstance(self.block_access_list, Removable)
+            and self.block_access_list is not None
+        ):
+            new_env_values["block_access_list"] = self.block_access_list
         """
         These values are required, but they depend on the previous environment,
         so they can be calculated here.
@@ -308,6 +326,7 @@ class BuiltBlock(CamelModel):
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
+    block_access_list: BlockAccessList | None
 
     def get_fixture_block(self) -> FixtureBlock | InvalidFixtureBlock:
         """Get a FixtureBlockBase from the built block."""
@@ -319,6 +338,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
+            block_access_list=self.block_access_list if self.block_access_list else None,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -347,6 +367,7 @@ class BuiltBlock(CamelModel):
             transactions=self.txs,
             withdrawals=self.withdrawals,
             requests=self.requests,
+            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
         )
@@ -585,11 +606,33 @@ class BlockchainTest(BaseTest):
             header.requests_hash = Hash(Requests(requests_lists=list(block.requests)))
             requests_list = block.requests
 
+        if fork.header_bal_hash_required(header.number, header.timestamp):
+            assert transition_tool_output.result.block_access_list is not None, (
+                "Block access list is required for this block but was not provided "
+                "by the transition tool"
+            )
+
+            rlp = transition_tool_output.result.block_access_list.rlp
+            computed_bal_hash = Hash(rlp.keccak256())
+            assert computed_bal_hash == header.block_access_list_hash, (
+                "Block access list hash in header does not match the "
+                f"computed hash from BAL: {header.block_access_list_hash} "
+                f"!= {computed_bal_hash}"
+            )
+
         if block.rlp_modifier is not None:
             # Modify any parameter specified in the `rlp_modifier` after
             # transition tool processing.
             header = block.rlp_modifier.apply(header)
             header.fork = fork  # Deleted during `apply` because `exclude=True`
+
+        # Process block access list - apply transformer if present for invalid tests
+        bal = transition_tool_output.result.block_access_list
+        if block.expected_block_access_list is not None and bal is not None:
+            # Use to_fixture_bal to validate and potentially transform the BAL
+            bal = block.expected_block_access_list.to_fixture_bal(bal)
+            # Don't update the header hash - leave it as the hash of the correct BAL
+            # This creates a mismatch that should cause the block to be rejected
 
         built_block = BuiltBlock(
             header=header,
@@ -603,6 +646,7 @@ class BlockchainTest(BaseTest):
             expected_exception=block.exception,
             engine_api_error_code=block.engine_api_error_code,
             fork=fork,
+            block_access_list=bal,
         )
 
         try:
@@ -614,14 +658,20 @@ class BlockchainTest(BaseTest):
                 and block.rlp_modifier is None
                 and block.requests is None
                 and not block.skip_exception_verification
+                and not (
+                    block.expected_block_access_list is not None
+                    and block.expected_block_access_list.modifier is not None
+                )
             ):
                 # Only verify block level exception if:
-                # - No transaction exception was raised, because these are not reported as block
-                #   exceptions.
-                # - No RLP modifier was specified, because the modifier is what normally
-                #   produces the block exception.
-                # - No requests were specified, because modified requests are also what normally
-                #   produces the block exception.
+                # - No transaction exception was raised, because these are not
+                #   reported as block exceptions.
+                # - No RLP modifier was specified, because the modifier is what
+                #   normally produces the block exception.
+                # - No requests were specified, because modified requests are also
+                #   what normally produces the block exception.
+                # - No BAL modifier was specified, because modified BAL also
+                #   produces block exceptions.
                 built_block.verify_block_exception(
                     transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
                 )
@@ -683,6 +733,9 @@ class BlockchainTest(BaseTest):
                 last_block=i == len(self.blocks) - 1,
             )
             fixture_blocks.append(built_block.get_fixture_block())
+
+            # BAL verification already done in to_fixture_bal() if expected_block_access_list set
+
             if block.exception is None:
                 # Update env, alloc and last block hash for the next block.
                 alloc = built_block.alloc
