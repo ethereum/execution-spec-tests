@@ -338,7 +338,7 @@ class BuiltBlock(CamelModel):
                 if self.withdrawals is not None
                 else None
             ),
-            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
+            block_access_list=self.block_access_list if self.block_access_list else None,
             fork=self.fork,
         ).with_rlp(txs=self.txs)
 
@@ -367,9 +367,9 @@ class BuiltBlock(CamelModel):
             transactions=self.txs,
             withdrawals=self.withdrawals,
             requests=self.requests,
+            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
-            block_access_list=self.block_access_list.rlp if self.block_access_list else None,
         )
 
     def verify_transactions(self, transition_tool_exceptions_reliable: bool) -> List[int]:

@@ -443,8 +443,8 @@ class FixtureBlockBase(CamelModel):
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
     execution_witness: WitnessChunk | None = None
-    block_access_list: Bytes | None = Field(
-        None, description="Serialized EIP-7928 Block Access List"
+    block_access_list: BlockAccessList | None = Field(
+        None, description="EIP-7928 Block Access List"
     )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
@@ -463,6 +463,9 @@ class FixtureBlockBase(CamelModel):
 
         if self.withdrawals is not None:
             block.append([w.to_serializable_list() for w in self.withdrawals])
+
+        if self.block_access_list is not None:
+            block.append(self.block_access_list.to_list())
 
         return FixtureBlock(
             **self.model_dump(),
