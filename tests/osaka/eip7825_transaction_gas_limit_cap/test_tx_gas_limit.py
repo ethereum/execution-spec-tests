@@ -198,7 +198,7 @@ def test_tx_gas_larger_than_block_gas_limit(
         exception=TransactionException.GAS_ALLOWANCE_EXCEEDED if exceed_block_gas_limit else None,
     )
 
-    blockchain_test(env=env, pre=pre, post={}, blocks=[block])
+    blockchain_test(pre=pre, post={}, blocks=[block])
 
 
 @pytest.fixture

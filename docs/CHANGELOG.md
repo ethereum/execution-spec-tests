@@ -142,6 +142,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 - ✨ Add basic support for ``Amsterdam`` fork in order to begin testing Glamsterdam ([#2069](https://github.com/ethereum/execution-spec-tests/pull/2069)).
 - ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add initial framework support for `Block Level Access Lists (BAL)` testing for Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
+- 🔀 Restrict extra args from being passed to ``BaseTest`` implementations (e.g. ``BlockchainTest``) ([#2102](https://github.com/ethereum/execution-spec-tests/pull/2102)).
 
 ### 🧪 Test Cases
 
@@ -162,6 +163,7 @@ Users can select any of the artifacts depending on their testing needs for their
 - 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
 - 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
 - ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add test cases for `Block Level Access Lists (BAL)` to Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
+- 🐞 Fix valid BAL cases to pass the expected block access list via each block, not the blockchain test itself ([2102](https://github.com/ethereum/execution-spec-tests/pull/2102)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 
