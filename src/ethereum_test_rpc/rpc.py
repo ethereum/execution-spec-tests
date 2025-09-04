@@ -62,11 +62,13 @@ class BaseRPC:
         url: str,
         *,
         response_validation_context: Any | None = None,
+        extra_headers: Dict[str, str] | None = None,
     ):
         """Initialize BaseRPC class with the given url."""
         self.url = url
         self.request_id_counter = count(1)
         self.response_validation_context = response_validation_context
+        self.default_extra_headers = extra_headers or {}
 
     def __init_subclass__(cls, namespace: str | None = None) -> None:
         """Set namespace of the RPC class to the lowercase of the class name."""
@@ -101,7 +103,11 @@ class BaseRPC:
         base_header = {
             "Content-Type": "application/json",
         }
-        headers = base_header | extra_headers
+        # Merge default headers with request-specific headers
+        merged_headers = self.default_extra_headers.copy()
+        if extra_headers is not None:
+            merged_headers.update(extra_headers)
+        headers = base_header | merged_headers
 
         response = requests.post(self.url, json=payload, headers=headers)
         response.raise_for_status()
