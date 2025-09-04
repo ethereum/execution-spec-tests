@@ -403,6 +403,8 @@ If the precompile requires a minimum value (fee) to execute, either constant or 
 
 If the precompile does not require any minimum value (fee) to execute.
 
+| ID                                             | Description                                                      | Status | Tests |
+| ---------------------------------------------- | ---------------------------------------------------------------- | ------ | ----- |
 | `precompile/test/value_transfer/no_fee` | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |
 
 #### Out-of-bounds checks
