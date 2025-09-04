@@ -177,7 +177,7 @@ def test_blockchain_via_sync(
             with total_payload_timing.time(f"Payload {i + 1}") as payload_timing:
                 with payload_timing.time(f"engine_newPayloadV{payload.new_payload_version}"):
                     logger.info(f"Sending engine_newPayloadV{payload.new_payload_version}...")
-                    # Note: This is similar to the logic in test_via_engine.py
+                    # Note: This is similar to the logic in validate_engine.py
                     try:
                         payload_response = engine_rpc.new_payload(
                             *payload.params,

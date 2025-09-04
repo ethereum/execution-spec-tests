@@ -33,12 +33,12 @@ def minimal_test_path(pytester: pytest.Pytester) -> Path:
 def consume_test_case_ids() -> list[str]:
     """Hard-coded expected output of `consume direct --collectonly -q`."""
     return [
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-blockchain_test_from_state_test]]",
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-blockchain_test_from_state_test]]",
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-blockchain_test_from_state_test]]",
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-state_test]]",
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-state_test]]",
-        f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-blockchain_test_from_state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Cancun-state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Paris-state_test]]",
+        f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]",
     ]
 
 
@@ -119,7 +119,7 @@ def test_fixtures(pytester: Pytester, fixtures_dir: Path, fill_tests: None) -> L
 @pytest.fixture(autouse=True)
 def copy_consume_test_paths(pytester: Pytester):
     """Specify and copy the consume test paths to the testdir."""
-    local_test_paths = [Path("src/pytest_plugins/consume/direct/test_via_direct.py")]
+    local_test_paths = [Path("src/pytest_plugins/consume/direct/validate_direct.py")]
     for test_path in local_test_paths:
         target_dir = Path(pytester.path) / test_path.parent
         target_dir.mkdir(parents=True, exist_ok=True)
@@ -129,7 +129,7 @@ def copy_consume_test_paths(pytester: Pytester):
         shutil.move("conftest.py", target_dir / "conftest.py")
 
 
-single_test_id = f"src/pytest_plugins/consume/direct/test_via_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"  # noqa: E501
+single_test_id = f"src/pytest_plugins/consume/direct/validate_direct.py::test_fixture[CollectOnlyFixtureConsumer-tests/{MINIMAL_TEST_FILE_NAME}::test_function[fork_Shanghai-state_test]]"  # noqa: E501
 
 
 @pytest.mark.parametrize(
@@ -181,7 +181,7 @@ def test_consume_simlimit_collectonly(
 ) -> None:
     """Test consume's --sim.limit argument in collect-only mode."""
     pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-consume.ini")
-    consume_test_path = "src/pytest_plugins/consume/direct/test_via_direct.py"
+    consume_test_path = "src/pytest_plugins/consume/direct/validate_direct.py"
     args = [
         "-c",
         "pytest-consume.ini",
