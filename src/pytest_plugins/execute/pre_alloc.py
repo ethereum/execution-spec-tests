@@ -223,6 +223,7 @@ class Alloc(BaseAlloc):
         address: Address | None = None,
         evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
+        stub_name: str | None = None,
     ) -> Address:
         """Deploy a contract to the allocation."""
         if storage is None:
@@ -232,8 +233,10 @@ class Alloc(BaseAlloc):
         if not isinstance(storage, Storage):
             storage = Storage(storage)  # type: ignore
 
-        if label and label in self._address_stubs:
-            return self._address_stubs[label]
+        if stub_name is not None:
+            if stub_name not in self._address_stubs:
+                raise ValueError(f"Stub name {stub_name} not found in address stubs")
+            return self._address_stubs[stub_name]
 
         initcode_prefix = Bytecode()
 
