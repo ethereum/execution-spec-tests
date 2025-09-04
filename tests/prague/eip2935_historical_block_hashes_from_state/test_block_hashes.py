@@ -430,7 +430,6 @@ def test_invalid_history_contract_calls(
         pre=pre,
         blocks=blocks,
         post=post,
-        reverts=reverts,
     )
 
 
@@ -490,5 +489,4 @@ def test_invalid_history_contract_calls_input_size(
         pre=pre,
         blocks=blocks,
         post=post,
-        reverts=reverts,
     )
