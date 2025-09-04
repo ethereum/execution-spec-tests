@@ -118,7 +118,7 @@ class EIPItem:
                 status = "❓"
             else:
                 status = "✅"
-            tests = ", ".join(sorted(self.tests))
+            tests = ", ".join(sorted(map(resolve_test_link, self.tests)))
         elif self.not_applicable:
             status = "N/A"
             tests = self.not_applicable_reason
@@ -158,6 +158,17 @@ def resolve_id(item_id: str) -> Set[str]:
         if checklist_id == item_id or checklist_id.startswith(item_id + "/")
     }
     return covered_ids
+
+
+def resolve_test_link(test_id: str) -> str:
+    """Resolve a test ID to a test link."""
+    # test_id example: tests/fork/eip1234_some_eip/test_file.py::test_function[test_param1-...]
+    # Relative path:  ../../../../tests/fork/eip1234_some_eip/test_file/test_function/
+    pattern = r"(.*)\.py::(\w+)"
+    match = re.match(pattern, test_id)
+    if not match:
+        return test_id
+    return f"[{test_id}](../../../../{match.group(1)}/{match.group(2)}/)"
 
 
 ALL_CHECKLIST_WARNINGS: Dict[str, Type["ChecklistWarning"]] = {}
@@ -211,7 +222,8 @@ class ConflictingChecklistItemsWarning(ChecklistWarning):
         for item in conflicting_items:
             details.append(
                 f"| {item.id} | {item.description} | "
-                + f"{item.not_applicable_reason} | {', '.join(sorted(item.tests))} |"
+                + f"{item.not_applicable_reason} | "
+                + f"{', '.join(sorted(map(resolve_test_link, item.tests)))} |"
             )
 
         return cls(details=details)
