@@ -231,7 +231,21 @@ class Alloc(BaseAlloc):
         if stub_name is not None and self._address_stubs is not None:
             if stub_name not in self._address_stubs:
                 raise ValueError(f"Stub name {stub_name} not found in address stubs")
-            return self._address_stubs[stub_name]
+            contract_address = self._address_stubs[stub_name]
+            code = self._eth_rpc.get_code(contract_address)
+            if code == b"":
+                raise ValueError(f"Stub {stub_name} at {contract_address} has no code")
+            balance = self._eth_rpc.get_balance(contract_address)
+            nonce = self._eth_rpc.get_transaction_count(contract_address)
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=balance,
+                    code=code,
+                    storage={},
+                ),
+            )
 
         initcode_prefix = Bytecode()
 
