@@ -10,7 +10,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import ClassVar, Dict, List, Set, Tuple, Type
 
 import pytest
 
@@ -59,6 +59,7 @@ TEMPLATE_PATH = (
 TEMPLATE_CONTENT = TEMPLATE_PATH.read_text()
 EXTERNAL_COVERAGE_FILE_NAME = "eip_checklist_external_coverage.txt"
 NOT_APPLICABLE_FILE_NAME = "eip_checklist_not_applicable.txt"
+WARNINGS_LINE = "<!-- WARNINGS LINE -->"
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -113,8 +114,11 @@ class EIPItem:
             status = "✅"
             tests = self.external_coverage_reason
         elif self.covered:
-            status = "✅"
-            tests = ", ".join(sorted(self.tests))
+            if self.not_applicable:
+                status = "❓"
+            else:
+                status = "✅"
+            tests = ", ".join(sorted(map(resolve_test_link, self.tests)))
         elif self.not_applicable:
             status = "N/A"
             tests = self.not_applicable_reason
@@ -156,6 +160,75 @@ def resolve_id(item_id: str) -> Set[str]:
     return covered_ids
 
 
+def resolve_test_link(test_id: str) -> str:
+    """Resolve a test ID to a test link."""
+    # test_id example: tests/fork/eip1234_some_eip/test_file.py::test_function[test_param1-...]
+    # Relative path:  ../../../../tests/fork/eip1234_some_eip/test_file/test_function/
+    pattern = r"(.*)\.py::(\w+)"
+    match = re.match(pattern, test_id)
+    if not match:
+        return test_id
+    return f"[{test_id}](../../../../{match.group(1)}/{match.group(2)}/)"
+
+
+ALL_CHECKLIST_WARNINGS: Dict[str, Type["ChecklistWarning"]] = {}
+
+
+@dataclass(kw_only=True)
+class ChecklistWarning:
+    """Represents an EIP checklist warning."""
+
+    title: ClassVar[str] = ""
+    details: List[str]
+
+    def __init_subclass__(cls) -> None:
+        """Register the checklist warning subclass."""
+        super().__init_subclass__()
+        assert cls.title, "Title must be set"
+        if cls.title in ALL_CHECKLIST_WARNINGS:
+            raise ValueError(f"Duplicate checklist warning class: {cls}")
+        ALL_CHECKLIST_WARNINGS[cls.title] = cls
+
+    def lines(self) -> List[str]:
+        """Return the lines of the checklist warning."""
+        return ["", f"### {self.title}", ""] + self.details + [""]
+
+    @classmethod
+    def from_items(cls, all_items: Dict[str, EIPItem]) -> "ChecklistWarning | None":
+        """Generate a checklist warning from a list of items."""
+        raise NotImplementedError(f"from_items not implemented for {cls}")
+
+
+class ConflictingChecklistItemsWarning(ChecklistWarning):
+    """Represents a conflicting checklist items warning."""
+
+    title: ClassVar[str] = "Conflicting Checklist Items"
+
+    @classmethod
+    def from_items(cls, all_items: Dict[str, EIPItem]) -> ChecklistWarning | None:
+        """Generate a conflicting checklist items warning from a list of items."""
+        conflicting_items = [
+            item for item in all_items.values() if item.not_applicable and item.covered
+        ]
+        if not conflicting_items:
+            return None
+
+        details = [
+            "The following checklist items were marked both as not applicable and covered:",
+            "",
+            "| ID | Description | Not Applicable | Tests |",
+            "|---|---|---|---|",
+        ]
+        for item in conflicting_items:
+            details.append(
+                f"| {item.id} | {item.description} | "
+                + f"{item.not_applicable_reason} | "
+                + f"{', '.join(sorted(map(resolve_test_link, item.tests)))} |"
+            )
+
+        return cls(details=details)
+
+
 @dataclass(kw_only=True)
 class EIP:
     """Represents an EIP and its checklist."""
@@ -171,7 +244,7 @@ class EIP:
     @property
     def covered_items(self) -> int:
         """Return the number of covered items."""
-        return sum(1 for item in self.items.values() if item.covered)
+        return sum(1 for item in self.items.values() if item.covered and not item.not_applicable)
 
     @property
     def total_items(self) -> int:
@@ -187,6 +260,15 @@ class EIP:
     def completeness_emoji(self) -> str:
         """Return the completeness emoji."""
         return "🟢" if self.percentage == 100 else "🟡" if self.percentage > 50 else "🔴"
+
+    @property
+    def warnings(self) -> List[ChecklistWarning]:
+        """Return the detected inconsistencies in the checklist."""
+        warnings = []
+        for warning_cls in ALL_CHECKLIST_WARNINGS.values():
+            if warning := warning_cls.from_items(self.items):
+                warnings.append(warning)
+        return warnings
 
     def mark_not_applicable(self):
         """Read the not-applicable items from the EIP."""
@@ -263,6 +345,15 @@ class EIP:
 
         # Replace the title line with the EIP number
         lines[lines.index(TITLE_LINE)] = f"# EIP-{self.number} Test Checklist"
+
+        # Last, add the warnings if there are any, this must be the last thing we do
+        # to avoid shifting the lines below the percentage line
+        if self.warnings:
+            warnings_line_idx = lines.index(WARNINGS_LINE)
+            warnings_lines = ["", "## ⚠️ Checklist Warnings ⚠️", ""]
+            for warning in self.warnings:
+                warnings_lines.extend(warning.lines())
+            lines[warnings_line_idx:warnings_line_idx] = warnings_lines
 
         return lines
 

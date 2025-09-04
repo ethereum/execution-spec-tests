@@ -9,6 +9,8 @@ Depending on the changes introduced by an EIP, the following template is the min
 | --------------------- | ----------------------- | ---------- |
 | TOTAL_CHECKLIST_ITEMS | COVERED_CHECKLIST_ITEMS | PERCENTAGE |
 
+<!-- WARNINGS LINE -->
+
 ## General
 
 #### Code coverage
