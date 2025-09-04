@@ -24,7 +24,10 @@ class MockTest(BaseTest):
 
     def __init__(self, pre: Alloc, genesis_environment: Environment, request=None):
         """Initialize mock test."""
-        super().__init__(pre=pre, genesis_environment=genesis_environment)
+        super().__init__(  # type: ignore
+            pre=pre,
+            genesis_environment=genesis_environment,
+        )
         self._request = request
 
     def generate(self, *args, **kwargs):

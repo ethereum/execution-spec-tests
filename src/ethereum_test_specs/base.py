@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
@@ -60,6 +60,8 @@ class OpMode(StrEnum):
 
 class BaseTest(BaseModel):
     """Represents a base Ethereum test which must return a single test fixture."""
+
+    model_config = ConfigDict(extra="forbid")
 
     tag: str = ""
 
