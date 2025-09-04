@@ -8,6 +8,7 @@ from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_types.chain_config_types import ChainConfigDefaults
 
+from ..pre_alloc import AddressStubs
 from .chain_builder_eth_rpc import ChainBuilderEthRPC
 
 
@@ -39,6 +40,15 @@ def pytest_addoption(parser):
         type=int,
         default=60,
         help="Maximum time in seconds to wait for a transaction to be included in a block",
+    )
+    remote_rpc_group.addoption(
+        "--address-stubs",
+        action="store",
+        dest="address_stubs",
+        default=AddressStubs(root={}),
+        type=AddressStubs.model_validate_json_or_file,
+        help="The address stubs for contracts that have already been placed in the chain and to "
+        "use for the test. Can be a JSON formatted string or a path to a YAML or JSON file.",
     )
 
     engine_rpc_group = parser.getgroup("engine_rpc", "Arguments defining engine RPC configuration")
