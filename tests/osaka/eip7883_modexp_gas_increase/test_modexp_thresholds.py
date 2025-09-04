@@ -8,8 +8,16 @@ from typing import Dict
 import pytest
 
 from ethereum_test_checklists import EIPChecklist
-from ethereum_test_tools import Alloc, StateTestFiller, Transaction
+from ethereum_test_tools import (
+    Alloc,
+    Environment,
+    StateTestFiller,
+    Storage,
+    Transaction,
+    keccak256,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_types.helpers import compute_create_address
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
 from .helpers import vectors_from_file
@@ -24,6 +32,9 @@ REFERENCE_SPEC_VERSION = ref_spec_7883.version
     vectors_from_file("vectors.json"),
     ids=lambda v: v.name,
 )
+@EIPChecklist.Precompile.Test.Inputs.Valid()
+@EIPChecklist.Precompile.Test.InputLengths.Dynamic.Valid()
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Berlin")
 def test_vectors_from_eip(
     state_test: StateTestFiller,
@@ -44,6 +55,7 @@ def test_vectors_from_eip(
     vectors_from_file("legacy.json"),
     ids=lambda v: v.name,
 )
+@EIPChecklist.Precompile.Test.Inputs.Invalid()
 @pytest.mark.valid_from("Berlin")
 def test_vectors_from_legacy_tests(
     state_test: StateTestFiller,
@@ -145,6 +157,10 @@ def test_modexp_invalid_inputs(
         ),
     ],
 )
+@EIPChecklist.Precompile.Test.OutOfBounds.MaxPlusOne()
+@EIPChecklist.Precompile.Test.Inputs.Invalid.Corrupted()
+@EIPChecklist.Precompile.Test.Inputs.Invalid()
+@EIPChecklist.Precompile.Test.InputLengths.Dynamic.TooLong()
 @pytest.mark.valid_from("Osaka")
 def test_modexp_boundary_inputs(
     state_test: StateTestFiller,
@@ -175,10 +191,10 @@ def test_modexp_boundary_inputs(
         pytest.param(Spec.modexp_input, Spec.modexp_expected, id="base-heavy"),
     ],
 )
-@EIPChecklist.Precompile.Test.CallContexts.Static
-@EIPChecklist.Precompile.Test.CallContexts.Delegate
-@EIPChecklist.Precompile.Test.CallContexts.Callcode
-@EIPChecklist.Precompile.Test.CallContexts.Normal
+@EIPChecklist.Precompile.Test.CallContexts.Static()
+@EIPChecklist.Precompile.Test.CallContexts.Delegate()
+@EIPChecklist.Precompile.Test.CallContexts.Callcode()
+@EIPChecklist.Precompile.Test.CallContexts.Normal()
 @pytest.mark.valid_from("Berlin")
 def test_modexp_call_operations(
     state_test: StateTestFiller,
@@ -218,11 +234,17 @@ def test_modexp_call_operations(
             False,
             id="insufficient_gas",
         ),
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_expected,
+            float("inf"),
+            True,
+            id="excessive_gas",
+        ),
     ],
 )
-@EIPChecklist.Precompile.Test.ValueTransfer.Fee.Over
-@EIPChecklist.Precompile.Test.ValueTransfer.Fee.Exact
-@EIPChecklist.Precompile.Test.ValueTransfer.Fee.Under
+@EIPChecklist.Precompile.Test.GasUsage.Dynamic()
+@EIPChecklist.Precompile.Test.ExcessiveGasUsage()
 @pytest.mark.valid_from("Berlin")
 def test_modexp_gas_usage_contract_wrapper(
     state_test: StateTestFiller,
@@ -235,12 +257,13 @@ def test_modexp_gas_usage_contract_wrapper(
 
 
 @pytest.mark.parametrize(
-    "modexp_input,modexp_expected,precompile_gas_modifier,call_succeeds",
+    "modexp_input,modexp_expected,precompile_gas_modifier,call_values,call_succeeds",
     [
         pytest.param(
             Spec.modexp_input,
             Spec.modexp_expected,
             1,
+            0,
             True,
             id="extra_gas",
         ),
@@ -248,18 +271,30 @@ def test_modexp_gas_usage_contract_wrapper(
             Spec.modexp_input,
             Spec.modexp_expected,
             0,
+            0,
             True,
             id="exact_gas",
         ),
         pytest.param(
             Spec.modexp_input,
+            Spec.modexp_expected,
+            0,
+            1000,
+            True,
+            id="extra_value",
+        ),
+        pytest.param(
+            Spec.modexp_input,
             Spec.modexp_error,
             -1,
+            0,
             False,
             id="insufficient_gas",
         ),
     ],
 )
+@EIPChecklist.Precompile.Test.CallContexts.TxEntry()
+@EIPChecklist.Precompile.Test.ValueTransfer.NoFee()
 @pytest.mark.valid_from("Berlin")
 def test_modexp_used_in_transaction_entry_points(
     state_test: StateTestFiller,
@@ -267,6 +302,7 @@ def test_modexp_used_in_transaction_entry_points(
     tx: Transaction,
     modexp_input: bytes,
     tx_gas_limit: int,
+    call_values: int,
 ):
     """Test ModExp using in transaction entry points with different precompile gas modifiers."""
     tx = Transaction(
@@ -274,8 +310,147 @@ def test_modexp_used_in_transaction_entry_points(
         sender=pre.fund_eoa(),
         data=bytes(modexp_input),
         gas_limit=tx_gas_limit,
+        value=call_values,
     )
     state_test(pre=pre, tx=tx, post={})
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected",
+    [
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_expected,
+            id="valid_input",
+        )
+    ],
+)
+@EIPChecklist.Precompile.Test.CallContexts.Initcode()
+@pytest.mark.valid_from("Berlin")
+def test_contract_creation_transaction(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+    modexp_input: bytes,
+    modexp_expected: bytes,
+):
+    """Test the contract creation for the ModExp precompile."""
+    sender = pre.fund_eoa()
+
+    storage = Storage()
+
+    contract_address = compute_create_address(address=sender, nonce=0)
+    contract_bytecode = (
+        Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(bytes(modexp_input))), len(bytes(modexp_input)))
+        + Op.CALL(
+            gas=1_000_000,
+            address=Spec.MODEXP_ADDRESS,
+            value=0,
+            args_offset=0,
+            args_size=len(bytes(modexp_input)),
+            ret_offset=0,
+            ret_size=len(bytes(modexp_expected)),
+        )
+        + Op.SSTORE(storage.store_next(True), Op.DUP1())
+        + Op.SSTORE(
+            storage.store_next(keccak256(bytes(modexp_expected))), Op.SHA3(0, Op.RETURNDATASIZE())
+        )
+        + Op.SSTORE(storage.store_next(len(bytes(modexp_expected))), Op.RETURNDATASIZE())
+        + Op.STOP
+    )
+
+    tx = Transaction(
+        sender=sender,
+        gas_limit=1_000_000,
+        to=None,
+        value=0,
+        data=contract_bytecode + bytes(modexp_input),
+    )
+
+    post = {
+        contract_address: {
+            "storage": storage,
+        }
+    }
+
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected",
+    [
+        pytest.param(
+            Spec.modexp_input,
+            Spec.modexp_expected,
+            id="valid_input",
+        ),
+    ],
+)
+@pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+@EIPChecklist.Precompile.Test.CallContexts.Initcode.CREATE()
+@pytest.mark.valid_from("Berlin")
+def test_contract_initcode(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+    modexp_input: bytes,
+    modexp_expected: bytes,
+    opcode: Op,
+):
+    """Test ModExp behavior from contract creation."""
+    sender = pre.fund_eoa()
+
+    storage = Storage()
+
+    call_modexp_bytecode = (
+        Op.CODECOPY(0, Op.SUB(Op.CODESIZE, len(bytes(modexp_input))), len(bytes(modexp_input)))
+        + Op.CALL(
+            gas=200_000,
+            address=Spec.MODEXP_ADDRESS,
+            value=0,
+            args_offset=0,
+            args_size=len(bytes(modexp_input)),
+            ret_offset=0,
+            ret_size=len(bytes(modexp_expected)),
+        )
+        + Op.SSTORE(storage.store_next(True), Op.DUP1())
+        + Op.SSTORE(
+            storage.store_next(keccak256(bytes(modexp_expected))), Op.SHA3(0, Op.RETURNDATASIZE())
+        )
+        + Op.SSTORE(storage.store_next(len(bytes(modexp_expected))), Op.RETURNDATASIZE())
+        + Op.STOP
+    )
+    full_initcode = call_modexp_bytecode + bytes(modexp_input)
+    total_bytecode_length = len(call_modexp_bytecode) + len(bytes(modexp_input))
+
+    create_contract = (
+        Op.CALLDATACOPY(offset=0, size=total_bytecode_length)
+        + opcode(offset=0, size=total_bytecode_length)
+        + Op.STOP
+    )
+
+    factory_contract_address = pre.deploy_contract(code=create_contract)
+    contract_address = compute_create_address(
+        address=factory_contract_address, nonce=1, initcode=full_initcode, opcode=opcode
+    )
+
+    tx = Transaction(
+        sender=sender,
+        gas_limit=200_000,
+        to=factory_contract_address,
+        value=0,
+        data=call_modexp_bytecode + bytes(modexp_input),
+    )
+
+    post = {
+        contract_address: {
+            "storage": storage,
+        }
+    }
+
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
 def create_modexp_variable_gas_test_cases():
@@ -452,6 +627,8 @@ def create_modexp_variable_gas_test_cases():
     "modexp_input,modexp_expected",
     create_modexp_variable_gas_test_cases(),
 )
+@EIPChecklist.Precompile.Test.InputLengths.Zero()
+@EIPChecklist.GasCostChanges.Test.GasUpdatesMeasurement()
 @pytest.mark.valid_from("Berlin")
 def test_modexp_variable_gas_cost(
     state_test: StateTestFiller,

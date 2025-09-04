@@ -6,14 +6,23 @@ import pytest
 
 from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import (
+    (
     Account,
+   
     Address,
+   
     Alloc,
+   
     Bytes,
     Environment,
+   
+    Environment,
     Storage,
+   
     Transaction,
+   
     keccak256,
+),
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
@@ -119,8 +128,14 @@ def gas_measure_contract(
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
+    gas_used = (
+        precompile_gas + precompile_gas_modifier
+        if precompile_gas_modifier != float("inf")
+        else Environment().gas_limit
+    )
+
     call_code = call_opcode(
-        precompile_gas + precompile_gas_modifier,
+        gas_used,
         Spec.MODEXP_ADDRESS,
         *value,
         0,
