@@ -5,7 +5,16 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Address, Alloc, Bytes, Storage, Transaction, keccak256
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Bytes,
+    Environment,
+    Storage,
+    Transaction,
+    keccak256,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
@@ -72,8 +81,14 @@ def gas_measure_contract(
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
+    gas_used = (
+        precompile_gas + precompile_gas_modifier
+        if precompile_gas_modifier != float("inf")
+        else Environment().gas_limit
+    )
+
     call_code = call_opcode(
-        precompile_gas + precompile_gas_modifier,
+        gas_used,
         Spec.MODEXP_ADDRESS,
         *value,
         0,
@@ -174,21 +189,17 @@ def tx(
 
 
 @pytest.fixture
-def tx_gas_limit(
-    fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
-) -> int:
+def tx_gas_limit(fork: Fork, modexp_input: ModExpInput, precompile_gas: int) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
-    sstore_gas = fork.gas_costs().G_STORAGE_SET * (len(modexp_expected) // 32)
-    extra_gas = 100_000
+    extra_gas = 500_000
 
     total_gas = (
         extra_gas
         + intrinsic_gas_cost_calculator(calldata=bytes(modexp_input))
         + memory_expansion_gas_calculator(new_bytes=len(bytes(modexp_input)))
         + precompile_gas
-        + sstore_gas
     )
 
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
