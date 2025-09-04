@@ -15,7 +15,7 @@ pytest_plugins = (
     "pytest_plugins.pytest_hive.pytest_hive",
     "pytest_plugins.consume.simulators.base",
     "pytest_plugins.consume.simulators.single_test_client",
-    "pytest_plugins.consume.simulators.test_case_description",
+    "pytest_plugins.consume.simulators.validate_case_description",
     "pytest_plugins.consume.simulators.timing_data",
     "pytest_plugins.consume.simulators.exceptions",
 )
