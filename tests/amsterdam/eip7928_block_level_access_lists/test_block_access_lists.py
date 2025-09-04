@@ -43,7 +43,16 @@ def test_bal_nonce_changes(
         value=100,
     )
 
-    block = Block(txs=[tx])
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+            }
+        ),
+    )
 
     blockchain_test(
         pre=pre,
@@ -52,13 +61,6 @@ def test_bal_nonce_changes(
             alice: Account(nonce=1),
             bob: Account(balance=100),
         },
-        expected_block_access_list=BlockAccessListExpectation(
-            account_expectations={
-                alice: BalAccountExpectation(
-                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
-                ),
-            }
-        ),
     )
 
 
@@ -88,7 +90,6 @@ def test_bal_balance_changes(
         gas_price=1_000_000_000,
     )
 
-    block = Block(txs=[tx])
     alice_account = pre[alice]
     assert alice_account is not None, "Alice account should exist"
     alice_initial_balance = alice_account.balance
@@ -96,13 +97,8 @@ def test_bal_balance_changes(
     # Account for both the value sent and gas cost (gas_price * gas_used)
     alice_final_balance = alice_initial_balance - 100 - (intrinsic_gas_cost * 1_000_000_000)
 
-    blockchain_test(
-        pre=pre,
-        blocks=[block],
-        post={
-            alice: Account(nonce=1, balance=alice_final_balance),
-            bob: Account(balance=100),
-        },
+    block = Block(
+        txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 alice: BalAccountExpectation(
@@ -116,6 +112,15 @@ def test_bal_balance_changes(
                 ),
             }
         ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            alice: Account(nonce=1, balance=alice_final_balance),
+            bob: Account(balance=100),
+        },
     )
 
 
@@ -139,15 +144,8 @@ def test_bal_storage_writes(
         gas_limit=100000,
     )
 
-    block = Block(txs=[tx])
-
-    blockchain_test(
-        pre=pre,
-        blocks=[block],
-        post={
-            alice: Account(nonce=1),
-            storage_contract: Account(storage={0x01: 0x42}),
-        },
+    block = Block(
+        txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 storage_contract: BalAccountExpectation(
@@ -160,6 +158,15 @@ def test_bal_storage_writes(
                 ),
             }
         ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            alice: Account(nonce=1),
+            storage_contract: Account(storage={0x01: 0x42}),
+        },
     )
 
 
@@ -181,7 +188,16 @@ def test_bal_storage_reads(
         gas_limit=100000,
     )
 
-    block = Block(txs=[tx])
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                storage_contract: BalAccountExpectation(
+                    storage_reads=[0x01],
+                ),
+            }
+        ),
+    )
 
     blockchain_test(
         pre=pre,
@@ -190,13 +206,6 @@ def test_bal_storage_reads(
             alice: Account(nonce=1),
             storage_contract: Account(storage={0x01: 0x42}),
         },
-        expected_block_access_list=BlockAccessListExpectation(
-            account_expectations={
-                storage_contract: BalAccountExpectation(
-                    storage_reads=[0x01],
-                ),
-            }
-        ),
     )
 
 
@@ -244,21 +253,10 @@ def test_bal_code_changes(
         gas_limit=500000,
     )
 
-    block = Block(txs=[tx])
-
     created_contract = compute_create_address(address=factory_contract, nonce=1)
 
-    blockchain_test(
-        pre=pre,
-        blocks=[block],
-        post={
-            alice: Account(nonce=1),
-            factory_contract: Account(nonce=2),  # incremented by CREATE to 2
-            created_contract: Account(
-                code=runtime_code_bytes,
-                storage={},
-            ),
-        },
+    block = Block(
+        txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
             account_expectations={
                 alice: BalAccountExpectation(
@@ -272,4 +270,17 @@ def test_bal_code_changes(
                 ),
             }
         ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            alice: Account(nonce=1),
+            factory_contract: Account(nonce=2),  # incremented by CREATE to 2
+            created_contract: Account(
+                code=runtime_code_bytes,
+                storage={},
+            ),
+        },
     )
