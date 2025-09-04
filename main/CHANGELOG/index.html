@@ -29095,6 +29095,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>✨ Add a <code>pytest.mark.with_all_typed_transactions</code> marker that creates default typed transactions for each <code>tx_type</code> supported by the current <code>fork</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1890">#1890</a>).</li>
 <li>✨ Add basic support for <code>Amsterdam</code> fork in order to begin testing Glamsterdam (<a href="https://github.com/ethereum/execution-spec-tests/pull/2069">#2069</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7928">EIP-7928</a>: Add initial framework support for <code>Block Level Access Lists (BAL)</code> testing for Amsterdam (<a href="https://github.com/ethereum/execution-spec-tests/pull/2067">#2067</a>).</li>
+<li>🔀 Restrict extra args from being passed to <code>BaseTest</code> implementations (e.g. <code>BlockchainTest</code>) (<a href="https://github.com/ethereum/execution-spec-tests/pull/2102">#2102</a>).</li>
 </ul>
 <h3 id="test-cases">🧪 Test Cases<a class="headerlink" href="#test-cases" title="Permanent link">&para;</a></h3>
 <ul>
@@ -29115,6 +29116,7 @@ curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/in
 <li>🔀 Adds the max blob transaction limit to the tests including updates to <a href="https://eips.ethereum.org/EIPS/eip-4844">EIP-4844</a> for Osaka (<a href="https://github.com/ethereum/execution-spec-tests/pull/1884">#1884</a>).</li>
 <li>🐞 Fix issues when filling block rlp size limit tests with <code>--generate-pre-alloc-groups</code> (<a href="https://github.com/ethereum/execution-spec-tests/pull/1989">#1989</a>).</li>
 <li>✨ <a href="https://eips.ethereum.org/EIPS/eip-7928">EIP-7928</a>: Add test cases for <code>Block Level Access Lists (BAL)</code> to Amsterdam (<a href="https://github.com/ethereum/execution-spec-tests/pull/2067">#2067</a>).</li>
+<li>🐞 Fix valid BAL cases to pass the expected block access list via each block, not the blockchain test itself (<a href="https://github.com/ethereum/execution-spec-tests/pull/2102">2102</a>).</li>
 </ul>
 <h2 id="v450-2025-05-14"><a href="https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0">v4.5.0</a> - 2025-05-14<a class="headerlink" href="#v450-2025-05-14" title="Permanent link">&para;</a></h2>
 <h3 id="breaking-change">💥 Breaking Change<a class="headerlink" href="#breaking-change" title="Permanent link">&para;</a></h3>
