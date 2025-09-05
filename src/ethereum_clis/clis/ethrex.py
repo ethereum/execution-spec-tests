@@ -22,6 +22,7 @@ class EthrexExceptionMapper(ExceptionMapper):
         ),
         BlockException.INVALID_GAS_USED: "Gas used doesn't match value in header",
         BlockException.INCORRECT_BLOB_GAS_USED: "Blob gas used doesn't match value in header",
+        TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: "Transaction gas max limit exceeded for Osaka",
     }
     mapping_regex = {
         TransactionException.PRIORITY_GREATER_THAN_MAX_FEE_PER_GAS: (
