@@ -1688,6 +1688,7 @@ def test_worst_modexp(
                 p256verify_spec.Spec.Y0,
             ],
             id="p256verify",
+            marks=[pytest.mark.eip_checklist("precompile/test/excessive_gas_usage", eip=[7951])],
         ),
     ],
 )
