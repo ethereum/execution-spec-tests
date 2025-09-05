@@ -12,7 +12,13 @@ from ethereum_test_exceptions import (
     TransactionException,
     UndefinedException,
 )
-from ethereum_test_types import Alloc, Environment, Transaction, TransactionReceipt
+from ethereum_test_types import (
+    Alloc,
+    BlockAccessList,
+    Environment,
+    Transaction,
+    TransactionReceipt,
+)
 
 
 class TransactionExceptionWithMessage(ExceptionWithMessage[TransactionException]):
@@ -57,6 +63,8 @@ class Result(CamelModel):
     blob_gas_used: HexNumber | None = None
     requests_hash: Hash | None = None
     requests: List[Bytes] | None = None
+    block_access_list: BlockAccessList | None = None
+    block_access_list_hash: Hash | None = None
     block_exception: Annotated[
         BlockExceptionWithMessage | UndefinedException | None, ExceptionMapperValidator
     ] = None

@@ -1,13 +1,14 @@
 """
-abstract: Tests get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844)
-    Test get blobs engine endpoint for [EIP-4844: Shard Blob Transactions](https://eips.ethereum.org/EIPS/eip-4844).
-
+abstract: Tests get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
+    Test get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
 """  # noqa: E501
 
+from hashlib import sha256
 from typing import List, Optional
 
 import pytest
 
+from ethereum_test_base_types.base_types import Hash
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
@@ -18,15 +19,14 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
 )
+from pytest_plugins.logging import get_logger
 
-from ...cancun.eip4844_blobs.common import INF_POINT
-from ...cancun.eip4844_blobs.spec import Spec as Spec4844
-from ...cancun.eip4844_blobs.spec import SpecHelpers, ref_spec_4844
+from .spec import ref_spec_7594
 
-CELLS_PER_EXT_BLOB = 128
+REFERENCE_SPEC_GIT_PATH = ref_spec_7594.git_path
+REFERENCE_SPEC_VERSION = ref_spec_7594.version
 
-REFERENCE_SPEC_GIT_PATH = ref_spec_4844.git_path
-REFERENCE_SPEC_VERSION = ref_spec_4844.version
+logger = get_logger(__name__)
 
 
 @pytest.fixture
@@ -124,7 +124,7 @@ def blob_gas_price(
 @pytest.fixture
 def txs_versioned_hashes(txs_blobs: List[List[Blob]]) -> List[List[bytes]]:
     """List of blob versioned hashes derived from the blobs."""
-    return [[blob.versioned_hash() for blob in blob_tx] for blob_tx in txs_blobs]
+    return [[blob.versioned_hash for blob in blob_tx] for blob_tx in txs_blobs]
 
 
 @pytest.fixture
@@ -156,12 +156,6 @@ def tx_error() -> Optional[TransactionException]:
     return None
 
 
-@pytest.fixture
-def tx_wrapper_version() -> int | None:
-    """Return wrapper version used for the transactions sent during test."""
-    return 1
-
-
 @pytest.fixture(autouse=True)
 def txs(  # noqa: D103
     pre: Alloc,
@@ -173,7 +167,7 @@ def txs(  # noqa: D103
     txs_versioned_hashes: List[List[bytes]],
     tx_error: Optional[TransactionException],
     txs_blobs: List[List[Blob]],
-    tx_wrapper_version: int | None,
+    fork: Fork,
 ) -> List[NetworkWrappedTransaction | Transaction]:
     """Prepare the list of transactions that are sent during the test."""
     if len(txs_blobs) != len(txs_versioned_hashes):
@@ -181,7 +175,7 @@ def txs(  # noqa: D103
     txs: List[NetworkWrappedTransaction | Transaction] = []
     for tx_blobs, tx_versioned_hashes in zip(txs_blobs, txs_versioned_hashes, strict=False):
         tx = Transaction(
-            ty=Spec4844.BLOB_TX_TYPE,
+            # type=3,
             sender=pre.fund_eoa(),
             to=destination_account,
             value=tx_value,
@@ -194,67 +188,128 @@ def txs(  # noqa: D103
         )
         network_wrapped_tx = NetworkWrappedTransaction(
             tx=tx,
-            blobs=tx_blobs,
-            wrapper_version=tx_wrapper_version,
+            blob_objects=tx_blobs,
+            wrapper_version=fork.full_blob_tx_wrapper_version(),
         )
         txs.append(network_wrapped_tx)
     return txs
 
 
-def generate_full_blob_tests(
+def generate_valid_blob_tests(
     fork: Fork,
 ) -> List:
     """
-    Return a list of tests for invalid blob transactions due to insufficient max fee per blob gas
+    Return a list of the 8 most important tests for valid blob transactions
     parametrized for each different fork.
     """
-    blob_size = Spec4844.FIELD_ELEMENTS_PER_BLOB * SpecHelpers.BYTES_PER_FIELD_ELEMENT
-    max_blobs = fork.max_blobs_per_block()
+    max_blobs_per_block = fork.max_blobs_per_block()
+    max_blobs_per_tx = fork.max_blobs_per_tx()
+    target_blobs_per_block = fork.target_blobs_per_block()
+
+    logger.debug(f"MAX_BLOBS_PER_BLOCK value for fork {fork}: {max_blobs_per_block}")
+    logger.debug(f"MAX_BLOBS_PER_TX value for fork {fork}: {max_blobs_per_tx}")
+    logger.debug(f"TARGET_BLOBS_PER_BLOCK value for fork {fork}: {target_blobs_per_block}")
+
+    # Calculate ascending pattern that fits within target_blobs_per_block
+    ascending_txs = []
+    total_blobs = 0
+    blob_offset = 0
+
+    for tx_size in range(1, max_blobs_per_tx + 1):
+        if total_blobs + tx_size <= target_blobs_per_block:
+            ascending_txs.append([Blob.from_fork(fork, blob_offset + j) for j in range(tx_size)])
+            total_blobs += tx_size
+            blob_offset += tx_size
+        else:
+            break
+
     return [
+        # Basic single blob transaction
         pytest.param(
             [  # Txs
                 [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
-                    ),
+                    Blob.from_fork(fork),
                 ]
             ],
             id="single_blob_transaction",
         ),
+        # Max blobs per transaction (single tx with max blobs)
         pytest.param(
-            [  # Txs
-                [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
-                    )
-                    for _ in range(max_blobs)
-                ]
-            ],
-            id="max_blobs_transaction",
+            [[Blob.from_fork(fork, s) for s in range(max_blobs_per_tx)]],
+            id="max_blobs_per_tx",
         ),
+        # Max blobs per block distributed across multiple txs
+        pytest.param(
+            [
+                [
+                    Blob.from_fork(fork, s),
+                ]
+                for s in range(max_blobs_per_block)
+            ],
+            id="max_blobs_per_block",
+        ),
+        # Target blobs per block distributed across multiple txs
+        pytest.param(
+            [
+                [
+                    Blob.from_fork(fork, s),
+                ]
+                for s in range(target_blobs_per_block)
+            ],
+            id="target_blobs_per_block",
+        ),
+        # Two transactions with equal blob distribution
+        pytest.param(
+            [
+                [Blob.from_fork(fork, s) for s in range(target_blobs_per_block // 2)],
+                [
+                    Blob.from_fork(fork, s + target_blobs_per_block // 2)
+                    for s in range(target_blobs_per_block // 2)
+                ],
+            ],
+            id="two_tx_equal_blobs",
+        ),
+        # Three transactions with equal blob distribution
+        pytest.param(
+            [
+                [Blob.from_fork(fork, s) for s in range(target_blobs_per_block // 3)],
+                [
+                    Blob.from_fork(fork, s + target_blobs_per_block // 3)
+                    for s in range(target_blobs_per_block // 3)
+                ],
+                [
+                    Blob.from_fork(fork, s + 2 * (target_blobs_per_block // 3))
+                    for s in range(target_blobs_per_block // 3)
+                ],
+            ],
+            id="three_tx_equal_blobs",
+        ),
+        # Mixed distribution: one max tx + remaining as singles
         pytest.param(
             [  # Txs
-                [  # Blobs per transaction
-                    Blob(
-                        data=bytes(blob_size),
-                        kzg_commitment=INF_POINT,
-                        kzg_cell_proofs=[INF_POINT] * CELLS_PER_EXT_BLOB,
-                    )
+                [  # First tx with max blobs
+                    Blob.from_fork(fork, s) for s in range(max_blobs_per_tx)
                 ]
-                for _ in range(max_blobs)
+            ]
+            + [
+                [  # Remaining txs with 1 blob each
+                    Blob.from_fork(fork, max_blobs_per_tx + s),
+                ]
+                for s in range(max_blobs_per_block - max_blobs_per_tx)
             ],
-            id="single_blob_max_txs",
+            id="mixed_max_tx_plus_singles",
+        ),
+        # Ascending pattern: 1, 2, 3... blobs per tx
+        pytest.param(
+            ascending_txs,
+            id="ascending_blob_pattern",
         ),
     ]
 
 
 @pytest.mark.parametrize_by_fork(
     "txs_blobs",
-    generate_full_blob_tests,
+    generate_valid_blob_tests,
 )
 @pytest.mark.exception_test
 @pytest.mark.valid_from("Cancun")
@@ -267,7 +322,20 @@ def test_get_blobs(
     Test valid blob combinations where one or more txs in the block
     serialized version contain a full blob (network version) tx.
     """
-    blobs_test(
-        pre=pre,
-        txs=txs,
-    )
+    blobs_test(pre=pre, txs=txs)
+
+
+@pytest.mark.parametrize_by_fork(
+    "txs_blobs",
+    generate_valid_blob_tests,
+)
+@pytest.mark.exception_test
+@pytest.mark.valid_from("Cancun")
+def test_get_blobs_nonexisting(
+    blobs_test: BlobsTestFiller,
+    pre: Alloc,
+    txs: List[NetworkWrappedTransaction | Transaction],
+):
+    """Test that ensures clients respond with 'null' when at least one requested blob is not available."""  # noqa: E501
+    nonexisting_blob_hashes = [Hash(sha256(str(i).encode()).digest()) for i in range(5)]
+    blobs_test(pre=pre, txs=txs, nonexisting_blob_hashes=nonexisting_blob_hashes)

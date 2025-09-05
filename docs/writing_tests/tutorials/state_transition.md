@@ -1,177 +1,123 @@
 # State Transition Tests
 
-This tutorial teaches you to create a state transition execution specification test. These tests verify that a starting pre-state will reach a specified post-state after executing a single transaction.
+This tutorial teaches you to create a state transition execution specification test using the Python Opcodes minilang for writing EVM bytecode. These tests verify that a starting pre-state will reach a specified post-state after executing a single transaction. In this example, we'll create a simple contract using bytecode and then interact with it through a transaction to verify the expected state changes.
+
+For an overview of different test types available, see [Types of Tests](../../writing_tests/types_of_tests.md).
 
 ## Pre-requisites
 
-Before proceeding with this tutorial, it is assumed that you have prior knowledge and experience with the following:
+This tutorial will require some prior knowledge and experience with the following:
 
-- Repository set-up, see [installation](../../getting_started/installation.md).and run an execution specification test as outlined in the .
-- Able to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
-- Understand how to read a [static state transition test](https://ethereum-tests.readthedocs.io/en/latest/state-transition-tutorial.html#the-source-code).
-- Know the basics of [Yul](https://docs.soliditylang.org/en/latest/yul.html), which is an EVM assembly language.
-- Familiarity with [Python](https://docs.python.org/3/tutorial/).
+- Repository set-up, see [installation](../../getting_started/installation.md).
+- Ability to run `fill`, see [Getting Started: Filling Tests](../../filling_tests/getting_started.md).
+- Basic familiarity with [Python](https://docs.python.org/3/tutorial/).
 
-## Example Tests
+## Building a State Test
 
-The most effective method of learning how to write tests is to study a couple of straightforward examples. In this tutorial we will go over the [Yul](https://github.com/ethereum/execution-spec-tests/blob/main/tests/homestead/yul/test_yul_example.py#L19) state test.
+The most effective method of learning how to write tests is to study a straightforward example. In this tutorial we will build a simple state test that deploys a contract with bytecode and verifies its execution.
 
-### Yul Test
+### Complete Test Example
 
-You can find the source code for the Yul test in [tests/homestead/yul/test_yul_example.py](../../tests/homestead/yul/test_yul_example/index.md).
-It is the spec test equivalent of this [static test](https://github.com/ethereum/tests/blob/develop/src/GeneralStateTestsFiller/stExample/yulExampleFiller.yml).
+We'll examine a simple test that uses the Python Opcodes minilang to write EVM bytecode. This example is based on the CHAINID opcode test from `tests/istanbul/eip1344_chainid/test_chainid.py`.
 
-Lets examine each section.
+Let's examine each section.
 
 ```python
-"""
-Test Yul Source Code Examples
-"""
+"""State test tutorial demonstrating contract deployment and interaction."""
 ```
 
 In Python, multi-line strings are denoted using `"""`. As a convention, a file's purpose is often described in the opening string of the file.
 
 ```python
-from ethereum_test_forks import Fork, Frontier, Homestead
-from ethereum_test_tools import (
-    Account,
-    Alloc,
-    Environment,
-    StateTestFiller,
-    Transaction,
-    YulCompiler,
-)
+import pytest
+
+from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools.vm.opcode import Opcodes as Op
 ```
 
-In this snippet the required constants, types and helper functions are imported from `ethereum_test_tools` and `ethereum_test_forks`. We will go over these as we come across them.
+In this snippet the required constants, types and helper functions are imported from `ethereum_test_tools`. The `Opcodes` class (aliased as `Op`) provides the Python minilang for writing EVM bytecode. We will go over these as we come across them.
 
 ```python
-@pytest.mark.valid_from("Homestead")
+@pytest.mark.valid_from("Istanbul")
 ```
 
 In Python this kind of definition is called a [*decorator*](https://docs.python.org/3/search.html?q=decorator).
 It modifies the action of the function after it.
-In this case, the decorator is a custom [pytest fixture](https://docs.pytest.org/en/latest/explanation/fixtures.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Homestead fork](https://ethereum.org/en/history/#homestead) and all forks after it. The framework will then fill this test case for all forks in the fork range specified by the command-line arguments.
+In this case, the decorator is a custom [pytest mark](https://docs.pytest.org/en/latest/how-to/mark.html) defined by the execution-specs-test framework that specifies that the test is valid for the [Istanbul fork](https://ethereum.org/en/history/#istanbul) and all forks after it. The framework will then fill this test case for all forks in the fork range specified by the command-line arguments.
+
+For more information about test markers and fork validity, see [Test Markers](../../writing_tests/test_markers.md).
 
 !!! info "Filling the test"
     To fill this test for all the specified forks, we can specify pytest's `-k` flag that [filters test cases by keyword expression](https://docs.pytest.org/en/latest/how-to/usage.html#specifying-tests-selecting-tests):
 
     ```console
-    fill -k test_yul
+    fill -k test_state_test_example
     ```
 
     and to fill it for a specific fork range, we can provide the `--from` and `--until` command-line arguments:
 
     ```console
-    fill -k test_yul --from London --until Paris
+    fill -k test_state_test_example --from London --until Paris
     ```
 
 ```python
-def test_yul(state_test: StateTestFiller, pre: Alloc, yul: YulCompiler, fork: Fork):
-    """
-    Test YUL compiled bytecode.
-    """
+def test_state_test_example(state_test: StateTestFiller, pre: Alloc):
+    """Test state transition using Opcodes minilang bytecode."""
 ```
 
 This is the format of a [Python function](https://docs.python.org/3/tutorial/controlflow.html#defining-functions).
 It starts with `def <function name>(<parameters>):`, and then has indented code for the function.
 The function definition ends when there is a line that is no longer indented. As with files, by convention functions start with a string that explains what the function does.
 
-!!! note "The `state_test` function argument"
-    This test defines a state test and, as such, *must* include the `state_test` in its function arguments. This is a callable object (actually a wrapper class to the `StateTest`); we will see how it is called later.
+The function parameters (`state_test` and `pre`) are [pytest fixtures](https://docs.pytest.org/en/latest/explanation/fixtures.html) provided by the execution-spec-tests framework. Pytest fixtures are a powerful dependency injection mechanism that automatically provide objects to your test functions.
 
-!!! note "The `pre` function argument"
-    For all types of tests, it is highly encouraged that we define the `pre` allocation as a function argument, which will be populated with the pre-state requirements during the execution of the test function (see below).
+**The `state_test` fixture** is a callable that you *must* include in *state test* function arguments. When called at the end of your test function with the environment, pre-state, transaction, and expected post-state, it generates the actual test fixtures. This callable is a wrapper around the `StateTest` class.
+
+**The `pre` fixture** provides an `Alloc` object that manages the pre-state allocation for your test. It offers methods like `fund_eoa()` and `deploy_contract()` that automatically generate unique addresses and add accounts to the blockchain state that will exist before your transaction executes. The fixture handles address generation and ensures no conflicts occur.
 
 ```python
-    env = Environment()
+    env = Environment(number=1)
 ```
 
-This line specifies that `env` is an [`Environment`](https://github.com/ethereum/execution-spec-tests/blob/8b4504aaf6ae0b69c3e847a6c051e64fcefa4db0/src/ethereum_test_tools/common/types.py#L711) object, and that we just use the default parameters.
-If necessary we can modify the environment to have different block gas limits, block numbers, etc.
-In most tests the defaults are good enough.
-
-For more information, [see the static test documentation](../../running_tests/test_formats/state_test.md).
+This line specifies that `env` is an [`Environment`][ethereum_test_types.Environment] object. In this example, we only override the block `number` to 1, leaving all other values at their defaults. It's recommended to use default values whenever possible and only specify custom values when required for your specific test scenario. (For all available fields, see the pydantic model fields in the source code of [`Environment`][ethereum_test_types.Environment] and [`EnvironmentGeneric`](https://github.com/ethereum/execution-spec-tests/blob/b4d7826bec631574a6fb95d0c58d2c8c4d6e02ca/src/ethereum_test_types/block_types.py#L76) from which `Environment` inherits.)
 
 #### Pre State
 
-For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the transaction is executed.
-It can be used as a [dictionary](https://docs.python.org/3/tutorial/datastructures.html#dictionaries), which is the Python term for an associative array, but the appropriate way to populate it is by using the methods `fund_eoa`, `deploy_contract` or `fund_address` from the `Alloc` object.
+For every test we need to define the pre-state requirements, so we are certain of what is on the "blockchain" before the transaction is executed. The `pre` fixture provides an `Alloc` object with methods to create accounts that are automatically added to the pre-state.
 
 In this example we are using the `deploy_contract` method to deploy a contract to some address available in the pre-state.
 
 ```python
     contract_address = pre.deploy_contract(
-        code=yul(
-            """
-            {
-                function f(a, b) -> c {
-                    c := add(a, b)
-                }
-
-                sstore(0, f(1, 2))
-                return(0, 32)
-            }
-            """
-        ),
-        balance=0x0BA1A9CE0BA1A9CE,
+        code=Op.PUSH1(0x03) + Op.PUSH1(0x00) + Op.SSTORE + Op.STOP
     )
 ```
 
-Specifically we deploy a contract with yul code that adds two numbers and stores the result in storage.
+Specifically we deploy a contract written with Opcodes minilang code that stores the value `0x03` at storage slot `0x00`. The code consists of:
+
+- `PUSH1(0x03)`: Push the value 3 onto the stack.
+- `PUSH1(0x00)`: Push the storage key 0 onto the stack.
+- `SSTORE`: Store the value at the specified key.
+- `STOP`: End execution.
+
+As the return value of the `deploy_contract` method, we get the address where the contract was deployed. This address is stored in the `contract_address` variable, which will later be used as the target of our transaction.
+
+You can also specify additional parameters for the contract if needed:
+
+- `balance` parameter to set the contract's initial balance (though often not necessary for state test contracts)
+- `storage` parameter to set initial storage values (though in this example we don't need initial storage since our contract will set it through the `SSTORE` opcode)
+
+You can combine opcodes using the `+` operator to create more complex bytecode sequences.
+
+Generally for execution spec tests the `SSTORE` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the bytecode has run successfully.
+
+Next, we need to create an account that will send the transaction to our contract:
 
 ```python
-            balance=0x0BA1A9CE0BA1A9CE,
+    sender = pre.fund_eoa()
 ```
 
-This field is the balance: the amount of Wei that the account has. It usually doesn't matter what its value is in the case of state test contracts.
-
-```python
-    contract_address = pre.deploy_contract(
-```
-
-As return value of the `deploy_contract` method we get the address where the contract was deployed and put it in the `contract_address` variable, which will later be used in the transaction.
-
-```python
-        storage={
-            0x00: 0x00,
-        },
-```
-
-We could also specify a starting storage for the contract, which is done by adding a `storage` parameter to the `deploy_contract` method.
-
-```python
-            code=yul(
-```
-
-Here we define the [Yul](https://docs.soliditylang.org/en/v0.8.17/yul.html) code for the contract. It is defined as a multi-line string and starts and ends with curly braces (`{ <yul> }`).
-
-When running the test filler `fill`, the solidity compiler `solc` will automatically translate the Yul to EVM opcode at runtime.
-
-!!! note
-    Currently Yul and direct EVM opcode are supported in execution spec tests.
-
-```python
-                """
-                {
-                    function f(a, b) -> c {
-                        c := add(a, b)
-                    }
-                    sstore(0, f(1, 2))
-                    return(0, 32)
-                }
-                """
-```
-
-Within this example test Yul code we have a function definition, and inside it we are using the Yul `add` instruction. When compiled with `solc` it translates the instruction directly to the `ADD` opcode. For further Yul instructions [see here](https://docs.soliditylang.org/en/latest/yul.html#evm-dialect). Notice that function is utilized with the Yul `sstore` instruction, which stores the result of `add(1, 2)` to the storage address `0x00`.
-
-Generally for execution spec tests the `sstore` instruction acts as a high-level assertion method to check pre to post-state changes. The test filler achieves this by verifying that the correct value is held within post-state storage, hence we can validate that the Yul code has run successfully.
-
-```python
-    sender = pre.fund_eoa(amount=0x0BA1A9CE0BA1A9CE)
-```
-
-In this line we specify that we require a single externally owned account (EOA) with a balance of `0x0BA1A9CE0BA1A9CE` Wei.
+This line creates a single externally owned account (EOA) with a default balance. You can specify a custom amount with `amount=0x0BA1A9CE0BA1A9CE` if needed.
 
 The returned object, which includes a private key, an address, and a nonce, is stored in the `sender` variable and will later be used as the sender of the transaction.
 
@@ -179,37 +125,26 @@ The returned object, which includes a private key, an address, and a nonce, is s
 
 ```python
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x01,
+        ty=0x2,
         sender=sender,
         to=contract_address,
-        gas_limit=500000,
-        gas_price=10,
-        protected=False if fork in [Frontier, Homestead] else True,
+        gas_limit=100_000,
     )
 ```
 
-With the pre-state built, we can add a description for the [`Transaction`](https://github.com/ethereum/execution-spec-tests/blob/8b4504aaf6ae0b69c3e847a6c051e64fcefa4db0/src/ethereum_test_tools/common/types.py#L887).
+With the pre-state built, we can now create the transaction that will call our contract. Let's examine the key components of this [`Transaction`][ethereum_test_types.Transaction] (for all available fields, see the source code of [`Transaction`][ethereum_test_types.Transaction] and [`TransactionGeneric`](https://github.com/ethereum/execution-spec-tests/blob/b4d7826bec631574a6fb95d0c58d2c8c4d6e02ca/src/ethereum_test_types/transaction_types.py#L163) from which `Transaction` inherits).
 
-```python
-            sender=sender,
-```
+- **`sender=sender`**: We use the EOA we created earlier, which already has the necessary information to sign the transaction and contains the correct `nonce`. The `nonce` is a protection mechanism to prevent replay attacks - it must equal the number of transactions sent from the sender's address, starting from zero. The framework automatically manages nonce incrementing for us.
 
-We use the sender variable from the pre-state to specify the sender of the transaction, which already has the necessary information to sign the transaction, and also contains the correct `nonce` for the transaction.
+- **`to=contract_address`**: This specifies the address of the contract we want to call, which is the contract we deployed earlier.
 
-The `nonce` is a protection mechanism to prevent replay attacks, and the current rules of Ethereum require that the nonce of a transaction is equal to the number of transactions sent from the sender's address, starting from zero. This means that the first transaction sent from an address must have a nonce of zero, the second transaction must have a nonce of one, and so on.
+- **`gas_limit=100_000`**: This sets a high enough gas limit to ensure our simple contract execution doesn't run out of gas.
 
-The `nonce` field of the `sender` variable is automatically incremented for us by the `Transaction` object when the transaction is signed, so if we were to create another transaction with the same sender, the nonce would be incremented by one yet another time.
-
-```python
-            to=contract_address,
-```
-
-The `to` field specifies the address of the contract we want to call and, in this case, it is the address of the contract we deployed earlier.
-
-For more information, [see the static test documentation](../../running_tests/test_formats/state_test.md)
+- **`ty=0x2`**: This specifies the transaction type (EIP-1559).
 
 #### Post State
+
+Now we need to define what we expect the blockchain state to look like after our transaction executes:
 
 ```python
     post = {
@@ -223,16 +158,25 @@ For more information, [see the static test documentation](../../running_tests/te
 
 This is the post-state which is equivalent to [`expect`](https://ethereum-tests.readthedocs.io/en/latest/test_filler/state_filler.html#expect) in static tests, but without the indexes. It is similar to the pre-state, except that we do not need to specify everything, only those accounts and fields we wish to test.
 
-In this case, we look at the storage of the contract we called and add to it what we expect to see. In this example storage cell `0x00` should be `0x03` as in the pre-state we essentially stored the result of the Yul instruction `add(1, 2)`.
+In this case, we look at the storage of the contract we called and add to it what we expect to see. In this example storage cell `0x00` should be `0x03` as we stored this value using the `SSTORE` opcode in our contract bytecode.
 
-#### State Test
+#### Running the State Test
+
+Finally, we execute the test by calling the state test wrapper with all our defined components:
 
 ```python
     state_test(env=env, pre=pre, post=post, tx=tx)
 ```
 
-This line calls the wrapper to the `StateTest` object that provides all the objects required (for example, the fork parameter) in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/yul_example/test_yul.json`).
+This line calls the wrapper to the `StateTest` object that provides all the objects required in order to fill the test, generate the test fixtures and write them to file (by default, `./fixtures/<blockchain,state>_tests/example/state_test_example/test_state_test_example.json`).
+
+Note that even though we defined a `StateTest`, the `fill` command will also generate other derivative test fixtures: `BlockchainTest`, `BlockchainTestEngine`, and `BlockchainTestEngineX`. For more information about test types and when to use each, see [Test Types: Prefer StateTest for Single Transactions](../types_of_tests.md#prefer-state_test-for-single-transactions).
 
 ## Conclusion
 
-At this point you should be able to state transition tests within a single block.
+At this point you should be able to write state transition tests within a single block.
+
+## Next Steps
+
+- Learn about [Adding a New Test](../../writing_tests/adding_a_new_test.md) to understand test organization and structure.
+- Explore [Fork Methods](../../writing_tests/fork_methods.md) for writing tests that adapt to different Ethereum forks.

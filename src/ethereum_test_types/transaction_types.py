@@ -33,11 +33,15 @@ from ethereum_test_base_types import (
     TestPrivateKey,
 )
 from ethereum_test_exceptions import TransactionException
+from pytest_plugins.logging import get_logger
 
 from .account_types import EOA
 from .blob_types import Blob
+from .chain_config_types import ChainConfigDefaults
 from .receipt_types import TransactionReceipt
 from .utils import int_to_bytes, keccak256
+
+logger = get_logger(__name__)
 
 
 class TransactionType(IntEnum):
@@ -54,7 +58,6 @@ class TransactionType(IntEnum):
 class TransactionDefaults:
     """Default values for transactions."""
 
-    chain_id: int = 1
     gas_price = 10
     max_fee_per_gas = 7
     max_priority_fee_per_gas: int = 0
@@ -164,7 +167,9 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     """
 
     ty: NumberBoundTypeVar = Field(0, alias="type")  # type: ignore
-    chain_id: NumberBoundTypeVar = Field(default_factory=lambda: TransactionDefaults.chain_id)  # type: ignore
+    chain_id: NumberBoundTypeVar = Field(
+        default_factory=lambda: ChainConfigDefaults.chain_id, validate_default=True
+    )  # type: ignore
     nonce: NumberBoundTypeVar = Field(0)  # type: ignore
     gas_price: NumberBoundTypeVar | None = None
     max_priority_fee_per_gas: NumberBoundTypeVar | None = None
@@ -181,6 +186,10 @@ class TransactionGeneric(BaseModel, Generic[NumberBoundTypeVar]):
     r: NumberBoundTypeVar = Field(0)  # type: ignore
     s: NumberBoundTypeVar = Field(0)  # type: ignore
     sender: EOA | None = None
+
+    def metadata_string(self) -> str | None:
+        """Return the metadata field as a formatted json string or None."""
+        return None
 
 
 class TransactionValidateToAsEmptyString(CamelModel):
@@ -230,6 +239,23 @@ class TransactionTransitionToolConverter(TransactionValidateToAsEmptyString):
         return default
 
 
+class TransactionTestMetadata(CamelModel):
+    """Represents the metadata for a transaction."""
+
+    test_id: str | None = None
+    phase: str | None = None
+    action: str | None = None  # e.g. deploy / fund / execute
+    target: str | None = None  # account/contract label
+    tx_index: int | None = None  # index within this phase
+
+    def to_json(self) -> str:
+        """
+        Convert the transaction metadata into json string for it to be embedded in the
+        request id.
+        """
+        return self.model_dump_json(exclude_none=True, by_alias=True)
+
+
 class Transaction(
     TransactionGeneric[HexNumber], TransactionTransitionToolConverter, SignableRLPSerializable
 ):
@@ -251,6 +277,8 @@ class Transaction(
     expected_receipt: TransactionReceipt | None = Field(None, exclude=True)
 
     zero: ClassVar[Literal[0]] = 0
+
+    metadata: TransactionTestMetadata | None = Field(None, exclude=True)
 
     model_config = ConfigDict(validate_assignment=True)
 
@@ -609,6 +637,12 @@ class Transaction(
             return bytes([self.ty])
         return b""
 
+    def metadata_string(self) -> str | None:
+        """Return the metadata field as a formatted json string or None."""
+        if self.metadata is None:
+            return None
+        return self.metadata.to_json()
+
     @cached_property
     def hash(self) -> Hash:
         """Returns hash of the transaction."""
@@ -652,35 +686,57 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
     """
     Network wrapped transaction as defined in
     [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844#networking).
+
+    < Osaka:
+        rlp([tx_payload_body,                   blobs, commitments, proofs])
+
+    >= Osaka:
+        rlp([tx_payload_body, wrapper_version,  blobs, commitments, cell_proofs])
     """
 
     tx: Transaction
-    wrapper_version: Literal[1] | None = None
-    blobs: Sequence[Blob]
+    blob_objects: Sequence[Blob]
+    wrapper_version: int | None = None  # only exists in >= osaka
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_data(self) -> Sequence[Bytes]:
-        """Return a list of blobs as bytes."""
-        return [blob.data for blob in self.blobs]
+    def blobs(self) -> Sequence[Bytes]:
+        """Return a list of blob data as bytes."""
+        return [blob.data for blob in self.blob_objects]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_commitments(self) -> Sequence[Bytes]:
+    def commitments(self) -> Sequence[Bytes]:
         """Return a list of kzg commitments."""
-        return [blob.kzg_commitment for blob in self.blobs]
+        return [blob.commitment for blob in self.blob_objects]
 
     @computed_field  # type: ignore[prop-decorator]
     @property
-    def blob_kzg_proofs(self) -> Sequence[Bytes]:
-        """Return a list of kzg proofs."""
-        proofs: List[Bytes] = []
-        for blob in self.blobs:
-            if blob.kzg_proof is not None:
-                proofs.append(blob.kzg_proof)
-            elif blob.kzg_cell_proofs is not None:
-                proofs.extend(blob.kzg_cell_proofs)
+    def proofs(self) -> Sequence[Bytes] | None:
+        """Return a list of kzg proofs (returns None >= Osaka)."""
+        if self.wrapper_version is not None:
+            return None
+
+        proofs: list[Bytes] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.proof, Bytes)
+            proofs.append(blob.proof)
+
         return proofs
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def cell_proofs(self) -> Sequence[Bytes] | None:
+        """Return a list of cells (returns None < Osaka)."""
+        if self.wrapper_version is None:
+            return None
+
+        cells: list[Bytes] = []
+        for blob in self.blob_objects:
+            assert isinstance(blob.proof, list)
+            cells.extend(blob.proof)
+
+        return cells
 
     def get_rlp_fields(self) -> List[str]:
         """
@@ -692,10 +748,37 @@ class NetworkWrappedTransaction(CamelModel, RLPSerializable):
 
         The list can be nested list up to one extra level to represent nested fields.
         """
+        # only put a wrapper_version field for >=osaka (value 1), otherwise omit field
         wrapper = []
         if self.wrapper_version is not None:
             wrapper = ["wrapper_version"]
-        return ["tx", *wrapper, "blob_data", "blob_kzg_commitments", "blob_kzg_proofs"]
+
+        rlp_proofs: list[str] = []
+        if self.proofs is not None:
+            rlp_proofs = ["proofs"]
+
+        rlp_cell_proofs: list[str] = []
+        if self.cell_proofs is not None:
+            rlp_cell_proofs = ["cell_proofs"]
+
+        rlp_fields: List[
+            str
+        ] = [  # structure explained in https://eips.ethereum.org/EIPS/eip-7594#Networking
+            "tx",  # tx_payload_body
+            *wrapper,  # wrapper_version, which is always 1 for osaka (was non-existing before)
+            "blobs",  # Blob.data
+            "commitments",
+            *rlp_proofs,
+            *rlp_cell_proofs,
+        ]
+
+        assert ("proofs" in rlp_fields) or ("cell_proofs" in rlp_fields), (
+            "Neither proofs nor cell_proofs are in rlp_fields. Critical error!"
+        )
+
+        # logger.debug(f"Ended up with this rlp field list: {rlp_fields}")
+
+        return rlp_fields
 
     def get_rlp_prefix(self) -> bytes:
         """

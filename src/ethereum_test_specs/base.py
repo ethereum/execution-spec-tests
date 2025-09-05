@@ -2,13 +2,14 @@
 
 import hashlib
 from abc import abstractmethod
+from enum import StrEnum, unique
 from functools import reduce
 from os import path
 from pathlib import Path
 from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
-from pydantic import BaseModel, Field, PrivateAttr
+from pydantic import BaseModel, ConfigDict, Field, PrivateAttr
 from typing_extensions import Self
 
 from ethereum_clis import Result, TransitionTool
@@ -49,12 +50,25 @@ def verify_result(result: Result, env: Environment):
         assert result.withdrawals_root == to_hex(Withdrawal.list_root(env.withdrawals))
 
 
+@unique
+class OpMode(StrEnum):
+    """Operation mode for the fill and execute."""
+
+    CONSENSUS = "consensus"
+    BENCHMARKING = "benchmarking"
+
+
 class BaseTest(BaseModel):
     """Represents a base Ethereum test which must return a single test fixture."""
+
+    model_config = ConfigDict(extra="forbid")
 
     tag: str = ""
 
     _request: pytest.FixtureRequest | None = PrivateAttr(None)
+    _operation_mode: OpMode | None = PrivateAttr(None)
+
+    expected_benchmark_gas_used: int | None = None
 
     spec_types: ClassVar[Dict[str, Type["BaseTest"]]] = {}
 
@@ -98,9 +112,11 @@ class BaseTest(BaseModel):
         new_instance = cls(
             tag=base_test.tag,
             t8n_dump_dir=base_test.t8n_dump_dir,
+            expected_benchmark_gas_used=base_test.expected_benchmark_gas_used,
             **kwargs,
         )
         new_instance._request = base_test._request
+        new_instance._operation_mode = base_test._operation_mode
         return new_instance
 
     @classmethod
@@ -233,22 +249,23 @@ class BaseTest(BaseModel):
             group.pre = Alloc.merge(
                 group.pre,
                 self.pre,
-                allow_key_collision=True,
+                key_collision_mode=Alloc.KeyCollisionMode.ALLOW_IDENTICAL_ACCOUNTS,
             )
             group.fork = fork
             group.test_ids.append(str(test_id))
-            group.test_count = len(group.test_ids)
-            group.pre_account_count = len(group.pre.root)
             pre_alloc_groups[pre_alloc_hash] = group
         else:
             # Create new group - use Environment instead of expensive genesis generation
+            genesis_env = self.get_genesis_environment(fork)
+            pre_alloc = Alloc.merge(
+                Alloc.model_validate(fork.pre_allocation_blockchain()),
+                self.pre,
+            )
             group = PreAllocGroup(
-                test_count=1,
-                pre_account_count=len(self.pre.root),
                 test_ids=[str(test_id)],
                 fork=fork,
-                environment=self.get_genesis_environment(fork),
-                pre=self.pre,
+                environment=genesis_env,
+                pre=pre_alloc,
             )
             pre_alloc_groups[pre_alloc_hash] = group
         return pre_alloc_groups

@@ -3,7 +3,6 @@ Suicide scenario requested test
 https://github.com/ethereum/execution-spec-tests/issues/381.
 """
 
-from itertools import count
 from typing import Dict, Union
 
 import pytest
@@ -17,7 +16,6 @@ from ethereum_test_tools import (
     BlockchainTestFiller,
     Bytecode,
     Conditional,
-    Environment,
     Initcode,
     StateTestFiller,
     Transaction,
@@ -29,21 +27,10 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
 REFERENCE_SPEC_VERSION = "1b6a0e94cc47e859b9866e570391cf37dc55059a"
 
 
-@pytest.fixture
-def env():  # noqa: D103
-    return Environment(
-        fee_recipient="0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
-        difficulty=0x020000,
-        gas_limit=71794957647893862,
-        number=1,
-        timestamp=1000,
-    )
-
-
 @pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
-    (True, False),
+    (pytest.param(True, marks=pytest.mark.execute(pytest.mark.skip("Modifies pre"))), False),
 )
 @pytest.mark.parametrize(
     "call_create2_contract_in_between,call_create2_contract_at_the_end",
@@ -54,7 +41,6 @@ def env():  # noqa: D103
     ],
 )
 def test_dynamic_create2_selfdestruct_collision(
-    env: Environment,
     fork: Fork,
     create2_dest_already_in_state: bool,
     call_create2_contract_in_between: bool,
@@ -210,32 +196,25 @@ def test_dynamic_create2_selfdestruct_collision(
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
     tx = Transaction(
-        ty=0x0,
-        chain_id=0x0,
-        nonce=0,
         to=address_to,
-        gas_price=10,
-        protected=False,
         data=initcode,
-        gas_limit=5000000,
-        value=0,
+        gas_limit=5_000_000,
         sender=sender,
     )
 
-    state_test(env=env, pre=pre, post=post, tx=tx)
+    state_test(pre=pre, post=post, tx=tx)
 
 
 @pytest.mark.valid_from("Paris")
 @pytest.mark.parametrize(
     "create2_dest_already_in_state",
-    (True, False),
+    (pytest.param(True, marks=pytest.mark.execute(pytest.mark.skip("Modifies pre"))), False),
 )
 @pytest.mark.parametrize(
     "call_create2_contract_at_the_end",
     (True, False),
 )
 def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
-    env: Environment,
     fork: Fork,
     create2_dest_already_in_state: bool,
     call_create2_contract_at_the_end: bool,
@@ -428,37 +407,22 @@ def test_dynamic_create2_selfdestruct_collision_two_different_transactions(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post=post,
         blocks=[
             Block(
                 txs=[
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to_second,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                 ]
@@ -663,37 +627,22 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
 
     post[sendall_destination] = Account(balance=sendall_destination_balance)
 
-    nonce = count()
-
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post=post,
         blocks=[
             Block(
                 txs=[
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                     Transaction(
-                        ty=0x0,
-                        chain_id=0x0,
-                        nonce=next(nonce),
                         to=address_to,
-                        gas_price=10,
-                        protected=False,
                         data=initcode,
-                        gas_limit=5000000,
-                        value=0,
+                        gas_limit=5_000_000,
                         sender=sender,
                     ),
                 ]

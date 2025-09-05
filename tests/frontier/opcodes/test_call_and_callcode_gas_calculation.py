@@ -63,7 +63,7 @@ CALLCODE_SUFFICIENT_GAS = CALLCODE_GAS + CALLEE_INIT_STACK_GAS
 
 
 @pytest.fixture
-def callee_code(callee_opcode: Op) -> Bytecode:
+def callee_code(pre: Alloc, callee_opcode: Op) -> Bytecode:
     """
     Code called by the caller contract:
         PUSH1 0x00 * 4
@@ -72,13 +72,15 @@ def callee_code(callee_opcode: Op) -> Bytecode:
         GAS <- value doesn't matter
         CALL/CALLCODE.
     """
-    return callee_opcode(Op.GAS(), 0xFEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF, 1, 0, 0, 0, 0)
+    # The address needs to be empty and different for each execution of the fixture,
+    # otherwise the calculations (empty_account_cost) are incorrect.
+    return callee_opcode(Op.GAS(), pre.empty_account(), 1, 0, 0, 0, 0)
 
 
 @pytest.fixture
 def sender(pre: Alloc) -> EOA:
     """Sender for all transactions."""
-    return pre.fund_eoa(0x0BA1A9CE)
+    return pre.fund_eoa()
 
 
 @pytest.fixture
@@ -119,11 +121,9 @@ def caller_address(pre: Alloc, caller_code: Bytecode) -> Address:
 def caller_tx(sender: EOA, caller_address: Address) -> Transaction:
     """Transaction that performs the call to the caller contract."""
     return Transaction(
-        chain_id=0x01,
         to=caller_address,
         value=1,
-        gas_limit=500000,
-        gas_price=7,
+        gas_limit=500_000,
         sender=sender,
     )
 
@@ -145,7 +145,6 @@ def post(caller_address: Address, is_sufficient_gas: bool) -> Dict[Address, Acco
     ],
 )
 @pytest.mark.valid_from("London")
-@pytest.mark.valid_until("Shanghai")
 def test_value_transfer_gas_calculation(
     state_test: StateTestFiller,
     pre: Alloc,

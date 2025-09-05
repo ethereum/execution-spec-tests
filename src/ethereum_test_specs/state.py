@@ -1,6 +1,5 @@
 """Ethereum state test spec definition and filler."""
 
-import warnings
 from pprint import pprint
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
@@ -30,9 +29,14 @@ from ethereum_test_fixtures.state import (
     FixtureTransaction,
 )
 from ethereum_test_forks import Fork
-from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_types import (
+    Alloc,
+    BlockAccessListExpectation,
+    Environment,
+    Transaction,
+)
 
-from .base import BaseTest
+from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest, Header
 from .debugging import print_traces
 from .helpers import verify_transactions
@@ -51,6 +55,7 @@ class StateTest(BaseTest):
     engine_api_error_code: Optional[EngineAPIError] = None
     blockchain_test_header_verify: Optional[Header] = None
     blockchain_test_rlp_modifier: Optional[Header] = None
+    expected_block_access_list: Optional[BlockAccessListExpectation] = None
     chain_id: int = 1
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -62,6 +67,11 @@ class StateTest(BaseTest):
             f"A {fixture_format.format_name} generated from a state_test",
         )
         for fixture_format in BlockchainTest.supported_fixture_formats
+        # Exclude sync fixtures from state tests - they don't make sense for state tests
+        if not (
+            (hasattr(fixture_format, "__name__") and "Sync" in fixture_format.__name__)
+            or (hasattr(fixture_format, "format") and "Sync" in fixture_format.format.__name__)
+        )
     ]
     supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
@@ -90,38 +100,43 @@ class StateTest(BaseTest):
     def _generate_blockchain_genesis_environment(self, *, fork: Fork) -> Environment:
         """Generate the genesis environment for the BlockchainTest formatted test."""
         assert self.env.number >= 1, (
-            "genesis block number cannot be negative, set state test env.number to 1"
+            "genesis block number cannot be negative, set state test env.number to at least 1"
         )
-
-        # Modify values to the proper values for the genesis block
-        # TODO: All of this can be moved to a new method in `Fork`
-        updated_values: Dict[str, Any] = {
-            "withdrawals": None,
-            "parent_beacon_block_root": None,
+        assert self.env.timestamp >= 1, (
+            "genesis timestamp cannot be negative, set state test env.timestamp to at least 1"
+        )
+        # There's only a handful of values that we need to set in the genesis for the
+        # environment values at block 1 to make sense:
+        # - Number: Needs to be N minus 1
+        # - Timestamp: Needs to be zero, because the subsequent block can come at any time.
+        # - Gas Limit: Changes from parent to child, needs to be set in genesis
+        # - Base Fee Per Gas: Block's base fee depends on the parent's value
+        # - Excess Blob Gas: Block's excess blob gas value depends on the parent's value
+        kwargs: Dict[str, Any] = {
             "number": self.env.number - 1,
+            "timestamp": 0,
         }
+
+        if "gas_limit" in self.env.model_fields_set:
+            kwargs["gas_limit"] = self.env.gas_limit
+
+        if self.env.base_fee_per_gas:
+            # Calculate genesis base fee per gas from state test's block#1 env
+            kwargs["base_fee_per_gas"] = HexNumber(
+                int(int(str(self.env.base_fee_per_gas), 0) * 8 / 7)
+            )
+
         if self.env.excess_blob_gas:
             # The excess blob gas environment value means the value of the context (block header)
             # where the transaction is executed. In a blockchain test, we need to indirectly
             # set the excess blob gas by setting the excess blob gas of the genesis block
             # to the expected value plus the TARGET_BLOB_GAS_PER_BLOCK, which is the value
             # that will be subtracted from the excess blob gas when the first block is mined.
-            updated_values["excess_blob_gas"] = self.env.excess_blob_gas + (
+            kwargs["excess_blob_gas"] = self.env.excess_blob_gas + (
                 fork.target_blobs_per_block() * fork.blob_gas_per_blob()
             )
-        if self.env.base_fee_per_gas:
-            # Calculate genesis base fee per gas from state test's block#1 env
-            updated_values["base_fee_per_gas"] = HexNumber(
-                int(int(str(self.env.base_fee_per_gas), 0) * 8 / 7)
-            )
-        if fork.header_prev_randao_required():
-            # Set current random
-            updated_values["difficulty"] = None
-            updated_values["prev_randao"] = (
-                self.env.prev_randao if self.env.prev_randao is not None else self.env.difficulty
-            )
 
-        return self.env.copy(**updated_values)
+        return Environment(**kwargs)
 
     def _generate_blockchain_blocks(self, *, fork: Fork) -> List[Block]:
         """Generate the single block that represents this state test in a BlockchainTest format."""
@@ -138,6 +153,7 @@ class StateTest(BaseTest):
             "ommers": [],
             "header_verify": self.blockchain_test_header_verify,
             "rlp_modifier": self.blockchain_test_rlp_modifier,
+            "expected_block_access_list": self.expected_block_access_list,
         }
         if not fork.header_prev_randao_required():
             kwargs["difficulty"] = self.env.difficulty
@@ -169,11 +185,6 @@ class StateTest(BaseTest):
 
         env = self.env.set_fork_requirements(fork)
         tx = self.tx.with_signature_and_sender(keep_secret_key=True)
-        if not self.is_tx_gas_heavy_test() and tx.gas_limit >= Environment().gas_limit:
-            warnings.warn(
-                f"{self.node_id()} uses a high Transaction gas_limit: {tx.gas_limit}",
-                stacklevel=2,
-            )
         pre_alloc = Alloc.merge(
             Alloc.model_validate(fork.pre_allocation()),
             self.pre,
@@ -214,6 +225,18 @@ class StateTest(BaseTest):
             pprint(transition_tool_output.alloc)
             raise e
 
+        if self._operation_mode == OpMode.BENCHMARKING:
+            expected_benchmark_gas_used = self.expected_benchmark_gas_used
+            gas_used = int(transition_tool_output.result.gas_used)
+            assert expected_benchmark_gas_used is not None, (
+                "expected_benchmark_gas_used is not set"
+            )
+            assert gas_used == expected_benchmark_gas_used, (
+                f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
+                f"({expected_benchmark_gas_used})"
+                f", difference: {gas_used - expected_benchmark_gas_used}"
+            )
+
         return StateFixture(
             env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
             pre=pre_alloc,
@@ -237,7 +260,7 @@ class StateTest(BaseTest):
 
     def get_genesis_environment(self, fork: Fork) -> Environment:
         """Get the genesis environment for pre-allocation groups."""
-        return self._generate_blockchain_genesis_environment(fork=fork)
+        return self.generate_blockchain_test(fork=fork).get_genesis_environment(fork=fork)
 
     def generate(
         self,

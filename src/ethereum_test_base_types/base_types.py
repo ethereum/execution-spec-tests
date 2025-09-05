@@ -350,6 +350,12 @@ class FixedSizeBytes(Bytes):
         )
 
 
+class ForkHash(FixedSizeBytes[4]):  # type: ignore
+    """Class that helps represent the CRC config hashes and identifiers of a fork."""
+
+    pass
+
+
 class Address(FixedSizeBytes[20]):  # type: ignore
     """Class that helps represent Ethereum addresses in tests."""
 
@@ -375,6 +381,20 @@ class Hash(FixedSizeBytes[32]):  # type: ignore
     """Class that helps represent hashes in tests."""
 
     pass
+
+
+class StorageKey(FixedSizeBytes[32]):  # type: ignore
+    """
+    Storage key type that automatically applies left padding for values shorter
+    than 32 bytes.
+    """
+
+    def __new__(cls, value, **kwargs):
+        """Create a new StorageKey with automatic left padding."""
+        # Always apply left_padding for storage keys unless explicitly set to False
+        if "left_padding" not in kwargs:
+            kwargs["left_padding"] = True
+        return super().__new__(cls, value, **kwargs)
 
 
 class Bloom(FixedSizeBytes[256]):  # type: ignore

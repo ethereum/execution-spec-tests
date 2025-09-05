@@ -13,6 +13,7 @@ from ethereum_test_tools import (
     Address,
     Alloc,
     AuthorizationTuple,
+    ChainConfig,
     Transaction,
     TransactionException,
     TransactionTestFiller,
@@ -93,6 +94,7 @@ def test_empty_authorization_list(
     ],
 )
 def test_invalid_auth_signature(
+    chain_config: ChainConfig,
     transaction_test: TransactionTestFiller,
     pre: Alloc,
     v: int,
@@ -109,7 +111,7 @@ def test_invalid_auth_signature(
             AuthorizationTuple(
                 address=delegate_address,
                 nonce=0,
-                chain_id=1,
+                chain_id=chain_config.chain_id,
                 v=v,
                 r=r,
                 s=s,
