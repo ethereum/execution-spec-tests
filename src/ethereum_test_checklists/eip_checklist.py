@@ -386,6 +386,11 @@ class EIPChecklist:
 
                     pass
 
+                class ExtraGas(ChecklistItem):
+                    """Extra gas usage tests."""
+
+                    pass
+
                 class OrderOfOperations(ChecklistItem):
                     """Order of operations tests."""
 

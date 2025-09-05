@@ -138,6 +138,7 @@ class EIPChecklist:
                 Invalid: _CallableChecklistItem
 
             class GasUsage(_CallableChecklistItem):
+                ExtraGas: _CallableChecklistItem
                 MemoryExpansion: _CallableChecklistItem
                 Normal: _CallableChecklistItem
                 OutOfGasExecution: _CallableChecklistItem
