@@ -20,3 +20,8 @@ bal:
   evm-type: develop
   fill-params: --fork=Amsterdam ./tests/eest/amsterdam/eip7928_block_level_access_lists
   feature_only: true
+
+weld_test:
+  evm-type: develop
+  fill-params: --fork=Osaka ./tests/eest/osaka
+  feature_only: true
