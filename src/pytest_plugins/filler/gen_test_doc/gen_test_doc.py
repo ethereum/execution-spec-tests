@@ -423,6 +423,8 @@ class TestDocsGenerator:
                 ]
             )
 
+            is_benchmark = items[0].get_closest_marker("benchmark") is not None
+
             self.function_page_props[function_id] = FunctionPageProps(
                 title=get_test_function_name(items[0]),
                 source_code_url=source_url,
@@ -437,6 +439,7 @@ class TestDocsGenerator:
                 docstring_one_liner=get_docstring_one_liner(items[0]),
                 html_static_page_target=f"./{get_test_function_name(items[0])}.html",
                 mkdocs_function_page_target=f"./{get_test_function_name(items[0])}/",
+                is_benchmark=is_benchmark,
             )
 
     def create_module_page_props(self) -> None:
@@ -451,6 +454,7 @@ class TestDocsGenerator:
                     path=module_path,
                     pytest_node_id=str(module_path),
                     package_name=get_import_path(module_path),
+                    is_benchmark=function_page.is_benchmark,
                     test_functions=[
                         TestFunction(
                             name=function_page.title,
@@ -462,6 +466,8 @@ class TestDocsGenerator:
                 )
             else:
                 existing_module_page = self.module_page_props[str(function_page.path)]
+                if function_page.is_benchmark:
+                    existing_module_page.is_benchmark = True
                 existing_module_page.test_functions.append(
                     TestFunction(
                         name=function_page.title,
@@ -493,6 +499,13 @@ class TestDocsGenerator:
                 fork = self.target_fork
             else:
                 fork = directory_fork_name
+
+            is_benchmark = any(
+                module_page.is_benchmark
+                for module_page in self.module_page_props.values()
+                if module_page.path.parent == directory
+            )
+
             self.page_props[str(directory)] = DirectoryPageProps(
                 title=sanitize_string_title(str(directory.name)),
                 path=directory,
@@ -500,8 +513,9 @@ class TestDocsGenerator:
                 source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
                 # TODO: This won't work in all cases; should be from the development fork
                 # Currently breaks for `tests/unscheduled/eip7692_eof_v1/index.md`  # noqa: SC100
-                target_or_valid_fork=fork.capitalize(),
+                target_or_valid_fork=fork.capitalize() if fork else "Unknown",
                 package_name=get_import_path(directory),  # init.py will be used for docstrings
+                is_benchmark=is_benchmark,
             )
 
     def find_files_within_collection_scope(self, file_pattern: str) -> List[Path]:

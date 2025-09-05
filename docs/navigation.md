@@ -15,6 +15,7 @@
       * [Adding a New Test](writing_tests/adding_a_new_test.md)
       * [Types of Test](writing_tests/types_of_tests.md)
       * [Writing a New Test](writing_tests/writing_a_new_test.md)
+      * [Benchmarks](writing_tests/benchmarks.md)
       * [Test Markers](writing_tests/test_markers.md)
       * [Verifying Changes Locally](writing_tests/verifying_changes.md)
       * [Code Standards](writing_tests/code_standards.md)
