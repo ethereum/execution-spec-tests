@@ -19,7 +19,7 @@ runs:
         version: ${{ inputs.uv_version }}
         python-version: ${{ inputs.python_version }}
     - name: Checkout EELS (execution-specs)
-      uses: actions/checkout@0a6d9732fcaf8cd04d47a9cbdd5c0bd2ce4bd540
+      uses: actions/checkout@011bd71901bbe5b1630ceea73d27597364c9af683
       with:
         repository: ethereum/execution-specs
         path: execution-specs
