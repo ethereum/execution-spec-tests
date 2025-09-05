@@ -12,7 +12,7 @@ jobs:
     outputs:
       features: ${{ steps.parse.outputs.features }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@0a6d9732fcaf8cd04d47a9cbdd5c0bd2ce4bd540
       - name: Get names from .github/configs/feature.yaml
         id: parse
         shell: bash
@@ -35,7 +35,7 @@ jobs:
       matrix:
         name: ${{ fromJson(needs.features.outputs.features) }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@0a6d9732fcaf8cd04d47a9cbdd5c0bd2ce4bd540
         with:
           submodules: true
       - name: Fetch lllc

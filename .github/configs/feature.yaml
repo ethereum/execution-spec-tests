@@ -1,11 +1,11 @@
 # Unless filling for special features, all features should fill for previous forks (starting from Frontier) too
 stable:
   evm-type: stable
-  fill-params: --until=Prague --fill-static-tests ./tests/eest --ignore=tests/eest/static/state_tests/stQuadraticComplexityTest
+  fill-params: --until=Prague --fill-static-tests --ignore=tests/eest/static/state_tests/stQuadraticComplexityTest ./tests/eest 
 
 develop:
   evm-type: develop 
-  fill-params: --until=BPO4 --fill-static-tests ./tests/eest --ignore=tests/eest/static/state_tests/stQuadraticComplexityTest
+  fill-params: --until=BPO4 --fill-static-tests --ignore=tests/eest/static/state_tests/stQuadraticComplexityTest ./tests/eest 
 
 benchmark:
   evm-type: benchmark # Evmone only fully supports up to Prague
