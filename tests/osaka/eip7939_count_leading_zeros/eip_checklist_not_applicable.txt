@@ -21,6 +21,7 @@ opcode/test/execution_context/delegatecall/balance = CLZ does not modify balance
 opcode/test/execution_context/delegatecall/code = CLZ does not modify code
 opcode/test/execution_context/tx_context = CLZ does not change behavior depending on transaction property
 opcode/test/execution_context/block_context = CLZ does not change behavior depending on block property
+opcode/test/execution_context/initcode/reentry = CLZ is not a stateful opcode
 opcode/test/gas_usage/memory_expansion = no memory read/write for CLZ
 opcode/test/gas_usage/out_of_gas_memory = no memory read/write for CLZ
 opcode/test/gas_usage/order_of_operations = the order will not affect result of CLZ
