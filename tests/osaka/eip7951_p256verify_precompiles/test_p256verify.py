@@ -6,6 +6,7 @@ abstract: Tests [EIP-7951: Precompile for secp256r1 Curve Support](https://eips.
 import pytest
 
 from ethereum_test_tools import (
+    Address,
     Alloc,
     Environment,
     StateTestFiller,
@@ -35,6 +36,7 @@ pytestmark = [
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.eip_checklist("precompile/test/call_contexts/normal")
 @pytest.mark.eip_checklist("precompile/test/inputs/valid")
+@pytest.mark.eip_checklist("precompile/test/inputs/max_values")
 def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
@@ -197,6 +199,8 @@ def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transact
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/correct")
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/too_short")
 @pytest.mark.eip_checklist("precompile/test/input_lengths/static/too_long")
+@pytest.mark.eip_checklist("precompile/test/out_of_bounds/max")
+@pytest.mark.eip_checklist("precompile/test/out_of_bounds/max_plus_one")
 def test_invalid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Negative tests for the P256VERIFY precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
@@ -298,6 +302,39 @@ def test_precompile_as_tx_entry_point(
 
 
 @pytest.mark.parametrize(
+    "input_data,call_contract_address,expected_output",
+    [
+        pytest.param(
+            Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
+            Spec.P256VERIFY,
+            Spec.SUCCESS_RETURN_VALUE,
+            id="valid_input_with_value_transfer",
+        ),
+    ],
+)
+@pytest.mark.eip_checklist("precompile/test/value_transfer/no_fee")
+def test_precompile_will_return_success_with_tx_value(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    post: dict,
+    tx: Transaction,
+    call_contract_address: Address,
+    input_data: bytes,
+    expected_output: bytes,
+):
+    """Test P256Verify precompile will not fail if value is sent."""
+    sender = pre.fund_eoa()
+    tx = Transaction(
+        sender=sender,
+        gas_limit=1000000,
+        to=call_contract_address,
+        value=1000,
+        data=input_data,
+    )
+    state_test(env=Environment(), pre=pre, post=post, tx=tx)
+
+
+@pytest.mark.parametrize(
     "input_data,expected_output",
     [
         # Test case where computed x-coordinate exceeds curve order N
@@ -363,6 +400,7 @@ def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict,
     ],
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
+@pytest.mark.eip_checklist("precompile/test/call_contexts/initcode/tx")
 def test_contract_creation_transaction(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -426,6 +464,7 @@ def test_contract_creation_transaction(
 )
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.parametrize("opcode", [Op.CREATE, Op.CREATE2])
+@pytest.mark.eip_checklist("precompile/test/call_contexts/initcode/CREATE")
 def test_contract_initcode(
     state_test: StateTestFiller,
     pre: Alloc,

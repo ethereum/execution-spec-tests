@@ -2588,7 +2588,7 @@ def test_set_code_to_log(
 
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.with_all_precompiles
-@pytest.mark.eip_checklist("precompile/test/call_contexts/set_code", eips=[7951, 7883])
+@pytest.mark.eip_checklist("precompile/test/call_contexts/set_code", eip=[7951, 7883])
 def test_set_code_to_precompile(
     state_test: StateTestFiller,
     pre: Alloc,
