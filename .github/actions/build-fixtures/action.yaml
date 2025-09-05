@@ -43,7 +43,13 @@ runs:
       shell: bash
       run: |
         cd execution-specs
-        uv run fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=../fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
+        if [ "${{ steps.evm-builder.outputs.impl }}" = "eels" ]; then
+          # When using EELS directly from execution-specs, don't specify an external binary
+          uv run fill ${{ steps.properties.outputs.fill-params }} --output=../fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
+        else
+          # Use external EVM binary
+          uv run fill -n ${{ steps.evm-builder.outputs.x-dist }} --evm-bin=${{ steps.evm-builder.outputs.evm-bin }} ${{ steps.properties.outputs.fill-params }} --output=../fixtures_${{ inputs.release_name }}.tar.gz --build-name ${{ inputs.release_name }}
+        fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
         name: fixtures_${{ inputs.release_name }}
