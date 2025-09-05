@@ -25,6 +25,10 @@ from ethereum_test_exceptions import (
 from ethereum_test_fixtures import BaseFixture, FixtureCollector
 from ethereum_test_specs import (
     BaseTest,
+    BenchmarkStateTest,
+    BenchmarkStateTestFiller,
+    BenchmarkTest,
+    BenchmarkTestFiller,
     BlobsTest,
     BlobsTestFiller,
     BlockchainTest,
@@ -82,6 +86,11 @@ from ethereum_test_vm import (
     call_return_code,
 )
 
+from .benchmark_code_generator import (
+    BenchmarkCodeGenerator,
+    ExtCallGenerator,
+    JumpLoopGenerator,
+)
 from .code import (
     CalldataCase,
     Case,
@@ -112,6 +121,11 @@ __all__ = (
     "BalStorageSlot",
     "BaseFixture",
     "BaseTest",
+    "BenchmarkCodeGenerator",
+    "BenchmarkTest",
+    "BenchmarkTestFiller",
+    "BenchmarkStateTest",
+    "BenchmarkStateTestFiller",
     "Blob",
     "BlockAccessList",
     "BlobsTest",
@@ -128,6 +142,7 @@ __all__ = (
     "CodeGasMeasure",
     "Conditional",
     "ConsolidationRequest",
+    "ExtCallGenerator",
     "DeploymentTestType",
     "DepositRequest",
     "EngineAPIError",
@@ -143,6 +158,7 @@ __all__ = (
     "Hash",
     "Header",
     "Initcode",
+    "JumpLoopGenerator",
     "Macro",
     "Macros",
     "NetworkWrappedTransaction",
