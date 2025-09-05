@@ -36,6 +36,7 @@ pytestmark = [
 @pytest.mark.parametrize("precompile_address", [Spec.P256VERIFY], ids=[""])
 @pytest.mark.eip_checklist("precompile/test/call_contexts/normal")
 @pytest.mark.eip_checklist("precompile/test/inputs/valid")
+@pytest.mark.eip_checklist("precompile/test/inputs/max_values")
 def test_valid(state_test: StateTestFiller, pre: Alloc, post: dict, tx: Transaction):
     """Test P256Verify precompile."""
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
