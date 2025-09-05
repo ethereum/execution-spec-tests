@@ -1,24 +1,10 @@
 # /// script
-
-
 # requires-python = ">=3.12"
-
-
 # dependencies = [
-
-
 #     "pyyaml",
-
-
 #     "click",
-
-
 # ]
-
-
 # ///
-
-
 """Extract the properties of a configured EEST release from a YAML file."""
 
 import sys
@@ -38,7 +24,6 @@ def get_release_props(release):
 
     if release not in data:
         print(f"Error: Release {release} not found in {RELEASE_PROPS_FILE}.")
-
         sys.exit(1)
 
     print("\n".join(f"{key}={value}" for key, value in data[release].items()))
