@@ -27269,13 +27269,20 @@
 <span class="nt">COMPOUND_COMPTROLLER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B</span>
 </code></pre></div>
 <h3 id="how-address-stubs-work">How Address Stubs Work<a class="headerlink" href="#how-address-stubs-work" title="Permanent link">&para;</a></h3>
-<p>When a test uses a contract label that matches a key in the address stubs, the test framework will:</p>
+<p>When a test deploys a contract using <code>pre.deploy_contract(..., stub="NAME")</code> and the stub name matches a key in the address stubs, the test framework will:</p>
 <ol>
 <li>Use the pre-deployed contract at the specified address instead of deploying a new contract</li>
 <li>Skip the contract deployment transaction, saving gas and time</li>
 <li>Use the existing contract's code and state for the test</li>
 </ol>
 <p>This is particularly useful when testing interactions with well-known contracts that are expensive to deploy or when you want to test against the actual deployed versions of contracts.</p>
+<p>If the address is <em>not</em> present in the stubbed addresses list, the test will fail to execute.</p>
+<p>If the address contained in the stubbed addresses list does not contain code on the remote chain, the test will fail.</p>
+<p>The pre-alloc will be populated with live information from the chain, so the following lines will result in up-to-date information:</p>
+<div class="highlight"><pre><span></span><code><span class="n">my_stubbed_contract</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">stub</span><span class="o">=</span><span class="s2">&quot;uniswap&quot;</span><span class="p">)</span>
+<span class="n">pre</span><span class="p">[</span><span class="n">my_stubbed_contract</span><span class="p">]</span><span class="o">.</span><span class="n">nonce</span>  <span class="c1"># Actual nonce of the contract on chain</span>
+<span class="n">pre</span><span class="p">[</span><span class="n">my_stubbed_contract</span><span class="p">]</span><span class="o">.</span><span class="n">balance</span>  <span class="c1"># Actual balance of the contract on chain</span>
+</code></pre></div>
 <h3 id="bloat-net-testing">Bloat-net Testing<a class="headerlink" href="#bloat-net-testing" title="Permanent link">&para;</a></h3>
 <p>Address stubs are especially valuable when testing on <strong>bloat-net</strong>, a specialized network that contains pre-existing contracts with extensive storage history. On bloat-net:</p>
 <ul>
