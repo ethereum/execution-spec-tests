@@ -335,6 +335,12 @@ class BaseFork(ABC, metaclass=BaseForkMeta):
 
     @classmethod
     @abstractmethod
+    def max_refund_quotient(cls) -> int:
+        """Return the max refund quotient at a given fork."""
+        pass
+
+    @classmethod
+    @abstractmethod
     def transaction_data_floor_cost_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionDataFloorCostCalculator:
