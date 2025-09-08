@@ -218,7 +218,7 @@ class Alloc(BaseAlloc):
         address: Address | None = None,
         evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
-        stub_name: str | None = None,
+        stub: str | None = None,
     ) -> Address:
         """Deploy a contract to the allocation."""
         if storage is None:
@@ -228,13 +228,13 @@ class Alloc(BaseAlloc):
         if not isinstance(storage, Storage):
             storage = Storage(storage)  # type: ignore
 
-        if stub_name is not None and self._address_stubs is not None:
-            if stub_name not in self._address_stubs:
-                raise ValueError(f"Stub name {stub_name} not found in address stubs")
-            contract_address = self._address_stubs[stub_name]
+        if stub is not None and self._address_stubs is not None:
+            if stub not in self._address_stubs:
+                raise ValueError(f"Stub name {stub} not found in address stubs")
+            contract_address = self._address_stubs[stub]
             code = self._eth_rpc.get_code(contract_address)
             if code == b"":
-                raise ValueError(f"Stub {stub_name} at {contract_address} has no code")
+                raise ValueError(f"Stub {stub} at {contract_address} has no code")
             balance = self._eth_rpc.get_balance(contract_address)
             nonce = self._eth_rpc.get_transaction_count(contract_address)
             super().__setitem__(

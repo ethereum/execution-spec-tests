@@ -107,7 +107,7 @@ COMPOUND_COMPTROLLER: 0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B
 
 ### How Address Stubs Work
 
-When a test deploys a contract using `pre.deploy_contract(..., stub_name="NAME")` and the stub name matches a key in the address stubs, the test framework will:
+When a test deploys a contract using `pre.deploy_contract(..., stub="NAME")` and the stub name matches a key in the address stubs, the test framework will:
 
 1. Use the pre-deployed contract at the specified address instead of deploying a new contract
 2. Skip the contract deployment transaction, saving gas and time
@@ -122,7 +122,7 @@ If the address contained in the stubbed addresses list does not contain code on 
 The pre-alloc will be populated with live information from the chain, so the following lines will result in up-to-date information:
 
 ```python
-my_stubbed_contract = pre.deploy_contract(code, stub_name="uniswap")
+my_stubbed_contract = pre.deploy_contract(code, stub="uniswap")
 pre[my_stubbed_contract].nonce  # Actual nonce of the contract on chain
 pre[my_stubbed_contract].balance  # Actual balance of the contract on chain
 ```
