@@ -137,6 +137,23 @@ def pytest_configure(config: pytest.Config):
         "verify_sync: Marks a test to be run with `consume sync`, verifying blockchain "
         "engine tests and having hive clients sync after payload execution.",
     )
+    config.addinivalue_line(
+        "markers",
+        "pre_alloc_group: Control shared pre-allocation grouping (use "
+        '"separate" for isolated group or custom string for named groups)',
+    )
+    config.addinivalue_line(
+        "markers",
+        "pre_alloc_modify: Marks a test to apply plugin-specific pre_alloc_group modifiers",
+    )
+    config.addinivalue_line(
+        "markers",
+        "slow: Marks a test as slow (deselect with '-m \"not slow\"')",
+    )
+    config.addinivalue_line(
+        "markers",
+        "ported_from: Marks a test as ported from ethereum/tests",
+    )
 
 
 @pytest.fixture(scope="function")
