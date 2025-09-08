@@ -119,15 +119,6 @@ def pytest_addoption(parser):
         type=int,
         help="The default amount of wei to fund each EOA in each test with.",
     )
-    pre_alloc_group.addoption(
-        "--address-stubs",
-        action="store",
-        dest="address_stubs",
-        default=AddressStubs(root={}),
-        type=AddressStubs.model_validate_json_or_file,
-        help="The address stubs for contracts that have already been placed in the chain and to "
-        "use for the test. Can be a JSON formatted string or a path to a YAML or JSON file.",
-    )
 
 
 @pytest.hookimpl(trylast=True)
@@ -143,9 +134,13 @@ def pytest_report_header(config):
 
 
 @pytest.fixture(scope="session")
-def address_stubs(request) -> AddressStubs:
-    """Return an address stubs object."""
-    return request.config.getoption("address_stubs")
+def address_stubs(request) -> AddressStubs | None:
+    """
+    Return an address stubs object.
+
+    If the address stubs are not supported by the subcommand, return None.
+    """
+    return request.config.getoption("address_stubs", None)
 
 
 @pytest.fixture(scope="session")
@@ -223,6 +218,7 @@ class Alloc(BaseAlloc):
         address: Address | None = None,
         evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
+        stub: str | None = None,
     ) -> Address:
         """Deploy a contract to the allocation."""
         if storage is None:
@@ -232,8 +228,24 @@ class Alloc(BaseAlloc):
         if not isinstance(storage, Storage):
             storage = Storage(storage)  # type: ignore
 
-        if label and label in self._address_stubs:
-            return self._address_stubs[label]
+        if stub is not None and self._address_stubs is not None:
+            if stub not in self._address_stubs:
+                raise ValueError(f"Stub name {stub} not found in address stubs")
+            contract_address = self._address_stubs[stub]
+            code = self._eth_rpc.get_code(contract_address)
+            if code == b"":
+                raise ValueError(f"Stub {stub} at {contract_address} has no code")
+            balance = self._eth_rpc.get_balance(contract_address)
+            nonce = self._eth_rpc.get_transaction_count(contract_address)
+            super().__setitem__(
+                contract_address,
+                Account(
+                    nonce=nonce,
+                    balance=balance,
+                    code=code,
+                    storage={},
+                ),
+            )
 
         initcode_prefix = Bytecode()
 
@@ -509,7 +521,7 @@ def pre(
     chain_config: ChainConfig,
     eoa_fund_amount_default: int,
     default_gas_price: int,
-    address_stubs: AddressStubs,
+    address_stubs: AddressStubs | None,
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""

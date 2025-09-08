@@ -142,6 +142,7 @@ class Alloc(BaseAlloc):
         address: Address | None = None,
         evm_code_type: EVMCodeType | None = None,
         label: str | None = None,
+        stub: str | None = None,
     ) -> Address:
         """
         Deploy a contract to the allocation.
