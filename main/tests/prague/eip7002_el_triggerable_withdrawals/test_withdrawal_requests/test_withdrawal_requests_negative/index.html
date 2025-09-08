@@ -805,6 +805,8 @@
       
         
       
+        
+      
     
     
     
@@ -907,6 +909,29 @@
   
   <span class="md-ellipsis">
     Writing a New Test
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../writing_tests/benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Benchmarks
     
   </span>
   
@@ -1104,7 +1129,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_12" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_13" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -1121,14 +1146,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_12" id="__nav_3_12_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_13" id="__nav_3_13_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_12_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_12">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_13">
             <span class="md-nav__icon md-icon"></span>
             Testing Checklist Templates
           </label>
@@ -27035,7 +27060,7 @@
 
 
 <h1 id="test_withdrawal_requests_negative"><code>test_withdrawal_requests_negative()</code><a class="headerlink" href="#test_withdrawal_requests_negative" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/6b273bd9755201cd16db521d43ebf5d4bb166e46/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py#L648"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py::test_withdrawal_requests_negative@6b273bd9</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/b3624b5bfd7084a2d9846c692c7c2e29b10e72be/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py#L648"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py::test_withdrawal_requests_negative@b3624b5b</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests.py::test_withdrawal_requests_negative --fork Osaka</span>
@@ -27531,7 +27556,7 @@ block's transactions do not match.</p>
                 </abbr>
             </td>
                         <td>[]</td>
-                        <td>[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -27541,7 +27566,7 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-single_withdrawal_request_empty_requests_list
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
                         <td>[]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
@@ -27552,8 +27577,8 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-single_withdrawal_request_public_key_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -27563,8 +27588,8 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-single_withdrawal_request_amount_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=1, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=1, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -27574,8 +27599,8 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-single_withdrawal_request_source_address_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\x8a\n\x19X\x951iBP\xd5p\x04\n\x0cKtWi\x19\xb8', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\x8a\n\x19X\x951iBP\xd5p\x04\n\x0cKtWi\x19\xb8', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -27585,8 +27610,8 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-two_withdrawal_requests_out_of_order
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -27596,8 +27621,8 @@ block's transactions do not match.</p>
                     ...fork_Prague-blockchain_test-single_withdrawal_requests_duplicate_in_requests_list
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27608,7 +27633,7 @@ block's transactions do not match.</p>
                 </abbr>
             </td>
                         <td>[]</td>
-                        <td>[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27618,7 +27643,7 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-single_withdrawal_request_empty_requests_list
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
                         <td>[]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
@@ -27629,8 +27654,8 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-single_withdrawal_request_public_key_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27640,8 +27665,8 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-single_withdrawal_request_amount_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=1, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=1, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27651,8 +27676,8 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-single_withdrawal_request_source_address_mismatch
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\x8a\n\x19X\x951iBP\xd5p\x04\n\x0cKtWi\x19\xb8', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\x8a\n\x19X\x951iBP\xd5p\x04\n\x0cKtWi\x19\xb8', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27662,8 +27687,8 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-two_withdrawal_requests_out_of_order
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -27673,8 +27698,8 @@ block's transactions do not match.</p>
                     ...fork_Osaka-blockchain_test-single_withdrawal_requests_duplicate_in_requests_list
                 </abbr>
             </td>
-                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)])]</td>
-                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f5c01d90c20>)]</td>
+                        <td>[WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)])]</td>
+                        <td>[WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>), WithdrawalRequest(source_address=b'\xa9OSt\xfc\xe5\xed\xbc\x8e*\x86\x97\xc1S1g~n\xbf\x0b', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=0, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7fa768a98900>)]</td>
                         <td>BlockException.INVALID_REQUESTS</td>
                     </tr>
             </tbody>
