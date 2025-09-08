@@ -39,7 +39,7 @@ class EthrexExceptionMapper(ExceptionMapper):
             r"blob gas used \d+ exceeds maximum allowance \d+"
         ),
         TransactionException.GAS_ALLOWANCE_EXCEEDED: (
-            r"Gas used doesn't match value in header. Used: \d+, Expected: \d+"
+            r"Gas allowance exceeded. Block gas limit: \d+, transaction gas limit: \d+"
         ),
         TransactionException.TYPE_3_TX_ZERO_BLOBS: (
             r"blob transactions present in pre-cancun payload|empty blobs|"
