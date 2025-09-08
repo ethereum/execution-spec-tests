@@ -12,6 +12,8 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 #### `fill`
 
+- Move pytest marker registration for `fill` and `execute-*` from their respective ini files to the shared `pytest_plugins.shared.execute_fill` pytest plugin ([#2110](https://github.com/ethereum/execution-spec-tests/pull/2110)).
+
 #### `consume`
 
 ### 📋 Misc
