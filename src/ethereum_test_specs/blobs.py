@@ -4,6 +4,7 @@ from typing import Callable, ClassVar, Generator, List, Sequence, Type
 
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import Alloc
+from ethereum_test_base_types.base_types import Hash
 from ethereum_test_execution import BaseExecute, BlobTransaction
 from ethereum_test_fixtures import (
     BaseFixture,
@@ -20,6 +21,7 @@ class BlobsTest(BaseTest):
 
     pre: Alloc
     txs: List[NetworkWrappedTransaction | Transaction]
+    nonexisting_blob_hashes: List[Hash] | None = None
 
     supported_execute_formats: ClassVar[Sequence[LabeledExecuteFormat]] = [
         LabeledExecuteFormat(
@@ -48,7 +50,7 @@ class BlobsTest(BaseTest):
         """Generate the list of test fixtures."""
         if execute_format == BlobTransaction:
             return BlobTransaction(
-                txs=self.txs,
+                txs=self.txs, nonexisting_blob_hashes=self.nonexisting_blob_hashes
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
 

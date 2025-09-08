@@ -2,6 +2,7 @@
 
 import json
 import re
+import shlex
 import shutil
 import subprocess
 import textwrap
@@ -52,7 +53,7 @@ class GethExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_PRE_FORK: ("transaction type not supported"),
         TransactionException.TYPE_3_TX_INVALID_BLOB_VERSIONED_HASH: "has invalid hash version",
         # This message is the same as TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "exceed maximum allowance",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "blob transaction has too many blobs",
         TransactionException.TYPE_3_TX_ZERO_BLOBS: "blob transaction missing blob hashes",
         TransactionException.TYPE_3_TX_WITH_FULL_BLOBS: (
             "unexpected blob sidecar in transaction at index"
@@ -96,6 +97,7 @@ class GethEvm(EthereumCLI):
     default_binary = Path("evm")
     detect_binary_pattern = re.compile(r"^evm(.exe)? version\b")
     cached_version: Optional[str] = None
+    trace: bool
 
     def __init__(
         self,
@@ -124,8 +126,19 @@ class GethEvm(EthereumCLI):
         fixture_path: Path,
         debug_output_path: Path,
     ):
-        debug_fixture_path = debug_output_path / "fixtures.json"
-        consume_direct_call = " ".join(command[:-1]) + f" {debug_fixture_path}"
+        # our assumption is that each command element is a string
+        assert all(isinstance(x, str) for x in command), (
+            f"Not all elements of 'command' list are strings: {command}"
+        )
+        assert len(command) > 0
+
+        # replace last value with debug fixture path
+        debug_fixture_path = str(debug_output_path / "fixtures.json")
+        command[-1] = debug_fixture_path
+
+        # ensure that flags with spaces are wrapped in double-quotes
+        consume_direct_call = " ".join(shlex.quote(arg) for arg in command)
+
         consume_direct_script = textwrap.dedent(
             f"""\
             #!/bin/bash
@@ -172,7 +185,9 @@ class GethTransitionTool(GethEvm, TransitionTool):
         if not exception_mapper:
             exception_mapper = GethExceptionMapper()
         GethEvm.__init__(self, binary=binary, trace=trace)
-        TransitionTool.__init__(self, binary=binary, exception_mapper=exception_mapper)
+        TransitionTool.__init__(
+            self, binary=binary, exception_mapper=exception_mapper, trace=trace
+        )
         help_command = [str(self.binary), str(self.subcommand), "--help"]
         result = self._run_command(help_command)
         self.help_string = result.stdout

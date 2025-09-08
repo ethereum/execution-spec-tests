@@ -12,8 +12,20 @@ WORKSPACE_PATH="${2:-$GITHUB_WORKSPACE}"
 
 echo "Changed or new test files: $CHANGED_TEST_FILES"
 
-# Extract ported_from markers
-uv run fill $CHANGED_TEST_FILES --show-ported-from --clean --quiet --links-as-filled --skip-coverage-missed-reason --ported-from-output-file ported_from_files.txt
+FILTERED_FILES=""
+for file in $CHANGED_TEST_FILES; do
+    if git diff origin/main -- "$file" | grep -q "^+.*@pytest.mark.ported_from"; then
+        FILTERED_FILES="$FILTERED_FILES $file"
+    fi
+done
+
+if [[ -z "$FILTERED_FILES" ]]; then
+    echo "No new ported_from markers found."
+    echo "any_ported=false" >> "$GITHUB_OUTPUT"
+    exit 0
+fi
+
+uv run fill $FILTERED_FILES --show-ported-from --clean --quiet --links-as-filled --skip-coverage-missed-reason --ported-from-output-file ported_from_files.txt
 files=$(cat ported_from_files.txt)
 echo "Extracted converted tests:"
 echo "$files"

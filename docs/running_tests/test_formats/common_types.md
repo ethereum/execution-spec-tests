@@ -86,6 +86,10 @@ State allocation represented as a JSON object, where the keys are the addresses 
 
 Maps forks to blob schedule configurations as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840).
 
+### `Environment`
+
+Contains blockchain-related configuration that provides the context in which a test is run.
+
 ### `ForkBlobSchedule`
 
 A fork blob schedule as defined by [EIP-7840](https://eips.ethereum.org/EIPS/eip-7840) as a JSON dictionary with the following entries:

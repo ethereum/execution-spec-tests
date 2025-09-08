@@ -1,20 +1,37 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
-import warnings
+from enum import StrEnum, unique
 from typing import List
 
 import pytest
 
 from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
-from ethereum_test_forks import (
-    Fork,
-    get_closest_fork_with_solc_support,
-    get_forks_with_solc_support,
-)
 from ethereum_test_specs import BaseTest
-from ethereum_test_tools import Yul
-from pytest_plugins.spec_version_checker.spec_version_checker import EIPSpecTestItem
+from ethereum_test_types import EOA, Alloc, ChainConfig
+
+from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
+
+
+@unique
+class OpMode(StrEnum):
+    """Operation mode for the fill and execute."""
+
+    CONSENSUS = "consensus"
+    BENCHMARKING = "benchmarking"
+
+
+ALL_FIXTURE_PARAMETERS = {
+    "genesis_environment",
+    "env",
+}
+"""
+List of test parameters that have a default fixture value which can be retrieved and used
+for the test instance if it was not explicitly specified when calling from the test
+function.
+
+All parameter names included in this list must define a fixture in one of the plugins.
+"""
 
 
 @pytest.hookimpl(tryfirst=True)
@@ -65,6 +82,9 @@ def pytest_configure(config: pytest.Config):
                 (f"{marker}: {description}"),
             )
 
+    if not hasattr(config, "op_mode"):
+        config.op_mode = OpMode.CONSENSUS  # type: ignore[attr-defined]
+
     config.addinivalue_line(
         "markers",
         "yul_test: a test case that compiles Yul code.",
@@ -100,49 +120,23 @@ def pytest_configure(config: pytest.Config):
         "derived_test: Mark a test as a derived test (E.g. a BlockchainTest that is derived "
         "from a StateTest).",
     )
-
-
-@pytest.fixture
-def yul(fork: Fork, request: pytest.FixtureRequest):
-    """
-    Fixture that allows contract code to be defined with Yul code.
-
-    This fixture defines a class that wraps the ::ethereum_test_tools.Yul
-    class so that upon instantiation within the test case, it provides the
-    test case's current fork parameter. The forks is then available for use
-    in solc's arguments for the Yul code compilation.
-
-    Test cases can override the default value by specifying a fixed version
-    with the @pytest.mark.compile_yul_with(FORK) marker.
-    """
-    solc_target_fork: Fork | None
-    marker = request.node.get_closest_marker("compile_yul_with")
-    assert hasattr(request.config, "solc_version"), "solc_version not set in pytest config."
-    if marker:
-        if not marker.args[0]:
-            pytest.fail(
-                f"{request.node.name}: Expected one argument in 'compile_yul_with' marker."
-            )
-        for fork in request.config.all_forks:  # type: ignore
-            if fork.name() == marker.args[0]:
-                solc_target_fork = fork
-                break
-        else:
-            pytest.fail(f"{request.node.name}: Fork {marker.args[0]} not found in forks list.")
-        assert solc_target_fork in get_forks_with_solc_support(request.config.solc_version)
-    else:
-        solc_target_fork = get_closest_fork_with_solc_support(fork, request.config.solc_version)
-        assert solc_target_fork is not None, "No fork supports provided solc version."
-        if solc_target_fork != fork and request.config.getoption("verbose") >= 1:
-            warnings.warn(
-                f"Compiling Yul for {solc_target_fork.name()}, not {fork.name()}.", stacklevel=2
-            )
-
-    class YulWrapper(Yul):
-        def __new__(cls, *args, **kwargs):
-            return super(YulWrapper, cls).__new__(cls, *args, **kwargs, fork=solc_target_fork)
-
-    return YulWrapper
+    config.addinivalue_line(
+        "markers",
+        "tagged: Marks a static test as tagged. Tags are used to generate dynamic "
+        "addresses for static tests at fill time. All tagged tests are compatible with "
+        "dynamic address generation.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "untagged: Marks a static test as untagged. Tags are used to generate dynamic "
+        "addresses for static tests at fill time. Untagged tests are incompatible with "
+        "dynamic address generation.",
+    )
+    config.addinivalue_line(
+        "markers",
+        "verify_sync: Marks a test to be run with `consume sync`, verifying blockchain "
+        "engine tests and having hive clients sync after payload execution.",
+    )
 
 
 @pytest.fixture(scope="function")
@@ -198,3 +192,28 @@ def pytest_runtest_call(item: pytest.Item):
             + "properly generate a test: "
             + ", ".join(SPEC_TYPES_PARAMETERS)
         )
+
+
+# Global `sender` fixture that can be overridden by tests.
+@pytest.fixture
+def sender(pre: Alloc) -> EOA:
+    """Fund an EOA from pre-alloc."""
+    return pre.fund_eoa()
+
+
+@pytest.fixture(scope="session")
+def chain_config() -> ChainConfig:
+    """Return chain configuration."""
+    return ChainConfig()
+
+
+def pytest_addoption(parser: pytest.Parser):
+    """Add command-line options to pytest."""
+    static_filler_group = parser.getgroup("static", "Arguments defining static filler behavior")
+    static_filler_group.addoption(
+        "--fill-static-tests",
+        action="store_true",
+        dest="fill_static_tests_enabled",
+        default=None,
+        help=("Enable reading and filling from static test files."),
+    )

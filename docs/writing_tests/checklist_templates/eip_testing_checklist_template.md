@@ -1165,3 +1165,42 @@ Verify tests in `tests/cancun/eip4844_blobs` were correctly and automatically up
 ### Framework Changes
 
 - Increment `max_request_type` in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py` to the new maximum request type number after the EIP is activated.
+
+## New Transaction-Validity Constraint
+
+### Test Vectors
+
+#### Fork transition
+
+| ID                                        | Description                                                                                                                               | Status | Tests |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `new_transaction_validity_constraint/test/fork_transition/accepted_before_fork` | Verify that a block before the activation fork is accepted even when the new constraint is not met. |        |       |
+| `new_transaction_validity_constraint/test/fork_transition/accepted_after_fork` | Verify that a block after the activation fork is accepted when the new validity constraint is met. |        |       |
+| `new_transaction_validity_constraint/test/fork_transition/rejected_after_fork` | Verify that a block after the activation fork is rejected when the new validity constraint is not met. |        |       |
+
+Note: All test cases must use off-by-one values to ensure proper boundary condition verification.
+
+### Framework Changes
+
+- Introduce the validity constraint as a fork method that returns:
+    - `None` for forks before its activation.
+    - A non-`None` value starting from the fork where the constraint becomes active.
+
+## Modified Transaction-Validity Constraint
+
+### Test Vectors
+
+#### Fork transition
+
+| ID                                        | Description                                                                                                                               | Status | Tests |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ------ | ----- |
+| `modified_transaction_validity_constraint/test/fork_transition/accepted_before_fork` | Verify that a block before the activation fork is accepted when the existing constraint is met and, ideally, the new constraint is not met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/rejected_before_fork` | Verify that a block before the activation fork is rejected when the existing constraint is not met and, ideally, the new constraint is met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/accepted_after_fork` | Verify that a block after the activation fork is accepted when the new validity constraint is met. |        |       |
+| `modified_transaction_validity_constraint/test/fork_transition/rejected_after_fork` | Verify that a block after the activation fork is rejected when the new validity constraint is not met. |        |       |
+
+Note: All test cases must use off-by-one values to ensure proper boundary condition verification.
+
+### Framework Changes
+
+- Update the validity constraint as a fork method that returns the updated value starting from the fork where the constraint changes.

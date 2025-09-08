@@ -4,11 +4,14 @@ from typing import Dict, cast
 
 import pytest
 from pydantic import BaseModel
-from semver import Version
 
 from ethereum_test_base_types import BlobSchedule
 
 from ..forks.forks import (
+    BPO1,
+    BPO2,
+    BPO3,
+    BPO4,
     Berlin,
     Cancun,
     Frontier,
@@ -22,28 +25,33 @@ from ..forks.forks import (
 )
 from ..forks.transition import (
     BerlinToLondonAt5,
+    BPO1ToBPO2AtTime15k,
+    BPO2ToBPO3AtTime15k,
+    BPO3ToBPO4AtTime15k,
     CancunToPragueAtTime15k,
+    OsakaToBPO1AtTime15k,
     ParisToShanghaiAtTime15k,
     PragueToOsakaAtTime15k,
     ShanghaiToCancunAtTime15k,
 )
 from ..helpers import (
     Fork,
+    ForkAdapter,
+    ForkOrNoneAdapter,
+    ForkSetAdapter,
     forks_from,
     forks_from_until,
-    get_closest_fork_with_solc_support,
     get_deployed_forks,
     get_forks,
-    get_forks_with_solc_support,
     transition_fork_from_to,
     transition_fork_to,
 )
 from ..transition_base_fork import transition_fork
 
 FIRST_DEPLOYED = Frontier
-LAST_DEPLOYED = Cancun
-LAST_DEVELOPMENT = Prague
-DEVELOPMENT_FORKS = [Prague]
+LAST_DEPLOYED = Prague
+LAST_DEVELOPMENT = Osaka
+DEVELOPMENT_FORKS = [Osaka]
 
 
 def test_transition_forks():
@@ -298,18 +306,6 @@ def test_tx_types():  # noqa: D103
     Cancun.tx_types() == list(range(4))  # noqa: B015
 
 
-def test_solc_versioning():  # noqa: D103
-    assert len(get_forks_with_solc_support(Version.parse("0.8.20"))) == 13
-    assert len(get_forks_with_solc_support(Version.parse("0.8.24"))) > 13
-
-
-def test_closest_fork_supported_by_solc():  # noqa: D103
-    assert get_closest_fork_with_solc_support(Paris, Version.parse("0.8.20")) == Paris
-    assert get_closest_fork_with_solc_support(Cancun, Version.parse("0.8.20")) == Shanghai
-    assert get_closest_fork_with_solc_support(Cancun, Version.parse("0.8.24")) == Cancun
-    assert get_closest_fork_with_solc_support(Prague, Version.parse("0.8.24")) == Cancun
-
-
 @pytest.mark.parametrize(
     "fork",
     [
@@ -487,3 +483,27 @@ def test_blob_schedules(fork: Fork, expected_schedule: Dict | None):
         assert fork.blob_schedule() is None
     else:
         assert fork.blob_schedule() == BlobSchedule(**expected_schedule)
+
+
+def test_bpo_fork():  # noqa: D103
+    assert Osaka.bpo_fork() is False
+    assert BPO1.bpo_fork() is True
+    assert BPO2.bpo_fork() is True
+    assert BPO3.bpo_fork() is True
+    assert BPO4.bpo_fork() is True
+    assert OsakaToBPO1AtTime15k.bpo_fork() is True
+    assert BPO1ToBPO2AtTime15k.bpo_fork() is True
+    assert BPO2ToBPO3AtTime15k.bpo_fork() is True
+    assert BPO3ToBPO4AtTime15k.bpo_fork() is True
+
+
+def test_fork_adapters():  # noqa: D103
+    assert Osaka == ForkAdapter.validate_python("Osaka")
+    assert Osaka == ForkOrNoneAdapter.validate_python("Osaka")
+    assert ForkOrNoneAdapter.validate_python(None) is None
+    assert {Osaka, Prague} == ForkSetAdapter.validate_python("Osaka, Prague")
+    assert {Osaka, Prague} == ForkSetAdapter.validate_python("osaka, Prague")
+    assert {Osaka, Prague} == ForkSetAdapter.validate_python({"osaka", "Prague"})
+    assert {Osaka} == ForkSetAdapter.validate_python("Osaka")
+    assert {Osaka} == ForkSetAdapter.validate_python({Osaka})
+    assert set() == ForkSetAdapter.validate_python("")

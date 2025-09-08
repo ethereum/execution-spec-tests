@@ -6,7 +6,7 @@ abstract: Test [EIP-7823: Set upper bounds for MODEXP](https://eips.ethereum.org
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Account, Alloc, Bytes, Environment, StateTestFiller, Transaction
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput, ModExpOutput
@@ -16,18 +16,14 @@ REFERENCE_SPEC_GIT_PATH = "EIPS/eip-7823.md"
 REFERENCE_SPEC_VERSION = "c8321494fdfbfda52ad46c3515a7ca5dc86b857c"
 
 MAX_LENGTH_BYTES = 1024
+TX_GAS_LIMIT = 2**24
 
 
 @pytest.fixture
 def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
     """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
     spec = Spec if fork < Osaka else Spec7883
-    calculated_gas = spec.calculate_gas_cost(
-        len(mod_exp_input.base),
-        len(mod_exp_input.modulus),
-        len(mod_exp_input.exponent),
-        mod_exp_input.exponent,
-    )
+    calculated_gas = spec.calculate_gas_cost(mod_exp_input)
     return calculated_gas
 
 
@@ -58,6 +54,80 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
                 modulus=b"\0" * (MAX_LENGTH_BYTES) + b"\2",
             ),
             id="excess_length_modulus",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                exponent=b"\0" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"",
+            ),
+            id="exp_1025_base_0_mod_0",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                # Non-zero exponent is cancelled with zero multiplication complexity pre EIP-7823.
+                exponent=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"",
+            ),
+            id="expFF_1025_base_0_mod_0",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\0" * MAX_LENGTH_BYTES,
+                exponent=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"",
+            ),
+            id="expFF_1025_base_1024_mod_0",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\0" * (MAX_LENGTH_BYTES + 1),
+                exponent=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"",
+            ),
+            id="expFF_1025_base_1025_mod_0",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\0" * (MAX_LENGTH_BYTES + 1),
+                exponent=b"",
+                modulus=b"",
+            ),
+            id="exp_0_base_1025_mod_0",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\0" * (MAX_LENGTH_BYTES + 1),
+                exponent=b"",
+                modulus=b"\2",
+            ),
+            id="exp_0_base_1025_mod_1",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                exponent=b"",
+                modulus=b"\0" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="exp_0_base_0_mod_1025",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\1",
+                exponent=b"",
+                modulus=b"\0" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="exp_0_base_1_mod_1025",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                exponent=Bytes("80"),
+                modulus=b"",
+                declared_exponent_length=2**64,
+            ),
+            id="exp_2_pow_64_base_0_mod_0",
         ),
     ],
 )
@@ -96,6 +166,8 @@ def test_modexp_upper_bounds(
     memory_expansion_gas = memory_expansion_gas_calc(new_bytes=len(bytes(mod_exp_input)))
 
     gas_limit = intrinsic_gas_cost + (precompile_gas * 64 // 63) + memory_expansion_gas + 100_000
+    expensive = gas_limit > TX_GAS_LIMIT
+    gas_limit = TX_GAS_LIMIT if expensive else gas_limit
     env = Environment(gas_limit=gas_limit)
 
     tx = Transaction(
@@ -106,11 +178,12 @@ def test_modexp_upper_bounds(
         protected=True,
         sender=sender,
     )
+    base_length, exp_length, mod_length = mod_exp_input.get_declared_lengths()
     if (
-        len(mod_exp_input.base) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.exponent) <= MAX_LENGTH_BYTES
-        and len(mod_exp_input.modulus) <= MAX_LENGTH_BYTES
-    ) or fork < Osaka:
+        base_length <= MAX_LENGTH_BYTES
+        and exp_length <= MAX_LENGTH_BYTES
+        and mod_length <= MAX_LENGTH_BYTES
+    ) or (fork < Osaka and not expensive):
         output = ModExpOutput(call_success=True, returned_data="0x01")
     else:
         output = ModExpOutput(call_success=False, returned_data="0x")

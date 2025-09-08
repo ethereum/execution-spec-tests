@@ -628,7 +628,6 @@ def test_jumpf_with_inputs_stack_overflow(
 def test_jumpf_infinite_loop(eof_state_test: EOFStateTestFiller, container: Container):
     """Tests JUMPF causing an infinite loop."""
     eof_state_test(
-        tx_gas=100_000,
         container=container,
         container_post=Account(storage={slot_code_worked: 0}),
     )

@@ -24,6 +24,26 @@ One last requirement is that the `--rpc-chain-id` flag is set to the chain id of
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345
 ```
 
+## Engine RPC Endpoint (Optional)
+
+By default, the `execute remote` command assumes that the execution client is connected to a beacon node and the chain progresses automatically. However, you can optionally specify an Engine RPC endpoint to drive the chain manually when new transactions are submitted.
+
+To use this feature, you need to provide both the `--engine-endpoint` and JWT authentication:
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --engine-endpoint=https://engine.endpoint.io --engine-jwt-secret "your-jwt-secret-here"
+```
+
+Alternatively, you can provide the JWT secret from a file:
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --engine-endpoint=https://engine.endpoint.io --engine-jwt-secret-file /path/to/jwt-secret.txt
+```
+
+The JWT secret file must contain only the JWT secret as a hex string.
+
+When an engine endpoint is provided, the test execution will use the Engine API to create new blocks and include transactions, giving you full control over the chain progression.
+
 The `execute remote` command will connect to the client via the RPC endpoint and will start executing every test in the `./tests` folder in the same way as the `execute hive` command, but instead of using the Engine API to generate blocks, it will send the transactions to the client via the RPC endpoint.
 
 It is recommended to only run a subset of the tests when executing on a live network. To do so, a path to a specific test can be provided to the command:
@@ -31,6 +51,97 @@ It is recommended to only run a subset of the tests when executing on a live net
 ```bash
 uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 ./tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_sstore
 ```
+
+## Address Stubs for Pre-deployed Contracts
+
+When running tests on networks that already have specific contracts deployed (such as mainnet or testnets with pre-deployed contracts), you can use the `--address-stubs` flag to specify these contracts instead of deploying new ones.
+
+Address stubs allow you to map contract labels used in tests to actual addresses where those contracts are already deployed on the network. This is particularly useful for:
+
+- Testing against mainnet with existing contracts (e.g., Uniswap, Compound)
+- Using pre-deployed contracts on testnets
+- Testing on bloat-net, a network containing pre-existing contracts with extensive storage history
+- Avoiding redeployment of large contracts to save gas and time
+
+### Using Address Stubs
+
+You can provide address stubs in several formats:
+
+**JSON string:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs '{"DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa", "UNISWAP_V3_FACTORY": "0x1F98431c8aD98523631AE4a59f267346ea31F984"}'
+```
+
+**JSON file:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.json
+```
+
+**YAML file:**
+
+```bash
+uv run execute remote --fork=Prague --rpc-endpoint=https://rpc.endpoint.io --rpc-seed-key 0x000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f --rpc-chain-id 12345 --address-stubs ./contracts.yaml
+```
+
+### Address Stubs File Format
+
+**JSON format (contracts.json):**
+
+```json
+{
+  "DEPOSIT_CONTRACT": "0x00000000219ab540356cbb839cbe05303d7705fa",
+  "UNISWAP_V3_FACTORY": "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+  "COMPOUND_COMPTROLLER": "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
+}
+```
+
+**YAML format (contracts.yaml):**
+
+```yaml
+DEPOSIT_CONTRACT: 0x00000000219ab540356cbb839cbe05303d7705fa
+UNISWAP_V3_FACTORY: 0x1F98431c8aD98523631AE4a59f267346ea31F984
+COMPOUND_COMPTROLLER: 0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B
+```
+
+### How Address Stubs Work
+
+When a test uses a contract label that matches a key in the address stubs, the test framework will:
+
+1. Use the pre-deployed contract at the specified address instead of deploying a new contract
+2. Skip the contract deployment transaction, saving gas and time
+3. Use the existing contract's code and state for the test
+
+This is particularly useful when testing interactions with well-known contracts that are expensive to deploy or when you want to test against the actual deployed versions of contracts.
+
+### Bloat-net Testing
+
+Address stubs are especially valuable when testing on **bloat-net**, a specialized network that contains pre-existing contracts with extensive storage history. On bloat-net:
+
+- Contracts have been deployed and used extensively, accumulating large amounts of storage data
+- The storage state represents real-world usage patterns with complex data structures
+- Redeploying these contracts would lose the valuable historical state and storage bloat
+
+Using address stubs on bloat-net allows you to:
+
+- Test against contracts with realistic storage bloat patterns
+- Preserve the complex state that has been built up over time
+- Avoid the computational and storage costs of recreating this state
+- Test edge cases that only emerge with large, real-world storage datasets
+
+## Transaction Metadata on Remote Networks
+
+When executing tests on remote networks, all transactions include metadata that helps with debugging and monitoring. This metadata is embedded in the RPC request ID and includes:
+
+- **Test identification**: Each transaction is tagged with the specific test being executed
+- **Execution phase**: Transactions are categorized as setup, testing, or cleanup
+- **Action tracking**: Specific actions like contract deployment, funding, or refunding are tracked
+- **Target identification**: The account or contract being targeted is labeled
+
+This metadata is particularly useful when debugging test failures on live networks, as it allows you to correlate blockchain transactions with specific test operations and phases.
+
+See [Transaction Metadata](./transaction_metadata.md) for details.
 
 ## `execute` Command Test Execution
 

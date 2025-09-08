@@ -35,6 +35,8 @@ class BesuTransitionTool(TransitionTool):
     server_url: str
     besu_trace_dir: Optional[tempfile.TemporaryDirectory]
 
+    supports_xdist: ClassVar[bool] = False
+
     def __init__(
         self,
         *,
@@ -216,7 +218,13 @@ class BesuExceptionMapper(ExceptionMapper):
             "Failed to decode transactions from block parameter"
         ),
         TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Invalid Blob Count",
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
+            r"Blob transaction has too many blobs: \d+"
+        ),
         TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Invalid Blob Count",
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
+            r"Blob transaction has too many blobs: \d+"
+        ),
         TransactionException.TYPE_3_TX_PRE_FORK: (
             "Transaction type BLOB is invalid, accepted transaction types are"
         ),

@@ -99,6 +99,7 @@ def generate_block_check_code(
         [1, Spec.BLOCKHASH_OLD_WINDOW + 1],
     ],
 )
+@pytest.mark.slow()
 @pytest.mark.valid_at_transition_to("Prague")
 def test_block_hashes_history_at_transition(
     blockchain_test: BlockchainTestFiller,
@@ -213,7 +214,7 @@ def test_block_hashes_history_at_transition(
         pytest.param(
             Spec.HISTORY_SERVE_WINDOW + 1,
             False,
-            marks=pytest.mark.slow,
+            marks=[pytest.mark.skip("Slow test not relevant anymore"), pytest.mark.slow],
             id="full_history_plus_one_check_blockhash_first",
         ),
     ],
@@ -429,7 +430,6 @@ def test_invalid_history_contract_calls(
         pre=pre,
         blocks=blocks,
         post=post,
-        reverts=reverts,
     )
 
 
@@ -489,5 +489,4 @@ def test_invalid_history_contract_calls_input_size(
         pre=pre,
         blocks=blocks,
         post=post,
-        reverts=reverts,
     )

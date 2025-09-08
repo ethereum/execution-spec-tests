@@ -14,10 +14,6 @@ class FixtureOutput(BaseModel):
     """Represents the output destination for generated test fixtures."""
 
     output_path: Path = Field(description="Directory path to store the generated test fixtures")
-    flat_output: bool = Field(
-        default=False,
-        description="Output each test case in the directory without the folder structure",
-    )
     single_fixture_per_file: bool = Field(
         default=False,
         description=(
@@ -36,6 +32,10 @@ class FixtureOutput(BaseModel):
     use_pre_alloc_groups: bool = Field(
         default=False,
         description="Use existing pre-allocation groups (phase 2).",
+    )
+    should_generate_all_formats: bool = Field(
+        default=False,
+        description="Generate all fixture formats including BlockchainEngineXFixture.",
     )
 
     @property
@@ -66,6 +66,11 @@ class FixtureOutput(BaseModel):
         """Return the path for pre-allocation groups folder."""
         engine_x_dir = BlockchainEngineXFixture.output_base_dir_name()
         return self.directory / engine_x_dir / "pre_alloc"
+
+    @property
+    def should_auto_enable_all_formats(self) -> bool:
+        """Check if all formats should be auto-enabled due to tarball output."""
+        return self.is_tarball
 
     @staticmethod
     def strip_tarball_suffix(path: Path) -> Path:
@@ -202,11 +207,19 @@ class FixtureOutput(BaseModel):
     @classmethod
     def from_config(cls, config: pytest.Config) -> "FixtureOutput":
         """Create a FixtureOutput instance from pytest configuration."""
+        output_path = Path(config.getoption("output"))
+        should_generate_all_formats = config.getoption("generate_all_formats")
+
+        # Auto-enable --generate-all-formats for tarball output
+        # Use same logic as is_tarball property
+        if output_path.suffix == ".gz" and output_path.with_suffix("").suffix == ".tar":
+            should_generate_all_formats = True
+
         return cls(
-            output_path=config.getoption("output"),
-            flat_output=config.getoption("flat_output"),
+            output_path=output_path,
             single_fixture_per_file=config.getoption("single_fixture_per_file"),
             clean=config.getoption("clean"),
             generate_pre_alloc_groups=config.getoption("generate_pre_alloc_groups"),
             use_pre_alloc_groups=config.getoption("use_pre_alloc_groups"),
+            should_generate_all_formats=should_generate_all_formats,
         )

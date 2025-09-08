@@ -30,7 +30,28 @@
         "path": "$GITHUB_WORKSPACE/execution-specs/"
     },
     "Prague": {
-        "git_url": "https://github.com/ethereum/execution-specs.git",
-        "branch": "devnets/prague/6"
+        "path": "$GITHUB_WORKSPACE/execution-specs/"
+    },
+    "Osaka": {
+        "git_url": "https://github.com/marioevz/execution-specs.git",
+        "branch": "forks/bpo1",
+        "commit": "3387e5f4aedfe99becfdc39b444d6371e25e0924"
+    },
+    "BPO1": {
+        "same_as": "Osaka"
+    },
+    "BPO2": {
+        "same_as": "Osaka"
+    },
+    "BPO3": {
+        "same_as": "Osaka"
+    },
+    "BPO4": {
+        "same_as": "Osaka"
+    },
+    "Amsterdam": {
+        "git_url": "https://github.com/fselmo/execution-specs.git",
+        "branch": "feat/amsterdam-fork-and-block-access-lists",
+        "commit": "a5c7b29a658320c2432de78883d350e9f4444d14"
     }
 }

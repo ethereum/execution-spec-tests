@@ -1,5 +1,6 @@
 """BlockchainTest types."""
 
+import json
 from functools import cached_property
 from typing import (
     Annotated,
@@ -7,6 +8,7 @@ from typing import (
     ClassVar,
     List,
     Literal,
+    Set,
     Tuple,
     Union,
     cast,
@@ -15,6 +17,7 @@ from typing import (
 )
 
 import ethereum_rlp as eth_rlp
+import pytest
 from ethereum_types.numeric import Uint
 from pydantic import AliasChoices, Field, PlainSerializer, computed_field, model_validator
 
@@ -35,6 +38,7 @@ from ethereum_test_base_types import (
 from ethereum_test_exceptions import EngineAPIError, ExceptionInstanceOrList
 from ethereum_test_forks import Fork, Paris
 from ethereum_test_types import (
+    BlockAccessList,
     Environment,
     Requests,
     Transaction,
@@ -43,7 +47,7 @@ from ethereum_test_types import (
 from ethereum_test_types.block_types import WithdrawalGeneric
 from ethereum_test_types.transaction_types import TransactionFixtureConverter, TransactionGeneric
 
-from .base import BaseFixture
+from .base import BaseFixture, FixtureFillingPhase
 from .common import FixtureAuthorizationTuple, FixtureBlobSchedule
 
 
@@ -119,25 +123,27 @@ class FixtureHeader(CamelModel):
     We combine the `Environment` and `Result` contents to create this model.
     """
 
-    parent_hash: Hash
+    parent_hash: Hash = Hash(0)
     ommers_hash: Hash = Field(Hash(EmptyOmmersRoot), alias="uncleHash")
     fee_recipient: Address = Field(
         ..., alias="coinbase", validation_alias=AliasChoices("coinbase", "miner")
     )
     state_root: Hash
     transactions_trie: Hash = Field(
-        validation_alias=AliasChoices("transactionsTrie", "transactionsRoot")
+        Hash(EmptyTrieRoot), validation_alias=AliasChoices("transactionsTrie", "transactionsRoot")
     )
     receipts_root: Hash = Field(
-        ..., alias="receiptTrie", validation_alias=AliasChoices("receiptTrie", "receiptsRoot")
+        Hash(EmptyTrieRoot),
+        alias="receiptTrie",
+        validation_alias=AliasChoices("receiptTrie", "receiptsRoot"),
     )
     logs_bloom: Bloom = Field(
-        ..., alias="bloom", validation_alias=AliasChoices("bloom", "logsBloom")
+        Bloom(0), alias="bloom", validation_alias=AliasChoices("bloom", "logsBloom")
     )
     difficulty: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     number: ZeroPaddedHexNumber
     gas_limit: ZeroPaddedHexNumber
-    gas_used: ZeroPaddedHexNumber
+    gas_used: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     timestamp: ZeroPaddedHexNumber
     extra_data: Bytes
     prev_randao: Hash = Field(Hash(0), alias="mixHash")
@@ -160,6 +166,9 @@ class FixtureHeader(CamelModel):
         None
     )
     requests_hash: Annotated[Hash, HeaderForkRequirement("requests")] | None = Field(None)
+    block_access_list_hash: Annotated[Hash, HeaderForkRequirement("bal_hash")] | None = Field(
+        None, alias="blockAccessListHash"
+    )
 
     fork: Fork | None = Field(None, exclude=True)
 
@@ -179,7 +188,7 @@ class FixtureHeader(CamelModel):
         # if so, check if the field is required for the given fork.
         annotated_hints = get_type_hints(self, include_extras=True)
 
-        for field in self.model_fields:
+        for field in self.__class__.model_fields:
             if field == "fork":
                 continue
 
@@ -197,7 +206,7 @@ class FixtureHeader(CamelModel):
     def rlp_encode_list(self) -> List:
         """Compute the RLP of the header."""
         header_list = []
-        for field in self.model_fields:
+        for field in self.__class__.model_fields:
             if field == "fork":
                 continue
             value = getattr(self, field)
@@ -219,32 +228,19 @@ class FixtureHeader(CamelModel):
     @classmethod
     def genesis(cls, fork: Fork, env: Environment, state_root: Hash) -> "FixtureHeader":
         """Get the genesis header for the given fork."""
-        return FixtureHeader(
-            parent_hash=0,
-            ommers_hash=EmptyOmmersRoot,
-            fee_recipient=0,
-            state_root=state_root,
-            transactions_trie=EmptyTrieRoot,
-            receipts_root=EmptyTrieRoot,
-            logs_bloom=0,
-            difficulty=0x20000 if env.difficulty is None else env.difficulty,
-            number=0,
-            gas_limit=env.gas_limit,
-            gas_used=0,
-            timestamp=0,
-            extra_data=b"\x00",
-            prev_randao=0,
-            nonce=0,
-            base_fee_per_gas=env.base_fee_per_gas,
-            blob_gas_used=env.blob_gas_used,
-            excess_blob_gas=env.excess_blob_gas,
-            withdrawals_root=(
-                Withdrawal.list_root(env.withdrawals) if env.withdrawals is not None else None
+        environment_values = env.model_dump(exclude_none=True, exclude={"withdrawals"})
+        if env.withdrawals is not None:
+            environment_values["withdrawals_root"] = Withdrawal.list_root(env.withdrawals)
+        environment_values["extra_data"] = env.extra_data
+        extras = {
+            "state_root": state_root,
+            "requests_hash": Requests() if fork.header_requests_required(0, 0) else None,
+            "block_access_list_hash": (
+                BlockAccessList().rlp_hash if fork.header_bal_hash_required(0, 0) else None
             ),
-            parent_beacon_block_root=env.parent_beacon_block_root,
-            requests_hash=Requests() if fork.header_requests_required(0, 0) else None,
-            fork=fork,
-        )
+            "fork": fork,
+        }
+        return FixtureHeader(**environment_values, **extras)
 
 
 class FixtureExecutionPayload(CamelModel):
@@ -273,21 +269,27 @@ class FixtureExecutionPayload(CamelModel):
     transactions: List[Bytes]
     withdrawals: List[Withdrawal] | None = None
 
+    block_access_list: Bytes | None = Field(
+        None, description="RLP-serialized EIP-7928 Block Access List"
+    )
+
     @classmethod
     def from_fixture_header(
         cls,
         header: FixtureHeader,
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
+        block_access_list: Bytes | None = None,
     ) -> "FixtureExecutionPayload":
         """
         Return FixtureExecutionPayload from a FixtureHeader, a list
-        of transactions and a list of withdrawals.
+        of transactions, a list of withdrawals, and an optional block access list.
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
             transactions=[tx.rlp() for tx in transactions],
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
 
@@ -342,6 +344,7 @@ class FixtureEngineNewPayload(CamelModel):
         transactions: List[Transaction],
         withdrawals: List[Withdrawal] | None,
         requests: List[Bytes] | None,
+        block_access_list: Bytes | None = None,
         **kwargs,
     ) -> "FixtureEngineNewPayload":
         """Create `FixtureEngineNewPayload` from a `FixtureHeader`."""
@@ -355,6 +358,7 @@ class FixtureEngineNewPayload(CamelModel):
             header=header,
             transactions=transactions,
             withdrawals=withdrawals,
+            block_access_list=block_access_list,
         )
 
         params: List[Any] = [execution_payload]
@@ -413,6 +417,24 @@ class FixtureWithdrawal(WithdrawalGeneric[ZeroPaddedHexNumber]):
         return cls(**w.model_dump())
 
 
+class WitnessChunk(CamelModel):
+    """Represents execution witness data for a block."""
+
+    state: List[str]
+    codes: List[str]
+    keys: List[str]
+    headers: List[str]
+
+    @classmethod
+    def parse_witness_chunks(cls, s: str) -> List["WitnessChunk"]:
+        """
+        Parse multiple witness chunks from JSON string.
+
+        Returns a list of WitnessChunk instances parsed from the JSON array.
+        """
+        return [cls(**obj) for obj in json.loads(s)]
+
+
 class FixtureBlockBase(CamelModel):
     """Representation of an Ethereum block within a test Fixture without RLP bytes."""
 
@@ -420,6 +442,10 @@ class FixtureBlockBase(CamelModel):
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
     ommers: List[FixtureHeader] = Field(default_factory=list, alias="uncleHeaders")
     withdrawals: List[FixtureWithdrawal] | None = None
+    execution_witness: WitnessChunk | None = None
+    block_access_list: BlockAccessList | None = Field(
+        None, description="EIP-7928 Block Access List"
+    )
 
     @computed_field(alias="blocknumber")  # type: ignore[misc]
     @cached_property
@@ -437,6 +463,9 @@ class FixtureBlockBase(CamelModel):
 
         if self.withdrawals is not None:
             block.append([w.to_serializable_list() for w in self.withdrawals])
+
+        if self.block_access_list is not None:
+            block.append(self.block_access_list.to_list())
 
         return FixtureBlock(
             **self.model_dump(),
@@ -556,7 +585,6 @@ class BlockchainEngineFixture(BlockchainEngineFixtureCommon):
     genesis: FixtureHeader = Field(..., alias="genesisBlockHeader")
     post_state: Alloc | None = Field(None)
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
-    sync_payload: FixtureEngineNewPayload | None = None
 
 
 @post_state_validator(alternate_field="post_state_diff")
@@ -570,6 +598,10 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
 
     format_name: ClassVar[str] = "blockchain_test_engine_x"
     description: ClassVar[str] = "Tests that generate a Blockchain Test Engine X fixture."
+    format_phases: ClassVar[Set[FixtureFillingPhase]] = {
+        FixtureFillingPhase.FILL,
+        FixtureFillingPhase.PRE_ALLOC_GENERATION,
+    }
 
     pre_hash: str
     """Hash of the pre-allocation group this test belongs to."""
@@ -580,5 +612,29 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     """Engine API payloads for blockchain execution."""
 
+
+class BlockchainEngineSyncFixture(BlockchainEngineFixture):
+    """
+    Engine Sync specific test fixture information.
+
+    This fixture format is specifically designed for sync testing where:
+    - The client under test receives all payloads
+    - A sync client attempts to sync from the client under test
+    - Both client types are parametrized from hive client config
+    """
+
+    format_name: ClassVar[str] = "blockchain_test_sync"
+    description: ClassVar[str] = (
+        "Tests that generate a blockchain test fixture for Engine API testing with client sync."
+    )
     sync_payload: FixtureEngineNewPayload | None = None
-    """Optional sync payload for blockchain synchronization."""
+
+    @classmethod
+    def discard_fixture_format_by_marks(
+        cls,
+        fork: Fork,
+        markers: List[pytest.Mark],
+    ) -> bool:
+        """Discard the fixture format based on the provided markers."""
+        marker_names = [m.name for m in markers]
+        return "verify_sync" not in marker_names
