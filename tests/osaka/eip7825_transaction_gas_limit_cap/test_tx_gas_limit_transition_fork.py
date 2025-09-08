@@ -5,6 +5,7 @@ abstract: Tests [EIP-7825 Transaction Gas Limit Cap](https://eips.ethereum.org/E
 
 import pytest
 
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -22,6 +23,10 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_7825.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7825.version
 
 
+@EIPChecklist.ModifiedTransactionValidityConstraint.Test.ForkTransition.AcceptedBeforeFork()
+@EIPChecklist.ModifiedTransactionValidityConstraint.Test.ForkTransition.RejectedBeforeFork()
+@EIPChecklist.ModifiedTransactionValidityConstraint.Test.ForkTransition.AcceptedAfterFork()
+@EIPChecklist.ModifiedTransactionValidityConstraint.Test.ForkTransition.RejectedAfterFork()
 @pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
 @pytest.mark.exception_test
 def test_transaction_gas_limit_cap_at_transition(
@@ -35,12 +40,11 @@ def test_transaction_gas_limit_cap_at_transition(
     Before timestamp 15000: No gas limit cap (transactions with gas > 2^24 are valid)
     At/after timestamp 15000: Gas limit cap of 2^24 is enforced
     """
-    sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
-        code=Op.SSTORE(0, Op.ADD(Op.SLOAD(0), 1)) + Op.STOP,
+        code=Op.SSTORE(Op.TIMESTAMP, Op.ADD(Op.SLOAD(0), 1)) + Op.STOP,
     )
 
-    pre_cap = fork.transaction_gas_limit_cap()
+    pre_cap = fork.transaction_gas_limit_cap(timestamp=14_999)
     post_cap = fork.transaction_gas_limit_cap(timestamp=15_000)
     assert post_cap is not None, "Post cap should not be None"
 
@@ -50,27 +54,37 @@ def test_transaction_gas_limit_cap_at_transition(
         "Post cap should be less than or equal to pre cap, test needs update"
     )
 
-    # Transaction with gas limit above the cap before transition
-    high_gas_tx = Transaction(
+    # Before fork activation
+    high_gas_tx_before_fork = Transaction(
         ty=0,  # Legacy transaction
         to=contract_address,
         gas_limit=pre_cap,
-        data=b"",
-        value=0,
-        sender=sender,
+        sender=pre.fund_eoa(),
+    )
+
+    cap_tx_before_fork = Transaction(
+        ty=0,  # Legacy transaction
+        to=contract_address,
+        gas_limit=post_cap,
+        sender=pre.fund_eoa(),
     )
 
     post_cap_tx_error = TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
 
-    # Transaction with gas limit at the cap
-    cap_gas_tx = Transaction(
+    # After fork activation
+    high_gas_tx_after_fork = Transaction(
         ty=0,  # Legacy transaction
         to=contract_address,
-        gas_limit=post_cap + 1,
-        data=b"",
-        value=0,
-        sender=sender,
+        gas_limit=pre_cap,
+        sender=pre.fund_eoa(),
         error=post_cap_tx_error,
+    )
+
+    cap_tx_after_fork = Transaction(
+        ty=0,  # Legacy transaction
+        to=contract_address,
+        gas_limit=post_cap,
+        sender=pre.fund_eoa(),
     )
 
     blocks = []
@@ -79,7 +93,7 @@ def test_transaction_gas_limit_cap_at_transition(
     blocks.append(
         Block(
             timestamp=14_999,
-            txs=[high_gas_tx],
+            txs=[high_gas_tx_before_fork, cap_tx_before_fork],
         )
     )
 
@@ -87,7 +101,10 @@ def test_transaction_gas_limit_cap_at_transition(
     blocks.append(
         Block(
             timestamp=15_000,
-            txs=[cap_gas_tx],  # Only transaction at the cap succeeds
+            txs=[
+                cap_tx_after_fork,
+                high_gas_tx_after_fork,
+            ],
             exception=post_cap_tx_error,
         )
     )
@@ -96,7 +113,8 @@ def test_transaction_gas_limit_cap_at_transition(
     post = {
         contract_address: Account(
             storage={
-                0: 1,  # Set by first transaction (before transition)
+                14_999: 1,  # Set by first transaction (before transition)
+                15_000: 0,  # Set by second transaction (at transition)
             }
         )
     }
