@@ -40,12 +40,38 @@ def call_contract_post_storage() -> Storage:
 
 
 @pytest.fixture
-def call_succeeds() -> bool:
+def total_tx_gas_needed(
+    fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
+) -> int:
+    """Calculate total tx gas needed for the transaction."""
+    intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
+    memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
+    sstore_gas = fork.gas_costs().G_STORAGE_SET * (len(modexp_expected) // 32)
+    extra_gas = 100_000
+
+    return (
+        extra_gas
+        + intrinsic_gas_cost_calculator(calldata=bytes(modexp_input))
+        + memory_expansion_gas_calculator(new_bytes=len(bytes(modexp_input)))
+        + precompile_gas
+        + sstore_gas
+    )
+
+
+@pytest.fixture
+def exceeds_tx_gas_cap(total_tx_gas_needed: int, fork: Fork) -> bool:
+    """Determine if total gas requirements exceed transaction gas cap."""
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    return tx_gas_limit_cap is not None and total_tx_gas_needed > tx_gas_limit_cap
+
+
+@pytest.fixture
+def call_succeeds(exceeds_tx_gas_cap: bool) -> bool:
     """
     By default, depending on the expected output, we can deduce if the call is expected to succeed
-    or fail.
+    or fail. Under EIP-7825, transactions requiring more gas than the cap should fail.
     """
-    return True
+    return not exceeds_tx_gas_cap
 
 
 @pytest.fixture
@@ -111,7 +137,7 @@ def gas_measure_contract(
         Op.CALLDATACOPY(dest_offset=0, offset=0, size=Op.CALLDATASIZE)
         + Op.SSTORE(call_contract_post_storage.store_next(call_succeeds), call_result_measurement)
         + Op.SSTORE(
-            call_contract_post_storage.store_next(len(modexp_expected)),
+            call_contract_post_storage.store_next(len(modexp_expected) if call_succeeds else 0),
             Op.RETURNDATASIZE(),
         )
     )
@@ -174,28 +200,12 @@ def tx(
 
 
 @pytest.fixture
-def tx_gas_limit(
-    fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
-) -> int:
+def tx_gas_limit(total_tx_gas_needed: int, fork: Fork) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
-    intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
-    memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()
-    sstore_gas = fork.gas_costs().G_STORAGE_SET * (len(modexp_expected) // 32)
-    extra_gas = 100_000
-
-    total_gas = (
-        extra_gas
-        + intrinsic_gas_cost_calculator(calldata=bytes(modexp_input))
-        + memory_expansion_gas_calculator(new_bytes=len(bytes(modexp_input)))
-        + precompile_gas
-        + sstore_gas
-    )
-
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
-
     if tx_gas_limit_cap is not None:
-        return min(tx_gas_limit_cap, total_gas)
-    return total_gas
+        return min(tx_gas_limit_cap, total_tx_gas_needed)
+    return total_tx_gas_needed
 
 
 @pytest.fixture
