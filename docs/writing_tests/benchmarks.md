@@ -19,7 +19,7 @@ def test_benchmark(
 
 You can specify the block gas limit used in benchmark tests by setting the `--gas-benchmark-values` flag. This flag accepts a comma-separated list of values (in millions of gas), e.g. `--gas-benchmark-values 1,10,45,60`. This example would run the test 4 times, using a `gas_benchmark_value` of 1M, 10M, 45M, and 60M respectively.
 
-Do not configure the transaction/block gas limit to `env.gas_limit`. When running in benchmark mode, the test framework sets this value to a very large number (e.g., `1_000_000_000_000`), this setup allows the framework to reuse a single genesis file for all specified gas limits.
+Do not configure the transaction/block gas limit to `env.gas_limit`. When running in benchmark mode, the test framework sets this value to a very large number (e.g., `1_000_000_000_000`), this setup allows the framework to reuse a single genesis file for all specified gas limits. I.e., the example below is invalid:
 
 ```py
 def test_benchmark(
@@ -30,7 +30,7 @@ def test_benchmark(
     ...
     tx = Transaction(
         to=opcode_address,
-        gas_limit=env.gas_limit, # Do not use Environment().gas_limit
+        gas_limit=env.gas_limit, # Do not set the gas_limit manually.
         sender=pre.fund_eoa(),
     )
     ...
