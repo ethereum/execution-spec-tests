@@ -289,6 +289,13 @@ def create_modexp_variable_gas_test_cases():
     # Test case definitions: (base, exponent, modulus, expected_result, test_id)
     test_cases = [
         ("", "", "", "", "Z0"),
+        ("01" * 32, "00" * 32, "", "", "Z1"),
+        ("01" * 1024, "00" * 32, "", "", "Z2"),
+        ("01" * 32, "00" * 1024, "", "", "Z3"),
+        ("01" * 32, "00" * 1023 + "01", "", "", "Z4"),
+        ("", "", "01" * 32, "00" * 31 + "01", "Z5"),
+        ("", "01" * 32, "01" * 32, "00" * 32, "Z6"),
+        ("", "00" * 31 + "01", "01" * 1024, "00" * 1024, "Z7"),
         ("01" * 16, "00" * 16, "02" * 16, "00" * 15 + "01", "S0"),
         ("01" * 16, "00" * 15 + "03", "02" * 16, "01" * 16, "S1"),
         ("01" * 32, "FF" * 32, "02" * 32, "01" * 32, "S2"),
@@ -307,9 +314,14 @@ def create_modexp_variable_gas_test_cases():
         ("01" * 33, "01", "02" * 31, "00" * 29 + "01" * 2, "B2"),
         ("01" * 33, "01", "02" * 33, "01" * 33, "B4"),
         # Zero value edge cases
-        ("00" * 32, "00" * 32, "01" * 32, "00" * 31 + "01", "Z1"),
-        ("01" * 32, "00" * 32, "00" * 32, "00" * 32, "Z2"),
-        ("00" * 32, "01" * 32, "02" * 32, "00" * 32, "Z3"),
+        ("00" * 32, "00" * 32, "01" * 32, "00" * 31 + "01", "Z8"),
+        ("01" * 32, "00" * 32, "00" * 32, "00" * 32, "Z9"),
+        ("00" * 32, "01" * 32, "02" * 32, "00" * 32, "Z10"),
+        ("00" * 32, "00" * 33, "01" * 32, "00" * 31 + "01", "Z11"),
+        ("00" * 32, "00" * 1024, "01" * 32, "00" * 31 + "01", "Z12"),
+        ("00" * 1024, "00" * 32, "01" * 32, "00" * 31 + "01", "Z13"),
+        ("01" * 32, "00" * 1024, "00" * 32, "00" * 32, "Z14"),
+        ("01" * 32, "00" * 31 + "01", "00" * 1024, "00" * 1024, "Z15"),
         # Maximum value stress tests
         ("FF" * 64, "FF" * 64, "FF" * 64, "00" * 64, "M1"),
         ("FF" * 32, "01", "FF" * 32, "00" * 32, "M2"),
@@ -356,6 +368,13 @@ def create_modexp_variable_gas_test_cases():
     # │ ID  │ Comp │ Rel │ Iter │ Clamp │   Gas   │ Description                                   │
     # ├─────┼──────┼─────┼──────┼───────┼─────────┼───────────────────────────────────────────────┤
     # │ Z0  │  -   │  -  │  -   │  -    │   500   │ Zero case – empty inputs                      │
+    # │ Z1  │  S   │  -  │  A   │ True  │   500   │ Non-zero base, zero exp, empty modulus        │
+    # │ Z2  │  L   │  -  │  A   │ False │ 32768   │ Large base (1024B), zero exp, empty modulus   │
+    # │ Z3  │  S   │  -  │  C   │ False │253936   │ Base, large zero exp (1024B), empty modulus   │
+    # │ Z4  │  S   │  -  │  D   │ False │253952   │ Base, large exp (last byte=1), empty modulus  │
+    # │ Z5  │  S   │  <  │  A   │ True  │   500   │ Empty base/exp, non-zero modulus only         │
+    # │ Z6  │  S   │  <  │  B   │ False │  3968   │ Empty base, non-zero exp and modulus          │
+    # │ Z7  │  L   │  <  │  B   │ False │ 32768   │ Empty base, small exp, large modulus          │
     # │ S0  │  S   │  =  │  A   │ True  │   500   │ Small, equal, zero exp, clamped               │
     # │ S1  │  S   │  =  │  B   │ True  │   500   │ Small, equal, small exp, clamped              │
     # │ S2  │  S   │  =  │  B   │ False │  4080   │ Small, equal, large exp, unclamped            │
@@ -372,9 +391,14 @@ def create_modexp_variable_gas_test_cases():
     # │ B1  │  L   │  <  │  B   │ True  │   500   │ Cross 32-byte boundary (31/33)                │
     # │ B2  │  L   │  >  │  B   │ True  │   500   │ Cross 32-byte boundary (33/31)                │
     # │ B4  │  L   │  =  │  B   │ True  │   500   │ Just over 32-byte boundary                    │
-    # │ Z1  │  S   │  =  │  A   │ True  │   500   │ All zeros except modulus                      │
-    # │ Z2  │  S   │  =  │  A   │ True  │   500   │ Zero modulus special case                     │
-    # │ Z3  │  S   │  =  │  B   │ False │  3968   │ Zero base, large exponent                     │
+    # │ Z8  │  S   │  =  │  A   │ True  │   500   │ All zeros except modulus                      │
+    # │ Z9  │  S   │  =  │  A   │ True  │   500   │ Zero modulus special case                     │
+    # │ Z10 │  S   │  =  │  B   │ False │  3968   │ Zero base, large exponent                     │
+    # │ Z11 │  S   │  =  │  C   │ True  │   500   │ Zero base, 33B zero exp, non-zero modulus     │
+    # │ Z12 │  S   │  =  │  C   │ False │253936   │ Zero base, large zero exp, non-zero modulus   │
+    # │ Z13 │  L   │  >  │  A   │ False │ 32768   │ Large zero base, zero exp, non-zero modulus   │
+    # │ Z14 │  S   │  =  │  C   │ False │253936   │ Base, large zero exp, zero modulus            │
+    # │ Z15 │  L   │  <  │  B   │ False │ 32768   │ Base, small exp, large zero modulus           │
     # │ M1  │  L   │  =  │  D   │ False │ 98176   │ Maximum values stress test                    │
     # │ M2  │  S   │  =  │  B   │ True  │   500   │ Max base/mod, small exponent                  │
     # │ M3  │  L   │  <  │  D   │ False │ 98176   │ Small base, max exponent/mod                  │
