@@ -253,13 +253,9 @@ def test_bloatnet_sload_warm(
     # Build the code that does warm loads
     # Since storage slots are already warmed within each transaction,
     # we just need to access them repeatedly
-    sload_code = Bytecode()
-    # First warm up all slots (these will be cold on first access in each tx)
-    for i in range(num_slots):
-        sload_code = sload_code + Op.SLOAD(i) + Op.POP
-    # Then do warm loads
-    for i in range(num_warm_loads_per_tx):
-        sload_code = sload_code + Op.SLOAD(i % num_slots) + Op.POP
+sload_code = Bytecode()
+sload_code += sum(Op.POP(Op.SLOAD(i)) for i in range(num_slots))
+sload_code += sum(Op.POP(Op.SLOAD(i % num_slots)) for i in range(num_warm_loads_per_tx))
 
     # Deploy the contract once
     contract_address = pre.deploy_contract(
@@ -293,7 +289,6 @@ def test_bloatnet_sload_warm(
         tx = Transaction(
             to=contract_address,
             gas_limit=tx_gas_limit,
-            data=b"",
             sender=pre.fund_eoa(),
         )
         all_txs.append(tx)
@@ -323,7 +318,7 @@ def test_bloatnet_sload_cold(
     cold_sload_cost = gas_costs.G_VERY_LOW + gas_costs.G_COLD_SLOAD + gas_costs.G_BASE
 
     # Calculate max slots that fit in a single transaction
-    intrinsic_gas = intrinsic_gas_calc(calldata=b"")
+    intrinsic_gas = intrinsic_gas_calc()
     opcode_gas_budget = tx_gas_cap - intrinsic_gas
     max_slots_per_tx = opcode_gas_budget // cold_sload_cost
 
@@ -334,9 +329,7 @@ def test_bloatnet_sload_cold(
     storage = Storage({HashInt(i): HashInt(0xC0FFEE + i) for i in range(total_max_slots)})
 
     # Build code that loads max_slots_per_tx cold slots
-    sload_code = Bytecode()
-    for i in range(max_slots_per_tx):
-        sload_code = sload_code + Op.SLOAD(i) + Op.POP
+    sload_code = sum(Op.POP(Op.SLOAD(i)) for i in range(max_slots_per_tx))
 
     # Deploy the contract once
     contract_address = pre.deploy_contract(
@@ -365,13 +358,15 @@ def test_bloatnet_sload_cold(
         tx = Transaction(
             to=contract_address,
             gas_limit=tx_gas_limit,
-            data=b"",
             sender=pre.fund_eoa(),
         )
         all_txs.append(tx)
 
         tx_gas_used = intrinsic_gas + (actual_slots * cold_sload_cost)
-        total_block_gas_used += tx_gas_used
+        if actual_slots < max_slots_per_tx:
+            total_block_gas_used += tx_gas_limit
+        else:
+            total_block_gas_used += tx_gas_used
 
     post = {contract_address: Account(storage=storage)}
     blockchain_test(
