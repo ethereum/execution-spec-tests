@@ -5,7 +5,16 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Address, Alloc, Bytes, Storage, Transaction, keccak256
+from ethereum_test_tools import (
+    Account,
+    Address,
+    Alloc,
+    Bytes,
+    Environment,
+    Storage,
+    Transaction,
+    keccak256,
+)
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
@@ -59,10 +68,10 @@ def total_tx_gas_needed(
 
 
 @pytest.fixture
-def exceeds_tx_gas_cap(total_tx_gas_needed: int, fork: Fork) -> bool:
+def exceeds_tx_gas_cap(total_tx_gas_needed: int, fork: Fork, env: Environment) -> bool:
     """Determine if total gas requirements exceed transaction gas cap."""
-    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
-    return tx_gas_limit_cap is not None and total_tx_gas_needed > tx_gas_limit_cap
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
+    return total_tx_gas_needed > tx_gas_limit_cap
 
 
 @pytest.fixture
@@ -200,12 +209,10 @@ def tx(
 
 
 @pytest.fixture
-def tx_gas_limit(total_tx_gas_needed: int, fork: Fork) -> int:
+def tx_gas_limit(total_tx_gas_needed: int, fork: Fork, env: Environment) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
-    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
-    if tx_gas_limit_cap is not None:
-        return min(tx_gas_limit_cap, total_tx_gas_needed)
-    return total_tx_gas_needed
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap() or env.gas_limit
+    return min(tx_gas_limit_cap, total_tx_gas_needed)
 
 
 @pytest.fixture
