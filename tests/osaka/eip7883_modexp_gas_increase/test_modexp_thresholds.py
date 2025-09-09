@@ -322,6 +322,7 @@ def create_modexp_variable_gas_test_cases():
         ("00" * 1024, "00" * 32, "01" * 32, "00" * 31 + "01", "Z13"),
         ("01" * 32, "00" * 1024, "00" * 32, "00" * 32, "Z14"),
         ("01" * 32, "00" * 31 + "01", "00" * 1024, "00" * 1024, "Z15"),
+        ("00" * 32, "00" * 1024, "01" * 1024, "00" * 1023 + "01", "Z16"),
         # Maximum value stress tests
         ("FF" * 64, "FF" * 64, "FF" * 64, "00" * 64, "M1"),
         ("FF" * 32, "01", "FF" * 32, "00" * 32, "M2"),
@@ -399,6 +400,7 @@ def create_modexp_variable_gas_test_cases():
     # │ Z13 │  L   │  >  │  A   │ False │ 32768   │ Large zero base, zero exp, non-zero modulus   │
     # │ Z14 │  S   │  =  │  C   │ False │253936   │ Base, large zero exp, zero modulus            │
     # │ Z15 │  L   │  <  │  B   │ False │ 32768   │ Base, small exp, large zero modulus           │
+    # │ Z16 │  L   │  <  │  C   │ False │520060928│ Zero base, zero exp, large modulus (gas cap)  |
     # │ M1  │  L   │  =  │  D   │ False │ 98176   │ Maximum values stress test                    │
     # │ M2  │  S   │  =  │  B   │ True  │   500   │ Max base/mod, small exponent                  │
     # │ M3  │  L   │  <  │  D   │ False │ 98176   │ Small base, max exponent/mod                  │
