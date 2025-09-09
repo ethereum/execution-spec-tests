@@ -129,6 +129,53 @@ def precompile_gas(fork: Fork, mod_exp_input: ModExpInput) -> int:
             ),
             id="exp_2_pow_64_base_0_mod_0",
         ),
+        # Implementation coverage tests
+        pytest.param(
+            ModExpInput(
+                base=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                exponent=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"\xff" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="all_exceed_check_ordering",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x00" * MAX_LENGTH_BYTES,
+                exponent=b"\xff" * (MAX_LENGTH_BYTES + 1),
+                modulus=b"\xff" * (MAX_LENGTH_BYTES + 1),
+            ),
+            id="exp_mod_exceed_base_ok",
+        ),
+        pytest.param(
+            ModExpInput(
+                # Bitwise pattern for Nethermind optimization
+                base=b"\xaa" * (MAX_LENGTH_BYTES + 1),
+                exponent=b"\x55" * MAX_LENGTH_BYTES,
+                modulus=b"\xff" * MAX_LENGTH_BYTES,
+            ),
+            id="bitwise_pattern_base_exceed",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"",
+                exponent=b"",
+                modulus=b"",
+                # Near max uint64 for revm conversion test
+                declared_base_length=2**63 - 1,
+                declared_exponent_length=1,
+                declared_modulus_length=1,
+            ),
+            id="near_uint64_max_base",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x01" * MAX_LENGTH_BYTES,
+                exponent=b"",
+                modulus=b"\x02" * (MAX_LENGTH_BYTES + 1),
+                declared_exponent_length=0,
+            ),
+            id="zero_exp_mod_exceed",
+        ),
     ],
 )
 def test_modexp_upper_bounds(
