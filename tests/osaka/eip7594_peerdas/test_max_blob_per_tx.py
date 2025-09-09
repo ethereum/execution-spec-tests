@@ -65,10 +65,7 @@ def tx(
         to=destination,
         value=1,
         gas_limit=21_000,
-        max_fee_per_gas=10,
-        max_priority_fee_per_gas=1,
         max_fee_per_blob_gas=blob_gas_price,
-        access_list=[],
         blob_versioned_hashes=add_kzg_version(
             [Hash(i) for i in range(0, blob_count)],
             Spec.BLOB_COMMITMENT_VERSION_KZG,
@@ -112,12 +109,10 @@ def test_valid_max_blobs_per_tx(
 @pytest.mark.valid_from("Osaka")
 @pytest.mark.exception_test
 def test_invalid_max_blobs_per_tx(
-    fork: Fork,
     state_test: StateTestFiller,
     pre: Alloc,
     env: Environment,
     tx: Transaction,
-    blob_count: int,
 ):
     """
     Test that transactions exceeding MAX_BLOBS_PER_TX are rejected.
@@ -129,11 +124,46 @@ def test_invalid_max_blobs_per_tx(
         env=env,
         pre=pre,
         tx=tx.with_error(
-            TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-            if blob_count > fork.max_blobs_per_block()
-            else TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED
+            [
+                TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+                TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+            ]
         ),
         post={},
+    )
+
+
+@pytest.fixture
+def pre_fork_block(
+    pre: Alloc,
+    destination: Address,
+    blob_gas_price: int,
+    fork: Fork,
+) -> Block:
+    """Return an always-valid pre-fork block that contains a valid blob count."""
+    sender = pre.fund_eoa()
+    block_blobs_left = fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP - 1)
+    max_blobs_per_tx = fork.max_blobs_per_tx(timestamp=FORK_TIMESTAMP - 1)
+    txs = []
+    while block_blobs_left:
+        blob_count = min(block_blobs_left, max_blobs_per_tx)
+        txs.append(
+            Transaction(
+                ty=3,
+                sender=sender,
+                to=destination,
+                gas_limit=21_000,
+                max_fee_per_blob_gas=blob_gas_price,
+                blob_versioned_hashes=add_kzg_version(
+                    [Hash(i) for i in range(0, blob_count)],
+                    Spec.BLOB_COMMITMENT_VERSION_KZG,
+                ),
+            )
+        )
+        block_blobs_left -= blob_count
+    return Block(
+        txs=txs,
+        timestamp=FORK_TIMESTAMP - 1,
     )
 
 
@@ -144,46 +174,29 @@ def test_invalid_max_blobs_per_tx(
         fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP) + 1,
     ],
 )
-@pytest.mark.valid_at_transition_to("Osaka")
+@pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
 @pytest.mark.exception_test
 def test_max_blobs_per_tx_fork_transition(
-    fork: Fork,
     blockchain_test: BlockchainTestFiller,
     env: Environment,
     pre: Alloc,
     tx: Transaction,
-    blob_count: int,
+    pre_fork_block: Block,
 ):
     """Test `MAX_BLOBS_PER_TX` limit enforcement across fork transition."""
-    expected_exception = (
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED
-        if blob_count > fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP)
-        else TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED
-    )
-    pre_fork_block = Block(
-        txs=[
-            tx
-            if blob_count < fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP - 1)
-            else tx.with_error(expected_exception)
-        ],
-        timestamp=FORK_TIMESTAMP - 1,
-        exception=None
-        if blob_count < fork.max_blobs_per_block(timestamp=FORK_TIMESTAMP - 1)
-        else [expected_exception],
-    )
+    expected_exception = [
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED,
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED,
+    ]
+
     fork_block = Block(
-        txs=[tx.with_nonce(1).with_error(expected_exception)],
+        txs=[tx.with_error(expected_exception)],
         timestamp=FORK_TIMESTAMP,
-        exception=[expected_exception],
-    )
-    post_fork_block = Block(
-        txs=[tx.with_nonce(2).with_error(expected_exception)],
-        timestamp=FORK_TIMESTAMP + 1,
-        exception=[expected_exception],
+        exception=expected_exception,
     )
     blockchain_test(
         pre=pre,
         post={},
-        blocks=[pre_fork_block, fork_block, post_fork_block],
+        blocks=[pre_fork_block, fork_block],
         genesis_environment=env,
     )
