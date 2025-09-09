@@ -253,9 +253,9 @@ def test_bloatnet_sload_warm(
     # Build the code that does warm loads
     # Since storage slots are already warmed within each transaction,
     # we just need to access them repeatedly
-sload_code = Bytecode()
-sload_code += sum(Op.POP(Op.SLOAD(i)) for i in range(num_slots))
-sload_code += sum(Op.POP(Op.SLOAD(i % num_slots)) for i in range(num_warm_loads_per_tx))
+    sload_code = Bytecode()
+    sload_code += sum(Op.POP(Op.SLOAD(i)) for i in range(num_slots))
+    sload_code += sum(Op.POP(Op.SLOAD(i % num_slots)) for i in range(num_warm_loads_per_tx))
 
     # Deploy the contract once
     contract_address = pre.deploy_contract(
