@@ -259,7 +259,7 @@ def test_bloatnet_sload_warm(
 
     # Deploy the contract once
     contract_address = pre.deploy_contract(
-        code=sload_code,
+        code=bytes(sload_code),
         storage=storage,
     )
 
@@ -333,7 +333,7 @@ def test_bloatnet_sload_cold(
 
     # Deploy the contract once
     contract_address = pre.deploy_contract(
-        code=sload_code,
+        code=bytes(sload_code),
         storage=storage,
     )
 
