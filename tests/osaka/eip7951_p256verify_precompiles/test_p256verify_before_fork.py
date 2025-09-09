@@ -6,14 +6,14 @@ abstract: Tests P256VERIFY precompiles of [EIP-7951: Precompile for secp256r1 Cu
 
 import pytest
 
-from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Alloc, Block, BlockchainTestFiller, Transaction
 
 from .spec import Spec, ref_spec_7951
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7951.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7951.version
 
-pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
+pytestmark = pytest.mark.valid_at_transition_to("Osaka")
 
 
 @pytest.mark.parametrize(
@@ -26,10 +26,12 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
         ),
     ],
 )
-@pytest.mark.parametrize("expected_output,call_succeeds", [pytest.param(b"", True, id="")])
+@pytest.mark.parametrize(
+    "expected_output,call_succeeds", [pytest.param(b"", True, id=pytest.HIDDEN_PARAM)]
+)
 @pytest.mark.eip_checklist("precompile/test/fork_transition/before/invalid_input")
 def test_precompile_before_fork(
-    state_test: StateTestFiller,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     post: dict,
     tx: Transaction,
@@ -39,9 +41,8 @@ def test_precompile_before_fork(
 
     The call must succeed but the output must be empty.
     """
-    state_test(
-        env=Environment(),
+    blockchain_test(
         pre=pre,
-        tx=tx,
+        blocks=[Block(txs=[tx])],
         post=post,
     )
