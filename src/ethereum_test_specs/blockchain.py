@@ -659,8 +659,8 @@ class BlockchainTest(BaseTest):
                 and block.requests is None
                 and not block.skip_exception_verification
                 and not (
-                block.expected_block_access_list is not None
-                and block.expected_block_access_list._modifier is not None
+                    block.expected_block_access_list is not None
+                    and block.expected_block_access_list._modifier is not None
                 )
             ):
                 # Only verify block level exception if:

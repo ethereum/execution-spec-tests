@@ -197,13 +197,13 @@ class BlockAccessListExpectation(CamelModel):
 
     """
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     account_expectations: Dict[Address, BalAccountExpectation | None] = Field(
         default_factory=dict, description="Expected account changes or exclusions to verify"
     )
 
-    _modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = PrivateAttr(
-        default=None
-    )
+    _modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = PrivateAttr(default=None)
 
     def modify(
         self, *modifiers: Callable[["BlockAccessList"], "BlockAccessList"]
