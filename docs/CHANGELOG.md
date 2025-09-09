@@ -239,6 +239,7 @@ Users can select any of the artifacts depending on their benchmarking or testing
 - 🔀 Adds the max blob transaction limit to the tests including updates to [EIP-4844](https://eips.ethereum.org/EIPS/eip-4844) for Osaka ([#1884](https://github.com/ethereum/execution-spec-tests/pull/1884)).
 - 🐞 Fix issues when filling block rlp size limit tests with ``--generate-pre-alloc-groups`` ([#1989](https://github.com/ethereum/execution-spec-tests/pull/1989)).
 - ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add test cases for `Block Level Access Lists (BAL)` to Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
+- 🐞 Fix issues with `Block Level Access Lists (BAL)` tests for Amsterdam ([#2121](https://github.com/ethereum/execution-spec-tests/pull/2121)).
 
 ## [v4.5.0](https://github.com/ethereum/execution-spec-tests/releases/tag/v4.5.0) - 2025-05-14
 

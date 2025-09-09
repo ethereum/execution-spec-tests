@@ -9,7 +9,7 @@ from functools import cached_property
 from typing import Any, Callable, ClassVar, Dict, List
 
 import ethereum_rlp as eth_rlp
-from pydantic import Field
+from pydantic import Field, PrivateAttr
 
 from ethereum_test_base_types import (
     Address,
@@ -197,15 +197,13 @@ class BlockAccessListExpectation(CamelModel):
 
     """
 
+    model_config = CamelModel.model_config | {"extra": "forbid"}
+
     account_expectations: Dict[Address, BalAccountExpectation | None] = Field(
         default_factory=dict, description="Expected account changes or exclusions to verify"
     )
 
-    modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = Field(
-        None,
-        exclude=True,
-        description="Optional modifier to modify the BAL for invalid tests",
-    )
+    _modifier: Callable[["BlockAccessList"], "BlockAccessList"] | None = PrivateAttr(default=None)
 
     def modify(
         self, *modifiers: Callable[["BlockAccessList"], "BlockAccessList"]
@@ -228,7 +226,7 @@ class BlockAccessListExpectation(CamelModel):
 
         """
         new_instance = self.model_copy(deep=True)
-        new_instance.modifier = compose(*modifiers)
+        new_instance._modifier = compose(*modifiers)
         return new_instance
 
     def to_fixture_bal(self, t8n_bal: "BlockAccessList") -> "BlockAccessList":
@@ -249,8 +247,8 @@ class BlockAccessListExpectation(CamelModel):
             self.verify_against(t8n_bal)
 
         # Apply modifier if present (for invalid tests)
-        if self.modifier:
-            return self.modifier(t8n_bal)
+        if self._modifier:
+            return self._modifier(t8n_bal)
 
         return t8n_bal
 

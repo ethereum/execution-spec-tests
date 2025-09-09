@@ -20,6 +20,7 @@ from ethereum_test_tools import (
 )
 from ethereum_test_types.block_access_list import (
     BalAccountChange,
+    BalAccountExpectation,
     BalBalanceChange,
     BalNonceChange,
     BalStorageChange,
@@ -73,12 +74,11 @@ def test_bal_invalid_missing_nonce(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                    ]
+                    }
                 ).modify(remove_nonces(sender)),
             )
         ],
@@ -113,12 +113,11 @@ def test_bal_invalid_nonce_value(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                    ]
+                    }
                 ).modify(modify_nonce(sender, tx_index=1, nonce=42)),
             )
         ],
@@ -158,9 +157,8 @@ def test_bal_invalid_storage_value(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=contract,
+                    account_expectations={
+                        contract: BalAccountExpectation(
                             storage_changes=[
                                 BalStorageSlot(
                                     slot=0x01,
@@ -176,7 +174,7 @@ def test_bal_invalid_storage_value(
                                 ),
                             ],
                         ),
-                    ]
+                    }
                 ).modify(
                     # Corrupt storage value for slot 0x02
                     modify_storage(contract, tx_index=1, slot=0x02, value=0xFF)
@@ -223,23 +221,20 @@ def test_bal_invalid_tx_order(
                 txs=[tx1, tx2],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender1,
+                    account_expectations={
+                        sender1: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                        BalAccountChange(
-                            address=sender2,
+                        sender2: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=2, post_nonce=1)],
                         ),
-                        BalAccountChange(
-                            address=receiver,
+                        receiver: BalAccountExpectation(
                             balance_changes=[
                                 BalBalanceChange(tx_index=1, post_balance=10**15),
                                 BalBalanceChange(tx_index=2, post_balance=3 * 10**15),
                             ],
                         ),
-                    ]
+                    }
                 ).modify(swap_tx_indices(1, 2)),
             )
         ],
@@ -276,12 +271,11 @@ def test_bal_invalid_account(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                    ]
+                    }
                 ).modify(
                     append_account(
                         BalAccountChange(
@@ -323,16 +317,14 @@ def test_bal_invalid_duplicate_account(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                        BalAccountChange(
-                            address=receiver,
+                        receiver: BalAccountExpectation(
                             balance_changes=[BalBalanceChange(tx_index=1, post_balance=10**15)],
                         ),
-                    ]
+                    }
                 ).modify(duplicate_account(sender)),
             )
         ],
@@ -367,16 +359,14 @@ def test_bal_invalid_account_order(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                        BalAccountChange(
-                            address=receiver,
+                        receiver: BalAccountExpectation(
                             balance_changes=[BalBalanceChange(tx_index=1, post_balance=10**15)],
                         ),
-                    ]
+                    }
                 ).modify(reverse_accounts()),
             )
         ],
@@ -424,16 +414,14 @@ def test_bal_invalid_complex_corruption(
                 txs=[tx1, tx2],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[
                                 BalNonceChange(tx_index=1, post_nonce=1),
                                 BalNonceChange(tx_index=2, post_nonce=2),
                             ],
                         ),
-                        BalAccountChange(
-                            address=contract,
+                        contract: BalAccountExpectation(
                             storage_changes=[
                                 BalStorageSlot(
                                     slot=0x01,
@@ -445,11 +433,10 @@ def test_bal_invalid_complex_corruption(
                                 ),
                             ],
                         ),
-                        BalAccountChange(
-                            address=receiver,
+                        receiver: BalAccountExpectation(
                             balance_changes=[BalBalanceChange(tx_index=2, post_balance=10**15)],
                         ),
-                    ]
+                    }
                 ).modify(
                     remove_nonces(sender),
                     modify_storage(contract, tx_index=1, slot=0x01, value=0xFF),
@@ -489,16 +476,14 @@ def test_bal_invalid_missing_account(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=sender,
+                    account_expectations={
+                        sender: BalAccountExpectation(
                             nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
                         ),
-                        BalAccountChange(
-                            address=receiver,
+                        receiver: BalAccountExpectation(
                             balance_changes=[BalBalanceChange(tx_index=1, post_balance=10**15)],
                         ),
-                    ]
+                    }
                 ).modify(remove_accounts(receiver)),
             )
         ],
@@ -533,12 +518,11 @@ def test_bal_invalid_balance_value(
                 txs=[tx],
                 exception=BlockException.INCORRECT_BLOCK_FORMAT,
                 expected_block_access_list=BlockAccessListExpectation(
-                    account_changes=[
-                        BalAccountChange(
-                            address=receiver,
+                    account_expectations={
+                        receiver: BalAccountExpectation(
                             balance_changes=[BalBalanceChange(tx_index=1, post_balance=10**15)],
                         ),
-                    ]
+                    }
                 ).modify(modify_balance(receiver, tx_index=1, balance=999999)),
             )
         ],
