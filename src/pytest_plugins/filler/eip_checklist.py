@@ -11,7 +11,6 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import ClassVar, Dict, List, Set, Tuple, Type
-from typing import ClassVar, Dict, List, Set, Tuple, Type
 
 import pytest
 
