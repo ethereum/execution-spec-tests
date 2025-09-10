@@ -1,4 +1,4 @@
-# EIP-7928 Block Access Lists (BAL) Test Checklist
+# EIP-7928 Block Access Lists (BAL) Test Cases
 
 | Function Name | Goal | Setup | Expectation | Status |
 |---------------|------|-------|-------------|--------|
