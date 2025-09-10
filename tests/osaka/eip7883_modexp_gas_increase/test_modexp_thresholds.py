@@ -322,7 +322,6 @@ def create_modexp_variable_gas_test_cases():
         ("00" * 1024, "00" * 32, "01" * 32, "00" * 31 + "01", "Z13"),
         ("01" * 32, "00" * 1024, "00" * 32, "00" * 32, "Z14"),
         ("01" * 32, "00" * 31 + "01", "00" * 1024, "00" * 1024, "Z15"),
-        ("00" * 32, "00" * 1024, "01" * 1024, "00" * 1023 + "01", "Z16"),
         # Maximum value stress tests
         ("FF" * 64, "FF" * 64, "FF" * 64, "00" * 64, "M1"),
         ("FF" * 32, "01", "FF" * 32, "00" * 32, "M2"),
@@ -456,4 +455,10 @@ def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
     Test ModExp variable gas cost.
     Inputs with an expected gas cost over the EIP-7825 tx gas cap.
     """
+    # Test case coverage table (gas cap):
+    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬───────────────────────────────────────────────┐
+    # │ ID  │ Comp │ Rel │ Iter │ Clamp │   Gas   │ Description                                   │
+    # ├─────┼──────┼─────┼──────┼───────┼─────────┼───────────────────────────────────────────────┤
+    # │ Z16 │  L   │  <  │  C   │ False │520060928│ Zero base, zero exp, large modulus (gas cap)  |
+    # └─────┴──────┴─────┴──────┴───────┴─────────┴───────────────────────────────────────────────┘
     state_test(pre=pre, tx=tx, post=post)
