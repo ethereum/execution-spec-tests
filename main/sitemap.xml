@@ -1689,6 +1689,10 @@
          <lastmod>2025-09-10</lastmod>
     </url>
     <url>
+         <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_modexp_variable_gas_cost_exceed_tx_gas_cap/</loc>
+         <lastmod>2025-09-10</lastmod>
+    </url>
+    <url>
          <loc>https://eest.ethereum.org/main/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds/test_vectors_from_eip/</loc>
          <lastmod>2025-09-10</lastmod>
     </url>

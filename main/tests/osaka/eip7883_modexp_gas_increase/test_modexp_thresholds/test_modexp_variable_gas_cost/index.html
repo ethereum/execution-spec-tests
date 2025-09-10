@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_modexp_used_in_transaction_entry_points/">
       
       
-        <link rel="next" href="../../test_modexp_thresholds_transition/">
+        <link rel="next" href="../test_modexp_variable_gas_cost_exceed_tx_gas_cap/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -4243,6 +4243,8 @@
       
         
       
+        
+      
     
     
     
@@ -4525,6 +4527,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_modexp_variable_gas_cost_exceed_tx_gas_cap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_modexp_variable_gas_cost_exceed_tx_gas_cap</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27060,7 +27085,7 @@
 
 
 <h1 id="test_modexp_variable_gas_cost"><code>test_modexp_variable_gas_cost()</code><a class="headerlink" href="#test_modexp_variable_gas_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8b9fa6193accbaff27feac6273db60cc2b3f2246/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L425"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost@8b9fa619</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/58368d669582a766131fe96cd4ea3ee108e97e39/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L451"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost@58368d66</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost --fork Osaka</span>
@@ -27080,19 +27105,19 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">451</span>
+<span class="normal">452</span>
+<span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected&quot;</span><span class="p">,</span>
     <span class="n">create_modexp_variable_gas_test_cases</span><span class="p">(),</span>
 <span class="p">)</span>
@@ -27624,6 +27649,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC1]">
+                    ...fork_Berlin-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC3]">
+                    ...fork_Berlin-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC4]">
+                    ...fork_Berlin-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC5]">
+                    ...fork_Berlin-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC6]">
+                    ...fork_Berlin-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC7]">
+                    ...fork_Berlin-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC9]">
+                    ...fork_Berlin-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-state_test-IC10]">
+                    ...fork_Berlin-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -28083,6 +28188,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC1]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC3]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC4]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC5]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC6]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC7]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC9]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Berlin-blockchain_test_from_state_test-IC10]">
+                    ...fork_Berlin-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
@@ -28544,6 +28729,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC1]">
+                    ...fork_London-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC3]">
+                    ...fork_London-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC4]">
+                    ...fork_London-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC5]">
+                    ...fork_London-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC6]">
+                    ...fork_London-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC7]">
+                    ...fork_London-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC9]">
+                    ...fork_London-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-state_test-IC10]">
+                    ...fork_London-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -29003,6 +29268,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC1]">
+                    ...fork_London-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC3]">
+                    ...fork_London-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC4]">
+                    ...fork_London-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC5]">
+                    ...fork_London-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC6]">
+                    ...fork_London-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC7]">
+                    ...fork_London-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC9]">
+                    ...fork_London-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_London-blockchain_test_from_state_test-IC10]">
+                    ...fork_London-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
@@ -29464,6 +29809,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC1]">
+                    ...fork_Paris-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC3]">
+                    ...fork_Paris-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC4]">
+                    ...fork_Paris-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC5]">
+                    ...fork_Paris-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC6]">
+                    ...fork_Paris-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC7]">
+                    ...fork_Paris-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC9]">
+                    ...fork_Paris-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-state_test-IC10]">
+                    ...fork_Paris-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -29923,6 +30348,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC1]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC3]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC4]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC5]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC6]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC7]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC9]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Paris-blockchain_test_from_state_test-IC10]">
+                    ...fork_Paris-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
@@ -30384,6 +30889,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC1]">
+                    ...fork_Shanghai-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC3]">
+                    ...fork_Shanghai-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC4]">
+                    ...fork_Shanghai-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC5]">
+                    ...fork_Shanghai-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC6]">
+                    ...fork_Shanghai-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC7]">
+                    ...fork_Shanghai-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC9]">
+                    ...fork_Shanghai-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-state_test-IC10]">
+                    ...fork_Shanghai-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -30843,6 +31428,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC1]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC3]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC4]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC5]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC6]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC7]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC9]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Shanghai-blockchain_test_from_state_test-IC10]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
@@ -31304,6 +31969,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC1]">
+                    ...fork_Cancun-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC3]">
+                    ...fork_Cancun-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC4]">
+                    ...fork_Cancun-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC5]">
+                    ...fork_Cancun-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC6]">
+                    ...fork_Cancun-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC7]">
+                    ...fork_Cancun-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC9]">
+                    ...fork_Cancun-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-state_test-IC10]">
+                    ...fork_Cancun-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -31763,6 +32508,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC1]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC3]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC4]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC5]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC6]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC7]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC9]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Cancun-blockchain_test_from_state_test-IC10]">
+                    ...fork_Cancun-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
@@ -32224,6 +33049,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC1]">
+                    ...fork_Prague-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC3]">
+                    ...fork_Prague-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC4]">
+                    ...fork_Prague-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC5]">
+                    ...fork_Prague-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC6]">
+                    ...fork_Prague-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC7]">
+                    ...fork_Prague-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC9]">
+                    ...fork_Prague-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-state_test-IC10]">
+                    ...fork_Prague-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -32683,6 +33588,86 @@
             </td>
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC1]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC3]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC4]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC5]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC6]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC7]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC9]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Prague-blockchain_test_from_state_test-IC10]">
+                    ...fork_Prague-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
@@ -33144,6 +34129,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC1]">
+                    ...fork_Osaka-state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC3]">
+                    ...fork_Osaka-state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC4]">
+                    ...fork_Osaka-state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC5]">
+                    ...fork_Osaka-state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC6]">
+                    ...fork_Osaka-state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC7]">
+                    ...fork_Osaka-state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC9]">
+                    ...fork_Osaka-state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-state_test-IC10]">
+                    ...fork_Osaka-state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
@@ -33604,6 +34669,86 @@
                         <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x7f\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>01010101010101010101010101010101</code></td>
                     </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC1]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC1
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\x01' modulus=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code> <code>00</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC3]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC3
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC4]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC4]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC4
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>010101010101010101</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC5]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC5]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC5
+                </abbr>
+            </td>
+                        <td>base=b'\x01' exponent=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC6]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC6]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC6
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' exponent=b'\x01' modulus=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x00' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC7]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC7]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC7
+                </abbr>
+            </td>
+                        <td>base=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x01' modulus=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>00000000000000000000000000000000</code> <code>00000000000000000000000000000000</code></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC9]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC9]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC9
+                </abbr>
+            </td>
+                        <td>base=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' exponent=b'\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff' modulus=b'' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td></td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC10]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_variable_gas_cost[fork_Osaka-blockchain_test_from_state_test-IC10]">
+                    ...fork_Osaka-blockchain_test_from_state_test-IC10
+                </abbr>
+            </td>
+                        <td>base=b'\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01' exponent=b'\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00' modulus=b'\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>01010101010101010101010101010101</code> <code>01010101010101010101010101010101</code></td>
+                    </tr>
             </tbody>
 </table>
 
@@ -33657,13 +34802,13 @@
         
         
           
-          <a href="../../test_modexp_thresholds_transition/" class="md-footer__link md-footer__link--next" aria-label="Next: Test Modexp Thresholds Transition">
+          <a href="../test_modexp_variable_gas_cost_exceed_tx_gas_cap/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_modexp_variable_gas_cost_exceed_tx_gas_cap&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Test Modexp Thresholds Transition
+                <code>test_modexp_variable_gas_cost_exceed_tx_gas_cap</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">
