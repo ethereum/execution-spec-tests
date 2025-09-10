@@ -342,6 +342,23 @@ def create_modexp_variable_gas_test_cases():
         ("01" * 16, "80" + "00" * 31, "02" * 16, "01" * 16, "E2"),
         ("01" * 16, "00" * 31 + "80", "02" * 16, "01" * 16, "E3"),
         ("01" * 16, "7F" + "FF" * 31, "02" * 16, "01" * 16, "E4"),
+        # Implementation coverage cases
+        # IC1: Bit shift vs multiplication at 33-byte boundary
+        ("FF" * 33, "01", "FF" * 33, "00" * 33, "IC1"),
+        # IC3: Ceiling division at 7 bytes
+        ("01" * 7, "01", "02" * 7, "01" * 7, "IC3"),
+        # IC4: Ceiling division at 9 bytes
+        ("01" * 9, "01", "02" * 9, "01" * 9, "IC4"),
+        # IC5: Bit counting in middle of exponent
+        ("01", "00" * 15 + "80" + "00" * 16, "02", "01", "IC5"),
+        # IC6: Native library even byte optimization
+        ("01" * 31 + "00", "01", "01" * 31 + "00", "00" * 32, "IC6"),
+        # IC7: Vector optimization 128-bit boundary
+        ("00" * 15 + "01" * 17, "01", "00" * 15 + "01" * 17, "00" * 32, "IC7"),
+        # IC9: Zero modulus with large inputs
+        ("FF" * 32, "FF" * 32, "", "", "IC9"),
+        # IC10: Power-of-2 boundary with high bit
+        ("01" * 32, "80" + "00" * 31, "02" * 32, "01" * 32, "IC10"),
     ]
 
     # Gas calculation parameters:
@@ -378,16 +395,16 @@ def create_modexp_variable_gas_test_cases():
     # │ S0  │  S   │  =  │  A   │ True  │   500   │ Small, equal, zero exp, clamped               │
     # │ S1  │  S   │  =  │  B   │ True  │   500   │ Small, equal, small exp, clamped              │
     # │ S2  │  S   │  =  │  B   │ False │  4080   │ Small, equal, large exp, unclamped            │
-    # │ S3  │  S   │  =  │  C   │ False │  2032   │ Small, equal, large exp + zero low256         │
+    # │ S3  │  S   │  =  │  C   │ False │  2048   │ Small, equal, large exp + zero low256         │
     # │ S4  │  S   │  =  │  D   │ False │  2048   │ Small, equal, large exp + non-zero low256     │
     # │ S5  │  S   │  >  │  A   │ True  │   500   │ Small, base > mod, zero exp, clamped          │
     # │ S6  │  S   │  <  │  B   │ True  │   500   │ Small, base < mod, small exp, clamped         │
     # │ L0  │  L   │  =  │  A   │ True  │   500   │ Large, equal, zero exp, clamped               │
     # │ L1  │  L   │  =  │  B   │ False │ 12750   │ Large, equal, large exp, unclamped            │
-    # │ L2  │  L   │  =  │  C   │ False │  6350   │ Large, equal, large exp + zero low256         │
+    # │ L2  │  L   │  =  │  C   │ False │  6400   │ Large, equal, large exp + zero low256         │
     # │ L3  │  L   │  =  │  D   │ False │  6400   │ Large, equal, large exp + non-zero low256     │
     # │ L4  │  L   │  >  │  B   │ True  │   500   │ Large, base > mod, small exp, clamped         │
-    # │ L5  │  L   │  <  │  C   │ False │  9144   │ Large, base < mod, large exp + zero low256    │
+    # │ L5  │  L   │  <  │  C   │ False │  9216   │ Large, base < mod, large exp + zero low256    │
     # │ B1  │  L   │  <  │  B   │ True  │   500   │ Cross 32-byte boundary (31/33)                │
     # │ B2  │  L   │  >  │  B   │ True  │   500   │ Cross 32-byte boundary (33/31)                │
     # │ B4  │  L   │  =  │  B   │ True  │   500   │ Just over 32-byte boundary                    │
@@ -404,15 +421,23 @@ def create_modexp_variable_gas_test_cases():
     # │ M3  │  L   │  <  │  D   │ False │ 98176   │ Small base, max exponent/mod                  │
     # │ T2  │  S   │  =  │  B   │ True  │   500   │ Tiny maximum values                           │
     # │ P2  │  S   │  =  │  B   │ False │  4080   │ High bit in exponent                          │
-    # │ P3  │  L   │  =  │  D   │ False │  1550   │ Specific bit pattern in large exponent        │
-    # │ A1  │  L   │  <  │  C   │ False │ 65408   │ Asymmetric: tiny base, large exp/mod          │
+    # │ P3  │  L   │  =  │  D   │ False │  1150   │ Specific bit pattern in large exponent        │
+    # │ A1  │  L   │  <  │  C   │ False │ 65536   │ Asymmetric: tiny base, large exp/mod          │
     # │ A2  │  L   │  >  │  B   │ True  │   500   │ Asymmetric: large base, tiny exp/mod          │
-    # │ A3  │  L   │  >  │  C   │ False │ 65408   │ Asymmetric: large base/exp, tiny modulus      │
+    # │ A3  │  L   │  >  │  C   │ False │ 65536   │ Asymmetric: large base/exp, tiny modulus      │
     # │ W2  │  S   │  =  │  B   │ True  │   500   │ Exactly 8-byte words                          │
     # │ E1  │  S   │  =  │  D   │ True  │   500   │ Exponent exactly 33 bytes                     │
     # │ E2  │  S   │  =  │  B   │ False │  4080   │ High bit in exponent first byte               │
     # │ E3  │  S   │  =  │  B   │ True  │   500   │ High bit in exponent last byte                │
     # │ E4  │  S   │  =  │  B   │ False │  4064   │ Maximum 32-byte exponent                      │
+    # │ IC1 │  L   │  =  │  B   │ True  │   500   │ Bit shift vs multiplication @ 33 bytes        │
+    # │ IC3 │  S   │  =  │  B   │ True  │   500   │ Ceiling division at 7 bytes                   │
+    # │ IC4 │  S   │  =  │  B   │ True  │   500   │ Ceiling division at 9 bytes                   │
+    # │ IC5 │  S   │  =  │  B   │ False │  2160   │ Bit counting in middle of exponent            │
+    # │ IC6 │  L   │  =  │  B   │ True  │   500   │ Native library even byte optimization         │
+    # │ IC7 │  L   │  =  │  B   │ True  │   500   │ Vector optimization 128-bit boundary          │
+    # │ IC9 │  S   │  =  │  B   │  N/A  │   N/A   │ Zero modulus handling                         │
+    # │ IC10│  S   │  =  │  B   │ False │  4080   │ Power-of-2 boundary with high bit             │
     # └─────┴──────┴─────┴──────┴───────┴─────────┴───────────────────────────────────────────────┘
     for base, exponent, modulus, expected_result, test_id in test_cases:
         yield pytest.param(
