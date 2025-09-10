@@ -154,6 +154,10 @@ def pytest_configure(config: pytest.Config):
         "markers",
         "ported_from: Marks a test as ported from ethereum/tests",
     )
+    config.addinivalue_line(
+        "markers",
+        "valid_for_bpo_forks: Marks a test as valid for BPO forks",
+    )
 
 
 @pytest.fixture(scope="function")
