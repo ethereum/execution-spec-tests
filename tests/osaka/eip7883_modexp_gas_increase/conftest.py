@@ -6,23 +6,14 @@ import pytest
 
 from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import (
-    (
     Account,
-   
     Address,
-   
     Alloc,
-   
     Bytes,
     Environment,
-   
-    Environment,
     Storage,
-   
     Transaction,
-   
     keccak256,
-),
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
