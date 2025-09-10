@@ -416,6 +416,7 @@ def create_modexp_variable_gas_test_cases():
     # │ Z13 │  L   │  >  │  A   │ False │ 32768   │ Large zero base, zero exp, non-zero modulus   │
     # │ Z14 │  S   │  =  │  C   │ False │253936   │ Base, large zero exp, zero modulus            │
     # │ Z15 │  L   │  <  │  B   │ False │ 32768   │ Base, small exp, large zero modulus           │
+    # │ Z16 │  L   │  <  │  C   │ False │520060928│ Zero base, zero exp, large modulus (gas cap)  |
     # │ M1  │  L   │  =  │  D   │ False │ 98176   │ Maximum values stress test                    │
     # │ M2  │  S   │  =  │  B   │ True  │   500   │ Max base/mod, small exponent                  │
     # │ M3  │  L   │  <  │  D   │ False │ 98176   │ Small base, max exponent/mod                  │
@@ -459,4 +460,30 @@ def test_modexp_variable_gas_cost(
     post: Dict,
 ):
     """Test ModExp variable gas cost."""
+    state_test(pre=pre, tx=tx, post=post)
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,expected_tx_cap_fail",
+    [
+        pytest.param(
+            ModExpInput(base="00" * 32, exponent="00" * 1024, modulus="01" * 1024),
+            bytes.fromhex("00" * 1023 + "01"),
+            True,
+            id="Z16-gas-cap-test",
+        ),
+    ],
+)
+@pytest.mark.valid_from("Berlin")
+def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
+    """
+    Test ModExp variable gas cost.
+    Inputs with an expected gas cost over the EIP-7825 tx gas cap.
+    """
+    # Test case coverage table (gas cap):
+    # ┌─────┬──────┬─────┬──────┬───────┬─────────┬───────────────────────────────────────────────┐
+    # │ ID  │ Comp │ Rel │ Iter │ Clamp │   Gas   │ Description                                   │
+    # ├─────┼──────┼─────┼──────┼───────┼─────────┼───────────────────────────────────────────────┤
+    # │ Z16 │  L   │  <  │  C   │ False │520060928│ Zero base, zero exp, large modulus (gas cap)  |
+    # └─────┴──────┴─────┴──────┴───────┴─────────┴───────────────────────────────────────────────┘
     state_test(pre=pre, tx=tx, post=post)
