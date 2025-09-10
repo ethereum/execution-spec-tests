@@ -75,11 +75,23 @@ def exceeds_tx_gas_cap(total_tx_gas_needed: int, fork: Fork, env: Environment) -
 
 
 @pytest.fixture
-def call_succeeds(exceeds_tx_gas_cap: bool) -> bool:
+def expected_tx_cap_fail() -> bool:
+    """Whether this test is expected to fail due to transaction gas cap."""
+    return False
+
+
+@pytest.fixture
+def call_succeeds(exceeds_tx_gas_cap: bool, expected_tx_cap_fail: bool) -> bool:
     """
-    By default, depending on the expected output, we can deduce if the call is expected to succeed
-    or fail. Under EIP-7825, transactions requiring more gas than the cap should fail.
+    Determine whether the ModExp precompile call should succeed or fail.
+    By default, depending on the expected output, we assume it succeeds.
+    Under EIP-7825, transactions requiring more gas than the cap should fail only if unexpected.
     """
+    if exceeds_tx_gas_cap and not expected_tx_cap_fail:
+        pytest.fail(
+            "Test unexpectedly exceeds tx gas cap. "
+            "Either mark with `expected_tx_cap_fail=True` or adjust inputs."
+        )
     return not exceeds_tx_gas_cap
 
 
