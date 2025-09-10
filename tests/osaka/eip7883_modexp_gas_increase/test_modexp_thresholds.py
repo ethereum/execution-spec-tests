@@ -437,3 +437,23 @@ def test_modexp_variable_gas_cost(
 ):
     """Test ModExp variable gas cost."""
     state_test(pre=pre, tx=tx, post=post)
+
+
+@pytest.mark.parametrize(
+    "modexp_input,modexp_expected,expected_tx_cap_fail",
+    [
+        pytest.param(
+            ModExpInput(base="00" * 32, exponent="00" * 1024, modulus="01" * 1024),
+            bytes.fromhex("00" * 1023 + "01"),
+            True,
+            id="Z16-gas-cap-test",
+        ),
+    ],
+)
+@pytest.mark.valid_from("Berlin")
+def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
+    """
+    Test ModExp variable gas cost.
+    Inputs with an expected gas cost over the EIP-7825 tx gas cap.
+    """
+    state_test(pre=pre, tx=tx, post=post)
