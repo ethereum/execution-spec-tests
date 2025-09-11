@@ -9,7 +9,6 @@ from ethereum_test_base_types import HashInt
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
-    Address,
     Alloc,
     Block,
     BlockchainTestFiller,
@@ -18,6 +17,7 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
     While,
+    compute_create2_address,
     keccak256,
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
@@ -26,25 +26,7 @@ REFERENCE_SPEC_GIT_PATH = "DUMMY/eip-DUMMY.md"
 REFERENCE_SPEC_VERSION = "0.1"
 
 # Constants for CREATE2 address calculation
-CREATE2_PREFIX = 0xFF
 CREATE2_MEMORY_OFFSET = 0x1000  # Offset for CREATE2 calculation to avoid collision
-
-
-def calculate_create2_address(deployer_address, salt: int, init_code: bytes):
-    """Calculate CREATE2 deterministic address."""
-    # Handle both string and Address types
-    if isinstance(deployer_address, str):
-        addr_hex = deployer_address[2:] if deployer_address.startswith("0x") else deployer_address
-        deployer_bytes = bytes.fromhex(addr_hex)
-    else:
-        # Assume it's an Address object with bytes representation
-        deployer_bytes = bytes(deployer_address)
-    salt_bytes = salt.to_bytes(32, "big")
-    init_code_hash = keccak256(init_code)
-
-    packed = bytes([CREATE2_PREFIX]) + deployer_bytes + salt_bytes + init_code_hash
-    address_hash = keccak256(packed)
-    return Address(address_hash[-20:])
 
 
 def generate_create2_address_calculation(
@@ -59,7 +41,7 @@ def generate_create2_address_calculation(
     base = CREATE2_MEMORY_OFFSET
 
     # Store 0xFF prefix at memory[base]
-    code += Op.PUSH1(CREATE2_PREFIX) + Op.PUSH2(base) + Op.MSTORE8
+    code += Op.PUSH1(0xFF) + Op.PUSH2(base) + Op.MSTORE8
 
     # Store factory address at memory[base+1:base+21]
     # Handle both string and Address types
@@ -349,7 +331,9 @@ def test_bloatnet_extcodesize_balance(
         )
 
         # Calculate the CREATE2 address (using base init_code for consistent addresses)
-        create2_addr = calculate_create2_address(factory_address, salt, bytes(init_code))
+        create2_addr = compute_create2_address(
+            address=factory_address, salt=salt, initcode=bytes(init_code)
+        )
         # Deploy at the calculated address with unique bytecode
         pre[create2_addr] = Account(code=deploy_bytecode)
         deployed_contracts.append(create2_addr)
@@ -549,7 +533,9 @@ def test_bloatnet_extcodecopy_balance(
         assert len(bytecode) == max_contract_size, f"Contract size mismatch: {len(bytecode)}"
 
         # Calculate CREATE2 address (using base init_code for consistent addresses)
-        create2_addr = calculate_create2_address(factory_address, salt, bytes(init_code))
+        create2_addr = compute_create2_address(
+            address=factory_address, salt=salt, initcode=bytes(init_code)
+        )
 
         # Deploy at the calculated address with unique bytecode
         pre[create2_addr] = Account(code=bytecode)
