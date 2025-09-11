@@ -1,10 +1,10 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Sequence, Tuple, Type
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Self, Sequence, Tuple, Type
 
 import pytest
-from pydantic import ConfigDict, Field, field_validator
+from pydantic import ConfigDict, Field, PrivateAttr, field_validator
 
 from ethereum_clis import BlockExceptionWithMessage, Result, TransitionTool
 from ethereum_test_base_types import (
@@ -250,6 +250,14 @@ class Block(Header):
     """
         EIP-7928: Block-level access lists (serialized).
     """
+    parent_block: Self | None = Field(None, exclude=True)
+    """
+    Parent block for re-orgs.
+    """
+    _built_block: Self | None = PrivateAttr(None)
+    """
+    Resulting built block.
+    """
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -427,6 +435,7 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = Field(default_factory=Environment)
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
+    re_org_test: bool = False
     """
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
@@ -732,6 +741,8 @@ class BlockchainTest(BaseTest):
                 previous_alloc=alloc,
                 last_block=i == len(self.blocks) - 1,
             )
+            if self.re_org_test:
+                built_block._built_block = built_block
             fixture_blocks.append(built_block.get_fixture_block())
 
             # BAL verification already done in to_fixture_bal() if expected_block_access_list set
