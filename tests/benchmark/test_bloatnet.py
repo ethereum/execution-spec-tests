@@ -297,11 +297,7 @@ def test_bloatnet_extcodesize_balance(
     )
 
     # Calculate maximum contracts we can access
-    # Reserve some gas for the final SSTORE operation
-    reserved_gas = 50000  # Reserve 50k gas for final operations and safety
-    available_gas_for_loops = available_gas_for_access - reserved_gas
-    # Use 98% of calculated contracts (less conservative)
-    num_contracts = int(available_gas_for_loops // cost_per_iteration * 0.98)
+    num_contracts = int(available_gas_for_access // cost_per_iteration)
 
     # Generate unique bytecode for deployment (will be same for all to simplify init_code_hash)
     deploy_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
@@ -386,6 +382,14 @@ def test_bloatnet_extcodesize_balance(
             nonce=1,  # Contract exists and was deployed
         )
 
+    # Calculate expected gas usage precisely
+    expected_benchmark_gas_used = (
+        intrinsic_gas
+        + memory_expansion_cost
+        + (num_contracts * cost_per_iteration)
+        + final_storage_cost
+    )
+
     blockchain_test(
         pre=pre,
         blocks=[
@@ -393,6 +397,7 @@ def test_bloatnet_extcodesize_balance(
         ],
         post=post,
         exclude_full_post_state_in_output=True,  # Reduce output size
+        expected_benchmark_gas_used=expected_benchmark_gas_used,
     )
 
 
@@ -471,11 +476,7 @@ def test_bloatnet_extcodecopy_balance(
 
     # Calculate maximum contracts we can access
     # This test scales automatically: ~1000 contracts at 90M gas, ~10,000 at 900M gas
-    # Reserve some gas for the final SSTORE operation
-    reserved_gas = 50000  # Reserve 50k gas for final operations and safety
-    available_gas_for_loops = available_gas_for_access - reserved_gas
-    # Use 98% of calculated contracts (less conservative)
-    num_contracts = int(available_gas_for_loops // cost_per_iteration * 0.98)
+    num_contracts = int(available_gas_for_access // cost_per_iteration)
 
     # Generate base bytecode template
     base_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
@@ -578,6 +579,15 @@ def test_bloatnet_extcodecopy_balance(
             nonce=1,  # Contract exists and was deployed
         )
 
+    # Calculate expected gas usage precisely
+    expected_benchmark_gas_used = (
+        intrinsic_gas
+        + memory_expansion_cost
+        + extcodecopy_memory_expansion
+        + (num_contracts * cost_per_iteration)
+        + final_storage_cost
+    )
+
     blockchain_test(
         pre=pre,
         blocks=[
@@ -585,4 +595,5 @@ def test_bloatnet_extcodecopy_balance(
         ],
         post=post,
         exclude_full_post_state_in_output=True,  # Reduce output size
+        expected_benchmark_gas_used=expected_benchmark_gas_used,
     )
