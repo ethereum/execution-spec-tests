@@ -1,9 +1,12 @@
 """Ethereum benchmark test spec definition and filler."""
 
-from typing import Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
+from contextlib import contextmanager
+from contextvars import ContextVar
+from enum import Enum
+from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
 import pytest
-from pydantic import Field
+from pydantic import ConfigDict, Field
 
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import HexNumber
@@ -29,8 +32,73 @@ from .base import BaseTest
 from .blockchain import Block, BlockchainTest
 
 
+class BenchmarkPhase(Enum):
+    """Phases of a benchmark test."""
+
+    SETUP = "setup"
+    EXECUTION = "execution"
+
+
+_current_phase: ContextVar[Optional[BenchmarkPhase]] = ContextVar("benchmark_phase", default=None)
+
+
+class BenchmarkManager:
+    """Context manager for managing benchmark test phases."""
+
+    def __init__(self):
+        """Initialize the BenchmarkManager with empty transaction and block lists."""
+        self.setup_transactions: List[Transaction] = []
+        self.setup_blocks: List[Block] = []
+        self.execution_transactions: List[Transaction] = []
+        self.execution_blocks: List[Block] = []
+
+    @contextmanager
+    def setup(self):
+        """Context manager for the setup phase of a benchmark test."""
+        token = _current_phase.set(BenchmarkPhase.SETUP)
+        try:
+            yield self
+        finally:
+            _current_phase.reset(token)
+
+    @contextmanager
+    def execution(self):
+        """Context manager for the execution phase of a benchmark test."""
+        token = _current_phase.set(BenchmarkPhase.EXECUTION)
+        try:
+            yield self
+        finally:
+            _current_phase.reset(token)
+
+    def add_transaction(self, tx: Transaction):
+        """Add a transaction to the current phase."""
+        current_phase = _current_phase.get()
+        if current_phase == BenchmarkPhase.SETUP:
+            self.setup_transactions.append(tx)
+        elif current_phase == BenchmarkPhase.EXECUTION:
+            self.execution_transactions.append(tx)
+        else:
+            self.setup_transactions.append(tx)
+
+    def add_block(self, block: Block):
+        """Add a block to the current phase."""
+        current_phase = _current_phase.get()
+        if current_phase == BenchmarkPhase.SETUP:
+            self.setup_blocks.append(block)
+        elif current_phase == BenchmarkPhase.EXECUTION:
+            self.execution_blocks.append(block)
+        else:
+            self.setup_blocks.append(block)
+
+    def get_current_phase(self) -> Optional[BenchmarkPhase]:
+        """Get the current benchmark phase."""
+        return _current_phase.get()
+
+
 class BenchmarkTest(BaseTest):
     """Test type designed specifically for benchmark test cases."""
+
+    model_config = ConfigDict(extra="forbid")
 
     pre: Alloc
     post: Alloc
@@ -41,6 +109,9 @@ class BenchmarkTest(BaseTest):
     ) = None
     env: Environment = Field(default_factory=Environment)
     expected_benchmark_gas_used: int | None = None
+    gas_benchmark_value: int
+    benchmark_manager: Optional[Any] = Field(default=None, exclude=True)
+    code_generator: Optional[Any] = Field(default=None, exclude=True)
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
@@ -86,26 +157,81 @@ class BenchmarkTest(BaseTest):
 
     def split_transaction(self, tx: Transaction, gas_limit_cap: int | None) -> List[Transaction]:
         """Split a transaction that exceeds the gas limit cap into multiple transactions."""
-        if (gas_limit_cap is None) or (tx.gas_limit <= gas_limit_cap):
+        if gas_limit_cap is None:
+            tx.gas_limit = HexNumber(self.gas_benchmark_value)
             return [tx]
 
-        total_gas = int(self.expected_benchmark_gas_used or self.env.gas_limit)
-        print(f"total_gas: {total_gas}")
-        num_splits = total_gas // gas_limit_cap
+        if gas_limit_cap >= self.gas_benchmark_value:
+            tx.gas_limit = HexNumber(min(tx.gas_limit, self.gas_benchmark_value))
+            return [tx]
+
+        remaining_gas = self.gas_benchmark_value
+        num_splits = remaining_gas // gas_limit_cap + int(remaining_gas % gas_limit_cap)
 
         split_transactions = []
         for i in range(num_splits):
             split_tx = tx.model_copy()
-            total_gas -= gas_limit_cap
-            split_tx.gas_limit = HexNumber(total_gas if i == num_splits - 1 else gas_limit_cap)
+            split_tx.gas_limit = HexNumber(remaining_gas if i == num_splits - 1 else gas_limit_cap)
+            remaining_gas -= gas_limit_cap
             split_tx.nonce = HexNumber(tx.nonce + i)
             split_transactions.append(split_tx)
 
         return split_transactions
 
+    def generate_blocks_from_code_generator(self, fork: Fork) -> List[Block]:
+        """Generate blocks using the code generator."""
+        if self.code_generator is None:
+            return []
+
+        self.code_generator.deploy_contracts(self.pre)
+        gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
+        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit)
+
+        execution_txs = self.split_transaction(benchmark_tx, gas_limit)
+        execution_block = Block(txs=execution_txs)
+
+        return [execution_block]
+
     def generate_blockchain_test(self, fork: Fork) -> BlockchainTest:
         """Create a BlockchainTest from this BenchmarkTest."""
-        if self.blocks is not None:
+        if self.code_generator is not None:
+            generated_blocks = self.generate_blocks_from_code_generator(fork)
+            return BlockchainTest.from_test(
+                base_test=self,
+                genesis_environment=self.env,
+                pre=self.pre,
+                post=self.post,
+                blocks=generated_blocks,
+            )
+
+        elif self.benchmark_manager is not None:
+            all_blocks = []
+            gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
+
+            if self.benchmark_manager.setup_blocks:
+                all_blocks.extend(self.benchmark_manager.setup_blocks)
+            elif self.benchmark_manager.setup_transactions:
+                setup_txs = []
+                for tx in self.benchmark_manager.setup_transactions:
+                    setup_txs.extend(self.split_transaction(tx, gas_limit))
+                all_blocks.append(Block(txs=setup_txs))
+
+            if self.benchmark_manager.execution_blocks:
+                all_blocks.extend(self.benchmark_manager.execution_blocks)
+            elif self.benchmark_manager.execution_transactions:
+                execution_txs = []
+                for tx in self.benchmark_manager.execution_transactions:
+                    execution_txs.extend(self.split_transaction(tx, gas_limit))
+                all_blocks.append(Block(txs=execution_txs))
+
+            return BlockchainTest.from_test(
+                base_test=self,
+                genesis_environment=self.env,
+                pre=self.pre,
+                post=self.post,
+                blocks=all_blocks,
+            )
+        elif self.blocks is not None:
             return BlockchainTest.from_test(
                 base_test=self,
                 genesis_environment=self.env,
@@ -114,9 +240,9 @@ class BenchmarkTest(BaseTest):
                 blocks=self.blocks,
             )
         elif self.tx is not None:
-            gas_limit_cap = fork.transaction_gas_limit_cap()
+            gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
 
-            transactions = self.split_transaction(self.tx, gas_limit_cap)
+            transactions = self.split_transaction(self.tx, gas_limit)
 
             blocks = [Block(txs=transactions)]
 
@@ -129,7 +255,7 @@ class BenchmarkTest(BaseTest):
             )
         else:
             raise ValueError(
-                "Cannot create BlockchainTest without transactions, blocks, or code_generator"
+                "Cannot create BlockchainTest without transactions, blocks, or benchmark_manager"
             )
 
     def generate(
@@ -160,6 +286,11 @@ class BenchmarkTest(BaseTest):
                 post=self.post,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
+
+
+def create_benchmark_manager() -> BenchmarkManager:
+    """Create a new BenchmarkManager instance for phase-aware benchmark testing."""
+    return BenchmarkManager()
 
 
 BenchmarkTestSpec = Callable[[str], Generator[BenchmarkTest, None, None]]
