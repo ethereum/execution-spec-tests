@@ -16,6 +16,11 @@ from ethereum_test_base_types import (
     TestPrivateKey2,
 )
 from ethereum_test_base_types.reference_spec import ReferenceSpec, ReferenceSpecTypes
+from ethereum_test_benchmark import (
+    BenchmarkCodeGenerator,
+    ExtCallGenerator,
+    JumpLoopGenerator,
+)
 from ethereum_test_exceptions import (
     BlockException,
     EngineAPIError,
@@ -86,11 +91,6 @@ from ethereum_test_vm import (
     call_return_code,
 )
 
-from .benchmark_code_generator import (
-    BenchmarkCodeGenerator,
-    ExtCallGenerator,
-    JumpLoopGenerator,
-)
 from .code import (
     CalldataCase,
     Case,
