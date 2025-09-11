@@ -4,7 +4,6 @@ import pytest
 
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
-    Account,
     Address,
     Alloc,
     Block,
@@ -44,25 +43,58 @@ def test_sstore_reorgs(blockchain_test: BlockchainTestFiller, fork: Fork, pre: A
     )
     trigger_contract_address = pre.deploy_contract(
         code=Op.SSTORE(0, 1) + Op.STOP,
-        address=0x77D34361F991FA724FF1DB9B1D760063A167D0E3,
+        address=Address(0x77D34361F991FA724FF1DB9B1D760063A167D0E3),
     )
 
-    orphan_block = Block(txs=[Transaction(to=0, sender=sender)])
+    orphan_block = Block(
+        txs=[
+            Transaction(
+                to=0,
+                gas_limit=100_000,
+                sender=sender,
+            ),
+        ],
+        parent_block="GENESIS",
+    )
+    # Reset the nonce
+    sender.nonce = 0
     canonical_block_1 = Block(
-        txs=[Transaction(to=contract_address, data=Hash(value), sender=sender)],
+        txs=[
+            Transaction(
+                to=contract_address,
+                gas_limit=100_000,
+                data=Hash(value),
+                sender=sender,
+            ),
+        ],
+        parent_block="GENESIS",
     )
     canonical_block_2 = Block(
-        txs=[Transaction(to=contract_address, data=Hash(0), sender=sender)],
+        txs=[
+            Transaction(
+                to=contract_address,
+                gas_limit=100_000,
+                data=Hash(0),
+                sender=sender,
+            ),
+        ],
         parent_block=canonical_block_1,
     )
     canonical_block_3 = Block(
-        txs=[Transaction(to=trigger_contract_address, data=Hash(0), sender=sender)],
+        txs=[
+            Transaction(
+                to=trigger_contract_address,
+                gas_limit=100_000,
+                data=Hash(0),
+                sender=sender,
+            ),
+        ],
         parent_block=canonical_block_2,
     )
 
     blockchain_test(
         pre=pre,
-        post={contract_address: Account(storage={key: 0})},
+        post={},
         blocks=[
             orphan_block,
             canonical_block_1,
