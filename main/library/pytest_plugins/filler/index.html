@@ -33295,7 +33295,7 @@ leakage between tests.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_operation_mode</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">op_mode</span>
 
                 <span class="c1"># Get the filling session from config</span>
-                <span class="n">session</span><span class="p">:</span> <span class="n">FillingSession</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">filling_session</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="n">session</span><span class="p">:</span> <span class="n">FillingSession</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">filling_session</span>  <span class="c1"># type: ignore</span>
 
                 <span class="c1"># Phase 1: Generate pre-allocation groups</span>
                 <span class="k">if</span> <span class="n">session</span><span class="o">.</span><span class="n">phase_manager</span><span class="o">.</span><span class="n">is_pre_alloc_generation</span><span class="p">:</span>
