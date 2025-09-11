@@ -4,6 +4,9 @@ from pathlib import Path
 
 import pytest
 
+from ethereum_test_forks import Fork
+from ethereum_test_specs.benchmark import BenchmarkManager, create_benchmark_manager
+
 DEFAULT_BENCHMARK_FORK = "Prague"
 
 
@@ -59,3 +62,15 @@ def pytest_collection_modifyitems(config, items):
 
     for i in reversed(items_for_removal):
         items.pop(i)
+
+
+@pytest.fixture
+def tx_gas_limit_cap(fork: Fork, gas_benchmark_value: int) -> int:
+    """Return the transaction gas limit cap."""
+    return fork.transaction_gas_limit_cap() or gas_benchmark_value
+
+
+@pytest.fixture
+def benchmark_manager() -> BenchmarkManager:
+    """Return a benchmark manager."""
+    return create_benchmark_manager()

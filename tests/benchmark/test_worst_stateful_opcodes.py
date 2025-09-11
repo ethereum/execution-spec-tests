@@ -10,6 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
+from ethereum_test_specs import BenchmarkTestFiller
+from ethereum_test_specs.benchmark import BenchmarkManager
 from ethereum_test_tools import (
     Account,
     Address,
@@ -47,7 +49,8 @@ REFERENCE_SPEC_VERSION = "TODO"
     ],
 )
 def test_worst_address_state_cold(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
+    benchmark_manager: BenchmarkManager,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
@@ -67,7 +70,6 @@ def test_worst_address_state_cold(
         attack_gas_limit - intrinsic_gas_cost_calc()
     ) // gas_costs.G_COLD_ACCOUNT_ACCESS
 
-    blocks = []
     post = {}
 
     # Setup
@@ -76,42 +78,53 @@ def test_worst_address_state_cold(
     # collisions with the addresses indirectly created by the testing framework.
     addr_offset = int.from_bytes(pre.fund_eoa(amount=0))
 
+    # Create sender accounts upfront so we can include them in post-state
+    execution_sender = pre.fund_eoa()
+
     if not absent_accounts:
+        setup_sender = pre.fund_eoa()
         factory_code = Op.PUSH4(num_target_accounts) + While(
             body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
         )
         factory_address = pre.deploy_contract(code=factory_code, balance=10**18)
 
-        setup_tx = Transaction(
-            to=factory_address,
-            gas_limit=env.gas_limit,
-            sender=pre.fund_eoa(),
-        )
-        blocks.append(Block(txs=[setup_tx]))
+        with benchmark_manager.setup():
+            setup_tx = Transaction(
+                to=factory_address,
+                gas_limit=env.gas_limit,
+                sender=setup_sender,
+            )
+            benchmark_manager.add_transaction(setup_tx)
 
         for i in range(num_target_accounts):
             addr = Address(i + addr_offset + 1)
             post[addr] = Account(balance=10)
 
-    # Execution
+        # Include setup sender in post-state
+        post[setup_sender] = Account()
+
+    # Execution phase
     op_code = Op.PUSH4(num_target_accounts) + While(
         body=Op.POP(opcode(Op.ADD(addr_offset, Op.DUP1))),
         condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
     )
     op_address = pre.deploy_contract(code=op_code)
-    op_tx = Transaction(
-        to=op_address,
-        gas_limit=attack_gas_limit,
-        sender=pre.fund_eoa(),
-    )
-    blocks.append(Block(txs=[op_tx]))
 
-    blockchain_test(
+    with benchmark_manager.execution():
+        benchmark_manager.add_transaction(
+            Transaction(
+                to=op_address,
+                gas_limit=attack_gas_limit,
+                sender=execution_sender,
+            )
+        )
+
+    benchmark_test(
         pre=pre,
         post=post,
-        blocks=blocks,
-        exclude_full_post_state_in_output=True,
+        benchmark_manager=benchmark_manager,
+        gas_benchmark_value=gas_benchmark_value,
     )
 
 

@@ -15,11 +15,12 @@ import pytest
 from py_ecc.bn128 import G1, G2, multiply
 
 from ethereum_test_base_types.base_types import Bytes
+from ethereum_test_benchmark import JumpLoopGenerator
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
-    BenchmarkStateTestFiller,
+    BenchmarkTestFiller,
     Block,
     BlockchainTestFiller,
     Bytecode,
@@ -1844,22 +1845,19 @@ def test_worst_jumpis(
 
 @pytest.mark.slow
 def test_worst_jumpdests(
-    benchmark_state_test: BenchmarkStateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     env: Environment,
     fork: Fork,
     gas_benchmark_value: int,
 ):
     """Test running a JUMPDEST-intensive contract."""
-    generator = JumpLoopGenerator(fork, Op.JUMPDEST)
-    tx = generator.generate_transaction(pre, gas_benchmark_value)
-
-    benchmark_state_test(
+    benchmark_test(
         env=env,
-        gas_benchmark_value=gas_benchmark_value,
         pre=pre,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(fork, Op.JUMPDEST),
+        gas_benchmark_value=gas_benchmark_value,
     )
 
 
@@ -2758,7 +2756,7 @@ def test_worst_calldataload(
     ],
 )
 def test_worst_swap(
-    benchmark_state_test: BenchmarkStateTestFiller,
+    benchmark_test: BenchmarkTestFiller,
     pre: Alloc,
     env: Environment,
     fork: Fork,
@@ -2766,25 +2764,11 @@ def test_worst_swap(
     gas_benchmark_value: int,
 ):
     """Test running a block with as many SWAP as possible."""
-    max_code_size = fork.max_code_size()
-
-    code_prefix = Op.JUMPDEST + Op.PUSH0 * opcode.min_stack_height
-    code_suffix = Op.PUSH0 + Op.JUMP
-    opcode_sequence = opcode * (max_code_size - len(code_prefix) - len(code_suffix))
-    code = code_prefix + opcode_sequence + code_suffix
-    assert len(code) <= max_code_size
-
-    tx = Transaction(
-        to=pre.deploy_contract(code=code),
-        sender=pre.fund_eoa(),
-    )
-
-    benchmark_state_test(
-        env=env,
+    benchmark_test(
         pre=pre,
-        gas_benchmark_value=gas_benchmark_value,
         post={},
-        tx=tx,
+        code_generator=JumpLoopGenerator(fork, opcode, setup=Op.PUSH0 * opcode.min_stack_height),
+        gas_benchmark_value=gas_benchmark_value,
     )
 
 

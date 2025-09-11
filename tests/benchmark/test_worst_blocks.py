@@ -119,6 +119,7 @@ def test_block_full_of_ether_transfers(
     iteration_count: int,
     transfer_amount: int,
     intrinsic_cost: int,
+    gas_benchmark_value: int,
 ):
     """
     Single test for ether transfer scenarios.
@@ -159,6 +160,7 @@ def test_block_full_of_ether_transfers(
         pre=pre,
         post=post_state,
         blocks=[Block(txs=txs)],
+        gas_benchmark_value=gas_benchmark_value,
         expected_benchmark_gas_used=iteration_count * intrinsic_cost,
     )
 
