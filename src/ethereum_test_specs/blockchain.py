@@ -1,7 +1,18 @@
 """Ethereum blockchain test spec definition and filler."""
 
 from pprint import pprint
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Self, Sequence, Tuple, Type
+from typing import (
+    Any,
+    Callable,
+    ClassVar,
+    Dict,
+    Generator,
+    List,
+    Literal,
+    Self,
+    Sequence,
+    Type,
+)
 
 import pytest
 from pydantic import ConfigDict, Field, PrivateAttr, field_validator
@@ -57,21 +68,6 @@ from ethereum_test_types.block_access_list import BlockAccessList, BlockAccessLi
 from .base import BaseTest, OpMode, verify_result
 from .debugging import print_traces
 from .helpers import verify_block, verify_transactions
-
-
-def environment_from_parent_header(parent: "FixtureHeader") -> "Environment":
-    """Instantiate new environment with the provided header as parent."""
-    return Environment(
-        parent_difficulty=parent.difficulty,
-        parent_timestamp=parent.timestamp,
-        parent_base_fee_per_gas=parent.base_fee_per_gas,
-        parent_blob_gas_used=parent.blob_gas_used,
-        parent_excess_blob_gas=parent.excess_blob_gas,
-        parent_gas_used=parent.gas_used,
-        parent_gas_limit=parent.gas_limit,
-        parent_ommers_hash=parent.ommers_hash,
-        block_hashes={parent.number: parent.block_hash},
-    )
 
 
 def apply_new_parent(env: Environment, new_parent: FixtureHeader) -> "Environment":
@@ -250,7 +246,7 @@ class Block(Header):
     """
         EIP-7928: Block-level access lists (serialized).
     """
-    parent_block: Self | None = Field(None, exclude=True)
+    parent_block: Self | Literal["GENESIS"] | None = Field(None, exclude=True)
     """
     Parent block for re-orgs.
     """
@@ -330,7 +326,7 @@ class BuiltBlock(CamelModel):
     ommers: List[FixtureHeader]
     withdrawals: List[Withdrawal] | None
     requests: List[Bytes] | None
-    result: Result
+    result: Result | None
     expected_exception: BLOCK_EXCEPTION_TYPE = None
     engine_api_error_code: EngineAPIError | None = None
     fork: Fork
@@ -379,6 +375,10 @@ class BuiltBlock(CamelModel):
             validation_error=self.expected_exception,
             error_code=self.engine_api_error_code,
         )
+
+    def get_children_env(self) -> Environment:
+        """Return the environment that should be used for a children block."""
+        return apply_new_parent(self.env, self.header)
 
     def verify_transactions(self, transition_tool_exceptions_reliable: bool) -> List[int]:
         """Verify the transactions."""
@@ -485,9 +485,7 @@ class BlockchainTest(BaseTest):
         )
         return Environment(**(GENESIS_ENVIRONMENT_DEFAULTS | modified_values))
 
-    def make_genesis(
-        self, *, fork: Fork, apply_pre_allocation_blockchain: bool
-    ) -> Tuple[Alloc, FixtureBlock]:
+    def make_genesis(self, *, fork: Fork, apply_pre_allocation_blockchain: bool) -> BuiltBlock:
         """Create a genesis block from the blockchain test definition."""
         env = self.get_genesis_environment(fork)
         assert env.withdrawals is None or len(env.withdrawals) == 0, (
@@ -507,13 +505,21 @@ class BlockchainTest(BaseTest):
             raise Exception(f"Empty accounts in pre state: {empty_accounts}")
         state_root = pre_alloc.state_root()
         genesis = FixtureHeader.genesis(fork, env, state_root)
-
-        return (
-            pre_alloc,
-            FixtureBlockBase(
-                header=genesis,
-                withdrawals=None if env.withdrawals is None else [],
-            ).with_rlp(txs=[]),
+        return BuiltBlock(
+            header=genesis,
+            env=env,
+            alloc=pre_alloc,
+            txs=[],
+            ommers=[],
+            withdrawals=None if env.withdrawals is None else [],
+            requests=None,
+            result=None,
+            fork=fork,
+            block_access_list=BlockAccessList()
+            if fork.header_bal_hash_required(
+                block_number=genesis.number, timestamp=genesis.timestamp
+            )
+            else None,
         )
 
     def generate_block_data(
@@ -723,53 +729,60 @@ class BlockchainTest(BaseTest):
         """Create a fixture from the blockchain test definition."""
         fixture_blocks: List[FixtureBlock | InvalidFixtureBlock] = []
 
-        pre, genesis = self.make_genesis(fork=fork, apply_pre_allocation_blockchain=True)
-
-        alloc = pre
-        env = environment_from_parent_header(genesis.header)
-        head = genesis.header.block_hash
+        genesis_built_block = self.make_genesis(fork=fork, apply_pre_allocation_blockchain=True)
+        previous_valid_built_block = genesis_built_block
         invalid_blocks = 0
         for i, block in enumerate(self.blocks):
-            # This is the most common case, the RLP needs to be constructed
-            # based on the transactions to be included in the block.
-            # Set the environment according to the block to execute.
+            parent_block = block.parent_block
+            if parent_block is None:
+                parent_built_block = previous_valid_built_block
+            else:
+                if parent_block == "GENESIS":
+                    parent_built_block = genesis_built_block
+                else:
+                    assert parent_block._built_block is not None, "Referenced unavailable block"
+                    parent_built_block = parent_block._built_block
+
             built_block = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=block,
-                previous_env=env,
-                previous_alloc=alloc,
+                previous_env=parent_built_block.get_children_env(),
+                previous_alloc=parent_built_block.alloc,
                 last_block=i == len(self.blocks) - 1,
             )
-            if self.re_org_test:
-                built_block._built_block = built_block
+            block._built_block = built_block
             fixture_blocks.append(built_block.get_fixture_block())
 
             # BAL verification already done in to_fixture_bal() if expected_block_access_list set
 
             if block.exception is None:
                 # Update env, alloc and last block hash for the next block.
-                alloc = built_block.alloc
-                env = apply_new_parent(built_block.env, built_block.header)
-                head = built_block.header.block_hash
+                previous_valid_built_block = built_block
             else:
                 invalid_blocks += 1
 
             if block.expected_post_state:
                 self.verify_post_state(
-                    t8n, t8n_state=alloc, expected_state=block.expected_post_state
+                    t8n,
+                    t8n_state=previous_valid_built_block.alloc,
+                    expected_state=block.expected_post_state,
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
-        self.verify_post_state(t8n, t8n_state=alloc)
+        self.verify_post_state(t8n, t8n_state=previous_valid_built_block.alloc)
         return BlockchainFixture(
             fork=fork,
-            genesis=genesis.header,
-            genesis_rlp=genesis.rlp,
+            genesis=genesis_built_block.header,
+            genesis_rlp=genesis_built_block.get_block_rlp(),
             blocks=fixture_blocks,
-            last_block_hash=head,
-            pre=pre,
-            post_state=alloc if not self.exclude_full_post_state_in_output else None,
-            post_state_hash=alloc.state_root() if self.exclude_full_post_state_in_output else None,
+            last_block_hash=previous_valid_built_block.header.block_hash,
+            pre=genesis_built_block.alloc,
+            post_state=previous_valid_built_block.alloc
+            if not self.exclude_full_post_state_in_output
+            else None,
+            post_state_hash=previous_valid_built_block.alloc.state_root()
+            if self.exclude_full_post_state_in_output
+            else None,
             config=FixtureConfig(
                 fork=fork,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
@@ -786,53 +799,61 @@ class BlockchainTest(BaseTest):
         """Create a hive fixture from the blocktest definition."""
         fixture_payloads: List[FixtureEngineNewPayload] = []
 
-        pre, genesis = self.make_genesis(
+        genesis_built_block = self.make_genesis(
             fork=fork,
             apply_pre_allocation_blockchain=fixture_format != BlockchainEngineXFixture,
         )
-        alloc = pre
-        env = environment_from_parent_header(genesis.header)
-        head_hash = genesis.header.block_hash
+        previous_valid_built_block = genesis_built_block
         invalid_blocks = 0
         for i, block in enumerate(self.blocks):
+            parent_block = block.parent_block
+            if parent_block is None:
+                parent_built_block = previous_valid_built_block
+            else:
+                if parent_block == "GENESIS":
+                    parent_built_block = genesis_built_block
+                else:
+                    assert parent_block._built_block is not None, "Referenced unavailable block"
+                    parent_built_block = parent_block._built_block
             built_block = self.generate_block_data(
                 t8n=t8n,
                 fork=fork,
                 block=block,
-                previous_env=env,
-                previous_alloc=alloc,
+                previous_env=parent_built_block.get_children_env(),
+                previous_alloc=parent_built_block.alloc,
                 last_block=i == len(self.blocks) - 1,
             )
+            block._built_block = built_block
             fixture_payloads.append(built_block.get_fixture_engine_new_payload())
             if block.exception is None:
-                alloc = built_block.alloc
-                env = apply_new_parent(built_block.env, built_block.header)
-                head_hash = built_block.header.block_hash
+                previous_valid_built_block = built_block
             else:
                 invalid_blocks += 1
 
             if block.expected_post_state:
                 self.verify_post_state(
-                    t8n, t8n_state=alloc, expected_state=block.expected_post_state
+                    t8n,
+                    t8n_state=previous_valid_built_block.alloc,
+                    expected_state=block.expected_post_state,
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         fcu_version = fork.engine_forkchoice_updated_version(
-            built_block.header.number, built_block.header.timestamp
+            previous_valid_built_block.header.number, previous_valid_built_block.header.timestamp
         )
         assert fcu_version is not None, (
             "A hive fixture was requested but no forkchoice update is defined."
             " The framework should never try to execute this test case."
         )
 
-        self.verify_post_state(t8n, t8n_state=alloc)
+        self.verify_post_state(t8n, t8n_state=previous_valid_built_block.alloc)
 
         # Create base fixture data, common to all fixture formats
         fixture_data = {
             "fork": fork,
-            "genesis": genesis.header,
+            "genesis": genesis_built_block.header,
             "payloads": fixture_payloads,
-            "last_block_hash": head_hash,
-            "post_state_hash": alloc.state_root()
+            "last_block_hash": previous_valid_built_block.header.block_hash,
+            "post_state_hash": previous_valid_built_block.alloc.state_root()
             if self.exclude_full_post_state_in_output
             else None,
             "config": FixtureConfig(
@@ -848,16 +869,19 @@ class BlockchainTest(BaseTest):
             # and prepare for state diff optimization
             fixture_data.update(
                 {
-                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                    "post_state": previous_valid_built_block.alloc
+                    if not self.exclude_full_post_state_in_output
+                    else None,
                     "pre_hash": "",  # Will be set by BaseTestWrapper
                 }
             )
             return BlockchainEngineXFixture(**fixture_data)
         elif fixture_format == BlockchainEngineSyncFixture:
             # Sync fixture format
-            assert genesis.header.block_hash != head_hash, (
-                "Invalid payload tests negative test via sync is not supported yet."
-            )
+            assert (
+                genesis_built_block.header.block_hash
+                != previous_valid_built_block.header.block_hash
+            ), "Invalid payload tests negative test via sync is not supported yet."
             # Most clients require the header to start the sync process, so we create an empty
             # block on top of the last block of the test to send it as new payload and trigger the
             # sync process.
@@ -865,15 +889,17 @@ class BlockchainTest(BaseTest):
                 t8n=t8n,
                 fork=fork,
                 block=Block(),
-                previous_env=env,
-                previous_alloc=alloc,
+                previous_env=previous_valid_built_block.get_children_env(),
+                previous_alloc=previous_valid_built_block.alloc,
                 last_block=False,
             )
             fixture_data.update(
                 {
                     "sync_payload": sync_built_block.get_fixture_engine_new_payload(),
-                    "pre": pre,
-                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                    "pre": genesis_built_block.alloc,
+                    "post_state": previous_valid_built_block.alloc
+                    if not self.exclude_full_post_state_in_output
+                    else None,
                 }
             )
             return BlockchainEngineSyncFixture(**fixture_data)
@@ -881,8 +907,10 @@ class BlockchainTest(BaseTest):
             # Standard engine fixture
             fixture_data.update(
                 {
-                    "pre": pre,
-                    "post_state": alloc if not self.exclude_full_post_state_in_output else None,
+                    "pre": genesis_built_block.alloc,
+                    "post_state": previous_valid_built_block.alloc
+                    if not self.exclude_full_post_state_in_output
+                    else None,
                 }
             )
             return BlockchainEngineFixture(**fixture_data)
