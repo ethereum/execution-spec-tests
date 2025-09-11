@@ -1,3 +1,4 @@
+general/code_coverage/second_client = Optional
 system_contract = EIP does not include a new system contract
 opcode = EIP does not introduce a new opcode
 removed_precompile = EIP does not remove a precompile
