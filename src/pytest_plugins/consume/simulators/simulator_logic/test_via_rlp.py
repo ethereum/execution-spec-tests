@@ -41,7 +41,6 @@ def test_via_rlp(
         assert block, "`getBlockByNumber` didn't return a block."
         if block["hash"] != str(fixture.last_block_hash):
             try:
-                mismatches = []
                 block_header = FixtureHeader.model_validate(block).model_dump()
                 last_block = FixtureBlock.model_validate(fixture.blocks[-1])
                 last_block_header = last_block.header.model_dump()
@@ -55,6 +54,7 @@ def test_via_rlp(
                     )
 
                 # find all mismatched fields
+                mismatches = []
                 for block_field, block_value in block_header.items():
                     fixture_value = last_block_header[block_field]
                     if str(block_value) != str(fixture_value):
