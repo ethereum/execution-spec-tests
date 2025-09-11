@@ -5,7 +5,7 @@ abstract: Tests that benchmarks EVMs to estimate the costs of  stateful opcodes.
 
 import pytest
 
-from ethereum_test_base_types import HashInt
+from ethereum_test_base_types import Address, HashInt
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -369,6 +369,181 @@ def test_bloatnet_sload_cold(
             total_block_gas_used += tx_gas_used
 
     post = {contract_address: Account(storage=storage)}
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=all_txs)],
+        post=post,
+        expected_benchmark_gas_used=total_block_gas_used,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_bloatnet_balance_cold(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int
+):
+    """Test that queries BALANCE of many different cold addresses."""
+    gas_costs = fork.gas_costs()
+    intrinsic_gas_calc = fork.transaction_intrinsic_cost_calculator()
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
+
+    # PUSH20 (address) + Cold BALANCE + POP
+    cold_balance_cost = (
+        gas_costs.G_VERY_LOW * 3 + gas_costs.G_COLD_ACCOUNT_ACCESS + gas_costs.G_BASE
+    )
+
+    # Calculate max addresses that fit in a single transaction
+    intrinsic_gas = intrinsic_gas_calc()
+    opcode_gas_budget = tx_gas_cap - intrinsic_gas
+    max_addresses_per_tx = opcode_gas_budget // cold_balance_cost
+
+    # Calculate total addresses needed to fill the benchmark
+    total_max_addresses = gas_benchmark_value // cold_balance_cost
+
+    # Pre-fund many addresses
+    addresses = []
+    for i in range(total_max_addresses):
+        addr = Address(0x1000000 + i)
+        pre.fund_address(address=addr, amount=1000000 + i)
+        addresses.append(addr)
+
+    # Build code that checks balance of max_addresses_per_tx addresses
+    balance_code = sum(Op.POP(Op.BALANCE(addresses[i])) for i in range(max_addresses_per_tx))
+
+    # Deploy the contract once
+    contract_address = pre.deploy_contract(
+        code=bytes(balance_code),
+    )
+
+    total_block_gas_used = 0
+    all_txs = []
+
+    # Create multiple transactions until we reach gas benchmark
+    while total_block_gas_used < gas_benchmark_value:
+        remaining_block_gas = gas_benchmark_value - total_block_gas_used
+        if remaining_block_gas < intrinsic_gas:
+            break
+
+        tx_gas_limit = min(remaining_block_gas, tx_gas_cap)
+
+        # Calculate actual addresses that will fit
+        actual_opcode_budget = tx_gas_limit - intrinsic_gas
+        actual_addresses = min(max_addresses_per_tx, actual_opcode_budget // cold_balance_cost)
+
+        if actual_addresses == 0:
+            break
+
+        tx = Transaction(
+            to=contract_address,
+            gas_limit=tx_gas_limit,
+            sender=pre.fund_eoa(),
+        )
+        all_txs.append(tx)
+
+        tx_gas_used = intrinsic_gas + (actual_addresses * cold_balance_cost)
+        if actual_addresses < max_addresses_per_tx:
+            total_block_gas_used += tx_gas_limit
+        else:
+            total_block_gas_used += tx_gas_used
+
+    # Post state - all addresses should still have their balances
+    post = {contract_address: Account()}
+    for i, addr in enumerate(addresses):
+        post[addr] = Account(balance=1000000 + i)
+
+    blockchain_test(
+        pre=pre,
+        blocks=[Block(txs=all_txs)],
+        post=post,
+        expected_benchmark_gas_used=total_block_gas_used,
+    )
+
+
+@pytest.mark.valid_from("Prague")
+def test_bloatnet_balance_warm(
+    blockchain_test: BlockchainTestFiller, pre: Alloc, fork: Fork, gas_benchmark_value: int
+):
+    """Test that queries BALANCE of warm addresses many times."""
+    gas_costs = fork.gas_costs()
+    intrinsic_gas_calc = fork.transaction_intrinsic_cost_calculator()
+    tx_gas_cap = fork.transaction_gas_limit_cap() or gas_benchmark_value
+
+    # Pre-fund a smaller set of addresses to warm up
+    num_addresses = 100
+    addresses = []
+    for i in range(num_addresses):
+        addr = Address(0x2000000 + i)
+        pre.fund_address(address=addr, amount=2000000 + i)
+        addresses.append(addr)
+
+    # Gas costs for operations
+    # PUSH20 + BALANCE + POP for cold access
+    cold_balance_cost = (
+        gas_costs.G_VERY_LOW * 3 + gas_costs.G_COLD_ACCOUNT_ACCESS + gas_costs.G_BASE
+    )
+    # PUSH20 + BALANCE + POP for warm access
+    warm_balance_cost = (
+        gas_costs.G_VERY_LOW * 3 + gas_costs.G_WARM_ACCOUNT_ACCESS + gas_costs.G_BASE
+    )
+
+    # Calculate how many operations fit in a single transaction
+    intrinsic_gas = intrinsic_gas_calc(calldata=b"")
+    opcode_gas_budget = tx_gas_cap - intrinsic_gas
+
+    # Calculate max warm balance checks that can fit in a transaction
+    # (applying SPEEDUP factor to reduce the number of operations)
+    num_warm_checks_per_tx = opcode_gas_budget // (SPEEDUP * warm_balance_cost)
+
+    # Build the code that does warm balance checks
+    # First warm up all addresses, then repeatedly check them
+    balance_code = Bytecode()
+    balance_code += sum(Op.POP(Op.BALANCE(addresses[i])) for i in range(num_addresses))
+    balance_code += sum(
+        Op.POP(Op.BALANCE(addresses[i % num_addresses])) for i in range(num_warm_checks_per_tx)
+    )
+
+    # Deploy the contract once
+    contract_address = pre.deploy_contract(
+        code=bytes(balance_code),
+    )
+
+    total_block_gas_used = 0
+    all_txs = []
+
+    # Create multiple transactions until we reach gas benchmark
+    while total_block_gas_used < gas_benchmark_value:
+        remaining_block_gas = gas_benchmark_value - total_block_gas_used
+        if remaining_block_gas < intrinsic_gas:
+            break
+
+        tx_gas_limit = min(remaining_block_gas, tx_gas_cap)
+
+        # Calculate actual operations that will execute
+        actual_opcode_budget = tx_gas_limit - intrinsic_gas
+
+        # Check if we can at least warm up the addresses
+        warmup_gas = num_addresses * cold_balance_cost
+        if actual_opcode_budget < warmup_gas:
+            break
+
+        # Calculate how many warm checks we can actually do
+        remaining_budget = actual_opcode_budget - warmup_gas
+        actual_warm_checks = min(num_warm_checks_per_tx, remaining_budget // warm_balance_cost)
+
+        tx = Transaction(
+            to=contract_address,
+            gas_limit=tx_gas_limit,
+            sender=pre.fund_eoa(),
+        )
+        all_txs.append(tx)
+
+        tx_gas_used = intrinsic_gas + warmup_gas + (actual_warm_checks * warm_balance_cost)
+        total_block_gas_used += tx_gas_used
+
+    # Post state - all addresses should still have their balances
+    post = {contract_address: Account()}
+    for i, addr in enumerate(addresses):
+        post[addr] = Account(balance=2000000 + i)
+
     blockchain_test(
         pre=pre,
         blocks=[Block(txs=all_txs)],
