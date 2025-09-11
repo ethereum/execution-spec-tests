@@ -19,7 +19,7 @@ from ethereum_test_exceptions import (
     TransactionException,
 )
 from ethereum_test_forks import Fork
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 from ..transition_tool import TransitionTool
 

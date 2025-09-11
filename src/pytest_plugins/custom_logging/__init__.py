@@ -1,6 +1,6 @@
 """Import the logging module content to make it available from pytest_plugins.logging."""
 
-from .logging import (
+from .plugin_logging import (
     FAIL_LEVEL,
     VERBOSE_LEVEL,
     ColorFormatter,

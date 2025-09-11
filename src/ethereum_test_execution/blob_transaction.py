@@ -12,7 +12,7 @@ from ethereum_test_rpc import BlobAndProofV1, BlobAndProofV2, EngineRPC, EthRPC
 from ethereum_test_rpc.rpc_types import GetBlobsResponse
 from ethereum_test_types import NetworkWrappedTransaction, Transaction
 from ethereum_test_types.transaction_types import TransactionTestMetadata
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 from .base import BaseExecute
 

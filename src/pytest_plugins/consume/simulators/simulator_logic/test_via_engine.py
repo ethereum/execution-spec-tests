@@ -12,7 +12,7 @@ from ethereum_test_fixtures import BlockchainEngineFixture
 from ethereum_test_rpc import EngineRPC, EthRPC
 from ethereum_test_rpc.rpc_types import ForkchoiceState, JSONRPCError, PayloadStatusEnum
 
-from ....logging import get_logger
+from ....custom_logging import get_logger
 from ..helpers.exceptions import GenesisBlockMismatchExceptionError
 from ..helpers.timing import TimingData
 
