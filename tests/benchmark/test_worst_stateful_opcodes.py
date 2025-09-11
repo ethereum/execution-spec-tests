@@ -49,8 +49,7 @@ REFERENCE_SPEC_VERSION = "TODO"
     ],
 )
 def test_worst_address_state_cold(
-    benchmark_test: BenchmarkTestFiller,
-    benchmark_manager: BenchmarkManager,
+    blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     fork: Fork,
     opcode: Op,
@@ -70,6 +69,7 @@ def test_worst_address_state_cold(
         attack_gas_limit - intrinsic_gas_cost_calc()
     ) // gas_costs.G_COLD_ACCOUNT_ACCESS
 
+    blocks = []
     post = {}
 
     # Setup
@@ -78,53 +78,42 @@ def test_worst_address_state_cold(
     # collisions with the addresses indirectly created by the testing framework.
     addr_offset = int.from_bytes(pre.fund_eoa(amount=0))
 
-    # Create sender accounts upfront so we can include them in post-state
-    execution_sender = pre.fund_eoa()
-
     if not absent_accounts:
-        setup_sender = pre.fund_eoa()
         factory_code = Op.PUSH4(num_target_accounts) + While(
             body=Op.POP(Op.CALL(address=Op.ADD(addr_offset, Op.DUP6), value=10)),
             condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
         )
         factory_address = pre.deploy_contract(code=factory_code, balance=10**18)
 
-        with benchmark_manager.setup():
-            setup_tx = Transaction(
-                to=factory_address,
-                gas_limit=env.gas_limit,
-                sender=setup_sender,
-            )
-            benchmark_manager.add_transaction(setup_tx)
+        setup_tx = Transaction(
+            to=factory_address,
+            gas_limit=env.gas_limit,
+            sender=pre.fund_eoa(),
+        )
+        blocks.append(Block(txs=[setup_tx]))
 
         for i in range(num_target_accounts):
             addr = Address(i + addr_offset + 1)
             post[addr] = Account(balance=10)
 
-        # Include setup sender in post-state
-        post[setup_sender] = Account()
-
-    # Execution phase
+    # Execution
     op_code = Op.PUSH4(num_target_accounts) + While(
         body=Op.POP(opcode(Op.ADD(addr_offset, Op.DUP1))),
         condition=Op.PUSH1(1) + Op.SWAP1 + Op.SUB + Op.DUP1 + Op.ISZERO + Op.ISZERO,
     )
     op_address = pre.deploy_contract(code=op_code)
+    op_tx = Transaction(
+        to=op_address,
+        gas_limit=attack_gas_limit,
+        sender=pre.fund_eoa(),
+    )
+    blocks.append(Block(txs=[op_tx]))
 
-    with benchmark_manager.execution():
-        benchmark_manager.add_transaction(
-            Transaction(
-                to=op_address,
-                gas_limit=attack_gas_limit,
-                sender=execution_sender,
-            )
-        )
-
-    benchmark_test(
+    blockchain_test(
         pre=pre,
         post=post,
-        benchmark_manager=benchmark_manager,
-        gas_benchmark_value=gas_benchmark_value,
+        blocks=blocks,
+        exclude_full_post_state_in_output=True,
     )
 
 
@@ -464,30 +453,36 @@ def test_worst_storage_access_warm(
 
 
 def test_worst_blockhash(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
+    benchmark_manager: BenchmarkManager,
     pre: Alloc,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many blockhash accessing oldest allowed block as possible."""
     # Create 256 dummy blocks to fill the blockhash window.
-    blocks = [Block()] * 256
+    with benchmark_manager.setup():
+        for _ in range(256):
+            benchmark_manager.add_block(Block())
 
     # Always ask for the oldest allowed BLOCKHASH block.
     execution_code = Op.PUSH1(1) + While(
         body=Op.POP(Op.BLOCKHASH(Op.DUP1)),
     )
     execution_code_address = pre.deploy_contract(code=execution_code)
-    op_tx = Transaction(
-        to=execution_code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-    blocks.append(Block(txs=[op_tx]))
+    with benchmark_manager.execution():
+        benchmark_manager.add_transaction(
+            Transaction(
+                to=execution_code_address,
+                gas_limit=gas_benchmark_value,
+                sender=pre.fund_eoa(),
+            )
+        )
 
-    blockchain_test(
+    benchmark_test(
         pre=pre,
         post={},
-        blocks=blocks,
+        benchmark_manager=benchmark_manager,
+        gas_benchmark_value=gas_benchmark_value,
     )
 
 
