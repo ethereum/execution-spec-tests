@@ -10,6 +10,7 @@ import random
 import pytest
 
 from ethereum_test_forks import Fork
+from ethereum_test_specs.benchmark import BenchmarkManager
 from ethereum_test_tools import (
     AccessList,
     Account,
@@ -113,6 +114,7 @@ def ether_transfer_case(
 )
 def test_block_full_of_ether_transfers(
     benchmark_test: BenchmarkTestFiller,
+    benchmark_manager: BenchmarkManager,
     pre: Alloc,
     env: Environment,
     case_id: str,
@@ -137,17 +139,18 @@ def test_block_full_of_ether_transfers(
     # Create a single block with all transactions
     txs = []
     balances: dict[Address, int] = {}
-    for _ in range(iteration_count):
-        receiver = next(receivers)
-        balances[receiver] = balances.get(receiver, 0) + transfer_amount
-        txs.append(
-            Transaction(
-                to=receiver,
-                value=transfer_amount,
-                gas_limit=intrinsic_cost,
-                sender=next(senders),
+    with benchmark_manager.execution():
+        for _ in range(iteration_count):
+            receiver = next(receivers)
+            balances[receiver] = balances.get(receiver, 0) + transfer_amount
+            txs.append(
+                Transaction(
+                    to=receiver,
+                    value=transfer_amount,
+                    gas_limit=intrinsic_cost,
+                    sender=next(senders),
+                )
             )
-        )
 
     # Only include post state for non a_to_a cases
     post_state = (
