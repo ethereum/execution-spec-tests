@@ -391,6 +391,89 @@ class BlockAccessListExpectation(CamelModel):
                             f"not in ascending order. Got: {tx_indices}"
                         )
 
+    @staticmethod
+    def _validate_bal_ordering(bal: "BlockAccessList") -> None:
+        """
+        Validate that the actual BAL follows EIP-7928 ordering requirements.
+
+        Per EIP-7928:
+        - Addresses must be in lexicographic (bytewise) order
+        - Storage keys must be in lexicographic order within each account
+        - Block access indices must be in ascending order within each change list
+
+        Args:
+            bal: The BlockAccessList to validate
+
+        Raises:
+            Exception: If BAL doesn't follow EIP-7928 ordering
+
+        """
+        addresses = [acc.address for acc in bal.root]
+
+        # Check addresses are in lexicographic order
+        sorted_addresses = sorted(addresses, key=lambda x: bytes(x))
+        if addresses != sorted_addresses:
+            raise Exception(
+                f"BAL addresses not in lexicographic order per EIP-7928. "
+                f"Got: {[str(a) for a in addresses]}, "
+                f"Expected: {[str(a) for a in sorted_addresses]}"
+            )
+
+        # Check ordering within each account
+        for account in bal.root:
+            # Check storage slots are in lexicographic order
+            if account.storage_changes:
+                slots = [s.slot for s in account.storage_changes]
+                sorted_slots = sorted(slots, key=lambda x: bytes(x))
+                if slots != sorted_slots:
+                    raise Exception(
+                        f"Account {account.address}: Storage slots not in lexicographic order. "
+                        f"Got: {slots}, Expected: {sorted_slots}"
+                    )
+
+                # Check tx indices within each storage slot are in ascending order
+                for slot_change in account.storage_changes:
+                    if slot_change.slot_changes:
+                        tx_indices = [c.tx_index for c in slot_change.slot_changes]
+                        if tx_indices != sorted(tx_indices):
+                            raise Exception(
+                                f"Account {account.address}, Slot {slot_change.slot}: "
+                                f"tx_indices not in ascending order. Got: {tx_indices}"
+                            )
+
+            # Check storage reads are in lexicographic order
+            if account.storage_reads:
+                sorted_reads = sorted(account.storage_reads, key=lambda x: bytes(x))
+                if account.storage_reads != sorted_reads:
+                    raise Exception(
+                        f"Account {account.address}: Storage reads not in lexicographic order. "
+                        f"Got: {account.storage_reads}, Expected: {sorted_reads}"
+                    )
+
+            # Check tx indices in other change lists
+            changes_to_check: List[
+                tuple[
+                    str,
+                    Union[
+                        List[BalNonceChange],
+                        List[BalBalanceChange],
+                        List[BalCodeChange],
+                    ],
+                ]
+            ] = [
+                ("nonce_changes", account.nonce_changes),
+                ("balance_changes", account.balance_changes),
+                ("code_changes", account.code_changes),
+            ]
+            for field_name, changes in changes_to_check:
+                if changes:
+                    tx_indices = [c.tx_index for c in changes]
+                    if tx_indices != sorted(tx_indices):
+                        raise Exception(
+                            f"Account {account.address}: {field_name} tx_indices "
+                            f"not in ascending order. Got: {tx_indices}"
+                        )
+
     def _compare_account_expectations(
         self, expected: BalAccountExpectation, actual: BalAccountChange
     ) -> None:
