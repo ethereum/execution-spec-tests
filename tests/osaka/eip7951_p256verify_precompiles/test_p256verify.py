@@ -303,7 +303,7 @@ def test_precompile_as_tx_entry_point(
 
 
 @pytest.mark.parametrize(
-    "input_data,call_contract_address,expected_output",
+    "input_data,precompile_address,expected_output",
     [
         pytest.param(
             Spec.H0 + Spec.R0 + Spec.S0 + Spec.X0 + Spec.Y0,
@@ -317,21 +317,40 @@ def test_precompile_as_tx_entry_point(
 def test_precompile_will_return_success_with_tx_value(
     state_test: StateTestFiller,
     pre: Alloc,
-    post: dict,
-    tx: Transaction,
-    call_contract_address: Address,
     input_data: bytes,
     expected_output: bytes,
+    precompile_address: Address,
 ):
     """Test P256Verify precompile will not fail if value is sent."""
     sender = pre.fund_eoa()
+    storage = Storage()
+
+    call_256verify_bytecode = (
+        Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE())
+        + Op.CALL(
+            gas=Spec.P256VERIFY_GAS,
+            address=Spec.P256VERIFY,
+            value=Op.CALLVALUE(),
+            args_offset=0,
+            args_size=Op.CALLDATASIZE(),
+            ret_offset=0,
+            ret_size=32,
+        )
+        + Op.SSTORE(storage.store_next(True), Op.DUP1())
+        + Op.SSTORE(storage.store_next(expected_output), Op.MLOAD(0))
+        + Op.SSTORE(storage.store_next(len(expected_output)), Op.RETURNDATASIZE())
+        + Op.STOP
+    )
+
+    contract_address = pre.deploy_contract(call_256verify_bytecode)
     tx = Transaction(
         sender=sender,
         gas_limit=1000000,
-        to=call_contract_address,
+        to=contract_address,
         value=1000,
         data=input_data,
     )
+    post = {contract_address: {"storage": storage}}
     state_test(env=Environment(), pre=pre, post=post, tx=tx)
 
 
@@ -405,7 +424,6 @@ def test_modular_comparison(state_test: StateTestFiller, pre: Alloc, post: dict,
 def test_contract_creation_transaction(
     state_test: StateTestFiller,
     pre: Alloc,
-    post: dict,
     tx: Transaction,
     input_data: bytes,
     expected_output: bytes,
@@ -469,7 +487,6 @@ def test_contract_creation_transaction(
 def test_contract_initcode(
     state_test: StateTestFiller,
     pre: Alloc,
-    post: dict,
     tx: Transaction,
     input_data: bytes,
     expected_output: bytes,
