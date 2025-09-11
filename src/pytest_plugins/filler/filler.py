@@ -1170,7 +1170,7 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 self._operation_mode = request.config.op_mode
 
                 # Get the filling session from config
-                session: FillingSession = request.config.filling_session  # type: ignore[attr-defined]
+                session: FillingSession = request.config.filling_session  # type: ignore
 
                 # Phase 1: Generate pre-allocation groups
                 if session.phase_manager.is_pre_alloc_generation:

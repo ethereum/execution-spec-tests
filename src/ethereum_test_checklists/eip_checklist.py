@@ -28,7 +28,7 @@ class ChecklistItemMeta(type):
     _path: str = ""
     _override_name: str = ""
 
-    def __new__(mcs, name: str, bases: tuple, namespace: dict, **kwargs):
+    def __new__(mcs, name: str, bases: tuple, namespace: dict, **kwargs):  # noqa: N804
         """Create a new class with the parent path set."""
         parent_path = kwargs.get("parent_path", "")
         override_name = kwargs.get("override_name", None)
