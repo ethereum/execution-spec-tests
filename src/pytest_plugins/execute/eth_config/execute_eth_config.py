@@ -10,7 +10,7 @@ import pytest
 from ethereum_test_rpc import EthConfigResponse, EthRPC
 from pytest_plugins.logging import get_logger
 
-from .types import NetworkConfig
+from .execute_types import NetworkConfig
 
 logger = get_logger(__name__)
 

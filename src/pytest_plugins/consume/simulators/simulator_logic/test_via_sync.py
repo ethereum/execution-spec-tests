@@ -18,7 +18,7 @@ from ethereum_test_base_types import Hash
 from ethereum_test_exceptions import UndefinedException
 from ethereum_test_fixtures import BlockchainEngineSyncFixture
 from ethereum_test_rpc import AdminRPC, EngineRPC, EthRPC, NetRPC
-from ethereum_test_rpc.types import (
+from ethereum_test_rpc.rpc_types import (
     ForkchoiceState,
     JSONRPCError,
     PayloadStatusEnum,

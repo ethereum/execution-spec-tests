@@ -28,7 +28,7 @@ from ethereum_test_rpc import (
     ForkConfigBlobSchedule,
 )
 
-from ..types import ForkActivationTimes, Genesis, NetworkConfig
+from ..execute_types import ForkActivationTimes, Genesis, NetworkConfig
 
 CURRENT_FILE = Path(realpath(__file__))
 CURRENT_FOLDER = CURRENT_FILE.parent
