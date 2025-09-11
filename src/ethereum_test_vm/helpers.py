@@ -1,6 +1,6 @@
 """Helper functions for the EVM."""
 
-from .opcode import Opcodes as Op
+from .opcodes import Opcodes as Op
 
 
 def call_return_code(opcode: Op, success: bool, *, revert: bool = False) -> int:

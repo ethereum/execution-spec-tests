@@ -11,10 +11,10 @@ from ethereum_test_tools import (
     Transaction,
 )
 from ethereum_test_tools import Initcode as LegacyInitcode
-from ethereum_test_tools.vm.opcode import Opcodes
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container
 from ethereum_test_types.helpers import compute_create_address
+from ethereum_test_vm import Opcodes
+from ethereum_test_vm import Opcodes as Op
 
 from ....prague.eip7702_set_code_tx.spec import Spec
 from .. import EOF_FORK_NAME

@@ -4,9 +4,9 @@ import pytest
 
 from ethereum_test_base_types import Address
 
-from ..opcode import Bytecode
-from ..opcode import Macros as Om
-from ..opcode import Opcodes as Op
+from ..opcodes import Bytecode
+from ..opcodes import Macros as Om
+from ..opcodes import Opcodes as Op
 
 
 @pytest.mark.parametrize(

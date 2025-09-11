@@ -19,7 +19,7 @@ from ethereum_test_tools import (
     Transaction,
     TransactionException,
 )
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 from .spec import ref_spec_7594
 

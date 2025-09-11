@@ -9,7 +9,7 @@ from .rpc import (
     NetRPC,
     SendTransactionExceptionError,
 )
-from .types import (
+from .rpc_types import (
     BlobAndProofV1,
     BlobAndProofV2,
     EthConfigResponse,

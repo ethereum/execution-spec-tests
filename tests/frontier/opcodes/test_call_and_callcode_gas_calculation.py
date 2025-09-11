@@ -37,7 +37,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 """
 PUSH opcode cost is 3, GAS opcode cost is 2.

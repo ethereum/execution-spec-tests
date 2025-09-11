@@ -11,7 +11,7 @@ from ethereum_test_base_types import HexNumber
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EngineRPC
 from ethereum_test_rpc import EthRPC as BaseEthRPC
-from ethereum_test_rpc.types import (
+from ethereum_test_rpc.rpc_types import (
     ForkchoiceState,
     PayloadAttributes,
     PayloadStatusEnum,

@@ -2,7 +2,7 @@
 
 import pytest
 
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm.bytecode import Bytecode
 
 from .spec import Spec

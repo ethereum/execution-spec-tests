@@ -18,6 +18,7 @@ from .base_types import (
     Wei,
     ZeroPaddedHexNumber,
 )
+from .base_types_json import to_json
 from .composite_types import (
     AccessList,
     Account,
@@ -38,7 +39,6 @@ from .constants import (
     TestPrivateKey2,
 )
 from .conversions import to_bytes, to_hex
-from .json import to_json
 from .pydantic import CamelModel, EthereumTestBaseModel, EthereumTestRootModel
 from .reference_spec import ReferenceSpec
 from .serialization import RLPSerializable, SignableRLPSerializable

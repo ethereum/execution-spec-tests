@@ -23,7 +23,7 @@ from ethereum_test_base_types.conversions import (
 )
 from ethereum_test_forks import Fork
 from ethereum_test_rpc import EthRPC
-from ethereum_test_rpc.types import TransactionByHashResponse
+from ethereum_test_rpc.rpc_types import TransactionByHashResponse
 from ethereum_test_tools import (
     EOA,
     Account,

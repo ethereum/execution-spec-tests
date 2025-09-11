@@ -35,7 +35,7 @@ from ethereum_test_types import (
     Environment,
     Transaction,
 )
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest, Header

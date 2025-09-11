@@ -29,7 +29,7 @@ from ethereum_test_types import (
     Transaction,
     TransactionReceipt,
 )
-from pytest_plugins.logging import get_logger
+from pytest_plugins.custom_logging import get_logger
 
 logger = get_logger(__name__)
 

@@ -22,7 +22,7 @@ from ethereum_test_vm import Opcodes as Op
 from ethereum_test_vm import UndefinedOpcodes
 from pytest_plugins.solc.solc import SOLC_EXPECTED_MIN_VERSION
 
-from ..code import CalldataCase, Case, Conditional, Initcode, Switch
+from ..tools_code import CalldataCase, Case, Conditional, Initcode, Switch
 
 
 @pytest.fixture(params=get_deployed_forks())
