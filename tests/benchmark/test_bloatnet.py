@@ -253,11 +253,17 @@ def test_bloatnet_extcodesize_balance(
     Test that maximizes I/O reads by combining cold BALANCE with warm EXTCODESIZE calls.
 
     This test uses CREATE2 deterministic addressing to avoid bytecode size limitations.
+    Each contract has UNIQUE bytecode to prevent client-side storage deduplication and
+    cache optimization. Without unique bytecode, clients could store it once and reference
+    it for all contracts, defeating the I/O benchmark purpose.
+
     It deploys many 24kB contracts with unique bytecode, then:
     1. Calls BALANCE on all contracts (cold access) to warm them and fill cache
     2. Calls EXTCODESIZE on all contracts (warm access) hoping cache evictions force re-reads
 
     Goal: Maximum I/O read operations with minimum gas consumption.
+    Note: Bytecode generation happens during test setup (not in the attack transaction),
+    so unique bytecode doesn't affect gas costs - we still access the same number of contracts.
     """
     gas_costs = fork.gas_costs()
     max_contract_size = fork.max_code_size()
@@ -299,33 +305,52 @@ def test_bloatnet_extcodesize_balance(
     # Calculate maximum contracts we can access
     num_contracts = int(available_gas_for_access // cost_per_iteration)
 
-    # Generate unique bytecode for deployment (will be same for all to simplify init_code_hash)
-    deploy_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
+    # Generate a base bytecode template for init_code_hash calculation
+    # We'll use this to compute CREATE2 addresses consistently
+    base_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
     pattern_count = 0
-    while len(deploy_bytecode) < max_contract_size - 100:
+    while len(base_bytecode) < max_contract_size - 100:
         unique_value = Hash(pattern_count)
-        deploy_bytecode += Op.PUSH32[unique_value] + Op.POP
+        base_bytecode += Op.PUSH32[unique_value] + Op.POP
         pattern_count += 1
-    while len(deploy_bytecode) < max_contract_size:
-        deploy_bytecode += Op.JUMPDEST
+    while len(base_bytecode) < max_contract_size:
+        base_bytecode += Op.JUMPDEST
 
-    assert len(deploy_bytecode) == max_contract_size, (
-        f"Contract size mismatch: {len(deploy_bytecode)}"
+    assert len(base_bytecode) == max_contract_size, (
+        f"Base bytecode size mismatch: {len(base_bytecode)}"
     )
 
-    # Init code that returns the bytecode
-    init_code = Op.CODECOPY(0, 0, Op.CODESIZE) + Op.RETURN(0, Op.CODESIZE) + deploy_bytecode
+    # Init code that returns the bytecode (used for CREATE2 address calculation)
+    init_code = Op.CODECOPY(0, 0, Op.CODESIZE) + Op.RETURN(0, Op.CODESIZE) + base_bytecode
     init_code_hash = keccak256(bytes(init_code))
 
     # Factory address that would deploy contracts with CREATE2
     factory_address = pre.deploy_contract(code=Op.STOP)  # Simple factory placeholder
 
-    # Pre-deploy all contracts at CREATE2 addresses using sequential salts
+    # Pre-deploy all contracts at CREATE2 addresses with UNIQUE bytecode
+    # Note: Each contract gets different bytecode to prevent storage deduplication.
+    # Hash(salt * 1000000 + pattern_count) ensures unique values per contract.
+    # This doesn't affect gas costs since bytecode generation happens in test setup.
     deployed_contracts = []  # Track for post-state validation
     for salt in range(num_contracts):
-        # Calculate the CREATE2 address
+        # Generate unique bytecode for this specific contract
+        deploy_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
+        pattern_count = 0
+        while len(deploy_bytecode) < max_contract_size - 100:
+            # Use salt to make each contract's bytecode unique
+            unique_value = Hash(salt * 1000000 + pattern_count)
+            deploy_bytecode += Op.PUSH32[unique_value] + Op.POP
+            pattern_count += 1
+        while len(deploy_bytecode) < max_contract_size:
+            deploy_bytecode += Op.JUMPDEST
+
+        assert len(deploy_bytecode) == max_contract_size, (
+            f"Contract size mismatch: {len(deploy_bytecode)}"
+        )
+
+        # Calculate the CREATE2 address (using base init_code for consistent addresses)
         create2_addr = calculate_create2_address(factory_address, salt, bytes(init_code))
-        # Deploy at the calculated address
+        # Deploy at the calculated address with unique bytecode
         pre[create2_addr] = Account(code=deploy_bytecode)
         deployed_contracts.append(create2_addr)
 
@@ -408,6 +433,10 @@ def test_bloatnet_extcodecopy_balance(
     """
     Test that maximizes actual I/O reads using BALANCE + EXTCODECOPY combination.
 
+    Unlike the EXTCODESIZE test, this test gives each contract UNIQUE bytecode.
+    This ensures EXTCODECOPY actually reads different data from each contract,
+    maximizing the I/O load on the client's storage system.
+
     This test uses CREATE2 deterministic addressing to avoid bytecode size limitations.
     It achieves maximum data reads from disk by:
     1. Pre-deploying many 24KB contracts with unique bytecode
@@ -478,7 +507,8 @@ def test_bloatnet_extcodecopy_balance(
     # This test scales automatically: ~1000 contracts at 90M gas, ~10,000 at 900M gas
     num_contracts = int(available_gas_for_access // cost_per_iteration)
 
-    # Generate base bytecode template
+    # Generate a base bytecode template for init_code_hash calculation
+    # We'll use this to compute CREATE2 addresses consistently
     base_bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
     pattern_count = 0
     while len(base_bytecode) < max_contract_size - 100:
@@ -492,20 +522,24 @@ def test_bloatnet_extcodecopy_balance(
         f"Base bytecode size mismatch: {len(base_bytecode)}"
     )
 
-    # Init code that returns the bytecode
+    # Init code that returns the bytecode (used for CREATE2 address calculation)
     init_code = Op.CODECOPY(0, 0, Op.CODESIZE) + Op.RETURN(0, Op.CODESIZE) + base_bytecode
     init_code_hash = keccak256(bytes(init_code))
 
     # Factory address for CREATE2
     factory_address = pre.deploy_contract(code=Op.STOP)  # Simple factory placeholder
 
-    # Pre-deploy all contracts at CREATE2 addresses with unique bytecode
+    # Pre-deploy all contracts at CREATE2 addresses with UNIQUE bytecode
+    # Each contract gets different bytecode to maximize I/O when EXTCODECOPY reads them.
+    # Hash(salt * 1000000 + pattern_count) ensures unique data per contract.
+    # This forces actual disk reads instead of cache hits during the benchmark.
     deployed_contracts = []  # Track for post-state validation
     for salt in range(num_contracts):
-        # Generate unique bytecode for this contract
-        bytecode = Bytecode(Op.STOP)
+        # Generate unique bytecode for this specific contract
+        bytecode = Bytecode(Op.STOP)  # First byte is STOP for safety
         pattern_count = 0
         while len(bytecode) < max_contract_size - 100:
+            # Use salt to make each contract's bytecode unique
             unique_value = Hash(salt * 1000000 + pattern_count)
             bytecode += Op.PUSH32[unique_value] + Op.POP
             pattern_count += 1
@@ -514,8 +548,7 @@ def test_bloatnet_extcodecopy_balance(
 
         assert len(bytecode) == max_contract_size, f"Contract size mismatch: {len(bytecode)}"
 
-        # Calculate CREATE2 address using the base init code
-        # Note: In real implementation, each contract has unique bytecode but same init structure
+        # Calculate CREATE2 address (using base init_code for consistent addresses)
         create2_addr = calculate_create2_address(factory_address, salt, bytes(init_code))
 
         # Deploy at the calculated address with unique bytecode
