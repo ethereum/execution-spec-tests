@@ -217,14 +217,6 @@ class BesuExceptionMapper(ExceptionMapper):
         TransactionException.TYPE_3_TX_ZERO_BLOBS: (
             "Failed to decode transactions from block parameter"
         ),
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: "Invalid Blob Count",
-        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
-            r"Blob transaction has too many blobs: \d+"
-        ),
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: "Invalid Blob Count",
-        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
-            r"Blob transaction has too many blobs: \d+"
-        ),
         TransactionException.TYPE_3_TX_PRE_FORK: (
             "Transaction type BLOB is invalid, accepted transaction types are"
         ),
@@ -296,5 +288,11 @@ class BesuExceptionMapper(ExceptionMapper):
         ),
         TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM: (
             r"transaction invalid Transaction gas limit must be at most \d+"
+        ),
+        TransactionException.TYPE_3_TX_BLOB_COUNT_EXCEEDED: (
+            r"Blob transaction has too many blobs: \d+"
+        ),
+        TransactionException.TYPE_3_TX_MAX_BLOB_GAS_ALLOWANCE_EXCEEDED: (
+            r"Invalid Blob Count: \d+"
         ),
     }
