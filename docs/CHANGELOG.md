@@ -222,6 +222,7 @@ Users can select any of the artifacts depending on their benchmarking or testing
 - ✨ Add a `pytest.mark.with_all_typed_transactions` marker that creates default typed transactions for each `tx_type` supported by the current `fork` ([#1890](https://github.com/ethereum/execution-spec-tests/pull/1890)).
 - ✨ Add basic support for ``Amsterdam`` fork in order to begin testing Glamsterdam ([#2069](https://github.com/ethereum/execution-spec-tests/pull/2069)).
 - ✨ [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928): Add initial framework support for `Block Level Access Lists (BAL)` testing for Amsterdam ([#2067](https://github.com/ethereum/execution-spec-tests/pull/2067)).
+- ✨ Add tighter validation for EIP-7928 model coming from t8n when filling ([#2138](https://github.com/ethereum/execution-spec-tests/pull/2138)).
 
 ### 🧪 Test Cases
 
