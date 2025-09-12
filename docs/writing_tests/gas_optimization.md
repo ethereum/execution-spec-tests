@@ -26,6 +26,42 @@ Enable post-processing to handle opcodes that put the current gas in the stack (
 uv run fill --optimize-gas --optimize-gas-post-processing
 ```
 
+### What Post-Processing Does
+
+Post-processing mode is essential when your test transactions use the `GAS` opcode or other operations that push the current gas value onto the execution stack. Without post-processing, gas optimization would fail because:
+
+1. **Gas Value in Stack**: The `GAS` opcode pushes the current gas value onto the stack
+2. **Different Gas Limits**: When optimizing gas, different gas limits result in different values being pushed by `GAS`
+3. **Trace Comparison Failure**: The execution traces would differ due to these different gas values in the stack, causing optimization to fail
+
+### How Post-Processing Works
+
+When `enable_post_processing=True` is passed to the `verify_modified_gas_limit` function:
+
+1. **Gas Removal**: The system identifies traces where the previous operation was `GAS` and removes the gas value from the stack (`trace.stack[-1] = None`)
+2. **Trace Normalization**: This allows trace comparison to succeed even when different gas limits produce different gas values in the stack
+3. **Equivalent Execution**: The optimization can proceed because the traces are considered equivalent after removing gas-dependent stack values
+
+### When to Use Post-Processing
+
+Use `--optimize-gas-post-processing` when your tests:
+- Use the `GAS` opcode to read current gas
+- Have contracts that push gas values onto the stack
+- Would otherwise fail gas optimization due to gas-dependent stack operations
+
+Without post-processing, such tests would be considered "impossible to compare" and gas optimization would fail with an error.
+
+### Safety Considerations
+
+**⚠️ Important**: Post-processing mode is **not the default** for good reasons:
+
+- **Guaranteed Equivalence**: Without post-processing, the test execution is guaranteed to be exactly the same as the original, ensuring complete behavioral equivalence
+- **Extra Care Required**: When using `--optimize-gas-post-processing`, extra care must be taken to verify that the optimized test still behaves correctly, as the post-processing modifies trace comparison logic
+- **Potential Risks**: The gas value removal from traces could potentially mask subtle differences in execution that might be important for test correctness
+- **Verification Needed**: Always thoroughly test the optimized results to ensure they maintain the intended behavior, especially for contracts that rely on gas values for logic
+
+**Recommendation**: Only use post-processing mode when absolutely necessary (i.e., when tests fail without it due to `GAS` opcode usage), and always verify the optimized test results carefully.
+
 ## How It Works
 
 The gas optimization algorithm uses a binary search approach:
