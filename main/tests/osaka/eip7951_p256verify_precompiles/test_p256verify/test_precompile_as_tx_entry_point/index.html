@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_call_types/">
       
       
-        <link rel="next" href="../test_modular_comparison/">
+        <link rel="next" href="../test_precompile_will_return_success_with_tx_value/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -5845,6 +5845,8 @@
       
         
       
+        
+      
     
     
     
@@ -6058,6 +6060,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_precompile_as_tx_entry_point"><code>test_precompile_as_tx_entry_point()</code><a class="headerlink" href="#test_precompile_as_tx_entry_point" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L278"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L283"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_precompile_as_tx_entry_point --fork Osaka</span>
@@ -27105,12 +27130,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
 <span class="normal">286</span>
@@ -27124,7 +27144,12 @@
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
-<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,call_contract_address,post&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27135,7 +27160,7 @@
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/call_contexts/tx_entry&quot;</span><span class="p">)</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">CallContexts</span><span class="o">.</span><span class="n">TxEntry</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_precompile_as_tx_entry_point</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27273,13 +27298,13 @@
         
         
           
-          <a href="../test_modular_comparison/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_modular_comparison&lt;/code&gt;">
+          <a href="../test_precompile_will_return_success_with_tx_value/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_precompile_will_return_success_with_tx_value&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                <code>test_modular_comparison</code>
+                <code>test_precompile_will_return_success_with_tx_value</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

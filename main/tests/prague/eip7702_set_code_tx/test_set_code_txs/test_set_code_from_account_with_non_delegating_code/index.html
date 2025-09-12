@@ -5839,6 +5839,8 @@
       
         
       
+        
+      
     
     
     
@@ -5987,6 +5989,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_set_code_from_account_with_non_delegating_code"><code>test_set_code_from_account_with_non_delegating_code()</code><a class="headerlink" href="#test_set_code_from_account_with_non_delegating_code" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3671"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3672"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_from_account_with_non_delegating_code --fork Osaka</span>
@@ -27109,8 +27134,7 @@ To be eoa, delegation, contract .. etc</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3671</span>
-<span class="normal">3672</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3672</span>
 <span class="normal">3673</span>
 <span class="normal">3674</span>
 <span class="normal">3675</span>
@@ -27185,7 +27209,8 @@ To be eoa, delegation, contract .. etc</p>
 <span class="normal">3744</span>
 <span class="normal">3745</span>
 <span class="normal">3746</span>
-<span class="normal">3747</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3747</span>
+<span class="normal">3748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;set_code_type&quot;</span><span class="p">,</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">AddressType</span><span class="p">),</span>
     <span class="n">ids</span><span class="o">=</span><span class="k">lambda</span> <span class="n">address_type</span><span class="p">:</span> <span class="n">address_type</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>

@@ -5839,6 +5839,8 @@
       
         
       
+        
+      
     
     
     
@@ -5987,6 +5989,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27083,7 +27108,7 @@
 
 
 <h1 id="test_worst_precompile_fixed_cost"><code>test_worst_precompile_fixed_cost()</code><a class="headerlink" href="#test_worst_precompile_fixed_cost" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/benchmark/test_worst_compute.py#L1302"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_compute.py#L1302"><code>tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_precompile_fixed_cost -m benchmark</span>
@@ -27548,7 +27573,8 @@
 <span class="normal">1744</span>
 <span class="normal">1745</span>
 <span class="normal">1746</span>
-<span class="normal">1747</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">1747</span>
+<span class="normal">1748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;precompile_address,parameters&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27937,6 +27963,7 @@
                 <span class="n">p256verify_spec</span><span class="o">.</span><span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
             <span class="p">],</span>
             <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;p256verify&quot;</span><span class="p">,</span>
+            <span class="n">marks</span><span class="o">=</span><span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/excessive_gas_usage&quot;</span><span class="p">,</span> <span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">])],</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>

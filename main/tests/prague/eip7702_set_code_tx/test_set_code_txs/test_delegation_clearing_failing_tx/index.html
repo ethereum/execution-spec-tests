@@ -5839,6 +5839,8 @@
       
         
       
+        
+      
     
     
     
@@ -5987,6 +5989,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_delegation_clearing_failing_tx"><code>test_delegation_clearing_failing_tx()</code><a class="headerlink" href="#test_delegation_clearing_failing_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3343"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3344"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx --fork Osaka</span>
@@ -27105,8 +27130,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3343</span>
-<span class="normal">3344</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3344</span>
 <span class="normal">3345</span>
 <span class="normal">3346</span>
 <span class="normal">3347</span>
@@ -27151,7 +27175,8 @@
 <span class="normal">3386</span>
 <span class="normal">3387</span>
 <span class="normal">3388</span>
-<span class="normal">3389</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3389</span>
+<span class="normal">3390</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;entry_code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;out_of_gas&quot;</span><span class="p">),</span>

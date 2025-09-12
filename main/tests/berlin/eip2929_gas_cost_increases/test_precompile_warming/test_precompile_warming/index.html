@@ -5839,6 +5839,8 @@
       
         
       
+        
+      
     
     
     
@@ -5987,6 +5989,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_precompile_warming"><code>test_precompile_warming()</code><a class="headerlink" href="#test_precompile_warming" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L68"><code>tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py#L69"><code>tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py::test_precompile_warming --fork Osaka</span>
@@ -27111,8 +27136,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/berlin/eip2929_gas_cost_increases/test_precompile_warming.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 68</span>
-<span class="normal"> 69</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 69</span>
 <span class="normal"> 70</span>
 <span class="normal"> 71</span>
 <span class="normal"> 72</span>
@@ -27202,11 +27226,16 @@
 <span class="normal">156</span>
 <span class="normal">157</span>
 <span class="normal">158</span>
-<span class="normal">159</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Paris&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span>
     <span class="s2">&quot;address,precompile_in_successor,precompile_in_predecessor&quot;</span><span class="p">,</span>
     <span class="n">precompile_addresses_in_predecessor_successor</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="o">.</span><span class="n">Cold</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">])</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">After</span><span class="o">.</span><span class="n">Warm</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_precompile_warming</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>

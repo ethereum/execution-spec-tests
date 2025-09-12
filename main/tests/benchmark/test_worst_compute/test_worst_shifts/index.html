@@ -5839,6 +5839,8 @@
       
         
       
+        
+      
     
     
     
@@ -5987,6 +5989,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27083,7 +27108,7 @@
 
 
 <h1 id="test_worst_shifts"><code>test_worst_shifts()</code><a class="headerlink" href="#test_worst_shifts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/benchmark/test_worst_compute.py#L2179"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_compute.py#L2180"><code>tests/benchmark/test_worst_compute.py::test_worst_shifts@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_shifts -m benchmark</span>
@@ -27105,8 +27130,7 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2179</span>
-<span class="normal">2180</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2180</span>
 <span class="normal">2181</span>
 <span class="normal">2182</span>
 <span class="normal">2183</span>
@@ -27186,7 +27210,8 @@ The shift amounts are randomly pre-selected from the constant pool of 15 values 
 <span class="normal">2257</span>
 <span class="normal">2258</span>
 <span class="normal">2259</span>
-<span class="normal">2260</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
+<span class="normal">2260</span>
+<span class="normal">2261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;shift_right&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Op</span><span class="o">.</span><span class="n">SHR</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">SAR</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_shifts</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>

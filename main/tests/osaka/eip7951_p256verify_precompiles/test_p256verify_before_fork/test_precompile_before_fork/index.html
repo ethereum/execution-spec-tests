@@ -5843,6 +5843,8 @@
       
         
       
+        
+      
     
     
     
@@ -5991,6 +5993,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_precompile_before_fork"><code>test_precompile_before_fork()</code><a class="headerlink" href="#test_precompile_before_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py#L19"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py#L20"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork --fork Osaka</span>
@@ -27106,8 +27131,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">19</span>
-<span class="normal">20</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
@@ -27135,20 +27159,51 @@
 <span class="normal">45</span>
 <span class="normal">46</span>
 <span class="normal">47</span>
-<span class="normal">48</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;precompile_address,input_data&quot;</span><span class="p">,</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;precompile_address,input_data,precompile_gas_modifier&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">P256VERIFY</span><span class="p">,</span>
             <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
-            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;P256VERIFY&quot;</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;P256VERIFY_valid_input_6900_gas&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">P256VERIFY</span><span class="p">,</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span><span class="p">,</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;P256VERIFY_invalid_input&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">P256VERIFY</span><span class="p">,</span>
+            <span class="n">Spec</span><span class="o">.</span><span class="n">H0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">R0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">S0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">X0</span> <span class="o">+</span> <span class="n">Spec</span><span class="o">.</span><span class="n">Y0</span><span class="p">,</span>
+            <span class="o">-</span><span class="mi">6900</span><span class="p">,</span>
+            <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;P256VERIFY_valid_input_zero_gas&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
-    <span class="s2">&quot;expected_output,call_succeeds&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">HIDDEN_PARAM</span><span class="p">)]</span>
+    <span class="s2">&quot;expected_output,call_succeeds&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">INVALID_RETURN_VALUE</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">HIDDEN_PARAM</span><span class="p">)],</span>
 <span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/fork_transition/before/invalid_input&quot;</span><span class="p">)</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="o">.</span><span class="n">InvalidInput</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="o">.</span><span class="n">ZeroGas</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_precompile_before_fork</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27216,20 +27271,48 @@
                         <th>call_succeeds</th>
                         <th>precompile_address</th>
                         <th>input_data</th>
+                        <th>precompile_gas_modifier</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY]">
-                    ...fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_6900_gas]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_6900_gas]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_6900_gas
                 </abbr>
             </td>
                         <td></td>
                         <td>True</td>
                         <td>256</td>
                         <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_invalid_input]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_invalid_input]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_invalid_input
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>True</td>
+                        <td>256</td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code></td>
+                        <td>0</td>
+                    </tr>
+                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_zero_gas]" title="tests/osaka/eip7951_p256verify_precompiles/test_p256verify_before_fork.py::test_precompile_before_fork[fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_zero_gas]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-P256VERIFY_valid_input_zero_gas
+                </abbr>
+            </td>
+                        <td></td>
+                        <td>True</td>
+                        <td>256</td>
+                        <td><code>bb5a52f42f9c9261ed4361f59422a1e3</code> <code>0036e7c32b270c8807a419feca605023</code> <code>2ba3a8be6b94d5ec80a6d9d1190a436e</code> <code>ffe50d85a1eee859b8cc6af9bd5c2e18</code> <code>4cd60b855d442f5b3c7b11eb6c4e0ae7</code> <code>525fe710fab9aa7c77a67f79e6fadd76</code> <code>2927b10512bae3eddcfe467828128bad</code> <code>2903269919f7086069c8c4df6c732838</code> <code>c7787964eaac00e5921fb1498a60f460</code> <code>6766b3d9685001558d1a974e7341513e</code></td>
+                        <td>-6900</td>
                     </tr>
             </tbody>
 </table>

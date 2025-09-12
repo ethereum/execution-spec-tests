@@ -5845,6 +5845,8 @@
       
         
       
+        
+      
     
     
     
@@ -6053,6 +6055,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -27085,7 +27110,7 @@
 
 
 <h1 id="test_gas"><code>test_gas()</code><a class="headerlink" href="#test_gas" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/a7544eb16dc8661c4dd5771033b7e68542bdaf4f/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L205"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_gas@a7544eb1</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py#L210"><code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_gas@e9045fc2</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py::test_gas --fork Osaka</span>
@@ -27105,12 +27130,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7951_p256verify_precompiles/test_p256verify.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">210</span>
 <span class="normal">211</span>
 <span class="normal">212</span>
 <span class="normal">213</span>
@@ -27143,7 +27163,12 @@
 <span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
-<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;input_data,expected_output,precompile_gas_modifier,call_succeeds&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27177,8 +27202,8 @@
     <span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;precompile_address&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">Spec</span><span class="o">.</span><span class="n">P256VERIFY</span><span class="p">],</span> <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">])</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/gas_usage/constant/exact&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">eip_checklist</span><span class="p">(</span><span class="s2">&quot;precompile/test/gas_usage/constant/oog&quot;</span><span class="p">)</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">GasUsage</span><span class="o">.</span><span class="n">Constant</span><span class="o">.</span><span class="n">Exact</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">GasUsage</span><span class="o">.</span><span class="n">Constant</span><span class="o">.</span><span class="n">Oog</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_gas</span><span class="p">(</span><span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span> <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span> <span class="n">post</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tx</span><span class="p">:</span> <span class="n">Transaction</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test P256Verify precompile gas requirements.&quot;&quot;&quot;</span>
     <span class="n">state_test</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">Environment</span><span class="p">(),</span> <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">)</span>

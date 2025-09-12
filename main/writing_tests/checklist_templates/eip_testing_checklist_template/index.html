@@ -6945,6 +6945,8 @@
       
         
       
+        
+      
     
     
     
@@ -7093,6 +7095,29 @@
   
   <span class="md-ellipsis">
     <code>test_precompile_as_tx_entry_point</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tests/osaka/eip7951_p256verify_precompiles/test_p256verify/test_precompile_will_return_success_with_tx_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_precompile_will_return_success_with_tx_value</code>
     
   </span>
   
@@ -30005,24 +30030,6 @@
 </tbody>
 </table>
 <h3 id="framework-changes">Framework Changes<a class="headerlink" href="#framework-changes" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>ID</th>
-<th>Description</th>
-<th>Status</th>
-<th>Tests</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <ul>
 <li>Add opcode to <code>src/ethereum_test_vm/opcode.py</code></li>
 <li>Add opcode to relevant methods in the fork where the EIP is introduced in <code>src/ethereum_test_forks/forks/forks.py</code></li>
@@ -30275,7 +30282,24 @@
 </table>
 <h5 id="no-fee-precompile">No-Fee Precompile<a class="headerlink" href="#no-fee-precompile" title="Permanent link">&para;</a></h5>
 <p>If the precompile does not require any minimum value (fee) to execute.</p>
-<p>| <code>precompile/test/value_transfer/no_fee</code> | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>precompile/test/value_transfer/no_fee</code></td>
+<td>Sending non-zero value does not cause an exception (unless otherwise specified by the EIP).</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h4 id="out-of-bounds-checks_1">Out-of-bounds checks<a class="headerlink" href="#out-of-bounds-checks_1" title="Permanent link">&para;</a></h4>
 <p>If the precompile has out-of-bounds conditions in its inputs.</p>
 <table>
@@ -31575,8 +31599,30 @@
 </table>
 <h4 id="transaction-scoped-persistent-values">Transaction-Scoped Persistent Values<a class="headerlink" href="#transaction-scoped-persistent-values" title="Permanent link">&para;</a></h4>
 <p>Verify values or variables that are persistent through the execution of the transaction (e.g. transient storage, warm/cold accounts).</p>
-<p>| <code>transaction_type/test/tx_scoped_attributes/persistent/throughout</code> | Persist throughout the entire transaction. | | |
-| <code>transaction_type/test/tx_scoped_attributes/persistent/reset</code> | Reset on subsequent transactions in the same block. | | |</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transaction_type/test/tx_scoped_attributes/persistent/throughout</code></td>
+<td>Persist throughout the entire transaction.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>transaction_type/test/tx_scoped_attributes/persistent/reset</code></td>
+<td>Reset on subsequent transactions in the same block.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h4 id="encoding-rlp-ssz">Encoding (RLP, SSZ)<a class="headerlink" href="#encoding-rlp-ssz" title="Permanent link">&para;</a></h4>
 <p>Verify correct transaction rejection in all listed scenarios.</p>
 <h5 id="field-sizes">Field Sizes<a class="headerlink" href="#field-sizes" title="Permanent link">&para;</a></h5>
@@ -32415,12 +32461,13 @@
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 5.5A3.5 3.5 0 0 1 15.5 9a3.5 3.5 0 0 1-3.5 3.5A3.5 3.5 0 0 1 8.5 9 3.5 3.5 0 0 1 12 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 0 1-3-3 3 3 0 0 1 3-3m14 0a3 3 0 0 1 3 3 3 3 0 0 1-3 3c-1.16 0-2.16-.66-2.66-1.62a5.54 5.54 0 0 0 1.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13zM0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20zm24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9z"/></svg>
       
     </span>
     <nav>
       
-        <a href="mailto:marioevz@gmail.com">Mario Vega</a>
+        <a href="mailto:marioevz@gmail.com">Mario Vega</a>, 
+        <a href="mailto:kclowes@users.noreply.github.com">kclowes</a>
     </nav>
   </span>
 
