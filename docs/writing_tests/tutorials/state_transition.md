@@ -32,7 +32,7 @@ In Python, multi-line strings are denoted using `"""`. As a convention, a file's
 import pytest
 
 from ethereum_test_tools import Account, Alloc, Environment, StateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 ```
 
 In this snippet the required constants, types and helper functions are imported from `ethereum_test_tools`. The `Opcodes` class (aliased as `Op`) provides the Python minilang for writing EVM bytecode. We will go over these as we come across them.

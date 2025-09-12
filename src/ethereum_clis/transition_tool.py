@@ -24,15 +24,15 @@ from ethereum_test_forks import Fork
 from ethereum_test_forks.helpers import get_development_forks, get_forks
 from ethereum_test_types import Alloc, Environment, Transaction
 
-from .ethereum_cli import EthereumCLI
-from .file_utils import dump_files_to_directory, write_json_file
-from .types import (
+from .cli_types import (
     TransactionReceipt,
     TransitionToolContext,
     TransitionToolInput,
     TransitionToolOutput,
     TransitionToolRequest,
 )
+from .ethereum_cli import EthereumCLI
+from .file_utils import dump_files_to_directory, write_json_file
 
 model_dump_config: Mapping = {"by_alias": True, "exclude_none": True}
 

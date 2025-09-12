@@ -18,7 +18,7 @@ from ethereum_test_tools import (
     Storage,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .common import (
     ExecutionEnvironment,
@@ -117,7 +117,7 @@ def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List
 )
 @pytest.mark.valid_from("Frontier")
 @pytest.mark.parametrize(
-    # select program to debug ("program_id", "scenario_name")
+    # select program to debug ("program_id","scenario_name")
     # program="" select all programs
     # scenario_name="" select all scenarios
     # Example: [ScenarioDebug(program_id=ProgramSstoreSload().id, scenario_name="scenario_CALL_CALL")],  # noqa: E501

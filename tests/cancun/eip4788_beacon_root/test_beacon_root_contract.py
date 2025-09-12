@@ -35,7 +35,7 @@ from ethereum_test_tools import (
     Transaction,
     Withdrawal,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .spec import Spec, ref_spec_4788
 

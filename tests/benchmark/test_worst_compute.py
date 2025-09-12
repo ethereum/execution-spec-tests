@@ -27,9 +27,9 @@ from ethereum_test_tools import (
     Transaction,
     add_kzg_version,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import TransactionType
-from ethereum_test_vm.opcode import Opcode
+from ethereum_test_vm import Opcode
+from ethereum_test_vm import Opcodes as Op
 
 from ..byzantium.eip198_modexp_precompile.test_modexp import ModExpInput
 from ..cancun.eip4844_blobs.spec import Spec as BlobsSpec

@@ -17,7 +17,7 @@ from typing import Any, Dict
 from pydantic import BaseModel
 
 from ethereum_test_base_types import Account, Address, ZeroPaddedHexNumber
-from ethereum_test_rpc.types import TransactionByHashResponse
+from ethereum_test_rpc.rpc_types import TransactionByHashResponse
 from ethereum_test_types import Environment
 
 

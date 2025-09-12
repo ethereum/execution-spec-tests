@@ -12,7 +12,7 @@ import tempfile
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-from ..logging import (
+from ..plugin_logging import (
     FAIL_LEVEL,
     VERBOSE_LEVEL,
     ColorFormatter,
@@ -194,7 +194,7 @@ class TestPytestIntegration:
 
     def test_pytest_configure(self, monkeypatch, tmpdir):
         """Test that pytest_configure sets up logging correctly."""
-        from pytest_plugins.logging.logging import pytest_configure
+        from pytest_plugins.custom_logging.plugin_logging import pytest_configure
 
         # Create logs directory if it doesn't exist
         log_dir = Path("logs")

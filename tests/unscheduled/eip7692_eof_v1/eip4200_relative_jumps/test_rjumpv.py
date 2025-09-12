@@ -3,9 +3,9 @@
 import pytest
 
 from ethereum_test_tools import Account, EOFException, EOFStateTestFiller, EOFTestFiller
-from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types.eof.v1 import Container, Section
 from ethereum_test_vm import Bytecode
+from ethereum_test_vm import Opcodes as Op
 
 from .. import EOF_FORK_NAME
 from .helpers import JumpDirection, slot_code_worked, slot_conditional_result, value_code_worked

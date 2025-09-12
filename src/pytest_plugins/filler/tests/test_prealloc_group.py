@@ -232,7 +232,7 @@ class StateTest(FormattedTest):  # noqa: D101
             StateTestFiller,
             Transaction
         )
-        from ethereum_test_tools.vm.opcode import Opcodes as Op
+        from ethereum_test_vm import Opcodes as Op
 
         @pytest.mark.valid_from("Istanbul")
         def test_chainid(state_test: StateTestFiller, pre: Alloc):
@@ -269,7 +269,7 @@ class BlockchainTest(FormattedTest):  # noqa: D101
             Environment,
             Transaction
         )
-        from ethereum_test_tools.vm.opcode import Opcodes as Op
+        from ethereum_test_vm import Opcodes as Op
 
         @pytest.mark.valid_from("Istanbul")
         def test_chainid_blockchain(blockchain_test: BlockchainTestFiller, pre: Alloc):
