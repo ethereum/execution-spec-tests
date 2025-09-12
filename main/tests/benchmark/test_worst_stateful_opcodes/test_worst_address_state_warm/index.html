@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_address_state_warm"><code>test_worst_address_state_warm()</code><a class="headerlink" href="#test_worst_address_state_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_stateful_opcodes.py#L119"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_stateful_opcodes.py#L118"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm -m benchmark</span>
@@ -27128,7 +27128,8 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">119</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">118</span>
+<span class="normal">119</span>
 <span class="normal">120</span>
 <span class="normal">121</span>
 <span class="normal">122</span>
@@ -27189,10 +27190,7 @@
 <span class="normal">177</span>
 <span class="normal">178</span>
 <span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">,</span>
@@ -27274,8 +27272,7 @@
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27310,286 +27307,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_BALANCE]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>BALANCE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_EXTCODESIZE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>EXTCODESIZE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_EXTCODEHASH
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>EXTCODEHASH</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALL]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_CALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALLCODE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_CALLCODE]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_STATICCALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_True-opcode_STATICCALL]">
-                    ...fork_Cancun-state_test-absent_target_True-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>STATICCALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_BALANCE]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>BALANCE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_EXTCODESIZE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>EXTCODESIZE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_EXTCODEHASH
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>EXTCODEHASH</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALL]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_CALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALLCODE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_CALLCODE]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_STATICCALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-state_test-absent_target_False-opcode_STATICCALL]">
-                    ...fork_Cancun-state_test-absent_target_False-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>STATICCALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>BALANCE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODESIZE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>EXTCODESIZE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_EXTCODEHASH
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>EXTCODEHASH</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_True-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>STATICCALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>BALANCE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODESIZE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>EXTCODESIZE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_EXTCODEHASH
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>EXTCODEHASH</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_warm[fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL]">
-                    ...fork_Cancun-blockchain_test_from_state_test-absent_target_False-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>STATICCALL</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

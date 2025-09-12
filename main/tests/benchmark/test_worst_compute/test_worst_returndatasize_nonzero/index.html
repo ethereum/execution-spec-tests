@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_returndatasize_nonzero"><code>test_worst_returndatasize_nonzero()</code><a class="headerlink" href="#test_worst_returndatasize_nonzero" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_compute.py#L208"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_compute.py#L205"><code>tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero -m benchmark</span>
@@ -27131,7 +27131,10 @@ The <code>return_data_style</code> indicates how returned data is produced for t
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">208</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
 <span class="normal">211</span>
@@ -27186,12 +27189,7 @@ The <code>return_data_style</code> indicates how returned data is produced for t
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;return_data_style&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">ReturnDataStyle</span><span class="o">.</span><span class="n">RETURN</span><span class="p">,</span>
@@ -27269,8 +27267,7 @@ The <code>return_data_style</code> indicates how returned data is produced for t
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27305,126 +27302,6 @@ The <code>return_data_style</code> indicates how returned data is produced for t
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN]">
-                    ...fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.RETURN</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT]">
-                    ...fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.REVERT</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY]">
-                    ...fork_Cancun-state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.IDENTITY</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN]">
-                    ...fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.RETURN</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT]">
-                    ...fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.REVERT</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY]">
-                    ...fork_Cancun-state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.IDENTITY</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.RETURN
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.RETURN</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.REVERT
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.REVERT</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_1-return_data_style_ReturnDataStyle.IDENTITY
-                </abbr>
-            </td>
-                        <td>1</td>
-                        <td>ReturnDataStyle.IDENTITY</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.RETURN
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.RETURN</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.REVERT
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.REVERT</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY]" title="tests/benchmark/test_worst_compute.py::test_worst_returndatasize_nonzero[fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY]">
-                    ...fork_Cancun-blockchain_test_from_state_test-returned_size_0-return_data_style_ReturnDataStyle.IDENTITY
-                </abbr>
-            </td>
-                        <td>0</td>
-                        <td>ReturnDataStyle.IDENTITY</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

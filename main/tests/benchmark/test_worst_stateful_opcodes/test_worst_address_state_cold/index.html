@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_address_state_cold"><code>test_worst_address_state_cold()</code><a class="headerlink" href="#test_worst_address_state_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_stateful_opcodes.py#L36"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_stateful_opcodes.py#L36"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold -m benchmark</span>
@@ -27207,9 +27207,7 @@
 <span class="normal">112</span>
 <span class="normal">113</span>
 <span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">115</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">BALANCE</span><span class="p">,</span>
@@ -27308,8 +27306,7 @@
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27343,26 +27340,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold[fork_Cancun-blockchain_test-absent_accounts_True-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold[fork_Cancun-blockchain_test-absent_accounts_True-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test-absent_accounts_True-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>BALANCE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold[fork_Cancun-blockchain_test-absent_accounts_False-opcode_BALANCE]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_address_state_cold[fork_Cancun-blockchain_test-absent_accounts_False-opcode_BALANCE]">
-                    ...fork_Cancun-blockchain_test-absent_accounts_False-opcode_BALANCE
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>BALANCE</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

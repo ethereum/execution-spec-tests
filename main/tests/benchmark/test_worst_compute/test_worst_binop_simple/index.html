@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_binop_simple"><code>test_worst_binop_simple()</code><a class="headerlink" href="#test_worst_binop_simple" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_compute.py#L1871"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_compute.py#L1856"><code>tests/benchmark/test_worst_compute.py::test_worst_binop_simple@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_binop_simple -m benchmark</span>
@@ -27130,7 +27130,22 @@ balanced by the DUP2 instruction.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1871</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1856</span>
+<span class="normal">1857</span>
+<span class="normal">1858</span>
+<span class="normal">1859</span>
+<span class="normal">1860</span>
+<span class="normal">1861</span>
+<span class="normal">1862</span>
+<span class="normal">1863</span>
+<span class="normal">1864</span>
+<span class="normal">1865</span>
+<span class="normal">1866</span>
+<span class="normal">1867</span>
+<span class="normal">1868</span>
+<span class="normal">1869</span>
+<span class="normal">1870</span>
+<span class="normal">1871</span>
 <span class="normal">1872</span>
 <span class="normal">1873</span>
 <span class="normal">1874</span>
@@ -27286,24 +27301,7 @@ balanced by the DUP2 instruction.</p>
 <span class="normal">2024</span>
 <span class="normal">2025</span>
 <span class="normal">2026</span>
-<span class="normal">2027</span>
-<span class="normal">2028</span>
-<span class="normal">2029</span>
-<span class="normal">2030</span>
-<span class="normal">2031</span>
-<span class="normal">2032</span>
-<span class="normal">2033</span>
-<span class="normal">2034</span>
-<span class="normal">2035</span>
-<span class="normal">2036</span>
-<span class="normal">2037</span>
-<span class="normal">2038</span>
-<span class="normal">2039</span>
-<span class="normal">2040</span>
-<span class="normal">2041</span>
-<span class="normal">2042</span>
-<span class="normal">2043</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2027</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode,opcode_args&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="p">(</span>
@@ -27494,8 +27492,7 @@ balanced by the DUP2 instruction.</p>
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27530,466 +27527,6 @@ balanced by the DUP2 instruction.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_ADD-]">
-                    ...fork_Cancun-state_test-opcode_ADD-
-                </abbr>
-            </td>
-                        <td>ADD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_MUL-]">
-                    ...fork_Cancun-state_test-opcode_MUL-
-                </abbr>
-            </td>
-                        <td>MUL</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SUB-]">
-                    ...fork_Cancun-state_test-opcode_SUB-
-                </abbr>
-            </td>
-                        <td>SUB</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-0]">
-                    ...fork_Cancun-state_test-opcode_DIV-0
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 340282366920938463463374607431768211507)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_DIV-1]">
-                    ...fork_Cancun-state_test-opcode_DIV-1
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-0]">
-                    ...fork_Cancun-state_test-opcode_SDIV-0
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SDIV-1]">
-                    ...fork_Cancun-state_test-opcode_SDIV-1
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_MOD-]">
-                    ...fork_Cancun-state_test-opcode_MOD-
-                </abbr>
-            </td>
-                        <td>MOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SMOD-]">
-                    ...fork_Cancun-state_test-opcode_SMOD-
-                </abbr>
-            </td>
-                        <td>SMOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_EXP-]">
-                    ...fork_Cancun-state_test-opcode_EXP-
-                </abbr>
-            </td>
-                        <td>EXP</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 115792089237316195423570985008687907853269984665640564039457584007913129639935)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Cancun-state_test-opcode_SIGNEXTEND-
-                </abbr>
-            </td>
-                        <td>SIGNEXTEND</td>
-                        <td>(3, 4292532954)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_LT-]">
-                    ...fork_Cancun-state_test-opcode_LT-
-                </abbr>
-            </td>
-                        <td>LT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_GT-]">
-                    ...fork_Cancun-state_test-opcode_GT-
-                </abbr>
-            </td>
-                        <td>GT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SLT-]">
-                    ...fork_Cancun-state_test-opcode_SLT-
-                </abbr>
-            </td>
-                        <td>SLT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SGT-]">
-                    ...fork_Cancun-state_test-opcode_SGT-
-                </abbr>
-            </td>
-                        <td>SGT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_EQ-]">
-                    ...fork_Cancun-state_test-opcode_EQ-
-                </abbr>
-            </td>
-                        <td>EQ</td>
-                        <td>(1, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_AND-]">
-                    ...fork_Cancun-state_test-opcode_AND-
-                </abbr>
-            </td>
-                        <td>AND</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_OR-]">
-                    ...fork_Cancun-state_test-opcode_OR-
-                </abbr>
-            </td>
-                        <td>OR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_XOR-]">
-                    ...fork_Cancun-state_test-opcode_XOR-
-                </abbr>
-            </td>
-                        <td>XOR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_BYTE-]">
-                    ...fork_Cancun-state_test-opcode_BYTE-
-                </abbr>
-            </td>
-                        <td>BYTE</td>
-                        <td>(31, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SHL-]">
-                    ...fork_Cancun-state_test-opcode_SHL-
-                </abbr>
-            </td>
-                        <td>SHL</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SHR-]">
-                    ...fork_Cancun-state_test-opcode_SHR-
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-state_test-opcode_SAR-]">
-                    ...fork_Cancun-state_test-opcode_SAR-
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_ADD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_ADD-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_ADD-
-                </abbr>
-            </td>
-                        <td>ADD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_MUL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_MUL-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_MUL-
-                </abbr>
-            </td>
-                        <td>MUL</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SUB-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SUB-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SUB-
-                </abbr>
-            </td>
-                        <td>SUB</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_DIV-0
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 340282366920938463463374607431768211507)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_DIV-1
-                </abbr>
-            </td>
-                        <td>DIV</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 18446744073709551667)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-0
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907852929702298719625575994209400481361428429)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SDIV-1
-                </abbr>
-            </td>
-                        <td>SDIV</td>
-                        <td>(57896044618658097711785492504343953926634992332820282019728792003952269851695, 115792089237316195423570985008687907853269984665640564039439137263839420088269)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_MOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_MOD-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_MOD-
-                </abbr>
-            </td>
-                        <td>MOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SMOD-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SMOD-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SMOD-
-                </abbr>
-            </td>
-                        <td>SMOD</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_EXP-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_EXP-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_EXP-
-                </abbr>
-            </td>
-                        <td>EXP</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 115792089237316195423570985008687907853269984665640564039457584007913129639935)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SIGNEXTEND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SIGNEXTEND-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SIGNEXTEND-
-                </abbr>
-            </td>
-                        <td>SIGNEXTEND</td>
-                        <td>(3, 4292532954)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_LT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_LT-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_LT-
-                </abbr>
-            </td>
-                        <td>LT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_GT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_GT-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_GT-
-                </abbr>
-            </td>
-                        <td>GT</td>
-                        <td>(0, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SLT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SLT-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SLT-
-                </abbr>
-            </td>
-                        <td>SLT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SGT-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SGT-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SGT-
-                </abbr>
-            </td>
-                        <td>SGT</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007913129639935, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_EQ-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_EQ-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_EQ-
-                </abbr>
-            </td>
-                        <td>EQ</td>
-                        <td>(1, 1)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_AND-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_AND-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_AND-
-                </abbr>
-            </td>
-                        <td>AND</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_OR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_OR-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_OR-
-                </abbr>
-            </td>
-                        <td>OR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_XOR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_XOR-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_XOR-
-                </abbr>
-            </td>
-                        <td>XOR</td>
-                        <td>(115792089237316195423570985008687907853269984665640564039457584007908834671663, 52435875175126190479447740508185965837690552500527637822603658699938581184513)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_BYTE-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_BYTE-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_BYTE-
-                </abbr>
-            </td>
-                        <td>BYTE</td>
-                        <td>(31, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SHL-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SHL-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SHL-
-                </abbr>
-            </td>
-                        <td>SHL</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SHR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SHR-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SHR-
-                </abbr>
-            </td>
-                        <td>SHR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SAR-]" title="tests/benchmark/test_worst_compute.py::test_worst_binop_simple[fork_Cancun-blockchain_test_from_state_test-opcode_SAR-]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_SAR-
-                </abbr>
-            </td>
-                        <td>SAR</td>
-                        <td>(1, 115792089237316195423570985008687907853269984665640564039457584007908834671663)</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

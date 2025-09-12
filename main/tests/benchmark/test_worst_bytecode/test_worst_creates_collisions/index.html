@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_creates_collisions"><code>test_worst_creates_collisions()</code><a class="headerlink" href="#test_worst_creates_collisions" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_bytecode.py#L435"><code>tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_bytecode.py#L432"><code>tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions -m benchmark</span>
@@ -27128,7 +27128,10 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_bytecode.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">435</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
 <span class="normal">436</span>
 <span class="normal">437</span>
 <span class="normal">438</span>
@@ -27194,12 +27197,7 @@
 <span class="normal">498</span>
 <span class="normal">499</span>
 <span class="normal">500</span>
-<span class="normal">501</span>
-<span class="normal">502</span>
-<span class="normal">503</span>
-<span class="normal">504</span>
-<span class="normal">505</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">501</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
@@ -27288,8 +27286,7 @@
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27323,42 +27320,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-state_test-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-state_test-opcode_CREATE]">
-                    ...fork_Cancun-state_test-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-state_test-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-state_test-opcode_CREATE2]">
-                    ...fork_Cancun-state_test-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-blockchain_test_from_state_test-opcode_CREATE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-blockchain_test_from_state_test-opcode_CREATE]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_CREATE
-                </abbr>
-            </td>
-                        <td>CREATE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-blockchain_test_from_state_test-opcode_CREATE2]" title="tests/benchmark/test_worst_bytecode.py::test_worst_creates_collisions[fork_Cancun-blockchain_test_from_state_test-opcode_CREATE2]">
-                    ...fork_Cancun-blockchain_test_from_state_test-opcode_CREATE2
-                </abbr>
-            </td>
-                        <td>CREATE2</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

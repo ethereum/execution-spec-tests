@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_callvalue"><code>test_worst_callvalue()</code><a class="headerlink" href="#test_worst_callvalue" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_compute.py#L148"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_compute.py#L146"><code>tests/benchmark/test_worst_compute.py::test_worst_callvalue@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_compute.py::test_worst_callvalue -m benchmark</span>
@@ -27131,7 +27131,9 @@ transaction or a previous CALL.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_compute.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">148</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
 <span class="normal">151</span>
@@ -27177,11 +27179,7 @@ transaction or a previous CALL.</p>
 <span class="normal">191</span>
 <span class="normal">192</span>
 <span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
+<span class="normal">194</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;non_zero_value&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span><span class="s2">&quot;from_origin&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_callvalue</span><span class="p">(</span>
     <span class="n">state_test</span><span class="p">:</span> <span class="n">StateTestFiller</span><span class="p">,</span>
@@ -27249,8 +27247,7 @@ transaction or a previous CALL.</p>
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27285,86 +27282,6 @@ transaction or a previous CALL.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Cancun-state_test-from_origin_True-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Cancun-state_test-from_origin_True-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Cancun-state_test-from_origin_False-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Cancun-state_test-from_origin_False-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_True]">
-                    ...fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_False]">
-                    ...fork_Cancun-blockchain_test_from_state_test-from_origin_True-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>False</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_True]">
-                    ...fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_True
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>True</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]" title="tests/benchmark/test_worst_compute.py::test_worst_callvalue[fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_False]">
-                    ...fork_Cancun-blockchain_test_from_state_test-from_origin_False-non_zero_value_False
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>False</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

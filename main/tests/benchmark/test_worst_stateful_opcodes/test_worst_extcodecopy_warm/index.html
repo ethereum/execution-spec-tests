@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_extcodecopy_warm"><code>test_worst_extcodecopy_warm()</code><a class="headerlink" href="#test_worst_extcodecopy_warm" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_stateful_opcodes.py#L520"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_stateful_opcodes.py#L514"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm -m benchmark</span>
@@ -27128,7 +27128,13 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">520</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
 <span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
@@ -27159,15 +27165,7 @@
 <span class="normal">548</span>
 <span class="normal">549</span>
 <span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">551</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;copied_size&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;512&quot;</span><span class="p">),</span>
@@ -27224,8 +27222,7 @@
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27259,60 +27256,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-512]">
-                    ...fork_Cancun-state_test-512
-                </abbr>
-            </td>
-                        <td>512</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-1KiB]">
-                    ...fork_Cancun-state_test-1KiB
-                </abbr>
-            </td>
-                        <td>1024</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="state_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-state_test-5KiB]">
-                    ...fork_Cancun-state_test-5KiB
-                </abbr>
-            </td>
-                        <td>5120</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-512]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-512]">
-                    ...fork_Cancun-blockchain_test_from_state_test-512
-                </abbr>
-            </td>
-                        <td>512</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-1KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-1KiB]">
-                    ...fork_Cancun-blockchain_test_from_state_test-1KiB
-                </abbr>
-            </td>
-                        <td>1024</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-5KiB]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_extcodecopy_warm[fork_Cancun-blockchain_test_from_state_test-5KiB]">
-                    ...fork_Cancun-blockchain_test_from_state_test-5KiB
-                </abbr>
-            </td>
-                        <td>5120</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

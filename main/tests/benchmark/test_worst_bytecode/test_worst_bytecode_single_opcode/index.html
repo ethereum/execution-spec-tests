@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_bytecode_single_opcode"><code>test_worst_bytecode_single_opcode()</code><a class="headerlink" href="#test_worst_bytecode_single_opcode" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_bytecode.py#L38"><code>tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_bytecode.py#L38"><code>tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode -m benchmark</span>
@@ -27328,8 +27328,7 @@ consumed by repeated opcode executions.</p>
 <span class="normal">229</span>
 <span class="normal">230</span>
 <span class="normal">231</span>
-<span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">232</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODESIZE</span><span class="p">,</span>
@@ -27341,7 +27340,6 @@ consumed by repeated opcode executions.</p>
         <span class="n">Op</span><span class="o">.</span><span class="n">EXTCODECOPY</span><span class="p">,</span>
     <span class="p">],</span>
 <span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_worst_bytecode_single_opcode</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27544,8 +27542,7 @@ consumed by repeated opcode executions.</p>
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27578,69 +27575,6 @@ consumed by repeated opcode executions.</p>
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODESIZE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODESIZE]">
-                    ...fork_Cancun-blockchain_test-opcode_EXTCODESIZE
-                </abbr>
-            </td>
-                        <td>EXTCODESIZE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODEHASH]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODEHASH]">
-                    ...fork_Cancun-blockchain_test-opcode_EXTCODEHASH
-                </abbr>
-            </td>
-                        <td>EXTCODEHASH</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_CALL]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_CALL]">
-                    ...fork_Cancun-blockchain_test-opcode_CALL
-                </abbr>
-            </td>
-                        <td>CALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_CALLCODE]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_CALLCODE]">
-                    ...fork_Cancun-blockchain_test-opcode_CALLCODE
-                </abbr>
-            </td>
-                        <td>CALLCODE</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_DELEGATECALL]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_DELEGATECALL]">
-                    ...fork_Cancun-blockchain_test-opcode_DELEGATECALL
-                </abbr>
-            </td>
-                        <td>DELEGATECALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_STATICCALL]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_STATICCALL]">
-                    ...fork_Cancun-blockchain_test-opcode_STATICCALL
-                </abbr>
-            </td>
-                        <td>STATICCALL</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODECOPY]" title="tests/benchmark/test_worst_bytecode.py::test_worst_bytecode_single_opcode[fork_Cancun-blockchain_test-opcode_EXTCODECOPY]">
-                    ...fork_Cancun-blockchain_test-opcode_EXTCODECOPY
-                </abbr>
-            </td>
-                        <td>EXTCODECOPY</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->

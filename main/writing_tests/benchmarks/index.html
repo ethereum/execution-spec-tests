@@ -27109,6 +27109,7 @@
 <h1 id="benchmark-test-cases">Benchmark Test Cases<a class="headerlink" href="#benchmark-test-cases" title="Permanent link">&para;</a></h1>
 <p>Benchmark tests aim to maximize the usage of a specific opcode, precompile, or operation within a transaction or block. They are located in the <code>./tests/benchmarks</code> folder and the available test cases are documented in <a href="../../tests/benchmark/">test case reference</a>.</p>
 <p>To fill a benchmark test, in addition to the usual test flags, you must include the <code>-m benchmark</code> flag. This is necessary because benchmark tests are ignored by default; they must be manually selected via the <code>benchmark</code> pytest marker (="tag"). This marker is applied to all tests under <code>./tests/benchmark/</code> automatically by the framework.</p>
+<p><strong>Note:</strong> Benchmark tests are now only available starting from the <code>Prague</code> fork. Tests targeting earlier forks (<code>Cancun</code> or prior) are not supported in benchmark mode.</p>
 <h2 id="setting-the-gas-limit-for-benchmarking">Setting the Gas Limit for Benchmarking<a class="headerlink" href="#setting-the-gas-limit-for-benchmarking" title="Permanent link">&para;</a></h2>
 <p>To consume the full benchmark gas limit, use the <code>gas_benchmark_value</code> fixture as the gas limit:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_benchmark</span><span class="p">(</span>

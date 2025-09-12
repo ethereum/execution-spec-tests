@@ -27108,7 +27108,7 @@
 
 
 <h1 id="test_worst_storage_access_cold"><code>test_worst_storage_access_cold()</code><a class="headerlink" href="#test_worst_storage_access_cold" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/e9045fc2b581a7949a54015b6b63782086a30a29/tests/benchmark/test_worst_stateful_opcodes.py#L201"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@e9045fc2</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/ff6aca412ce6c068ffdd8775557b4d4f297a1b3c/tests/benchmark/test_worst_stateful_opcodes.py#L199"><code>tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold@ff6aca41</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold -m benchmark</span>
@@ -27128,7 +27128,9 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/benchmark/test_worst_stateful_opcodes.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
 <span class="normal">202</span>
 <span class="normal">203</span>
 <span class="normal">204</span>
@@ -27305,11 +27307,7 @@
 <span class="normal">375</span>
 <span class="normal">376</span>
 <span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">378</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;storage_action,tx_result&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>
@@ -27508,8 +27506,7 @@
             </label>
             <select id="fork_selector" class="custom_dt_filter" data-criteria="fork" >
                 <option value="all">All Forks</option>
-                                                <option value="Cancun" >Cancun</option>
-                                <option value="Prague" >Prague</option>
+                                                <option value="Prague" >Prague</option>
                                 <option value="Osaka" selected>Osaka</option>
                             </select>
         </div>
@@ -27544,160 +27541,6 @@
                     </tr>
     </thead>
     <tbody>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSLOAD]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSLOAD]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSLOAD
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>2</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, revert
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE same value, out of gas
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>2</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>3</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, revert
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>3</td>
-                        <td>3</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas]">
-                    ...fork_Cancun-blockchain_test-absent_slots_True-SSTORE new value, out of gas
-                </abbr>
-            </td>
-                        <td>True</td>
-                        <td>3</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSLOAD]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSLOAD]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSLOAD
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>2</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, revert
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>2</td>
-                        <td>3</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE same value, out of gas
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>2</td>
-                        <td>2</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>3</td>
-                        <td>1</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, revert
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>3</td>
-                        <td>3</td>
-                    </tr>
-                <tr data-fork="Cancun" data-fixture="blockchain_test">
-            <td> 
-                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas]" title="tests/benchmark/test_worst_stateful_opcodes.py::test_worst_storage_access_cold[fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas]">
-                    ...fork_Cancun-blockchain_test-absent_slots_False-SSTORE new value, out of gas
-                </abbr>
-            </td>
-                        <td>False</td>
-                        <td>3</td>
-                        <td>2</td>
-                    </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
