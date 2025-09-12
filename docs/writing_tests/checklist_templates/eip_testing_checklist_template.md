@@ -299,9 +299,6 @@ Opcode is used to attempt to recreate a contract that is currently mid-creation 
 
 ### Framework Changes
 
-| ID  | Description | Status | Tests |
-| --- | ----------- | ------ | ----- |
-
 - Add opcode to `src/ethereum_test_vm/opcode.py`
 - Add opcode to relevant methods in the fork where the EIP is introduced in `src/ethereum_test_forks/forks/forks.py`
 
@@ -403,6 +400,8 @@ If the precompile requires a minimum value (fee) to execute, either constant or 
 
 If the precompile does not require any minimum value (fee) to execute.
 
+| ID                                               | Description                   | Status | Tests |
+| ------------------------------------------------ | ----------------------------- | ------ | ----- |
 | `precompile/test/value_transfer/no_fee` | Sending non-zero value does not cause an exception (unless otherwise specified by the EIP). | | |
 
 #### Out-of-bounds checks
@@ -868,6 +867,8 @@ Verify the transaction is correctly rejected if it contains an invalid signature
 
 Verify values or variables that are persistent through the execution of the transaction (e.g. transient storage, warm/cold accounts).
 
+| ID                                                                    | Description                                   | Status | Tests |
+| --------------------------------------------------------------------- | ----------------------------------------------| ------ | ----- |
 | `transaction_type/test/tx_scoped_attributes/persistent/throughout` | Persist throughout the entire transaction. | | |
 | `transaction_type/test/tx_scoped_attributes/persistent/reset` | Reset on subsequent transactions in the same block. | | |
 

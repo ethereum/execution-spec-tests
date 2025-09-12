@@ -11,6 +11,7 @@ from typing import List
 import pytest
 
 from ethereum_test_base_types import HexNumber
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     AccessList,
@@ -2588,7 +2589,7 @@ def test_set_code_to_log(
 
 @pytest.mark.with_all_call_opcodes
 @pytest.mark.with_all_precompiles
-@pytest.mark.eip_checklist("precompile/test/call_contexts/set_code", eips=[7951, 7883])
+@EIPChecklist.Precompile.Test.CallContexts.SetCode(eip=[7951, 7883])
 def test_set_code_to_precompile(
     state_test: StateTestFiller,
     pre: Alloc,

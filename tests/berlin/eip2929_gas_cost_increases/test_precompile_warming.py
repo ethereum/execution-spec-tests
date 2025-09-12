@@ -7,6 +7,7 @@ from typing import Iterator, Tuple
 
 import pytest
 
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import (
     Fork,
     get_transition_fork_predecessor,
@@ -70,6 +71,8 @@ def precompile_addresses_in_predecessor_successor(
     "address,precompile_in_successor,precompile_in_predecessor",
     precompile_addresses_in_predecessor_successor,
 )
+@EIPChecklist.Precompile.Test.ForkTransition.Before.Cold(eip=[7951])
+@EIPChecklist.Precompile.Test.ForkTransition.After.Warm(eip=[7951])
 def test_precompile_warming(
     blockchain_test: BlockchainTestFiller,
     fork: Fork,
