@@ -10,6 +10,8 @@ import math
 import pytest
 
 from ethereum_test_forks import Fork
+from ethereum_test_specs import BenchmarkTestFiller
+from ethereum_test_specs.benchmark import BenchmarkManager
 from ethereum_test_tools import (
     Account,
     Address,
@@ -456,30 +458,35 @@ def test_worst_storage_access_warm(
 
 @pytest.mark.valid_from("Cancun")
 def test_worst_blockhash(
-    blockchain_test: BlockchainTestFiller,
+    benchmark_test: BenchmarkTestFiller,
+    benchmark_manager: BenchmarkManager,
     pre: Alloc,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many blockhash accessing oldest allowed block as possible."""
     # Create 256 dummy blocks to fill the blockhash window.
-    blocks = [Block()] * 256
+    with benchmark_manager.setup():
+        for _ in range(256):
+            benchmark_manager.add_block(Block())
 
     # Always ask for the oldest allowed BLOCKHASH block.
     execution_code = Op.PUSH1(1) + While(
         body=Op.POP(Op.BLOCKHASH(Op.DUP1)),
     )
     execution_code_address = pre.deploy_contract(code=execution_code)
-    op_tx = Transaction(
-        to=execution_code_address,
-        gas_limit=gas_benchmark_value,
-        sender=pre.fund_eoa(),
-    )
-    blocks.append(Block(txs=[op_tx]))
+    with benchmark_manager.execution():
+        benchmark_manager.add_transaction(
+            Transaction(
+                to=execution_code_address,
+                gas_limit=gas_benchmark_value,
+                sender=pre.fund_eoa(),
+            )
+        )
 
-    blockchain_test(
+    benchmark_test(
         pre=pre,
         post={},
-        blocks=blocks,
+        benchmark_manager=benchmark_manager,
     )
 
 
