@@ -154,8 +154,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: [self-hosted-ghr, size-xl-x64]
-            name: self-hosted-ghr-xl-x64
+          - os: [self-hosted-ghr, size-chungus-x64]
+            name: self-hosted-ghr-chungus-x64
             python: "3.11"
           - os: macos-15
             name: macos-15
