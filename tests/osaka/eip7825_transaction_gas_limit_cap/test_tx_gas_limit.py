@@ -236,21 +236,21 @@ def test_maximum_gas_refund(
     gas_refund_count = maximum_gas_refund // gas_refund
 
     # Base case: operations that fit within the refund limit
-    iteraction_count = min(storage_count, gas_refund_count + int(exceed_gas_refund_limit))
+    iteration_count = min(storage_count, gas_refund_count + int(exceed_gas_refund_limit))
 
-    assert iteration_cost * iteraction_count <= tx_gas_limit_cap, (
+    assert iteration_cost * iteration_count <= tx_gas_limit_cap, (
         "Iteration cost exceeds tx gas limit cap"
     )
 
     opcode = sum(
-        (Op.SSTORE(storage.store_next(0), Op.PUSH0) for _ in range(iteraction_count)),
+        (Op.SSTORE(storage.store_next(0), Op.PUSH0) for _ in range(iteration_count)),
         Bytecode(),
     )
     assert len(opcode) <= fork.max_code_size(), "code size exceeds max code size"
 
     contract = pre.deploy_contract(
         code=opcode,
-        storage={Hash(i): Hash(1) for i in range(iteraction_count)},
+        storage={Hash(i): Hash(1) for i in range(iteration_count)},
     )
 
     tx = Transaction(
