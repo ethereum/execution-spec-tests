@@ -33,7 +33,6 @@ REFERENCE_SPEC_GIT_PATH = "TODO"
 REFERENCE_SPEC_VERSION = "TODO"
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -116,7 +115,6 @@ def test_worst_address_state_cold(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -198,7 +196,6 @@ class TransactionResult:
     REVERT = 3
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "storage_action,tx_result",
     [
@@ -381,7 +378,6 @@ def test_worst_storage_access_cold(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "storage_action",
     [
@@ -454,7 +450,6 @@ def test_worst_storage_access_warm(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -483,7 +478,6 @@ def test_worst_blockhash(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_selfbalance(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -517,7 +511,6 @@ def test_worst_selfbalance(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "copied_size",
     [
@@ -558,7 +551,6 @@ def test_worst_extcodecopy_warm(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("value_bearing", [True, False])
 def test_worst_selfdestruct_existing(
     blockchain_test: BlockchainTestFiller,
@@ -698,7 +690,6 @@ def test_worst_selfdestruct_existing(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("value_bearing", [True, False])
 def test_worst_selfdestruct_created(
     state_test: StateTestFiller,
@@ -798,7 +789,6 @@ def test_worst_selfdestruct_created(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("value_bearing", [True, False])
 def test_worst_selfdestruct_initcode(
     state_test: StateTestFiller,

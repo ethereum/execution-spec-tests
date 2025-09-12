@@ -4,6 +4,26 @@ from pathlib import Path
 
 import pytest
 
+DEFAULT_BENCHMARK_FORK = "Prague"
+
+
+def pytest_generate_tests(metafunc):
+    """Modify test generation to enforce default benchmark fork for benchmark tests."""
+    benchmark_dir = Path(__file__).parent
+    test_file_path = Path(metafunc.definition.fspath)
+
+    # Check if this test is in the benchmark directory
+    is_in_benchmark_dir = benchmark_dir in test_file_path.parents
+
+    if is_in_benchmark_dir:
+        # Add benchmark marker if no valid_from marker exists
+        existing_markers = list(metafunc.definition.iter_markers())
+        has_valid_from = any(marker.name == "valid_from" for marker in existing_markers)
+
+        if not has_valid_from:
+            benchmark_marker = pytest.mark.valid_from(DEFAULT_BENCHMARK_FORK)
+            metafunc.definition.add_marker(benchmark_marker)
+
 
 def pytest_collection_modifyitems(config, items):
     """Add the `benchmark` marker to all tests under `./tests/benchmark`."""

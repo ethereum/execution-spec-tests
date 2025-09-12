@@ -105,7 +105,6 @@ def ether_transfer_case(
     return senders, receivers
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "case_id",
     ["a_to_a", "a_to_b", "diff_acc_to_b", "a_to_diff_acc", "diff_acc_to_diff_acc"],
@@ -174,7 +173,6 @@ def total_cost_standard_per_token():
     return 4
 
 
-@pytest.mark.valid_from("Prague")
 @pytest.mark.parametrize("zero_byte", [True, False])
 def test_block_full_data(
     state_test: StateTestFiller,
@@ -231,7 +229,6 @@ def test_block_full_data(
     )
 
 
-@pytest.mark.valid_from("Prague")
 def test_block_full_access_list_and_data(
     state_test: StateTestFiller,
     pre: Alloc,

@@ -47,7 +47,6 @@ XOR_TABLE = [Hash(i).sha256() for i in range(XOR_TABLE_SIZE)]
         Op.EXTCODECOPY,
     ],
 )
-@pytest.mark.valid_from("Cancun")
 def test_worst_bytecode_single_opcode(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -233,7 +232,6 @@ def test_worst_bytecode_single_opcode(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "pattern",
     [
@@ -324,7 +322,6 @@ def test_worst_initcode_jumpdest_analysis(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -432,7 +429,6 @@ def test_worst_create(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode",
     [
