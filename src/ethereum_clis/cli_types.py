@@ -181,7 +181,7 @@ _opcode_synonyms = {
 }
 
 
-def validate_opcode(obj: Any) -> Opcodes:
+def validate_opcode(obj: Any) -> Opcodes | Opcode:
     """Validate an opcode from a string."""
     if isinstance(obj, Opcode) or isinstance(obj, Opcodes):
         return obj
@@ -207,7 +207,7 @@ class OpcodeCount(EthereumTestRootModel):
         new_dict = self.model_dump() | other.model_dump()
         for match_key in self.root.keys() & other.root.keys():
             new_dict[match_key] = self.root[match_key] + other.root[match_key]
-        return OpcodeCount(new_dict)
+        return self.__class__(new_dict)
 
 
 class Result(CamelModel):
