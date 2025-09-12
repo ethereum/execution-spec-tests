@@ -248,6 +248,7 @@ def test_tx_gas_limit_cap_full_calldata(
     #   tokens_in_calldata = zero_bytes + 4 * non_zero_bytes
 
     byte_data = b"\x00" if zero_byte else b"\xff"
+    calldata = byte_data * num_of_bytes
 
     correct_intrinsic_cost = intrinsic_cost(calldata=byte_data * num_of_bytes)
     if exceed_tx_gas_limit:
@@ -267,14 +268,25 @@ def test_tx_gas_limit_cap_full_calldata(
 
     tx = Transaction(
         to=pre.fund_eoa(),
-        data=byte_data * num_of_bytes,
+        data=calldata,
         gas_limit=tx_gas_limit,
         sender=pre.fund_eoa(),
-        error=TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
-        if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
-        else TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
-        if exceed_tx_gas_limit
-        else None,
+        error=(
+            TransactionException.GAS_LIMIT_EXCEEDS_MAXIMUM
+            if correct_intrinsic_cost_in_transaction_gas_limit and exceed_tx_gas_limit
+            else (
+                # Depending on the implementation, client might raise either exception.
+                [
+                    TransactionException.INTRINSIC_GAS_TOO_LOW,
+                    TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST,
+                ]
+                if fork.transaction_data_floor_cost_calculator()(data=calldata)
+                == intrinsic_cost(calldata=calldata, return_cost_deducted_prior_execution=True)
+                else TransactionException.INTRINSIC_GAS_BELOW_FLOOR_GAS_COST
+            )
+            if exceed_tx_gas_limit
+            else None
+        ),
     )
 
     state_test(
