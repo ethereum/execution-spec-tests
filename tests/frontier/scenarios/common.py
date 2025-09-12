@@ -201,7 +201,7 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
     variable_current_byte = MemoryVariable(32)
 
     # Code for memory initialization
-    initialize_code = variable_byte_offset.store(0)
+    initialize_code = variable_byte_offset.set(0)
     calldata_copy = Op.JUMPDEST + Op.CALLDATACOPY(
         dest_offset=variable_current_byte.offset + 32 - 1,
         offset=variable_byte_offset,
@@ -266,7 +266,7 @@ def make_invalid_opcode_contract(pre: Alloc, fork: Fork) -> Address:
 
     code = Bytecode(
         sum(
-            variable_opcode.store(opcode)
+            variable_opcode.set(opcode)
             + variable_results_sum.add(
                 Op.CALL(
                     gas=50000,

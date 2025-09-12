@@ -30,7 +30,7 @@ class MemoryVariable(Bytecode):
     v = MemoryVariable(128)
 
     bytecode = (
-        v.store(0xff)
+        v.set(0xff)
         + v.add(1)
         + v.return_value()
     )
@@ -61,8 +61,8 @@ class MemoryVariable(Bytecode):
         instance.offset = offset
         return instance
 
-    def store(self, value: int | Bytecode) -> Bytecode:
-        """Store the given value to the memory location."""
+    def set(self, value: int | Bytecode) -> Bytecode:
+        """Set the given value at the memory location of this variable."""
         return Op.MSTORE(offset=self.offset, value=value)
 
     def add(self, value: int | Bytecode) -> Bytecode:
