@@ -25,7 +25,7 @@ REFERENCE_SPEC_VERSION = "80ef48d0bbb5a4939ade51caaaac57b5df6acd4e"
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stSStoreTest/InitCollisionNonZeroNonceFiller.json",
         "https://github.com/ethereum/tests/blob/v13.3/src/GeneralStateTestsFiller/stSStoreTest/InitCollisionParisFiller.json",
     ],
-    pr=["https://github.com/ethereum/execution-spec-tests/pull/1535"],
+    pr=["https://github.com/ethereum/execution-spec-tests/pull/636"],
 )
 @pytest.mark.pre_alloc_modify  # We need to modify the pre-alloc to include the collision
 @pytest.mark.with_all_contract_creating_tx_types
