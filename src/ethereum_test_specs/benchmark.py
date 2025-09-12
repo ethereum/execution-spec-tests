@@ -1,12 +1,19 @@
 """Ethereum benchmark test spec definition and filler."""
 
+from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from contextvars import ContextVar
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
 
 import pytest
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict, Field, GetCoreSchemaHandler
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+    to_string_ser_schema,
+)
 
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import HexNumber
@@ -27,9 +34,53 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork
 from ethereum_test_types import Alloc, Environment, Transaction
+from ethereum_test_vm import Bytecode
+from ethereum_test_vm.opcode import Opcodes as Op
 
 from .base import BaseTest
 from .blockchain import Block, BlockchainTest
+
+
+@dataclass(kw_only=True)
+class BenchmarkCodeGenerator(ABC):
+    """Abstract base class for generating benchmark bytecode."""
+
+    attack_block: Bytecode
+    setup: Bytecode = field(default_factory=Bytecode)
+
+    @abstractmethod
+    def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
+        """Deploy any contracts needed for the benchmark."""
+        pass
+
+    @abstractmethod
+    def generate_transaction(self, pre: Alloc, gas_limit: int, fork: Fork) -> Transaction:
+        """Generate a transaction with the specified gas limit."""
+        pass
+
+    def generate_repeated_code(
+        self, repeated_code: Bytecode, setup: Bytecode, fork: Fork
+    ) -> Bytecode:
+        """Calculate the maximum number of iterations that can fit in the code size limit."""
+        assert len(repeated_code) > 0, "repeated_code cannot be empty"
+        max_code_size = fork.max_code_size()
+
+        overhead = len(setup) + len(Op.JUMPDEST) + len(Op.JUMP(len(setup)))
+        available_space = max_code_size - overhead
+        max_iterations = available_space // len(repeated_code)
+
+        code = setup + Op.JUMPDEST + repeated_code * max_iterations + Op.JUMP(len(setup))
+        self._validate_code_size(code, fork)
+
+        return code
+
+    def _validate_code_size(self, code: Bytecode, fork: Fork) -> None:
+        """Validate that the generated code fits within size limits."""
+        if len(code) > fork.max_code_size():
+            raise ValueError(
+                f"Generated code size {len(code)} exceeds maximum allowed size "
+                f"{fork.max_code_size()}"
+            )
 
 
 class BenchmarkPhase(Enum):
@@ -94,6 +145,16 @@ class BenchmarkManager:
         """Get the current benchmark phase."""
         return _current_phase.get()
 
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """Provide Pydantic core schema for BenchmarkManager serialization and validation."""
+        return no_info_plain_validator_function(
+            cls,
+            serialization=to_string_ser_schema(),
+        )
+
 
 class BenchmarkTest(BaseTest):
     """Test type designed specifically for benchmark test cases."""
@@ -101,17 +162,17 @@ class BenchmarkTest(BaseTest):
     model_config = ConfigDict(extra="forbid")
 
     pre: Alloc
-    post: Alloc
-    tx: Optional[Transaction] = None
-    blocks: Optional[List[Block]] = None
+    post: Alloc = Field(default_factory=Alloc)
+    tx: Transaction | None = None
+    blocks: List[Block] | None = None
     block_exception: (
         List[TransactionException | BlockException] | TransactionException | BlockException | None
     ) = None
     env: Environment = Field(default_factory=Environment)
     expected_benchmark_gas_used: int | None = None
-    gas_benchmark_value: int
-    benchmark_manager: Optional[Any] = Field(default=None, exclude=True)
-    code_generator: Optional[Any] = Field(default=None, exclude=True)
+    gas_benchmark_value: int = Field(default_factory=lambda: int(Environment().gas_limit))
+    benchmark_manager: BenchmarkManager | None = None
+    code_generator: BenchmarkCodeGenerator | None = None
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
         BlockchainFixture,
@@ -183,9 +244,9 @@ class BenchmarkTest(BaseTest):
         if self.code_generator is None:
             return []
 
-        self.code_generator.deploy_contracts(self.pre)
+        self.code_generator.deploy_contracts(self.pre, fork)
         gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
-        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit)
+        benchmark_tx = self.code_generator.generate_transaction(self.pre, gas_limit, fork)
 
         execution_txs = self.split_transaction(benchmark_tx, gas_limit)
         execution_block = Block(txs=execution_txs)
