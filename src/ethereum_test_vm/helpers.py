@@ -52,7 +52,7 @@ class MemoryVariable(Bytecode):
 
     def __new__(cls, offset: int):
         """
-        Initialize EVM memory variable.
+        Instantiate a new EVM memory variable.
 
         When used with normal bytecode, this class simply returns the MLOAD with the provided
         offset.
@@ -73,8 +73,12 @@ class MemoryVariable(Bytecode):
         """In-place subtract the given value from the one currently in memory."""
         return Op.MSTORE(offset=self.offset, value=Op.SUB(Op.MLOAD(offset=self.offset), value))
 
+    def store_value(self, key: int | Bytecode) -> Bytecode:
+        """Op.SSTORE the value that is currently in memory."""
+        return Op.SSTORE(key, Op.MLOAD(offset=self.offset))
+
     def return_value(self) -> Bytecode:
-        """Op.RETURN the value currently in memory."""
+        """Op.RETURN the value that is currently in memory."""
         return Op.RETURN(offset=self.offset, size=32)
 
 
