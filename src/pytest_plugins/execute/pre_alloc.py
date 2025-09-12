@@ -119,6 +119,13 @@ def pytest_addoption(parser):
         type=int,
         help="The default amount of wei to fund each EOA in each test with.",
     )
+    pre_alloc_group.addoption(
+        "--skip-cleanup",
+        action="store_true",
+        dest="skip_cleanup",
+        default=False,
+        help="Skip cleanup phase after each test.",
+    )
 
 
 @pytest.hookimpl(trylast=True)
@@ -141,6 +148,12 @@ def address_stubs(request) -> AddressStubs | None:
     If the address stubs are not supported by the subcommand, return None.
     """
     return request.config.getoption("address_stubs", None)
+
+
+@pytest.fixture(scope="session")
+def skip_cleanup(request) -> bool:
+    """Return whether to skip cleanup phase after each test."""
+    return request.config.getoption("skip_cleanup")
 
 
 @pytest.fixture(scope="session")
@@ -522,6 +535,7 @@ def pre(
     eoa_fund_amount_default: int,
     default_gas_price: int,
     address_stubs: AddressStubs | None,
+    skip_cleanup: bool,
     request: pytest.FixtureRequest,
 ) -> Generator[Alloc, None, None]:
     """Return default pre allocation for all tests (Empty alloc)."""
@@ -544,31 +558,32 @@ def pre(
     # Yield the pre-alloc for usage during the test
     yield pre
 
-    # Refund all EOAs (regardless of whether the test passed or failed)
-    refund_txs = []
-    for idx, eoa in enumerate(pre._funded_eoa):
-        remaining_balance = eth_rpc.get_balance(eoa)
-        eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
-        refund_gas_limit = 21_000
-        tx_cost = refund_gas_limit * default_gas_price
-        if remaining_balance < tx_cost:
-            continue
-        refund_tx = Transaction(
-            sender=eoa,
-            to=sender_key,
-            gas_limit=21_000,
-            gas_price=default_gas_price,
-            value=remaining_balance - tx_cost,
-        ).with_signature_and_sender()
-        refund_tx.metadata = TransactionTestMetadata(
-            test_id=request.node.nodeid,
-            phase="cleanup",
-            action="refund_from_eoa",
-            target=eoa.label,
-            tx_index=idx,
-        )
-        refund_txs.append(refund_tx)
-    eth_rpc.send_wait_transactions(refund_txs)
+    if not skip_cleanup:
+        # Refund all EOAs (regardless of whether the test passed or failed)
+        refund_txs = []
+        for idx, eoa in enumerate(pre._funded_eoa):
+            remaining_balance = eth_rpc.get_balance(eoa)
+            eoa.nonce = Number(eth_rpc.get_transaction_count(eoa))
+            refund_gas_limit = 21_000
+            tx_cost = refund_gas_limit * default_gas_price
+            if remaining_balance < tx_cost:
+                continue
+            refund_tx = Transaction(
+                sender=eoa,
+                to=sender_key,
+                gas_limit=21_000,
+                gas_price=default_gas_price,
+                value=remaining_balance - tx_cost,
+            ).with_signature_and_sender()
+            refund_tx.metadata = TransactionTestMetadata(
+                test_id=request.node.nodeid,
+                phase="cleanup",
+                action="refund_from_eoa",
+                target=eoa.label,
+                tx_index=idx,
+            )
+            refund_txs.append(refund_tx)
+        eth_rpc.send_wait_transactions(refund_txs)
 
     # Record the ending balance of the sender
     sender_test_ending_balance = eth_rpc.get_balance(sender_key)
