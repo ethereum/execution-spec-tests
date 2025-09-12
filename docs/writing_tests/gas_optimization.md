@@ -45,6 +45,7 @@ When `enable_post_processing=True` is passed to the `verify_modified_gas_limit` 
 ### When to Use Post-Processing
 
 Use `--optimize-gas-post-processing` when your tests:
+
 - Use the `GAS` opcode to read current gas
 - Have contracts that push gas values onto the stack
 - Would otherwise fail gas optimization due to gas-dependent stack operations
