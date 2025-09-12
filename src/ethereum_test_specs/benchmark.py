@@ -150,8 +150,17 @@ class BenchmarkManager:
         cls, source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
         """Provide Pydantic core schema for BenchmarkManager serialization and validation."""
+
+        def validate_benchmark_manager(value):
+            if isinstance(value, cls):
+                return value
+            if value is None:
+                return None
+            # If value is passed as arguments, create new instance with no args
+            return cls()
+
         return no_info_plain_validator_function(
-            cls,
+            validate_benchmark_manager,
             serialization=to_string_ser_schema(),
         )
 

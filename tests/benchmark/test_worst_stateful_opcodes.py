@@ -482,7 +482,6 @@ def test_worst_blockhash(
         pre=pre,
         post={},
         benchmark_manager=benchmark_manager,
-        gas_benchmark_value=gas_benchmark_value,
     )
 
 
