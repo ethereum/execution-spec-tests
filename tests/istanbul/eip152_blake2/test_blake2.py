@@ -16,7 +16,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .common import Blake2bInput, ExpectedOutput
 from .spec import SpecTestVectors, ref_spec_152

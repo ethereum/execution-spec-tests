@@ -25,7 +25,7 @@ from ethereum_test_tools import (
     compute_create2_address,
     compute_create_address,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from .helpers import code_loop_precompile_call
 

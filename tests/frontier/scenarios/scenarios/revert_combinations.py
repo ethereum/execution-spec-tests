@@ -2,9 +2,9 @@
 
 from typing import List
 
-from ethereum_test_tools.vm.opcode import Macro, Opcode
-from ethereum_test_tools.vm.opcode import Macros as Om
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Macro, Opcode
+from ethereum_test_vm import Macros as Om
+from ethereum_test_vm import Opcodes as Op
 
 from ..common import Scenario, ScenarioEnvironment, ScenarioGeneratorInput
 

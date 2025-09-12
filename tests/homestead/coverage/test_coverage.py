@@ -4,7 +4,7 @@ import pytest
 
 from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "N/A"
 REFERENCE_SPEC_VERSION = "N/A"
@@ -18,7 +18,7 @@ def test_coverage(
 ):
     """
     Cover gaps that result from transforming Yul code into
-    `ethereum_test_tools.vm.opcode.Opcodes` bytecode.
+    our Python opcode wrapper bytecode.
 
     E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes, which are not
     regularly used in python code.

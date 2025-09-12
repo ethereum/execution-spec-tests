@@ -6,7 +6,7 @@ from enum import Enum
 
 from ethereum_test_forks import Fork, Frontier
 from ethereum_test_tools import Address, Alloc, Bytecode, Conditional
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 
 class ScenarioExpectOpcode(Enum):

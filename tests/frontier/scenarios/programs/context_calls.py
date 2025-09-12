@@ -4,7 +4,7 @@ from functools import cached_property
 
 from ethereum_test_forks import Byzantium, Cancun, Constantinople, Fork, Istanbul, London, Shanghai
 from ethereum_test_tools import Alloc, Bytecode
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 from ..common import (
     ProgramResult,

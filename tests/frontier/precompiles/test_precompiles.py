@@ -13,7 +13,7 @@ from ethereum_test_tools import (
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.vm.opcode import Opcodes as Op
+from ethereum_test_vm import Opcodes as Op
 
 
 def precompile_addresses(fork: Fork) -> Iterator[Tuple[Address, bool]]:
