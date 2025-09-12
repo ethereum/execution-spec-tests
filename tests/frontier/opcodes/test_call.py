@@ -6,11 +6,11 @@ from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
+    CodeGasMeasure,
     Environment,
     StateTestFiller,
     Transaction,
 )
-from ethereum_test_tools.tools_code.generators import CodeGasMeasure
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 

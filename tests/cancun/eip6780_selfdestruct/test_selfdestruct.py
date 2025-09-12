@@ -18,6 +18,7 @@ from ethereum_test_tools import (
     Block,
     BlockchainTestFiller,
     Bytecode,
+    Conditional,
     Hash,
     Initcode,
     StateTestFiller,
@@ -25,7 +26,6 @@ from ethereum_test_tools import (
     Transaction,
     compute_create_address,
 )
-from ethereum_test_tools.tools_code.generators import Conditional
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-6780.md"
