@@ -606,6 +606,11 @@ class Frontier(BaseFork, solc_name="homestead"):
         ]
 
     @classmethod
+    def max_refund_quotient(cls) -> int:
+        """Return the max refund quotient at Genesis."""
+        return 2
+
+    @classmethod
     def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """At genesis, no request type is supported, signaled by -1."""
         return -1
@@ -912,6 +917,11 @@ class London(Berlin):
     ) -> List[Opcodes]:
         """Return list of Opcodes that are valid to work on this fork."""
         return [Opcodes.BASEFEE] + super(London, cls).valid_opcodes()
+
+    @classmethod
+    def max_refund_quotient(cls) -> int:
+        """Return the max refund quotient at London."""
+        return 5
 
     @classmethod
     def base_fee_max_change_denominator(cls, block_number: int = 0, timestamp: int = 0) -> int:
