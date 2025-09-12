@@ -35,6 +35,7 @@ class TransactionPost(BaseExecute):
         for block in self.blocks:
             for tx in block:
                 sender = tx.sender
+                assert sender is not None, "Sender is None"
                 tx.set_gas_price(
                     gas_price=gas_price,
                     max_fee_per_gas=max_fee_per_gas,

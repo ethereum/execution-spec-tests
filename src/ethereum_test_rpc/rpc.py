@@ -131,7 +131,7 @@ class EthRPC(BaseRPC):
     gas_information_stale_seconds: int
 
     _gas_information_cache: Dict[str, int]
-    _gas_information_cache_timestamp: Dict[str, int]
+    _gas_information_cache_timestamp: Dict[str, float]
 
     BlockNumberType = int | Literal["latest", "earliest", "pending"]
 
@@ -151,8 +151,8 @@ class EthRPC(BaseRPC):
             "maxPriorityFeePerGas": 0,
         }
         self._gas_information_cache_timestamp = {
-            "gasPrice": 0,
-            "maxPriorityFeePerGas": 0,
+            "gasPrice": 0.0,
+            "maxPriorityFeePerGas": 0.0,
         }
 
     def config(self, timeout: int | None = None):
@@ -253,8 +253,8 @@ class EthRPC(BaseRPC):
             time.time() - self._gas_information_cache_timestamp[method]
             > self.gas_information_stale_seconds
         ):
-            reponse = self.post_request(method=method)
-            self._gas_information_cache[method] = int(reponse, 16)
+            response = self.post_request(method=method)
+            self._gas_information_cache[method] = int(response, 16)
             self._gas_information_cache_timestamp[method] = time.time()
         return self._gas_information_cache[method]
 

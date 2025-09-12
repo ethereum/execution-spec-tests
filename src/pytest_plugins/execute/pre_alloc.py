@@ -320,7 +320,7 @@ class Alloc(BaseAlloc):
             phase="setup",
             action="deploy_contract",
             target=label,
-            tx_index=len(self._txs),
+            tx_index=len(self._pending_txs),
         )
         self._pending_txs.append(deploy_tx)
 
@@ -382,7 +382,7 @@ class Alloc(BaseAlloc):
                     phase="setup",
                     action="eoa_storage_set",
                     target=label,
-                    tx_index=len(self._txs),
+                    tx_index=len(self._pending_txs),
                 )
                 self._pending_txs.append(set_storage_tx)
 
@@ -436,7 +436,7 @@ class Alloc(BaseAlloc):
                 phase="setup",
                 action="fund_eoa",
                 target=label,
-                tx_index=len(self._txs),
+                tx_index=len(self._pending_txs),
             )
             self._pending_txs.append(fund_tx)
         account_kwargs = {
@@ -466,7 +466,7 @@ class Alloc(BaseAlloc):
             phase="setup",
             action="fund_address",
             target=address.label,
-            tx_index=len(self._txs),
+            tx_index=len(self._pending_txs),
         )
         self._pending_txs.append(fund_tx)
         if address in self:

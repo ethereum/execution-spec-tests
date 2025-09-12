@@ -34,11 +34,14 @@ class BaseExecute(CamelModel):
 
     def get_required_sender_balances(
         self,
+        gas_price: int,
         max_fee_per_gas: int,
         max_priority_fee_per_gas: int,
     ) -> Dict[Address, int]:
         """Get the required sender balances."""
-        pass
+        raise Exception(
+            f"Method `get_required_sender_balances` not implemented for {self.format_name}"
+        )
 
     @abstractmethod
     def execute(

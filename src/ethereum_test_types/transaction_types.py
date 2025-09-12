@@ -684,16 +684,17 @@ class Transaction(
         """Set the gas price."""
         if self.ty <= 1:
             if self.gas_price is None:
-                self.gas_price = gas_price
+                self.gas_price = HexNumber(gas_price)
         else:
             if self.max_fee_per_gas is None:
-                self.max_fee_per_gas = max_fee_per_gas
+                self.max_fee_per_gas = HexNumber(max_fee_per_gas)
             if self.max_priority_fee_per_gas is None:
-                self.max_priority_fee_per_gas = max_priority_fee_per_gas
+                self.max_priority_fee_per_gas = HexNumber(max_priority_fee_per_gas)
 
     def signer_minimum_balance(self) -> int:
         """Return minimum balance of the signer."""
         gas_price = self.gas_price or self.max_fee_per_gas
+        assert gas_price is not None, "Impossible to calculate minimum balance without gas price"
         gas_limit = self.gas_limit
         return gas_price * gas_limit + self.value
 
