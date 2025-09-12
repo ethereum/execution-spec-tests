@@ -700,7 +700,7 @@ def test_precompile_during_fork(
 
     post = {
         precompile_caller_address: Account(
-            storage={b: 1 for b in range(1, len(PRE_FORK_BLOCK_RANGE) + 1)},
+            storage=dict.fromkeys(range(1, len(PRE_FORK_BLOCK_RANGE) + 1), 1),
             # Only the call in the last block's tx fails; storage 0 by default.
         ),
         Address(Spec.POINT_EVALUATION_PRECOMPILE_ADDRESS): Account(
