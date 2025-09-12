@@ -756,6 +756,9 @@ class BlockchainTest(BaseTest):
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
         self.verify_post_state(t8n, t8n_state=alloc)
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         return BlockchainFixture(
             fork=fork,
             genesis=genesis.header,
@@ -770,9 +773,7 @@ class BlockchainTest(BaseTest):
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
                 chain_id=self.chain_id,
             ),
-            info={
-                "opcode_count": self._opcode_count.model_dump(),
-            },
+            info=info,
         )
 
     def make_hive_fixture(
@@ -825,6 +826,9 @@ class BlockchainTest(BaseTest):
         self.verify_post_state(t8n, t8n_state=alloc)
 
         # Create base fixture data, common to all fixture formats
+        info = {}
+        if self._opcode_count is not None:
+            info["opcode_count"] = self._opcode_count.model_dump()
         fixture_data = {
             "fork": fork,
             "genesis": genesis.header,
@@ -838,9 +842,7 @@ class BlockchainTest(BaseTest):
                 chain_id=self.chain_id,
                 blob_schedule=FixtureBlobSchedule.from_blob_schedule(fork.blob_schedule()),
             ),
-            "info": {
-                "opcode_count": self._opcode_count.model_dump(),
-            },
+            "info": info,
         }
 
         # Add format-specific fields
