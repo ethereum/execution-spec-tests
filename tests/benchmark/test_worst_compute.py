@@ -62,7 +62,6 @@ def make_dup(index: int) -> Opcode:
     return Opcode(0x80 + index, pushed_stack_items=1, min_stack_height=index + 1)
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode",
     [
@@ -112,7 +111,6 @@ def test_worst_zero_param(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("calldata_length", [0, 1_000, 10_000])
 def test_worst_calldatasize(
     state_test: StateTestFiller,
@@ -145,7 +143,6 @@ def test_worst_calldatasize(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("non_zero_value", [True, False])
 @pytest.mark.parametrize("from_origin", [True, False])
 def test_worst_callvalue(
@@ -205,7 +202,6 @@ class ReturnDataStyle(Enum):
     IDENTITY = auto()
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "return_data_style",
     [
@@ -267,7 +263,6 @@ def test_worst_returndatasize_nonzero(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_returndatasize_zero(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -299,7 +294,6 @@ def test_worst_returndatasize_zero(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("mem_size", [0, 1, 1_000, 100_000, 1_000_000])
 def test_worst_msize(
     state_test: StateTestFiller,
@@ -339,7 +333,6 @@ def test_worst_msize(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_keccak(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -414,7 +407,6 @@ def test_worst_keccak(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "address,static_cost,per_word_dynamic_cost,bytes_per_unit_of_work",
     [
@@ -492,7 +484,6 @@ def test_worst_precompile_only_data_input(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     ["mod_exp_input"],
     [
@@ -1299,7 +1290,6 @@ def test_worst_modexp(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "precompile_address,parameters",
     [
@@ -1747,8 +1737,6 @@ def test_worst_precompile_fixed_cost(
     )
 
 
-@pytest.mark.valid_from("Cancun")
-@pytest.mark.slow
 def test_worst_jumps(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1771,7 +1759,6 @@ def test_worst_jumps(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_jumpi_fallthrough(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1808,7 +1795,6 @@ def test_worst_jumpi_fallthrough(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_worst_jumpis(
     state_test: StateTestFiller,
     pre: Alloc,
@@ -1831,7 +1817,6 @@ def test_worst_jumpis(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.slow
 def test_worst_jumpdests(
     state_test: StateTestFiller,
@@ -1867,7 +1852,6 @@ DEFAULT_BINOP_ARGS = (
 )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "opcode,opcode_args",
     [
@@ -2042,7 +2026,6 @@ def test_worst_binop_simple(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("opcode", [Op.ISZERO, Op.NOT])
 def test_worst_unop(
     state_test: StateTestFiller,
@@ -2077,7 +2060,6 @@ def test_worst_unop(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 # `key_mut` indicates the key isn't fixed.
 @pytest.mark.parametrize("key_mut", [True, False])
 # `val_mut` indicates that at the end of each big-loop, the value of the target key changes.
@@ -2133,7 +2115,6 @@ def test_worst_tload(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("key_mut", [True, False])
 @pytest.mark.parametrize("dense_val_mut", [True, False])
 def test_worst_tstore(
@@ -2176,7 +2157,6 @@ def test_worst_tstore(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("shift_right", [Op.SHR, Op.SAR])
 def test_worst_shifts(
     state_test: StateTestFiller,
@@ -2260,7 +2240,6 @@ def test_worst_shifts(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize(
     "blob_index, blobs_present",
     [
@@ -2324,7 +2303,6 @@ def test_worst_blobhash(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("mod_bits", [255, 191, 127, 63])
 @pytest.mark.parametrize("op", [Op.MOD, Op.SMOD])
 def test_worst_mod(
@@ -2447,7 +2425,6 @@ def test_worst_mod(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("opcode", [Op.MLOAD, Op.MSTORE, Op.MSTORE8])
 @pytest.mark.parametrize("offset", [0, 1, 31])
 @pytest.mark.parametrize("offset_initialized", [True, False])
@@ -2491,7 +2468,6 @@ def test_worst_memory_access(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 @pytest.mark.parametrize("mod_bits", [255, 191, 127, 63])
 @pytest.mark.parametrize("op", [Op.ADDMOD, Op.MULMOD])
 def test_worst_modarith(
@@ -2595,7 +2571,6 @@ def test_worst_modarith(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_empty_block(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -2609,7 +2584,6 @@ def test_empty_block(
     )
 
 
-@pytest.mark.valid_from("Cancun")
 def test_amortized_bn128_pairings(
     state_test: StateTestFiller,
     pre: Alloc,
