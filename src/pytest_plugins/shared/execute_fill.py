@@ -22,6 +22,7 @@ class OpMode(StrEnum):
 
 
 ALL_FIXTURE_PARAMETERS = {
+    "gas_benchmark_value",
     "genesis_environment",
     "env",
 }
