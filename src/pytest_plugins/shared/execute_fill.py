@@ -1,6 +1,5 @@
 """Shared pytest fixtures and hooks for EEST generation modes (fill and execute)."""
 
-from enum import StrEnum, unique
 from typing import List
 
 import pytest
@@ -8,18 +7,10 @@ import pytest
 from ethereum_test_execution import BaseExecute, LabeledExecuteFormat
 from ethereum_test_fixtures import BaseFixture, LabeledFixtureFormat
 from ethereum_test_specs import BaseTest
+from ethereum_test_specs.base import OpMode
 from ethereum_test_types import EOA, Alloc, ChainConfig
 
 from ..spec_version_checker.spec_version_checker import EIPSpecTestItem
-
-
-@unique
-class OpMode(StrEnum):
-    """Operation mode for the fill and execute."""
-
-    CONSENSUS = "consensus"
-    BENCHMARKING = "benchmarking"
-
 
 ALL_FIXTURE_PARAMETERS = {
     "genesis_environment",

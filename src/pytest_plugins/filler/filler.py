@@ -8,6 +8,7 @@ writes the generated fixtures to file.
 
 import configparser
 import datetime
+import json
 import os
 import warnings
 from dataclasses import dataclass, field
@@ -18,6 +19,7 @@ import pytest
 import xdist
 from _pytest.compat import NotSetType
 from _pytest.terminal import TerminalReporter
+from filelock import FileLock
 from pytest_metadata.plugin import metadata_key  # type: ignore
 
 from cli.gen_index import generate_fixtures_index
@@ -36,6 +38,7 @@ from ethereum_test_fixtures import (
 )
 from ethereum_test_forks import Fork, get_transition_fork_predecessor, get_transition_forks
 from ethereum_test_specs import BaseTest
+from ethereum_test_specs.base import OpMode
 from ethereum_test_tools.utility.versioning import (
     generate_github_url,
     get_current_commit_hash_or_tag,
@@ -549,6 +552,55 @@ def pytest_addoption(parser: pytest.Parser):
         ),
     )
 
+    optimize_gas_group = parser.getgroup(
+        "optimize gas",
+        "Arguments defining test gas optimization behavior.",
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas",
+        action="store_true",
+        dest="optimize_gas",
+        default=False,
+        help=(
+            "Attempt to optimize the gas used in every transaction for the filled tests, "
+            "then print the minimum amount of gas at which the test still produces a correct "
+            "post state and the exact same trace."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-output",
+        action="store",
+        dest="optimize_gas_output",
+        default=Path("optimize-gas-output.json"),
+        type=Path,
+        help=(
+            "Path to the JSON file that is output to the gas optimization. "
+            "Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-max-gas-limit",
+        action="store",
+        dest="optimize_gas_max_gas_limit",
+        default=None,
+        type=int,
+        help=(
+            "Maximum gas limit for gas optimization, if reached the search will stop and "
+            "fail for that given test. Requires `--optimize-gas`."
+        ),
+    )
+    optimize_gas_group.addoption(
+        "--optimize-gas-post-processing",
+        action="store_true",
+        dest="optimize_gas_post_processing",
+        default=False,
+        help=(
+            "Post process the traces during gas optimization in order to Account for "
+            "opcodes that put the current gas in the stack, in order to remove "
+            "remaining-gas from the comparison."
+        ),
+    )
+
     debug_group = parser.getgroup("debug", "Arguments defining debug behavior")
     debug_group.addoption(
         "--evm-dump-dir",
@@ -606,6 +658,17 @@ def pytest_configure(config):
         != FixtureFillingPhase.PRE_ALLOC_GENERATION
     ):
         config.option.htmlpath = config.fixture_output.directory / default_html_report_file_path()
+
+    config.gas_optimized_tests = {}
+    if config.getoption("optimize_gas", False):
+        if config.getoption("optimize_gas_post_processing"):
+            config.op_mode = OpMode.OPTIMIZE_GAS_POST_PROCESSING
+        else:
+            config.op_mode = OpMode.OPTIMIZE_GAS
+
+    config.collect_traces = config.getoption("evm_collect_traces") or config.getoption(
+        "optimize_gas", False
+    )
 
     # Instantiate the transition tool here to check that the binary path/trace option is valid.
     # This ensures we only raise an error once, if appropriate, instead of for every test.
@@ -885,7 +948,7 @@ def evm_fixture_verification(
     try:
         evm_fixture_verification = FixtureConsumerTool.from_binary_path(
             binary_path=Path(verify_fixtures_bin),
-            trace=request.config.getoption("evm_collect_traces"),
+            trace=request.config.collect_traces,  # type: ignore[attr-defined]
         )
     except Exception:
         if reused_evm_bin:
@@ -1168,6 +1231,13 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                 super(BaseTestWrapper, self).__init__(*args, **kwargs)
                 self._request = request
                 self._operation_mode = request.config.op_mode
+                if (
+                    self._operation_mode == OpMode.OPTIMIZE_GAS
+                    or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                ):
+                    self._gas_optimization_max_gas_limit = request.config.getoption(
+                        "optimize_gas_max_gas_limit", None
+                    )
 
                 # Get the filling session from config
                 session: FillingSession = request.config.filling_session  # type: ignore
@@ -1186,12 +1256,22 @@ def base_test_parametrizer(cls: Type[BaseTest]):
                     pre_alloc_hash = self.compute_pre_alloc_group_hash(fork=fork)
                     group = session.get_pre_alloc_group(pre_alloc_hash)
                     self.pre = group.pre
-
-                fixture = self.generate(
-                    t8n=t8n,
-                    fork=fork,
-                    fixture_format=fixture_format,
-                )
+                try:
+                    fixture = self.generate(
+                        t8n=t8n,
+                        fork=fork,
+                        fixture_format=fixture_format,
+                    )
+                finally:
+                    if (
+                        request.config.op_mode == OpMode.OPTIMIZE_GAS
+                        or request.config.op_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+                    ):
+                        gas_optimized_tests = request.config.gas_optimized_tests
+                        assert gas_optimized_tests is not None
+                        # Force adding something to the list, even if it's None,
+                        # to keep track of failed tests in the output file.
+                        gas_optimized_tests[request.node.nodeid] = self._gas_optimization
 
                 # Post-process for Engine X format (add pre_hash and state diff)
                 if (
@@ -1369,6 +1449,16 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     if session_instance.phase_manager.is_pre_alloc_generation:
         session_instance.save_pre_alloc_groups()
         return
+
+    if session.config.getoption("optimize_gas", False):  # type: ignore[attr-defined]
+        output_file = Path(session.config.getoption("optimize_gas_output"))
+        lock_file_path = output_file.with_suffix(".lock")
+        assert hasattr(session.config, "gas_optimized_tests")
+        gas_optimized_tests: Dict[str, int] = session.config.gas_optimized_tests
+        with FileLock(lock_file_path):
+            if output_file.exists():
+                gas_optimized_tests = json.loads(output_file.read_text()) | gas_optimized_tests
+            output_file.write_text(json.dumps(gas_optimized_tests, indent=2, sort_keys=True))
 
     if xdist.is_xdist_worker(session):
         return

@@ -6,7 +6,7 @@ from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Seq
 import pytest
 from pydantic import Field
 
-from ethereum_clis import TransitionTool
+from ethereum_clis import TransitionTool, TransitionToolOutput
 from ethereum_test_base_types import HexNumber
 from ethereum_test_exceptions import BlockException, EngineAPIError, TransactionException
 from ethereum_test_execution import (
@@ -35,11 +35,14 @@ from ethereum_test_types import (
     Environment,
     Transaction,
 )
+from pytest_plugins.logging import get_logger
 
 from .base import BaseTest, OpMode
 from .blockchain import Block, BlockchainTest, Header
 from .debugging import print_traces
 from .helpers import verify_transactions
+
+logger = get_logger(__name__)
 
 
 class StateTest(BaseTest):
@@ -84,6 +87,84 @@ class StateTest(BaseTest):
     supported_markers: ClassVar[Dict[str, str]] = {
         "state_test_only": "Only generate a state test fixture",
     }
+
+    def verify_modified_gas_limit(
+        self,
+        *,
+        t8n: TransitionTool,
+        base_tool_output: TransitionToolOutput,
+        fork: Fork,
+        current_gas_limit: int,
+        pre_alloc: Alloc,
+        env: Environment,
+        enable_post_processing: bool,
+    ) -> bool:
+        """Verify a new lower gas limit yields the same transaction outcome."""
+        base_traces = base_tool_output.result.traces
+        assert base_traces is not None, "Traces not collected for gas optimization"
+        new_tx = self.tx.copy(gas_limit=current_gas_limit).with_signature_and_sender()
+        modified_tool_output = t8n.evaluate(
+            transition_tool_data=TransitionTool.TransitionToolData(
+                alloc=pre_alloc,
+                txs=[new_tx],
+                env=env,
+                fork=fork,
+                chain_id=self.chain_id,
+                reward=0,  # Reward on state tests is always zero
+                blob_schedule=fork.blob_schedule(),
+                state_test=True,
+            ),
+            debug_output_path=self.get_next_transition_tool_output_path(),
+            slow_request=self.is_tx_gas_heavy_test(),
+        )
+        modified_traces = modified_tool_output.result.traces
+        assert modified_traces is not None, "Traces not collected for gas optimization"
+        if not base_traces.are_equivalent(
+            modified_tool_output.result.traces,
+            enable_post_processing,
+        ):
+            logger.debug(f"Traces are not equivalent (gas_limit={current_gas_limit})")
+            return False
+        try:
+            self.post.verify_post_alloc(modified_tool_output.alloc)
+        except Exception as e:
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+            logger.debug(e)
+            return False
+        try:
+            verify_transactions(
+                txs=[new_tx],
+                result=modified_tool_output.result,
+                transition_tool_exceptions_reliable=t8n.exception_mapper.reliable,
+            )
+        except Exception as e:
+            logger.debug(f"Transactions are not equivalent (gas_limit={current_gas_limit})")
+            logger.debug(e)
+            return False
+        if len(base_tool_output.alloc.root) != len(modified_tool_output.alloc.root):
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+            return False
+        if modified_tool_output.alloc.root.keys() != modified_tool_output.alloc.root.keys():
+            logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+            return False
+        for k in base_tool_output.alloc.root.keys():
+            if k not in modified_tool_output.alloc:
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+                return False
+            base_account = base_tool_output.alloc[k]
+            modified_account = modified_tool_output.alloc[k]
+            if (modified_account is None) != (base_account is None):
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+                return False
+            if (
+                modified_account is not None
+                and base_account is not None
+                and base_account.nonce != modified_account.nonce
+            ):
+                logger.debug(f"Post alloc is not equivalent (gas_limit={current_gas_limit})")
+                return False
+        logger.debug(f"Gas limit is equivalent (gas_limit={current_gas_limit})")
+        return True
 
     @classmethod
     def discard_fixture_format_by_marks(
@@ -224,6 +305,64 @@ class StateTest(BaseTest):
             pprint(transition_tool_output.result)
             pprint(transition_tool_output.alloc)
             raise e
+
+        if (
+            self._operation_mode == OpMode.OPTIMIZE_GAS
+            or self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+        ):
+            enable_post_processing = self._operation_mode == OpMode.OPTIMIZE_GAS_POST_PROCESSING
+            base_tool_output = transition_tool_output
+
+            assert base_tool_output.result.traces is not None, "Traces not found."
+
+            # First try reducing the gas limit only by one, if the validation fails, it means
+            # that the traces change even with the slightest modification to the gas.
+            if self.verify_modified_gas_limit(
+                t8n=t8n,
+                base_tool_output=base_tool_output,
+                fork=fork,
+                current_gas_limit=self.tx.gas_limit - 1,
+                pre_alloc=pre_alloc,
+                env=env,
+                enable_post_processing=enable_post_processing,
+            ):
+                minimum_gas_limit = 0
+                maximum_gas_limit = int(self.tx.gas_limit)
+                while minimum_gas_limit < maximum_gas_limit:
+                    current_gas_limit = (maximum_gas_limit + minimum_gas_limit) // 2
+                    if self.verify_modified_gas_limit(
+                        t8n=t8n,
+                        base_tool_output=base_tool_output,
+                        fork=fork,
+                        current_gas_limit=current_gas_limit,
+                        pre_alloc=pre_alloc,
+                        env=env,
+                        enable_post_processing=enable_post_processing,
+                    ):
+                        maximum_gas_limit = current_gas_limit
+                    else:
+                        minimum_gas_limit = current_gas_limit + 1
+                        if (
+                            self._gas_optimization_max_gas_limit is not None
+                            and minimum_gas_limit > self._gas_optimization_max_gas_limit
+                        ):
+                            raise Exception(
+                                "Requires more than the minimum "
+                                f"{self._gas_optimization_max_gas_limit} wanted."
+                            )
+
+                assert self.verify_modified_gas_limit(
+                    t8n=t8n,
+                    base_tool_output=base_tool_output,
+                    fork=fork,
+                    current_gas_limit=minimum_gas_limit,
+                    pre_alloc=pre_alloc,
+                    env=env,
+                    enable_post_processing=enable_post_processing,
+                )
+                self._gas_optimization = current_gas_limit
+            else:
+                raise Exception("Impossible to compare.")
 
         if self._operation_mode == OpMode.BENCHMARKING:
             expected_benchmark_gas_used = self.expected_benchmark_gas_used
