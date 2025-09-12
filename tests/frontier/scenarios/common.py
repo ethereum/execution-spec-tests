@@ -197,14 +197,14 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
     could spend unique gas amount.
     """
     # EVM memory variables
-    variable_byte_offset = MemoryVariable(0)
-    variable_current_byte = MemoryVariable(32)
+    byte_offset = MemoryVariable(0)
+    current_byte = MemoryVariable(32)
 
     # Code for memory initialization
-    initialize_code = variable_byte_offset.set(0)
+    initialize_code = byte_offset.set(0)
     calldata_copy = Op.JUMPDEST + Op.CALLDATACOPY(
-        dest_offset=variable_current_byte.offset + 32 - 1,
-        offset=variable_byte_offset,
+        dest_offset=current_byte.offset + 32 - 1,
+        offset=byte_offset,
         size=1,
     )
 
@@ -218,18 +218,18 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
         + calldata_copy  # offset_calldata_copy
         + Op.JUMPDEST  # offset_conditional
         + Conditional(
-            condition=Op.ISZERO(variable_current_byte),
+            condition=Op.ISZERO(current_byte),
             if_true=(
                 # Increase the calldata byte offset, and if it's greater than the calldata size,
                 # return, otherwise jump to the calldata copy code and read the next byte.
-                variable_byte_offset.add(1)
+                byte_offset.add(1)
                 + Conditional(
-                    condition=Op.GT(variable_byte_offset, Op.CALLDATASIZE()),
+                    condition=Op.GT(byte_offset, Op.CALLDATASIZE()),
                     if_true=Op.RETURN(offset=0, size=0),
                     if_false=Op.JUMP(offset_calldata_copy),
                 )
             ),
-            if_false=(variable_current_byte.sub(1) + Op.JUMP(offset_conditional)),
+            if_false=(current_byte.sub(1) + Op.JUMP(offset_conditional)),
         )
     )
     return gas_hash_address
@@ -261,25 +261,25 @@ def make_invalid_opcode_contract(pre: Alloc, fork: Fork) -> Address:
         if op not in valid_opcode_values:
             invalid_opcodes.append(op)
 
-    variable_results_sum = MemoryVariable(0)
-    variable_opcode = MemoryVariable(32)
+    results_sum = MemoryVariable(0)
+    current_opcode = MemoryVariable(32)
 
     code = Bytecode(
         sum(
-            variable_opcode.set(opcode)
-            + variable_results_sum.add(
+            current_opcode.set(opcode)
+            + results_sum.add(
                 Op.CALL(
                     gas=50000,
                     address=invalid_opcode_caller,
-                    args_offset=variable_opcode.offset,
+                    args_offset=current_opcode.offset,
                     args_size=32,
                 ),
             )
             for opcode in invalid_opcodes
         )
         # If any of invalid instructions works, mstore[0] will be > 1
-        + variable_results_sum.add(1)
-        + variable_results_sum.return_value()
+        + results_sum.add(1)
+        + results_sum.return_value()
     )
 
     return pre.deploy_contract(code=code)
