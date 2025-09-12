@@ -10,7 +10,6 @@ from ethereum_test_tools import (
     Account,
     Alloc,
     AuthorizationTuple,
-    Environment,
     StateTestFiller,
     Storage,
     Transaction,
@@ -74,7 +73,6 @@ def test_eip_7702(
     )
 
     state_test(
-        env=Environment(),
         pre=pre,
         tx=tx,
         post={

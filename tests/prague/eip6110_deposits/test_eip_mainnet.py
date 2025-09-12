@@ -11,7 +11,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
 )
 
 from .helpers import DepositRequest, DepositTransaction
@@ -52,7 +51,6 @@ def test_eip_6110(
 ):
     """Test making a deposit to the beacon chain deposit contract."""
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post={},
         blocks=blocks,

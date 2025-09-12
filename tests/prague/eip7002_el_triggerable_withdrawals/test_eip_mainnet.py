@@ -11,7 +11,6 @@ from ethereum_test_tools import (
     Alloc,
     Block,
     BlockchainTestFiller,
-    Environment,
 )
 
 from .helpers import WithdrawalRequest, WithdrawalRequestTransaction
@@ -51,7 +50,6 @@ def test_eip_7002(
 ):
     """Test making a withdrawal request."""
     blockchain_test(
-        genesis_environment=Environment(),
         pre=pre,
         post={},
         blocks=blocks,

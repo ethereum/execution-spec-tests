@@ -5,7 +5,7 @@ abstract: Crafted tests for mainnet of [EIP-2537: Precompile for BLS12-381 curve
 
 import pytest
 
-from ethereum_test_tools import Alloc, Environment, StateTestFiller, Transaction
+from ethereum_test_tools import Alloc, StateTestFiller, Transaction
 
 from .spec import FP, FP2, Scalar, Spec, ref_spec_2537
 
@@ -84,7 +84,6 @@ def test_eip_2537(
 ):
     """Test the all precompiles of EIP-2537."""
     state_test(
-        env=Environment(),
         pre=pre,
         tx=tx,
         post=post,
