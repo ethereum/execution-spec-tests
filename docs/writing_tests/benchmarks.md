@@ -4,6 +4,8 @@ Benchmark tests aim to maximize the usage of a specific opcode, precompile, or o
 
 To fill a benchmark test, in addition to the usual test flags, you must include the `-m benchmark` flag. This is necessary because benchmark tests are ignored by default; they must be manually selected via the `benchmark` pytest marker (="tag"). This marker is applied to all tests under `./tests/benchmark/` automatically by the framework.
 
+**Note:** Benchmark tests are now only available starting from the `Prague` fork. Tests targeting earlier forks (`Cancun` or prior) are not supported in benchmark mode.
+
 ## Setting the Gas Limit for Benchmarking
 
 To consume the full benchmark gas limit, use the `gas_benchmark_value` fixture as the gas limit:
