@@ -1849,15 +1849,13 @@ def test_worst_jumpdests(
     pre: Alloc,
     env: Environment,
     fork: Fork,
-    gas_benchmark_value: int,
 ):
     """Test running a JUMPDEST-intensive contract."""
     benchmark_test(
         env=env,
         pre=pre,
         post={},
-        code_generator=JumpLoopGenerator(fork, Op.JUMPDEST),
-        gas_benchmark_value=gas_benchmark_value,
+        code_generator=JumpLoopGenerator(attack_block=Op.JUMPDEST),
     )
 
 
@@ -2761,14 +2759,14 @@ def test_worst_swap(
     env: Environment,
     fork: Fork,
     opcode: Opcode,
-    gas_benchmark_value: int,
 ):
     """Test running a block with as many SWAP as possible."""
     benchmark_test(
         pre=pre,
         post={},
-        code_generator=JumpLoopGenerator(fork, opcode, setup=Op.PUSH0 * opcode.min_stack_height),
-        gas_benchmark_value=gas_benchmark_value,
+        code_generator=JumpLoopGenerator(
+            attack_block=opcode, setup=Op.PUSH0 * opcode.min_stack_height
+        ),
     )
 
 
