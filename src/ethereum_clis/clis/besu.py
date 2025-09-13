@@ -27,7 +27,7 @@ class BesuTransitionTool(TransitionTool):
     """Besu EvmTool Transition tool frontend wrapper class."""
 
     default_binary = Path("evm")
-    detect_binary_pattern = re.compile(r"^Besu evm .*$")
+    detect_binary_pattern = re.compile(r"(?:\S+\s+)*Besu evm \S+")
     binary: Path
     cached_version: Optional[str] = None
     trace: bool
