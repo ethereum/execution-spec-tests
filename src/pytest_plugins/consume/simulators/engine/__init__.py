@@ -1,1 +1,1 @@
-"""Consume Engine test functions."""
+"""The consume engine simulator."""
