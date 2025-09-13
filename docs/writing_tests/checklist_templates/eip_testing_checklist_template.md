@@ -108,6 +108,7 @@ Verify opcode operation in a subcall frame originated from a `STATICCALL` opcode
 
 | ID                                                                 | Description                                                                                                                                                                                                                                                                                | Status | Tests |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | ----- |
+| `opcode/test/execution_context/staticcall` | `STATICCALL`.     |        |       |
 | `opcode/test/execution_context/staticcall/ban_check`           | Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.                                                                                                                                                                                      |        |       |
 | `opcode/test/execution_context/staticcall/ban_no_modification` | If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. `PAY` with zero value, or `SSTORE` to the value it already has in the storage). |        |       |
 | `opcode/test/execution_context/staticcall/sub_calls`           | Verify sub-calls using other opcodes (e.g. `CALL`, `DELEGATECALL`, etc) also results in the same exceptional abort behavior.                                                                                                                                                               |        |       |
@@ -192,6 +193,14 @@ Verify that the memory expansion correctly follows the gas calculation.
 | ID                                           | Description       | Status | Tests |
 | -------------------------------------------- | ----------------- | ------ | ----- |
 | `opcode/test/gas_usage/memory_expansion` | Memory expansion. |        |       |
+
+##### Extra Gas
+
+Verify that attempting to execute the opcode when gas available is 1 more than the required gas results in exceptional abort.
+
+| ID                                               | Description                         | Status | Tests |
+| ------------------------------------------------ | ----------------------------------- | ------ | ----- |
+| `opcode/test/gas_usage/extra_gas` | extra gas should not fail the execution  |        |       |
 
 ##### Out-Of-Gas
 
