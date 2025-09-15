@@ -7,6 +7,7 @@ from typing import Dict
 
 import pytest
 
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
@@ -211,9 +212,51 @@ REFERENCE_SPEC_VERSION = ref_spec_7823.version
             False,
             id="zero_exp_mod_exceed",
         ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x01" * Spec.MAX_LENGTH_BYTES,
+                exponent=b"\x00",
+                modulus=b"\x02",
+            ),
+            b"\x01",
+            True,
+            id="base_boundary",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x01",
+                exponent=b"\x00" * Spec.MAX_LENGTH_BYTES,
+                modulus=b"\x02",
+            ),
+            b"\x01",
+            True,
+            id="exp_boundary",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x01",
+                exponent=b"\x00",
+                modulus=b"\x02" * Spec.MAX_LENGTH_BYTES,
+            ),
+            b"\x01".rjust(Spec.MAX_LENGTH_BYTES, b"\x00"),
+            True,
+            id="mod_boundary",
+        ),
+        pytest.param(
+            ModExpInput(
+                base=b"\x01" * Spec.MAX_LENGTH_BYTES,
+                exponent=b"\x00",
+                modulus=b"\x02" * Spec.MAX_LENGTH_BYTES,
+            ),
+            b"\x01".rjust(Spec.MAX_LENGTH_BYTES, b"\x00"),
+            True,
+            id="base_mod_boundary",
+        ),
     ],
 )
-def test_modexp_input_bounds(
+@EIPChecklist.Precompile.Test.Inputs.MaxValues
+@EIPChecklist.Precompile.Test.OutOfBounds.Max
+def test_modexp_upper_bounds(
     state_test: StateTestFiller,
     modexp_input: ModExpInput,
     modexp_expected: bytes,

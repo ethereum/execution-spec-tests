@@ -1,4 +1,3 @@
-precompile/test/inputs/valid/crypto = No specific crypto property for Modexp
 precompile/test/value_transfer/fee/under = No value is required
 precompile/test/value_transfer/fee/exact = No value is required
 precompile/test/value_transfer/fee/over = No value is required
