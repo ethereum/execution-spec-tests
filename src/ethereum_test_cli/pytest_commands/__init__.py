@@ -27,7 +27,7 @@ They can also be executed (and debugged) directly in an interactive python
 shell:
 
 ```
-from src.cli.pytest_commands.fill import fill
+from src.ethereum_test_cli.pytest_commands.fill import fill
 from click.testing import CliRunner
 
 runner = CliRunner()

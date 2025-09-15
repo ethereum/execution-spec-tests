@@ -417,7 +417,9 @@ def test_pre_alloc_grouping_by_test_type(
     for i, test in enumerate(test_definitions):
         test_module = tests_dir / f"test_{i}.py"
         test_module.write_text(test.format())
-    pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+    pytester.copy_example(
+        name="src/ethereum_test_cli/pytest_commands/pytest_ini_files/pytest-fill.ini"
+    )
     args = [
         "-c",
         "pytest-fill.ini",

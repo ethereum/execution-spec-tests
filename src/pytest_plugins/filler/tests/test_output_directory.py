@@ -57,7 +57,9 @@ def run_fill(
         disable_capture_output: bool = False,
     ) -> pytest.RunResult:
         """Run the fill command with the specified output directory and clean flag."""
-        pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
+        pytester.copy_example(
+            name="src/ethereum_test_cli/pytest_commands/pytest_ini_files/pytest-fill.ini"
+        )
         args = [
             "-c",
             "pytest-fill.ini",

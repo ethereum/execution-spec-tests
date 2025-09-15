@@ -14,7 +14,7 @@ import pytest
 import requests
 import rich
 
-from cli.gen_index import generate_fixtures_index
+from ethereum_test_cli.gen_index import generate_fixtures_index
 from ethereum_test_fixtures import BaseFixture
 from ethereum_test_fixtures.consume import IndexFile, TestCases
 from ethereum_test_forks import get_forks, get_relative_fork_markers, get_transition_forks
