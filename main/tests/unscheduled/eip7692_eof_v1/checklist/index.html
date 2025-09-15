@@ -29282,7 +29282,7 @@
 </thead>
 <tbody>
 <tr>
-<td>255</td>
+<td>257</td>
 <td>0</td>
 <td>🔴 0.00%</td>
 </tr>
@@ -29554,6 +29554,12 @@
 </thead>
 <tbody>
 <tr>
+<td><code>opcode/test/execution_context/staticcall</code></td>
+<td><code>STATICCALL</code>.</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
 <td><code>opcode/test/execution_context/staticcall/ban_check</code></td>
 <td>Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.</td>
 <td></td>
@@ -29791,6 +29797,26 @@
 <tr>
 <td><code>opcode/test/gas_usage/memory_expansion</code></td>
 <td>Memory expansion.</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="extra-gas">Extra Gas<a class="headerlink" href="#extra-gas" title="Permanent link">&para;</a></h5>
+<p>Verify that attempting to execute the opcode when gas available is 1 more than the required gas results in exceptional abort.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opcode/test/gas_usage/extra_gas</code></td>
+<td>extra gas should not fail the execution</td>
 <td></td>
 <td></td>
 </tr>

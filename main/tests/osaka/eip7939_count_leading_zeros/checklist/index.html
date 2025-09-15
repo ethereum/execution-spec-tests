@@ -5400,6 +5400,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checklist-warnings" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Checklist Warnings ⚠️
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Checklist Warnings ⚠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conflicting-checklist-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conflicting Checklist Items
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#general" class="md-nav__link">
     <span class="md-ellipsis">
       General
@@ -28202,6 +28226,30 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#checklist-warnings" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚠️ Checklist Warnings ⚠️
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="⚠️ Checklist Warnings ⚠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conflicting-checklist-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conflicting Checklist Items
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#general" class="md-nav__link">
     <span class="md-ellipsis">
       General
@@ -29284,9 +29332,30 @@
 </thead>
 <tbody>
 <tr>
-<td>255</td>
-<td>0</td>
-<td>🔴 0.00%</td>
+<td>25</td>
+<td>23</td>
+<td>🟡 92.00%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="checklist-warnings">⚠️ Checklist Warnings ⚠️<a class="headerlink" href="#checklist-warnings" title="Permanent link">&para;</a></h2>
+<h3 id="conflicting-checklist-items">Conflicting Checklist Items<a class="headerlink" href="#conflicting-checklist-items" title="Permanent link">&para;</a></h3>
+<p>The following checklist items were marked both as not applicable and covered:</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Not Applicable</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>opcode/test/execution_context/delegatecall/code</td>
+<td>If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.</td>
+<td>CLZ does not modify code</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 </tbody>
 </table>
@@ -29307,14 +29376,14 @@
 <tr>
 <td><code>general/code_coverage/eels</code></td>
 <td>Run produced tests against <a href="https://github.com/ethereum/execution-specs">EELS</a> and verify that line code coverage of new added lines for the EIP is 100%, with only exceptions being unreachable code lines.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>Please check <a href="https://app.codecov.io/gh/ethereum/execution-specs/pull/1388/blob/src/ethereum/osaka/vm/instructions/bitwise.py#L243">https://app.codecov.io/gh/ethereum/execution-specs/pull/1388/blob/src/ethereum/osaka/vm/instructions/bitwise.py#L243</a> for relevant test coverage</td>
 </tr>
 <tr>
 <td><code>general/code_coverage/test_coverage</code></td>
 <td>Run coverage on the test code itself (as a basic logic sanity check), i.e., <code>uv run fill --cov tests</code>.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>Please run the test with <code>--cov</code> flag for final coverage</td>
 </tr>
 <tr>
 <td><code>general/code_coverage/second_client</code></td>
@@ -29345,74 +29414,74 @@
 <tr>
 <td><code>opcode/test/mem_exp/zero_bytes_zero_offset</code></td>
 <td>Zero bytes expansion with zero-offset.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/zero_bytes_max_offset</code></td>
 <td>Zero bytes expansion with 2**256-1 offset.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/single_byte</code></td>
 <td>Single byte expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/31_bytes</code></td>
 <td>31 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/32_bytes</code></td>
 <td>32 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/33_bytes</code></td>
 <td>33 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/64_bytes</code></td>
 <td>64 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/2_32_minus_one_bytes</code></td>
 <td><code>2**32-1</code> bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/2_32_bytes</code></td>
 <td>2**32 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/2_64_minus_one_bytes</code></td>
 <td>2**64-1 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/2_64_bytes</code></td>
 <td>2**64 bytes expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 <tr>
 <td><code>opcode/test/mem_exp/2_256_minus_one_bytes</code></td>
 <td>2**256-1 bytes expansion (Should always result in Out-of-gas).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not read/write to memory component</td>
 </tr>
 </tbody>
 </table>
@@ -29432,8 +29501,8 @@
 <tr>
 <td><code>opcode/test/stack_overflow</code></td>
 <td>Stack Overflow.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ takes one args and pushes one args to stack, not increasing stack element, hence no overflow issue</td>
 </tr>
 </tbody>
 </table>
@@ -29452,8 +29521,8 @@
 <tr>
 <td><code>opcode/test/stack_underflow</code></td>
 <td>Stack Underflow.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_underflow[fork_Osaka-state_test]</td>
 </tr>
 </tbody>
 </table>
@@ -29472,20 +29541,20 @@
 <tr>
 <td><code>opcode/test/stack_complex_operations/stack_heights/zero</code></td>
 <td>Operation on an empty stack (Potential stack-underflow).</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_underflow[fork_Osaka-state_test]</td>
 </tr>
 <tr>
 <td><code>opcode/test/stack_complex_operations/stack_heights/odd</code></td>
 <td>Operation on a stack with an odd height.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_not_overflow[fork_Osaka-state_test]</td>
 </tr>
 <tr>
 <td><code>opcode/test/stack_complex_operations/stack_heights/even</code></td>
 <td>Operation on a stack with an even height.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_stack_not_overflow[fork_Osaka-state_test]</td>
 </tr>
 </tbody>
 </table>
@@ -29504,20 +29573,20 @@
 <tr>
 <td><code>opcode/test/stack_complex_operations/data_portion_variables/top</code></td>
 <td>Top stack item.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>there is no data portion for CLZ</td>
 </tr>
 <tr>
 <td><code>opcode/test/stack_complex_operations/data_portion_variables/bottom</code></td>
 <td>Bottom stack item.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>there is no data portion for CLZ</td>
 </tr>
 <tr>
 <td><code>opcode/test/stack_complex_operations/data_portion_variables/middle</code></td>
 <td>Middle stack item.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>there is no data portion for CLZ</td>
 </tr>
 </tbody>
 </table>
@@ -29538,8 +29607,8 @@
 <tr>
 <td><code>opcode/test/execution_context/call</code></td>
 <td><code>CALL</code>.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 </tbody>
 </table>
@@ -29556,22 +29625,28 @@
 </thead>
 <tbody>
 <tr>
+<td><code>opcode/test/execution_context/staticcall</code></td>
+<td><code>STATICCALL</code>.</td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
+</tr>
+<tr>
 <td><code>opcode/test/execution_context/staticcall/ban_check</code></td>
 <td>Verify exceptional abort if the opcode attempts to modify the code, storage or balance of an account.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/staticcall/ban_no_modification</code></td>
 <td>If the opcode is completely banned from static contexts, verify that even when its inputs would not cause any account modification, the opcode still results in exceptional abort of the execution (e.g. <code>PAY</code> with zero value, or <code>SSTORE</code> to the value it already has in the storage).</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/staticcall/sub_calls</code></td>
 <td>Verify sub-calls using other opcodes (e.g. <code>CALL</code>, <code>DELEGATECALL</code>, etc) also results in the same exceptional abort behavior.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 </tbody>
 </table>
@@ -29590,26 +29665,26 @@
 <tr>
 <td><code>opcode/test/execution_context/delegatecall</code></td>
 <td><code>DELEGATECALL</code>.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/delegatecall/storage</code></td>
 <td>If the opcode modifies the storage of the account currently executing it, verify that only the account that is delegating execution is the one that has its storage modified.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/delegatecall/balance</code></td>
 <td>If the opcode modifies the balance of the account currently executing it, verify that only the account that is delegating execution is the one that has its balance modified.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/delegatecall/code</code></td>
 <td>If the opcode modifies the code of the account currently executing it, verify that only the account that is delegating execution is the one that has its code modified.</td>
-<td></td>
-<td></td>
+<td>❓</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 </tbody>
 </table>
@@ -29628,8 +29703,8 @@
 <tr>
 <td><code>opcode/test/execution_context/callcode</code></td>
 <td><code>CALLCODE</code>.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-call], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-callcode], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-delegatecall], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_call_operation[fork_Osaka-state_test-staticcall]</td>
 </tr>
 </tbody>
 </table>
@@ -29654,20 +29729,20 @@
 <tr>
 <td><code>opcode/test/execution_context/initcode/behavior/tx</code></td>
 <td>Initcode of a contract creating transaction.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_context[fork_Osaka-state_test]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/initcode/behavior/opcode</code></td>
 <td>Initcode of a contract creating opcode (including itself if opcode creates a contract).</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_create[fork_Osaka-state_test-opcode_CREATE2], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_initcode_create[fork_Osaka-state_test-opcode_CREATE]</td>
 </tr>
 <tr>
 <td><code>opcode/test/execution_context/initcode/reentry</code></td>
 <td>Initcode re-entry: using the same initcode and same address (e.g. CREATE2-&gt;REVERT-&gt;CREATE2).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a stateful opcode</td>
 </tr>
 </tbody>
 </table>
@@ -29686,8 +29761,8 @@
 <tr>
 <td><code>opcode/test/execution_context/set_code</code></td>
 <td>Set-code delegated account.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_from_set_code[fork_Osaka-state_test]</td>
 </tr>
 </tbody>
 </table>
@@ -29706,8 +29781,8 @@
 <tr>
 <td><code>opcode/test/execution_context/tx_context</code></td>
 <td>Transaction-context dependent opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not change behavior depending on transaction property</td>
 </tr>
 </tbody>
 </table>
@@ -29726,8 +29801,8 @@
 <tr>
 <td><code>opcode/test/execution_context/block_context</code></td>
 <td>Block-context dependent opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ does not change behavior depending on block property</td>
 </tr>
 </tbody>
 </table>
@@ -29746,14 +29821,14 @@
 <tr>
 <td><code>opcode/test/return_data/buffer/current</code></td>
 <td>Return buffer at current call context.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>although we could verify the return buffer is not affected, but it is more like testing memory write operation, as CLZ does not write to memory directly</td>
 </tr>
 <tr>
 <td><code>opcode/test/return_data/buffer/parent</code></td>
 <td>Return buffer at parent call context.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>although we could verify the return buffer is not affected, but it is more like testing memory write operation, as CLZ does not write to memory directly</td>
 </tr>
 </tbody>
 </table>
@@ -29773,8 +29848,8 @@
 <tr>
 <td><code>opcode/test/gas_usage/normal</code></td>
 <td>Normal operation gas usage.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_64]</td>
 </tr>
 </tbody>
 </table>
@@ -29793,8 +29868,28 @@
 <tr>
 <td><code>opcode/test/gas_usage/memory_expansion</code></td>
 <td>Memory expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no memory read/write for CLZ</td>
+</tr>
+</tbody>
+</table>
+<h5 id="extra-gas">Extra Gas<a class="headerlink" href="#extra-gas" title="Permanent link">&para;</a></h5>
+<p>Verify that attempting to execute the opcode when gas available is 1 more than the required gas results in exceptional abort.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Description</th>
+<th>Status</th>
+<th>Tests</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>opcode/test/gas_usage/extra_gas</code></td>
+<td>extra gas should not fail the execution</td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_64]</td>
 </tr>
 </tbody>
 </table>
@@ -29813,14 +29908,14 @@
 <tr>
 <td><code>opcode/test/gas_usage/out_of_gas_execution</code></td>
 <td>Out-of-gas due to opcode inputs.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_-2-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_0-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_1-bits_64], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_0], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_128], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_255], tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_gas_cost_boundary[fork_Osaka-state_test-gas_cost_delta_2-bits_64]</td>
 </tr>
 <tr>
 <td><code>opcode/test/gas_usage/out_of_gas_memory</code></td>
 <td>Out-of-gas due to memory expansion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no memory read/write for CLZ</td>
 </tr>
 </tbody>
 </table>
@@ -29839,14 +29934,14 @@
 <tr>
 <td><code>opcode/test/gas_usage/order_of_operations/exact</code></td>
 <td>Success using the exact amount of gas required for the stipend.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>the order will not affect result of CLZ</td>
 </tr>
 <tr>
 <td><code>opcode/test/gas_usage/order_of_operations/oog</code></td>
 <td>OOG with a 1-gas-difference from the gas required for the stipend.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>the order will not affect result of CLZ</td>
 </tr>
 </tbody>
 </table>
@@ -29865,20 +29960,20 @@
 <tr>
 <td><code>opcode/test/terminating/scenarios/top_level</code></td>
 <td>Top-level call termination.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>not such opcode</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/scenarios/sub_level</code></td>
 <td>Sub-level call termination.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>not such opcode</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/scenarios/initcode</code></td>
 <td>Initcode termination.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>not such opcode</td>
 </tr>
 </tbody>
 </table>
@@ -29897,32 +29992,32 @@
 <tr>
 <td><code>opcode/test/terminating/rollback/balance</code></td>
 <td>Balance changes.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a terminating opcode, so no rollback behavior</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/rollback/storage</code></td>
 <td>Storage changes.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a terminating opcode, so no rollback behavior</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/rollback/contracts</code></td>
 <td>Contract creations.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a terminating opcode, so no rollback behavior</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/rollback/nonce</code></td>
 <td>Nonce increments.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a terminating opcode, so no rollback behavior</td>
 </tr>
 <tr>
 <td><code>opcode/test/terminating/rollback/logs</code></td>
 <td>Log events.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>CLZ is not a terminating opcode, so no rollback behavior</td>
 </tr>
 </tbody>
 </table>
@@ -29941,14 +30036,14 @@
 <tr>
 <td><code>opcode/test/out_of_bounds/verify/max</code></td>
 <td>Max value for each parameter.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>takes one element from stack, no specific boundary</td>
 </tr>
 <tr>
 <td><code>opcode/test/out_of_bounds/verify/max_plus_one</code></td>
 <td>Max value + 1 for each parameter.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>takes one element from stack, no specific boundary</td>
 </tr>
 </tbody>
 </table>
@@ -29967,8 +30062,8 @@
 <tr>
 <td><code>opcode/test/exceptional_abort</code></td>
 <td>Exceptional abort conditions.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>underflow is the only exceptional abort scenario and it is included already</td>
 </tr>
 </tbody>
 </table>
@@ -29987,20 +30082,20 @@
 <tr>
 <td><code>opcode/test/data_portion/all_zeros</code></td>
 <td>All zeros data portion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no data portion</td>
 </tr>
 <tr>
 <td><code>opcode/test/data_portion/max_value</code></td>
 <td>Max value data portion (<code>2**N-1</code> where <code>N</code> is the bit size of the data portion).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no data portion</td>
 </tr>
 <tr>
 <td><code>opcode/test/data_portion/jump</code></td>
 <td>Jump into the data portion.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no data portion</td>
 </tr>
 </tbody>
 </table>
@@ -30021,8 +30116,8 @@
 <tr>
 <td><code>opcode/test/contract_creation/address</code></td>
 <td>Address calculation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no contract created in execution</td>
 </tr>
 </tbody>
 </table>
@@ -30041,20 +30136,20 @@
 <tr>
 <td><code>opcode/test/contract_creation/failure/oog</code></td>
 <td>Out-of-gas when available gas is less than minimum contract creation stipend.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no contract created in execution</td>
 </tr>
 <tr>
 <td><code>opcode/test/contract_creation/failure/insufficient_value</code></td>
 <td>Opcode has a value parameter and the caller does not have enough funds.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no contract created in execution</td>
 </tr>
 <tr>
 <td><code>opcode/test/contract_creation/failure/collision</code></td>
 <td>Creation would result in an address collision with an existing contract or EOA-delegated address.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no contract created in execution</td>
 </tr>
 </tbody>
 </table>
@@ -30073,8 +30168,8 @@
 <tr>
 <td><code>opcode/test/contract_creation/recursive</code></td>
 <td>Recursive contract creation using the opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>no contract created in execution</td>
 </tr>
 </tbody>
 </table>
@@ -30092,14 +30187,14 @@
 <tr>
 <td><code>opcode/test/fork_transition/invalid</code></td>
 <td>Exceptional abort if executed before its activation fork/after its deactivation fork.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test]</td>
 </tr>
 <tr>
 <td><code>opcode/test/fork_transition/at</code></td>
 <td>Verify correct opcode behavior at transition block, in the case of opcodes which behavior depends on current or parent block information.</td>
-<td></td>
-<td></td>
+<td>✅</td>
+<td>tests/osaka/eip7939_count_leading_zeros/test_count_leading_zeros.py::test_clz_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test]</td>
 </tr>
 </tbody>
 </table>
@@ -30128,8 +30223,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/normal</code></td>
 <td><code>CALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30148,8 +30243,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/delegate</code></td>
 <td><code>DELEGATECALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30169,8 +30264,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/static</code></td>
 <td><code>STATICCALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30189,8 +30284,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/callcode</code></td>
 <td><code>CALLCODE</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30209,8 +30304,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/tx_entry</code></td>
 <td>Precompile as transaction entry-point.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30229,14 +30324,14 @@
 <tr>
 <td><code>precompile/test/call_contexts/initcode/CREATE</code></td>
 <td>Call from Initcode initiated from a CREATE/CREATE2 opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/call_contexts/initcode/tx</code></td>
 <td>Call from Initcode initiated from a contract-creating transaction (<code>tx.to==None</code>).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30255,8 +30350,8 @@
 <tr>
 <td><code>precompile/test/call_contexts/set_code</code></td>
 <td>Set code delegated address.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30274,50 +30369,50 @@
 <tr>
 <td><code>precompile/test/inputs/valid</code></td>
 <td>Verify combinations of valid inputs to the precompile.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/valid/boundary</code></td>
 <td>Verify all boundary values given the precompile functionality.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/valid/crypto</code></td>
 <td>If precompile performs cryptographic operations, verify behavior on all inputs that have special cryptographic properties (e.g. infinity points as inputs, or input values that result in infinity points returned).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/all_zeros</code></td>
 <td>Verify all zeros input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/max_values</code></td>
 <td>Verify 2^N-1 where N is a single or multiple valid bit-lengths.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/invalid</code></td>
 <td>Verify combinations of invalid inputs to the precompile.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/invalid/crypto</code></td>
 <td>Inputs that fail specific mathematical or cryptographic validity checks.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/inputs/invalid/corrupted</code></td>
 <td>Inputs that are malformed/corrupted.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30337,20 +30432,20 @@
 <tr>
 <td><code>precompile/test/value_transfer/fee/under</code></td>
 <td>Calls with the required value amount minus one, expect failure.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/value_transfer/fee/exact</code></td>
 <td>Calls with the exact required amount, expect success.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/value_transfer/fee/over</code></td>
 <td>Calls with extra value than the required amount, expect success.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30369,8 +30464,8 @@
 <tr>
 <td><code>precompile/test/value_transfer/no_fee</code></td>
 <td>Sending non-zero value does not cause an exception (unless otherwise specified by the EIP).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30389,14 +30484,14 @@
 <tr>
 <td><code>precompile/test/out_of_bounds/max</code></td>
 <td>Max value for each input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/out_of_bounds/max_plus_one</code></td>
 <td>Max value + 1 for each input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30417,8 +30512,8 @@
 <tr>
 <td><code>precompile/test/input_lengths/zero</code></td>
 <td>Zero-length calldata.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30437,20 +30532,20 @@
 <tr>
 <td><code>precompile/test/input_lengths/static/correct</code></td>
 <td>Correct static-length calldata.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/input_lengths/static/too_short</code></td>
 <td>Calldata too short, where the value represents a correct but truncated input to the precompile.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/input_lengths/static/too_long</code></td>
 <td>Calldata too long, where the value represents a correct input to the precompile with padded zeros.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30469,20 +30564,20 @@
 <tr>
 <td><code>precompile/test/input_lengths/dynamic/valid</code></td>
 <td>Verify correct precompile execution for valid lengths.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/input_lengths/dynamic/too_short</code></td>
 <td>Calldata too short, where the value represents a correct but truncated input to the precompile.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/input_lengths/dynamic/too_long</code></td>
 <td>Calldata too long, where the value represents a correct input to the precompile with padded zeros.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30502,14 +30597,14 @@
 <tr>
 <td><code>precompile/test/gas_usage/constant/exact</code></td>
 <td>Verify exact gas consumption.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/gas_usage/constant/oog</code></td>
 <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30528,14 +30623,14 @@
 <tr>
 <td><code>precompile/test/gas_usage/dynamic/exact</code></td>
 <td>Verify exact gas consumption.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/gas_usage/dynamic/oog</code></td>
 <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30554,8 +30649,8 @@
 <tr>
 <td><code>precompile/test/excessive_gas_usage</code></td>
 <td>Excessive gas usage.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30575,14 +30670,14 @@
 <tr>
 <td><code>precompile/test/fork_transition/before/invalid_input</code></td>
 <td>Invalid input call.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/fork_transition/before/zero_gas</code></td>
 <td>Zero-gas call.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30601,14 +30696,14 @@
 <tr>
 <td><code>precompile/test/fork_transition/before/cold</code></td>
 <td>Precompile address is cold by default before the fork activation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 <tr>
 <td><code>precompile/test/fork_transition/after/warm</code></td>
 <td>Precompile address is warm by default after the fork activation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30635,8 +30730,8 @@
 <tr>
 <td><code>removed_precompile/test/fork_transition/operational</code></td>
 <td>Precompile operation on fork activation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not remove a precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30655,14 +30750,14 @@
 <tr>
 <td><code>removed_precompile/test/fork_transition/before/warm</code></td>
 <td>Precompile address is warm by default before the fork activation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not remove a precompile</td>
 </tr>
 <tr>
 <td><code>removed_precompile/test/fork_transition/after/cold</code></td>
 <td>Precompile address is cold by default after the fork activation.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not remove a precompile</td>
 </tr>
 </tbody>
 </table>
@@ -30689,8 +30784,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/normal</code></td>
 <td><code>CALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30709,8 +30804,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/delegate</code></td>
 <td><code>DELEGATECALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30730,8 +30825,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/static</code></td>
 <td><code>STATICCALL</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30750,8 +30845,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/callcode</code></td>
 <td><code>CALLCODE</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30770,8 +30865,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/tx_entry</code></td>
 <td>System Contract as transaction entry-point.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30790,14 +30885,14 @@
 <tr>
 <td><code>system_contract/test/call_contexts/initcode/CREATE</code></td>
 <td>Call from Initcode initiated from a CREATE/CREATE2 opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/call_contexts/initcode/tx</code></td>
 <td>Call from Initcode initiated from a contract-creating transaction (<code>tx.to==None</code>).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30817,8 +30912,8 @@
 <tr>
 <td><code>system_contract/test/call_contexts/set_code</code></td>
 <td>Set code delegated address.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30836,50 +30931,50 @@
 <tr>
 <td><code>system_contract/test/inputs/valid</code></td>
 <td>Verify combinations of valid inputs to the system contract.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/boundary</code></td>
 <td>Verify all boundary values given the system contract functionality.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/all_zeros</code></td>
 <td>Verify all zeros input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/max_values</code></td>
 <td>Verify 2^N-1 where N is a single or multiple valid bit-lengths.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/invalid</code></td>
 <td>Verify combinations of invalid inputs to the precompile.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/invalid/checks</code></td>
 <td>Inputs that fail validity checks.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/invalid/crypto</code></td>
 <td>Inputs that fail specific mathematical or cryptographic validity checks.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/inputs/invalid/corrupted</code></td>
 <td>Inputs that are malformed/corrupted.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30899,20 +30994,20 @@
 <tr>
 <td><code>system_contract/test/value_transfer/fee/under</code></td>
 <td>Calls with the required value amount minus one, expect failure.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/value_transfer/fee/exact</code></td>
 <td>Calls with the exact required amount, expect success.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/value_transfer/fee/over</code></td>
 <td>Calls with extra value than the required amount, expect success.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30931,8 +31026,8 @@
 <tr>
 <td><code>system_contract/test/value_transfer/no_fee</code></td>
 <td>Sending non-zero value does not cause an exception (unless otherwise specified by the EIP).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30951,14 +31046,14 @@
 <tr>
 <td><code>system_contract/test/out_of_bounds/max</code></td>
 <td>Max value for each input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/out_of_bounds/max_plus_one</code></td>
 <td>Max value + 1 for each input.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30979,8 +31074,8 @@
 <tr>
 <td><code>system_contract/test/input_lengths/zero</code></td>
 <td>Zero-length calldata.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -30999,20 +31094,20 @@
 <tr>
 <td><code>system_contract/test/input_lengths/static/correct</code></td>
 <td>Correct static-length calldata.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/input_lengths/static/too_short</code></td>
 <td>Calldata too short, where the value represents a correct but truncated input to the contract.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/input_lengths/static/too_long</code></td>
 <td>Calldata too long, where the value represents a correct input to the contract with padded zeros.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31031,20 +31126,20 @@
 <tr>
 <td><code>system_contract/test/input_lengths/dynamic/valid</code></td>
 <td>Verify correct system contract execution for valid lengths.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/input_lengths/dynamic/too_short</code></td>
 <td>Calldata too short, where the value represents a correct but truncated input to the contract.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/input_lengths/dynamic/too_long</code></td>
 <td>Calldata too long, where the value represents a correct input to the contract with padded zeros.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31064,14 +31159,14 @@
 <tr>
 <td><code>system_contract/test/gas_usage/constant/exact</code></td>
 <td>Verify exact gas consumption.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/gas_usage/constant/oog</code></td>
 <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31090,14 +31185,14 @@
 <tr>
 <td><code>system_contract/test/gas_usage/dynamic/exact</code></td>
 <td>Verify exact gas consumption.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/gas_usage/dynamic/oog</code></td>
 <td>Verify exact gas consumption minus one results in out-of-gas error.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31117,8 +31212,8 @@
 <tr>
 <td><code>system_contract/test/excessive_gas/block_gas</code></td>
 <td>Exhaust block gas limit.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31137,8 +31232,8 @@
 <tr>
 <td><code>system_contract/test/excessive_gas/system_call</code></td>
 <td>Excessive gas on system call.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31156,14 +31251,14 @@
 <tr>
 <td><code>system_contract/test/deployment/missing</code></td>
 <td>Verify block execution behavior after fork activation if the system contract has not been deployed (Depending on the EIP, block could be invalid).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/deployment/address</code></td>
 <td>Verify deployment transaction results in the system contract being deployed to the expected address.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31182,8 +31277,8 @@
 <tr>
 <td><code>system_contract/test/contract_variations/networks</code></td>
 <td>Different network contract variations.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31202,32 +31297,32 @@
 <tr>
 <td><code>system_contract/test/contract_substitution/return_lengths</code></td>
 <td>Modified return value lengths.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/contract_substitution/logs</code></td>
 <td>Modified to emit logs or modified logs.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/contract_substitution/exception</code></td>
 <td>Modified to cause an exception (e.g. invalid opcode).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/contract_substitution/gas_limit_success</code></td>
 <td>Modified to consume 30,000,000 million gas exactly, execution should be successful.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 <tr>
 <td><code>system_contract/test/contract_substitution/gas_limit_failure</code></td>
 <td>Modified to consume 30,000,001 million gas exactly, execution should fail.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31246,8 +31341,8 @@
 <tr>
 <td><code>system_contract/test/fork_transition/call_before_fork</code></td>
 <td>Call system contract before fork.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new system contract</td>
 </tr>
 </tbody>
 </table>
@@ -31276,14 +31371,14 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/gas_limit/exact</code></td>
 <td>Provide the exact intrinsic gas as <code>gas_limit</code> value to the transaction.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/gas_limit/insufficient</code></td>
 <td>Provide the exact intrinsic gas minus one as <code>gas_limit</code> value to the transaction.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31301,26 +31396,26 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/max_fee/max_priority_lower_than_max_fee</code></td>
 <td>Invalid if <code>tx.max_priority_fee_per_gas &lt; tx.max_fee_per_gas</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/max_fee/max_priority_equal_to_max_fee</code></td>
 <td>Valid if <code>tx.max_priority_fee_per_gas == tx.max_fee_per_gas</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/max_fee/base_lower</code></td>
 <td>Invalid if <code>tx.max_fee_per_gas &lt; block.base_fee_per_gas</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/max_fee/base_equal</code></td>
 <td>Valid if <code>tx.max_fee_per_gas &lt; block.base_fee_per_gas</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31338,8 +31433,8 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/chain_id</code></td>
 <td>Invalid if <code>tx.chain_id != network.chain_id</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31357,20 +31452,20 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/nonce_minus_one</code></td>
 <td>Invalid if <code>tx.nonce == sender.nonce - 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/nonce_plus_one</code></td>
 <td>Invalid if <code>tx.nonce == sender.nonce + 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/nonce_exact</code></td>
 <td>Valid if <code>tx.nonce == sender.nonce</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31388,8 +31483,8 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/to</code></td>
 <td>Valid/Invalid if <code>tx.to == None</code>, depending on the EIP.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31407,26 +31502,26 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/value_non_zero_insufficient_balance</code></td>
 <td>Invalid if <code>tx.value == 1</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price)</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/value_non_zero_sufficient_balance</code></td>
 <td>Valid if <code>tx.value == 1</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price) + 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/value_zero_insufficient_balance</code></td>
 <td>Invalid if <code>tx.value == 0</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price) - 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/value_zero_sufficient_balance</code></td>
 <td>Valid if <code>tx.value == 0</code> and <code>account.balance == (tx.max_fee_per_gas * tx.gas_price)</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31450,8 +31545,8 @@
 <tr>
 <td><code>transaction_type/test/intrinsic_validity/data_floor_above_intrinsic_gas_cost</code></td>
 <td>Valid if <code>data_floor_cost(len(tx.data)) &gt; tx.intrinsic_gas_cost</code> and <code>tx.gas_limit == data_floor_cost(len(tx.data))</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31470,8 +31565,8 @@
 <tr>
 <td><code>transaction_type/test/signature/invalid/field_outside_curve</code></td>
 <td>V, R, S represent a value that is inside of the field but outside of the curve.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31489,38 +31584,38 @@
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/2</code></td>
 <td><code>2</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/27</code></td>
 <td><code>27</code> (Type-0 transaction valid value).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/28</code></td>
 <td><code>28</code> (Type-0 transaction valid value).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/35</code></td>
 <td><code>35</code> (Type-0 replay-protected transaction valid value for chain id 1).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/36</code></td>
 <td><code>36</code> (Type-0 replay-protected transaction valid value for chain id 1).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/v/max</code></td>
 <td><code>2**8-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31538,38 +31633,38 @@
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/0</code></td>
 <td><code>0</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/secp256k1n_minus_one</code></td>
 <td><code>SECP256K1N-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/secp256k1n</code></td>
 <td><code>SECP256K1N</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/secp256k1n_plus_one</code></td>
 <td><code>SECP256K1N+1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/max_minus_one</code></td>
 <td><code>2**256-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/r/max</code></td>
 <td><code>2**256</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31587,62 +31682,62 @@
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/0</code></td>
 <td><code>0</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half_minus_one</code></td>
 <td><code>SECP256K1N//2-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half</code></td>
 <td><code>SECP256K1N//2</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n_half_plus_one</code></td>
 <td><code>SECP256K1N//2+1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n_minus_one</code></td>
 <td><code>SECP256K1N-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n</code></td>
 <td><code>SECP256K1N</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/secp256k1n_plus_one</code></td>
 <td><code>SECP256K1N+1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/max_minus_one</code></td>
 <td><code>2**256-1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/max</code></td>
 <td><code>2**256</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/signature/invalid/s/complement</code></td>
 <td><code>SECP256K1N - S</code> of a valid signature.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31660,14 +31755,14 @@
 <tr>
 <td><code>transaction_type/test/tx_scoped_attributes/read</code></td>
 <td>Verify attributes that can be read in the EVM from transaction fields.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/tx_scoped_attributes/older_tx_types</code></td>
 <td>Verify attributes specific to the new transaction type that can be read in the EVM behave correctly on older transaction types.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31686,14 +31781,14 @@
 <tr>
 <td><code>transaction_type/test/tx_scoped_attributes/persistent/throughout</code></td>
 <td>Persist throughout the entire transaction.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/tx_scoped_attributes/persistent/reset</code></td>
 <td>Reset on subsequent transactions in the same block.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31714,14 +31809,14 @@
 <tr>
 <td><code>transaction_type/test/encoding/field_sizes/leading_zero</code></td>
 <td>Add leading zero byte.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/encoding/field_sizes/remove_byte</code></td>
 <td>Remove single byte from fixed-byte-length fields.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31740,20 +31835,20 @@
 <tr>
 <td><code>transaction_type/test/encoding/list_field/zero</code></td>
 <td>Zero-element list (Failure depending on EIP).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/encoding/list_field/max</code></td>
 <td>Max count list.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/encoding/list_field/max_plus_one</code></td>
 <td>Max count plus one list.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31771,14 +31866,14 @@
 <tr>
 <td><code>transaction_type/test/encoding/missing_fields</code></td>
 <td>Any fields particular to the new transaction types are missing.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/encoding/extra_fields</code></td>
 <td>Transaction contains extra fields.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31796,14 +31891,14 @@
 <tr>
 <td><code>transaction_type/test/encoding/truncated</code></td>
 <td>Serialized bytes object is truncated by one byte.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/encoding/extra_bytes</code></td>
 <td>Serialized bytes object has one extra byte.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31822,8 +31917,8 @@
 <tr>
 <td><code>transaction_type/test/encoding/new_types/incorrect_encoding</code></td>
 <td>Serializable field is encoded as bytes instead of using the correct encoding (e.g. list in the case of RLP).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31842,14 +31937,14 @@
 <tr>
 <td><code>transaction_type/test/out_of_bounds/max</code></td>
 <td>Max value for each field.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/out_of_bounds/max_plus_one</code></td>
 <td>Max value + 1 for each field.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31868,8 +31963,8 @@
 <tr>
 <td><code>transaction_type/test/contract_creation</code></td>
 <td>Create contracts using new transaction type.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31887,14 +31982,14 @@
 <tr>
 <td><code>transaction_type/test/sender_account/nonce</code></td>
 <td>Sender account has its nonce incremented at least by one after the transaction is included in a block (or more if the transaction type introduces a new mechanism that bumps the nonce by more than one).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/sender_account/balance</code></td>
 <td>Sender account has its balance reduced by the correct amount (gas consumed and value) at the start of execution (e.g. using <code>BALANCE</code>).</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31914,14 +32009,14 @@
 <tr>
 <td><code>transaction_type/test/block_interactions/single_tx/invalid</code></td>
 <td>Invalid if <code>tx.gas_limit == block.gas_limit + 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/block_interactions/single_tx/valid</code></td>
 <td>Valid if <code>tx.gas_limit == block.gas_limit</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31940,14 +32035,14 @@
 <tr>
 <td><code>transaction_type/test/block_interactions/last_tx/valid</code></td>
 <td>Valid if <code>block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/block_interactions/last_tx/invalid</code></td>
 <td>Invalid if <code>(block.txs[0].gas_used + block.txs[1].gas_limit == block.gas_limit + 1) and (block.txs[0].gas_used &lt; block.gas_limit)</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31966,14 +32061,14 @@
 <tr>
 <td><code>transaction_type/test/block_interactions/eip7825/invalid</code></td>
 <td>Exceeds EIP-7825 gas limit by one.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 <tr>
 <td><code>transaction_type/test/block_interactions/eip7825/valid</code></td>
 <td>Gas limit is exactly the EIP-7825 gas limit.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -31992,8 +32087,8 @@
 <tr>
 <td><code>transaction_type/test/block_interactions/mixed_txs</code></td>
 <td>Mixed transactions.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -32012,8 +32107,8 @@
 <tr>
 <td><code>transaction_type/test/fork_transition/before</code></td>
 <td>New transaction type included before fork activation block.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction type</td>
 </tr>
 </tbody>
 </table>
@@ -32045,8 +32140,8 @@
 <tr>
 <td><code>block_header_field/test/genesis</code></td>
 <td>New block header field at genesis.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 </tbody>
 </table>
@@ -32065,14 +32160,14 @@
 <tr>
 <td><code>block_header_field/test/value_behavior/accept</code></td>
 <td>Block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 <tr>
 <td><code>block_header_field/test/value_behavior/reject</code></td>
 <td>Block is rejected if the value is modified (using <code>block.rlp_modifier</code>) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 </tbody>
 </table>
@@ -32090,20 +32185,20 @@
 <tr>
 <td><code>block_header_field/test/fork_transition/initial</code></td>
 <td>Verify initial value of the field at the first block of the activation fork.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 <tr>
 <td><code>block_header_field/test/fork_transition/before</code></td>
 <td>Verify that a block containing the new header field before the activation of the fork is invalid.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 <tr>
 <td><code>block_header_field/test/fork_transition/after</code></td>
 <td>Verify that a block lacking the new header field at the activation of the fork is invalid.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block header fields</td>
 </tr>
 </tbody>
 </table>
@@ -32134,14 +32229,14 @@
 <tr>
 <td><code>block_body_field/test/value_behavior/accept</code></td>
 <td>Block is accepted if the value is the correct expected for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block body fields</td>
 </tr>
 <tr>
 <td><code>block_body_field/test/value_behavior/reject</code></td>
 <td>Block is rejected if the value is modified (using appropriate <code>block</code>) to an incorrect value for the current block, depending on the circumstances that affect the value as defined in the EIP.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block body fields</td>
 </tr>
 </tbody>
 </table>
@@ -32159,14 +32254,14 @@
 <tr>
 <td><code>block_body_field/test/fork_transition/before</code></td>
 <td>Verify that a block containing the new block body field before the activation of the fork is invalid.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block body fields</td>
 </tr>
 <tr>
 <td><code>block_body_field/test/fork_transition/after</code></td>
 <td>Verify that a block lacking the new block field at the activation of the fork is invalid.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not add any new block body fields</td>
 </tr>
 </tbody>
 </table>
@@ -32197,8 +32292,8 @@
 <tr>
 <td><code>gas_cost_changes/test/gas_updates_measurement</code></td>
 <td>Measure updated gas costs.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not modify existing gas costs, only introduces new opcode with fixed cost</td>
 </tr>
 </tbody>
 </table>
@@ -32217,8 +32312,8 @@
 <tr>
 <td><code>gas_cost_changes/test/out_of_gas</code></td>
 <td>Out-Of-Gas with new gas prices.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not modify existing gas costs, only introduces new opcode with fixed cost</td>
 </tr>
 </tbody>
 </table>
@@ -32237,14 +32332,14 @@
 <tr>
 <td><code>gas_cost_changes/test/fork_transition/before</code></td>
 <td>Costs unaffected before the fork activation block.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not modify existing gas costs, only introduces new opcode with fixed cost</td>
 </tr>
 <tr>
 <td><code>gas_cost_changes/test/fork_transition/after</code></td>
 <td>Costs are updated on and after fork activation block.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not modify existing gas costs, only introduces new opcode with fixed cost</td>
 </tr>
 </tbody>
 </table>
@@ -32272,20 +32367,20 @@
 <tr>
 <td><code>gas_refunds_changes/test/refund_calculation/over</code></td>
 <td><code>refund == gas_used // MAX_REFUND_QUOTIENT + 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/refund_calculation/exact</code></td>
 <td><code>refund == gas_used // MAX_REFUND_QUOTIENT</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/refund_calculation/under</code></td>
 <td><code>refund == gas_used // MAX_REFUND_QUOTIENT - 1</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 </tbody>
 </table>
@@ -32303,56 +32398,56 @@
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/revertable</code></td>
 <td>If the operation causing the refund can be reverted, verify the refund is not applied if the following cases:.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/revertable/revert</code></td>
 <td><code>REVERT</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/revertable/out_of_gas</code></td>
 <td>Out-of-gas.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/revertable/invalid_opcode</code></td>
 <td>Invalid opcode.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/revertable/upper_revert</code></td>
 <td><code>REVERT</code> of an upper call frame.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable</code></td>
 <td>If the operation causing the refund cannot be reverted (e.g. in the case of a transaction-scoped operation such as authorization refunds in EIP-7702), verify the refund is still applied even in the following cases:.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/revert</code></td>
 <td><code>REVERT</code> at the top call frame.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/out_of_gas</code></td>
 <td>Out-of-gas at the top call frame.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 <tr>
 <td><code>gas_refunds_changes/test/exceptional_abort/non_revertable/invalid_opcode</code></td>
 <td>Invalid opcode at the top call frame.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 </tbody>
 </table>
@@ -32371,8 +32466,8 @@
 <tr>
 <td><code>gas_refunds_changes/test/cross_functional/calldata_cost</code></td>
 <td><code>tests/prague/eip7623_increase_calldata_cost/test_refunds.py</code>.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any gas refund changes</td>
 </tr>
 </tbody>
 </table>
@@ -32395,8 +32490,8 @@
 <tr>
 <td><code>blob_count_changes/test/eip4844_blobs_changes</code></td>
 <td>Updates to <code>tests/cancun/eip4844_blobs</code> were applied correctly.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce any blob count changes</td>
 </tr>
 </tbody>
 </table>
@@ -32420,8 +32515,8 @@
 <tr>
 <td><code>execution_layer_request/test/cross_request_type/update</code></td>
 <td>Update <code>tests/prague/eip7685_general_purpose_el_requests</code> tests to include the new request type in the tests combinations.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce an execution layer request</td>
 </tr>
 </tbody>
 </table>
@@ -32445,20 +32540,20 @@
 <tr>
 <td><code>new_transaction_validity_constraint/test/fork_transition/accepted_before_fork</code></td>
 <td>Verify that a block before the activation fork is accepted even when the new constraint is not met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction validity constraint</td>
 </tr>
 <tr>
 <td><code>new_transaction_validity_constraint/test/fork_transition/accepted_after_fork</code></td>
 <td>Verify that a block after the activation fork is accepted when the new validity constraint is met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction validity constraint</td>
 </tr>
 <tr>
 <td><code>new_transaction_validity_constraint/test/fork_transition/rejected_after_fork</code></td>
 <td>Verify that a block after the activation fork is rejected when the new validity constraint is not met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a new transaction validity constraint</td>
 </tr>
 </tbody>
 </table>
@@ -32487,26 +32582,26 @@
 <tr>
 <td><code>modified_transaction_validity_constraint/test/fork_transition/accepted_before_fork</code></td>
 <td>Verify that a block before the activation fork is accepted when the existing constraint is met and, ideally, the new constraint is not met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a modified transaction validity constraint</td>
 </tr>
 <tr>
 <td><code>modified_transaction_validity_constraint/test/fork_transition/rejected_before_fork</code></td>
 <td>Verify that a block before the activation fork is rejected when the existing constraint is not met and, ideally, the new constraint is met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a modified transaction validity constraint</td>
 </tr>
 <tr>
 <td><code>modified_transaction_validity_constraint/test/fork_transition/accepted_after_fork</code></td>
 <td>Verify that a block after the activation fork is accepted when the new validity constraint is met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a modified transaction validity constraint</td>
 </tr>
 <tr>
 <td><code>modified_transaction_validity_constraint/test/fork_transition/rejected_after_fork</code></td>
 <td>Verify that a block after the activation fork is rejected when the new validity constraint is not met.</td>
-<td></td>
-<td></td>
+<td>N/A</td>
+<td>EIP does not introduce a modified transaction validity constraint</td>
 </tr>
 </tbody>
 </table>
