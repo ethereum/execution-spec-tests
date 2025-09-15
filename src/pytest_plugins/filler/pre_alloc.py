@@ -36,8 +36,6 @@ from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 CONTRACT_START_ADDRESS_DEFAULT = 0x1000000000000000000000000000000000001000
 CONTRACT_ADDRESS_INCREMENTS_DEFAULT = 0x100
 
-MAX_BYTECODE_SIZE = 24576
-
 
 def pytest_addoption(parser: pytest.Parser):
     """Add command-line options to pytest."""
@@ -98,6 +96,7 @@ class Alloc(BaseAlloc):
     _contract_address_iterator: Iterator[Address] = PrivateAttr()
     _eoa_iterator: Iterator[EOA] = PrivateAttr()
     _evm_code_type: EVMCodeType | None = PrivateAttr(None)
+    _fork: Fork = PrivateAttr()
 
     def __init__(
         self,
@@ -105,6 +104,7 @@ class Alloc(BaseAlloc):
         alloc_mode: AllocMode,
         contract_address_iterator: Iterator[Address],
         eoa_iterator: Iterator[EOA],
+        fork: Fork,
         evm_code_type: EVMCodeType | None = None,
         **kwargs,
     ):
@@ -114,6 +114,7 @@ class Alloc(BaseAlloc):
         self._contract_address_iterator = contract_address_iterator
         self._eoa_iterator = eoa_iterator
         self._evm_code_type = evm_code_type
+        self._fork = fork
 
     def __setitem__(self, address: Address | FixedSizeBytesConvertible, account: Account | None):
         """Set account associated with an address."""
@@ -166,8 +167,9 @@ class Alloc(BaseAlloc):
 
         code = self.code_pre_processor(code, evm_code_type=evm_code_type)
         code_bytes = bytes(code) if not isinstance(code, (bytes, str)) else code
-        assert len(code_bytes) <= MAX_BYTECODE_SIZE, (
-            f"code too large: {len(code_bytes)} > {MAX_BYTECODE_SIZE}"
+        max_code_size = self._fork.max_code_size()
+        assert len(code_bytes) <= max_code_size, (
+            f"code too large: {len(code_bytes)} > {max_code_size}"
         )
 
         super().__setitem__(
@@ -424,11 +426,13 @@ def pre(
     contract_address_iterator: Iterator[Address],
     eoa_iterator: Iterator[EOA],
     evm_code_type: EVMCodeType,
+    fork: Fork,
 ) -> Alloc:
     """Return default pre allocation for all tests (Empty alloc)."""
     return Alloc(
         alloc_mode=alloc_mode,
         contract_address_iterator=contract_address_iterator,
         eoa_iterator=eoa_iterator,
+        fork=fork,
         evm_code_type=evm_code_type,
     )
