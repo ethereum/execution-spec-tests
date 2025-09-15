@@ -36,6 +36,8 @@ from ethereum_test_vm import Bytecode, EVMCodeType, Opcodes
 CONTRACT_START_ADDRESS_DEFAULT = 0x1000000000000000000000000000000000001000
 CONTRACT_ADDRESS_INCREMENTS_DEFAULT = 0x100
 
+MAX_BYTECODE_SIZE = 24576
+
 
 def pytest_addoption(parser: pytest.Parser):
     """Add command-line options to pytest."""
@@ -162,12 +164,18 @@ class Alloc(BaseAlloc):
         if self._alloc_mode == AllocMode.STRICT:
             assert Number(nonce) >= 1, "impossible to deploy contract with nonce lower than one"
 
+        code = self.code_pre_processor(code, evm_code_type=evm_code_type)
+        code_bytes = bytes(code) if not isinstance(code, (bytes, str)) else code
+        assert len(code_bytes) <= MAX_BYTECODE_SIZE, (
+            f"code too large: {len(code_bytes)} > {MAX_BYTECODE_SIZE}"
+        )
+
         super().__setitem__(
             contract_address,
             Account(
                 nonce=nonce,
                 balance=balance,
-                code=self.code_pre_processor(code, evm_code_type=evm_code_type),
+                code=code,
                 storage=storage,
             ),
         )
