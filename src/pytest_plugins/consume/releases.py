@@ -48,7 +48,8 @@ class ReleaseTag:
         """
         Create a release descriptor from a string.
 
-        The release source can be in the format `tag_name@version` or just `tag_name`.
+        The release source can be in the format `tag_name@version` or just
+        `tag_name`.
         """
         version: str | None
         if "@" in release_string:
@@ -69,7 +70,8 @@ class ReleaseTag:
         """
         Check if the release descriptor matches the string value.
 
-        Returns True if the value is the same as the tag name or the tag name and version.
+        Returns True if the value is the same as the tag name or the tag name
+        and version.
         """
         assert isinstance(value, str), f"Expected a string, but got: {value}"
         if self.version is not None:
@@ -252,9 +254,10 @@ def get_release_information() -> List[ReleaseInformation]:
     """
     Get the release information.
 
-    First check if the cached release information file exists. If it does, but it is older than 4
-    hours, delete the file, unless running inside a CI environment or a Docker container.
-    Then download the release information from the Github API and save it to the cache file.
+    First check if the cached release information file exists. If it does, but
+    it is older than 4 hours, delete the file, unless running inside a CI
+    environment or a Docker container. Then download the release information
+    from the Github API and save it to the cache file.
     """
     if CACHED_RELEASE_INFORMATION_FILE.exists():
         last_modified = CACHED_RELEASE_INFORMATION_FILE.stat().st_mtime

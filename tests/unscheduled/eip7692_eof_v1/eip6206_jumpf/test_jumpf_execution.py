@@ -299,7 +299,10 @@ def test_jumpf_way_too_large(
 def test_jumpf_to_nonexistent_section(
     eof_state_test: EOFStateTestFiller,
 ):
-    """Tests JUMPF jumping to valid section number but where the section does not exist."""
+    """
+    Tests JUMPF jumping to valid section number but where the section does not
+    exist.
+    """
     eof_state_test(
         container=Container(
             sections=[
@@ -381,7 +384,10 @@ def test_jumpf_with_inputs_stack_size_1024(
 def test_jumpf_stack_size_1024_at_push(
     eof_state_test: EOFStateTestFiller,
 ):
-    """Test stack reaching 1024 items in JUMPF target function at PUSH0 instruction."""
+    """
+    Test stack reaching 1024 items in JUMPF target function at PUSH0
+    instruction.
+    """
     eof_state_test(
         container=Container(
             sections=[
@@ -430,9 +436,10 @@ def test_jumpf_stack_overflow(
     eof_state_test: EOFStateTestFiller,
 ):
     """
-    Test rule #2 in execution semantics, where we make sure we have enough stack to guarantee
-    safe execution (the "reserved stack rule") max possible stack will not exceed 1024. But some
-    executions may not overflow the stack, so we need to ensure the rule is checked.
+    Test rule #2 in execution semantics, where we make sure we have enough
+    stack to guarantee safe execution (the "reserved stack rule") max possible
+    stack will not exceed 1024. But some executions may not overflow the stack,
+    so we need to ensure the rule is checked.
 
     `no_overflow` - the stack does not overflow at JUMPF call, executes to end
     `rule_overflow` - reserved stack rule triggers, but execution would not overflow if allowed
@@ -482,7 +489,10 @@ def test_jumpf_stack_overflow(
 def test_jumpf_with_inputs_stack_size_1024_at_push(
     eof_state_test: EOFStateTestFiller,
 ):
-    """Test stack reaching 1024 items in JUMPF target function with inputs at PUSH0 instruction."""
+    """
+    Test stack reaching 1024 items in JUMPF target function with inputs at
+    PUSH0 instruction.
+    """
     eof_state_test(
         container=Container(
             sections=[

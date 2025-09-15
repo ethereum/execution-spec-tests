@@ -6,7 +6,10 @@ from ethereum_clis import TransitionTool
 
 
 def test_slow_marker_gets_pre_alloc_group(pytester, default_t8n: TransitionTool):
-    """Test that slow tests without benchmark marker get pre_alloc_group automatically."""
+    """
+    Test that slow tests without benchmark marker get pre_alloc_group
+    automatically.
+    """
     test_module = textwrap.dedent(
         """\
         import pytest

@@ -189,8 +189,8 @@ def test_use_value_in_contract(
 
 def test_balance_within_block(blockchain_test: BlockchainTestFiller, pre: Alloc):
     """
-    Test Withdrawal balance increase within the same block,
-    inside contract call.
+    Test Withdrawal balance increase within the same block, inside contract
+    call.
     """
     save_balance_on_block_number = Op.SSTORE(
         Op.NUMBER,
@@ -304,8 +304,8 @@ class TestMultipleWithdrawalsSameAddress:
         blocks: List[Block],
     ):
         """
-        Test Withdrawals can be done to the same address multiple times in
-        the same block.
+        Test Withdrawals can be done to the same address multiple times in the
+        same block.
         """
         # Expected post is the same for both test cases.
         post = {}
@@ -323,8 +323,8 @@ def test_many_withdrawals(
     pre: Alloc,
 ):
     """
-    Test Withdrawals with a count of N withdrawals in a single block where
-    N is a high number not expected to be seen in mainnet.
+    Test Withdrawals with a count of N withdrawals in a single block where N is
+    a high number not expected to be seen in mainnet.
     """
     n = 400
     withdrawals = []
@@ -362,8 +362,9 @@ def test_self_destructing_account(
 ):
     """
     Test withdrawals can be done to self-destructed accounts.
-    Account `0x100` self-destructs and sends all its balance to `0x200`.
-    Then, a withdrawal is received at `0x100` with 99 wei.
+
+    Account `0x100` self-destructs and sends all its balance to `0x200`. Then,
+    a withdrawal is received at `0x100` with 99 wei.
     """
     self_destruct_code = Op.SELFDESTRUCT(Op.CALLDATALOAD(0))
     sender = pre.fund_eoa()
@@ -554,8 +555,8 @@ def test_zero_amount(
     test_case: ZeroAmountTestCases,
 ):
     """
-    Test withdrawals with zero amount for the following cases, all withdrawals
-    are included in one block.
+    Test withdrawals with zero amount for the following cases, all
+    withdrawals are included in one block.
 
     1. Two withdrawals of zero amount to two different addresses; one to an
        untouched account, one to an account with a balance.
@@ -563,7 +564,6 @@ def test_zero_amount(
     3. As 2., but with an additional withdrawal containing the maximum value
        possible.
     4. As 3., but with order of withdrawals in the block reversed.
-
     """
     empty_accounts = [pre.fund_eoa(0) for _ in range(3)]
     zero_balance_contract = pre.deploy_contract(Op.STOP)
@@ -656,8 +656,8 @@ def test_large_amount(
     pre: Alloc,
 ):
     """
-    Test Withdrawals that have a large gwei amount, so that (gwei * 1e9)
-    could overflow uint64 but not uint256.
+    Test Withdrawals that have a large gwei amount, so that (gwei * 1e9) could
+    overflow uint64 but not uint256.
     """
     withdrawals: List[Withdrawal] = []
     amounts: List[int] = [

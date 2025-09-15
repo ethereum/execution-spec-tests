@@ -1,4 +1,4 @@
-"""test `CALLDATASIZE` opcode."""
+"""Test `CALLDATASIZE` opcode."""
 
 import pytest
 

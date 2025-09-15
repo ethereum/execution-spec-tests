@@ -140,7 +140,10 @@ def engine_rpc(request) -> EngineRPC | None:
 
 @pytest.fixture(autouse=True, scope="session")
 def rpc_endpoint(request) -> str:
-    """Return remote RPC endpoint to be used to make requests to the execution client."""
+    """
+    Return remote RPC endpoint to be used to make requests to the execution
+    client.
+    """
     return request.config.getoption("rpc_endpoint")
 
 

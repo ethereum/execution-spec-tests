@@ -30,9 +30,9 @@ class ScenarioExpectOpcode(Enum):
 @dataclass
 class ScenarioEnvironment:
     """
-    Scenario evm environment
-    Each scenario must define an environment on which program is executed
-    This is so post state verification could check results of evm opcodes.
+    Scenario evm environment Each scenario must define an environment on which
+    program is executed This is so post state verification could check results
+    of evm opcodes.
     """
 
     code_address: Address  # Op.ADDRESS, address scope for program
@@ -70,8 +70,8 @@ class ProgramResult:
     """
 
     result: int | ScenarioExpectOpcode
+    """The result is only valid from this fork."""
 
-    """The result is only valid from this fork"""
     from_fork: Fork = Frontier
     static_support: bool = True
 
@@ -79,8 +79,8 @@ class ProgramResult:
         self, env: ScenarioEnvironment, exec_env: ExecutionEnvironment
     ) -> int | Address:
         """
-        Translate expected program result code into concrete value,
-        given the scenario evm environment and test execution environment.
+        Translate expected program result code into concrete value, given the
+        scenario evm environment and test execution environment.
         """
         if exec_env.fork < self.from_fork:
             return 0
@@ -189,10 +189,10 @@ class Scenario:
 
 def make_gas_hash_contract(pre: Alloc) -> Address:
     """
-    Contract that spends unique amount of gas based on input
-    Used for the values we can't predict, can be gas consuming on high values
-    So that if we can't check exact value in expect section,
-    we at least could spend unique gas amount.
+    Contract that spends unique amount of gas based on input Used for the
+    values we can't predict, can be gas consuming on high values So that if we
+    can't check exact value in expect section, we at least could spend unique
+    gas amount.
     """
     gas_hash_address = pre.deploy_contract(
         code=Op.MSTORE(0, 0)
@@ -215,8 +215,10 @@ def make_gas_hash_contract(pre: Alloc) -> Address:
 
 def make_invalid_opcode_contract(pre: Alloc, fork: Fork) -> Address:
     """
-    Deploy a contract that will execute any asked byte as an opcode from calldataload
-    Deploy 20 empty stack elements. Jump to opcode instruction. if worked, return 0.
+    Deploy a contract that will execute any asked byte as an opcode from
+    calldataload Deploy 20 empty stack elements.
+
+    Jump to opcode instruction. if worked, return 0.
     """
     invalid_opcode_caller = pre.deploy_contract(
         code=Op.PUSH1(0) * 20

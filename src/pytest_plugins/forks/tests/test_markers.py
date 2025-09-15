@@ -202,8 +202,8 @@ def test_fork_markers(
     default_t8n: TransitionTool,
 ):
     """
-    Test fork markers in an isolated test session, i.e., in
-    a `fill` execution.
+    Test fork markers in an isolated test session, i.e., in a `fill`
+    execution.
 
     In the case of an error, check that the expected error string is in the
     console output.

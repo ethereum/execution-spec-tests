@@ -63,6 +63,7 @@ class Solc:
 class Yul(Bytecode):
     """
     Yul compiler.
+
     Compiles Yul source code into bytecode.
     """
 

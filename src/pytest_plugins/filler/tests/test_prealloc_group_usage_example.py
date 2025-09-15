@@ -1,8 +1,8 @@
 """
 Example usage of the pre_alloc_group marker.
 
-This file demonstrates how tests would use the marker in practice.
-Note: This is just documentation, not executable tests.
+This file demonstrates how tests would use the marker in practice. Note: This
+is just documentation, not executable tests.
 """
 
 import pytest

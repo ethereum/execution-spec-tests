@@ -1,8 +1,10 @@
 """
-abstract: Tests that benchmark EVMs in worst-case compute scenarios.
-    Tests that benchmark EVMs in worst-case compute scenarios.
+Abstract: Tests that benchmark EVMs in worst-case compute scenarios.
 
-Tests that benchmark EVMs when running worst-case compute opcodes and precompile scenarios.
+Tests that benchmark EVMs in worst-case compute scenarios.
+
+Tests that benchmark EVMs when running worst-case compute opcodes and
+precompile scenarios.
 """
 
 import math
@@ -55,8 +57,10 @@ def neg(x: int) -> int:
 
 def make_dup(index: int) -> Opcode:
     """
-    Create a DUP instruction which duplicates the index-th (counting from 0) element
-    from the top of the stack. E.g. make_dup(0) → DUP1.
+    Create a DUP instruction which duplicates the index-th (counting from 0)
+    element from the top of the stack.
+
+    E.g. make_dup(0) → DUP1.
     """
     assert 0 <= index < 16
     return Opcode(0x80 + index, pushed_stack_items=1, min_stack_height=index + 1)
@@ -156,9 +160,9 @@ def test_worst_callvalue(
     """
     Test running a block with as many CALLVALUE opcodes as possible.
 
-    The `non_zero_value` parameter controls whether opcode must return non-zero value.
-    The `from_origin` parameter controls whether the call frame is the immediate from the
-    transaction or a previous CALL.
+    The `non_zero_value` parameter controls whether opcode must return non-zero
+    value. The `from_origin` parameter controls whether the call frame is the
+    immediate from the transaction or a previous CALL.
     """
     max_code_size = fork.max_code_size()
 
@@ -220,11 +224,12 @@ def test_worst_returndatasize_nonzero(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block which execute as many RETURNDATASIZE opcodes which return a non-zero
-    buffer as possible.
+    Test running a block which execute as many RETURNDATASIZE opcodes which
+    return a non-zero buffer as possible.
 
-    The `returned_size` parameter indicates the size of the returned data buffer.
-    The `return_data_style` indicates how returned data is produced for the opcode caller.
+    The `returned_size` parameter indicates the size of the returned data
+    buffer. The `return_data_style` indicates how returned data is produced for
+    the opcode caller.
     """
     max_code_size = fork.max_code_size()
 
@@ -269,7 +274,10 @@ def test_worst_returndatasize_zero(
     fork: Fork,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many RETURNDATASIZE opcodes as possible with a zero buffer."""
+    """
+    Test running a block with as many RETURNDATASIZE opcodes as possible with a
+    zero buffer.
+    """
     max_code_size = fork.max_code_size()
 
     dummy_contract_call = Bytecode()
@@ -425,7 +433,10 @@ def test_worst_precompile_only_data_input(
     bytes_per_unit_of_work: int,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many precompile calls which have a single `data` input."""
+    """
+    Test running a block with as many precompile calls which have a single
+    `data` input.
+    """
     # Intrinsic gas cost is paid once.
     intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
     available_gas = gas_benchmark_value - intrinsic_gas_calculator()
@@ -1264,7 +1275,9 @@ def test_worst_modexp(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many calls to the MODEXP (5) precompile as possible.
+    Test running a block with as many calls to the MODEXP (5) precompile as
+    possible.
+
     All the calls have the same parametrized input.
     """
     # Skip the trailing zeros from the input to make EVM work even harder.
@@ -1998,8 +2011,10 @@ def test_worst_binop_simple(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many binary instructions (takes two args, produces one value)
-    as possible. The execution starts with two initial values on the stack, and the stack is
+    Test running a block with as many binary instructions (takes two args,
+    produces one value) as possible.
+
+    The execution starts with two initial values on the stack, and the stack is
     balanced by the DUP2 instruction.
     """
     max_code_size = fork.max_code_size()
@@ -2036,8 +2051,8 @@ def test_worst_unop(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many unary instructions (takes one arg, produces one value)
-    as possible.
+    Test running a block with as many unary instructions (takes one arg,
+    produces one value) as possible.
     """
     max_code_size = fork.max_code_size()
 
@@ -2167,9 +2182,12 @@ def test_worst_shifts(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many shift instructions with non-trivial arguments.
-    This test generates left-right pairs of shifts to avoid zeroing the argument.
-    The shift amounts are randomly pre-selected from the constant pool of 15 values on the stack.
+    Test running a block with as many shift instructions with non-trivial
+    arguments.
+
+    This test generates left-right pairs of shifts to avoid zeroing the
+    argument. The shift amounts are randomly pre-selected from the constant
+    pool of 15 values on the stack.
     """
     max_code_size = fork.max_code_size()
 

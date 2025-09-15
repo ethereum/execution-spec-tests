@@ -142,9 +142,10 @@ def test_initcode_aborts(
 
 
 """
-Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime code is dynamic, we
-have to use a pre-calculated size
+Size of the factory portion of test_eofcreate_deploy_sizes, but as the runtime
+code is dynamic, we have to use a pre-calculated size.
 """
+
 factory_size = 78
 
 
@@ -172,7 +173,10 @@ def test_eofcreate_deploy_sizes(
     pre: Alloc,
     target_deploy_size: int,
 ):
-    """Verifies a mix of runtime contract sizes mixing success and multiple size failure modes."""
+    """
+    Verifies a mix of runtime contract sizes mixing success and multiple size
+    failure modes.
+    """
     env = Environment()
 
     runtime_container = Container(
@@ -260,8 +264,8 @@ def test_eofcreate_deploy_sizes_tx(
     target_deploy_size: int,
 ):
     """
-    Verifies a mix of runtime contract sizes mixing success and multiple size failure modes
-    where the initcontainer is included in a transaction.
+    Verifies a mix of runtime contract sizes mixing success and multiple size
+    failure modes where the initcontainer is included in a transaction.
     """
     raise NotImplementedError("Not implemented")
 
@@ -351,8 +355,8 @@ def test_eofcreate_insufficient_stipend(
     value: int,
 ):
     """
-    Exercises an EOFCREATE that fails because the calling account does not have enough ether to
-    pay the stipend.
+    Exercises an EOFCREATE that fails because the calling account does not have
+    enough ether to pay the stipend.
     """
     env = Environment()
     initcode_container = Container(
@@ -395,7 +399,10 @@ def test_insufficient_initcode_gas(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises an EOFCREATE when there is not enough gas for the initcode charge."""
+    """
+    Exercises an EOFCREATE when there is not enough gas for the initcode
+    charge.
+    """
     env = Environment()
 
     initcode_data = b"a" * 0x5000
@@ -455,7 +462,10 @@ def test_insufficient_gas_memory_expansion(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises EOFCREATE when the memory for auxdata has not been expanded but is requested."""
+    """
+    Exercises EOFCREATE when the memory for auxdata has not been expanded but
+    is requested.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -513,7 +523,10 @@ def test_insufficient_returncode_auxdata_gas(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Exercises a RETURNCODE when there is not enough gas for the initcode charge."""
+    """
+    Exercises a RETURNCODE when there is not enough gas for the initcode
+    charge.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -664,6 +677,7 @@ def test_eof_eofcreate_msg_depth(
 ):
     """
     Test EOFCREATE handles msg depth limit correctly (1024).
+
     NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
           on mainnet.
     NOTE: See `tests/unscheduled/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth`
@@ -768,7 +782,10 @@ def test_reentrant_eofcreate(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via nonce bump."""
+    """
+    Verifies a reentrant EOFCREATE case, where EIP-161 prevents conflict via
+    nonce bump.
+    """
     env = Environment()
     # Calls into the factory contract with 1 as input.
     reenter_code = Op.MSTORE(0, 1) + Op.EXTCALL(address=Op.CALLDATALOAD(32), args_size=32)

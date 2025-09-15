@@ -1,4 +1,4 @@
-"""tests for selfdestruct interaction with revert."""
+"""Tests for selfdestruct interaction with revert."""
 
 from typing import Dict
 
@@ -454,8 +454,8 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
     recursive_revert_contract_code: Bytecode,
 ):
     """
-    Same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract
-    is pre-existing.
+    Same test as selfdestruct_created_in_same_tx_with_revert except
+    selfdestructable contract is pre-existing.
     """
     entry_code = Op.CALL(
         Op.GASLIMIT(),

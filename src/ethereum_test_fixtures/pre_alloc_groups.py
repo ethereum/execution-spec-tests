@@ -16,10 +16,11 @@ from .blockchain import FixtureHeader
 
 class PreAllocGroup(CamelModel):
     """
-    Pre-allocation group for tests with identical Environment and fork values.
+    Pre-allocation group for tests with identical Environment and fork
+    values.
 
-    Groups tests by a hash of their fixture Environment and fork to enable
-    pre-allocation group optimization.
+    Groups tests by a hash of their fixture Environment and fork to enable pre-
+    allocation group optimization.
     """
 
     model_config = {"populate_by_name": True}  # Allow both field names and aliases
@@ -87,7 +88,8 @@ class PreAllocGroups(EthereumTestRootModel):
     """
     Root model mapping pre-allocation group hashes to test groups.
 
-    If lazy_load is True, the groups are not loaded from the folder until they are accessed.
+    If lazy_load is True, the groups are not loaded from the folder until they
+    are accessed.
 
     Iterating will fail if lazy_load is True.
     """

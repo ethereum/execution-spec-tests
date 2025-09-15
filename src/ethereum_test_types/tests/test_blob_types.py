@@ -24,14 +24,14 @@ def increment_counter(timeout: float = 10):
     """
     Increment counter in file, creating if doesn't exist.
 
-    This is needed because we require the unit test 'test_transition_fork_blobs' to run
-    at the end without having to include another dependency for ordering tests.
-    That test has to run at the end because it assumes that no json blobs not created
-    by itself are created while it is running.
+    This is needed because we require the unit test
+    'test_transition_fork_blobs' to run at the end without having to include
+    another dependency for ordering tests. That test has to run at the end
+    because it assumes that no json blobs not created by itself are created
+    while it is running.
 
-    The hardcoded counter value in the test above has to be updated if any new blob_related
-    unit tests that create json blobs are added in the future.
-
+    The hardcoded counter value in the test above has to be updated if any new
+    blob_related unit tests that create json blobs are added in the future.
     """
     file_path = CACHED_BLOBS_DIRECTORY / "blob_unit_test_counter.txt"
     lock_file = file_path.with_suffix(".lock")
@@ -86,8 +86,8 @@ def test_blob_creation_and_writing_and_reading(
     fork,
 ):  # noqa: F811
     """
-    Generates blobs for different forks and ensures writing to file
-    and reading from file works as expected.
+    Generates blobs for different forks and ensures writing to file and reading
+    from file works as expected.
     """
     timestamp = 100
     b = Blob.from_fork(fork=fork, seed=seed, timestamp=timestamp)
@@ -145,7 +145,10 @@ def test_transition_fork_blobs(
     fork,
     timestamp,
 ):
-    """Generates blobs for transition forks (time 14999 is old fork, time 15000 is new fork)."""
+    """
+    Generates blobs for transition forks (time 14999 is old fork, time 15000 is
+    new fork).
+    """
     # line below guarantees that this test runs only after the other blob unit tests are done
     wait_until_counter_reached(21)
 

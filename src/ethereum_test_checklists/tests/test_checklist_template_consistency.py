@@ -135,7 +135,10 @@ def test_id_extraction_functions():
 
 
 def test_eip_checklist_decorator_usage():
-    """Test EIPChecklist items work correctly as decorators both with and without parentheses."""
+    """
+    Test EIPChecklist items work correctly as decorators both with and without
+    parentheses.
+    """
 
     # Test decorator with parentheses
     @EIPChecklist.Opcode.Test.StackComplexOperations()

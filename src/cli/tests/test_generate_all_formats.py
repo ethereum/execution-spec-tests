@@ -132,7 +132,10 @@ def test_tarball_output_auto_enables_generate_all_formats():
 
 
 def test_tarball_output_with_explicit_generate_all_formats():
-    """Test that explicit --generate-all-formats with tarball output works correctly."""
+    """
+    Test that explicit --generate-all-formats with tarball output works
+    correctly.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):
@@ -150,7 +153,10 @@ def test_tarball_output_with_explicit_generate_all_formats():
 
 
 def test_regular_output_does_not_auto_trigger_two_phase():
-    """Test that regular directory output doesn't auto-trigger two-phase execution."""
+    """
+    Test that regular directory output doesn't auto-trigger two-phase
+    execution.
+    """
     command = FillCommand()
 
     with patch.object(command, "process_arguments", side_effect=lambda x: x):

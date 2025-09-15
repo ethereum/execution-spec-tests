@@ -1,4 +1,4 @@
-"""test calls across EOF and Legacy."""
+"""Test calls across EOF and Legacy."""
 
 import itertools
 from enum import Enum, auto, unique
@@ -33,8 +33,8 @@ from .spec import (
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 REFERENCE_SPEC_GIT_PATH = "EIPS/eip-3540.md"
 REFERENCE_SPEC_VERSION = "2f013de4065babde7c02f84a2ce9864a3c5bfbd3"
+"""Storage addresses for common testing fields."""
 
-"""Storage addresses for common testing fields"""
 _slot = itertools.count(1)
 slot_code_worked = next(_slot)
 slot_call_result = next(_slot)
@@ -44,8 +44,8 @@ slot_caller = next(_slot)
 slot_returndatasize_before_clear = next(_slot)
 slot_max_depth = next(_slot)
 slot_last_slot = next(_slot)
+"""Storage values for common testing fields."""
 
-"""Storage values for common testing fields"""
 value_code_worked = 0x2015
 value_returndata_magic = b"\x42"
 
@@ -923,7 +923,8 @@ def test_eof_calls_min_callee_gas(
     reverts: bool,
 ):
     """
-    Test EOF contracts calls do light failure when retained/callee gas is not enough.
+    Test EOF contracts calls do light failure when retained/callee gas is
+    not enough.
 
     Premise of the test is that there exists a range of `gas_limit` values, which are enough
     for all instructions to execute, but call's returned value is 1, meaning not enough for gas
@@ -995,7 +996,10 @@ def test_eof_calls_with_value(
     balance: int,
     value: int,
 ):
-    """Test EOF contracts calls handle value calls with and without enough balance."""
+    """
+    Test EOF contracts calls handle value calls with and without enough
+    balance.
+    """
     env = Environment()
 
     noop_callee_address = pre.deploy_contract(Container.Code(Op.STOP))
@@ -1048,6 +1052,7 @@ def test_eof_calls_msg_depth(
 ):
     """
     Test EOF contracts calls handle msg depth limit correctly (1024).
+
     NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
           on mainnet.
     """
@@ -1140,8 +1145,8 @@ def test_extdelegate_call_targets(
     call_from_initcode: bool,
 ):
     """
-    Test EOF contracts extdelegatecalling various targets, especially resolved via 7702
-    delegation.
+    Test EOF contracts extdelegatecalling various targets, especially resolved
+    via 7702 delegation.
     """
     env = Environment()
 

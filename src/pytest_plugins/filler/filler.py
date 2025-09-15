@@ -127,10 +127,11 @@ class PhaseManager:
 @dataclass(kw_only=True)
 class FormatSelector:
     """
-    Handles fixture format selection based on the current phase and format capabilities.
+    Handles fixture format selection based on the current phase and format
+    capabilities.
 
-    This class encapsulates the complex logic for determining which fixture formats
-    should be generated in each phase of the two-phase execution model.
+    This class encapsulates the complex logic for determining which fixture
+    formats should be generated in each phase of the two-phase execution model.
     """
 
     phase_manager: PhaseManager
@@ -138,7 +139,8 @@ class FormatSelector:
 
     def should_generate(self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat) -> bool:
         """
-        Determine if a fixture format should be generated in the current phase.
+        Determine if a fixture format should be generated in the current
+        phase.
 
         Args:
             fixture_format: The fixture format to check (may be wrapped in LabeledFixtureFormat)
@@ -155,7 +157,10 @@ class FormatSelector:
             return self._should_generate_fill(format_phases)
 
     def _should_generate_pre_alloc(self, format_phases: Set[FixtureFillingPhase]) -> bool:
-        """Determine if format should be generated during pre-alloc generation phase."""
+        """
+        Determine if format should be generated during pre-alloc generation
+        phase.
+        """
         # Only generate formats that need pre-allocation groups
         return FixtureFillingPhase.PRE_ALLOC_GENERATION in format_phases
 
@@ -240,7 +245,8 @@ class FillingSession:
         self, fixture_format: Type[BaseFixture] | LabeledFixtureFormat
     ) -> bool:
         """
-        Determine if a fixture format should be generated in the current session.
+        Determine if a fixture format should be generated in the current
+        session.
 
         Args:
             fixture_format: The fixture format to check.
@@ -380,16 +386,18 @@ def calculate_post_state_diff(post_state: Alloc, genesis_state: Alloc) -> Alloc:
 
 def default_output_directory() -> str:
     """
-    Directory (default) to store the generated test fixtures. Defined as a
-    function to allow for easier testing.
+    Directory (default) to store the generated test fixtures.
+
+    Defined as a function to allow for easier testing.
     """
     return "./fixtures"
 
 
 def default_html_report_file_path() -> str:
     """
-    File path (default) to store the generated HTML test report. Defined as a
-    function to allow for easier testing.
+    File path (default) to store the generated HTML test report.
+
+    Defined as a function to allow for easier testing.
     """
     return ".meta/report_fill.html"
 
@@ -618,8 +626,8 @@ def pytest_addoption(parser: pytest.Parser):
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
     """
-    Pytest hook called after command line options have been parsed and before
-    test collection begins.
+    Pytest hook called after command line options have been parsed and
+    before test collection begins.
 
     Couple of notes:
     1. Register the plugin's custom markers and process command-line options.
@@ -886,10 +894,7 @@ def evm_bin(request: pytest.FixtureRequest) -> Path | None:
 
 @pytest.fixture(autouse=True, scope="session")
 def verify_fixtures_bin(request: pytest.FixtureRequest) -> Path | None:
-    """
-    Return configured evm tool binary path used to run statetest or
-    blocktest.
-    """
+    """Return configured evm tool binary path used to run statetest or blocktest."""
     return request.config.getoption("verify_fixtures_bin")
 
 
@@ -933,8 +938,8 @@ def evm_fixture_verification(
     verify_fixtures_bin: Path | None,
 ) -> Generator[FixtureConsumer | None, None, None]:
     """
-    Return configured evm binary for executing statetest and blocktest
-    commands used to verify generated JSON fixtures.
+    Return configured evm binary for executing statetest and blocktest commands
+    used to verify generated JSON fixtures.
     """
     if not do_fixture_verification:
         yield None
@@ -1098,8 +1103,8 @@ def fixture_collector(
     fixture_output: FixtureOutput,
 ) -> Generator[FixtureCollector, None, None]:
     """
-    Return configured fixture collector instance used for all tests
-    in one test module.
+    Return configured fixture collector instance used for all tests in one test
+    module.
     """
     # Dynamically load the 'static_filler' and 'solc' plugins if needed
     if request.config.getoption("fill_static_tests_enabled"):
@@ -1197,14 +1202,15 @@ def base_test_parametrizer(cls: Type[BaseTest]):
         witness_generator,
     ):
         """
-        Fixture used to instantiate an auto-fillable BaseTest object from within
-        a test function.
+        Fixture used to instantiate an auto-fillable BaseTest object from
+        within a test function.
 
-        Every test that defines a test filler must explicitly specify its parameter name
-        (see `pytest_parameter_name` in each implementation of BaseTest) in its function
-        arguments.
+        Every test that defines a test filler must explicitly specify its
+        parameter name (see `pytest_parameter_name` in each implementation of
+        BaseTest) in its function arguments.
 
-        When parametrize, indirect must be used along with the fixture format as value.
+        When parametrize, indirect must be used along with the fixture format
+        as value.
         """
         if hasattr(request.node, "fixture_format"):
             fixture_format = request.node.fixture_format
@@ -1324,8 +1330,8 @@ for cls in BaseTest.spec_types.values():
 
 def pytest_generate_tests(metafunc: pytest.Metafunc):
     """
-    Pytest hook used to dynamically generate test cases for each fixture format a given
-    test spec supports.
+    Pytest hook used to dynamically generate test cases for each fixture
+    format a given test spec supports.
 
     NOTE: The static test filler does NOT use this hook. See FillerFile.collect() in
     ./static_filler.py for more details.
@@ -1353,10 +1359,11 @@ def pytest_collection_modifyitems(
     config: pytest.Config, items: List[pytest.Item | pytest.Function]
 ):
     """
-    Remove pre-Paris tests parametrized to generate hive type fixtures; these
-    can't be used in the Hive Pyspec Simulator.
+    Remove pre-Paris tests parametrized to generate hive type fixtures;
+    these can't be used in the Hive Pyspec Simulator.
 
-    Replaces the test ID for state tests that use a transition fork with the base fork.
+    Replaces the test ID for state tests that use a transition fork with the
+    base fork.
 
     These can't be handled in this plugins pytest_generate_tests() as the fork
     parametrization occurs in the forks plugin.

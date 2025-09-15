@@ -1,8 +1,8 @@
 """
 Tests for the logging module.
 
-These tests verify the functionality of the custom logging system,
-including both the standalone configuration and the pytest integration.
+These tests verify the functionality of the custom logging system, including
+both the standalone configuration and the pytest integration.
 """
 
 import io

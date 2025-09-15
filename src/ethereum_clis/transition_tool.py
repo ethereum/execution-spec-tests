@@ -52,8 +52,8 @@ def get_valid_transition_tool_names() -> set[str]:
 
 class TransitionTool(EthereumCLI):
     """
-    Transition tool abstract base class which should be inherited by all transition tool
-    implementations.
+    Transition tool abstract base class which should be inherited by all
+    transition tool implementations.
     """
 
     traces: List[Traces] | None = None
@@ -127,7 +127,10 @@ class TransitionTool(EthereumCLI):
         temp_dir: tempfile.TemporaryDirectory,
         debug_output_path: str = "",
     ) -> Traces:
-        """Collect the traces from the t8n tool output and store them in the traces list."""
+        """
+        Collect the traces from the t8n tool output and store them in the
+        traces list.
+        """
         traces: Traces = Traces(root=[])
         temp_dir_path = Path(temp_dir.name)
         for i, r in enumerate(receipts):
@@ -194,7 +197,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using the filesystem for its inputs and outputs."""
+        """
+        Execute a transition tool using the filesystem for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         os.mkdir(os.path.join(temp_dir.name, "input"))
         os.mkdir(os.path.join(temp_dir.name, "output"))
@@ -424,7 +430,10 @@ class TransitionTool(EthereumCLI):
         t8n_data: TransitionToolData,
         debug_output_path: str = "",
     ) -> TransitionToolOutput:
-        """Execute a transition tool using stdin and stdout for its inputs and outputs."""
+        """
+        Execute a transition tool using stdin and stdout for its inputs and
+        outputs.
+        """
         temp_dir = tempfile.TemporaryDirectory()
         args = self.construct_args_stream(t8n_data, temp_dir)
 

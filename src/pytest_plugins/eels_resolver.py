@@ -83,8 +83,8 @@ def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
 def output_metadata_dir_with_teardown(request):
     """
     Session-scoped fixture that attempts to retrieve the filler's
-    "output_metadata_dir" fixture value and copies the EELS resolutions
-    file there, if `_eels_resolutions_file` is set on the config object.
+    "output_metadata_dir" fixture value and copies the EELS resolutions file
+    there, if `_eels_resolutions_file` is set on the config object.
     """
     yield
     try:

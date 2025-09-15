@@ -92,7 +92,7 @@ class GethExceptionMapper(ExceptionMapper):
 
 
 class GethEvm(EthereumCLI):
-    """go-ethereum `evm` base class."""
+    """Go-ethereum `evm` base class."""
 
     default_binary = Path("evm")
     detect_binary_pattern = re.compile(r"^evm(.exe)? version\b")
@@ -168,7 +168,7 @@ class GethEvm(EthereumCLI):
 
 
 class GethTransitionTool(GethEvm, TransitionTool):
-    """go-ethereum `evm` Transition tool interface wrapper class."""
+    """Go-ethereum `evm` Transition tool interface wrapper class."""
 
     subcommand: Optional[str] = "t8n"
     trace: bool
@@ -196,7 +196,8 @@ class GethTransitionTool(GethEvm, TransitionTool):
         """
         Return True if the fork is supported by the tool.
 
-        If the fork is a transition fork, we want to check the fork it transitions to.
+        If the fork is a transition fork, we want to check the fork it
+        transitions to.
         """
         return fork.transition_tool_name() in self.help_string
 
@@ -217,8 +218,8 @@ class GethFixtureConsumer(
         """
         Consume a single blockchain test.
 
-        The `evm blocktest` command takes the `--run` argument which can be used to select a
-        specific fixture from the fixture file when executing.
+        The `evm blocktest` command takes the `--run` argument which can be
+        used to select a specific fixture from the fixture file when executing.
         """
         subcommand = "blocktest"
         global_options = []
@@ -269,10 +270,10 @@ class GethFixtureConsumer(
         """
         Consume an entire state test file.
 
-        The `evm statetest` will always execute all the tests contained in a file without the
-        possibility of selecting a single test, so this function is cached in order to only call
-        the command once and `consume_state_test` can simply select the result that
-        was requested.
+        The `evm statetest` will always execute all the tests contained in a
+        file without the possibility of selecting a single test, so this
+        function is cached in order to only call the command once and
+        `consume_state_test` can simply select the result that was requested.
         """
         subcommand = "statetest"
         global_options: List[str] = []
@@ -312,8 +313,8 @@ class GethFixtureConsumer(
         """
         Consume a single state test.
 
-        Uses the cached result from `consume_state_test_file` in order to not call the command
-        every time an select a single result from there.
+        Uses the cached result from `consume_state_test_file` in order to not
+        call the command every time an select a single result from there.
         """
         file_results = self.consume_state_test_file(
             fixture_path=fixture_path,
@@ -342,7 +343,10 @@ class GethFixtureConsumer(
         fixture_name: Optional[str] = None,
         debug_output_path: Optional[Path] = None,
     ):
-        """Execute the appropriate geth fixture consumer for the fixture at `fixture_path`."""
+        """
+        Execute the appropriate geth fixture consumer for the fixture at
+        `fixture_path`.
+        """
         if fixture_format == BlockchainFixture:
             self.consume_blockchain_test(
                 fixture_path=fixture_path,

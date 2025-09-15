@@ -166,7 +166,10 @@ class TestFormatSelector:
         assert format_selector.should_generate(labeled_format)
 
     def test_comprehensive_scenarios(self):
-        """Test comprehensive scenarios covering all phase and format combinations."""
+        """
+        Test comprehensive scenarios covering all phase and format
+        combinations.
+        """
         # Test matrix: (current_phase, previous_phases, format_phases, generate_all) -> expected
         test_cases: List[  # type: ignore[annotation-unchecked]
             Tuple[

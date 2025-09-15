@@ -147,7 +147,10 @@ def base_pre_genesis(
 
 @pytest.fixture(scope="session")
 def client_genesis(base_pre_genesis: Tuple[Alloc, FixtureHeader]) -> dict:
-    """Convert the fixture's genesis block header and pre-state to a client genesis state."""
+    """
+    Convert the fixture's genesis block header and pre-state to a client
+    genesis state.
+    """
     genesis = to_json(base_pre_genesis[1])  # NOTE: to_json() excludes None values
     alloc = to_json(base_pre_genesis[0])
     # NOTE: nethermind requires account keys without '0x' prefix

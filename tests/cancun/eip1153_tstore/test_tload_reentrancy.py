@@ -53,8 +53,8 @@ def test_tload_reentrancy(
     """
     Ported .json vectors.
 
-    (05_tloadReentrancyFiller.yml)
-    Reentrant calls access the same transient storage
+    (05_tloadReentrancyFiller.yml) Reentrant calls access the same transient
+    storage
     """
     tload_value = 44
     empty_value = 0

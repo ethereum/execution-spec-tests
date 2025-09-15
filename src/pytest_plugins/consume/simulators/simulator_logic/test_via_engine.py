@@ -1,8 +1,10 @@
 """
-A hive based simulator that executes blocks against clients using the `engine_newPayloadVX` method
-from the Engine API. The simulator uses the `BlockchainEngineFixtures` to test against clients.
+A hive based simulator that executes blocks against clients using the
+`engine_newPayloadVX` method from the Engine API. The simulator uses the
+`BlockchainEngineFixtures` to test against clients.
 
-Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID responses.
+Each `engine_newPayloadVX` is verified against the appropriate VALID/INVALID
+responses.
 """
 
 import time

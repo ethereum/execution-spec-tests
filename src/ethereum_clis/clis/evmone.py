@@ -38,6 +38,7 @@ class EvmOneTransitionTool(TransitionTool):
     def is_fork_supported(self, fork: Fork) -> bool:
         """
         Return True if the fork is supported by the tool.
+
         Currently, evmone-t8n provides no way to determine supported forks.
         """
         return True

@@ -1,6 +1,6 @@
 """
-Fixture collector class used to collect, sort and combine the different types of generated
-fixtures.
+Fixture collector class used to collect, sort and combine the different types
+of generated fixtures.
 """
 
 import json
@@ -41,7 +41,8 @@ class TestInfo:
 
     def get_name_and_parameters(self) -> Tuple[str, str]:
         """
-        Convert test name to a tuple containing the test name and test parameters.
+        Convert test name to a tuple containing the test name and test
+        parameters.
 
         Example:
         test_push0_key_sstore[fork_Shanghai] -> test_push0_key_sstore, fork_Shanghai
@@ -87,8 +88,8 @@ class TestInfo:
 
     def get_module_relative_output_dir(self, filler_path: Path) -> Path:
         """
-        Return a directory name for the provided test_module (relative to the
-        base ./tests directory) that can be used for output (within the
+        Return a directory name for the provided test_module (relative to
+        the base ./tests directory) that can be used for output (within the
         configured fixtures output path or the base_dump_dir directory).
 
         Example:

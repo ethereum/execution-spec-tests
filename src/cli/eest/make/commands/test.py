@@ -1,9 +1,10 @@
 """
 Provides a CLI command to scaffold a test file.
 
-The `test` command guides the user through a series of prompts to generate a test file
-based on the selected test type, fork, EIP number, and EIP name. The generated test file
-is saved in the appropriate directory with a rendered template using Jinja2.
+The `test` command guides the user through a series of prompts to generate a
+test file based on the selected test type, fork, EIP number, and EIP name. The
+generated test file is saved in the appropriate directory with a rendered
+template using Jinja2.
 """
 
 import os

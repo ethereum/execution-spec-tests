@@ -1,9 +1,9 @@
 """
 BAL modifier functions for invalid test cases.
 
-This module provides modifier functions that can be used to modify Block Access Lists
-in various ways for testing invalid block scenarios. They are composable and can be
-combined to create complex modifications.
+This module provides modifier functions that can be used to modify Block Access
+Lists in various ways for testing invalid block scenarios. They are composable
+and can be combined to create complex modifications.
 """
 
 from typing import Callable, List
@@ -178,7 +178,10 @@ def modify_balance(
 def modify_storage(
     address: Address, tx_index: int, slot: int, value: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
-    """Set an incorrect storage value for a specific account, transaction, and slot."""
+    """
+    Set an incorrect storage value for a specific account, transaction, and
+    slot.
+    """
 
     def transform(bal: BlockAccessList) -> BlockAccessList:
         new_root = []

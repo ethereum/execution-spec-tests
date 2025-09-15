@@ -67,8 +67,8 @@ def _stack_argument_to_bytecode(
 
 class Opcode(Bytecode):
     """
-    Represents a single Opcode instruction in the EVM, with extra metadata useful to parametrize
-    tests.
+    Represents a single Opcode instruction in the EVM, with extra metadata
+    useful to parametrize tests.
 
     Parameters
     ----------
@@ -147,8 +147,8 @@ class Opcode(Bytecode):
 
     def __getitem__(self, *args: "int | bytes | str | Iterable[int]") -> "Opcode":
         """
-        Initialize a new instance of the opcode with the data portion set, and also clear
-        the data portion variables to avoid reusing them.
+        Initialize a new instance of the opcode with the data portion set, and
+        also clear the data portion variables to avoid reusing them.
         """
         if self.data_portion_formatter is None and self.data_portion_length == 0:
             raise ValueError("Opcode does not have a data portion or has already been set")
@@ -222,9 +222,10 @@ class Opcode(Bytecode):
         **kwargs: "int | bytes | str | Opcode | Bytecode",
     ) -> Bytecode:
         """
-        Make all opcode instances callable to return formatted bytecode, which constitutes a data
-        portion, that is located after the opcode byte, and pre-opcode bytecode, which is normally
-        used to set up the stack.
+        Make all opcode instances callable to return formatted bytecode,
+        which constitutes a data portion, that is located after the opcode
+        byte, and pre-opcode bytecode, which is normally used to set up the
+        stack.
 
         This useful to automatically format, e.g., call opcodes and their stack arguments as
         `Opcodes.CALL(Opcodes.GAS, 0x1234, 0x0, 0x0, 0x0, 0x0, 0x0)`.
@@ -326,7 +327,11 @@ class Macro(Bytecode):
             return instance
 
     def __call__(self, *args_t: OpcodeCallArg, **kwargs) -> Bytecode:
-        """Perform macro operation if any. Otherwise is a no-op."""
+        """
+        Perform macro operation if any.
+
+        Otherwise is a no-op.
+        """
         if self.lambda_operation is not None:
             return self.lambda_operation(*args_t)
 
@@ -419,16 +424,15 @@ class Opcodes(Opcode, Enum):
 
     Contains deprecated and not yet implemented opcodes.
 
-    This enum is !! NOT !! meant to be iterated over by the tests. Instead, create a list with
-    cherry-picked opcodes from this Enum within the test if iteration is needed.
+    This enum is !! NOT !! meant to be iterated over by the tests. Instead,
+    create a list with cherry-picked opcodes from this Enum within the test if
+    iteration is needed.
 
     Do !! NOT !! remove or modify existing opcodes from this list.
     """
 
     STOP = Opcode(0x00, terminating=True)
-    """
-    STOP()
-    ----
+    """STOP() ----
 
     Description
     ----
@@ -2007,9 +2011,7 @@ class Opcodes(Opcode, Enum):
     """
 
     POP = Opcode(0x50, popped_stack_items=1)
-    """
-    POP()
-    ----
+    """POP() ----
 
     Description
     ----
@@ -2198,9 +2200,7 @@ class Opcodes(Opcode, Enum):
     """
 
     JUMP = Opcode(0x56, popped_stack_items=1, kwargs=["pc"])
-    """
-    JUMP(pc)
-    ----
+    """JUMP(pc) ----
 
     Description
     ----
@@ -2227,9 +2227,7 @@ class Opcodes(Opcode, Enum):
     """
 
     JUMPI = Opcode(0x57, popped_stack_items=2, kwargs=["pc", "condition"])
-    """
-    JUMPI(pc, condition)
-    ----
+    """JUMPI(pc, condition) ----
 
     Description
     ----
@@ -2336,9 +2334,7 @@ class Opcodes(Opcode, Enum):
     """
 
     JUMPDEST = Opcode(0x5B)
-    """
-    JUMPDEST()
-    ----
+    """JUMPDEST() ----
 
     Description
     ----
@@ -2364,9 +2360,7 @@ class Opcodes(Opcode, Enum):
     """
 
     NOOP = Opcode(0x5B)
-    """
-    NOOP()
-    ----
+    """NOOP() ----
 
     Description
     ----
@@ -2420,9 +2414,7 @@ class Opcodes(Opcode, Enum):
     """
 
     TSTORE = Opcode(0x5D, popped_stack_items=2, kwargs=["key", "value"])
-    """
-    TSTORE(key, value)
-    ----
+    """TSTORE(key, value) ----
 
     Description
     ----
@@ -4703,8 +4695,7 @@ class Opcodes(Opcode, Enum):
     """
 
     RJUMP = Opcode(0xE0, data_portion_length=2)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     RJUMP()
     ----
@@ -4729,8 +4720,7 @@ class Opcodes(Opcode, Enum):
     """
 
     DATALOAD = Opcode(0xD0, popped_stack_items=1, pushed_stack_items=1, kwargs=["offset"])
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     DATALOAD(offset)
     ----
@@ -4759,8 +4749,7 @@ class Opcodes(Opcode, Enum):
     """
 
     DATALOADN = Opcode(0xD1, pushed_stack_items=1, data_portion_length=2)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     DATALOADN()
     ----
@@ -4793,8 +4782,7 @@ class Opcodes(Opcode, Enum):
     """
 
     DATASIZE = Opcode(0xD2, pushed_stack_items=1)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     DATASIZE()
     ----
@@ -4856,8 +4844,7 @@ class Opcodes(Opcode, Enum):
     """
 
     RJUMPI = Opcode(0xE1, popped_stack_items=1, data_portion_length=2)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     RJUMPI()
     ----
@@ -4886,8 +4873,7 @@ class Opcodes(Opcode, Enum):
         popped_stack_items=1,
         data_portion_formatter=_rjumpv_encoder,
     )
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     RJUMPV()
     ----
@@ -4919,8 +4905,7 @@ class Opcodes(Opcode, Enum):
     """
 
     CALLF = Opcode(0xE3, data_portion_length=2, unchecked_stack=True)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     CALLF()
     ----
@@ -4959,8 +4944,7 @@ class Opcodes(Opcode, Enum):
     """
 
     RETF = Opcode(0xE4, terminating=True)
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     RETF()
     ----
@@ -5135,27 +5119,19 @@ class Opcodes(Opcode, Enum):
         data_portion_length=1,
         kwargs=["salt", "input_offset", "input_size", "value"],
     )
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
-    EOFCREATE[initcontainer_index] (salt, input_offset, input_size, value)
-    ----
+    EOFCREATE[initcontainer_index] (salt, input_offset, input_size, value) ----
 
-    Description
-    ----
+    Description ----
 
-    Inputs
-    ----
+    Inputs ----
 
-    Outputs
-    ----
+    Outputs ----
 
-    Fork
-    ----
+    Fork ----
 
-    Gas
-    ----
-
+    Gas ----
     """
 
     TXCREATE = Opcode(
@@ -5164,27 +5140,19 @@ class Opcodes(Opcode, Enum):
         pushed_stack_items=1,
         kwargs=["tx_initcode_hash", "salt", "input_offset", "input_size", "value"],
     )
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
-    TXCREATE (tx_initcode_hash, salt, input_offset, input_size, value)
-    ----
+    TXCREATE (tx_initcode_hash, salt, input_offset, input_size, value) ----
 
-    Description
-    ----
+    Description ----
 
-    Inputs
-    ----
+    Inputs ----
 
-    Outputs
-    ----
+    Outputs ----
 
-    Fork
-    ----
+    Fork ----
 
-    Gas
-    ----
-
+    Gas ----
     """
 
     RETURNCODE = Opcode(
@@ -5194,8 +5162,7 @@ class Opcodes(Opcode, Enum):
         terminating=True,
         kwargs=["auxdata_offset", "auxdata_size"],
     )
-    """
-    !!! Note: This opcode is under development
+    """!!! Note: This opcode is under development.
 
     RETURNCODE()
     ----
@@ -5214,7 +5181,6 @@ class Opcodes(Opcode, Enum):
 
     Gas
     ----
-
     """
 
     CREATE = Opcode(
@@ -5634,9 +5600,7 @@ class Opcodes(Opcode, Enum):
     """
 
     RETURNDATALOAD = Opcode(0xF7, popped_stack_items=1, pushed_stack_items=1, kwargs=["offset"])
-    """
-    RETURNDATALOAD(offset)
-    ----
+    """RETURNDATALOAD(offset) ----
 
     Description
     ----
@@ -5682,9 +5646,7 @@ class Opcodes(Opcode, Enum):
     """
 
     INVALID = Opcode(0xFE, terminating=True)
-    """
-    INVALID()
-    ----
+    """INVALID() ----
 
     Description
     ----
@@ -5710,9 +5672,7 @@ class Opcodes(Opcode, Enum):
     """
 
     SELFDESTRUCT = Opcode(0xFF, popped_stack_items=1, kwargs=["address"])
-    """
-    SELFDESTRUCT(address)
-    ----
+    """SELFDESTRUCT(address) ----
 
     Description
     ----
@@ -5801,9 +5761,7 @@ class Macros(Macro, Enum):
     """Enum containing all macros."""
 
     OOG = Macro(Opcodes.SHA3(0, 100000000000))
-    """
-    OOG()
-    ----
+    """OOG() ----
 
     Halt execution by consuming all available gas.
 
@@ -5835,9 +5793,7 @@ class Macros(Macro, Enum):
     """
 
     MSTORE = Macro(lambda_operation=_mstore_operation)
-    """
-    MSTORE(data, offset)
-    ----
+    """MSTORE(data, offset) ----
 
     Place data of arbitrary length into memory at a given offset.
 

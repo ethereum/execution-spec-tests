@@ -1,6 +1,7 @@
 """
-abstract: Tests that benchmark EVMs in worst-case block scenarios.
-    Tests that benchmark EVMs in worst-case block scenarios.
+Abstract: Tests that benchmark EVMs in worst-case block scenarios.
+
+Tests that benchmark EVMs in worst-case block scenarios.
 
 Tests running worst-case block scenarios for EVMs.
 """
@@ -25,7 +26,10 @@ from ethereum_test_tools import (
 
 @pytest.fixture
 def iteration_count(intrinsic_cost: int, gas_benchmark_value: int):
-    """Calculate the number of iterations based on the gas limit and intrinsic cost."""
+    """
+    Calculate the number of iterations based on the gas limit and intrinsic
+    cost.
+    """
     return gas_benchmark_value // intrinsic_cost
 
 
@@ -237,7 +241,10 @@ def test_block_full_access_list_and_data(
     fork: Fork,
     gas_benchmark_value: int,
 ):
-    """Test a block with access lists (60% gas) and calldata (40% gas) using random mixed bytes."""
+    """
+    Test a block with access lists (60% gas) and calldata (40% gas) using
+    random mixed bytes.
+    """
     attack_gas_limit = gas_benchmark_value
     gas_available = attack_gas_limit - intrinsic_cost
 

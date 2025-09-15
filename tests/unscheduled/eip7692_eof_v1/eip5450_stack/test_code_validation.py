@@ -1,4 +1,7 @@
-"""Code validation of CALLF, JUMPF, RETF opcodes in conjunction with static relative jumps."""
+"""
+Code validation of CALLF, JUMPF, RETF opcodes in conjunction with static
+relative jumps.
+"""
 
 import itertools
 from enum import Enum, auto, unique
@@ -65,9 +68,10 @@ def rjump_code_with(
     rjump_kind: RjumpKind | None, code_so_far_len: int, next_code: Bytecode
 ) -> Tuple[Bytecode, bool, bool, bool]:
     """
-    Unless `rjump_kind` is None generates a code snippet with an RJUMP* instruction.
-    For some kinds `code_so_far_len` must be code length in bytes preceding the snippet.
-    For some kinds `next_code_len` must be code length in bytes of some code which follows.
+    Unless `rjump_kind` is None generates a code snippet with an RJUMP*
+    instruction. For some kinds `code_so_far_len` must be code length in bytes
+    preceding the snippet. For some kinds `next_code_len` must be code length
+    in bytes of some code which follows.
 
     It is expected that the snippet and the jump target are valid, but the resulting code
     or its stack balance might not.
@@ -136,10 +140,11 @@ def rjump_code_with(
 
 def call_code_with(inputs, outputs, call: Bytecode) -> Bytecode:
     """
-    Generate code snippet with the `call` bytecode provided and its respective input/output
-    management.
+    Generate code snippet with the `call` bytecode provided and its
+    respective input/output management.
 
-    `inputs` and `outputs` are understood as those of the code section we're generating for.
+    `inputs` and `outputs` are understood as those of the code section we're
+    generating for.
     """
     body = Bytecode()
 
@@ -260,8 +265,9 @@ def test_rjumps_callf_retf(
     """
     Test EOF container validation for EIP-4200 vs EIP-4750 interactions.
 
-    Each test's code consists of `num_sections` code sections, which call into one another
-    and then return. Code may include RJUMP* snippets of `rjump_kind` in various `rjump_spots`.
+    Each test's code consists of `num_sections` code sections, which call into
+    one another and then return. Code may include RJUMP* snippets of
+    `rjump_kind` in various `rjump_spots`.
     """
     # Zeroth section has always 0 inputs and 0 outputs, so is excluded from param
     inputs = (0,) + inputs
@@ -371,8 +377,8 @@ def test_rjumps_jumpf_nonreturning(
     rjump_spot: RjumpSpot,
 ):
     """
-    Test EOF container validation for EIP-4200 vs EIP-6206 interactions on non-returning
-    functions.
+    Test EOF container validation for EIP-4200 vs EIP-6206 interactions on non-
+    returning functions.
     """
     # Zeroth section has always 0 inputs and 0 outputs, so is excluded from param
     inputs = (0,) + inputs
@@ -463,8 +469,8 @@ def test_all_opcodes_stack_underflow(
     eof_test: EOFTestFiller, op: Op, stack_height: int, spread: int
 ):
     """
-    Test EOF validation failing due to stack overflow
-    caused by the specific instruction `op`.
+    Test EOF validation failing due to stack overflow caused by the specific
+    instruction `op`.
     """
     code = Bytecode()
 

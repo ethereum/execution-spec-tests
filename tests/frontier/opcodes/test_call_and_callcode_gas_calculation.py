@@ -151,5 +151,8 @@ def test_value_transfer_gas_calculation(
     caller_tx: Transaction,
     post: Dict[str, Account],
 ):
-    """Tests the nested CALL/CALLCODE opcode gas consumption with a positive value transfer."""
+    """
+    Tests the nested CALL/CALLCODE opcode gas consumption with a positive value
+    transfer.
+    """
     state_test(env=Environment(), pre=pre, post=post, tx=caller_tx)

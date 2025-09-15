@@ -173,7 +173,10 @@ class StateTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         if "state_test_only" in [m.name for m in markers]:
             return fixture_format != StateFixture
         return False
@@ -220,7 +223,10 @@ class StateTest(BaseTest):
         return Environment(**kwargs)
 
     def _generate_blockchain_blocks(self, *, fork: Fork) -> List[Block]:
-        """Generate the single block that represents this state test in a BlockchainTest format."""
+        """
+        Generate the single block that represents this state test in a
+        BlockchainTest format.
+        """
         kwargs = {
             "number": self.env.number,
             "timestamp": self.env.timestamp,

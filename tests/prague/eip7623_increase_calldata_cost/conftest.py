@@ -49,6 +49,7 @@ def to(
 def protected() -> bool:
     """
     Return whether the transaction is protected or not.
+
     Only valid for type-0 transactions.
     """
     return True
@@ -62,7 +63,10 @@ def access_list() -> List[AccessList] | None:
 
 @pytest.fixture
 def authorization_refund() -> bool:
-    """Return whether the transaction has an existing authority in the authorization list."""
+    """
+    Return whether the transaction has an existing authority in the
+    authorization list.
+    """
     return False
 
 
@@ -75,9 +79,9 @@ def authorization_list(
     """
     Authorization-list for the transaction.
 
-    This fixture needs to be parametrized indirectly in order to generate the authorizations with
-    valid signers using `pre` in this function, and the parametrized value should be a list of
-    addresses.
+    This fixture needs to be parametrized indirectly in order to generate the
+    authorizations with valid signers using `pre` in this function, and the
+    parametrized value should be a list of addresses.
     """
     if not hasattr(request, "param"):
         return None
@@ -127,9 +131,10 @@ def tx_data(
     intrinsic_gas_data_floor_minimum_delta: int,
 ) -> Bytes:
     """
-    All tests in this file use data that is generated dynamically depending on the case and the
-    attributes of the transaction in order to reach the edge cases where the floor gas cost is
-    equal or barely greater than the intrinsic gas cost.
+    All tests in this file use data that is generated dynamically depending
+    on the case and the attributes of the transaction in order to reach the
+    edge cases where the floor gas cost is equal or barely greater than the
+    intrinsic gas cost.
 
     We have two different types of tests:
     - FLOOR_GAS_COST_LESS_THAN_OR_EQUAL_TO_INTRINSIC_GAS: The floor gas cost is less than or equal
@@ -213,13 +218,15 @@ def tx_gas_delta() -> int:
     """
     Gas delta to modify the gas amount included with the transaction.
 
-    If negative, the transaction will be invalid because the intrinsic gas cost is greater than the
-    gas limit.
+    If negative, the transaction will be invalid because the intrinsic gas cost
+    is greater than the gas limit.
 
-    This value operates regardless of whether the floor data gas cost is reached or not.
+    This value operates regardless of whether the floor data gas cost is
+    reached or not.
 
-    If the value is greater than zero, the transaction will also be valid and the test will check
-    that transaction processing does not consume more gas than it should.
+    If the value is greater than zero, the transaction will also be valid and
+    the test will check that transaction processing does not consume more gas
+    than it should.
     """
     return 0
 
@@ -233,7 +240,8 @@ def tx_intrinsic_gas_cost_before_execution(
     contract_creating_tx: bool,
 ) -> int:
     """
-    Return the intrinsic gas cost that is applied before the execution start.
+    Return the intrinsic gas cost that is applied before the execution
+    start.
 
     This value never includes the floor data gas cost.
     """
@@ -258,10 +266,11 @@ def tx_intrinsic_gas_cost_including_floor_data_cost(
     """
     Transaction intrinsic gas cost.
 
-    The calculated value takes into account the normal intrinsic gas cost and the floor data gas
-    cost if it is greater than the intrinsic gas cost.
+    The calculated value takes into account the normal intrinsic gas cost and
+    the floor data gas cost if it is greater than the intrinsic gas cost.
 
-    In other words, this is the value that is required for the transaction to be valid.
+    In other words, this is the value that is required for the transaction to
+    be valid.
     """
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     return intrinsic_gas_cost_calculator(
@@ -290,7 +299,8 @@ def tx_gas_limit(
     """
     Gas limit for the transaction.
 
-    The gas delta is added to the intrinsic gas cost to generate different test scenarios.
+    The gas delta is added to the intrinsic gas cost to generate different test
+    scenarios.
     """
     return tx_intrinsic_gas_cost_including_floor_data_cost + tx_gas_delta
 

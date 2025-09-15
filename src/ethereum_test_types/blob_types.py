@@ -78,7 +78,10 @@ class Blob(CamelModel):
 
     @staticmethod
     def get_filepath(fork: Fork, seed: int):
-        """Return the Path to the blob that would be created with these parameters."""
+        """
+        Return the Path to the blob that would be created with these
+        parameters.
+        """
         # determine amount of cell proofs for this fork (0 or 128)
         would_be_filename: str = Blob.get_filename(fork, seed)
 
@@ -87,7 +90,11 @@ class Blob(CamelModel):
 
     @staticmethod
     def from_fork(fork: Fork, seed: int = 0, timestamp: int = 0) -> "Blob":
-        """Construct Blob instances. Fork logic is encapsulated within nested functions."""
+        """
+        Construct Blob instances.
+
+        Fork logic is encapsulated within nested functions.
+        """
 
         def generate_blob_data(rng_seed: int = 0) -> Bytes:
             """Calculate blob data deterministically via provided seed."""
@@ -234,7 +241,8 @@ class Blob(CamelModel):
         """
         Read a .json file and reconstruct object it represents.
 
-        You can load a blob only via its filename (with or without .json extension).
+        You can load a blob only via its filename (with or without .json
+        extension).
         """
         # ensure filename was passed
         assert file_name.startswith("blob_"), (
@@ -276,7 +284,10 @@ class Blob(CamelModel):
                 f.write(json_str)
 
     def verify_cell_kzg_proof_batch(self, cell_indices: list) -> bool:
-        """Check whether all cell proofs are valid and returns True only if that is the case."""
+        """
+        Check whether all cell proofs are valid and returns True only if that
+        is the case.
+        """
         amount_cell_proofs: int = cast(int, self.fork.get_blob_constant("AMOUNT_CELL_PROOFS"))
 
         assert amount_cell_proofs > 0, (
@@ -370,7 +381,8 @@ class Blob(CamelModel):
         """
         Define what the proof corruption modes do.
 
-        For Osaka and later each Bytes object in the list is manipulated this way.
+        For Osaka and later each Bytes object in the list is manipulated this
+        way.
         """
 
         CORRUPT_FIRST_BYTE = 1  # corrupts a single byte (index 0)

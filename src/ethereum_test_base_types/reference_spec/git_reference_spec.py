@@ -85,8 +85,8 @@ class GitReferenceSpec(ReferenceSpec):
     def is_outdated(self) -> bool:
         """
         Check whether the reference specification has been updated since the
-        test was last updated, by comparing the latest known `sha` value of
-        the file in the repository.
+        test was last updated, by comparing the latest known `sha` value of the
+        file in the repository.
         """
         if self.SpecVersion == "":
             raise NoLatestKnownVersionError

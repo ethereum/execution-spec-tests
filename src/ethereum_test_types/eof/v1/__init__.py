@@ -56,7 +56,10 @@ class ContainerKind(Enum):
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call class constructor without info and appends the serialization schema."""
+        """
+        Call class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type.from_str,
             serialization=to_string_ser_schema(),
@@ -104,68 +107,72 @@ class Section(CopyValidateModel):
     """Class that represents a section in an EOF V1 container."""
 
     data: Bytes = Bytes(b"")
-    """
-    Data to be contained by this section.
+    """Data to be contained by this section.
+
     Can be SupportsBytes, another EOF container or any other abstract data.
     """
+
     custom_size: int = 0
-    """
-    Custom size value to be used in the header.
+    """Custom size value to be used in the header.
+
     If unset, the header is built with length of the data.
     """
+
     kind: SectionKind | int
+    """Kind of section that is represented by this object.
+
+    Can be any `int` outside of the values defined by `SectionKind` for testing
+    purposes.
     """
-    Kind of section that is represented by this object.
-    Can be any `int` outside of the values defined by `SectionKind`
-    for testing purposes.
-    """
+
     force_type_listing: bool = False
     """
     Forces this section to appear in the TYPE section at the beginning of the
     container.
     """
+
     code_inputs: int = 0
-    """
-    Data stack items consumed by this code section (function)
-    """
+    """Data stack items consumed by this code section (function)"""
+
     code_outputs: int = NON_RETURNING_SECTION
     """
     Data stack items produced by or expected at the end of this code section
     (function)
     """
+
     max_stack_increase: int | None = None
-    """
-    Maximum operand stack height increase above the code section inputs.
-    """
+    """Maximum operand stack height increase above the code section inputs."""
+
     max_stack_height: int | None = None
-    """
-    Maximum height data stack reaches during execution of code section.
-    """
+    """Maximum height data stack reaches during execution of code section."""
+
     auto_max_stack_height: bool = False
     """
     Whether to automatically compute the best suggestion for the
     max_stack_height value for this code section.
     """
+
     auto_code_inputs_outputs: bool = False
     """
     Whether to automatically compute the best suggestion for the code_inputs,
     code_outputs values for this code section.
     """
+
     skip_header_listing: bool = False
-    """
-    Skip section from listing in the header
-    """
+    """Skip section from listing in the header."""
+
     skip_body_listing: bool = False
-    """
-    Skip section from listing in the body
-    """
+    """Skip section from listing in the body."""
+
     skip_types_body_listing: bool = False
     """
-    Skip section from listing in the types body (input, output, stack) bytes
+    Skip section from listing in the types body (input, output, stack) bytes.
     """
+
     skip_types_header_listing: bool = False
     """
-    Skip section from listing in the types header (not calculating input, output, stack size)
+    Skip section from listing in the types header (not calculating input,
+    output, stack size)
     """
 
     @cached_property
@@ -219,8 +226,8 @@ class Section(CopyValidateModel):
 
     def with_max_stack_height(self, max_stack_height) -> "Section":
         """
-        Create copy of the section with `max_stack_height` set to the
-        specified value.
+        Create copy of the section with `max_stack_height` set to the specified
+        value.
         """
         return self.copy(max_stack_height=max_stack_height)
 
@@ -229,18 +236,12 @@ class Section(CopyValidateModel):
         return self.copy(auto_max_stack_height=True)
 
     def with_auto_code_inputs_outputs(self) -> "Section":
-        """
-        Create copy of the section with `auto_code_inputs_outputs` set to
-        True.
-        """
+        """Create copy of the section with `auto_code_inputs_outputs` set to True."""
         return self.copy(auto_code_inputs_outputs=True)
 
     @staticmethod
     def list_header(sections: List["Section"]) -> bytes:
-        """
-        Create single code header for all code sections contained in
-        the list.
-        """
+        """Create single code header for all code sections contained in the list."""
         # Allow 'types section' to use skip_header_listing flag
         if sections[0].skip_header_listing:
             return b""
@@ -307,41 +308,41 @@ class Container(CopyValidateModel):
     """Class that represents an EOF V1 container."""
 
     name: Optional[str] = None
-    """
-    Name of the container
-    """
+    """Name of the container."""
+
     sections: List[Section] = Field(default_factory=list)
-    """
-    List of sections in the container
-    """
+    """List of sections in the container."""
+
     magic: Bytes = Bytes(EOF_MAGIC)
     """
     Custom magic value used to override the mandatory EOF value for testing
     purposes.
     """
+
     version: Bytes = Bytes(VERSION_NUMBER_BYTES)
     """
-    Custom version value used to override the mandatory EOF V1 value
-    for testing purposes.
+    Custom version value used to override the mandatory EOF V1 value for
+    testing purposes.
     """
+
     header_terminator: Bytes = Bytes(EOF_HEADER_TERMINATOR)
-    """
-    Bytes used to terminate the header.
-    """
+    """Bytes used to terminate the header."""
+
     extra: Bytes = Bytes(b"")
     """
-    Extra data to be appended at the end of the container, which will
-    not be considered part of any of the sections, for testing purposes.
+    Extra data to be appended at the end of the container, which will not be
+    considered part of any of the sections, for testing purposes.
     """
+
     auto_type_section: AutoSection = AutoSection.AUTO
     """
-    Automatically generate a `TYPE` section based on the
-    included `CODE` kind sections.
+    Automatically generate a `TYPE` section based on the included `CODE` kind
+    sections.
     """
+
     auto_data_section: bool = True
-    """
-    Automatically generate a `DATA` section.
-    """
+    """Automatically generate a `DATA` section."""
+
     auto_sort_sections: AutoSection = AutoSection.AUTO
     """
     Automatically sort sections for the header and body:
@@ -350,30 +351,31 @@ class Container(CopyValidateModel):
     Body: type section first, all code sections, data section(s), last
                 container sections
     """
+
     skip_join_concurrent_sections_in_header: bool = False
-    """
-    Skip joining concurrent sections in the header (code and container)
-    """
+    """Skip joining concurrent sections in the header (code and container)"""
+
     validity_error: EOFExceptionInstanceOrList | str | None = None
-    """
-    Optional error expected for the container.
+    """Optional error expected for the container.
 
     TODO: Remove str
     """
+
     kind: ContainerKind = ContainerKind.RUNTIME
-    """
-    Kind type of the container.
-    """
+    """Kind type of the container."""
+
     raw_bytes: Optional[Bytes] = None
-    """
-    Optional raw bytes that represent the container.
+    """Optional raw bytes that represent the container.
+
     Used to have a cohesive type among all test cases, even those that do not
     resemble a valid EOF V1 container.
     """
+
     expected_bytecode: Optional[Bytes] = None
-    """
-    Optional raw bytes of the expected constructed bytecode.
-    This allows confirming that raw EOF and Container() representations are identical.
+    """Optional raw bytes of the expected constructed bytecode.
+
+    This allows confirming that raw EOF and Container() representations are
+    identical.
     """
 
     @cached_property
@@ -452,7 +454,6 @@ class Container(CopyValidateModel):
         # Check if the constructed bytecode matches the expected one
         if self.expected_bytecode is not None:
             assert c == self.expected_bytecode
-
         return c
 
     @classmethod
@@ -498,8 +499,8 @@ class Container(CopyValidateModel):
 
     def __str__(self) -> str:
         """
-        Return name of the container if available, otherwise the bytecode of the container
-        as a string.
+        Return name of the container if available, otherwise the bytecode of
+        the container as a string.
         """
         if self.name:
             return self.name
@@ -514,13 +515,10 @@ class Initcode(Bytecode):
     """
 
     name: str = "EOF V1 Initcode"
-    """
-    Name used to identify the initcode.
-    """
+    """Name used to identify the initcode."""
+
     deploy_container: Container
-    """
-    Container to be deployed.
-    """
+    """Container to be deployed."""
 
     @cached_property
     def init_container(self) -> Container:
@@ -552,7 +550,6 @@ class Initcode(Bytecode):
                 ),
             ]
         )
-
         return bytes(initcode)
 
 

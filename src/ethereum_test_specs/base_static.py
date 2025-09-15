@@ -25,8 +25,8 @@ class BaseStaticTest(BaseModel):
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs):
         """
-        Register all subclasses of BaseStaticTest with a static test format name set
-        as possible static test format.
+        Register all subclasses of BaseStaticTest with a static test format
+        name set as possible static test format.
         """
         if cls.format_name:
             # Register the new fixture format
@@ -143,8 +143,8 @@ class BaseStaticTest(BaseModel):
 
 def remove_comments(v: str) -> str:
     """
-    Split by line and then remove the comments (starting with #) at the end of each line if
-    any.
+    Split by line and then remove the comments (starting with #) at the end of
+    each line if any.
     """
     return "\n".join([line.split("#")[0].strip() for line in v.splitlines()])
 

@@ -30,8 +30,8 @@ def test_basic_tload_transaction_begin(
     """
     Ported .json vectors.
 
-    (01_tloadBeginningTxnFiller.yml)
-    load arbitrary value is 0 at beginning of transaction
+    (01_tloadBeginningTxnFiller.yml) load arbitrary value is 0 at beginning of
+    transaction
     """
     slot_tload_at_transaction_begin_result = 1
     slot_code_worked = 2
@@ -81,8 +81,8 @@ def test_basic_tload_works(
     """
     Ported .json vectors.
 
-    (02_tloadAfterTstoreFiller.yml)
-    tload from same slot after tstore returns correct value
+    (02_tloadAfterTstoreFiller.yml) tload from same slot after tstore returns
+    correct value
     """
     tstore_value = 88
 
@@ -139,8 +139,8 @@ def test_basic_tload_other_after_tstore(
     """
     Ported .json vectors.
 
-    (03_tloadAfterStoreIs0Filler.yml)
-    Loading any other slot after storing to a slot returns 0.
+    (03_tloadAfterStoreIs0Filler.yml) Loading any other slot after storing to a
+    slot returns 0.
     """
     tstore_value = 88
 
@@ -193,8 +193,7 @@ def test_basic_tload_gasprice(
     """
     Ported .json vectors.
 
-    (16_tloadGasFiller.yml)
-    tload costs 100 gas same as a warm sload
+    (16_tloadGasFiller.yml) tload costs 100 gas same as a warm sload
     """
     slot_tload_nonzero_gas_price_result = 1
     slot_tload_zero_gas_price_result = 2
@@ -277,8 +276,7 @@ def test_basic_tload_after_store(
     """
     Ported .json vectors.
 
-    (18_tloadAfterStoreFiller.yml)
-    tload from same slot after store returns 0
+    (18_tloadAfterStoreFiller.yml) tload from same slot after store returns 0
     """
     slot_tload_from_sstore_result = 1
     slot_code_worked = 2

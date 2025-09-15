@@ -1,6 +1,7 @@
 """
-abstract: Tests that benchmark EVMs in the worst-case memory opcodes.
-    Tests that benchmark EVMs in the worst-case memory opcodes.
+Abstract: Tests that benchmark EVMs in the worst-case memory opcodes.
+
+Tests that benchmark EVMs in the worst-case memory opcodes.
 
 Tests that benchmark EVMs in the worst-case memory opcodes.
 """

@@ -29,16 +29,18 @@ CACHED_DOWNLOADS_DIRECTORY = (
 
 def default_input() -> str:
     """
-    Directory (default) to consume generated test fixtures from. Defined as a
-    function to allow for easier testing.
+    Directory (default) to consume generated test fixtures from.
+
+    Defined as a function to allow for easier testing.
     """
     return "./fixtures"
 
 
 def default_html_report_file_path() -> str:
     """
-    Filepath (default) to store the generated HTML test report. Defined as a
-    function to allow for easier testing.
+    Filepath (default) to store the generated HTML test report.
+
+    Defined as a function to allow for easier testing.
     """
     return ".meta/report_consume.html"
 
@@ -53,7 +55,10 @@ class FixtureDownloader:
         self.archive_name = self.strip_archive_extension(Path(self.parsed_url.path).name)
 
     def download_and_extract(self) -> Tuple[bool, Path]:
-        """Download the URL and extract it locally if it hasn't already been downloaded."""
+        """
+        Download the URL and extract it locally if it hasn't already been
+        downloaded.
+        """
         if self.destination_folder.exists():
             return True, self.detect_extracted_directory()
 
@@ -94,8 +99,8 @@ class FixtureDownloader:
 
     def detect_extracted_directory(self) -> Path:
         """
-        Detect a single top-level dir within the extracted archive, otherwise return
-        destination_folder.
+        Detect a single top-level dir within the extracted archive, otherwise
+        return destination_folder.
         """  # noqa: D200
         extracted_dirs = [
             d for d in self.destination_folder.iterdir() if d.is_dir() and d.name != ".meta"
@@ -242,18 +247,20 @@ class SimLimitBehavior:
     @staticmethod
     def _escape_id(pattern: str) -> str:
         """
-        Escape regex char in the pattern; prepend and append '.*' (for `fill` IDs).
+        Escape regex char in the pattern; prepend and append '.*' (for
+        `fill` IDs).
 
-        The `pattern` is prefixed and suffixed with a wildcard match to allow `fill`
-        test case IDs to be specified, otherwise the full `consume` test ID must be
-        specified.
+        The `pattern` is prefixed and suffixed with a wildcard match to allow
+        `fill` test case IDs to be specified, otherwise the full `consume` test
+        ID must be specified.
         """
         return f".*{re.escape(pattern)}.*"
 
     @classmethod
     def from_string(cls, pattern: str) -> "SimLimitBehavior":
         """
-        Parse the `--sim.limit` argument and return a `SimLimitBehavior` instance.
+        Parse the `--sim.limit` argument and return a `SimLimitBehavior`
+        instance.
 
         If `pattern`:
         - Is "collectonly", enable collection mode without filtering.
@@ -353,12 +360,12 @@ def pytest_addoption(parser):  # noqa: D103
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):  # noqa: D103
     """
-    Pytest hook called after command line options have been parsed and before
-    test collection begins.
+    Pytest hook called after command line options have been parsed and
+    before test collection begins.
 
     `@pytest.hookimpl(tryfirst=True)` is applied to ensure that this hook is
-    called before the pytest-html plugin's pytest_configure to ensure that
-    it uses the modified `htmlpath` option.
+    called before the pytest-html plugin's pytest_configure to ensure that it
+    uses the modified `htmlpath` option.
     """
     # Validate --extract-to usage
     if config.option.extract_to_folder is not None and "cache" not in sys.argv:
@@ -484,7 +491,8 @@ def fixtures_source(request) -> FixturesSource:  # noqa: D103
 def pytest_generate_tests(metafunc):
     """
     Generate test cases for every test fixture in all the JSON fixture files
-    within the specified fixtures directory, or read from stdin if the directory is 'stdin'.
+    within the specified fixtures directory, or read from stdin if the
+    directory is 'stdin'.
     """
     if "cache" in sys.argv:
         return

@@ -448,7 +448,8 @@ def test_dynamic_create2_selfdestruct_collision_multi_tx(
     blockchain_test: BlockchainTestFiller,
 ):
     """
-    Dynamic Create2->Suicide->Create2 collision scenario over multiple transactions.
+    Dynamic Create2->Suicide->Create2 collision scenario over multiple
+    transactions.
 
     Perform a CREATE2, make sure that the initcode sets at least a couple of storage keys,
     then on a different call, in the same or different tx but same block, perform a self-destruct.

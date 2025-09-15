@@ -43,7 +43,10 @@ class SystemContractTestType(StrEnum):
 
 
 class ContractAddressHasBalance(StrEnum):
-    """Represents whether the target deployment test has a balance before deployment."""
+    """
+    Represents whether the target deployment test has a balance before
+    deployment.
+    """
 
     ZERO_BALANCE = "zero_balance"
     NONZERO_BALANCE = "nonzero_balance"
@@ -51,8 +54,8 @@ class ContractAddressHasBalance(StrEnum):
 
 class SystemContractDeployTestFunction(Protocol):
     """
-    Represents a function to be decorated with the `generate_system_contract_deploy_test`
-    decorator.
+    Represents a function to be decorated with the
+    `generate_system_contract_deploy_test` decorator.
     """
 
     def __call__(
@@ -88,7 +91,8 @@ def generate_system_contract_deploy_test(
     expected_system_contract_storage: Dict | None = None,
 ):
     """
-    Generate a test that verifies the correct deployment of a system contract.
+    Generate a test that verifies the correct deployment of a system
+    contract.
 
     Generates following test cases:
 
@@ -265,7 +269,8 @@ def generate_system_contract_error_test(
     max_gas_limit: int,
 ):
     """
-    Generate a test that verifies the correct behavior when a system contract fails execution.
+    Generate a test that verifies the correct behavior when a system
+    contract fails execution.
 
     Parametrizations required:
         - system_contract (Address): The address of the system contract to deploy.

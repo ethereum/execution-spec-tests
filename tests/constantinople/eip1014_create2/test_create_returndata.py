@@ -1,7 +1,13 @@
 """
-Return data management around create2
-Port call_outsize_then_create2_successful_then_returndatasizeFiller.json test
-Port call_then_create2_successful_then_returndatasizeFiller.json test.
+Return data management around create2.
+
+Port
+'call_outsize_then_create2_
+successful_then_returndatasizeFiller.json'
+
+Port
+'call_then_create2_successful_then_
+returndatasizeFiller.json' test.
 """
 
 import pytest
@@ -36,7 +42,10 @@ def test_create2_return_data(
     pre: Alloc,
     state_test: StateTestFiller,
 ):
-    """Validate that create2 return data does not interfere with previously existing memory."""
+    """
+    Validate that create2 return data does not interfere with previously
+    existing memory.
+    """
     # Storage vars
     slot_returndatasize_before_create = 0
     slot_returndatasize_after_create = 1

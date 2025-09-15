@@ -1,8 +1,9 @@
 """
 Pytest plugin for witness functionality.
 
-Provides --witness command-line option that checks for the witness-filler tool in PATH
-and generates execution witness data for blockchain test fixtures when enabled.
+Provides --witness command-line option that checks for the witness-filler tool
+in PATH and generates execution witness data for blockchain test fixtures when
+enabled.
 """
 
 import shutil
@@ -54,7 +55,8 @@ def pytest_configure(config):
     """
     Pytest hook called after command line options have been parsed.
 
-    If --witness is enabled, checks that the witness-filler tool is available in PATH.
+    If --witness is enabled, checks that the witness-filler tool is available
+    in PATH.
     """
     if config.getoption("witness"):
         # Check if witness-filler binary is available in PATH
@@ -84,7 +86,10 @@ def witness_generator(
         return None
 
     def generate_witness(fixture: BlockchainFixture) -> None:
-        """Generate witness data for a blockchain fixture using the witness-filler tool."""
+        """
+        Generate witness data for a blockchain fixture using the witness-filler
+        tool.
+        """
         if not isinstance(fixture, BlockchainFixture):
             return None
 

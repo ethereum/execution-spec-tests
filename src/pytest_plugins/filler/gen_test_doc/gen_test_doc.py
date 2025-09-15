@@ -128,8 +128,8 @@ def get_test_function_import_path(item: pytest.Item) -> str:
     """
     Retrieve the fully qualified import path for an item's test function.
 
-    This is used in jinja2 templates to get the test function, respectively
-    the test function's class, documentation with mkdocstrings.
+    This is used in jinja2 templates to get the test function, respectively the
+    test function's class, documentation with mkdocstrings.
     """
     item = cast(pytest.Function, item)  # help mypy infer type
     module_name = item.module.__name__
@@ -294,10 +294,12 @@ class TestDocsGenerator:
 
     def _setup_logger(self):
         """
-        Configure the mkdocs logger and adds a StreamHandler if outside mkdocs.
+        Configure the mkdocs logger and adds a StreamHandler if outside
+        mkdocs.
 
         We use the mkdocs logger to report warnings if conditions are invalid -
-        this will inform the user and fail the build with `mkdocs build --strict`.
+        this will inform the user and fail the build with `mkdocs build
+        --strict`.
         """
         if not logger.hasHandlers() or logger.level == logging.NOTSET:
             stream_handler = logging.StreamHandler(sys.stdout)
@@ -352,7 +354,8 @@ class TestDocsGenerator:
 
     def create_function_page_props(self, test_functions: Dict["str", List[Item]]) -> None:
         """
-        Traverse all test items and create a lookup of doc pages & required props.
+        Traverse all test items and create a lookup of doc pages & required
+        props.
 
         To do: Needs refactor.
         """
@@ -479,9 +482,11 @@ class TestDocsGenerator:
 
     def add_directory_page_props(self) -> None:
         """
-        Discover the intermediate directory pages and extract their properties.
+        Discover the intermediate directory pages and extract their
+        properties.
 
-        These directories may not have any test modules within them, e.g., tests/berlin/.
+        These directories may not have any test modules within them, e.g.,
+        tests/berlin/.
         """
         sub_paths: Set[Path] = set()
         for module_page in self.module_page_props.values():
@@ -512,7 +517,7 @@ class TestDocsGenerator:
                 pytest_node_id=str(directory),
                 source_code_url=generate_github_url(directory, branch_or_commit_or_tag=self.ref),
                 # TODO: This won't work in all cases; should be from the development fork
-                # Currently breaks for `tests/unscheduled/eip7692_eof_v1/index.md`  # noqa: SC100
+                # Currently breaks for `tests/unscheduled/eip7692_eof_v1/index.md`
                 target_or_valid_fork=fork.capitalize() if fork else "Unknown",
                 package_name=get_import_path(directory),  # init.py will be used for docstrings
                 is_benchmark=is_benchmark,
@@ -538,7 +543,10 @@ class TestDocsGenerator:
         return [Path(file) for file in set(files)]
 
     def add_spec_page_props(self) -> None:
-        """Add page path properties for spec files discovered in the collection scope."""
+        """
+        Add page path properties for spec files discovered in the collection
+        scope.
+        """
         for spec_path in self.find_files_within_collection_scope("spec.py"):
             self.page_props[str(spec_path)] = ModulePageProps(
                 title="Spec",
@@ -551,7 +559,10 @@ class TestDocsGenerator:
             )
 
     def add_markdown_page_props(self) -> None:
-        """Add page path properties for markdown files discovered in the collection scope."""
+        """
+        Add page path properties for markdown files discovered in the
+        collection scope.
+        """
         for md_path in self.find_files_within_collection_scope("*.md"):
             self.page_props[str(md_path)] = MarkdownPageProps(
                 title=md_path.stem,
@@ -563,12 +574,16 @@ class TestDocsGenerator:
             )
 
     def update_mkdocs_nav(self) -> None:
-        """Add the generated 'Test Case Reference' entries to the mkdocs navigation menu."""
+        """
+        Add the generated 'Test Case Reference' entries to the mkdocs
+        navigation menu.
+        """
         fork_order = {fork.name().lower(): i for i, fork in enumerate(reversed(get_forks()))}
 
         def sort_by_fork_deployment_and_path(x: PageProps) -> Tuple[Any, ...]:
             """
-            Key function used to sort navigation menu entries for test case ref docs.
+            Key function used to sort navigation menu entries for test case
+            ref docs.
 
             Nav entries / output files contain special cases such as:
 

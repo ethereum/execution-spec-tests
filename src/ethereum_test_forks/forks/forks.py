@@ -34,7 +34,10 @@ class Frontier(BaseFork, solc_name="homestead"):
 
     @classmethod
     def transition_tool_name(cls, block_number: int = 0, timestamp: int = 0) -> str:
-        """Return fork name as it's meant to be passed to the transition tool for execution."""
+        """
+        Return fork name as it's meant to be passed to the transition tool for
+        execution.
+        """
         if cls._transition_tool_name is not None:
             return cls._transition_tool_name
         return cls.name()
@@ -126,7 +129,10 @@ class Frontier(BaseFork, solc_name="homestead"):
     def memory_expansion_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> MemoryExpansionGasCalculator:
-        """Return callable that calculates the gas cost of memory expansion for the fork."""
+        """
+        Return callable that calculates the gas cost of memory expansion for
+        the fork.
+        """
         gas_costs = cls.gas_costs(block_number, timestamp)
 
         def fn(*, new_bytes: int, previous_bytes: int = 0) -> int:
@@ -147,8 +153,8 @@ class Frontier(BaseFork, solc_name="homestead"):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> CalldataGasCalculator:
         """
-        Return callable that calculates the transaction gas cost for its calldata
-        depending on its contents.
+        Return callable that calculates the transaction gas cost for its
+        calldata depending on its contents.
         """
         gas_costs = cls.gas_costs(block_number, timestamp)
 
@@ -175,8 +181,8 @@ class Frontier(BaseFork, solc_name="homestead"):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BaseFeeChangeCalculator:
         """
-        Return a callable that calculates the gas that needs to be used to change the
-        base fee.
+        Return a callable that calculates the gas that needs to be used to
+        change the base fee.
         """
         raise NotImplementedError(f"Base fee change calculator is not supported in {cls.name()}")
 
@@ -209,7 +215,10 @@ class Frontier(BaseFork, solc_name="homestead"):
     def transaction_intrinsic_cost_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionIntrinsicCostCalculator:
-        """Return callable that calculates the intrinsic gas cost of a transaction for the fork."""
+        """
+        Return callable that calculates the intrinsic gas cost of a transaction
+        for the fork.
+        """
         gas_costs = cls.gas_costs(block_number, timestamp)
         calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
 
@@ -248,7 +257,10 @@ class Frontier(BaseFork, solc_name="homestead"):
     def excess_blob_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
-        """Return a callable that calculates the excess blob gas for a block at a given fork."""
+        """
+        Return a callable that calculates the excess blob gas for a block at a
+        given fork.
+        """
         raise NotImplementedError(f"Excess blob gas calculator is not supported in {cls.name()}")
 
     @classmethod
@@ -285,7 +297,10 @@ class Frontier(BaseFork, solc_name="homestead"):
 
     @classmethod
     def blob_reserve_price_active(cls, block_number: int = 0, timestamp: int = 0) -> bool:
-        """Return whether the fork uses a reserve price mechanism for blobs or not."""
+        """
+        Return whether the fork uses a reserve price mechanism for blobs or
+        not.
+        """
         raise NotImplementedError(f"Blob reserve price is not supported in {cls.name()}")
 
     @classmethod
@@ -360,7 +375,10 @@ class Frontier(BaseFork, solc_name="homestead"):
     def engine_payload_attribute_target_blobs_per_block(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> bool:
-        """At genesis, payload attributes do not include the target blobs per block."""
+        """
+        At genesis, payload attributes do not include the target blobs per
+        block.
+        """
         return False
 
     @classmethod
@@ -434,7 +452,10 @@ class Frontier(BaseFork, solc_name="homestead"):
 
     @classmethod
     def max_code_size(cls) -> int:
-        """At genesis, there is no upper bound for code size (bounded by block gas limit)."""
+        """
+        At genesis, there is no upper bound for code size (bounded by block gas
+        limit).
+        """
         """However, the default is set to the limit of EIP-170 (Spurious Dragon)"""
         return 0x6000
 
@@ -724,17 +745,17 @@ class Byzantium(Homestead):
     @classmethod
     def get_reward(cls, block_number: int = 0, timestamp: int = 0) -> int:
         """
-        At Byzantium, the block reward is reduced to
-        3_000_000_000_000_000_000 wei.
+        At Byzantium, the block reward is reduced to 3_000_000_000_000_000_000
+        wei.
         """
         return 3_000_000_000_000_000_000
 
     @classmethod
     def precompiles(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
         """
-        At Byzantium, pre-compiles for bigint modular exponentiation, addition and scalar
-        multiplication on elliptic curve alt_bn128, and optimal ate pairing check on
-        elliptic curve alt_bn128 are introduced.
+        At Byzantium, pre-compiles for bigint modular exponentiation, addition
+        and scalar multiplication on elliptic curve alt_bn128, and optimal ate
+        pairing check on elliptic curve alt_bn128 are introduced.
         """
         return [
             Address(5, label="MODEXP"),
@@ -746,7 +767,10 @@ class Byzantium(Homestead):
     @classmethod
     def max_code_size(cls) -> int:
         # NOTE: Move this to Spurious Dragon once this fork is introduced. See EIP-170.
-        """At Spurious Dragon, an upper bound was introduced for max contract code size."""
+        """
+        At Spurious Dragon, an upper bound was introduced for max contract code
+        size.
+        """
         return 0x6000
 
     @classmethod
@@ -831,8 +855,8 @@ class Istanbul(ConstantinopleFix):
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
         """
-        On Istanbul, the non-zero transaction data byte cost is reduced to 16 due to
-        EIP-2028.
+        On Istanbul, the non-zero transaction data byte cost is reduced to 16
+        due to EIP-2028.
         """
         return replace(
             super(Istanbul, cls).gas_costs(block_number, timestamp),
@@ -864,7 +888,10 @@ class Berlin(Istanbul):
     def transaction_intrinsic_cost_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionIntrinsicCostCalculator:
-        """At Berlin, the transaction intrinsic cost needs to take the access list into account."""
+        """
+        At Berlin, the transaction intrinsic cost needs to take the access list
+        into account.
+        """
         super_fn = super(Berlin, cls).transaction_intrinsic_cost_calculator(
             block_number, timestamp
         )
@@ -1000,8 +1027,8 @@ class London(Berlin):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> BaseFeeChangeCalculator:
         """
-        Return a callable that calculates the gas that needs to be used to change the
-        base fee.
+        Return a callable that calculates the gas that needs to be used to
+        change the base fee.
         """
         base_fee_max_change_denominator = cls.base_fee_max_change_denominator(
             block_number, timestamp
@@ -1116,7 +1143,11 @@ class Shanghai(Paris):
 
     @classmethod
     def max_initcode_size(cls) -> int:
-        """From Shanghai, the initcode size is now limited. See EIP-3860."""
+        """
+        From Shanghai, the initcode size is now limited.
+
+        See EIP-3860.
+        """
         return 0xC000
 
     @classmethod
@@ -1187,7 +1218,10 @@ class Cancun(Shanghai):
     def excess_blob_gas_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> ExcessBlobGasCalculator:
-        """Return a callable that calculates the excess blob gas for a block at Cancun."""
+        """
+        Return a callable that calculates the excess blob gas for a block at
+        Cancun.
+        """
         target_blobs_per_block = cls.target_blobs_per_block(block_number, timestamp)
         blob_gas_per_blob = cls.blob_gas_per_blob(block_number, timestamp)
         target_blob_gas_per_block = target_blobs_per_block * blob_gas_per_blob
@@ -1235,12 +1269,18 @@ class Cancun(Shanghai):
 
     @classmethod
     def target_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs are enabled starting from Cancun, with a static target of 3 blobs per block."""
+        """
+        Blobs are enabled starting from Cancun, with a static target of 3 blobs
+        per block.
+        """
         return 3
 
     @classmethod
     def max_blobs_per_block(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs are enabled starting from Cancun, with a static max of 6 blobs per block."""
+        """
+        Blobs are enabled starting from Cancun, with a static max of 6 blobs
+        per block.
+        """
         return 6
 
     @classmethod
@@ -1250,12 +1290,18 @@ class Cancun(Shanghai):
 
     @classmethod
     def full_blob_tx_wrapper_version(cls, block_number: int = 0, timestamp: int = 0) -> int | None:
-        """Pre-Osaka forks don't use tx wrapper versions for full blob transactions."""
+        """
+        Pre-Osaka forks don't use tx wrapper versions for full blob
+        transactions.
+        """
         return None
 
     @classmethod
     def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs are enabled starting from Cancun, with a static max equal to the max per block."""
+        """
+        Blobs are enabled starting from Cancun, with a static max equal to the
+        max per block.
+        """
         return cls.max_blobs_per_block(block_number, timestamp)
 
     @classmethod
@@ -1295,8 +1341,8 @@ class Cancun(Shanghai):
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
-        Cancun requires pre-allocation of the beacon root contract for EIP-4788 on blockchain
-        type tests.
+        Cancun requires pre-allocation of the beacon root contract for EIP-4788
+        on blockchain type tests.
         """
         new_allocation = {
             0x000F3DF6D732807EF1319FB7B8BB8522D0BEAC02: {
@@ -1388,8 +1434,8 @@ class Prague(Cancun):
     @classmethod
     def gas_costs(cls, block_number: int = 0, timestamp: int = 0) -> GasCosts:
         """
-        On Prague, the standard token cost and the floor token costs are introduced due to
-        EIP-7623.
+        On Prague, the standard token cost and the floor token costs are
+        introduced due to EIP-7623.
         """
         return replace(
             super(Prague, cls).gas_costs(block_number, timestamp),
@@ -1401,7 +1447,10 @@ class Prague(Cancun):
 
     @classmethod
     def system_contracts(cls, block_number: int = 0, timestamp: int = 0) -> List[Address]:
-        """Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251 and EIP-2935."""
+        """
+        Prague introduces the system contracts for EIP-6110, EIP-7002, EIP-7251
+        and EIP-2935.
+        """
         return [
             Address(
                 0x00000000219AB540356CBB839CBE05303D7705FA,
@@ -1423,7 +1472,10 @@ class Prague(Cancun):
 
     @classmethod
     def max_request_type(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """At Prague, three request types are introduced, hence the max request type is 2."""
+        """
+        At Prague, three request types are introduced, hence the max request
+        type is 2.
+        """
         return 2
 
     @classmethod
@@ -1431,8 +1483,8 @@ class Prague(Cancun):
         cls, block_number: int = 0, timestamp: int = 0
     ) -> CalldataGasCalculator:
         """
-        Return a callable that calculates the transaction gas cost for its calldata
-        depending on its contents.
+        Return a callable that calculates the transaction gas cost for its
+        calldata depending on its contents.
         """
         gas_costs = cls.gas_costs(block_number, timestamp)
 
@@ -1453,7 +1505,10 @@ class Prague(Cancun):
     def transaction_data_floor_cost_calculator(
         cls, block_number: int = 0, timestamp: int = 0
     ) -> TransactionDataFloorCostCalculator:
-        """On Prague, due to EIP-7623, the transaction data floor cost is introduced."""
+        """
+        On Prague, due to EIP-7623, the transaction data floor cost is
+        introduced.
+        """
         calldata_gas_calculator = cls.calldata_gas_calculator(block_number, timestamp)
         gas_costs = cls.gas_costs(block_number, timestamp)
 
@@ -1523,8 +1578,9 @@ class Prague(Cancun):
     @classmethod
     def pre_allocation_blockchain(cls) -> Mapping:
         """
-        Prague requires pre-allocation of the beacon chain deposit contract for EIP-6110,
-        the exits contract for EIP-7002, and the history storage contract for EIP-2935.
+        Prague requires pre-allocation of the beacon chain deposit contract for
+        EIP-6110, the exits contract for EIP-7002, and the history storage
+        contract for EIP-2935.
         """
         new_allocation = {}
 
@@ -1727,7 +1783,11 @@ class Osaka(Prague, solc_name="cancun"):
 
     @classmethod
     def max_blobs_per_tx(cls, block_number: int = 0, timestamp: int = 0) -> int:
-        """Blobs in Osaka, have a static max of 6 blobs per tx. Differs from the max per block."""
+        """
+        Blobs in Osaka, have a static max of 6 blobs per tx.
+
+        Differs from the max per block.
+        """
         return 6
 
     @classmethod

@@ -71,8 +71,8 @@ class EESTLogger(logging.Logger):
         """
         Log a message with FAIL level severity (35).
 
-        This level is between WARNING (30) and ERROR (40), intended for test failures
-        and similar issues.
+        This level is between WARNING (30) and ERROR (40), intended for test
+        failures and similar issues.
         """
         if stacklevel is None:
             stacklevel = 1
@@ -94,7 +94,10 @@ logger = get_logger(__name__)
 
 
 class UTCFormatter(logging.Formatter):
-    """Log formatter that formats UTC timestamps with milliseconds and +00:00 suffix."""
+    """
+    Log formatter that formats UTC timestamps with milliseconds and +00:00
+    suffix.
+    """
 
     def formatTime(self, record, datefmt=None):  # noqa: D102,N802  # camelcase required
         dt = datetime.fromtimestamp(record.created, tz=timezone.utc)
@@ -102,7 +105,10 @@ class UTCFormatter(logging.Formatter):
 
 
 class ColorFormatter(UTCFormatter):
-    """Formatter that adds ANSI color codes to log level names for terminal output."""
+    """
+    Formatter that adds ANSI color codes to log level names for terminal
+    output.
+    """
 
     running_in_docker: ClassVar[bool] = Path("/.dockerenv").exists()
 
@@ -274,9 +280,9 @@ def pytest_configure(config: pytest.Config) -> None:
     """
     Initialize logging for pytest sessions.
 
-    This goes to a lot of effort to ensure that a log file is created per worker
-    if xdist is used and that the timestamp used in the filename is the same across
-    main and all workers.
+    This goes to a lot of effort to ensure that a log file is created per
+    worker if xdist is used and that the timestamp used in the filename is the
+    same across main and all workers.
     """
     global file_handler
 
@@ -313,7 +319,10 @@ def pytest_report_header(config: pytest.Config) -> list[str]:
 
 
 def pytest_terminal_summary(terminalreporter: TerminalReporter, exitstatus: int) -> None:
-    """Display the log file path in the terminal summary like the HTML report does."""
+    """
+    Display the log file path in the terminal summary like the HTML report
+    does.
+    """
     if terminalreporter.config.option.collectonly:
         return
     if eest_log_file_path := terminalreporter.config.option.eest_log_file_path:

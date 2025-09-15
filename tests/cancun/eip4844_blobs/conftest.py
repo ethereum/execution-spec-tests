@@ -79,7 +79,8 @@ def excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int | None:
     """
-    Calculate the excess blob gas of the block under test from the parent block.
+    Calculate the excess blob gas of the block under test from the parent
+    block.
 
     Value can be overloaded by a test case to provide a custom excess blob gas.
     """
@@ -100,7 +101,8 @@ def correct_excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int:
     """
-    Calculate the correct excess blob gas of the block under test from the parent block.
+    Calculate the correct excess blob gas of the block under test from the
+    parent block.
 
     Should not be overloaded by a test case.
     """
@@ -202,7 +204,8 @@ def tx_max_fee_per_gas(
 @pytest.fixture
 def tx_max_priority_fee_per_gas() -> int:
     """
-    Return default max priority fee per gas for transactions sent during test.
+    Return default max priority fee per gas for transactions sent during
+    test.
 
     Can be overloaded by a test case to provide a custom max priority fee per
     gas.
@@ -213,7 +216,8 @@ def tx_max_priority_fee_per_gas() -> int:
 @pytest.fixture
 def tx_max_fee_per_blob_gas_multiplier() -> int:
     """
-    Return default max fee per blob gas multiplier for transactions sent during test.
+    Return default max fee per blob gas multiplier for transactions sent
+    during test.
 
     Can be overloaded by a test case to provide a custom max fee per blob gas
     multiplier.
@@ -224,7 +228,8 @@ def tx_max_fee_per_blob_gas_multiplier() -> int:
 @pytest.fixture
 def tx_max_fee_per_blob_gas_delta() -> int:
     """
-    Return default max fee per blob gas delta for transactions sent during test.
+    Return default max fee per blob gas delta for transactions sent during
+    test.
 
     Can be overloaded by a test case to provide a custom max fee per blob gas
     delta.
@@ -263,22 +268,21 @@ def non_zero_blob_gas_used_genesis_block(
     block_base_fee_per_gas: int,
 ) -> Block | None:
     """
-    For test cases with a non-zero blobGasUsed field in the
-    original genesis block header we must instead utilize an
-    intermediate block to act on its behalf.
+    For test cases with a non-zero blobGasUsed field in the original genesis
+    block header we must instead utilize an intermediate block to act on its
+    behalf.
 
-    Genesis blocks with a non-zero blobGasUsed field are invalid as
-    they do not have any blob txs.
+    Genesis blocks with a non-zero blobGasUsed field are invalid as they do not
+    have any blob txs.
 
-    For the intermediate block to align with default genesis values,
-    we must add TARGET_BLOB_GAS_PER_BLOCK to the excessBlobGas of the
-    genesis value, expecting an appropriate drop to the intermediate block.
-    Similarly, we must add parent_blobs to the intermediate block within
-    a blob tx such that an equivalent blobGasUsed field is wrote.
+    For the intermediate block to align with default genesis values, we must
+    add TARGET_BLOB_GAS_PER_BLOCK to the excessBlobGas of the genesis value,
+    expecting an appropriate drop to the intermediate block. Similarly, we must
+    add parent_blobs to the intermediate block within a blob tx such that an
+    equivalent blobGasUsed field is wrote.
 
-    For forks >= Osaka where the MAX_BLOBS_PER_TX is introduced, we
-    split the blobs across multiple transactions to respect the
-    MAX_BLOBS_PER_TX limit.
+    For forks >= Osaka where the MAX_BLOBS_PER_TX is introduced, we split the
+    blobs across multiple transactions to respect the MAX_BLOBS_PER_TX limit.
     """
     if parent_blobs == 0:
         return None

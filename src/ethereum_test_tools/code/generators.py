@@ -13,32 +13,30 @@ GAS_PER_DEPLOYED_CODE_BYTE = 0xC8
 
 class Initcode(Bytecode):
     """
-    Helper class used to generate initcode for the specified deployment code.
+    Helper class used to generate initcode for the specified deployment
+    code.
 
     The execution gas cost of the initcode is calculated, and also the
     deployment gas costs for the deployed code.
 
-    The initcode can be padded to a certain length if necessary, which
-    does not affect the deployed code.
+    The initcode can be padded to a certain length if necessary, which does not
+    affect the deployed code.
 
-    Other costs such as the CREATE2 hashing costs or the initcode_word_cost
-    of EIP-3860 are *not* taken into account by any of these calculated
-    costs.
+    Other costs such as the CREATE2 hashing costs or the initcode_word_cost of
+    EIP-3860 are *not* taken into account by any of these calculated costs.
     """
 
     deploy_code: SupportsBytes | Bytes
-    """
-    Bytecode to be deployed by the initcode.
-    """
+    """Bytecode to be deployed by the initcode."""
+
     execution_gas: int
     """
     Gas cost of executing the initcode, without considering deployment gas
     costs.
     """
+
     deployment_gas: int
-    """
-    Gas cost of deploying the cost, subtracted after initcode execution,
-    """
+    """Gas cost of deploying the cost, subtracted after initcode execution,"""
 
     def __new__(
         cls,
@@ -51,7 +49,9 @@ class Initcode(Bytecode):
         name: str = "",
     ):
         """
-        Generate legacy initcode that inits a contract with the specified code.
+        Generate legacy initcode that inits a contract with the specified
+        code.
+
         The initcode can be padded to a specified length for testing purposes.
         """
         if deploy_code is None:
@@ -132,27 +132,25 @@ class CodeGasMeasure(Bytecode):
     Helper class used to generate bytecode that measures gas usage of a
     bytecode, taking into account and subtracting any extra overhead gas costs
     required to execute.
+
     By default, the result gas calculation is saved to storage key 0.
     """
 
     code: Bytecode
-    """
-    Bytecode to be executed to measure the gas usage.
-    """
+    """Bytecode to be executed to measure the gas usage."""
+
     overhead_cost: int
-    """
-    Extra gas cost to be subtracted from extra operations.
-    """
+    """Extra gas cost to be subtracted from extra operations."""
+
     extra_stack_items: int
-    """
-    Extra stack items that remain at the end of the execution.
+    """Extra stack items that remain at the end of the execution.
+
     To be considered when subtracting the value of the previous GAS operation,
     and to be popped at the end of the execution.
     """
+
     sstore_key: int | Bytes
-    """
-    Storage key to save the gas used.
-    """
+    """Storage key to save the gas used."""
 
     def __new__(
         cls,
@@ -198,9 +196,9 @@ class Conditional(Bytecode):
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
-        Assemble the conditional bytecode by generating the necessary jump and
-        jumpdest opcodes surrounding the condition and the two possible execution
-        paths.
+        Assemble the conditional bytecode by generating the necessary jump
+        and jumpdest opcodes surrounding the condition and the two possible
+        execution paths.
 
         In the future, PC usage should be replaced by using RJUMP and RJUMPI
         """
@@ -284,8 +282,8 @@ class Case:
 
 class CalldataCase(Case):
     """
-    Small helper class to represent a single case whose condition depends
-    on the value of the contract's calldata in a Switch case statement.
+    Small helper class to represent a single case whose condition depends on
+    the value of the contract's calldata in a Switch case statement.
 
     By default the calldata is read from position zero, but this can be
     overridden using `position`.
@@ -321,14 +319,12 @@ class Switch(Bytecode):
 
     cases: List[Case]
     """
-    A list of Cases: The first element with a condition that
-    evaluates to a non-zero value is the one that is executed.
+    A list of Cases: The first element with a condition that evaluates to a
+    non-zero value is the one that is executed.
     """
 
     evm_code_type: EVMCodeType
-    """
-    The EVM code type to use for the switch-case bytecode.
-    """
+    """The EVM code type to use for the switch-case bytecode."""
 
     def __new__(
         cls,
@@ -338,9 +334,9 @@ class Switch(Bytecode):
         evm_code_type: EVMCodeType = EVMCodeType.LEGACY,
     ):
         """
-        Assemble the bytecode by looping over the list of cases and adding
-        the necessary [R]JUMPI and JUMPDEST opcodes in order to replicate
-        switch-case behavior.
+        Assemble the bytecode by looping over the list of cases and adding the
+        necessary [R]JUMPI and JUMPDEST opcodes in order to replicate switch-
+        case behavior.
         """
         # The length required to jump over subsequent actions to the final JUMPDEST at the end
         # of the switch-case block:

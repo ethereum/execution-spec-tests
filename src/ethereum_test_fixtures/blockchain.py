@@ -93,8 +93,8 @@ def post_state_validator(alternate_field: str | None = None, mode: str = "after"
 
 class HeaderForkRequirement(str):
     """
-    Fork requirement class that specifies the name of the method that should be called
-    to check if the field is required.
+    Fork requirement class that specifies the name of the method that should be
+    called to check if the field is required.
     """
 
     def __new__(cls, value: str) -> "HeaderForkRequirement":
@@ -173,7 +173,10 @@ class FixtureHeader(CamelModel):
     fork: Fork | None = Field(None, exclude=True)
 
     def model_post_init(self, __context):
-        """Model post init method used to check for required fields of a given fork."""
+        """
+        Model post init method used to check for required fields of a given
+        fork.
+        """
         super().model_post_init(__context)
 
         if self.fork is None:
@@ -282,8 +285,8 @@ class FixtureExecutionPayload(CamelModel):
         block_access_list: Bytes | None = None,
     ) -> "FixtureExecutionPayload":
         """
-        Return FixtureExecutionPayload from a FixtureHeader, a list
-        of transactions, a list of withdrawals, and an optional block access list.
+        Return FixtureExecutionPayload from a FixtureHeader, a list of
+        transactions, a list of withdrawals, and an optional block access list.
         """
         return cls(
             **header.model_dump(exclude={"rlp"}, exclude_none=True),
@@ -313,8 +316,8 @@ EngineNewPayloadParameters = Union[
 
 class FixtureEngineNewPayload(CamelModel):
     """
-    Representation of the `engine_newPayloadVX` information to be
-    sent using the block information.
+    Representation of the `engine_newPayloadVX` information to be sent using
+    the block information.
     """
 
     params: EngineNewPayloadParameters
@@ -436,7 +439,10 @@ class WitnessChunk(CamelModel):
 
 
 class FixtureBlockBase(CamelModel):
-    """Representation of an Ethereum block within a test Fixture without RLP bytes."""
+    """
+    Representation of an Ethereum block within a test Fixture without RLP
+    bytes.
+    """
 
     header: FixtureHeader = Field(..., alias="blockHeader")
     txs: List[FixtureTransaction] = Field(default_factory=list, alias="transactions")
@@ -517,8 +523,8 @@ class BlockchainFixtureCommon(BaseFixture):
     @classmethod
     def config_defaults_for_backwards_compatibility(cls, data: Any) -> Any:
         """
-        Check if the config field is populated, otherwise use the root-level field values for
-        backwards compatibility.
+        Check if the config field is populated, otherwise use the root-level
+        field values for backwards compatibility.
         """
         if isinstance(data, dict):
             if "config" not in data:
@@ -607,7 +613,10 @@ class BlockchainEngineXFixture(BlockchainEngineFixtureCommon):
     """Hash of the pre-allocation group this test belongs to."""
 
     post_state_diff: Alloc | None = None
-    """State difference from genesis after test execution (efficiency optimization)."""
+    """
+    State difference from genesis after test execution (efficiency
+    optimization).
+    """
 
     payloads: List[FixtureEngineNewPayload] = Field(..., alias="engineNewPayloads")
     """Engine API payloads for blockchain execution."""

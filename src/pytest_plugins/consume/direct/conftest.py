@@ -120,7 +120,8 @@ def fixture_path(test_case: TestCaseIndexFile | TestCaseStream, fixtures_source:
     """
     Path to the current JSON fixture file.
 
-    If the fixture source is stdin, the fixture is written to a temporary json file.
+    If the fixture source is stdin, the fixture is written to a temporary json
+    file.
     """
     if fixtures_source.is_stdin:
         assert isinstance(test_case, TestCaseStream)

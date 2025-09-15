@@ -39,7 +39,8 @@ def generate_identity_call_bytecode(
     call_succeeds: bool,
 ) -> Bytecode:
     """
-    Generate bytecode for calling the identity precompile with given memory values.
+    Generate bytecode for calling the identity precompile with given memory
+    values.
 
     Args:
         storage (Storage): The storage object to use for storing values.

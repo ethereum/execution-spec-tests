@@ -67,7 +67,10 @@ def test_txcreate_then_dataload(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies that a contract returned with auxdata does not overwrite the parent data."""
+    """
+    Verifies that a contract returned with auxdata does not overwrite the
+    parent data.
+    """
     env = Environment()
     sender = pre.fund_eoa()
     small_auxdata_container = Container(
@@ -294,8 +297,8 @@ def test_txcreate_in_initcode(
     """
     Verifies an TXCREATE occurring within initcode creates that contract.
 
-    Via the `outer_create_reverts` also verifies a TXCREATE occurring in an initcode is rolled back
-    when the initcode reverts.
+    Via the `outer_create_reverts` also verifies a TXCREATE occurring in an
+    initcode is rolled back when the initcode reverts.
     """
     smallest_initcode_subcontainer_hash = smallest_initcode_subcontainer.hash
     inner_create_bytecode = (
@@ -385,7 +388,10 @@ def test_return_data_cleared(
     pre: Alloc,
     evm_code_type: EVMCodeType,
 ):
-    """Verifies the return data is not reused from a extcall but is cleared upon TXCREATE."""
+    """
+    Verifies the return data is not reused from a extcall but is cleared upon
+    TXCREATE.
+    """
     env = Environment()
     value_return_canary = 0x4158675309
     value_return_canary_size = 5
@@ -494,7 +500,10 @@ def test_txcreate_revert_eof_returndata(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies the return data is not being deployed, even if happens to be valid EOF."""
+    """
+    Verifies the return data is not being deployed, even if happens to be valid
+    EOF.
+    """
     env = Environment()
     code_reverts_with_calldata = Container(
         name="Initcode Subcontainer reverting with its calldata",
@@ -634,7 +643,10 @@ def test_txcreate_memory_context(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies an TXCREATE frame enjoys a separate EVM memory from its caller frame."""
+    """
+    Verifies an TXCREATE frame enjoys a separate EVM memory from its caller
+    frame.
+    """
     env = Environment()
     destination_storage = Storage()
     contract_storage = Storage()
@@ -680,7 +692,10 @@ def test_short_data_subcontainer(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Deploy a subcontainer where the data is "short" and filled by deployment code."""
+    """
+    Deploy a subcontainer where the data is "short" and filled by deployment
+    code.
+    """
     env = Environment()
     sender = pre.fund_eoa()
 

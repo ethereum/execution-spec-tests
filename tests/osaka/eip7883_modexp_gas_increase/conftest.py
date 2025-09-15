@@ -43,6 +43,7 @@ def call_opcode() -> Op:
 def call_contract_post_storage() -> Storage:
     """
     Storage of the test contract after the transaction is executed.
+
     Note: Fixture `call_contract_code` fills the actual expected storage values.
     """
     return Storage()
@@ -84,8 +85,10 @@ def expected_tx_cap_fail() -> bool:
 def call_succeeds(exceeds_tx_gas_cap: bool, expected_tx_cap_fail: bool) -> bool:
     """
     Determine whether the ModExp precompile call should succeed or fail.
-    By default, depending on the expected output, we assume it succeeds.
-    Under EIP-7825, transactions requiring more gas than the cap should fail only if unexpected.
+
+    By default, depending on the expected output, we assume it succeeds. Under
+    EIP-7825, transactions requiring more gas than the cap should fail only if
+    unexpected.
     """
     if exceeds_tx_gas_cap and not expected_tx_cap_fail:
         pytest.fail(
@@ -107,7 +110,8 @@ def gas_measure_contract(
     call_succeeds: bool,
 ) -> Address:
     """
-    Deploys a contract that measures ModExp gas consumption and execution result.
+    Deploys a contract that measures ModExp gas consumption and execution
+    result.
 
     Always stored:
         storage[0]: precompile call success
@@ -177,7 +181,10 @@ def gas_measure_contract(
 def precompile_gas(
     fork: Fork, modexp_input: ModExpInput, gas_old: int | None, gas_new: int | None
 ) -> int:
-    """Calculate gas cost for the ModExp precompile and verify it matches expected gas."""
+    """
+    Calculate gas cost for the ModExp precompile and verify it matches expected
+    gas.
+    """
     spec = Spec if fork < Osaka else Spec7883
     try:
         calculated_gas = spec.calculate_gas_cost(modexp_input)

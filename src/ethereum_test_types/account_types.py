@@ -50,16 +50,19 @@ class State:
 
 def set_account(state: State, address: Bytes20, account: Optional[FrontierAccount]) -> None:
     """
-    Set the `Account` object at an address. Setting to `None` deletes
-    the account (but not its storage, see `destroy_account()`).
+    Set the `Account` object at an address.
+
+    Setting to `None` deletes the account (but not its storage, see
+    `destroy_account()`).
     """
     trie_set(state._main_trie, address, account)
 
 
 def set_storage(state: State, address: Bytes20, key: Bytes32, value: U256) -> None:
     """
-    Set a value at a storage key on an account. Setting to `U256(0)` deletes
-    the key.
+    Set a value at a storage key on an account.
+
+    Setting to `U256(0)` deletes the key.
     """
     assert trie_get(state._main_trie, address) is not None
 
@@ -93,9 +96,11 @@ def state_root(state: State) -> Bytes32:
 
 class EOA(Address):
     """
-    An Externally Owned Account (EOA) is an account controlled by a private key.
+    An Externally Owned Account (EOA) is an account controlled by a private
+    key.
 
-    The EOA is defined by its address and (optionally) by its corresponding private key.
+    The EOA is defined by its address and (optionally) by its corresponding
+    private key.
     """
 
     key: Hash | None
@@ -312,6 +317,7 @@ class Alloc(BaseAlloc):
     def verify_post_alloc(self, got_alloc: "Alloc"):
         """
         Verify that the allocation matches the expected post in the test.
+
         Raises exception on unexpected values.
         """
         assert isinstance(got_alloc, Alloc), f"got_alloc is not an Alloc: {got_alloc}"
@@ -354,7 +360,10 @@ class Alloc(BaseAlloc):
         delegation: Address | Literal["Self"] | None = None,
         nonce: NumberConvertible | None = None,
     ) -> EOA:
-        """Add a previously unused EOA to the pre-alloc with the balance specified by `amount`."""
+        """
+        Add a previously unused EOA to the pre-alloc with the balance specified
+        by `amount`.
+        """
         raise NotImplementedError("fund_eoa is not implemented in the base class")
 
     def fund_address(self, address: Address, amount: NumberConvertible):
@@ -370,7 +379,7 @@ class Alloc(BaseAlloc):
         """
         Return a previously unused account guaranteed to be empty.
 
-        This ensures the account has zero balance, zero nonce, no code, and no storage.
-        The account is not a precompile or a system contract.
+        This ensures the account has zero balance, zero nonce, no code, and no
+        storage. The account is not a precompile or a system contract.
         """
         raise NotImplementedError("empty_account is not implemented in the base class")

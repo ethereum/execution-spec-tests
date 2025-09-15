@@ -1,6 +1,7 @@
 """
-abstract: Tests that benchmark EVMs for worst-case stateful opcodes.
-    Tests that benchmark EVMs for worst-case stateful opcodes.
+Abstract: Tests that benchmark EVMs for worst-case stateful opcodes.
+
+Tests that benchmark EVMs for worst-case stateful opcodes.
 
 Tests that benchmark EVMs for worst-case stateful opcodes.
 """
@@ -142,7 +143,10 @@ def test_worst_address_state_warm(
     absent_target: bool,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many stateful opcodes doing warm access for an account."""
+    """
+    Test running a block with as many stateful opcodes doing warm access for an
+    account.
+    """
     max_code_size = fork.max_code_size()
     attack_gas_limit = gas_benchmark_value
 
@@ -455,7 +459,10 @@ def test_worst_blockhash(
     pre: Alloc,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many blockhash accessing oldest allowed block as possible."""
+    """
+    Test running a block with as many blockhash accessing oldest allowed block
+    as possible.
+    """
     # Create 256 dummy blocks to fill the blockhash window.
     blocks = [Block()] * 256
 
@@ -560,7 +567,10 @@ def test_worst_selfdestruct_existing(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many SELFDESTRUCTs as possible for existing contracts."""
+    """
+    Test running a block with as many SELFDESTRUCTs as possible for existing
+    contracts.
+    """
     attack_gas_limit = gas_benchmark_value
     fee_recipient = pre.fund_eoa(amount=1)
 
@@ -700,8 +710,8 @@ def test_worst_selfdestruct_created(
     gas_benchmark_value: int,
 ):
     """
-    Test running a block with as many SELFDESTRUCTs as possible for deployed contracts in
-    the same transaction.
+    Test running a block with as many SELFDESTRUCTs as possible for deployed
+    contracts in the same transaction.
     """
     fee_recipient = pre.fund_eoa(amount=1)
     env.fee_recipient = fee_recipient
@@ -798,7 +808,10 @@ def test_worst_selfdestruct_initcode(
     env: Environment,
     gas_benchmark_value: int,
 ):
-    """Test running a block with as many SELFDESTRUCTs as possible executed in initcode."""
+    """
+    Test running a block with as many SELFDESTRUCTs as possible executed in
+    initcode.
+    """
     fee_recipient = pre.fund_eoa(amount=1)
     env.fee_recipient = fee_recipient
 

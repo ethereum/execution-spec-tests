@@ -80,8 +80,8 @@ def test_from_binary(
 
 def test_unknown_binary_path():
     """
-    Test that `from_binary_path` raises `UnknownCLIError` for unknown
-    binary paths.
+    Test that `from_binary_path` raises `UnknownCLIError` for unknown binary
+    paths.
     """
     with pytest.raises(CLINotFoundInPathError):
         TransitionTool.from_binary_path(binary_path=Path("unknown_binary_path"))

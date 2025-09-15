@@ -99,9 +99,11 @@ def test_legacy_create_tx_prefix_initcode(
     initcode: Bytes,
 ):
     """
-    Test that a legacy contract creation tx behaves as it did before EIP-7873 for
-    initcode stating with `EF`.
-    The transaction should be valid but fail on executing of the first byte `EF`.
+    Test that a legacy contract creation tx behaves as it did before
+    EIP-7873 for initcode stating with `EF`.
+
+    The transaction should be valid but fail on executing of the first byte
+    `EF`.
     """
     env = Environment()
     sender = pre.fund_eoa()

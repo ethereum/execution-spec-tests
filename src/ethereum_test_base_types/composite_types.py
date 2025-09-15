@@ -90,8 +90,8 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
     @dataclass(kw_only=True)
     class KeyValueMismatchError(Exception):
         """
-        Test expected a certain value in a storage key but value found
-        was different.
+        Test expected a certain value in a storage key but value found was
+        different.
         """
 
         address: Address
@@ -101,7 +101,10 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         hint: str
 
         def __init__(self, address: Address, key: int, want: int, got: int, hint: str = "", *args):
-            """Initialize the exception with the address, key, wanted and got values."""
+            """
+            Initialize the exception with the address, key, wanted and got
+            values.
+            """
             super().__init__(args)
             self.address = address
             self.key = key
@@ -190,7 +193,8 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         self, value: StorageKeyValueTypeConvertible | StorageKeyValueType | bool, hint: str = ""
     ) -> StorageKeyValueType:
         """
-        Store a value in the storage and returns the key where the value is stored.
+        Store a value in the storage and returns the key where the value is
+        stored.
 
         Increments the key counter so the next time this function is called,
         the next key is used.
@@ -208,10 +212,11 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
 
     def contains(self, other: "Storage") -> bool:
         """
-        Return True if self contains all keys with equal value as
-        contained by second storage.
-        Used for comparison with test expected post state and alloc returned
-        by the transition tool.
+        Return True if self contains all keys with equal value as contained
+        by second storage.
+
+        Used for comparison with test expected post state and alloc returned by
+        the transition tool.
         """
         for key in other.keys():
             if key not in self:
@@ -224,9 +229,10 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
         """
         Succeeds only if self contains all keys with equal value as
         contained by second storage.
-        Used for comparison with test expected post state and alloc returned
-        by the transition tool.
-        Raises detailed exception when a difference is found.
+
+        Used for comparison with test expected post state and alloc returned by
+        the transition tool. Raises detailed exception when a difference is
+        found.
         """
         for key in other.keys():
             if key not in self:
@@ -283,8 +289,9 @@ class Storage(EthereumTestRootModel[Dict[StorageKeyValueType, StorageKeyValueTyp
 
     def canary(self) -> "Storage":
         """
-        Return a canary storage filled with non-zero values where the current storage expects
-        zero values, to guarantee that the test overwrites the storage.
+        Return a canary storage filled with non-zero values where the current
+        storage expects zero values, to guarantee that the test overwrites the
+        storage.
         """
         return Storage({key: HashInt(0xBA5E) for key in self.keys() if self[key] == 0})
 
@@ -294,22 +301,18 @@ class Account(CamelModel):
 
     nonce: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
     """
-    The scalar value equal to a) the number of transactions sent by
-    an Externally Owned Account, b) the amount of contracts created by a
-    contract.
+    The scalar value equal to a) the number of transactions sent by an
+    Externally Owned Account, b) the amount of contracts created by a contract.
     """
+
     balance: ZeroPaddedHexNumber = ZeroPaddedHexNumber(0)
-    """
-    The amount of Wei (10<sup>-18</sup> Eth) the account has.
-    """
+    """The amount of Wei (10<sup>-18</sup> Eth) the account has."""
+
     code: Bytes = Bytes(b"")
-    """
-    Bytecode contained by the account.
-    """
+    """Bytecode contained by the account."""
+
     storage: Storage = Field(default_factory=Storage)
-    """
-    Storage within a contract.
-    """
+    """Storage within a contract."""
 
     NONEXISTENT: ClassVar[None] = None
     """
@@ -348,8 +351,8 @@ class Account(CamelModel):
     @dataclass(kw_only=True)
     class BalanceMismatchError(Exception):
         """
-        Test expected a certain balance for an account but a different
-        value was found.
+        Test expected a certain balance for an account but a different value
+        was found.
         """
 
         address: Address
@@ -376,8 +379,8 @@ class Account(CamelModel):
     @dataclass(kw_only=True)
     class CodeMismatchError(Exception):
         """
-        Test expected a certain bytecode for an account but a different
-        one was found.
+        Test expected a certain bytecode for an account but a different one was
+        found.
         """
 
         address: Address
@@ -404,6 +407,7 @@ class Account(CamelModel):
     def check_alloc(self: "Account", address: Address, account: "Account"):
         """
         Check the returned alloc against an expected account in post state.
+
         Raises exception on failure.
         """
         if "nonce" in self.model_fields_set:

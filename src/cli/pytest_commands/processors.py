@@ -48,8 +48,8 @@ class StdoutFlagsProcessor(ArgumentProcessor):
 
     def process_args(self, args: List[str]) -> List[str]:
         """
-        If the user has requested to write to stdout, add pytest arguments
-        to suppress pytest's test session header and summary output.
+        If the user has requested to write to stdout, add pytest arguments to
+        suppress pytest's test session header and summary output.
         """
         if not self._is_writing_to_stdout(args):
             return args

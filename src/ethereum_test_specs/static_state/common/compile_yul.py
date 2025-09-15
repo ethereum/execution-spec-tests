@@ -1,4 +1,4 @@
-"""compile yul with arguments."""
+"""Compile yul with arguments."""
 
 import subprocess
 from pathlib import Path
@@ -51,7 +51,8 @@ def safe_solc_command(
 
 def compile_yul(source_file: str, evm_version: str | None = None, optimize: str | None = None):
     """
-    Compiles a Yul source file using solc and returns the binary representation.
+    Compiles a Yul source file using solc and returns the binary
+    representation.
 
     Parameters_:
         source_file (str): Path to the Yul source file.

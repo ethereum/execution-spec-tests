@@ -177,9 +177,7 @@ V1_EOF_OPCODES: List[Op] = [
     Op.INVALID,
     # Op.SELFDESTRUCT,
 ]
-"""
-List of all valid EOF V1 opcodes for Shanghai.
-"""
+"""List of all valid EOF V1 opcodes for Shanghai."""
 
 V1_EOF_DEPRECATED_OPCODES = [
     Op.SELFDESTRUCT,
@@ -188,8 +186,7 @@ V1_EOF_DEPRECATED_OPCODES = [
     Op.JUMPI,
     Op.PC,
 ]
-"""
-List of opcodes that will be deprecated for EOF V1.
+"""List of opcodes that will be deprecated for EOF V1.
 
 For these opcodes we will also add the correct expected amount of stack items
 so the container is not considered invalid due to buffer underflow.
@@ -221,9 +218,7 @@ V1_EOF_ONLY_OPCODES = [
     Op.EOFCREATE,
     Op.RETURNCODE,
 ]
-"""
-List of valid EOF V1 opcodes that are disabled in legacy bytecode.
-"""
+"""List of valid EOF V1 opcodes that are disabled in legacy bytecode."""
 
 VALID_TERMINATING_OPCODES = [
     Op.STOP,

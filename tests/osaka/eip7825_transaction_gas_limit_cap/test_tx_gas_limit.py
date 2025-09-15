@@ -37,8 +37,8 @@ REFERENCE_SPEC_VERSION = ref_spec_7825.version
 
 def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
     """
-    Return a list of tests for transaction gas limit cap parametrized for each different
-    fork.
+    Return a list of tests for transaction gas limit cap parametrized for each
+    different fork.
     """
     fork_tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     if fork_tx_gas_limit_cap is None:
@@ -423,7 +423,10 @@ def test_tx_gas_limit_cap_access_list_with_diff_keys(
     pre: Alloc,
     fork: Fork,
 ):
-    """Test the transaction gas limit cap behavior for access list with different storage keys."""
+    """
+    Test the transaction gas limit cap behavior for access list with different
+    storage keys.
+    """
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
@@ -499,7 +502,10 @@ def test_tx_gas_limit_cap_access_list_with_diff_addr(
     exceed_tx_gas_limit: bool,
     correct_intrinsic_cost_in_transaction_gas_limit: bool,
 ):
-    """Test the transaction gas limit cap behavior for access list with different addresses."""
+    """
+    Test the transaction gas limit cap behavior for access list with different
+    addresses.
+    """
     intrinsic_cost = fork.transaction_intrinsic_cost_calculator()
     tx_gas_limit_cap = fork.transaction_gas_limit_cap()
     assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"

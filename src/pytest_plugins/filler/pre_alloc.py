@@ -195,10 +195,11 @@ class Alloc(BaseAlloc):
         nonce: NumberConvertible | None = None,
     ) -> EOA:
         """
-        Add a previously unused EOA to the pre-alloc with the balance specified by `amount`.
+        Add a previously unused EOA to the pre-alloc with the balance
+        specified by `amount`.
 
-        If amount is 0, nothing will be added to the pre-alloc but a new and unique EOA will be
-        returned.
+        If amount is 0, nothing will be added to the pre-alloc but a new and
+        unique EOA will be returned.
         """
         eoa = next(self._eoa_iterator)
         if amount is None:
@@ -257,7 +258,8 @@ class Alloc(BaseAlloc):
 
     def empty_account(self) -> Address:
         """
-        Add a previously unused account guaranteed to be empty to the pre-alloc.
+        Add a previously unused account guaranteed to be empty to the pre-
+        alloc.
 
         This ensures the account has:
         - Zero balance
@@ -324,13 +326,13 @@ def node_id_for_entropy(request: pytest.FixtureRequest, fork: Fork | None) -> st
     """
     Return the node id with the fixture format name and fork name stripped.
 
-    Used in cases where we are filling for pre-alloc groups, and we take the name of the
-    test as source of entropy to get a deterministic address when generating the pre-alloc
-    grouping.
+    Used in cases where we are filling for pre-alloc groups, and we take the
+    name of the test as source of entropy to get a deterministic address when
+    generating the pre-alloc grouping.
 
-    Removing the fixture format and the fork name from the node id before hashing results in the
-    contracts and senders addresses being the same across fixture types and forks for the same
-    test.
+    Removing the fixture format and the fork name from the node id before
+    hashing results in the contracts and senders addresses being the same
+    across fixture types and forks for the same test.
     """
     node_id: str = request.node.nodeid
     if fork is None:

@@ -1,6 +1,7 @@
 """
-abstract: Tests that benchmark EVMs in worst-case opcode scenarios.
-    Tests that benchmark EVMs in worst-case opcode scenarios.
+Abstract: Tests that benchmark EVMs in worst-case opcode scenarios.
+
+Tests that benchmark EVMs in worst-case opcode scenarios.
 
 Tests that benchmark EVMs in worst-case opcode scenarios.
 """
@@ -56,16 +57,16 @@ def test_worst_bytecode_single_opcode(
     gas_benchmark_value: int,
 ):
     """
-    Test a block execution where a single opcode execution maxes out the gas limit,
-    and the opcodes access a huge amount of contract code.
+    Test a block execution where a single opcode execution maxes out the gas
+    limit, and the opcodes access a huge amount of contract code.
 
-    We first use a single block to deploy a factory contract that will be used to deploy
-    a large number of contracts.
+    We first use a single block to deploy a factory contract that will be used
+    to deploy a large number of contracts.
 
     This is done to avoid having a big pre-allocation size for the test.
 
-    The test is performed in the last block of the test, and the entire block gas limit is
-    consumed by repeated opcode executions.
+    The test is performed in the last block of the test, and the entire block
+    gas limit is consumed by repeated opcode executions.
     """
     # The attack gas limit is the gas limit which the target tx will use
     # The test will scale the block gas limit to setup the contracts accordingly to be
@@ -254,11 +255,12 @@ def test_worst_initcode_jumpdest_analysis(
     """
     Test the jumpdest analysis performance of the initcode.
 
-    This benchmark places a very long initcode in the memory and then invoke CREATE instructions
-    with this initcode up to the block gas limit. The initcode itself has minimal execution time
-    but forces the EVM to perform the full jumpdest analysis on the parametrized byte pattern.
-    The initicode is modified by mixing-in the returned create address between CREATE invocations
-    to prevent caching.
+    This benchmark places a very long initcode in the memory and then invoke
+    CREATE instructions with this initcode up to the block gas limit. The
+    initcode itself has minimal execution time but forces the EVM to perform
+    the full jumpdest analysis on the parametrized byte pattern. The initicode
+    is modified by mixing-in the returned create address between CREATE
+    invocations to prevent caching.
     """
     max_code_size = fork.max_code_size()
     initcode_size = fork.max_initcode_size()

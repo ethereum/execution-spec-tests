@@ -56,7 +56,10 @@ def test_cross_version_creates_fail_light(
     legacy_create_opcode: Opcodes,
     initcode: Bytes | Container,
 ):
-    """Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on attempt."""
+    """
+    Verifies that CREATE and CREATE2 cannot run EOF initcodes and fail early on
+    attempt.
+    """
     env = Environment()
 
     sender = pre.fund_eoa()
@@ -126,8 +129,8 @@ def test_cross_version_creates_fail_hard(
     initcode: Bytes,
 ):
     """
-    Verifies that CREATE and CREATE2 fail hard on attempt to run initcode starting with `EF` but
-    not `EF00`.
+    Verifies that CREATE and CREATE2 fail hard on attempt to run initcode
+    starting with `EF` but not `EF00`.
     """
     env = Environment()
 

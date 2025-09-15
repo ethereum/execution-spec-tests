@@ -33,7 +33,9 @@ def test_jumpf_target_rules(
 ):
     """
     Validate the target section rules of JUMPF, and execute valid cases.
-    We are not testing stack so a lot of the logic is to get correct stack values.
+
+    We are not testing stack so a lot of the logic is to get correct stack
+    values.
     """
     source_non_returning = source_outputs == NON_RETURNING_SECTION
     source_height = 0 if source_non_returning else source_outputs

@@ -7,11 +7,13 @@ from pydantic import BaseModel
 
 class ModelCustomizationsMixin:
     """
-    A mixin that customizes the behavior of pydantic models. Any pydantic
-    configuration override that must apply to all models
-    should be placed here.
+    A mixin that customizes the behavior of pydantic models.
 
-    This mixin is applied to both `EthereumTestBaseModel` and `EthereumTestRootModel`.
+    Any pydantic configuration override that must apply to all models should be
+    placed here.
+
+    This mixin is applied to both `EthereumTestBaseModel` and
+    `EthereumTestRootModel`.
     """
 
     def serialize(
@@ -21,13 +23,15 @@ class ModelCustomizationsMixin:
         exclude_none: bool = True,
     ) -> dict[str, Any]:
         """
-        Serialize the model to the specified format with the given parameters.
+        Serialize the model to the specified format with the given
+        parameters.
 
-        :param mode: The mode of serialization.
-              If mode is 'json', the output will only contain JSON serializable types.
-              If mode is 'python', the output may contain non-JSON-serializable Python objects.
+        :param mode: The mode of serialization. If mode is 'json', the output
+            will only contain JSON serializable types. If mode is 'python', the
+            output may contain non-JSON-serializable Python objects.
         :param by_alias: Whether to use aliases for field names.
-        :param exclude_none: Whether to exclude fields with None values, default is True.
+        :param exclude_none: Whether to exclude fields with None values,
+            default is True.
         :return: The serialized representation of the model.
         """
         if not hasattr(self, "model_dump"):
@@ -39,7 +43,8 @@ class ModelCustomizationsMixin:
 
     def __repr_args__(self):
         """
-        Generate a list of attribute-value pairs for the object representation.
+        Generate a list of attribute-value pairs for the object
+        representation.
 
         This method serializes the model, retrieves the attribute names,
         and constructs a list of tuples containing attribute names and their corresponding values.

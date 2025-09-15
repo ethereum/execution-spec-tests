@@ -234,8 +234,8 @@ def parent_block_txs(
     """
     Transactions included in the block prior to the fork transition fork.
 
-    Includes blob transactions to raise the `parent_blob_gas_used` and normal transactions
-    to raise/lower the base fee per gas.
+    Includes blob transactions to raise the `parent_blob_gas_used` and normal
+    transactions to raise/lower the base fee per gas.
     """
     parent_block_blob_txs = get_blob_transactions(
         blob_count=parent_blob_count,
@@ -386,8 +386,8 @@ class BlobSchedule:
 
     def calculate_excess_blob_gas(self, parent_header: ParentHeader) -> int:
         """
-        Calculate the excess blob gas for the current block based
-        on the gas used in the parent block.
+        Calculate the excess blob gas for the current block based on the gas
+        used in the parent block.
         """
         excess_blob_gas_calculator = self.fork.excess_blob_gas_calculator(timestamp=self.timestamp)
         return excess_blob_gas_calculator(
@@ -400,8 +400,8 @@ class BlobSchedule:
         self, excess_blob_gas: int
     ) -> int | None:
         """
-        Return the minimum base fee required to trigger the reserve mechanism, or None
-        for blob schedules that don't have a reserve price mechanism.
+        Return the minimum base fee required to trigger the reserve mechanism,
+        or None for blob schedules that don't have a reserve price mechanism.
         """
         if self.blob_base_cost is None:
             return None
@@ -414,8 +414,8 @@ class BlobSchedule:
 
 def get_fork_scenarios(fork: Fork) -> Iterator[ParameterSet]:
     """
-    Return the list of scenarios at the fork boundary depending on the source fork and
-    transition fork properties.
+    Return the list of scenarios at the fork boundary depending on the source
+    fork and transition fork properties.
     """
     source_blob_schedule = BlobSchedule(fork=fork, timestamp=0)
     transition_blob_schedule = BlobSchedule(fork=fork, timestamp=15_000)
@@ -541,7 +541,10 @@ def test_reserve_price_at_transition(
     transition_block: Block,
     env: Environment,
 ):
-    """Test reserve price mechanism across various block base fee and excess blob gas scenarios."""
+    """
+    Test reserve price mechanism across various block base fee and excess blob
+    gas scenarios.
+    """
     blockchain_test(
         pre=pre,
         post={},

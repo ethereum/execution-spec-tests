@@ -25,7 +25,8 @@ template_env.filters["stringify"] = lambda value: repr(value)
 # generates a formatted pytest source code by writing provided data on a given template.
 def get_test_source(provider: Provider, template_path: str) -> str:
     """
-    Generate formatted pytest source code by rendering a template with provided data.
+    Generate formatted pytest source code by rendering a template with
+    provided data.
 
     This function uses the given template path to create a pytest-compatible source
     code string. It retrieves context data from the specified provider and applies

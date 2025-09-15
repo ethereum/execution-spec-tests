@@ -1,4 +1,7 @@
-"""Generate a markdown report of outdated EIP references from the EIP version checker output."""
+"""
+Generate a markdown report of outdated EIP references from the EIP version
+checker output.
+"""
 
 import os
 import re
@@ -8,10 +11,13 @@ from string import Template
 
 # Report template using textwrap.dedent for clean multiline strings
 REPORT_TEMPLATE = Template(
-    textwrap.dedent("""\
+    textwrap.dedent(
+        """\
     # EIP Version Check Report
 
-    This automated check has detected that some EIP references in test files are outdated. This means that the EIPs have been updated in the [ethereum/EIPs](https://github.com/ethereum/EIPs) repository since our tests were last updated.
+    This automated check has detected that some EIP references in test files are outdated.
+    This means that the EIPs have been updated in the
+    [ethereum/EIPs](https://github.com/ethereum/EIPs) repository since our tests were last updated.
 
     ## Outdated EIP References
 
@@ -42,7 +48,8 @@ REPORT_TEMPLATE = Template(
     ## Workflow Information
 
     For more details, see the [workflow run](https://github.com/ethereum/execution-spec-tests/actions/runs/$run_id).
-""")  # noqa: E501
+"""
+    )  # noqa: E501
 )
 
 

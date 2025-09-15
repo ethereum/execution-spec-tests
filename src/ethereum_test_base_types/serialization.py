@@ -36,26 +36,29 @@ class RLPSerializable:
 
     def get_rlp_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in RLP serialization.
+        Return an ordered list of field names to be included in RLP
+        serialization.
 
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_fields class variable is used.
 
-        The list can be nested list up to one extra level to represent nested fields.
+        The list can be nested list up to one extra level to represent nested
+        fields.
         """
         return self.rlp_fields
 
     def get_rlp_signing_fields(self) -> List[str]:
         """
-        Return an ordered list of field names to be included in the RLP serialization of the object
-        signature.
+        Return an ordered list of field names to be included in the RLP
+        serialization of the object signature.
 
         Function can be overridden to customize the logic to return the fields.
 
         By default, rlp_signing_fields class variable is used.
 
-        The list can be nested list up to one extra level to represent nested fields.
+        The list can be nested list up to one extra level to represent nested
+        fields.
         """
         return self.rlp_signing_fields
 
@@ -69,7 +72,8 @@ class RLPSerializable:
 
     def get_rlp_signing_prefix(self) -> bytes:
         """
-        Return a prefix that has to be appended to the serialized signing object.
+        Return a prefix that has to be appended to the serialized signing
+        object.
 
         By default, an empty string is returned.
         """
@@ -81,7 +85,8 @@ class RLPSerializable:
 
     def to_list_from_fields(self, fields: List[str]) -> List[Any]:
         """
-        Return an RLP serializable list that can be passed to `eth_rlp.encode`.
+        Return an RLP serializable list that can be passed to
+        `eth_rlp.encode`.
 
         Can be for signing purposes or the entire object.
         """
@@ -106,7 +111,8 @@ class RLPSerializable:
 
     def to_list(self, signing: bool = False) -> List[Any]:
         """
-        Return an RLP serializable list that can be passed to `eth_rlp.encode`.
+        Return an RLP serializable list that can be passed to
+        `eth_rlp.encode`.
 
         Can be for signing purposes or the entire object.
         """

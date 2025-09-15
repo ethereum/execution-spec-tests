@@ -8,8 +8,8 @@ from _pytest.mark.structures import ParameterSet
 
 class UnknownParameterInCasesError(Exception):
     """
-    Exception raised when a test case contains parameters
-    that are not present in the defaults.
+    Exception raised when a test case contains parameters that are not present
+    in the defaults.
     """
 
     def __init__(self) -> None:

@@ -1,8 +1,9 @@
 """
 Block Access List (BAL) models for EIP-7928.
 
-Following the established pattern in the codebase (AccessList, AuthorizationTuple),
-these are simple data classes that can be composed together.
+Following the established pattern in the codebase (AccessList,
+AuthorizationTuple), these are simple data classes that can be composed
+together.
 """
 
 from functools import cached_property
@@ -154,7 +155,8 @@ class BalAccountExpectation(CamelModel):
     """
     Represents expected changes to a specific account in a block.
 
-    Same as BalAccountChange but without the address field, used for expectations.
+    Same as BalAccountChange but without the address field, used for
+    expectations.
     """
 
     nonce_changes: List[BalNonceChange] = Field(
@@ -254,7 +256,8 @@ class BlockAccessListExpectation(CamelModel):
 
     def verify_against(self, actual_bal: "BlockAccessList") -> None:
         """
-        Verify that the actual BAL from the client matches this expected BAL.
+        Verify that the actual BAL from the client matches this expected
+        BAL.
 
         Args:
             actual_bal: The BlockAccessList model from the client
@@ -338,7 +341,10 @@ class BlockAccessListExpectation(CamelModel):
 
     @staticmethod
     def _compare_change_lists(field_name: str, expected: List, actual: List) -> bool:
-        """Compare lists of change objects using set operations for better error messages."""
+        """
+        Compare lists of change objects using set operations for better error
+        messages.
+        """
         if field_name == "storage_changes":
             # Storage changes are nested (slot -> changes)
             expected_by_slot = {slot["slot"]: slot["slot_changes"] for slot in expected}

@@ -1,7 +1,8 @@
 """
-A hive based simulator that executes blocks against clients using the `engine_newPayloadV*` method
-from the Engine API with sync testing. The simulator uses the `BlockchainEngineSyncFixtures` to
-test against clients with client synchronization.
+A hive based simulator that executes blocks against clients using the
+`engine_newPayloadV*` method from the Engine API with sync testing. The
+simulator uses the `BlockchainEngineSyncFixtures` to test against clients with
+client synchronization.
 
 This simulator:
 1. Spins up two clients: one as the client under test and another as the sync client

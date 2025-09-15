@@ -230,7 +230,10 @@ def test_modexp_gas_usage_contract_wrapper(
     tx: Transaction,
     post: Dict,
 ):
-    """Test ModExp gas cost with different gas modifiers using contract wrapper calls."""
+    """
+    Test ModExp gas cost with different gas modifiers using contract wrapper
+    calls.
+    """
     state_test(pre=pre, tx=tx, post=post)
 
 
@@ -268,7 +271,10 @@ def test_modexp_used_in_transaction_entry_points(
     modexp_input: bytes,
     tx_gas_limit: int,
 ):
-    """Test ModExp using in transaction entry points with different precompile gas modifiers."""
+    """
+    Test ModExp using in transaction entry points with different precompile gas
+    modifiers.
+    """
     tx = Transaction(
         to=Spec.MODEXP_ADDRESS,
         sender=pre.fund_eoa(),
@@ -478,6 +484,7 @@ def test_modexp_variable_gas_cost(
 def test_modexp_variable_gas_cost_exceed_tx_gas_cap(state_test, pre, tx, post):
     """
     Test ModExp variable gas cost.
+
     Inputs with an expected gas cost over the EIP-7825 tx gas cap.
     """
     # Test case coverage table (gas cap):

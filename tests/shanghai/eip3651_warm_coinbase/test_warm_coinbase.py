@@ -80,8 +80,8 @@ def test_warm_coinbase_call_out_of_gas(
     use_sufficient_gas: bool,
 ):
     """
-    Test that the coinbase is warm by accessing the COINBASE with each
-    of the following opcodes.
+    Test that the coinbase is warm by accessing the COINBASE with each of
+    the following opcodes.
 
     - CALL
     - CALLCODE

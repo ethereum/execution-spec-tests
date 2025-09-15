@@ -26,16 +26,17 @@ class ExceptionMapper(ABC):
     """
 
     mapping_regex: ClassVar[Dict[ExceptionBase, str]]
-    """
-    Mapping of exception to regex that should be present in the error message.
+    """Mapping of exception to regex that should be present in the error
+    message.
 
     Items in this mapping are compiled into regex patterns for faster matching,
     and then used for regex matching (`pattern.search(message)`).
     """
+
     reliable: ClassVar[bool] = True
     """
-    Whether the exceptions returned by the tool are reliable and can be accurately
-    mapped to the exceptions in this class.
+    Whether the exceptions returned by the tool are reliable and can be
+    accurately mapped to the exceptions in this class.
     """
 
     def __init__(self) -> None:
@@ -66,8 +67,8 @@ class ExceptionMapper(ABC):
 
 class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
     """
-    Class that contains the exception along with the verbatim message from the external
-    tool/client.
+    Class that contains the exception along with the verbatim message from the
+    external tool/client.
     """
 
     exceptions: List[ExceptionBoundTypeVar]
@@ -86,8 +87,8 @@ class ExceptionWithMessage(BaseModel, Generic[ExceptionBoundTypeVar]):
 
 def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | UndefinedException | None:
     """
-    Use the exception mapper that must be included in the context to map the exception
-    from the external tool.
+    Use the exception mapper that must be included in the context to map the
+    exception from the external tool.
     """
     if v is None:
         return v
@@ -109,9 +110,8 @@ def mapper_validator(v: str, info: ValidationInfo) -> Dict[str, Any] | Undefined
 
 
 ExceptionMapperValidator = BeforeValidator(mapper_validator)
-"""
-Validator that can be used to annotate a pydantic field in a model that is meant to be
-parsed from an external tool or client.
+"""Validator that can be used to annotate a pydantic field in a model that is
+meant to be parsed from an external tool or client.
 
 The annotated type must be an union that can include `None`, `UndefinedException` and a
 custom model as:

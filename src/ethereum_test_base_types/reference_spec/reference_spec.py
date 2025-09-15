@@ -36,7 +36,10 @@ class ReferenceSpec:
 
     @abstractmethod
     def has_known_version(self) -> bool:
-        """Return true if the reference spec object is hard-coded with a latest known version."""
+        """
+        Return true if the reference spec object is hard-coded with a latest
+        known version.
+        """
         pass
 
     @abstractmethod
@@ -64,13 +67,19 @@ class ReferenceSpec:
 
     @abstractmethod
     def write_info(self, info: Dict[str, Dict[str, Any] | str]):
-        """Write info about the reference specification used into the output fixture."""
+        """
+        Write info about the reference specification used into the output
+        fixture.
+        """
         pass
 
     @staticmethod
     @abstractmethod
     def parseable_from_module(module_dict: Dict[str, Any]) -> bool:
-        """Check whether the module's dict contains required reference spec information."""
+        """
+        Check whether the module's dict contains required reference spec
+        information.
+        """
         pass
 
     @staticmethod

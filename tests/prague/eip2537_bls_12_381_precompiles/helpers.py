@@ -14,7 +14,10 @@ from .spec import FP, FP2, PointG1, PointG2, Spec
 
 
 def current_python_script_directory(*args: str) -> str:
-    """Get the current Python script directory, optionally appending additional path components."""
+    """
+    Get the current Python script directory, optionally appending additional
+    path components.
+    """
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), *args)
 
 
@@ -29,7 +32,10 @@ class Vector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, self.expected, self.gas, id=self.name)
 
 
@@ -43,7 +49,10 @@ class FailVector(BaseModel):
     model_config = ConfigDict(alias_generator=to_pascal)
 
     def to_pytest_param(self):
-        """Convert the test vector to a tuple that can be used as a parameter in a pytest test."""
+        """
+        Convert the test vector to a tuple that can be used as a parameter in a
+        pytest test.
+        """
         return pytest.param(self.input, id=self.name)
 
 
@@ -192,8 +201,10 @@ class BLSPointGenerator:
     @staticmethod
     def sqrt_fq(a: FQ) -> Optional[FQ]:
         """
-        Compute smallest square root of FQ element (if it exists). Used when finding valid
-        y-coordinates for a given x-coordinate on the G1 curve.
+        Compute smallest square root of FQ element (if it exists).
+
+        Used when finding valid y-coordinates for a given x-coordinate on the
+        G1 curve.
         """
         assert field_modulus % 4 == 3, "This sqrt method requires p % 4 == 3"
         candidate = a ** ((field_modulus + 1) // 4)
@@ -206,8 +217,10 @@ class BLSPointGenerator:
     @staticmethod
     def sqrt_fq2(a: FQ2) -> Optional[FQ2]:
         """
-        Compute square root of FQ2 element (if it exists). Used when finding valid
-        y-coordinates for a given x-coordinate on the G2 curve.
+        Compute square root of FQ2 element (if it exists).
+
+        Used when finding valid y-coordinates for a given x-coordinate on the
+        G2 curve.
         """
         if a == FQ2([0, 0]):
             return FQ2([0, 0])
@@ -222,8 +235,11 @@ class BLSPointGenerator:
     @classmethod
     def multiply_by_cofactor(cls, point: Any, is_g2: bool = False):
         """
-        Multiply a point by the cofactor to ensure it's in the correct r-order subgroup.
-        Used for creating points in the correct r-order subgroup when using isomorphic curves.
+        Multiply a point by the cofactor to ensure it's in the correct
+        r-order subgroup.
+
+        Used for creating points in the correct r-order subgroup when using
+        isomorphic curves.
         """
         cofactor = cls.G2_COFACTOR if is_g2 else cls.G1_COFACTOR
         try:
@@ -251,8 +267,8 @@ class BLSPointGenerator:
     @memory.cache
     def find_g1_point_by_x(cls, x_value: int, in_subgroup: bool, on_curve: bool = True) -> PointG1:
         """
-        Find a G1 point with x-coordinate at or near the given value,
-        with the specified subgroup membership and curve membership.
+        Find a G1 point with x-coordinate at or near the given value, with the
+        specified subgroup membership and curve membership.
         """
         max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G1
@@ -327,8 +343,8 @@ class BLSPointGenerator:
         cls, x_value: tuple, in_subgroup: bool, on_curve: bool = True
     ) -> PointG2:
         """
-        Find a G2 point with x-coordinate at or near the given value,
-        with the specified subgroup membership and curve membership.
+        Find a G2 point with x-coordinate at or near the given value, with the
+        specified subgroup membership and curve membership.
         """
         max_offset = 5000
         isomorphic_b = cls.ISOMORPHIC_B_G2
@@ -413,26 +429,36 @@ class BLSPointGenerator:
     # G1 points by x coordinate (near or on the x value)
     @classmethod
     def generate_g1_point_in_subgroup_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G1 point that is in the r-order subgroup with x-coordinate by/on the
+        given value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=True, on_curve=True)
 
     @classmethod
     def generate_g1_point_not_in_subgroup_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is NOT in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G1 point that is NOT in the r-order subgroup with x-coordinate by/on
+        the given value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=False, on_curve=True)
 
     @classmethod
     def generate_g1_point_not_on_curve_by_x(cls, x_value: int) -> PointG1:
-        """G1 point that is NOT on the curve with x-coordinate by/on the given value."""
+        """
+        G1 point that is NOT on the curve with x-coordinate by/on the given
+        value.
+        """
         return cls.find_g1_point_by_x(x_value, in_subgroup=False, on_curve=False)
 
     @classmethod
     def generate_g1_point_on_isomorphic_curve_by_x(cls, x_value: int) -> PointG1:
         """
-        G1 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup with x-coordinate by/on the given value.
+        G1 point that is on an isomorphic curve (not standard curve) but in
+        the r-order subgroup with x-coordinate by/on the given value.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         return cls.find_g1_point_by_x(x_value, in_subgroup=True, on_curve=False)
 
@@ -464,10 +490,11 @@ class BLSPointGenerator:
     @classmethod
     def generate_random_g1_point_on_isomorphic_curve(cls, seed: int) -> PointG1:
         """
-        Generate a random G1 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup.
+        Generate a random G1 point that is on an isomorphic curve (not
+        standard curve) but in the r-order subgroup.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         seed_bytes = seed.to_bytes(32, "big")
         hash_output = hashlib.sha384(seed_bytes + b"on_isomorphic_curve").digest()
@@ -477,26 +504,36 @@ class BLSPointGenerator:
     # G2 point generators - by x coordinate (near or on the x value)
     @classmethod
     def generate_g2_point_in_subgroup_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G2 point that is in the r-order subgroup with x-coordinate by/on the
+        given value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=True, on_curve=True)
 
     @classmethod
     def generate_g2_point_not_in_subgroup_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is NOT in the r-order subgroup with x-coordinate by/on the given value."""
+        """
+        G2 point that is NOT in the r-order subgroup with x-coordinate by/on
+        the given value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=False, on_curve=True)
 
     @classmethod
     def generate_g2_point_not_on_curve_by_x(cls, x_value: tuple) -> PointG2:
-        """G2 point that is NOT on the curve with x-coordinate by/on the given value."""
+        """
+        G2 point that is NOT on the curve with x-coordinate by/on the given
+        value.
+        """
         return cls.find_g2_point_by_x(x_value, in_subgroup=False, on_curve=False)
 
     @classmethod
     def generate_g2_point_on_isomorphic_curve_by_x(cls, x_value: tuple) -> PointG2:
         """
-        G2 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup with x-coordinate near the given value.
+        G2 point that is on an isomorphic curve (not standard curve) but in
+        the r-order subgroup with x-coordinate near the given value.
 
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         return cls.find_g2_point_by_x(x_value, in_subgroup=True, on_curve=False)
 
@@ -537,9 +574,11 @@ class BLSPointGenerator:
     @classmethod
     def generate_random_g2_point_on_isomorphic_curve(cls, seed: int) -> PointG2:
         """
-        Generate a random G2 point that is on an isomorphic curve (not standard curve)
-        but in the r-order subgroup.
-        Uses cofactor multiplication to ensure the point is in the correct subgroup.
+        Generate a random G2 point that is on an isomorphic curve (not
+        standard curve) but in the r-order subgroup.
+
+        Uses cofactor multiplication to ensure the point is in the correct
+        subgroup.
         """
         seed_bytes = seed.to_bytes(32, "big")
         hash_output = hashlib.sha384(seed_bytes + b"g2_on_isomorphic_curve").digest()

@@ -69,7 +69,10 @@ class ContractTag(AddressTag):
     @model_validator(mode="before")
     @classmethod
     def validate_from_string(cls, data: Any) -> Any:
-        """Validate the contract tag from string: <contract:name:0x...> or <contract:0x...>."""
+        """
+        Validate the contract tag from string: <contract:name:0x...> or
+        <contract:0x...>.
+        """
         if isinstance(data, str):
             if m := cls.regex_pattern.match(data):
                 name_or_addr = m.group(1)

@@ -317,8 +317,8 @@ def parse_address_or_tag(value: Any) -> Union[Address, AddressTag]:
 
 def parse_address_or_tag_for_access_list(value: Any) -> Union[Address, str]:
     """
-    Parse either a regular address or an address tag, keeping tags as strings for later
-    resolution.
+    Parse either a regular address or an address tag, keeping tags as strings
+    for later resolution.
     """
     if not isinstance(value, str):
         # Non-string values should be converted to Address normally

@@ -64,8 +64,8 @@ class TransactionByHashResponse(Transaction):
     @classmethod
     def adapt_clients_response(cls, data: Any) -> Any:
         """
-        Perform modifications necessary to adapt the response returned by clients
-        so it can be parsed by our model.
+        Perform modifications necessary to adapt the response returned by
+        clients so it can be parsed by our model.
         """
         if isinstance(data, dict):
             if "gasPrice" in data and "maxFeePerGas" in data:
@@ -75,8 +75,8 @@ class TransactionByHashResponse(Transaction):
 
     def model_post_init(self, __context):
         """
-        Check that the transaction hash returned by the client matches the one calculated by
-        us.
+        Check that the transaction hash returned by the client matches the one
+        calculated by us.
         """
         Transaction.model_post_init(self, __context)
         assert self.transaction_hash == self.hash

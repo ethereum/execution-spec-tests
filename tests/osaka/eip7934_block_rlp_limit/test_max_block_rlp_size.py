@@ -190,8 +190,9 @@ def _exact_size_transactions_cached(
     emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
-    Generate transactions that fill a block to exactly the RLP size limit. Abstracted
-    with hashable arguments for caching block calculations.
+    Generate transactions that fill a block to exactly the RLP size limit.
+
+    Abstracted with hashable arguments for caching block calculations.
     """
     return _exact_size_transactions_impl(
         block_size_limit,
@@ -212,8 +213,9 @@ def _exact_size_transactions_impl(
     emit_logs_contract: Address | None = None,
 ) -> Tuple[List[Transaction], int]:
     """
-    Calculate the exact size of transactions to be included. Shared by both cached and
-    non-cached paths.
+    Calculate the exact size of transactions to be included.
+
+    Shared by both cached and non-cached paths.
     """
     transactions = []
     nonce = 0
@@ -489,7 +491,10 @@ def test_block_at_rlp_limit_with_logs(
     fork: Fork,
     block_size_limit: int,
 ):
-    """Test that a block at the RLP size limit is valid even when transactions emit logs."""
+    """
+    Test that a block at the RLP size limit is valid even when transactions
+    emit logs.
+    """
     transactions, gas_used = exact_size_transactions(
         sender,
         block_size_limit,

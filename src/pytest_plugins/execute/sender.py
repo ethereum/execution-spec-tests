@@ -85,15 +85,17 @@ def sender_key_initial_balance(
     """
     Calculate the initial balance of each sender key.
 
-    The way to do this is to fetch the seed sender balance and divide it by the number of
-    workers. This way we can ensure that each sender key has the same initial balance.
+    The way to do this is to fetch the seed sender balance and divide it by the
+    number of workers. This way we can ensure that each sender key has the same
+    initial balance.
 
-    We also only do this once per session, because if we try to fetch the balance again, it
-    could be that another worker has already sent a transaction and the balance is different.
+    We also only do this once per session, because if we try to fetch the
+    balance again, it could be that another worker has already sent a
+    transaction and the balance is different.
 
-    It's not really possible to calculate the transaction costs of each test that each worker
-    is going to run, so we can't really calculate the initial balance of each sender key
-    based on that.
+    It's not really possible to calculate the transaction costs of each test
+    that each worker is going to run, so we can't really calculate the initial
+    balance of each sender key based on that.
     """
     base_name = "sender_key_initial_balance"
     base_file = session_temp_folder / base_name
@@ -132,8 +134,8 @@ def sender_key(
     """
     Get the sender keys for all tests.
 
-    The seed sender is going to be shared among different processes, so we need to lock it
-    before we produce each funding transaction.
+    The seed sender is going to be shared among different processes, so we need
+    to lock it before we produce each funding transaction.
     """
     # For the seed sender we do need to keep track of the nonce because it is shared among
     # different processes, and there might not be a new block produced between the transactions.

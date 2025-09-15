@@ -231,8 +231,9 @@ def test_container_section_order(
 ):
     """
     Test containers section being out of order in the header and/or body.
-    This extends and follows the convention of the test_section_order()
-    for the optional container section.
+
+    This extends and follows the convention of the test_section_order() for the
+    optional container section.
     """
     if container_position == 2:
         pytest.skip("Skip valid container section position")

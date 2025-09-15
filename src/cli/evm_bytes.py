@@ -206,7 +206,8 @@ def hex_string(hex_string: str, assembly: bool):
 @click.argument("binary_file", type=click.File("rb"))
 def binary_file(binary_file, assembly: bool):
     """
-    Convert the BINARY_FILE containing EVM bytes to Python Opcodes or assembly.
+    Convert the BINARY_FILE containing EVM bytes to Python Opcodes or
+    assembly.
 
     BINARY_FILE is a binary file containing EVM bytes, use `-` to read from stdin.
 

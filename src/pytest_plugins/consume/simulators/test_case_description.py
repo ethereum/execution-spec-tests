@@ -1,4 +1,7 @@
-"""Pytest fixtures that help create the test case "Description" displayed in the Hive UI."""
+"""
+Pytest fixtures that help create the test case "Description" displayed in the
+Hive UI.
+"""
 
 import logging
 import textwrap
@@ -30,7 +33,10 @@ def hive_clients_yaml_generator_command(
     hive_clients_yaml_target_filename: str,
     hive_info: HiveInfo,
 ) -> str:
-    """Generate a shell command that creates a clients YAML file for the current client."""
+    """
+    Generate a shell command that creates a clients YAML file for the current
+    client.
+    """
     try:
         if not client_file:
             raise ValueError("No client information available - try updating hive")
@@ -118,7 +124,10 @@ def hive_dev_command(
     client_type: ClientType,
     hive_client_config_file_parameter: str,
 ) -> str:
-    """Return the command used to instantiate hive alongside the `consume` command."""
+    """
+    Return the command used to instantiate hive alongside the `consume`
+    command.
+    """
     return f"./hive --dev {hive_client_config_file_parameter} --client {client_type.name}"
 
 

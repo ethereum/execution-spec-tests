@@ -24,15 +24,18 @@ from .conversions import (
 
 class ToStringSchema:
     """
-    Type converter to add a simple pydantic schema that correctly
-    parses and serializes the type.
+    Type converter to add a simple pydantic schema that correctly parses and
+    serializes the type.
     """
 
     @staticmethod
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
@@ -117,7 +120,10 @@ class HexNumber(Number):
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
@@ -143,7 +149,10 @@ class ZeroPaddedHexNumber(HexNumber):
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
@@ -197,7 +206,10 @@ class Bytes(bytes, ToStringSchema):
     def __get_pydantic_core_schema__(
         source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         return no_info_plain_validator_function(
             source_type,
             serialization=to_string_ser_schema(),
@@ -256,7 +268,10 @@ class FixedSizeHexNumber(int, ToStringSchema):
     def __get_pydantic_core_schema__(
         cls: Type[Self], source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         pattern = f"^0x([0-9a-fA-F]{{{cls.byte_length * 2}}})*$"
         return no_info_plain_validator_function(
             source_type,
@@ -341,7 +356,10 @@ class FixedSizeBytes(Bytes):
     def __get_pydantic_core_schema__(
         cls: Type[Self], source_type: Any, handler: GetCoreSchemaHandler
     ) -> PlainValidatorFunctionSchema:
-        """Call the class constructor without info and appends the serialization schema."""
+        """
+        Call the class constructor without info and appends the serialization
+        schema.
+        """
         pattern = f"^0x([0-9a-fA-F]{{{cls.byte_length * 2}}})*$"
         return no_info_plain_validator_function(
             source_type,

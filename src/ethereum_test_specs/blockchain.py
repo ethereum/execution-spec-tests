@@ -128,6 +128,7 @@ class Header(CamelModel):
     """
     Sentinel object used to specify that a header field should be removed.
     """
+
     EMPTY_FIELD: ClassVar[Removable] = Removable()
     """
     Sentinel object used to specify that a header field must be empty during verification.
@@ -203,53 +204,52 @@ class Block(Header):
     """
     If set, the block header will be verified against the specified values.
     """
+
     rlp_modifier: Header | None = None
     """
     An RLP modifying header which values would be used to override the ones
     returned by the `ethereum_clis.TransitionTool`.
     """
+
     expected_block_access_list: BlockAccessListExpectation | None = None
     """
-    If set, the block access list will be verified and potentially corrupted for invalid tests.
+    If set, the block access list will be verified and potentially corrupted
+    for invalid tests.
     """
+
     exception: BLOCK_EXCEPTION_TYPE = None
-    """
-    If set, the block is expected to be rejected by the client.
-    """
+    """If set, the block is expected to be rejected by the client."""
+
     skip_exception_verification: bool = False
+    """Skip verifying that the exception is returned by the transition tool.
+
+    This could be because the exception is inserted in the block after the
+    transition tool evaluates it.
     """
-    Skip verifying that the exception is returned by the transition tool.
-    This could be because the exception is inserted in the block after the transition tool
-    evaluates it.
-    """
+
     engine_api_error_code: EngineAPIError | None = None
     """
-    If set, the block is expected to produce an error response from the Engine API.
+    If set, the block is expected to produce an error response from the Engine
+    API.
     """
+
     txs: List[Transaction] = Field(default_factory=list)
-    """
-    List of transactions included in the block.
-    """
+    """List of transactions included in the block."""
+
     ommers: List[Header] | None = None
-    """
-    List of ommer headers included in the block.
-    """
+    """List of ommer headers included in the block."""
+
     withdrawals: List[Withdrawal] | None = None
-    """
-    List of withdrawals to perform for this block.
-    """
+    """List of withdrawals to perform for this block."""
+
     requests: List[Bytes] | None = None
-    """
-    Custom list of requests to embed in this block.
-    """
+    """Custom list of requests to embed in this block."""
+
     expected_post_state: Alloc | None = None
-    """
-    Post state for verification after block execution in BlockchainTest
-    """
+    """Post state for verification after block execution in BlockchainTest."""
+
     block_access_list: Bytes | None = Field(None)
-    """
-        EIP-7928: Block-level access lists (serialized).
-    """
+    """EIP-7928: Block-level access lists (serialized)."""
 
     def set_environment(self, env: Environment) -> Environment:
         """
@@ -257,10 +257,9 @@ class Block(Header):
         specific block.
         """
         new_env_values: Dict[str, Any] = {}
-
         """
-        Values that need to be set in the environment and are `None` for
-        this block need to be set to their defaults.
+        Values that need to be set in the environment and are `None` for this
+        block need to be set to their defaults.
         """
         new_env_values["difficulty"] = self.difficulty
         new_env_values["prev_randao"] = self.prev_randao
@@ -305,15 +304,11 @@ class Block(Header):
         else:
             assert env.parent_timestamp is not None
             new_env_values["timestamp"] = int(Number(env.parent_timestamp) + 12)
-
         return env.copy(**new_env_values)
 
 
 class BuiltBlock(CamelModel):
-    """
-    Model that contains all properties to build a full block or
-    payload.
-    """
+    """Model that contains all properties to build a full block or payload."""
 
     header: FixtureHeader
     env: Environment
@@ -352,7 +347,6 @@ class BuiltBlock(CamelModel):
                     else fixture_block.without_rlp()
                 ),
             )
-
         return fixture_block
 
     def get_block_rlp(self) -> Bytes:
@@ -414,7 +408,8 @@ GENESIS_ENVIRONMENT_DEFAULTS: Dict[str, Any] = {
     "prev_randao": 0,
 }
 """
-Default values for the genesis environment that are used to create all genesis headers.
+Default values for the genesis environment that are used to create all genesis
+headers.
 """
 
 
@@ -427,9 +422,10 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = Field(default_factory=Environment)
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
-    """
-    Exclude the post state from the fixture output.
-    In this case, the state verification is only performed based on the state root.
+    """Exclude the post state from the fixture output.
+
+    In this case, the state verification is only performed based on the state
+    root.
     """
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -458,7 +454,10 @@ class BlockchainTest(BaseTest):
         fork: Fork,
         markers: List[pytest.Mark],
     ) -> bool:
-        """Discard a fixture format from filling if the appropriate marker is used."""
+        """
+        Discard a fixture format from filling if the appropriate marker is
+        used.
+        """
         marker_names = [m.name for m in markers]
         if fixture_format != BlockchainFixture and "blockchain_test_only" in marker_names:
             return True

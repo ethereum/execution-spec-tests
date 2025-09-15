@@ -37,11 +37,8 @@ REFERENCE_SPEC_GIT_PATH = ref_spec_3860.git_path
 REFERENCE_SPEC_VERSION = ref_spec_3860.version
 
 pytestmark = pytest.mark.valid_from("Shanghai")
+"""Initcode templates used throughout the tests."""
 
-
-"""
-Initcode templates used throughout the tests
-"""
 INITCODE_ONES_MAX_LIMIT = Initcode(
     deploy_code=INITCODE_RESULTING_DEPLOYED_CODE,
     initcode_length=Spec.MAX_INITCODE_SIZE,
@@ -111,10 +108,7 @@ SINGLE_BYTE_INITCODE = Initcode(
 SINGLE_BYTE_INITCODE._bytes_ = bytes(Op.STOP)
 SINGLE_BYTE_INITCODE.deployment_gas = 0
 SINGLE_BYTE_INITCODE.execution_gas = 0
-
-"""
-Test cases using a contract creating transaction
-"""
+"""Test cases using a contract creating transaction."""
 
 
 @pytest.mark.parametrize(
@@ -225,8 +219,8 @@ class TestContractCreationGasUsage:
     @pytest.fixture
     def tx_access_list(self) -> List[AccessList]:
         """
-        On EIP-7623, we need to use an access list to raise the intrinsic gas cost to
-        be above the floor data cost.
+        On EIP-7623, we need to use an access list to raise the intrinsic gas
+        cost to be above the floor data cost.
         """
         return [AccessList(address=Address(i), storage_keys=[]) for i in range(1, 478)]
 
@@ -340,7 +334,10 @@ class TestContractCreationGasUsage:
         post: Alloc,
         tx: Transaction,
     ):
-        """Test transaction and contract creation behavior for different gas limits."""
+        """
+        Test transaction and contract creation behavior for different gas
+        limits.
+        """
         state_test(
             env=env,
             pre=pre,
@@ -379,7 +376,10 @@ class TestCreateInitcode:
 
     @pytest.fixture
     def creator_code(self, opcode: Op, create2_salt: int) -> Bytecode:
-        """Generate code for the creator contract which performs the CREATE/CREATE2 operation."""
+        """
+        Generate code for the creator contract which performs the
+        CREATE/CREATE2 operation.
+        """
         return (
             Op.CALLDATACOPY(0, 0, Op.CALLDATASIZE)
             + Op.GAS

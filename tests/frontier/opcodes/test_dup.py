@@ -1,8 +1,4 @@
-"""
-abstract: Test DUP
-    Test the DUP opcodes.
-
-"""
+"""Abstract: Test DUP Test the DUP opcodes."""
 
 import pytest
 
@@ -71,7 +67,6 @@ def test_dup(
         data="",
         sender=sender,
     )
-
     """
     Storage will be structured as follows:
 

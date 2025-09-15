@@ -40,7 +40,8 @@ def calculate_size_distribution(
     test_counts: List[int],
 ) -> Tuple[List[Tuple[str, int]], List[Tuple[str, int, int, int]]]:
     """
-    Calculate frequency distribution of group sizes with appropriate binning.
+    Calculate frequency distribution of group sizes with appropriate
+    binning.
 
     Returns:
         - Group count distribution: [(range_label, group_count), ...]
@@ -475,7 +476,6 @@ def main(pre_alloc_folder: Path, verbose: int):
     The pre_alloc file is generated when running tests with the
     --generate-pre-alloc-groups and --use-pre-alloc-groups flags to optimize
     test execution by grouping tests with identical pre-allocation state.
-
     """
     console = Console()
 

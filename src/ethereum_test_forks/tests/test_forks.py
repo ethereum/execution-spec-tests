@@ -353,8 +353,9 @@ class FutureFork(Osaka):
     """
     Dummy fork used for testing.
 
-    Contains no changes to the blob parameters from the parent fork in order to confirm that
-    it's added to the blob schedule even if it doesn't have any changes.
+    Contains no changes to the blob parameters from the parent fork in order to
+    confirm that it's added to the blob schedule even if it doesn't have any
+    changes.
     """
 
     pass

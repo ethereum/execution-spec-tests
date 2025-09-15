@@ -21,15 +21,15 @@ REFERENCE_SPEC_VERSION = "99f1be49f37c034bdd5c082946f5968710dbfc87"
 
 LEGACY_CALL_FAILURE = 0
 LEGACY_CALL_SUCCESS = 1
+"""Storage addresses for common testing fields."""
 
-"""Storage addresses for common testing fields"""
 _slot = itertools.count(1)
 slot_code_worked = next(_slot)
 slot_call_result = next(_slot)
 slot_returndata = next(_slot)
 slot_last_slot = next(_slot)
+"""Storage values for common testing fields."""
 
-"""Storage values for common testing fields"""
 value_code_worked = 0x2015
 
 

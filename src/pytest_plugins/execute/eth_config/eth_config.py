@@ -95,8 +95,8 @@ def pytest_addoption(parser):
 
 def pytest_configure(config: pytest.Config) -> None:
     """
-    Load the network configuration file and load the specific network to be used for
-    the test.
+    Load the network configuration file and load the specific network to be
+    used for the test.
     """
     genesis_config_file = config.getoption("genesis_config_file")
     genesis_config_url = config.getoption("genesis_config_url")
@@ -183,7 +183,10 @@ def pytest_configure(config: pytest.Config) -> None:
 
 @pytest.fixture(autouse=True, scope="session")
 def rpc_endpoint(request) -> str:
-    """Return remote RPC endpoint to be used to make requests to the execution client."""
+    """
+    Return remote RPC endpoint to be used to make requests to the execution
+    client.
+    """
     return request.config.getoption("rpc_endpoint")
 
 

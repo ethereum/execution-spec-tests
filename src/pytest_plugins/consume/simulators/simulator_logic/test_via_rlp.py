@@ -1,8 +1,10 @@
 """
-A hive based simulator that executes RLP-encoded blocks against clients. The simulator uses the
-`BlockchainFixtures` to test this against clients.
+A hive based simulator that executes RLP-encoded blocks against clients.
 
-Clients consume the genesis and RLP-encoded blocks from input files upon start-up.
+The simulator uses the `BlockchainFixtures` to test this against clients.
+
+Clients consume the genesis and RLP-encoded blocks from input files upon start-
+up.
 """
 
 import logging

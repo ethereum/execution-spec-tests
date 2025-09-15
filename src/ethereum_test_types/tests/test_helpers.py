@@ -65,12 +65,12 @@ def test_address():
 )
 def test_compute_create_address(address: str | int, nonce: int, expected_contract_address: str):
     """
-    Test `ethereum_test.helpers.compute_create_address` with some famous
+    Test `ethereum_test.helpers.compute_create_address` with some famous.
+
     contracts:
     - https://etherscan.io/address/0x863df6bfa4469f3ead0be8f9f2aae51c91a907b4
     - https://etherscan.io/address/0x7a250d5630b4cf539739df2c5dacb4c659f2488d
     - https://etherscan.io/address/0x06012c8cf97bead5deae237070f9587f8e7a266d.
-
     """
     assert compute_create_address(address=address, nonce=nonce) == expected_contract_address
 

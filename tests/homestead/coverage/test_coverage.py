@@ -1,4 +1,7 @@
-"""Tests that address coverage gaps that result from updating `ethereum/tests` into EEST tests."""
+"""
+Tests that address coverage gaps that result from updating `ethereum/tests`
+into EEST tests.
+"""
 
 import pytest
 
@@ -20,8 +23,8 @@ def test_coverage(
     Cover gaps that result from transforming Yul code into
     `ethereum_test_tools.vm.opcode.Opcodes` bytecode.
 
-    E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes, which are not
-    regularly used in python code.
+    E.g. Yul tends to optimize stack items by using `SWAP1` and `DUP1` opcodes,
+    which are not regularly used in python code.
 
     Modify this test to cover more Yul code if required in the future.
     """

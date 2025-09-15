@@ -54,7 +54,10 @@ def client_exception_mapper(
 
 @pytest.fixture(scope="session")
 def disable_strict_exception_matching(request: pytest.FixtureRequest) -> List[str]:
-    """Return the list of clients or forks that should NOT use strict exception matching."""
+    """
+    Return the list of clients or forks that should NOT use strict exception
+    matching.
+    """
     config_string = request.config.getoption("disable_strict_exception_matching")
     return config_string.split(",") if config_string else []
 

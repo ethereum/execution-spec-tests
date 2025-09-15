@@ -61,13 +61,13 @@ def encode_account(raw_account_data: FrontierAccount, storage_root: Bytes) -> By
 #
 #   keccak256(RLP(b''))
 #       ==
-#   56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421 # noqa: E501,SC10
+#   56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421
 #
 # also:
 #
 #   keccak256(RLP(()))
 #       ==
-#   1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347 # noqa: E501,SC10
+#   1dcc4de8dec75d7aab85b567b6ccd41ad312451b948a7413f0a142fd40d49347
 #
 # which is the sha3Uncles hash in block header with no uncles
 EMPTY_TRIE_ROOT = Bytes32(
@@ -137,9 +137,10 @@ InternalNode = LeafNode | ExtensionNode | BranchNode
 
 def encode_internal_node(node: Optional[InternalNode]) -> Extended:
     """
-    Encode a Merkle Trie node into its RLP form. The RLP will then be
-    serialized into a `Bytes` and hashed unless it is less that 32 bytes
-    when serialized.
+    Encode a Merkle Trie node into its RLP form.
+
+    The RLP will then be serialized into a `Bytes` and hashed unless it is less
+    that 32 bytes when serialized.
 
     This function also accepts `None`, representing the absence of a node,
     which is encoded to `b""`.
@@ -199,8 +200,9 @@ class Trie(Generic[K, V]):
 
 def copy_trie(trie: Trie[K, V]) -> Trie[K, V]:
     """
-    Create a copy of `trie`. Since only frozen objects may be stored in tries,
-    the contents are reused.
+    Create a copy of `trie`.
+
+    Since only frozen objects may be stored in tries, the contents are reused.
     """
     return Trie(trie.secured, trie.default, copy.copy(trie._data))
 
@@ -211,7 +213,6 @@ def trie_set(trie: Trie[K, V], key: K, value: V) -> None:
 
     This method deletes the key if `value == trie.default`, because the Merkle
     Trie represents the default value by omitting it from the trie.
-
     """
     if value == trie.default:
         if key in trie._data:
@@ -225,7 +226,6 @@ def trie_get(trie: Trie[K, V], key: K) -> V:
     Get an item from the Merkle Trie.
 
     This method returns `trie.default` if the key is missing.
-
     """
     return trie._data.get(key, trie.default)
 
@@ -287,8 +287,10 @@ def _prepare_trie(
     get_storage_root: Optional[Callable[[Bytes20], Bytes32]] = None,
 ) -> Mapping[Bytes, Bytes]:
     """
-    Prepare the trie for root calculation. Removes values that are empty,
-    hashes the keys (if `secured == True`) and encodes all the nodes.
+    Prepare the trie for root calculation.
+
+    Removes values that are empty, hashes the keys (if `secured == True`) and
+    encodes all the nodes.
     """
     mapped: MutableMapping[Bytes, Bytes] = {}
 

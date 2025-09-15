@@ -1,4 +1,4 @@
-"""test `CALLDATACOPY` opcode."""
+"""Test `CALLDATACOPY` opcode."""
 
 import pytest
 
@@ -148,7 +148,8 @@ def test_calldatacopy(
     """
     Test `CALLDATACOPY` opcode.
 
-    Based on https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml
+    Based on
+    https://github.com/ethereum/tests/blob/ae4791077e8fcf716136e70fe8392f1a1f1495fb/src/GeneralStateTestsFiller/VMTests/vmTests/calldatacopyFiller.yml
     """
     code_address = pre.deploy_contract(code)
     to = pre.deploy_contract(

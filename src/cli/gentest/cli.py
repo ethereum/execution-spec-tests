@@ -1,9 +1,9 @@
 """
 CLI interface for generating blockchain test scripts.
 
-It extracts a specified transaction and its required state from a
-blockchain network using the transaction hash and generates a Python
-test script based on that information.
+It extracts a specified transaction and its required state from a blockchain
+network using the transaction hash and generates a Python test script based on
+that information.
 """
 
 from sys import stderr

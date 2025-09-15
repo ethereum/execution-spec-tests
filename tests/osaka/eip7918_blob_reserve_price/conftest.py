@@ -68,14 +68,19 @@ def blobs_per_tx() -> int:
     """
     Total number of blobs per transaction.
 
-    Can be overloaded by a test case to provide a custom blobs per transaction count.
+    Can be overloaded by a test case to provide a custom blobs per transaction
+    count.
     """
     return 1
 
 
 @pytest.fixture
 def block_base_fee_per_gas_delta() -> int:
-    """Delta to add to the block base fee. Default is 0."""
+    """
+    Delta to add to the block base fee.
+
+    Default is 0.
+    """
     return 0
 
 
@@ -85,7 +90,11 @@ def block_base_fee_per_gas(
     parent_excess_blobs: int | None,
     block_base_fee_per_gas_delta: int,
 ) -> int:
-    """Block base fee per gas. Default is 7 unless a delta is provided or overloaded."""
+    """
+    Block base fee per gas.
+
+    Default is 7 unless a delta is provided or overloaded.
+    """
     if block_base_fee_per_gas_delta != 0:
         if parent_excess_blobs is None:
             blob_base_fee = 1
@@ -106,7 +115,8 @@ def excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int | None:
     """
-    Calculate the excess blob gas of the block under test from the parent block.
+    Calculate the excess blob gas of the block under test from the parent
+    block.
 
     Value can be overloaded by a test case to provide a custom excess blob gas.
     """
@@ -127,7 +137,8 @@ def correct_excess_blob_gas(
     block_base_fee_per_gas: int,
 ) -> int:
     """
-    Calculate the correct excess blob gas of the block under test from the parent block.
+    Calculate the correct excess blob gas of the block under test from the
+    parent block.
 
     Should not be overloaded by a test case.
     """

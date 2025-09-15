@@ -187,9 +187,7 @@ CALL_SUCCEED_CONTRACTS: List[Container] = [
         ],
     ),
 ]
-"""
-List of all EOF V1 Containers that simply need to succeed on execution.
-"""
+"""List of all EOF V1 Containers that simply need to succeed on execution."""
 
 CALL_FAIL_CONTRACTS: List[Container] = [
     Container(
@@ -286,16 +284,14 @@ CALL_FAIL_CONTRACTS: List[Container] = [
         ],
     ),
 ]
-"""
-List of all EOF V1 Containers that simply need to fail (exceptional halt) on
+"""List of all EOF V1 Containers that simply need to fail (exceptional halt) on
 execution.
+
 These contracts have a valid EOF V1 container format but fail when executed.
 """
 
 VALID: List[Container] = CALL_SUCCEED_CONTRACTS + CALL_FAIL_CONTRACTS
-"""
-List of all EOF V1 Containers used during execution tests.
-"""
+"""List of all EOF V1 Containers used during execution tests."""
 
 
 @pytest.mark.parametrize("container", CALL_SUCCEED_CONTRACTS, ids=lambda x: x.name)
@@ -369,8 +365,8 @@ def test_eof_functions_contract_call_within_deep_nested(
     pre: Alloc,
 ):
     """
-    Test performing a call within a nested callf and verify correct behavior of
-    return stack in calling contract.
+    Test performing a call within a nested callf and verify correct behavior
+    of return stack in calling contract.
 
     TODO: This test belongs in EIP-7069 test folder, not code validation.
     """

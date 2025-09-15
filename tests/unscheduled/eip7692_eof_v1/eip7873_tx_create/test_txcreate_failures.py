@@ -177,9 +177,10 @@ def test_initcode_aborts(
 
 
 """
-Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime code is dynamic, we
-have to use a pre-calculated size
+Size of the initcode portion of test_txcreate_deploy_sizes, but as the runtime
+code is dynamic, we have to use a pre-calculated size.
 """
+
 initcode_size = 32
 
 
@@ -199,7 +200,10 @@ def test_txcreate_deploy_sizes(
     pre: Alloc,
     target_deploy_size: int,
 ):
-    """Verifies a mix of runtime contract sizes mixing success and multiple size failure modes."""
+    """
+    Verifies a mix of runtime contract sizes mixing success and multiple size
+    failure modes.
+    """
     env = Environment()
 
     runtime_container = Container(
@@ -347,8 +351,8 @@ def test_txcreate_insufficient_stipend(
     value: int,
 ):
     """
-    Exercises an TXCREATE that fails because the calling account does not have enough ether to
-    pay the stipend.
+    Exercises an TXCREATE that fails because the calling account does not have
+    enough ether to pay the stipend.
     """
     env = Environment()
     sender = pre.fund_eoa(10**11)
@@ -440,7 +444,10 @@ def test_insufficient_gas_memory_expansion(
     pre: Alloc,
     fork: Fork,
 ):
-    """Exercises TXCREATE when the memory for auxdata has not been expanded but is requested."""
+    """
+    Exercises TXCREATE when the memory for auxdata has not been expanded but is
+    requested.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -493,7 +500,10 @@ def test_insufficient_returncode_auxdata_gas(
     pre: Alloc,
     fork: Fork,
 ):
-    """Exercises a RETURNCODE when there is not enough gas for the initcode charge."""
+    """
+    Exercises a RETURNCODE when there is not enough gas for the initcode
+    charge.
+    """
     env = Environment()
 
     auxdata_size = 0x5000
@@ -626,6 +636,7 @@ def test_eof_txcreate_msg_depth(
 ):
     """
     Test TXCREATE handles msg depth limit correctly (1024).
+
     NOTE: due to block gas limit and the 63/64th rule this limit is unlikely to be hit
           on mainnet.
     NOTE: See `tests/unscheduled/eip7692_eof_v1/eip7069_extcall/test_calls.py::test_eof_calls_msg_depth`
@@ -734,7 +745,10 @@ def test_reentrant_txcreate(
     state_test: StateTestFiller,
     pre: Alloc,
 ):
-    """Verifies a reentrant TXCREATE case, where EIP-161 prevents conflict via nonce bump."""
+    """
+    Verifies a reentrant TXCREATE case, where EIP-161 prevents conflict via
+    nonce bump.
+    """
     env = Environment()
     # Calls into the factory contract with 1 as input.
     reenter_code = Op.MSTORE(0, 1) + Op.EXTCALL(address=Op.CALLDATALOAD(32), args_size=32)
@@ -814,7 +828,10 @@ def test_invalid_container_deployment(
     pre: Alloc,
     reason: str,
 ):
-    """Verify contract is not deployed when an invalid container deployment is attempted."""
+    """
+    Verify contract is not deployed when an invalid container deployment is
+    attempted.
+    """
     env = Environment()
     sender = pre.fund_eoa()
 

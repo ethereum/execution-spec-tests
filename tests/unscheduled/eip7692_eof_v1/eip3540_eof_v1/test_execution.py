@@ -15,7 +15,7 @@ REFERENCE_SPEC_VERSION = "8dcb0a8c1c0102c87224308028632cc986a61183"
 pytestmark = pytest.mark.valid_from(EOF_FORK_NAME)
 
 EXPECTED_STORAGE = (bytes.fromhex("EF"), bytes.fromhex("BADDCAFE"))
-"""Expected storage (key => value) to be produced by the EOF containers"""
+"""Expected storage (key => value) to be produced by the EOF containers."""
 
 
 @pytest.mark.parametrize(

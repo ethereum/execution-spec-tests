@@ -2,8 +2,8 @@
 CLI commands used by tox.ini.
 
 Contains wrappers to the external commands markdownlint-cli2 and pyspelling
-(requires aspell) that fail silently if the command is not available. The
-aim is to avoid disruption to external contributors.
+(requires aspell) that fail silently if the command is not available. The aim
+is to avoid disruption to external contributors.
 """
 
 import os
@@ -194,7 +194,8 @@ def codespell():
 @click.command()
 def validate_changelog():
     """
-    Validate changelog formatting to ensure bullet points end with proper punctuation.
+    Validate changelog formatting to ensure bullet points end with proper
+    punctuation.
 
     Checks that all bullet points (including nested ones) end with either:
     - A period (.) for regular entries

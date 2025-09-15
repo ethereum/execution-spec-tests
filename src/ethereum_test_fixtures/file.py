@@ -14,14 +14,15 @@ from .base import BaseFixture
 
 class Fixtures(EthereumTestRootModel):
     """
-    A base class for defining top-level models that encapsulate multiple test
-    fixtures. Each fixture is stored in a dictionary, where each key is a string
-    (typically the fixture name) and its corresponding value is a fixture object.
-    This is the structure used for blockchain and state JSON fixture files.
+    A base class for defining top-level models that encapsulate multiple
+    test fixtures. Each fixture is stored in a dictionary, where each key is a
+    string (typically the fixture name) and its corresponding value is a
+    fixture object. This is the structure used for blockchain and state JSON
+    fixture files.
 
-    This class implements dunder methods and other common functionality to allow
-    interaction with the model's fixtures as if they were being accessed directly
-    from a dictionary.
+    This class implements dunder methods and other common functionality to
+    allow interaction with the model's fixtures as if they were being accessed
+    directly from a dictionary.
     """
 
     root: Dict[str, SerializeAsAny[BaseFixture]]

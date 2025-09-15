@@ -52,7 +52,8 @@ class SpecHelpers:
         valid_input: bool,
     ) -> Storage:
         """
-        Derive expected storage for a given beacon root contract call
+        Derive expected storage for a given beacon root contract call.
+
         dependent on:
         - success or failure of the call
         - validity of the timestamp input used within the call.

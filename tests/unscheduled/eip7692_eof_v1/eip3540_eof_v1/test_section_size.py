@@ -198,7 +198,9 @@ def test_truncated_container_without_data(
 ):
     """
     Test takes a semi-valid container and removes some bytes from its tail.
-    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases without data section).
+
+    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases
+    without data section).
     """
     container = Container(sections=[Section.Code(Op.INVALID + Op.INVALID)])
     bytecode = bytes(container)
@@ -222,8 +224,11 @@ def test_truncated_container_with_data(
     exception: EOFException,
 ):
     """
-    Test takes a valid container with data and removes some bytes from its tail.
-    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases with data section).
+    Test takes a valid container with data and removes some bytes from its
+    tail.
+
+    Migrated from EOFTests/efValidation/EOF1_truncated_section_.json (cases
+    with data section).
     """
     data = b"\xaa\xbb"
     container = Container(

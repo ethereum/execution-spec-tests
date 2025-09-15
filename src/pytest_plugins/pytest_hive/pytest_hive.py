@@ -131,8 +131,8 @@ def pytest_report_header(config, start_path):
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """
-    Make the setup, call, and teardown results available in the teardown phase of
-    a test fixture (i.e., after yield has been called).
+    Make the setup, call, and teardown results available in the teardown
+    phase of a test fixture (i.e., after yield has been called).
 
     This is used to get the test result and pass it to the hive test suite.
 
@@ -232,10 +232,11 @@ def hive_test(request, test_suite: HiveTestSuite):
     """
     Propagate the pytest test case and its result to the hive server.
 
-    This fixture handles both starting the test and ending it with all logs, including
-    those generated during teardown of other fixtures. The approach of processing teardown
-    logs directly in the teardown phase of this fixture ensures that the test gets properly
-    finalized before the test suite is torn down.
+    This fixture handles both starting the test and ending it with all logs,
+    including those generated during teardown of other fixtures. The approach
+    of processing teardown logs directly in the teardown phase of this fixture
+    ensures that the test gets properly finalized before the test suite is torn
+    down.
     """
     try:
         test_case_description = request.getfixturevalue("test_case_description")

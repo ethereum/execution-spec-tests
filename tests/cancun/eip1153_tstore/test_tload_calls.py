@@ -26,11 +26,11 @@ def test_tload_calls(state_test: StateTestFiller, pre: Alloc, call_type: Op):
     """
     Ported .json vectors.
 
-    (04_tloadAfterCallFiller.yml)
-    Loading a slot after a call to another contract is 0.
+    (04_tloadAfterCallFiller.yml) Loading a slot after a call to another
+    contract is 0.
 
-    (12_tloadDelegateCallFiller.yml)
-    delegatecall reads transient storage in the context of the current address
+    (12_tloadDelegateCallFiller.yml) delegatecall reads transient storage in
+    the context of the current address
     """
     # Storage variables
     slot_a_tload_after_subcall_result = 0

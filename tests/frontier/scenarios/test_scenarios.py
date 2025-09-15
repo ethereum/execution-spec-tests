@@ -1,6 +1,6 @@
 """
-Call every possible opcode and test that the subcall is successful
-if the opcode is supported by the fork and fails otherwise.
+Call every possible opcode and test that the subcall is successful if the
+opcode is supported by the fork and fails otherwise.
 """
 
 from typing import List
@@ -76,7 +76,10 @@ REFERENCE_SPEC_VERSION = "N/A"
 
 @pytest.fixture
 def scenarios(fork: Fork, pre: Alloc, test_program: ScenarioTestProgram) -> List[Scenario]:
-    """Define fixture vectors of all possible scenarios, given the current pre state input."""
+    """
+    Define fixture vectors of all possible scenarios, given the current pre
+    state input.
+    """
     scenarios_list: List[Scenario] = []
 
     scenario_input = ScenarioGeneratorInput(
@@ -178,9 +181,9 @@ def test_scenarios(
     scenarios,
 ):
     """
-    Test given operation in different scenarios
-    Verify that it's return value equal to expected result on every scenario,
-    that is valid for the given fork.
+    Test given operation in different scenarios Verify that it's return
+    value equal to expected result on every scenario, that is valid for the
+    given fork.
 
     Note: Don't use pytest parametrize for scenario production, because scenarios will be complex
     Generate one test file for [each operation] * [each scenario] to save space

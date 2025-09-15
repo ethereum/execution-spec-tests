@@ -59,8 +59,8 @@ class EnvConfig(Config):
     """
     Loads and validates environment configuration from `env.yaml`.
 
-    This is a wrapper class for the Config model. It reads a config file
-    from disk into a Config model and then exposes it.
+    This is a wrapper class for the Config model. It reads a config file from
+    disk into a Config model and then exposes it.
     """
 
     def __init__(self):

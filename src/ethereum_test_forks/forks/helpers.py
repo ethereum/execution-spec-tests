@@ -4,6 +4,7 @@
 def ceiling_division(a: int, b: int) -> int:
     """
     Calculate the ceil without using floating point.
+
     Used by many of the EVM's formulas.
     """
     return -(a // -b)

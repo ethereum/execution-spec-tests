@@ -417,6 +417,7 @@ def test_opcode_comparison():
 def test_bytecode_concatenation_with_bytes():
     """
     Test that the bytecode can be concatenated with bytes.
+
     Bytes work as verbatim code and don't affect the bytecode properties.
     """
     base = Op.PUSH1[0xFF] + Op.NOT

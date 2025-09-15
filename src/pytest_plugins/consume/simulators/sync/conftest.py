@@ -117,7 +117,10 @@ def admin_rpc(client: Client) -> AdminRPC:
 
 @pytest.fixture(scope="function")
 def sync_genesis(fixture: BlockchainEngineSyncFixture) -> dict:
-    """Convert the fixture genesis block header and pre-state to a sync client genesis state."""
+    """
+    Convert the fixture genesis block header and pre-state to a sync client
+    genesis state.
+    """
     genesis = to_json(fixture.genesis)
     alloc = to_json(fixture.pre)
     # NOTE: nethermind requires account keys without '0x' prefix

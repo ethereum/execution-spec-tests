@@ -19,6 +19,7 @@ ref_spec_7883 = ReferenceSpec("EIPS/eip-7883.md", "13aa65810336d4f243d4563a828d5
 def ceiling_division(a: int, b: int) -> int:
     """
     Calculate the ceil without using floating point.
+
     Used by many of the EVM's formulas.
     """
     return -(a // -b)
@@ -64,8 +65,10 @@ class Spec:
     def calculate_iteration_count(cls, modexp_input: ModExpInput) -> int:
         """
         Calculate the iteration count of the ModExp precompile.
-        This handles length mismatch cases by using declared lengths from the raw input
-        and only the first 32 bytes of exponent data for iteration calculation.
+
+        This handles length mismatch cases by using declared lengths from the
+        raw input and only the first 32 bytes of exponent data for iteration
+        calculation.
         """
         _, exponent_length, _ = modexp_input.get_declared_lengths()
         exponent_head = modexp_input.get_exponent_head()
@@ -83,8 +86,9 @@ class Spec:
     @classmethod
     def calculate_gas_cost(cls, modexp_input: ModExpInput) -> int:
         """
-        Calculate the ModExp gas cost according to EIP-2565 specification, overridden by the
-        constants within `Spec7883` when calculating for the EIP-7883 specification.
+        Calculate the ModExp gas cost according to EIP-2565 specification,
+        overridden by the constants within `Spec7883` when calculating for the
+        EIP-7883 specification.
         """
         base_length, _, modulus_length = modexp_input.get_declared_lengths()
         multiplication_complexity = cls.calculate_multiplication_complexity(
@@ -98,6 +102,7 @@ class Spec:
 class Spec7883(Spec):
     """
     Constants and helpers for the ModExp gas cost increase EIP.
+
     These override the original Spec class variables for EIP-7883.
     """
 
@@ -110,7 +115,10 @@ class Spec7883(Spec):
 
     @classmethod
     def calculate_multiplication_complexity(cls, base_length: int, modulus_length: int) -> int:
-        """Calculate the multiplication complexity of the ModExp precompile for EIP-7883."""
+        """
+        Calculate the multiplication complexity of the ModExp precompile for
+        EIP-7883.
+        """
         max_length = max(base_length, modulus_length)
         words = ceiling_division(max_length, cls.WORD_SIZE)
         complexity = 16

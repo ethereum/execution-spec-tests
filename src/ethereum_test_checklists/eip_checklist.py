@@ -1,12 +1,12 @@
 """
 EIP Testing Checklist Enum definitions.
 
-Note: This module includes a companion .pyi stub file that provides mypy type hints
-for making EIPChecklist classes callable. The stub file is auto-generated using:
-    uv run generate_checklist_stubs
+Note: This module includes a companion .pyi stub file that provides mypy type
+hints for making EIPChecklist classes callable. The stub file is auto-generated
+using:     uv run generate_checklist_stubs
 
-If you modify the EIPChecklist class structure, regenerate the stub file to maintain
-proper type checking support.
+If you modify the EIPChecklist class structure, regenerate the stub file to
+maintain proper type checking support.
 """
 
 import re
@@ -239,8 +239,9 @@ class EIPChecklist:
 
                 class DataPortionVariables(ChecklistItem, override_name="data_portion_variables"):
                     """
-                    If the opcode contains variables in its data portion, for each variable `n`
-                    of the opcode that accesses the nth stack item, test `n` being.
+                    If the opcode contains variables in its data portion, for
+                    each variable `n` of the opcode that accesses the nth stack
+                    item, test `n` being.
                     """
 
                     class Top(ChecklistItem):
@@ -1688,28 +1689,31 @@ class EIPChecklist:
             """Test vectors for the new validity constraint."""
 
             class ForkTransition(ChecklistItem):
-                """Tests for the new transaction validity constraint on fork boundary."""
+                """
+                Tests for the new transaction validity constraint on fork
+                boundary.
+                """
 
                 class AcceptedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is accepted even when the new
-                    constraint is not met.
+                    Verify that a block before the activation fork is accepted
+                    even when the new constraint is not met.
                     """
 
                     pass
 
                 class AcceptedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is accepted when the new
-                    validity constraint is met.
+                    Verify that a block after the activation fork is accepted
+                    when the new validity constraint is met.
                     """
 
                     pass
 
                 class RejectedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is rejected when the new
-                    validity constraint is not met.
+                    Verify that a block after the activation fork is rejected
+                    when the new validity constraint is not met.
                     """
 
                     pass
@@ -1721,36 +1725,41 @@ class EIPChecklist:
             """Test vectors for the modified validity constraint."""
 
             class ForkTransition(ChecklistItem):
-                """Tests for the modified transaction validity constraint on fork boundary."""
+                """
+                Tests for the modified transaction validity constraint on fork
+                boundary.
+                """
 
                 class AcceptedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is accepted when the existing
-                    constraint is met and, ideally, the new constraint is not met.
+                    Verify that a block before the activation fork is accepted
+                    when the existing constraint is met and, ideally, the new
+                    constraint is not met.
                     """
 
                     pass
 
                 class RejectedBeforeFork(ChecklistItem):
                     """
-                    Verify that a block before the activation fork is rejected when the existing
-                    constraint is not met and, ideally, the new constraint is met.
+                    Verify that a block before the activation fork is rejected
+                    when the existing constraint is not met and, ideally, the
+                    new constraint is met.
                     """
 
                     pass
 
                 class AcceptedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is accepted when the new
-                    validity constraint is met.
+                    Verify that a block after the activation fork is accepted
+                    when the new validity constraint is met.
                     """
 
                     pass
 
                 class RejectedAfterFork(ChecklistItem):
                     """
-                    Verify that a block after the activation fork is rejected when the new
-                    validity constraint is not met.
+                    Verify that a block after the activation fork is rejected
+                    when the new validity constraint is not met.
                     """
 
                     pass

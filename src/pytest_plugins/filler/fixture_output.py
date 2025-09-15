@@ -149,8 +149,8 @@ class FixtureOutput(BaseModel):
         """
         Create output and metadata directories if needed.
 
-        If clean flag is set, remove and recreate the directory.
-        Otherwise, verify the directory is empty before proceeding.
+        If clean flag is set, remove and recreate the directory. Otherwise,
+        verify the directory is empty before proceeding.
         """
         if self.is_stdout:
             return

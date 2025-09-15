@@ -18,8 +18,10 @@ def update_pre(
     blocks_consolidation_requests: List[List[ConsolidationRequestInteractionBase]],
 ):
     """
-    Init state of the accounts. Every deposit transaction defines their own pre-state
-    requirements, and this fixture aggregates them all.
+    Init state of the accounts.
+
+    Every deposit transaction defines their own pre-state requirements, and
+    this fixture aggregates them all.
     """
     for requests in blocks_consolidation_requests:
         for r in requests:
@@ -31,7 +33,10 @@ def included_requests(
     update_pre: None,  # Fixture is used for its side effects
     blocks_consolidation_requests: List[List[ConsolidationRequestInteractionBase]],
 ) -> List[List[ConsolidationRequest]]:
-    """Return the list of consolidation requests that should be included in each block."""
+    """
+    Return the list of consolidation requests that should be included in each
+    block.
+    """
     excess_consolidation_requests = 0
     carry_over_requests: List[ConsolidationRequest] = []
     per_block_included_requests: List[List[ConsolidationRequest]] = []

@@ -454,7 +454,8 @@ def test_callf_sneaky_stack_overflow(
     pre: Alloc,
 ):
     """
-    CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule #3 triggers.
+    CALLF where a normal execution would not overflow, but EIP-4750 CALLF
+    rule #3 triggers.
 
     Code Section 0 - Mostly fills the stack
     Code Section 1 - jumper to 2, so container verification passes (we want a runtime failure)
@@ -552,7 +553,8 @@ def test_callf_max_stack(
     pre: Alloc,
 ):
     """
-    CALLF where a normal execution would not overflow, but EIP-4750 CALLF rule #4 triggers.
+    CALLF where a normal execution would not overflow, but EIP-4750 CALLF
+    rule #4 triggers.
 
     Code Section 0 - calls #1 with the configured height, but we load some operands so the
                      return stack does not overflow

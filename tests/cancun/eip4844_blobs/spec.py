@@ -87,8 +87,8 @@ class SpecHelpers:
         blob_gas_price: int,
     ) -> int:
         """
-        Get the minimum required excess blob gas value to get a given blob gas cost in a
-        block.
+        Get the minimum required excess blob gas value to get a given blob gas
+        cost in a block.
         """
         current_excess_blob_gas = 0
         current_blob_gas_price = 1
@@ -106,7 +106,10 @@ class SpecHelpers:
         fork: Fork,
         blob_gas_price: int,
     ) -> int:
-        """Get the minimum required excess blobs to get a given blob gas cost in a block."""
+        """
+        Get the minimum required excess blobs to get a given blob gas cost in a
+        block.
+        """
         gas_per_blob = fork.blob_gas_per_blob()
         return (
             cls.get_min_excess_blob_gas_for_blob_gas_price(
@@ -122,7 +125,10 @@ class SpecHelpers:
         blob_count: int,
         max_blobs_per_tx: int,
     ) -> List[Tuple[int, ...]]:
-        """Get all possible combinations of blobs that result in a given blob count."""
+        """
+        Get all possible combinations of blobs that result in a given blob
+        count.
+        """
         combinations = [
             seq
             for i in range(
@@ -147,8 +153,8 @@ class SpecHelpers:
     @classmethod
     def all_valid_blob_combinations(cls, fork: Fork) -> List[Tuple[int, ...]]:
         """
-        Return all valid blob tx combinations for a given block,
-        assuming the given MAX_BLOBS_PER_BLOCK, whilst respecting MAX_BLOBS_PER_TX.
+        Return all valid blob tx combinations for a given block, assuming the
+        given MAX_BLOBS_PER_BLOCK, whilst respecting MAX_BLOBS_PER_TX.
         """
         max_blobs_per_block = fork.max_blobs_per_block()
         max_blobs_per_tx = fork.max_blobs_per_tx()

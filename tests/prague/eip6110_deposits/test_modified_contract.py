@@ -1,4 +1,7 @@
-"""Test variants of the deposit contract which adheres the log-style as described in EIP-6110."""
+"""
+Test variants of the deposit contract which adheres the log-style as described
+in EIP-6110.
+"""
 
 import pytest
 
@@ -77,7 +80,10 @@ def test_extra_logs(
     pre: Alloc,
     include_deposit_event: bool,
 ):
-    """Test deposit contract emitting more log event types than the ones in mainnet."""
+    """
+    Test deposit contract emitting more log event types than the ones in
+    mainnet.
+    """
     # Supplant mainnet contract with a variant that emits a `Transfer`` log
     # If `include_deposit_event` is `True``, it will also emit a `DepositEvent` log`
 
@@ -225,7 +231,10 @@ def test_invalid_layout(
 )
 @pytest.mark.exception_test
 def test_invalid_log_length(blockchain_test: BlockchainTestFiller, pre: Alloc, slice_bytes: bool):
-    """Test deposit contract emitting logs with invalid log length (one byte more or less)."""
+    """
+    Test deposit contract emitting logs with invalid log length (one byte more
+    or less).
+    """
     changed_log = DEFAULT_REQUEST_LOG[:-1] if slice_bytes else DEFAULT_REQUEST_LOG + b"\x00"
 
     bytecode = Om.MSTORE(changed_log) + Op.LOG1(

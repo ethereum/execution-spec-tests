@@ -1,18 +1,16 @@
 """
-Functions and CLI interface for recursively ordering and sorting .json files.
+Functions and CLI interface for recursively ordering and sorting .json
+files.
 
 example: Usage
 
-    ```
-    order_fixtures -i input_dir -o output_dir
-    ```
+``` order_fixtures -i input_dir -o output_dir ```
 
-
-The CLI interface takes the paths of an input directory and an output
+ The CLI interface takes the paths of an input directory and an output
 directory. It recursively processes each .json file in the input directory and
-its subdirectories, and sorts lists and dictionaries alphabetically and
-writes the sorted output to .json files to the corresponding locations in the
-output directory.
+its subdirectories, and sorts lists and dictionaries alphabetically and writes
+the sorted output to .json files to the corresponding locations in the output
+directory.
 """
 
 import json

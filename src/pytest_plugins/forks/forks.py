@@ -226,8 +226,8 @@ class CovariantDescriptor:
         """
         Filter the values for the covariant parameter.
 
-        I.e. if the marker has an argument, the argument is interpreted as a lambda function
-        that filters the values.
+        I.e. if the marker has an argument, the argument is interpreted as a
+        lambda function that filters the values.
         """
         processed_values: List[ParameterSet] = []
         for value in values:
@@ -251,8 +251,8 @@ class CovariantDescriptor:
 
 class CovariantDecorator(CovariantDescriptor):
     """
-    A marker used to parametrize a function by a covariant parameter with the values
-    returned by a fork method.
+    A marker used to parametrize a function by a covariant parameter with
+    the values returned by a fork method.
 
     The decorator must be subclassed with the appropriate class variables before initialization.
 
@@ -563,7 +563,10 @@ def fork(request):
 
 @pytest.fixture(scope="session")
 def session_fork(request: pytest.FixtureRequest) -> Fork | None:
-    """Session-wide fork object used if the plugin is configured in single-fork mode."""
+    """
+    Session-wide fork object used if the plugin is configured in single-fork
+    mode.
+    """
     if hasattr(request.config, "single_fork_mode") and request.config.single_fork_mode:
         return list(request.config.selected_fork_set)[0]  # type: ignore
     raise AssertionError(
@@ -659,7 +662,10 @@ class ValidityMarker(ABC):
 
     @staticmethod
     def get_test_fork_set(validity_markers: List["ValidityMarker"]) -> Set[Fork]:
-        """Get the set of forks where a test is valid from the validity markers and filters."""
+        """
+        Get the set of forks where a test is valid from the validity markers
+        and filters.
+        """
         if not len(
             [validity_marker for validity_marker in validity_markers if not validity_marker.flag]
         ):
@@ -677,14 +683,20 @@ class ValidityMarker(ABC):
 
     @staticmethod
     def get_test_fork_set_from_markers(markers: Iterator[pytest.Mark]) -> Set[Fork]:
-        """Get the set of forks where a test is valid using the markers applied to the test."""
+        """
+        Get the set of forks where a test is valid using the markers applied to
+        the test.
+        """
         return ValidityMarker.get_test_fork_set(ValidityMarker.get_all_validity_markers(markers))
 
     @staticmethod
     def get_test_fork_set_from_metafunc(
         metafunc: Metafunc,
     ) -> Set[Fork]:
-        """Get the set of forks where a test is valid using its pytest meta-function."""
+        """
+        Get the set of forks where a test is valid using its pytest meta-
+        function.
+        """
         return ValidityMarker.get_test_fork_set_from_markers(metafunc.definition.iter_markers())
 
     @staticmethod
@@ -709,16 +721,18 @@ class ValidityMarker(ABC):
 
         Method must be implemented by the subclass.
 
-        If the validity marker is of flag type, the returned forks will be subtracted from the
-        fork set, otherwise the returned forks will be intersected with the current set.
+        If the validity marker is of flag type, the returned forks will be
+        subtracted from the fork set, otherwise the returned forks will be
+        intersected with the current set.
         """
         pass
 
 
 class ValidFrom(ValidityMarker):
     """
-    Marker used to specify the fork from which the test is valid. The test will not be filled for
-    forks before the specified fork.
+    Marker used to specify the fork from which the test is valid.
+
+    The test will not be filled for forks before the specified fork.
 
     ```python
     import pytest
@@ -748,8 +762,9 @@ class ValidFrom(ValidityMarker):
 
 class ValidUntil(ValidityMarker):
     """
-    Marker to specify the fork until which the test is valid. The test will not be filled for
-    forks after the specified fork.
+    Marker to specify the fork until which the test is valid.
+
+    The test will not be filled for forks after the specified fork.
 
     ```python
     import pytest
@@ -804,8 +819,8 @@ class ValidAt(ValidityMarker):
 
 class ValidAtTransitionTo(ValidityMarker, mutually_exclusive=[ValidAt, ValidFrom, ValidUntil]):
     """
-    Marker to specify that a test is only meant to be filled at the transition to the specified
-    fork.
+    Marker to specify that a test is only meant to be filled at the
+    transition to the specified fork.
 
     The test usually starts at the fork prior to the specified fork at genesis and at block 5 (for
     pre-merge forks) or at timestamp 15,000 (for post-merge forks) the fork transition occurs.
@@ -982,7 +997,10 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 def add_fork_covariant_parameters(
     metafunc: Metafunc, fork_parametrizers: List[ForkParametrizer]
 ) -> None:
-    """Iterate over the fork covariant descriptors and add their values to the test function."""
+    """
+    Iterate over the fork covariant descriptors and add their values to the
+    test function.
+    """
     # Process all covariant decorators uniformly
     for covariant_descriptor in fork_covariant_decorators:
         if list(metafunc.definition.iter_markers(covariant_descriptor.marker_name)):

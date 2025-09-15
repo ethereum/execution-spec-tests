@@ -21,7 +21,10 @@ def test_function(state_test, pre):
 
 @pytest.fixture
 def minimal_test_path(pytester: pytest.Pytester) -> Path:
-    """Minimal test file that's written to a file using pytester and ready to fill."""
+    """
+    Minimal test file that's written to a file using pytester and ready to
+    fill.
+    """
     tests_dir = pytester.mkdir("tests")
     test_file = tests_dir / MINIMAL_TEST_FILE_NAME
     test_file.write_text(MINIMAL_TEST_CONTENTS)
@@ -48,7 +51,10 @@ def run_fill(
     fill_fork_until: str,
     default_t8n: TransitionTool,
 ):
-    """Create a function to run the fill command with various output directory scenarios."""
+    """
+    Create a function to run the fill command with various output directory
+    scenarios.
+    """
 
     def _run_fill(
         output_dir: Path,
@@ -56,7 +62,10 @@ def run_fill(
         expect_failure: bool = False,
         disable_capture_output: bool = False,
     ) -> pytest.RunResult:
-        """Run the fill command with the specified output directory and clean flag."""
+        """
+        Run the fill command with the specified output directory and clean
+        flag.
+        """
         pytester.copy_example(name="src/cli/pytest_commands/pytest_ini_files/pytest-fill.ini")
         args = [
             "-c",
@@ -227,7 +236,10 @@ def test_create_directories_skips_when_not_master():
 
 
 def test_create_directories_operates_when_master():
-    """Test that create_directories performs operations when is the master process."""
+    """
+    Test that create_directories performs operations when is the master
+    process.
+    """
     fixture_output = FixtureOutput(
         output_path=Path("/fake/path"),
         clean=True,
@@ -274,7 +286,10 @@ def test_create_directories_checks_empty_when_master():
 
 
 def test_stdout_skips_directory_operations_regardless_of_master():
-    """Test that stdout output skips directory operations regardless of is_master value."""
+    """
+    Test that stdout output skips directory operations regardless of is_master
+    value.
+    """
     fixture_output = FixtureOutput(
         output_path=Path("stdout"),
         clean=True,

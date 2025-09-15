@@ -54,7 +54,10 @@ class UnexpectedExecutionFailError(Exception):
 
 
 class UndefinedExecutionExceptionError(Exception):
-    """Exception used when a client's exception message isn't present in its `ExceptionMapper`."""
+    """
+    Exception used when a client's exception message isn't present in its
+    `ExceptionMapper`.
+    """
 
     def __init__(
         self,
@@ -100,7 +103,10 @@ class ExecutionExceptionMismatchError(Exception):
 
 
 class TransactionReceiptMismatchError(Exception):
-    """Exception used when the actual transaction receipt differs from the expected one."""
+    """
+    Exception used when the actual transaction receipt differs from the
+    expected one.
+    """
 
     def __init__(
         self,
@@ -259,9 +265,11 @@ def verify_transactions(
     transition_tool_exceptions_reliable: bool,
 ) -> List[int]:
     """
-    Verify accepted and rejected (if any) transactions against the expected outcome.
-    Raises exception on unexpected rejections, unexpected successful txs, or successful txs with
-    unexpected receipt values.
+    Verify accepted and rejected (if any) transactions against the expected
+    outcome.
+
+    Raises exception on unexpected rejections, unexpected successful txs, or
+    successful txs with unexpected receipt values.
     """
     rejected_txs: Dict[int, ExceptionWithMessage | UndefinedException] = {
         rejected_tx.index: rejected_tx.error for rejected_tx in result.rejected_transactions

@@ -65,7 +65,10 @@ def test_address_space_extension(
     target_opcode: Op,
     target_account_type: str,
 ):
-    """Test contacts with possibly extended address and fail if address is too large."""
+    """
+    Test contacts with possibly extended address and fail if address is too
+    large.
+    """
     env = Environment()
 
     ase_address = len(target_address) > 20

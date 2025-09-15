@@ -1,6 +1,6 @@
 """
-Static filler pytest plugin that reads test cases from static files and fills them into test
-fixtures.
+Static filler pytest plugin that reads test cases from static files and fills
+them into test fixtures.
 """
 
 import inspect
@@ -111,7 +111,10 @@ def get_all_combinations_from_parametrize_marks(
 
 
 def pytest_collect_file(file_path: Path, parent) -> pytest.Collector | None:
-    """Pytest hook that collects test cases from static files and fills them into test fixtures."""
+    """
+    Pytest hook that collects test cases from static files and fills them into
+    test fixtures.
+    """
     fill_static_tests_enabled = parent.config.getoption("fill_static_tests_enabled")
     if not fill_static_tests_enabled:
         return None
@@ -147,8 +150,8 @@ for ch in list(NoIntResolver.yaml_implicit_resolvers):
 
 class FillerFile(pytest.File):
     """
-    Filler file that reads test cases from static files and fills them into test
-    fixtures.
+    Filler file that reads test cases from static files and fills them into
+    test fixtures.
     """
 
     def collect(self: "FillerFile") -> Generator["FillerTestItem", None, None]:

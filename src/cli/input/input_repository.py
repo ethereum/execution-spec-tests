@@ -7,7 +7,9 @@ from typing import List
 class InputRepository(ABC):
     """
     Abstract base class for input handling.
-    This class defines the interface for different input types that can be swapped out.
+
+    This class defines the interface for different input types that can be
+    swapped out.
     """
 
     @abstractmethod

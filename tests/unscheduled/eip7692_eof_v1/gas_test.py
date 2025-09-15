@@ -14,8 +14,8 @@ from .eip7069_extcall.spec import (
 )
 
 WARM_ACCOUNT_ACCESS_GAS = 100
+"""Storage addresses for common testing fields."""
 
-"""Storage addresses for common testing fields"""
 _slot = itertools.count()
 slot_cold_gas = next(_slot)
 slot_warm_gas = next(_slot)
@@ -43,9 +43,9 @@ def gas_test(
     """
     Create State Test to check the gas cost of a sequence of EOF code.
 
-    `setup_code` and `tear_down_code` are called multiple times during the test, and MUST NOT have
-    any side-effects which persist across message calls, and in particular, any effects on the gas
-    usage of `subject_code`.
+    `setup_code` and `tear_down_code` are called multiple times during the
+    test, and MUST NOT have any side-effects which persist across message
+    calls, and in particular, any effects on the gas usage of `subject_code`.
     """
     if cold_gas <= 0:
         raise ValueError(f"Target gas allocations (cold_gas) must be > 0, got {cold_gas}")

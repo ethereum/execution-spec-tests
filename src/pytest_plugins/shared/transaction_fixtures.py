@@ -1,5 +1,6 @@
 """
-Pytest plugin providing default transaction fixtures for each transaction type.
+Pytest plugin providing default transaction fixtures for each transaction
+type.
 
 Each fixture can be overridden in test files to customize transaction behavior.
 """
@@ -125,10 +126,12 @@ def type_4_default_transaction(sender, pre):
 @pytest.fixture
 def typed_transaction(request, fork):
     """
-    Fixture that provides a Transaction object based on the parametrized tx type.
+    Fixture that provides a Transaction object based on the parametrized tx
+    type.
 
-    This fixture works with the @pytest.mark.with_all_typed_transactions marker,
-    which parametrizes the test with all transaction types supported by the fork.
+    This fixture works with the @pytest.mark.with_all_typed_transactions
+    marker, which parametrizes the test with all transaction types supported by
+    the fork.
 
     The actual transaction type value comes from the marker's parametrization.
     """

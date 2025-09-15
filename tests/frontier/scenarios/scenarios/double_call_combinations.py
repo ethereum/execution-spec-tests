@@ -12,10 +12,10 @@ from ..common import Scenario, ScenarioEnvironment, ScenarioGeneratorInput
 def scenarios_double_call_combinations(scenario_input: ScenarioGeneratorInput) -> List[Scenario]:
     """
     Generate Scenarios for double call combinations.
-    First call the operation normally.
-    Then do a subcall that will [OOG,REVERT,RETURN].
-    Second call the operation normally.
-    Compare the results of first call with the second operation call.
+
+    First call the operation normally. Then do a subcall that will
+    [OOG,REVERT,RETURN]. Second call the operation normally. Compare the
+    results of first call with the second operation call.
     """
     scenarios_list: List[Scenario] = []
     keep_gas = 300000

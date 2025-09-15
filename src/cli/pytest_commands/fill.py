@@ -24,10 +24,12 @@ class FillCommand(PytestCommand):
 
     def create_executions(self, pytest_args: List[str]) -> List[PytestExecution]:
         """
-        Create execution plan that supports two-phase pre-allocation group generation.
+        Create execution plan that supports two-phase pre-allocation group
+        generation.
 
         Returns single execution for normal filling, or two-phase execution
-        when --generate-pre-alloc-groups or --generate-all-formats is specified.
+        when --generate-pre-alloc-groups or --generate-all-formats is
+        specified.
         """
         processed_args = self.process_arguments(pytest_args)
 
@@ -48,7 +50,10 @@ class FillCommand(PytestCommand):
             ]
 
     def _create_two_phase_executions(self, args: List[str]) -> List[PytestExecution]:
-        """Create two-phase execution: pre-allocation group generation + fixture filling."""
+        """
+        Create two-phase execution: pre-allocation group generation + fixture
+        filling.
+        """
         # Phase 1: Pre-allocation group generation (clean and minimal output)
         phase1_args = self._create_phase1_args(args)
 
@@ -136,7 +141,10 @@ class FillCommand(PytestCommand):
         return filtered_args
 
     def _remove_generate_pre_alloc_groups_flag(self, args: List[str]) -> List[str]:
-        """Remove --generate-pre-alloc-groups flag but keep --generate-all-formats for phase 2."""
+        """
+        Remove --generate-pre-alloc-groups flag but keep --generate-all-formats
+        for phase 2.
+        """
         return [arg for arg in args if arg != "--generate-pre-alloc-groups"]
 
     def _remove_clean_flag(self, args: List[str]) -> List[str]:

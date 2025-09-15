@@ -211,7 +211,10 @@ class Bytecode:
         return output
 
     def hex(self) -> str:
-        """Return the hexadecimal representation of the opcode byte representation."""
+        """
+        Return the hexadecimal representation of the opcode byte
+        representation.
+        """
         return bytes(self).hex()
 
     def keccak256(self) -> Hash:

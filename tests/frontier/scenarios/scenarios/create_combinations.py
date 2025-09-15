@@ -28,7 +28,10 @@ def scenarios_create_combinations(scenario_input: ScenarioGeneratorInput) -> Lis
     """Generate Scenarios for create combinations."""
 
     def _compute_selfbalance() -> int:
-        """Compute selfbalance opcode for root -> call -> scenario -> create | [call*] -> program."""  # noqa: E501
+        """
+        Compute selfbalance opcode for root -> call -> scenario -> create |
+        [call*] -> program.
+        """  # noqa: E501
         if call in [Op.DELEGATECALL, Op.CALLCODE]:
             return (
                 balance.scenario_contract_balance + balance.root_call_value - balance.create_value
