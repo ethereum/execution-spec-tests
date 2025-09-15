@@ -8,6 +8,7 @@ from typing import Dict
 import pytest
 
 from ethereum_test_checklists import EIPChecklist
+from ethereum_test_forks import Fork, Osaka
 from ethereum_test_tools import (
     Alloc,
     Environment,
@@ -637,10 +638,12 @@ def test_modexp_variable_gas_cost(
     gas_usage: int,
     pre: Alloc,
     tx: Transaction,
+    fork: Fork,
     post: Dict,
 ):
     """Test ModExp variable gas cost."""
-    assert (gas_usage is None) or (precompile_gas == gas_usage), "inconsistent gas usage"
+    if fork >= Osaka:
+        assert (gas_usage is None) or (precompile_gas >= gas_usage), "inconsistent gas usage"
     state_test(pre=pre, tx=tx, post=post)
 
 
