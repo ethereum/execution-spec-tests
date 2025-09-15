@@ -5,13 +5,12 @@ from typing import Dict
 import pytest
 
 from ethereum_test_forks import Fork, Osaka
-from ethereum_test_tools import Account, Address, Alloc, Bytes, Storage, Transaction, keccak256
+from ethereum_test_tools import Account, Address, Alloc, Storage, Transaction, keccak256
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 from ethereum_test_types import Environment
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
-from ..eip7883_modexp_gas_increase.spec import Spec as Spec7883
-from .spec import Spec
+from ..eip7883_modexp_gas_increase.spec import Spec, Spec7883
 
 
 @pytest.fixture
@@ -80,7 +79,7 @@ def gas_measure_contract(
     gas_costs = fork.gas_costs()
     extra_gas = (
         gas_costs.G_WARM_ACCOUNT_ACCESS
-        + (gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 2))  # type: ignore
+        + (gas_costs.G_VERY_LOW * (len(Op.CALL.kwargs) - 1))  # type: ignore
         + gas_costs.G_BASE  # CALLDATASIZE
         + gas_costs.G_BASE  # GAS
     )
@@ -115,7 +114,7 @@ def gas_measure_contract(
         code += Op.SSTORE(call_contract_post_storage.store_next(precompile_gas), gas_calculation)
         code += Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE())
         code += Op.SSTORE(
-            call_contract_post_storage.store_next(keccak256(Bytes(modexp_expected))),
+            call_contract_post_storage.store_next(keccak256(bytes(modexp_expected))),
             Op.SHA3(0, Op.RETURNDATASIZE()),
         )
     return pre.deploy_contract(code)

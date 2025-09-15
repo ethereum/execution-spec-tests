@@ -20,8 +20,9 @@ from ethereum_test_tools import (
 )
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
-from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput, ModExpOutput
-from .spec import Spec, ref_spec_7823
+from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
+from ..eip7883_modexp_gas_increase.spec import Spec
+from .spec import ref_spec_7823
 
 REFERENCE_SPEC_GIT_PATH = ref_spec_7823.git_path
 REFERENCE_SPEC_VERSION = ref_spec_7823.version
@@ -215,7 +216,7 @@ REFERENCE_SPEC_VERSION = ref_spec_7823.version
 def test_modexp_input_bounds(
     state_test: StateTestFiller,
     modexp_input: ModExpInput,
-    modexp_expected: ModExpOutput,
+    modexp_expected: bytes,
     precompile_gas: int,
     fork: Fork,
     tx: Transaction,
