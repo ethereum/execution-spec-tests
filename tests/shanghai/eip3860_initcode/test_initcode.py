@@ -117,6 +117,7 @@ Test cases using a contract creating transaction
 """
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "initcode",
     [
@@ -481,6 +482,7 @@ class TestCreateInitcode:
         gas_costs = fork.gas_costs()
         return ceiling_division(len(initcode), 32) * gas_costs.G_KECCAK_256_WORD
 
+    @pytest.mark.xdist_group(name="bigmem")
     def test_create_opcode_initcode(
         self,
         state_test: StateTestFiller,
