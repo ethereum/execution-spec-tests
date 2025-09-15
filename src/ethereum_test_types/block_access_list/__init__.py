@@ -17,7 +17,6 @@ from ethereum_test_base_types import (
     CamelModel,
     EthereumTestRootModel,
     HexNumber,
-    Number,
     RLPSerializable,
     StorageKey,
 )
@@ -41,8 +40,11 @@ def compose(
 class BalNonceChange(CamelModel, RLPSerializable):
     """Represents a nonce change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
-    post_nonce: Number = Field(..., description="Nonce value after the transaction")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
+    post_nonce: HexNumber = Field(..., description="Nonce value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_nonce"]
 
@@ -50,7 +52,10 @@ class BalNonceChange(CamelModel, RLPSerializable):
 class BalBalanceChange(CamelModel, RLPSerializable):
     """Represents a balance change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     post_balance: HexNumber = Field(..., description="Balance after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_balance"]
@@ -59,7 +64,10 @@ class BalBalanceChange(CamelModel, RLPSerializable):
 class BalCodeChange(CamelModel, RLPSerializable):
     """Represents a code change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     new_code: Bytes = Field(..., description="New code bytes")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "new_code"]
@@ -68,7 +76,10 @@ class BalCodeChange(CamelModel, RLPSerializable):
 class BalStorageChange(CamelModel, RLPSerializable):
     """Represents a change to a specific storage slot."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     post_value: StorageKey = Field(..., description="Value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_value"]
