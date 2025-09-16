@@ -21,6 +21,7 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
     [
         pytest.param(Spec.modexp_input, Spec.modexp_expected, 200, 1200),
     ],
+    ids=[""],
 )
 @EIPChecklist.GasCostChanges.Test.ForkTransition.Before()
 @EIPChecklist.GasCostChanges.Test.ForkTransition.After()

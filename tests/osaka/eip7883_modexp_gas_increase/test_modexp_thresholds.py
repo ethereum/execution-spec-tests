@@ -96,6 +96,7 @@ def test_vectors_from_legacy_tests(
     [
         pytest.param(bytes(), False),
     ],
+    ids=[""],
 )
 @EIPChecklist.Precompile.Test.Inputs.AllZeros
 @pytest.mark.valid_from("Berlin")
@@ -642,7 +643,7 @@ def test_modexp_variable_gas_cost(
     post: Dict,
 ):
     """Test ModExp variable gas cost."""
-    if fork >= Osaka:
+    if fork >= Osaka:  # Check that gas used defined in table is accurate
         assert (gas_usage is None) or (precompile_gas >= gas_usage), "inconsistent gas usage"
     state_test(pre=pre, tx=tx, post=post)
 
