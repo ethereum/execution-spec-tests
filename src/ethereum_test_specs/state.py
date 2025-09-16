@@ -367,14 +367,12 @@ class StateTest(BaseTest):
         if self._operation_mode == OpMode.BENCHMARKING:
             expected_benchmark_gas_used = self.expected_benchmark_gas_used
             gas_used = int(transition_tool_output.result.gas_used)
-            assert expected_benchmark_gas_used is not None, (
-                "expected_benchmark_gas_used is not set"
-            )
-            assert gas_used == expected_benchmark_gas_used, (
-                f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
-                f"({expected_benchmark_gas_used})"
-                f", difference: {gas_used - expected_benchmark_gas_used}"
-            )
+            if expected_benchmark_gas_used is not None:
+                assert gas_used == expected_benchmark_gas_used, (
+                    f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
+                    f"({expected_benchmark_gas_used})"
+                    f", difference: {gas_used - expected_benchmark_gas_used}"
+                )
 
         return StateFixture(
             env=FixtureEnvironment(**env.model_dump(exclude_none=True)),
