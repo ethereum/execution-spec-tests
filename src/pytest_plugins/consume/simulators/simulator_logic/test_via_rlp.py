@@ -63,7 +63,7 @@ def test_via_rlp(
                         )
                 raise AssertionError(
                     "blockHash mismatch in last block - field mismatches:"
-                    f"\n{'\n'.join(mismatches)}"
+                    "\n" + "\n".join(mismatches)
                 )
             except Exception as e:
                 raise AssertionError(
