@@ -32,6 +32,7 @@ def included_requests(
     blocks_withdrawal_requests: List[List[WithdrawalRequestInteractionBase]],
 ) -> List[List[WithdrawalRequest]]:
     """Return the list of withdrawal requests that should be included in each block."""
+    del update_pre
     excess_withdrawal_requests = 0
     carry_over_requests: List[WithdrawalRequest] = []
     per_block_included_requests: List[List[WithdrawalRequest]] = []
@@ -81,6 +82,7 @@ def blocks(
     timestamp: int,
 ) -> List[Block]:
     """Return the list of blocks that should be included in the test."""
+    del update_pre
     blocks: List[Block] = []
 
     for block_requests, block_included_requests in zip_longest(  # type: ignore

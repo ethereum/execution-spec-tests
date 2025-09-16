@@ -39,5 +39,7 @@ def timing_data(
     total_timing_data: TimingData, client: Client
 ) -> Generator[TimingData, None, None]:
     """Record timing data for the main execution of the test case."""
+    del client
+
     with total_timing_data.time("Test case execution") as timing_data:
         yield timing_data

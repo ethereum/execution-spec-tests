@@ -56,13 +56,7 @@ def caller_code(
 
 
 @pytest.fixture
-def caller_pre_storage() -> Storage:
-    """Storage of the account containing the bytecode that calls the test contract."""
-    return Storage()
-
-
-@pytest.fixture
-def caller_address(pre: Alloc, caller_code: Bytecode, caller_pre_storage) -> Address:
+def caller_address(pre: Alloc, caller_code: Bytecode) -> Address:
     """Address of the account containing the bytecode that calls the test contract."""
     return pre.deploy_contract(caller_code)
 
@@ -146,7 +140,6 @@ def test_blobbasefee_out_of_gas(
     )
 
 
-@pytest.mark.parametrize("caller_pre_storage", [{1: 1}], ids=[""])
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_before_fork(
     state_test: StateTestFiller,
@@ -179,11 +172,6 @@ def test_blobbasefee_before_fork(
 timestamps = [7_500, 14_999, 15_000]
 
 
-@pytest.mark.parametrize(
-    "caller_pre_storage",
-    [{block_number: 0xFF for block_number, _ in enumerate(timestamps, start=1)}],
-    ids=[""],
-)
 @pytest.mark.valid_at_transition_to("Cancun")
 def test_blobbasefee_during_fork(
     blockchain_test: BlockchainTestFiller,

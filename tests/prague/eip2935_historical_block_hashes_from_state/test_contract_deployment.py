@@ -41,9 +41,11 @@ def test_system_contract_deployment(
     pre: Alloc,
     post: Alloc,
     test_type: DeploymentTestType,
-    **kwargs,
+    fork: object,
 ):
     """Verify deployment of the block hashes system contract."""
+    del fork
+
     # Deploy a contract that calls the history contract and verifies the block hashes.
     yield Block()  # Empty block just to have more history in the contract.
 

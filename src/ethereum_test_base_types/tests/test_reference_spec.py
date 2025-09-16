@@ -63,6 +63,8 @@ def test_git_reference_spec(monkeypatch):
     """Test Git reference spec."""
 
     def mock_get(self, headers=None):
+        del self, headers
+
         class Response:
             content = (
                 '{"content": "'

@@ -111,6 +111,8 @@ def get_hive_info(simulator: Simulation) -> HiveInfo | None:
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Add lines to pytest's console output header."""
+    del start_path
+
     if config.option.collectonly:
         return
     header_lines = [f"hive simulator: {config.hive_simulator_url}"]
@@ -141,6 +143,8 @@ def pytest_runtest_makereport(item, call):
     - result_call - test result
     - result_teardown - teardown result
     """
+    del call
+
     outcome = yield
     report = outcome.get_result()
     setattr(item, f"result_{report.when}", report)
@@ -172,6 +176,8 @@ def get_test_suite_scope(fixture_name, config: pytest.Config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
+    del fixture_name
+
     if hasattr(config, "test_suite_scope"):
         return config.test_suite_scope
     return "module"

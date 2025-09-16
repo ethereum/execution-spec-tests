@@ -206,6 +206,8 @@ def pytest_collection_modifyitems(
     session: pytest.Session, config: pytest.Config, items: List[Item]
 ):
     """Insert a new test EIPSpecTestItem for every test module with 'eip' in its path."""
+    del session
+
     github_token = config.github_token if hasattr(config, "github_token") else None
 
     modules: Set[Module] = {item.parent for item in items if isinstance(item.parent, Module)}

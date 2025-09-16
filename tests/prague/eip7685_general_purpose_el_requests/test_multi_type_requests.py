@@ -351,7 +351,6 @@ def test_valid_multi_type_request_from_same_tx(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     requests: List[DepositRequest | WithdrawalRequest | ConsolidationRequest],
-    fork: Fork,
 ):
     """
     Test making a deposit to the beacon chain deposit contract and a withdrawal in

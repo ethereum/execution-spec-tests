@@ -9,7 +9,6 @@ from typing import Dict, List, Mapping
 
 import pytest
 
-from ethereum_clis import TransitionTool
 from ethereum_test_forks import Cancun, Fork
 from ethereum_test_tools import (
     EOA,
@@ -417,7 +416,6 @@ def test_newly_created_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
     include_value_in_tx: bool,
-    request,
 ):
     """Test Withdrawing to a newly created contract."""
     sender = pre.fund_eoa()
@@ -697,7 +695,6 @@ def test_withdrawing_to_precompiles(
     pre: Alloc,
     precompile: int,
     amount: int,
-    t8n: TransitionTool,
 ):
     """Test withdrawing to all precompiles for a given fork."""
     sender = pre.fund_eoa()

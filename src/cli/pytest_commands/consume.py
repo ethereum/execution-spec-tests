@@ -36,7 +36,7 @@ def create_consume_command(
     )
 
 
-def get_command_logic_test_paths(command_name: str, is_hive: bool) -> List[Path]:
+def get_command_logic_test_paths(command_name: str) -> List[Path]:
     """Determine the command paths based on the command name and hive flag."""
     base_path = Path("pytest_plugins/consume")
     if command_name in ["engine", "rlp"]:
@@ -66,7 +66,7 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
     def decorator(func: Callable[..., Any]) -> click.Command:
         command_name = func.__name__
         command_help = func.__doc__
-        command_logic_test_paths = get_command_logic_test_paths(command_name, is_hive)
+        command_logic_test_paths = get_command_logic_test_paths(command_name)
 
         @consume.command(
             name=command_name,
@@ -76,6 +76,8 @@ def consume_command(is_hive: bool = False) -> Callable[[Callable[..., Any]], cli
         @common_pytest_options
         @functools.wraps(func)
         def command(pytest_args: List[str], **kwargs) -> None:
+            del kwargs
+
             consume_cmd = create_consume_command(
                 command_logic_test_paths=command_logic_test_paths,
                 is_hive=is_hive,
@@ -118,5 +120,7 @@ def sync() -> None:
 @common_pytest_options
 def cache(pytest_args: List[str], **kwargs) -> None:
     """Consume command to cache test fixtures."""
+    del kwargs
+
     cache_cmd = create_consume_command(command_logic_test_paths=[], is_hive=False)
     cache_cmd.execute(list(pytest_args))

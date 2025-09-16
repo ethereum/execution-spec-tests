@@ -750,6 +750,8 @@ def pytest_terminal_summary(
     Emphasize that fixtures have only been filled; they must now be executed to
     actually run the tests.
     """
+    del exitstatus
+
     yield
     if config.fixture_output.is_stdout or hasattr(config, "workerinput"):  # type: ignore[attr-defined]
         return
@@ -1069,6 +1071,8 @@ def get_fixture_collection_scope(fixture_name, config):
 
     See: https://docs.pytest.org/en/stable/how-to/fixtures.html#dynamic-scope
     """
+    del fixture_name
+
     if config.fixture_output.is_stdout:
         return "session"
     if config.fixture_output.single_fixture_per_file:
@@ -1361,6 +1365,8 @@ def pytest_collection_modifyitems(
     These can't be handled in this plugins pytest_generate_tests() as the fork
     parametrization occurs in the forks plugin.
     """
+    del config
+
     items_for_removal = []
     for i, item in enumerate(items):
         item.name = item.name.strip().replace(" ", "-")
@@ -1443,6 +1449,8 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
     - Generate index file for all produced fixtures.
     - Create tarball of the output directory if the output is a tarball.
     """
+    del exitstatus
+
     # Save pre-allocation groups after phase 1
     fixture_output: FixtureOutput = session.config.fixture_output  # type: ignore[attr-defined]
     session_instance: FillingSession = session.config.filling_session  # type: ignore[attr-defined]
@@ -1475,9 +1483,7 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int):
         session.config.getoption("generate_index")
         and not session_instance.phase_manager.is_pre_alloc_generation
     ):
-        generate_fixtures_index(
-            fixture_output.directory, quiet_mode=True, force_flag=False, disable_infer_format=False
-        )
+        generate_fixtures_index(fixture_output.directory, quiet_mode=True, force_flag=False)
 
     # Create tarball of the output directory if the output is a tarball.
     fixture_output.create_tarball()

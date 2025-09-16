@@ -278,14 +278,10 @@ def test_invalid_beacon_root_calldata_value(
     )
 
 
-@pytest.mark.parametrize("timestamp", [12])
 @pytest.mark.valid_from("Cancun")
 def test_beacon_root_selfdestruct(
     blockchain_test: BlockchainTestFiller,
-    beacon_root: bytes,
-    timestamp: int,
     pre: Alloc,
-    tx: Transaction,
     post: Dict,
 ):
     """Tests that self destructing the beacon root address transfers actors balance correctly."""

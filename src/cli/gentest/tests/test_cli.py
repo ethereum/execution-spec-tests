@@ -106,6 +106,7 @@ def test_tx_type(pytester, tmp_path, monkeypatch, tx_type, transaction_hash, def
     tx = transactions_by_type[tx_type]
 
     def get_mock_context(self: StateTestProvider) -> dict:
+        del self
         return tx
 
     monkeypatch.setattr(StateTestProvider, "get_context", get_mock_context)

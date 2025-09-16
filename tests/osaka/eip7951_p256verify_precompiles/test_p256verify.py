@@ -322,6 +322,7 @@ def test_precompile_will_return_success_with_tx_value(
     precompile_address: Address,
 ):
     """Test P256Verify precompile will not fail if value is sent."""
+    del precompile_address
     sender = pre.fund_eoa()
     storage = Storage()
 

@@ -41,6 +41,8 @@ def checklist(output: str, eip: tuple, **kwargs) -> None:
         uv run checklist --output ./my-checklists
 
     """
+    del kwargs
+
     # Add output directory to pytest args
     args = ["--checklist-output", output]
 

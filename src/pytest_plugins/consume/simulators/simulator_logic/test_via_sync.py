@@ -42,7 +42,6 @@ class LoggedError(Exception):
 
 def wait_for_sync(
     sync_eth_rpc: EthRPC,
-    sync_engine_rpc: EngineRPC,
     expected_block_hash: str | Hash,
     timeout: int = 10,
     poll_interval: float = 1.0,
@@ -105,7 +104,6 @@ def test_blockchain_via_sync(
     eth_rpc: EthRPC,
     engine_rpc: EngineRPC,
     net_rpc: NetRPC,
-    admin_rpc: AdminRPC,
     sync_eth_rpc: EthRPC,
     sync_engine_rpc: EngineRPC,
     sync_net_rpc: NetRPC,
@@ -472,7 +470,7 @@ def test_blockchain_via_sync(
         # Final verification
         assert sync_eth_rpc is not None, "sync_eth_rpc is required"
         assert sync_engine_rpc is not None, "sync_engine_rpc is required"
-        if wait_for_sync(sync_eth_rpc, sync_engine_rpc, last_valid_block_hash, timeout=5):
+        if wait_for_sync(sync_eth_rpc, last_valid_block_hash, timeout=5):
             logger.info("Sync verification successful!")
 
             # Verify the final state
