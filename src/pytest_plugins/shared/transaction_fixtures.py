@@ -9,6 +9,7 @@ import pytest
 from ethereum_test_base_types import AccessList
 from ethereum_test_tools import Opcodes as Op
 from ethereum_test_types import AuthorizationTuple, Transaction, add_kzg_version
+from ethereum_test_types.phase_manager import TestPhaseManager
 
 
 @pytest.fixture
@@ -159,3 +160,15 @@ def typed_transaction(request, fork):
             f"Please add the missing fixture to "
             f"src/pytest_plugins/shared/transaction_fixtures.py"
         ) from e
+
+
+@pytest.fixture
+def phase_manager():
+    """Fixture providing access to a test phase manager."""
+    return TestPhaseManager()
+
+
+@pytest.fixture
+def test_phase_manager():
+    """Fixture providing access to a test phase manager for blockchain tests."""
+    return TestPhaseManager()
