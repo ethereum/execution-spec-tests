@@ -54,7 +54,7 @@ def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
             id="tx_gas_limit_cap_exceeds_maximum",
             marks=pytest.mark.exception_test,
         ),
-        pytest.param(fork_tx_gas_limit_cap, None, id="tx_gas_limit_cap_none"),
+        pytest.param(fork_tx_gas_limit_cap, None, id="tx_gas_limit_cap_over"),
     ]
 
 
