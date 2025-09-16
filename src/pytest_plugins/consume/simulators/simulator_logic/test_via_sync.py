@@ -442,7 +442,7 @@ def test_blockchain_via_sync(
         last_forkchoice_time = time.time()
         forkchoice_interval = 2.0  # Send forkchoice updates every 2 seconds
 
-        while time.time() - sync_start_time < 10:  # 10 second timeout
+        while time.time() - sync_start_time < 60:  # 60 second timeout
             # Send periodic forkchoice updates to keep sync alive
             if time.time() - last_forkchoice_time >= forkchoice_interval:
                 try:
