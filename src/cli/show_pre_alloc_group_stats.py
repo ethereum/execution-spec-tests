@@ -100,7 +100,7 @@ def calculate_size_distribution(
     return group_distribution, test_distribution
 
 
-def analyze_pre_alloc_folder(folder: Path, verbose: int = 0) -> Dict:
+def analyze_pre_alloc_folder(folder: Path) -> Dict:
     """Analyze pre-allocation folder and return statistics."""
     pre_alloc_groups = PreAllocGroups.from_folder(folder, lazy_load=False)
 
@@ -480,7 +480,7 @@ def main(pre_alloc_folder: Path, verbose: int):
     console = Console()
 
     try:
-        stats = analyze_pre_alloc_folder(pre_alloc_folder, verbose=verbose)
+        stats = analyze_pre_alloc_folder(pre_alloc_folder)
         display_stats(stats, console, verbose=verbose)
     except FileNotFoundError:
         console.print(f"[red]Error: Folder not found: {pre_alloc_folder}[/red]")

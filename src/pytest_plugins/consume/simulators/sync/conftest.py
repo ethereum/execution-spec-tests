@@ -44,6 +44,8 @@ def pytest_generate_tests(metafunc):
 @pytest.hookimpl(trylast=True)
 def pytest_collection_modifyitems(session, config, items):
     """Modify test IDs to show both client and sync client clearly."""
+    del session, config
+
     for item in items:
         # Check if this test has both client_type and sync_client_type
         if (
@@ -160,7 +162,6 @@ def client_enode_url(client: Client) -> str:
 @pytest.fixture(scope="function")
 def sync_client(
     hive_test: HiveTest,
-    client: Client,  # The main client under test
     sync_client_files: dict,
     environment: dict,
     sync_client_type: ClientType,  # Separate parametrization for sync client

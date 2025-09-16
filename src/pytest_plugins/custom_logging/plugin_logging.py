@@ -314,13 +314,15 @@ def pytest_report_header(config: pytest.Config) -> list[str]:
 
 def pytest_terminal_summary(terminalreporter: TerminalReporter, exitstatus: int) -> None:
     """Display the log file path in the terminal summary like the HTML report does."""
+    del exitstatus
+
     if terminalreporter.config.option.collectonly:
         return
     if eest_log_file_path := terminalreporter.config.option.eest_log_file_path:
         terminalreporter.write_sep("-", f"Log file: {eest_log_file_path.resolve()}", yellow=True)
 
 
-def log_only_to_file(level: int, msg: str, *args, **kwargs) -> None:
+def log_only_to_file(level: int, msg: str, *args) -> None:
     """Log a message only to the file handler, bypassing stdout."""
     if not file_handler:
         return
@@ -344,6 +346,8 @@ def log_only_to_file(level: int, msg: str, *args, **kwargs) -> None:
 
 def pytest_runtest_logstart(nodeid: str, location: tuple[str, int, str]) -> None:
     """Log test start to file."""
+    del location
+
     log_only_to_file(logging.INFO, f"ℹ️  - START TEST: {nodeid}")
 
 
@@ -383,4 +387,6 @@ def pytest_runtest_logreport(report: pytest.TestReport) -> None:
 
 def pytest_runtest_logfinish(nodeid: str, location: tuple[str, int, str]) -> None:
     """Log end of test to file."""
+    del location
+
     log_only_to_file(logging.INFO, f"ℹ️  - END TEST: {nodeid}")

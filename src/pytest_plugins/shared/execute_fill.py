@@ -174,6 +174,7 @@ def pytest_make_parametrize_id(config: pytest.Config, val: str, argname: str):
     Pytest hook called when generating test ids. We use this to generate
     more readable test ids for the generated tests.
     """
+    del config
     return f"{argname}_{val}"
 
 

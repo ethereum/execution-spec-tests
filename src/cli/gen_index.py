@@ -54,15 +54,6 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     help="The input directory",
 )
 @click.option(
-    "--disable-infer-format",
-    "-d",
-    "disable_infer_format",
-    is_flag=True,
-    default=False,
-    expose_value=True,
-    help="Don't try to guess the fixture format from the json file's path.",
-)
-@click.option(
     "--quiet",
     "-q",
     "quiet_mode",
@@ -80,15 +71,12 @@ def count_json_files_exclude_index(start_path: Path) -> int:
     expose_value=True,
     help="Force re-generation of the index file, even if it already exists.",
 )
-def generate_fixtures_index_cli(
-    input_dir: str, quiet_mode: bool, force_flag: bool, disable_infer_format: bool
-):
+def generate_fixtures_index_cli(input_dir: str, quiet_mode: bool, force_flag: bool):
     """CLI wrapper to an index of all the fixtures in the specified directory."""
     generate_fixtures_index(
         Path(input_dir),
         quiet_mode=quiet_mode,
         force_flag=force_flag,
-        disable_infer_format=disable_infer_format,
     )
 
 
@@ -96,7 +84,6 @@ def generate_fixtures_index(
     input_path: Path,
     quiet_mode: bool = False,
     force_flag: bool = False,
-    disable_infer_format: bool = False,
 ):
     """
     Generate an index file (index.json) of all the fixtures in the specified

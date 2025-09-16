@@ -104,6 +104,8 @@ def test_fixtures(pytester: Pytester, fixtures_dir: Path, fill_tests: None) -> L
 
     We intentionally copy the `.meta/index.json` file to test its compatibility with consume.
     """
+    del fill_tests
+
     test_fixtures = []
     for json_file in fixtures_dir.rglob("*.json"):
         target_dir = Path(pytester.path) / json_file.parent

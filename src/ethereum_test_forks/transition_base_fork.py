@@ -66,6 +66,8 @@ def transition_fork(to_fork: Type[BaseFork], at_block: int = 0, at_timestamp: in
                 block_number: int = ALWAYS_TRANSITIONED_BLOCK_NUMBER,
                 timestamp: int = ALWAYS_TRANSITIONED_BLOCK_TIMESTAMP,
             ):
+                del cls
+
                 kwargs = {}
                 if "block_number" in base_method_parameters:
                     kwargs["block_number"] = block_number

@@ -153,6 +153,8 @@ class Frontier(BaseFork, solc_name="homestead"):
         gas_costs = cls.gas_costs(block_number, timestamp)
 
         def fn(*, data: BytesConvertible, floor: bool = False) -> int:
+            del floor
+
             cost = 0
             for b in Bytes(data):
                 if b == 0:
@@ -201,6 +203,7 @@ class Frontier(BaseFork, solc_name="homestead"):
         """At frontier, the transaction data floor cost is a constant zero."""
 
         def fn(*, data: BytesConvertible) -> int:
+            del data
             return 0
 
         return fn
@@ -221,6 +224,8 @@ class Frontier(BaseFork, solc_name="homestead"):
             authorization_list_or_count: Sized | int | None = None,
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
+            del return_cost_deducted_prior_execution
+
             assert access_list is None, f"Access list is not supported in {cls.name()}"
             assert authorization_list_or_count is None, (
                 f"Authorizations are not supported in {cls.name()}"
@@ -694,6 +699,8 @@ class Homestead(Frontier):
             authorization_list_or_count: Sized | int | None = None,
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
+            del return_cost_deducted_prior_execution
+
             intrinsic_cost: int = super_fn(
                 calldata=calldata,
                 contract_creation=contract_creation,
@@ -885,6 +892,8 @@ class Berlin(Istanbul):
             authorization_list_or_count: Sized | int | None = None,
             return_cost_deducted_prior_execution: bool = False,
         ) -> int:
+            del return_cost_deducted_prior_execution
+
             intrinsic_cost: int = super_fn(
                 calldata=calldata,
                 contract_creation=contract_creation,
@@ -1207,6 +1216,8 @@ class Cancun(Shanghai):
             parent_blob_count: int | None = None,
             parent_base_fee_per_gas: int,  # Required for Osaka as using this as base
         ) -> int:
+            del parent_base_fee_per_gas
+
             if parent_excess_blob_gas is None:
                 assert parent_excess_blobs is not None, "Parent excess blobs are required"
                 parent_excess_blob_gas = parent_excess_blobs * blob_gas_per_blob

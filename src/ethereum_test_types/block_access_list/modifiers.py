@@ -316,7 +316,8 @@ def reorder_accounts(indices: List[int]) -> Callable[[BlockAccessList], BlockAcc
 def clear_all() -> Callable[[BlockAccessList], BlockAccessList]:
     """Return an empty BAL."""
 
-    def transform(_bal: BlockAccessList) -> BlockAccessList:
+    def transform(bal: BlockAccessList) -> BlockAccessList:
+        del bal
         return BlockAccessList(root=[])
 
     return transform
