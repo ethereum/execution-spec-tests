@@ -291,11 +291,9 @@ def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
     """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
-
     kaboom = pre.deploy_contract(code=Op.SELFDESTRUCT(bob), balance=100)
 
     tx = Transaction(sender=alice, to=kaboom, gas_limit=1_000_000)
-
     block = Block(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
@@ -316,5 +314,9 @@ def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
     blockchain_test(
         pre=pre,
         blocks=[block],
-        post={alice: Account(nonce=1), kaboom: Account(balance=0), bob: Account(balance=100)},
+        post={
+            alice: Account(nonce=1),
+            bob: Account(balance=100),
+            kaboom: Account(balance=0),
+        },
     )
