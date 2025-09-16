@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_invalid_post_fork_block_without_blob_fields"><code>test_invalid_post_fork_block_without_blob_fields()</code><a class="headerlink" href="#test_invalid_post_fork_block_without_blob_fields" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/894b566d4098abb064505e583fe3ab70d8aef813/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L356"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields@894b566d</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f8ac0c8a2615f852809f51b3997eba9a3c0b88b/tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py#L360"><code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields@8f8ac0c8</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py::test_invalid_post_fork_block_without_blob_fields --fork Osaka</span>
@@ -27283,11 +27283,7 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 
             <details class="quote">
               <summary>Source code in <code>tests/cancun/eip4844_blobs/test_excess_blob_gas_fork_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">356</span>
-<span class="normal">357</span>
-<span class="normal">358</span>
-<span class="normal">359</span>
-<span class="normal">360</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">360</span>
 <span class="normal">361</span>
 <span class="normal">362</span>
 <span class="normal">363</span>
@@ -27326,7 +27322,11 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 <span class="normal">396</span>
 <span class="normal">397</span>
 <span class="normal">398</span>
-<span class="normal">399</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Cancun&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;excess_blob_gas_missing,blob_gas_used_missing&quot;</span><span class="p">,</span>
     <span class="p">[</span>
@@ -27338,7 +27338,7 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_post_fork_block_without_blob_fields</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
-    <span class="n">env</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
+    <span class="n">genesis_environment</span><span class="p">:</span> <span class="n">Environment</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">pre_fork_blocks</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Block</span><span class="p">],</span>
     <span class="n">excess_blob_gas_missing</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -27368,7 +27368,7 @@ rejected with the appropriate <code>EngineAPIError.InvalidParams</code> error.</
                 <span class="n">engine_api_error_code</span><span class="o">=</span><span class="n">EngineAPIError</span><span class="o">.</span><span class="n">InvalidParams</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">],</span>
-        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">env</span><span class="p">,</span>
+        <span class="n">genesis_environment</span><span class="o">=</span><span class="n">genesis_environment</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
