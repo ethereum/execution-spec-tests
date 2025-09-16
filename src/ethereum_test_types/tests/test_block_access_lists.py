@@ -13,6 +13,7 @@ from ethereum_test_types.block_access_list import (
     BalStorageSlot,
     BlockAccessList,
     BlockAccessListExpectation,
+    BlockAccessListValidationError,
 )
 
 
@@ -63,7 +64,7 @@ def test_address_exclusion_validation_raises_when_address_is_present():
         account_expectations={bob: None},
     )
 
-    with pytest.raises(Exception, match="should not be in BAL but was found"):
+    with pytest.raises(BlockAccessListValidationError, match="should not be in BAL but was found"):
         expectation.verify_against(actual_bal)
 
 
@@ -113,7 +114,10 @@ def test_empty_list_validation_fails():
         }
     )
 
-    with pytest.raises(Exception, match="Expected balance_changes to be empty"):
+    with pytest.raises(
+        BlockAccessListValidationError,
+        match="Expected balance_changes to be empty",
+    ):
         expectation.verify_against(actual_bal)
 
 
@@ -205,7 +209,9 @@ def test_missing_expected_address():
         }
     )
 
-    with pytest.raises(Exception, match="Expected address .* not found in actual BAL"):
+    with pytest.raises(
+        BlockAccessListValidationError, match="Expected address .* not found in actual BAL"
+    ):
         expectation.verify_against(actual_bal)
 
 
@@ -238,7 +244,7 @@ def test_actual_bal_address_ordering_validation(addresses, error_message):
 
     expectation = BlockAccessListExpectation(account_expectations={})
 
-    with pytest.raises(Exception, match=error_message):
+    with pytest.raises(BlockAccessListValidationError, match=error_message):
         expectation.verify_against(actual_bal)
 
 
@@ -272,7 +278,7 @@ def test_actual_bal_storage_slot_ordering(storage_slots, error_message):
 
     expectation = BlockAccessListExpectation(account_expectations={})
 
-    with pytest.raises(Exception, match=error_message):
+    with pytest.raises(BlockAccessListValidationError, match=error_message):
         expectation.verify_against(actual_bal)
 
 
@@ -294,7 +300,7 @@ def test_actual_bal_storage_reads_ordering(storage_reads, error_message):
 
     expectation = BlockAccessListExpectation(account_expectations={})
 
-    with pytest.raises(Exception, match=error_message):
+    with pytest.raises(BlockAccessListValidationError, match=error_message):
         expectation.verify_against(actual_bal)
 
 
@@ -320,7 +326,10 @@ def test_actual_bal_tx_indices_ordering(field_name):
 
     expectation = BlockAccessListExpectation(account_expectations={})
 
-    with pytest.raises(Exception, match="tx_indices not in ascending order"):
+    with pytest.raises(
+        BlockAccessListValidationError,
+        match="tx_indices not in ascending order",
+    ):
         expectation.verify_against(actual_bal)
 
 
@@ -400,7 +409,10 @@ def test_expected_storage_slots_ordering(expected_slots, should_pass):
     if should_pass:
         expectation.verify_against(actual_bal)
     else:
-        with pytest.raises(Exception, match="not found or not in correct order"):
+        with pytest.raises(
+            BlockAccessListValidationError,
+            match="not found or not in correct order",
+        ):
             expectation.verify_against(actual_bal)
 
 
@@ -440,7 +452,10 @@ def test_expected_storage_reads_ordering(expected_reads, should_pass):
     if should_pass:
         expectation.verify_against(actual_bal)
     else:
-        with pytest.raises(Exception, match="not found or not in correct order"):
+        with pytest.raises(
+            BlockAccessListValidationError,
+            match="not found or not in correct order",
+        ):
             expectation.verify_against(actual_bal)
 
 
@@ -490,5 +505,8 @@ def test_expected_tx_indices_ordering(expected_tx_indices, should_pass):
     if should_pass:
         expectation.verify_against(actual_bal)
     else:
-        with pytest.raises(Exception, match="not found or not in correct order"):
+        with pytest.raises(
+            BlockAccessListValidationError,
+            match="not found or not in correct order",
+        ):
             expectation.verify_against(actual_bal)

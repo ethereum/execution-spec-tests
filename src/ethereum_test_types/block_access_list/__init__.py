@@ -23,6 +23,12 @@ from ethereum_test_base_types import (
 from ethereum_test_base_types.serialization import to_serializable_element
 
 
+class BlockAccessListValidationError(Exception):
+    """Custom exception for Block Access List validation errors."""
+
+    pass
+
+
 def compose(
     *modifiers: Callable[["BlockAccessList"], "BlockAccessList"],
 ) -> Callable[["BlockAccessList"], "BlockAccessList"]:
@@ -124,6 +130,13 @@ class BalAccountChange(CamelModel, RLPSerializable):
         "nonce_changes",
         "code_changes",
     ]
+
+
+BlockAccessListChangeLists = Union[
+    List[BalNonceChange],
+    List[BalBalanceChange],
+    List[BalCodeChange],
+]
 
 
 class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
@@ -287,17 +300,21 @@ class BlockAccessListExpectation(CamelModel):
             if expectation is None:
                 # check explicit exclusion of address when set to `None`
                 if address in actual_accounts_by_addr:
-                    raise Exception(f"Address {address} should not be in BAL but was found")
+                    raise BlockAccessListValidationError(
+                        f"Address {address} should not be in BAL but was found"
+                    )
             else:
                 # check address is present and validate changes
                 if address not in actual_accounts_by_addr:
-                    raise Exception(f"Expected address {address} not found in actual BAL")
+                    raise BlockAccessListValidationError(
+                        f"Expected address {address} not found in actual BAL"
+                    )
 
                 actual_account = actual_accounts_by_addr[address]
                 try:
                     self._compare_account_expectations(expectation, actual_account)
                 except AssertionError as e:
-                    raise Exception(f"Account {address}: {str(e)}") from e
+                    raise BlockAccessListValidationError(f"Account {address}: {str(e)}") from e
 
     @staticmethod
     def _validate_bal_ordering(bal: "BlockAccessList") -> None:
@@ -321,7 +338,7 @@ class BlockAccessListExpectation(CamelModel):
         # Check addresses are in lexicographic order
         sorted_addresses = sorted(addresses, key=lambda x: bytes(x))
         if addresses != sorted_addresses:
-            raise Exception(
+            raise BlockAccessListValidationError(
                 f"BAL addresses not in lexicographic order per EIP-7928. "
                 f"Got: {[str(a) for a in addresses]}, "
                 f"Expected: {[str(a) for a in sorted_addresses]}"
@@ -334,7 +351,7 @@ class BlockAccessListExpectation(CamelModel):
                 slots = [s.slot for s in account.storage_changes]
                 sorted_slots = sorted(slots, key=lambda x: bytes(x))
                 if slots != sorted_slots:
-                    raise Exception(
+                    raise BlockAccessListValidationError(
                         f"Account {account.address}: Storage slots not in lexicographic order. "
                         f"Got: {slots}, Expected: {sorted_slots}"
                     )
@@ -344,7 +361,7 @@ class BlockAccessListExpectation(CamelModel):
                     if slot_change.slot_changes:
                         tx_indices = [c.tx_index for c in slot_change.slot_changes]
                         if tx_indices != sorted(tx_indices):
-                            raise Exception(
+                            raise BlockAccessListValidationError(
                                 f"Account {account.address}, Slot {slot_change.slot}: "
                                 f"tx_indices not in ascending order. Got: {tx_indices}"
                             )
@@ -353,22 +370,14 @@ class BlockAccessListExpectation(CamelModel):
             if account.storage_reads:
                 sorted_reads = sorted(account.storage_reads, key=lambda x: bytes(x))
                 if account.storage_reads != sorted_reads:
-                    raise Exception(
-                        f"Account {account.address}: Storage reads not in lexicographic order. "
-                        f"Got: {account.storage_reads}, Expected: {sorted_reads}"
+                    raise BlockAccessListValidationError(
+                        f"Account {account.address}: Storage reads not in "
+                        f"lexicographic order. Got: {account.storage_reads}, "
+                        f"Expected: {sorted_reads}"
                     )
 
             # Check tx indices in other change lists
-            changes_to_check: List[
-                tuple[
-                    str,
-                    Union[
-                        List[BalNonceChange],
-                        List[BalBalanceChange],
-                        List[BalCodeChange],
-                    ],
-                ]
-            ] = [
+            changes_to_check: List[tuple[str, Union[BlockAccessListChangeLists]]] = [
                 ("nonce_changes", account.nonce_changes),
                 ("balance_changes", account.balance_changes),
                 ("code_changes", account.code_changes),
@@ -377,7 +386,7 @@ class BlockAccessListExpectation(CamelModel):
                 if changes:
                     tx_indices = [c.tx_index for c in changes]
                     if tx_indices != sorted(tx_indices):
-                        raise Exception(
+                        raise BlockAccessListValidationError(
                             f"Account {account.address}: {field_name} tx_indices "
                             f"not in ascending order. Got: {tx_indices}"
                         )
@@ -407,7 +416,7 @@ class BlockAccessListExpectation(CamelModel):
             # empty list explicitly set (no changes expected)
             if not expected_value:
                 if actual_value:
-                    raise AssertionError(
+                    raise BlockAccessListValidationError(
                         f"Expected {field_name} to be empty but found: {actual_value}"
                     )
                 continue
@@ -436,7 +445,7 @@ class BlockAccessListExpectation(CamelModel):
                         actual_str = [
                             r.hex() if isinstance(r, bytes) else str(r) for r in actual_reads
                         ]
-                        raise AssertionError(
+                        raise BlockAccessListValidationError(
                             f"Storage read {exp_str} not found or not in correct order. "
                             f"Actual reads: {actual_str}"
                         )
@@ -476,7 +485,7 @@ class BlockAccessListExpectation(CamelModel):
                     actual_idx += 1
 
                 if not found:
-                    raise AssertionError(
+                    raise BlockAccessListValidationError(
                         f"Expected storage slot {exp_slot} not found or not in "
                         f"correct order. Actual slots: {actual_slots}"
                     )
@@ -487,7 +496,9 @@ class BlockAccessListExpectation(CamelModel):
 
             for slot, exp_changes in expected_by_slot.items():
                 if slot not in actual_by_slot:
-                    raise AssertionError(f"Expected storage slot {slot} not found in actual")
+                    raise BlockAccessListValidationError(
+                        f"Expected storage slot {slot} not found in actual"
+                    )
 
                 act_changes = actual_by_slot[slot]
 
@@ -522,7 +533,7 @@ class BlockAccessListExpectation(CamelModel):
                         act_idx += 1
 
                     if not found:
-                        raise AssertionError(
+                        raise BlockAccessListValidationError(
                             f"Slot {slot}: Expected change {exp_tuple} not found "
                             f"or not in correct order. Actual changes: {act_tuples}"
                         )
@@ -557,7 +568,7 @@ class BlockAccessListExpectation(CamelModel):
                     actual_idx += 1
 
                 if not found:
-                    raise AssertionError(
+                    raise BlockAccessListValidationError(
                         f"{item_type.capitalize()} change {exp_tuple} not found "
                         f"or not in correct order. Actual changes: {actual_tuples}"
                     )
