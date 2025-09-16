@@ -94,3 +94,6 @@ package-lock.json
 # temporary files
 *.tmp
 *.temp
+
+# ai
+.claude/
