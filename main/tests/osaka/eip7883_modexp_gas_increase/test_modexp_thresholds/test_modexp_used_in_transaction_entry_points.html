@@ -65,6 +65,7 @@
                         <th>modexp_input</th>
                         <th>modexp_expected</th>
                         <th>precompile_gas_modifier</th>
+                        <th>call_values</th>
                         <th>call_succeeds</th>
                     </tr>
     </thead>
@@ -79,6 +80,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
@@ -91,6 +93,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Berlin-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Berlin-state_test-extra_value]">
+                    ...fork_Berlin-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="state_test">
@@ -103,6 +119,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
@@ -115,6 +132,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
@@ -127,6 +145,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Berlin" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Berlin-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Berlin-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Berlin-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
@@ -139,6 +171,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
@@ -151,6 +184,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
@@ -163,6 +197,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_London-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_London-state_test-extra_value]">
+                    ...fork_London-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="London" data-fixture="state_test">
@@ -175,6 +223,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
@@ -187,6 +236,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
@@ -199,6 +249,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="London" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_London-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_London-blockchain_test_from_state_test-extra_value]">
+                    ...fork_London-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="London" data-fixture="blockchain_test">
@@ -211,6 +275,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
@@ -223,6 +288,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
@@ -235,6 +301,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Paris-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Paris-state_test-extra_value]">
+                    ...fork_Paris-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="state_test">
@@ -247,6 +327,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
@@ -259,6 +340,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
@@ -271,6 +353,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Paris" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Paris-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Paris-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Paris-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Paris" data-fixture="blockchain_test">
@@ -283,6 +379,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
@@ -295,6 +392,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
@@ -307,6 +405,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Shanghai-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Shanghai-state_test-extra_value]">
+                    ...fork_Shanghai-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="state_test">
@@ -319,6 +431,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
@@ -331,6 +444,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
@@ -343,6 +457,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Shanghai" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Shanghai-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Shanghai-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Shanghai-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
@@ -355,6 +483,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
@@ -367,6 +496,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
@@ -379,6 +509,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Cancun-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Cancun-state_test-extra_value]">
+                    ...fork_Cancun-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="state_test">
@@ -391,6 +535,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
@@ -403,6 +548,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
@@ -415,6 +561,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Cancun" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Cancun-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Cancun-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Cancun-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
@@ -427,6 +587,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -439,6 +600,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -451,6 +613,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Prague-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Prague-state_test-extra_value]">
+                    ...fork_Prague-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="state_test">
@@ -463,6 +639,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -475,6 +652,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -487,6 +665,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Prague" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Prague-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Prague-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Prague-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Prague" data-fixture="blockchain_test">
@@ -499,6 +691,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -511,6 +704,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -523,6 +717,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="state_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Osaka-state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Osaka-state_test-extra_value]">
+                    ...fork_Osaka-state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="state_test">
@@ -535,6 +743,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -547,6 +756,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>1</td>
+                        <td>0</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -559,6 +769,20 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
                         <td>0</td>
+                        <td>0</td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="Osaka" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Osaka-blockchain_test_from_state_test-extra_value]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_used_in_transaction_entry_points[fork_Osaka-blockchain_test_from_state_test-extra_value]">
+                    ...fork_Osaka-blockchain_test_from_state_test-extra_value
+                </abbr>
+            </td>
+                        <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
+                        <td><code>1abce71dc2205cce4eb6934397a88136</code> <code>f94641342e283cbcd30e929e85605c67</code> <code>18ed67f475192ffd</code></td>
+                        <td>0</td>
+                        <td>1000</td>
                         <td>True</td>
                     </tr>
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
@@ -571,6 +795,7 @@
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>
                         <td></td>
                         <td>-1</td>
+                        <td>0</td>
                         <td>False</td>
                     </tr>
             </tbody>

@@ -4345,6 +4345,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4539,6 +4543,52 @@
   
   <span class="md-ellipsis">
     <code>test_modexp_used_in_transaction_entry_points</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_contract_creation_transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_creation_transaction</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="test_contract_initcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_initcode</code>
     
   </span>
   
@@ -27150,7 +27200,7 @@
 
 
 <h1 id="test-modexp-thresholds">Test Modexp Thresholds<a class="headerlink" href="#test-modexp-thresholds" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/365d92793eb549b87f490dbaaad894270be31792/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L22"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py@365d9279</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2302246a08f61f30f68f3d41414a440cdce66d92/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L31"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py@2302246a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py --fork Osaka</span>
@@ -27233,14 +27283,26 @@
 <tr>
 <td><a href="test_modexp_gas_usage_contract_wrapper/"><code>test_modexp_gas_usage_contract_wrapper</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>4</td>
 <td>Test ModExp gas cost with different gas modifiers using contract wrapper calls.</td>
 </tr>
 <tr>
 <td><a href="test_modexp_used_in_transaction_entry_points/"><code>test_modexp_used_in_transaction_entry_points</code></a></td>
 <td>state_test</td>
-<td>3</td>
+<td>4</td>
 <td>Test ModExp using in transaction entry points with different precompile gas modifiers.</td>
+</tr>
+<tr>
+<td><a href="test_contract_creation_transaction/"><code>test_contract_creation_transaction</code></a></td>
+<td>state_test</td>
+<td>1</td>
+<td>Test the contract creation for the ModExp precompile.</td>
+</tr>
+<tr>
+<td><a href="test_contract_initcode/"><code>test_contract_initcode</code></a></td>
+<td>state_test</td>
+<td>2</td>
+<td>Test ModExp behavior from contract creation.</td>
 </tr>
 <tr>
 <td><a href="test_modexp_variable_gas_cost/"><code>test_modexp_variable_gas_cost</code></a></td>

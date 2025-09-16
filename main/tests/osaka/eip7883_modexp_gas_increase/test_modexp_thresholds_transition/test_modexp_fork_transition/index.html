@@ -4343,6 +4343,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4537,6 +4541,52 @@
   
   <span class="md-ellipsis">
     <code>test_modexp_used_in_transaction_entry_points</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_modexp_thresholds/test_contract_creation_transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_creation_transaction</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_modexp_thresholds/test_contract_initcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_initcode</code>
     
   </span>
   
@@ -27210,7 +27260,7 @@
 
 
 <h1 id="test_modexp_fork_transition"><code>test_modexp_fork_transition()</code><a class="headerlink" href="#test_modexp_fork_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/365d92793eb549b87f490dbaaad894270be31792/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L18"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@365d9279</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2302246a08f61f30f68f3d41414a440cdce66d92/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py#L19"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition@2302246a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition --fork Osaka</span>
@@ -27230,83 +27280,102 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span>
-<span class="normal">33</span>
-<span class="normal">34</span>
-<span class="normal">35</span>
-<span class="normal">36</span>
-<span class="normal">37</span>
-<span class="normal">38</span>
-<span class="normal">39</span>
-<span class="normal">40</span>
-<span class="normal">41</span>
-<span class="normal">42</span>
-<span class="normal">43</span>
-<span class="normal">44</span>
-<span class="normal">45</span>
-<span class="normal">46</span>
-<span class="normal">47</span>
-<span class="normal">48</span>
-<span class="normal">49</span>
-<span class="normal">50</span>
-<span class="normal">51</span>
-<span class="normal">52</span>
-<span class="normal">53</span>
-<span class="normal">54</span>
-<span class="normal">55</span>
-<span class="normal">56</span>
-<span class="normal">57</span>
-<span class="normal">58</span>
-<span class="normal">59</span>
-<span class="normal">60</span>
-<span class="normal">61</span>
-<span class="normal">62</span>
-<span class="normal">63</span>
-<span class="normal">64</span>
-<span class="normal">65</span>
-<span class="normal">66</span>
-<span class="normal">67</span>
-<span class="normal">68</span>
-<span class="normal">69</span>
-<span class="normal">70</span>
-<span class="normal">71</span>
-<span class="normal">72</span>
-<span class="normal">73</span>
-<span class="normal">74</span>
-<span class="normal">75</span>
-<span class="normal">76</span>
-<span class="normal">77</span>
-<span class="normal">78</span>
-<span class="normal">79</span>
-<span class="normal">80</span>
-<span class="normal">81</span>
-<span class="normal">82</span>
-<span class="normal">83</span>
-<span class="normal">84</span>
-<span class="normal">85</span>
-<span class="normal">86</span>
-<span class="normal">87</span>
-<span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,modexp_expected,gas_old,gas_new&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Spec</span><span class="o">.</span><span class="n">modexp_input</span><span class="p">,</span> <span class="n">Spec</span><span class="o">.</span><span class="n">modexp_expected</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1200</span><span class="p">),</span>
     <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
 <span class="p">)</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">GasCostChanges</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">GasCostChanges</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">After</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">After</span><span class="o">.</span><span class="n">Warm</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">GasCostChanges</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">Before</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">GasCostChanges</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">After</span><span class="p">()</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_modexp_fork_transition</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
@@ -27315,6 +27384,7 @@
     <span class="n">gas_new</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">tx_gas_limit</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">modexp_input</span><span class="p">:</span> <span class="n">ModExpInput</span><span class="p">,</span>
+    <span class="n">modexp_expected</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork.&quot;&quot;&quot;</span>
     <span class="n">call_code</span> <span class="o">=</span> <span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">(</span>
@@ -27343,6 +27413,12 @@
         <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span>  <span class="c1"># []</span>
     <span class="p">)</span>
 
+    <span class="c1"># Verification the precompile call result</span>
+    <span class="n">code</span> <span class="o">+=</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATACOPY</span><span class="p">(</span><span class="n">dest_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">())</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">AND</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">),</span>
+        <span class="n">Op</span><span class="o">.</span><span class="n">SHA3</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">RETURNDATASIZE</span><span class="p">()),</span>
+    <span class="p">)</span>
+
     <span class="n">senders</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="n">contracts</span> <span class="o">=</span> <span class="p">[</span><span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
     <span class="n">timestamps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">14_999</span><span class="p">,</span> <span class="mi">15_000</span><span class="p">,</span> <span class="mi">15_001</span><span class="p">]</span>
@@ -27364,7 +27440,7 @@
     <span class="p">]</span>
 
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">contract</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">ts</span><span class="p">:</span> <span class="n">gas</span><span class="p">})</span>
+        <span class="n">contract</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">ts</span><span class="p">:</span> <span class="n">gas</span><span class="p">,</span> <span class="n">ts</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">:</span> <span class="n">keccak256</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="n">modexp_expected</span><span class="p">))})</span>
         <span class="k">for</span> <span class="n">contract</span><span class="p">,</span> <span class="n">ts</span><span class="p">,</span> <span class="n">gas</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">contracts</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">gas_values</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="p">}</span>
 
@@ -27430,8 +27506,8 @@
                 <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test-modexp_input_base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None-modexp_expected_b'\x1a\xbc\xe7\x1d\xc2 \\\xceN\xb6\x93C\x97\xa8\x816\xf9FA4.(<\xbc\xd3\x0e\x92\x9e\x85`\\g\x18\xedg\xf4u\x19/\xfd'-gas_old_200-gas_new_1200]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test-modexp_input_base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None-modexp_expected_b'\x1a\xbc\xe7\x1d\xc2 \\\xceN\xb6\x93C\x97\xa8\x816\xf9FA4.(<\xbc\xd3\x0e\x92\x9e\x85`\\g\x18\xedg\xf4u\x19/\xfd'-gas_old_200-gas_new_1200]">
-                    ...fork_PragueToOsakaAtTime15k-blockchain_test-modexp_input_base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None-modexp_expected_b'\x1a\xbc\xe7\x1d\xc2 \\\xceN\xb6\x93C\x97\xa8\x816\xf9FA4.(<\xbc\xd3\x0e\x92\x9e\x85`\\g\x18\xedg\xf4u\x19/\xfd'-gas_old_200-gas_new_1200
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test-]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds_transition.py::test_modexp_fork_transition[fork_PragueToOsakaAtTime15k-blockchain_test-]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-
                 </abbr>
             </td>
                         <td>base=b'\xe8\xe7v&Xos\xb9U6L{K\xbf\x0b\xb7\xf7h^\xbd@\xe8R\xb1dc:J\xcb\xd3$L\x00\x01\x02\x03\x04\x05\x06\x07' exponent=b'\x01\xff\xff\xff' modulus=b'\xf0\x16\x81\xd2"\x0b\xfe\xa4\xbb\x88\x8aUC\xdb\x8c\t\x16\'M\xdb\x1e\xa9;\x14L\x04,\x01\xd8\x16L\x95\x00\x01\x02\x03\x04\x05\x06\x07' extra_data=b'' raw_input=None declared_base_length=None declared_exponent_length=None declared_modulus_length=None</td>

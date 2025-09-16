@@ -4345,6 +4345,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -4599,6 +4603,52 @@
   
   <span class="md-ellipsis">
     <code>test_modexp_used_in_transaction_entry_points</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_creation_transaction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_creation_transaction</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_contract_initcode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_contract_initcode</code>
     
   </span>
   
@@ -27210,7 +27260,7 @@
 
 
 <h1 id="test_modexp_invalid_inputs"><code>test_modexp_invalid_inputs()</code><a class="headerlink" href="#test_modexp_invalid_inputs" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/365d92793eb549b87f490dbaaad894270be31792/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L62"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs@365d9279</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/2302246a08f61f30f68f3d41414a440cdce66d92/tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py#L75"><code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs@2302246a</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs --fork Osaka</span>
@@ -27230,20 +27280,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 62</span>
-<span class="normal"> 63</span>
-<span class="normal"> 64</span>
-<span class="normal"> 65</span>
-<span class="normal"> 66</span>
-<span class="normal"> 67</span>
-<span class="normal"> 68</span>
-<span class="normal"> 69</span>
-<span class="normal"> 70</span>
-<span class="normal"> 71</span>
-<span class="normal"> 72</span>
-<span class="normal"> 73</span>
-<span class="normal"> 74</span>
-<span class="normal"> 75</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 75</span>
 <span class="normal"> 76</span>
 <span class="normal"> 77</span>
 <span class="normal"> 78</span>
@@ -27268,7 +27305,21 @@
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
 <span class="normal"> 99</span>
-<span class="normal">100</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;modexp_input,&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># These invalid inputs are from EIP-7823.</span>
@@ -27292,6 +27343,7 @@
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(),</span> <span class="kc">False</span><span class="p">),</span>
     <span class="p">],</span>
+    <span class="n">ids</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">Inputs</span><span class="o">.</span><span class="n">AllZeros</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Berlin&quot;</span><span class="p">)</span>
@@ -27370,8 +27422,8 @@
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-1]">
+                    ...fork_Berlin-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27381,8 +27433,8 @@
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-2]">
+                    ...fork_Berlin-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27392,8 +27444,8 @@
                 <tr data-fork="Berlin" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Berlin-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-state_test--invalid-case-3]">
+                    ...fork_Berlin-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27403,8 +27455,8 @@
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Berlin-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27414,8 +27466,8 @@
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Berlin-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27425,8 +27477,8 @@
                 <tr data-fork="Berlin" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Berlin-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Berlin-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Berlin-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27436,8 +27488,8 @@
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-1]">
+                    ...fork_London-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27447,8 +27499,8 @@
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-2]">
+                    ...fork_London-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27458,8 +27510,8 @@
                 <tr data-fork="London" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_London-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-state_test--invalid-case-3]">
+                    ...fork_London-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27469,8 +27521,8 @@
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_London-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27480,8 +27532,8 @@
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_London-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27491,8 +27543,8 @@
                 <tr data-fork="London" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_London-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_London-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_London-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27502,8 +27554,8 @@
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-1]">
+                    ...fork_Paris-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27513,8 +27565,8 @@
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-2]">
+                    ...fork_Paris-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27524,8 +27576,8 @@
                 <tr data-fork="Paris" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Paris-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-state_test--invalid-case-3]">
+                    ...fork_Paris-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27535,8 +27587,8 @@
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Paris-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27546,8 +27598,8 @@
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Paris-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27557,8 +27609,8 @@
                 <tr data-fork="Paris" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Paris-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Paris-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Paris-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27568,8 +27620,8 @@
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-1]">
+                    ...fork_Shanghai-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27579,8 +27631,8 @@
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-2]">
+                    ...fork_Shanghai-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27590,8 +27642,8 @@
                 <tr data-fork="Shanghai" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Shanghai-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-state_test--invalid-case-3]">
+                    ...fork_Shanghai-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27601,8 +27653,8 @@
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Shanghai-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27612,8 +27664,8 @@
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Shanghai-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27623,8 +27675,8 @@
                 <tr data-fork="Shanghai" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Shanghai-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Shanghai-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Shanghai-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27634,8 +27686,8 @@
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-1]">
+                    ...fork_Cancun-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27645,8 +27697,8 @@
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-2]">
+                    ...fork_Cancun-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27656,8 +27708,8 @@
                 <tr data-fork="Cancun" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Cancun-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-state_test--invalid-case-3]">
+                    ...fork_Cancun-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27667,8 +27719,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Cancun-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27678,8 +27730,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Cancun-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27689,8 +27741,8 @@
                 <tr data-fork="Cancun" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Cancun-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Cancun-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Cancun-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27700,8 +27752,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-1]">
+                    ...fork_Prague-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27711,8 +27763,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-2]">
+                    ...fork_Prague-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27722,8 +27774,8 @@
                 <tr data-fork="Prague" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Prague-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-state_test--invalid-case-3]">
+                    ...fork_Prague-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27733,8 +27785,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Prague-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27744,8 +27796,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Prague-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27755,8 +27807,8 @@
                 <tr data-fork="Prague" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Prague-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Prague-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Prague-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27766,8 +27818,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-1]">
+                    ...fork_Osaka-state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27777,8 +27829,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-2]">
+                    ...fork_Osaka-state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27788,8 +27840,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Osaka-state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-state_test--invalid-case-3]">
+                    ...fork_Osaka-state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
@@ -27799,8 +27851,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1]">
-                    ...fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-1
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-1]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-1]">
+                    ...fork_Osaka-blockchain_test_from_state_test--invalid-case-1
                 </abbr>
             </td>
                         <td></td>
@@ -27810,8 +27862,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2]">
-                    ...fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-2
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-2]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-2]">
+                    ...fork_Osaka-blockchain_test_from_state_test--invalid-case-2
                 </abbr>
             </td>
                         <td></td>
@@ -27821,8 +27873,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3]">
-                    ...fork_Osaka-blockchain_test_from_state_test-modexp_expected_b''-call_succeeds_False-invalid-case-3
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-3]" title="tests/osaka/eip7883_modexp_gas_increase/test_modexp_thresholds.py::test_modexp_invalid_inputs[fork_Osaka-blockchain_test_from_state_test--invalid-case-3]">
+                    ...fork_Osaka-blockchain_test_from_state_test--invalid-case-3
                 </abbr>
             </td>
                         <td></td>
