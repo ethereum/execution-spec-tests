@@ -2,8 +2,9 @@
 
 import pytest
 
+from ethereum_test_checklists import EIPChecklist
 from ethereum_test_forks import Fork
-from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Transaction
+from ethereum_test_tools import Account, Alloc, Block, BlockchainTestFiller, Transaction, keccak256
 from ethereum_test_tools.vm.opcode import Opcodes as Op
 
 from ...byzantium.eip198_modexp_precompile.helpers import ModExpInput
@@ -20,7 +21,13 @@ pytestmark = pytest.mark.valid_at_transition_to("Osaka", subsequent_forks=True)
     [
         pytest.param(Spec.modexp_input, Spec.modexp_expected, 200, 1200),
     ],
+    ids=[""],
 )
+@EIPChecklist.GasCostChanges.Test.ForkTransition.Before()
+@EIPChecklist.GasCostChanges.Test.ForkTransition.After()
+@EIPChecklist.Precompile.Test.ForkTransition.After.Warm()
+@EIPChecklist.GasCostChanges.Test.ForkTransition.Before()
+@EIPChecklist.GasCostChanges.Test.ForkTransition.After()
 def test_modexp_fork_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
@@ -29,6 +36,7 @@ def test_modexp_fork_transition(
     gas_new: int,
     tx_gas_limit: int,
     modexp_input: ModExpInput,
+    modexp_expected: bytes,
 ):
     """Test ModExp gas cost transition from EIP-7883 before and after the Osaka hard fork."""
     call_code = Op.CALL(
@@ -57,6 +65,12 @@ def test_modexp_fork_transition(
         + Op.SSTORE  # []
     )
 
+    # Verification the precompile call result
+    code += Op.RETURNDATACOPY(dest_offset=0, offset=0, size=Op.RETURNDATASIZE()) + Op.SSTORE(
+        Op.AND(Op.TIMESTAMP, 0xFF),
+        Op.SHA3(0, Op.RETURNDATASIZE()),
+    )
+
     senders = [pre.fund_eoa() for _ in range(3)]
     contracts = [pre.deploy_contract(code) for _ in range(3)]
     timestamps = [14_999, 15_000, 15_001]
@@ -78,7 +92,7 @@ def test_modexp_fork_transition(
     ]
 
     post = {
-        contract: Account(storage={ts: gas})
+        contract: Account(storage={ts: gas, ts & 0xFF: keccak256(bytes(modexp_expected))})
         for contract, ts, gas in zip(contracts, timestamps, gas_values, strict=False)
     }
 

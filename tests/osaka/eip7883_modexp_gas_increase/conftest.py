@@ -119,8 +119,14 @@ def gas_measure_contract(
     assert call_opcode in [Op.CALL, Op.CALLCODE, Op.DELEGATECALL, Op.STATICCALL]
     value = [0] if call_opcode in [Op.CALL, Op.CALLCODE] else []
 
+    gas_used = (
+        precompile_gas + precompile_gas_modifier
+        if precompile_gas_modifier != float("inf")
+        else Environment().gas_limit
+    )
+
     call_code = call_opcode(
-        precompile_gas + precompile_gas_modifier,
+        gas_used,
         Spec.MODEXP_ADDRESS,
         *value,
         0,
