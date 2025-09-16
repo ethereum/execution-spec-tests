@@ -287,13 +287,56 @@ def test_bal_code_changes(
 
 
 @pytest.mark.valid_from("Amsterdam")
-def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
+@pytest.mark.parametrize(
+    "self_destruct_in_same_tx",
+    [True, False],
+    ids=["self_destruct_in_same_tx", "self_destruct_in_a_new_tx"],
+)
+def test_bal_self_destruct(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    self_destruct_in_same_tx: bool,
+):
     """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
     alice = pre.fund_eoa()
     bob = pre.fund_eoa(amount=0)
-    kaboom = pre.deploy_contract(code=Op.SELFDESTRUCT(bob), balance=100)
 
-    tx = Transaction(sender=alice, to=kaboom, gas_limit=1_000_000)
+    # A template, self-destructing contract
+    kaboom = pre.deploy_contract(code=Op.SELFDESTRUCT(bob))
+
+    if self_destruct_in_same_tx:
+        # The goal is to create a self-destructing contract in the same
+        # transaction to trigger deletion of code as per EIP-6780.
+        # The factory contract below clones the template `kaboom`
+        # contract and calls it in this transaction.
+
+        template = pre[kaboom]
+        assert template is not None, "Template contract MUST be deployed for cloning"
+
+        bytecode_size = len(template.code)
+        factory_bytecode = (
+            # Clone template memory
+            Op.EXTCODECOPY(kaboom, 0, 0, bytecode_size)
+            # Fund 100 wei and deploy the clone
+            + Op.CREATE(100, 0, bytecode_size)
+            # Call the clone, which self-destructs
+            + Op.CALL(50_000, Op.DUP6, 0, 0, 0, 0, 0)
+            + Op.STOP
+        )
+
+        factory = pre.deploy_contract(code=factory_bytecode)
+        kaboom_same_tx = compute_create_address(address=factory, nonce=1)
+
+    tx = Transaction(
+        sender=alice,
+        to=factory if self_destruct_in_same_tx else kaboom,
+        value=100,
+        gas_limit=1_000_000,
+    )
+
+    # Determine which account was destructed
+    self_destructed_account = kaboom_same_tx if self_destruct_in_same_tx else kaboom
+
     block = Block(
         txs=[tx],
         expected_block_access_list=BlockAccessListExpectation(
@@ -304,8 +347,12 @@ def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
                 bob: BalAccountExpectation(
                     balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)]
                 ),
-                kaboom: BalAccountExpectation(
-                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
+                self_destructed_account: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)],
+                    # Expect code to be cleared if self-destructed in same transaction.
+                    code_changes=[BalCodeChange(tx_index=1, new_code="")]
+                    if self_destruct_in_same_tx
+                    else [],
                 ),
             }
         ),
@@ -317,6 +364,5 @@ def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
         post={
             alice: Account(nonce=1),
             bob: Account(balance=100),
-            kaboom: Account(balance=0),
         },
     )
