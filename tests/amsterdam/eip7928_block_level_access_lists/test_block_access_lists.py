@@ -284,3 +284,37 @@ def test_bal_code_changes(
             ),
         },
     )
+
+
+@pytest.mark.valid_from("Amsterdam")
+def test_bal_self_destruct(pre: Alloc, blockchain_test: BlockchainTestFiller):
+    """Ensure BAL captures balance changes caused by `SELFDESTRUCT`."""
+    alice = pre.fund_eoa()
+    bob = pre.fund_eoa(amount=0)
+
+    kaboom = pre.deploy_contract(code=Op.SELFDESTRUCT(bob), balance=100)
+
+    tx = Transaction(sender=alice, to=kaboom, gas_limit=1_000_000)
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                bob: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=100)]
+                ),
+                kaboom: BalAccountExpectation(
+                    balance_changes=[BalBalanceChange(tx_index=1, post_balance=0)]
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={alice: Account(nonce=1), kaboom: Account(balance=0), bob: Account(balance=100)},
+    )
