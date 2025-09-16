@@ -16,7 +16,7 @@
         <link rel="prev" href="../test_tx_gas_limit_cap_subcall_context/">
       
       
-        <link rel="next" href="../test_tx_gas_limit_cap_full_calldata/">
+        <link rel="next" href="../test_maximum_gas_refund/">
       
       
       <link rel="icon" href="../../../../../img/ETH-logo-icon.svg">
@@ -3847,6 +3847,8 @@
       
         
       
+        
+      
     
     
     
@@ -4014,6 +4016,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_maximum_gas_refund/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_maximum_gas_refund</code>
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -27185,7 +27210,7 @@
 
 
 <h1 id="test_tx_gas_larger_than_block_gas_limit"><code>test_tx_gas_larger_than_block_gas_limit()</code><a class="headerlink" href="#test_tx_gas_larger_than_block_gas_limit" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1779001b59d556a409cf820dbcb022f5471cf325/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L166"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_larger_than_block_gas_limit@1779001b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/df81019c19a73e1fac3536c54db58374eea88843/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L167"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_larger_than_block_gas_limit@df81019c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_larger_than_block_gas_limit --fork Osaka</span>
@@ -27205,8 +27230,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">166</span>
-<span class="normal">167</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
 <span class="normal">168</span>
 <span class="normal">169</span>
 <span class="normal">170</span>
@@ -27240,7 +27264,8 @@
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">201</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;exceed_block_gas_limit&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span><span class="p">),</span>
@@ -27398,13 +27423,13 @@
         
         
           
-          <a href="../test_tx_gas_limit_cap_full_calldata/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_tx_gas_limit_cap_full_calldata&lt;/code&gt;">
+          <a href="../test_maximum_gas_refund/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code&gt;test_maximum_gas_refund&lt;/code&gt;">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                <code>test_tx_gas_limit_cap_full_calldata</code>
+                <code>test_maximum_gas_refund</code>
               </div>
             </div>
             <div class="md-footer__button md-icon">

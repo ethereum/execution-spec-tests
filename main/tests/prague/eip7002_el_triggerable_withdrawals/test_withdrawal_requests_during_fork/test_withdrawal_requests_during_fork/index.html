@@ -3841,6 +3841,8 @@
       
         
       
+        
+      
     
     
     
@@ -3943,6 +3945,29 @@
   
   <span class="md-ellipsis">
     <code>test_tx_gas_larger_than_block_gas_limit</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit/test_maximum_gas_refund/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_maximum_gas_refund</code>
     
   </span>
   
@@ -27185,7 +27210,7 @@
 
 
 <h1 id="test_withdrawal_requests_during_fork"><code>test_withdrawal_requests_during_fork()</code><a class="headerlink" href="#test_withdrawal_requests_during_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1779001b59d556a409cf820dbcb022f5471cf325/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork.py#L34"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork.py::test_withdrawal_requests_during_fork@1779001b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/df81019c19a73e1fac3536c54db58374eea88843/tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork.py#L34"><code>tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork.py::test_withdrawal_requests_during_fork@df81019c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7002_el_triggerable_withdrawals/test_withdrawal_requests_during_fork.py::test_withdrawal_requests_during_fork --fork Osaka</span>
@@ -27446,7 +27471,7 @@
                 </abbr>
             </td>
                         <td>14998</td>
-                        <td>[[], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=False, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f1afc2bb600>)])], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=False, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f1afc2bb600>)])], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f1afc2bb600>)])]]</td>
+                        <td>[[], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01', amount=0, fee=1, valid=False, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f4e958fff60>)])], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02', amount=0, fee=1, valid=False, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f4e958fff60>)])], [WithdrawalRequestTransaction(sender_balance=1000000000000000000, sender_account=None, requests=[WithdrawalRequest(source_address=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', validator_pubkey=b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x03', amount=0, fee=1, valid=True, gas_limit=1000000, calldata_modifier=<function WithdrawalRequest.<lambda> at 0x7f4e958fff60>)])]]</td>
                     </tr>
             </tbody>
 </table>

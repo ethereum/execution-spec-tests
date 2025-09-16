@@ -3847,6 +3847,8 @@
       
         
       
+        
+      
     
     
     
@@ -4009,6 +4011,29 @@
   
   <span class="md-ellipsis">
     <code>test_tx_gas_larger_than_block_gas_limit</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_maximum_gas_refund/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_maximum_gas_refund</code>
     
   </span>
   
@@ -27185,7 +27210,7 @@
 
 
 <h1 id="test_transaction_gas_limit_cap"><code>test_transaction_gas_limit_cap()</code><a class="headerlink" href="#test_transaction_gas_limit_cap" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1779001b59d556a409cf820dbcb022f5471cf325/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L60"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap@1779001b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/df81019c19a73e1fac3536c54db58374eea88843/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L61"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap@df81019c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap --fork Osaka</span>
@@ -27205,8 +27230,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 60</span>
-<span class="normal"> 61</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 61</span>
 <span class="normal"> 62</span>
 <span class="normal"> 63</span>
 <span class="normal"> 64</span>
@@ -27262,7 +27286,8 @@
 <span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
-<span class="normal">117</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span><span class="s2">&quot;tx_gas_limit,error&quot;</span><span class="p">,</span> <span class="n">tx_gas_limit_cap_tests</span><span class="p">)</span>
+<span class="normal">117</span>
+<span class="normal">118</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize_by_fork</span><span class="p">(</span><span class="s2">&quot;tx_gas_limit,error&quot;</span><span class="p">,</span> <span class="n">tx_gas_limit_cap_tests</span><span class="p">)</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_tx_types</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_from</span><span class="p">(</span><span class="s2">&quot;Prague&quot;</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_transaction_gas_limit_cap</span><span class="p">(</span>
@@ -27510,8 +27535,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none0-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none0-state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none0-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over0-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over0-state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over0-state_test
                 </abbr>
             </td>
                         <td>4</td>
@@ -27521,8 +27546,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none0-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none0-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none0-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over0-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over0-blockchain_test_from_state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over0-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>4</td>
@@ -27554,8 +27579,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none1-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none1-state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none1-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over1-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over1-state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over1-state_test
                 </abbr>
             </td>
                         <td>3</td>
@@ -27565,8 +27590,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none1-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none1-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none1-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over1-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over1-blockchain_test_from_state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over1-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>3</td>
@@ -27598,8 +27623,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none2-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none2-state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none2-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over2-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over2-state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over2-state_test
                 </abbr>
             </td>
                         <td>2</td>
@@ -27609,8 +27634,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none2-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none2-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none2-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over2-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over2-blockchain_test_from_state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over2-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>2</td>
@@ -27642,8 +27667,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none3-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none3-state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none3-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over3-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over3-state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over3-state_test
                 </abbr>
             </td>
                         <td>1</td>
@@ -27653,8 +27678,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none3-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none3-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none3-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over3-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over3-blockchain_test_from_state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over3-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>1</td>
@@ -27686,8 +27711,8 @@
                 <tr data-fork="Osaka" data-fixture="state_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none4-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none4-state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none4-state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over4-state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over4-state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over4-state_test
                 </abbr>
             </td>
                         <td>0</td>
@@ -27697,8 +27722,8 @@
                 <tr data-fork="Osaka" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none4-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_none4-blockchain_test_from_state_test]">
-                    ...fork_Osaka-tx_gas_limit_cap_none4-blockchain_test_from_state_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over4-blockchain_test_from_state_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_transaction_gas_limit_cap[fork_Osaka-tx_gas_limit_cap_over4-blockchain_test_from_state_test]">
+                    ...fork_Osaka-tx_gas_limit_cap_over4-blockchain_test_from_state_test
                 </abbr>
             </td>
                         <td>0</td>

@@ -3847,6 +3847,8 @@
       
         
       
+        
+      
     
     
     
@@ -4009,6 +4011,29 @@
   
   <span class="md-ellipsis">
     <code>test_tx_gas_larger_than_block_gas_limit</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../test_maximum_gas_refund/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_maximum_gas_refund</code>
     
   </span>
   
@@ -27185,7 +27210,7 @@
 
 
 <h1 id="test_tx_gas_limit_cap_subcall_context"><code>test_tx_gas_limit_cap_subcall_context()</code><a class="headerlink" href="#test_tx_gas_limit_cap_subcall_context" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1779001b59d556a409cf820dbcb022f5471cf325/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L120"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_subcall_context@1779001b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/df81019c19a73e1fac3536c54db58374eea88843/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py#L121"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_subcall_context@df81019c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py::test_tx_gas_limit_cap_subcall_context --fork Osaka</span>
@@ -27205,8 +27230,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">120</span>
-<span class="normal">121</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
@@ -27248,7 +27272,8 @@
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
-<span class="normal">163</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">163</span>
+<span class="normal">164</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;opcode&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">CALL</span><span class="p">),</span>

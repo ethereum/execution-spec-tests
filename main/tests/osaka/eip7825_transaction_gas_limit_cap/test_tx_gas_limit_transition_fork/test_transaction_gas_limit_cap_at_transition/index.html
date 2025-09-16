@@ -3845,6 +3845,8 @@
       
         
       
+        
+      
     
     
     
@@ -3947,6 +3949,29 @@
   
   <span class="md-ellipsis">
     <code>test_tx_gas_larger_than_block_gas_limit</code>
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test_tx_gas_limit/test_maximum_gas_refund/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    <code>test_maximum_gas_refund</code>
     
   </span>
   
@@ -27185,7 +27210,7 @@
 
 
 <h1 id="test_transaction_gas_limit_cap_at_transition"><code>test_transaction_gas_limit_cap_at_transition()</code><a class="headerlink" href="#test_transaction_gas_limit_cap_at_transition" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/1779001b59d556a409cf820dbcb022f5471cf325/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py#L25"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition@1779001b</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/df81019c19a73e1fac3536c54db58374eea88843/tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py#L26"><code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition@df81019c</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition --fork Osaka</span>
@@ -27207,8 +27232,7 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 25</span>
-<span class="normal"> 26</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 26</span>
 <span class="normal"> 27</span>
 <span class="normal"> 28</span>
 <span class="normal"> 29</span>
@@ -27286,12 +27310,41 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 <span class="normal">101</span>
 <span class="normal">102</span>
 <span class="normal">103</span>
-<span class="normal">104</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">AcceptedBeforeFork</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">RejectedBeforeFork</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">AcceptedAfterFork</span><span class="p">()</span>
+<span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">ModifiedTransactionValidityConstraint</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">ForkTransition</span><span class="o">.</span><span class="n">RejectedAfterFork</span><span class="p">()</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">valid_at_transition_to</span><span class="p">(</span><span class="s2">&quot;Osaka&quot;</span><span class="p">,</span> <span class="n">subsequent_forks</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+    <span class="s2">&quot;transaction_at_cap&quot;</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;at_cap&quot;</span><span class="p">),</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">marks</span><span class="o">=</span><span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">exception_test</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;above_cap&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_transaction_gas_limit_cap_at_transition</span><span class="p">(</span>
     <span class="n">blockchain_test</span><span class="p">:</span> <span class="n">BlockchainTestFiller</span><span class="p">,</span>
     <span class="n">pre</span><span class="p">:</span> <span class="n">Alloc</span><span class="p">,</span>
     <span class="n">fork</span><span class="p">:</span> <span class="n">Fork</span><span class="p">,</span>
+    <span class="n">transaction_at_cap</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Test transaction gas limit cap behavior at the Osaka transition.</span>
@@ -27299,60 +27352,61 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
 <span class="sd">    Before timestamp 15000: No gas limit cap (transactions with gas &gt; 2^24 are valid)</span>
 <span class="sd">    At/after timestamp 15000: Gas limit cap of 2^24 is enforced</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sender</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">()</span>
     <span class="n">contract_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
-        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
+        <span class="n">code</span><span class="o">=</span><span class="n">Op</span><span class="o">.</span><span class="n">SSTORE</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">,</span> <span class="n">Op</span><span class="o">.</span><span class="n">ADD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">SLOAD</span><span class="p">(</span><span class="n">Op</span><span class="o">.</span><span class="n">TIMESTAMP</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">pre_cap</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">()</span>
-    <span class="n">post_cap</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">(</span><span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">post_cap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Post cap should not be None&quot;</span>
+    <span class="c1"># Get the gas limit cap at fork activation</span>
+    <span class="n">tx_gas_cap</span> <span class="o">=</span> <span class="n">fork</span><span class="o">.</span><span class="n">transaction_gas_limit_cap</span><span class="p">(</span><span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">tx_gas_cap</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Gas limit cap should not be None after fork activation&quot;</span>
 
-    <span class="n">pre_cap</span> <span class="o">=</span> <span class="n">pre_cap</span> <span class="k">if</span> <span class="n">pre_cap</span> <span class="k">else</span> <span class="n">post_cap</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># Test boundary: cap + 1 should fail after fork activation</span>
+    <span class="n">above_cap</span> <span class="o">=</span> <span class="n">tx_gas_cap</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="k">assert</span> <span class="n">post_cap</span> <span class="o">&lt;=</span> <span class="n">pre_cap</span><span class="p">,</span> <span class="p">(</span>
-        <span class="s2">&quot;Post cap should be less than or equal to pre cap, test needs update&quot;</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Transaction with gas limit above the cap before transition</span>
-    <span class="n">high_gas_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+    <span class="c1"># Before fork activation: both cap and above_cap transactions should succeed</span>
+    <span class="n">at_cap_tx_before_fork</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Legacy transaction</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">pre_cap</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas_cap</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+    <span class="p">)</span>
+
+    <span class="n">above_cap_tx_before_fork</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+        <span class="n">ty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Legacy transaction</span>
+        <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">above_cap</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
     <span class="p">)</span>
 
     <span class="n">post_cap_tx_error</span> <span class="o">=</span> <span class="n">TransactionException</span><span class="o">.</span><span class="n">GAS_LIMIT_EXCEEDS_MAXIMUM</span>
 
-    <span class="c1"># Transaction with gas limit at the cap</span>
-    <span class="n">cap_gas_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
+    <span class="c1"># After fork activation: test at cap vs above cap</span>
+    <span class="n">transition_tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
         <span class="n">ty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># Legacy transaction</span>
         <span class="n">to</span><span class="o">=</span><span class="n">contract_address</span><span class="p">,</span>
-        <span class="n">gas_limit</span><span class="o">=</span><span class="n">post_cap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">data</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-        <span class="n">sender</span><span class="o">=</span><span class="n">sender</span><span class="p">,</span>
-        <span class="n">error</span><span class="o">=</span><span class="n">post_cap_tx_error</span><span class="p">,</span>
+        <span class="n">gas_limit</span><span class="o">=</span><span class="n">tx_gas_cap</span> <span class="k">if</span> <span class="n">transaction_at_cap</span> <span class="k">else</span> <span class="n">above_cap</span><span class="p">,</span>
+        <span class="n">sender</span><span class="o">=</span><span class="n">pre</span><span class="o">.</span><span class="n">fund_eoa</span><span class="p">(),</span>
+        <span class="n">error</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">transaction_at_cap</span> <span class="k">else</span> <span class="n">post_cap_tx_error</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">blocks</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># Before transition (timestamp &lt; 15000): high gas transaction should succeed</span>
+    <span class="c1"># Before transition (timestamp &lt; 15000): both cap and above_cap transactions should succeed</span>
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="mi">14_999</span><span class="p">,</span>
-            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">high_gas_tx</span><span class="p">],</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">above_cap_tx_before_fork</span><span class="p">,</span> <span class="n">at_cap_tx_before_fork</span><span class="p">],</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="c1"># At transition (timestamp = 15000): high gas transaction should fail</span>
+    <span class="c1"># At transition (timestamp = 15000):</span>
+    <span class="c1"># - transaction at cap should succeed</span>
+    <span class="c1"># - transaction above cap (cap + 1) should fail</span>
     <span class="n">blocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">Block</span><span class="p">(</span>
             <span class="n">timestamp</span><span class="o">=</span><span class="mi">15_000</span><span class="p">,</span>
-            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">cap_gas_tx</span><span class="p">],</span>  <span class="c1"># Only transaction at the cap succeeds</span>
-            <span class="n">exception</span><span class="o">=</span><span class="n">post_cap_tx_error</span><span class="p">,</span>
+            <span class="n">txs</span><span class="o">=</span><span class="p">[</span><span class="n">transition_tx</span><span class="p">],</span>
+            <span class="n">exception</span><span class="o">=</span><span class="n">post_cap_tx_error</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">transaction_at_cap</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -27360,7 +27414,12 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
     <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">contract_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
             <span class="n">storage</span><span class="o">=</span><span class="p">{</span>
-                <span class="mi">0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="c1"># Set by first transaction (before transition)</span>
+                <span class="c1"># Set by both transactions in first block (before transition):</span>
+                <span class="mi">14_999</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="c1"># After transition:</span>
+                <span class="c1"># - Set by transaction at cap (should succeed)</span>
+                <span class="c1"># - Not set by transaction above cap (should fail)</span>
+                <span class="mi">15_000</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">transaction_at_cap</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="p">}</span>
@@ -27413,16 +27472,27 @@ At/after timestamp 15000: Gas limit cap of 2^24 is enforced</p>
     <thead>
         <tr>
             <th>Test ID (Abbreviated)</th>
+                        <th>transaction_at_cap</th>
                     </tr>
     </thead>
     <tbody>
                 <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
             <td> 
                 <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
-                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test]">
-                    ...fork_PragueToOsakaAtTime15k-blockchain_test
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test-at_cap]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test-at_cap]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-at_cap
                 </abbr>
             </td>
+                        <td>True</td>
+                    </tr>
+                <tr data-fork="PragueToOsakaAtTime15k" data-fixture="blockchain_test">
+            <td> 
+                <!-- Display abbreviated pytest nodeid, but show a tooltip for the full nodeid -->
+                <abbr class="copy-id" data-full-id="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test-above_cap]" title="tests/osaka/eip7825_transaction_gas_limit_cap/test_tx_gas_limit_transition_fork.py::test_transaction_gas_limit_cap_at_transition[fork_PragueToOsakaAtTime15k-blockchain_test-above_cap]">
+                    ...fork_PragueToOsakaAtTime15k-blockchain_test-above_cap
+                </abbr>
+            </td>
+                        <td>False</td>
                     </tr>
             </tbody>
 </table>
