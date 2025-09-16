@@ -16,6 +16,7 @@ from ethereum_test_tools import (
     AuthorizationTuple,
     Block,
     BlockchainTestFiller,
+    Bytecode,
     Environment,
     Hash,
     StateTestFiller,
@@ -53,7 +54,7 @@ def tx_gas_limit_cap_tests(fork: Fork) -> List[ParameterSet]:
             id="tx_gas_limit_cap_exceeds_maximum",
             marks=pytest.mark.exception_test,
         ),
-        pytest.param(fork_tx_gas_limit_cap, None, id="tx_gas_limit_cap_none"),
+        pytest.param(fork_tx_gas_limit_cap, None, id="tx_gas_limit_cap_over"),
     ]
 
 
@@ -199,6 +200,68 @@ def test_tx_gas_larger_than_block_gas_limit(
     )
 
     blockchain_test(pre=pre, post={}, blocks=[block])
+
+
+@pytest.mark.parametrize(
+    "exceed_gas_refund_limit",
+    [
+        pytest.param(True),
+        pytest.param(False),
+    ],
+)
+@pytest.mark.valid_from("Osaka")
+def test_maximum_gas_refund(
+    state_test: StateTestFiller,
+    pre: Alloc,
+    fork: Fork,
+    exceed_gas_refund_limit: bool,
+):
+    """Test the maximum gas refund behavior according to EIP-3529."""
+    gas_costs = fork.gas_costs()
+    tx_gas_limit_cap = fork.transaction_gas_limit_cap()
+    assert tx_gas_limit_cap is not None, "Fork does not have a transaction gas limit cap"
+    max_refund_quotient = fork.max_refund_quotient()
+
+    storage = Storage()
+
+    # Base Operation: SSTORE(slot, 0)
+    iteration_cost = gas_costs.G_STORAGE_RESET + gas_costs.G_BASE + gas_costs.G_VERY_LOW
+    gas_refund = gas_costs.R_STORAGE_CLEAR
+
+    # EIP-3529: Reduction in refunds
+    storage_count = tx_gas_limit_cap // iteration_cost
+    gas_used = storage_count * iteration_cost
+
+    maximum_gas_refund = gas_used // max_refund_quotient
+    gas_refund_count = maximum_gas_refund // gas_refund
+
+    # Base case: operations that fit within the refund limit
+    iteration_count = min(storage_count, gas_refund_count + int(exceed_gas_refund_limit))
+
+    assert iteration_cost * iteration_count <= tx_gas_limit_cap, (
+        "Iteration cost exceeds tx gas limit cap"
+    )
+
+    opcode = sum(
+        (Op.SSTORE(storage.store_next(0), Op.PUSH0) for _ in range(iteration_count)),
+        Bytecode(),
+    )
+    assert len(opcode) <= fork.max_code_size(), "code size exceeds max code size"
+
+    contract = pre.deploy_contract(
+        code=opcode,
+        storage={Hash(i): Hash(1) for i in range(iteration_count)},
+    )
+
+    tx = Transaction(
+        to=contract,
+        sender=pre.fund_eoa(),
+        gas_limit=tx_gas_limit_cap,
+    )
+
+    post = {contract: Account(storage=storage)}
+
+    state_test(pre=pre, post=post, tx=tx)
 
 
 @pytest.fixture
