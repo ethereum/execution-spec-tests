@@ -358,11 +358,18 @@ def test_bal_self_destruct(
         ),
     )
 
+    post = {
+        alice: Account(nonce=1),
+        bob: Account(balance=100),
+    }
+
+    # If the account was NOT self-destructed in the same contract,
+    # we expect the account code to be present and its balance to be 0.
+    if not self_destruct_in_same_tx:
+        post[kaboom] = Account(balance=0, code=pre[kaboom].code)  # type: ignore
+
     blockchain_test(
         pre=pre,
         blocks=[block],
-        post={
-            alice: Account(nonce=1),
-            bob: Account(balance=100),
-        },
+        post=post,
     )
