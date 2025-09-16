@@ -2,11 +2,13 @@
 Absence validator functions for BAL testing.
 
 This module provides validator functions that check for the absence of specific
-changes in Block Access Lists. These validators are used with the `must_not_exist`
-field in BalAccountExpectation to ensure certain changes do NOT occur.
+changes in Block Access Lists. These validators are used with the
+``should_not_exist`` field in BalAccountExpectation to ensure certain changes
+do *not* occur.
 
-Note: It's important to use ``@validate_call(validate_return=True)`` on these
-validators to ensure proper argument validation for comparison.
+All validator functions must be decorated with
+``@validate_call(validate_return=True)`` to ensure proper type validation.
+This is enforced via tests.
 """
 
 from typing import Set
@@ -24,7 +26,8 @@ def no_nonce_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     Forbid nonce changes at specified transaction indices or all indices if None.
 
     Args:
-        tx_indices: Set of transaction indices to check. If None, checks all transactions.
+        tx_indices: Set of transaction indices to check. If None,
+        checks all transactions.
 
     """
 
@@ -41,10 +44,12 @@ def no_nonce_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
 @validate_call(validate_return=True)
 def no_balance_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     """
-    Forbid balance changes at specified transaction indices or all indices if None.
+    Forbid balance changes at specified transaction indices or all indices
+    if None.
 
     Args:
-        tx_indices: Set of transaction indices to check. If None, checks all transactions.
+        tx_indices: Set of transaction indices to check. If None,
+        checks all transactions.
 
     """
 
@@ -68,7 +73,8 @@ def no_storage_changes(
 
     Args:
         slots: Set of storage slots to check. If None, checks all slots.
-        tx_indices: Set of transaction indices to check. If None, checks all transactions.
+        tx_indices: Set of transaction indices to check. If None,
+        checks all transactions.
 
     """
 
@@ -78,8 +84,9 @@ def no_storage_changes(
                 for slot_change in storage_slot.slot_changes:
                     if tx_indices is None or slot_change.tx_index in tx_indices:
                         raise AssertionError(
-                            f"Unexpected storage change found at slot {storage_slot.slot} "
-                            f"in tx {slot_change.tx_index}"
+                            "Unexpected storage change found at slot "
+                            f"{storage_slot.slot} in tx "
+                            f"{slot_change.tx_index}"
                         )
 
     return check
@@ -106,10 +113,12 @@ def no_storage_reads(slots: Set[StorageKey] | None = None) -> AbsenceValidator:
 @validate_call(validate_return=True)
 def no_code_changes(tx_indices: Set[Number] | None = None) -> AbsenceValidator:
     """
-    Forbid code changes at specified transaction indices or all indices if None.
+    Forbid code changes at specified transaction indices or all indices
+    if None.
 
     Args:
-        tx_indices: Set of transaction indices to check. If None, checks all transactions.
+        tx_indices: Set of transaction indices to check. If None,
+        checks all transactions.
 
     """
 

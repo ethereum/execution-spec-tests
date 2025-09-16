@@ -14,6 +14,7 @@ from ethereum_test_types.block_access_list import (
     BlockAccessList,
     BlockAccessListExpectation,
     BlockAccessListValidationError,
+    absence_validators,
 )
 from ethereum_test_types.block_access_list.absence_validators import (
     no_balance_changes,
@@ -845,3 +846,16 @@ def test_absence_validator_forbids_all(validator_func, field_name, changes, erro
 
     with pytest.raises(Exception, match=error_pattern):
         expectation.verify_against(actual_bal)
+
+
+def test_all_absence_validators_use_validate_call():
+    """Test that all exported absence validators use @validate_call decorator."""
+    validator_names = [name for name in absence_validators.__all__ if name != "AbsenceValidator"]
+
+    for name in validator_names:
+        func = getattr(absence_validators, name)
+
+        assert hasattr(func, "__wrapped__"), (
+            f"{name} is not decorated with `@validate_call`. "
+            "All validators must use `@validate_call(validate_return=True)`."
+        )
