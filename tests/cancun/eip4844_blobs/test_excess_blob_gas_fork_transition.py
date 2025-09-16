@@ -47,7 +47,11 @@ def block_gas_limit(fork: Fork) -> int:  # noqa: D103
 
 
 @pytest.fixture
-def genesis_environment(block_gas_limit: int, block_base_fee_per_gas: int) -> Environment:  # noqa: D103
+def genesis_environment(block_gas_limit: int, block_base_fee_per_gas: int) -> Environment:
+    """
+    Genesis environment that enables existing transition tests to be used of BPO forks.
+    Compatible with all fork transitions.
+    """
     return Environment(
         base_fee_per_gas=(block_base_fee_per_gas * BASE_FEE_MAX_CHANGE_DENOMINATOR) // 7,
         gas_limit=block_gas_limit,
@@ -320,7 +324,7 @@ def post(  # noqa: D103
 @pytest.mark.exception_test
 def test_invalid_pre_fork_block_with_blob_fields(
     blockchain_test: BlockchainTestFiller,
-    env: Environment,
+    genesis_environment: Environment,
     pre: Alloc,
     pre_fork_blocks: List[Block],
     excess_blob_gas_present: bool,
@@ -349,7 +353,7 @@ def test_invalid_pre_fork_block_with_blob_fields(
                 engine_api_error_code=EngineAPIError.InvalidParams,
             )
         ],
-        genesis_environment=env,
+        genesis_environment=genesis_environment,
     )
 
 
@@ -365,7 +369,7 @@ def test_invalid_pre_fork_block_with_blob_fields(
 @pytest.mark.exception_test
 def test_invalid_post_fork_block_without_blob_fields(
     blockchain_test: BlockchainTestFiller,
-    env: Environment,
+    genesis_environment: Environment,
     pre: Alloc,
     pre_fork_blocks: List[Block],
     excess_blob_gas_missing: bool,
@@ -395,7 +399,7 @@ def test_invalid_post_fork_block_without_blob_fields(
                 engine_api_error_code=EngineAPIError.InvalidParams,
             )
         ],
-        genesis_environment=env,
+        genesis_environment=genesis_environment,
     )
 
 
@@ -419,7 +423,7 @@ def test_invalid_post_fork_block_without_blob_fields(
 )
 def test_fork_transition_excess_blob_gas_at_blob_genesis(
     blockchain_test: BlockchainTestFiller,
-    env: Environment,
+    genesis_environment: Environment,
     pre: Alloc,
     pre_fork_blocks: List[Block],
     post_fork_blocks: List[Block],
@@ -435,7 +439,7 @@ def test_fork_transition_excess_blob_gas_at_blob_genesis(
         pre=pre,
         post=post,
         blocks=pre_fork_blocks + post_fork_blocks,
-        genesis_environment=env,
+        genesis_environment=genesis_environment,
     )
 
 
