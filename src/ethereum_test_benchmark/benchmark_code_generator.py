@@ -1,7 +1,5 @@
 """Benchmark code generator classes for creating optimized bytecode patterns."""
 
-from dataclasses import dataclass
-
 from ethereum_test_forks import Fork
 from ethereum_test_specs.benchmark import BenchmarkCodeGenerator
 from ethereum_test_types import Alloc, Transaction
@@ -9,7 +7,6 @@ from ethereum_test_vm import Bytecode
 from ethereum_test_vm.opcode import Opcodes as Op
 
 
-@dataclass
 class JumpLoopGenerator(BenchmarkCodeGenerator):
     """Generates bytecode that loops execution using JUMP operations."""
 
@@ -32,7 +29,6 @@ class JumpLoopGenerator(BenchmarkCodeGenerator):
         )
 
 
-@dataclass
 class ExtCallGenerator(BenchmarkCodeGenerator):
     """Generates bytecode that fills the contract to maximum allowed code size."""
 
@@ -43,11 +39,13 @@ class ExtCallGenerator(BenchmarkCodeGenerator):
         # 1. The target contract that executes certain operation but not loop (e.g. PUSH)
         # 2. The loop contract that calls the target contract in a loop
 
-        max_stack_height = fork.max_stack_height()
+        max_iterations = min(
+            fork.max_stack_height(), fork.max_code_size() // len(self.attack_block)
+        )
 
         # Deploy target contract that contains the actual attack block
         self._target_contract_address = pre.deploy_contract(
-            code=self.attack_block * max_stack_height
+            code=self.attack_block * max_iterations
         )
 
         # Create caller contract that repeatedly calls the target contract
