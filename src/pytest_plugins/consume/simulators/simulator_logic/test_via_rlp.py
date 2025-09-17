@@ -65,8 +65,8 @@ def test_via_rlp(
                     "blockHash mismatch in last block - field mismatches:"
                     "\n" + "\n".join(mismatches)
                 )
-            except Exception as e:
+            except Exception:
                 raise AssertionError(
                     f"blockHash mismatch in last block: got `{block['hash']}`, "
                     f"expected `{fixture.last_block_hash}`"
-                ) from e
+                ) from None
