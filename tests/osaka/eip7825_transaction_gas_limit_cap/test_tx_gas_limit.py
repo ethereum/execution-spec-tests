@@ -271,6 +271,7 @@ def total_cost_floor_per_token(fork: Fork):
     return gas_costs.G_TX_DATA_FLOOR_TOKEN_COST
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "exceed_tx_gas_limit,correct_intrinsic_cost_in_transaction_gas_limit",
     [

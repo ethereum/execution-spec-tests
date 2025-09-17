@@ -381,6 +381,7 @@ def _exact_size_transactions_impl(
     return transactions, final_gas
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.parametrize(
     "delta",
     [
@@ -440,6 +441,7 @@ def test_block_at_rlp_size_limit_boundary(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.with_all_typed_transactions
 @pytest.mark.verify_sync
 def test_block_rlp_size_at_limit_with_all_typed_transactions(
@@ -479,6 +481,7 @@ def test_block_rlp_size_at_limit_with_all_typed_transactions(
     )
 
 
+@pytest.mark.xdist_group(name="bigmem")
 @pytest.mark.verify_sync
 def test_block_at_rlp_limit_with_logs(
     blockchain_test: BlockchainTestFiller,
