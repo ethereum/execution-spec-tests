@@ -1,19 +1,11 @@
 """Ethereum benchmark test spec definition and filler."""
 
 from abc import ABC, abstractmethod
-from contextlib import contextmanager
-from contextvars import ContextVar
 from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Callable, ClassVar, Dict, Generator, List, Optional, Sequence, Type
+from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
 
 import pytest
-from pydantic import ConfigDict, Field, GetCoreSchemaHandler
-from pydantic_core.core_schema import (
-    PlainValidatorFunctionSchema,
-    no_info_plain_validator_function,
-    to_string_ser_schema,
-)
+from pydantic import ConfigDict, Field
 
 from ethereum_clis import TransitionTool
 from ethereum_test_base_types import HexNumber
@@ -83,88 +75,6 @@ class BenchmarkCodeGenerator(ABC):
             )
 
 
-class BenchmarkPhase(Enum):
-    """Phases of a benchmark test."""
-
-    SETUP = "setup"
-    EXECUTION = "execution"
-
-
-_current_phase: ContextVar[Optional[BenchmarkPhase]] = ContextVar("benchmark_phase", default=None)
-
-
-class BenchmarkManager:
-    """Context manager for managing benchmark test phases."""
-
-    def __init__(self):
-        """Initialize the BenchmarkManager with empty transaction and block lists."""
-        self.setup_transactions: List[Transaction] = []
-        self.setup_blocks: List[Block] = []
-        self.execution_transactions: List[Transaction] = []
-        self.execution_blocks: List[Block] = []
-
-    @contextmanager
-    def setup(self):
-        """Context manager for the setup phase of a benchmark test."""
-        token = _current_phase.set(BenchmarkPhase.SETUP)
-        try:
-            yield self
-        finally:
-            _current_phase.reset(token)
-
-    @contextmanager
-    def execution(self):
-        """Context manager for the execution phase of a benchmark test."""
-        token = _current_phase.set(BenchmarkPhase.EXECUTION)
-        try:
-            yield self
-        finally:
-            _current_phase.reset(token)
-
-    def add_transaction(self, tx: Transaction):
-        """Add a transaction to the current phase."""
-        current_phase = _current_phase.get()
-        if current_phase == BenchmarkPhase.SETUP:
-            self.setup_transactions.append(tx)
-        elif current_phase == BenchmarkPhase.EXECUTION:
-            self.execution_transactions.append(tx)
-        else:
-            self.setup_transactions.append(tx)
-
-    def add_block(self, block: Block):
-        """Add a block to the current phase."""
-        current_phase = _current_phase.get()
-        if current_phase == BenchmarkPhase.SETUP:
-            self.setup_blocks.append(block)
-        elif current_phase == BenchmarkPhase.EXECUTION:
-            self.execution_blocks.append(block)
-        else:
-            self.setup_blocks.append(block)
-
-    def get_current_phase(self) -> Optional[BenchmarkPhase]:
-        """Get the current benchmark phase."""
-        return _current_phase.get()
-
-    @classmethod
-    def __get_pydantic_core_schema__(
-        cls, source_type: Any, handler: GetCoreSchemaHandler
-    ) -> PlainValidatorFunctionSchema:
-        """Provide Pydantic core schema for BenchmarkManager serialization and validation."""
-
-        def validate_benchmark_manager(value):
-            if isinstance(value, cls):
-                return value
-            if value is None:
-                return None
-            # If value is passed as arguments, create new instance with no args
-            return cls()
-
-        return no_info_plain_validator_function(
-            validate_benchmark_manager,
-            serialization=to_string_ser_schema(),
-        )
-
-
 class BenchmarkTest(BaseTest):
     """Test type designed specifically for benchmark test cases."""
 
@@ -180,7 +90,6 @@ class BenchmarkTest(BaseTest):
     env: Environment = Field(default_factory=Environment)
     expected_benchmark_gas_used: int | None = None
     gas_benchmark_value: int = Field(default_factory=lambda: int(Environment().gas_limit))
-    benchmark_manager: BenchmarkManager | None = None
     code_generator: BenchmarkCodeGenerator | None = None
 
     supported_fixture_formats: ClassVar[Sequence[FixtureFormat | LabeledFixtureFormat]] = [
@@ -274,33 +183,6 @@ class BenchmarkTest(BaseTest):
                 blocks=generated_blocks,
             )
 
-        elif self.benchmark_manager is not None:
-            all_blocks = []
-            gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
-
-            if self.benchmark_manager.setup_blocks:
-                all_blocks.extend(self.benchmark_manager.setup_blocks)
-            elif self.benchmark_manager.setup_transactions:
-                setup_txs = []
-                for tx in self.benchmark_manager.setup_transactions:
-                    setup_txs.extend(self.split_transaction(tx, gas_limit))
-                all_blocks.append(Block(txs=setup_txs))
-
-            if self.benchmark_manager.execution_blocks:
-                all_blocks.extend(self.benchmark_manager.execution_blocks)
-            elif self.benchmark_manager.execution_transactions:
-                execution_txs = []
-                for tx in self.benchmark_manager.execution_transactions:
-                    execution_txs.extend(self.split_transaction(tx, gas_limit))
-                all_blocks.append(Block(txs=execution_txs))
-
-            return BlockchainTest.from_test(
-                base_test=self,
-                genesis_environment=self.env,
-                pre=self.pre,
-                post=self.post,
-                blocks=all_blocks,
-            )
         elif self.blocks is not None:
             return BlockchainTest.from_test(
                 base_test=self,
@@ -324,9 +206,7 @@ class BenchmarkTest(BaseTest):
                 genesis_environment=self.env,
             )
         else:
-            raise ValueError(
-                "Cannot create BlockchainTest without transactions, blocks, or benchmark_manager"
-            )
+            raise ValueError("Cannot create BlockchainTest without transactions or blocks")
 
     def generate(
         self,
@@ -356,11 +236,6 @@ class BenchmarkTest(BaseTest):
                 post=self.post,
             )
         raise Exception(f"Unsupported execute format: {execute_format}")
-
-
-def create_benchmark_manager() -> BenchmarkManager:
-    """Create a new BenchmarkManager instance for phase-aware benchmark testing."""
-    return BenchmarkManager()
 
 
 BenchmarkTestSpec = Callable[[str], Generator[BenchmarkTest, None, None]]
