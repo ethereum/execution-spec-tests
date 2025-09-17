@@ -157,7 +157,7 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
 
     code_address = pre.deploy_contract(
         code=code,  # type: ignore
-        storage=dict.fromkeys(slots_to_write + slots_to_read, 65535),
+        storage=dict.fromkeys(slots_to_write + slots_to_read, 0xFFFF),
     )
 
     tx = Transaction(
