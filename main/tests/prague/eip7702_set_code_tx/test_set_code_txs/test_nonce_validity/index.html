@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_nonce_validity"><code>test_nonce_validity()</code><a class="headerlink" href="#test_nonce_validity" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f8ac0c8a2615f852809f51b3997eba9a3c0b88b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2366"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity@8f8ac0c8</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/11b96b80f1a9dad80766d3fedb51c3cc463b2011/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2373"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity@11b96b80</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_nonce_validity --fork Osaka</span>
@@ -27283,14 +27283,7 @@ is not warm.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2366</span>
-<span class="normal">2367</span>
-<span class="normal">2368</span>
-<span class="normal">2369</span>
-<span class="normal">2370</span>
-<span class="normal">2371</span>
-<span class="normal">2372</span>
-<span class="normal">2373</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2373</span>
 <span class="normal">2374</span>
 <span class="normal">2375</span>
 <span class="normal">2376</span>
@@ -27374,7 +27367,14 @@ is not warm.</p>
 <span class="normal">2454</span>
 <span class="normal">2455</span>
 <span class="normal">2456</span>
-<span class="normal">2457</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">2457</span>
+<span class="normal">2458</span>
+<span class="normal">2459</span>
+<span class="normal">2460</span>
+<span class="normal">2461</span>
+<span class="normal">2462</span>
+<span class="normal">2463</span>
+<span class="normal">2464</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;account_nonce,authorization_nonce&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span>

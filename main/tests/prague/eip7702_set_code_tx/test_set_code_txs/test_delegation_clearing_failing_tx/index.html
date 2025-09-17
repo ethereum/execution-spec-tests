@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_delegation_clearing_failing_tx"><code>test_delegation_clearing_failing_tx()</code><a class="headerlink" href="#test_delegation_clearing_failing_tx" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f8ac0c8a2615f852809f51b3997eba9a3c0b88b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3344"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@8f8ac0c8</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/11b96b80f1a9dad80766d3fedb51c3cc463b2011/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L3351"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx@11b96b80</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_delegation_clearing_failing_tx --fork Osaka</span>
@@ -27280,14 +27280,7 @@
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3344</span>
-<span class="normal">3345</span>
-<span class="normal">3346</span>
-<span class="normal">3347</span>
-<span class="normal">3348</span>
-<span class="normal">3349</span>
-<span class="normal">3350</span>
-<span class="normal">3351</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">3351</span>
 <span class="normal">3352</span>
 <span class="normal">3353</span>
 <span class="normal">3354</span>
@@ -27326,7 +27319,14 @@
 <span class="normal">3387</span>
 <span class="normal">3388</span>
 <span class="normal">3389</span>
-<span class="normal">3390</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">3390</span>
+<span class="normal">3391</span>
+<span class="normal">3392</span>
+<span class="normal">3393</span>
+<span class="normal">3394</span>
+<span class="normal">3395</span>
+<span class="normal">3396</span>
+<span class="normal">3397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;entry_code&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="n">pytest</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">Om</span><span class="o">.</span><span class="n">OOG</span> <span class="o">+</span> <span class="n">Op</span><span class="o">.</span><span class="n">STOP</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;out_of_gas&quot;</span><span class="p">),</span>

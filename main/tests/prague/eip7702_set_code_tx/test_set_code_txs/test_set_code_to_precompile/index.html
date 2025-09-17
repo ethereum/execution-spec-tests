@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_set_code_to_precompile"><code>test_set_code_to_precompile()</code><a class="headerlink" href="#test_set_code_to_precompile" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f8ac0c8a2615f852809f51b3997eba9a3c0b88b/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2590"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile@8f8ac0c8</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/11b96b80f1a9dad80766d3fedb51c3cc463b2011/tests/prague/eip7702_set_code_tx/test_set_code_txs.py#L2597"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile@11b96b80</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_set_code_to_precompile --fork Osaka</span>
@@ -27281,14 +27281,7 @@ opcodes.</p>
 
             <details class="quote">
               <summary>Source code in <code>tests/prague/eip7702_set_code_tx/test_set_code_txs.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2590</span>
-<span class="normal">2591</span>
-<span class="normal">2592</span>
-<span class="normal">2593</span>
-<span class="normal">2594</span>
-<span class="normal">2595</span>
-<span class="normal">2596</span>
-<span class="normal">2597</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">2597</span>
 <span class="normal">2598</span>
 <span class="normal">2599</span>
 <span class="normal">2600</span>
@@ -27339,7 +27332,14 @@ opcodes.</p>
 <span class="normal">2645</span>
 <span class="normal">2646</span>
 <span class="normal">2647</span>
-<span class="normal">2648</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
+<span class="normal">2648</span>
+<span class="normal">2649</span>
+<span class="normal">2650</span>
+<span class="normal">2651</span>
+<span class="normal">2652</span>
+<span class="normal">2653</span>
+<span class="normal">2654</span>
+<span class="normal">2655</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_call_opcodes</span>
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">with_all_precompiles</span>
 <span class="nd">@EIPChecklist</span><span class="o">.</span><span class="n">Precompile</span><span class="o">.</span><span class="n">Test</span><span class="o">.</span><span class="n">CallContexts</span><span class="o">.</span><span class="n">SetCode</span><span class="p">(</span><span class="n">eip</span><span class="o">=</span><span class="p">[</span><span class="mi">7951</span><span class="p">,</span> <span class="mi">7883</span><span class="p">,</span> <span class="mi">7823</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">test_set_code_to_precompile</span><span class="p">(</span>

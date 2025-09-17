@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_push0_contracts"><code>test_push0_contracts()</code><a class="headerlink" href="#test_push0_contracts" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f8ac0c8a2615f852809f51b3997eba9a3c0b88b/tests/shanghai/eip3855_push0/test_push0.py#L32"><code>tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts@8f8ac0c8</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/11b96b80f1a9dad80766d3fedb51c3cc463b2011/tests/shanghai/eip3855_push0/test_push0.py#L32"><code>tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts@11b96b80</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/shanghai/eip3855_push0/test_push0.py::test_push0_contracts --fork Osaka</span>
@@ -27337,7 +27337,9 @@
 <span class="normal">86</span>
 <span class="normal">87</span>
 <span class="normal">88</span>
-<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
+<span class="normal">89</span>
+<span class="normal">90</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">xdist_group</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bigmem&quot;</span><span class="p">)</span>
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">parametrize</span><span class="p">(</span>
     <span class="s2">&quot;contract_code,expected_storage&quot;</span><span class="p">,</span>
     <span class="p">[</span>
         <span class="c1"># Use PUSH0 to set a key for SSTORE.</span>
