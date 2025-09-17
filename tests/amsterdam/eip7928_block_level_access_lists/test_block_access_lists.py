@@ -340,3 +340,66 @@ def test_bal_2930_slot_listed_but_untouched(
             alice: Account(nonce=1),
         },
     )
+
+
+@pytest.mark.valid_from("Amsterdam")
+def test_bal_2930_slot_listed_and_unlisted_writes(
+    pre: Alloc,
+    blockchain_test: BlockchainTestFiller,
+    fork,
+):
+    """Ensure BAL includes storage writes regardless of access list presence."""
+    alice = pre.fund_eoa()
+    storage_writer = pre.deploy_contract(code=Op.SSTORE(0x01, 0x42) + Op.SSTORE(0x02, 0x43))
+
+    # Access list only includes slot 0x01, but contract writes to both 0x01 and 0x02
+    access_list = AccessList(
+        address=storage_writer,
+        storage_keys=[Hash(0x01)],
+    )
+
+    intrinsic_gas_calculator = fork.transaction_intrinsic_cost_calculator()
+    gas_limit = (
+        intrinsic_gas_calculator(
+            calldata=b"",
+            contract_creation=False,
+            access_list=[access_list],
+        )
+        + 50000
+    )  # intrinsic + buffer for storage writes
+
+    tx = Transaction(
+        ty=1, sender=alice, to=storage_writer, gas_limit=gas_limit, access_list=[access_list]
+    )
+
+    block = Block(
+        txs=[tx],
+        expected_block_access_list=BlockAccessListExpectation(
+            account_expectations={
+                alice: BalAccountExpectation(
+                    nonce_changes=[BalNonceChange(tx_index=1, post_nonce=1)],
+                ),
+                storage_writer: BalAccountExpectation(
+                    storage_changes=[
+                        BalStorageSlot(
+                            slot=0x01,
+                            slot_changes=[BalStorageChange(tx_index=1, post_value=0x42)],
+                        ),
+                        BalStorageSlot(
+                            slot=0x02,
+                            slot_changes=[BalStorageChange(tx_index=1, post_value=0x43)],
+                        ),
+                    ],
+                ),
+            }
+        ),
+    )
+
+    blockchain_test(
+        pre=pre,
+        blocks=[block],
+        post={
+            alice: Account(nonce=1),
+            storage_writer: Account(storage={0x01: 0x42, 0x02: 0x43}),
+        },
+    )
