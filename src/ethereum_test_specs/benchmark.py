@@ -1,5 +1,6 @@
 """Ethereum benchmark test spec definition and filler."""
 
+import math
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Callable, ClassVar, Dict, Generator, List, Sequence, Type
@@ -141,11 +142,11 @@ class BenchmarkTest(BaseTest):
             return [tx]
 
         if gas_limit_cap >= self.gas_benchmark_value:
-            tx.gas_limit = HexNumber(min(tx.gas_limit, self.gas_benchmark_value))
+            tx.gas_limit = HexNumber(self.gas_benchmark_value)
             return [tx]
 
+        num_splits = math.ceil(self.gas_benchmark_value / gas_limit_cap)
         remaining_gas = self.gas_benchmark_value
-        num_splits = remaining_gas // gas_limit_cap + int(remaining_gas % gas_limit_cap)
 
         split_transactions = []
         for i in range(num_splits):
