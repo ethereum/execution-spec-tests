@@ -21,6 +21,7 @@ Test fixtures for use by clients are available for each release on the [Github r
 
 - ✨ Add tighter validation for EIP-7928 model coming from t8n when filling ([#2138](https://github.com/ethereum/execution-spec-tests/pull/2138)).
 - ✨ Add flexible API for absence checks for EIP-7928 (BAL) tests ([#2124](https://github.com/ethereum/execution-spec-tests/pull/2124)).
+- 🐞 Use ``engine_newPayloadV5`` for `>=Amsterdam` forks in `consume engine` ([#2170](https://github.com/ethereum/execution-spec-tests/pull/2170)).
 
 ### 🧪 Test Cases
 

@@ -301,10 +301,17 @@ EngineNewPayloadV4Parameters = Tuple[
     Hash,
     List[Bytes],
 ]
+EngineNewPayloadV5Parameters = Tuple[
+    FixtureExecutionPayload,
+    List[Hash],
+    Hash,
+    List[Bytes],
+]
 
 # Important: We check EngineNewPayloadV3Parameters first as it has more fields, and pydantic
 # has a weird behavior when the smaller tuple is checked first.
 EngineNewPayloadParameters = Union[
+    EngineNewPayloadV5Parameters,
     EngineNewPayloadV4Parameters,
     EngineNewPayloadV3Parameters,
     EngineNewPayloadV1Parameters,
@@ -354,6 +361,12 @@ class FixtureEngineNewPayload(CamelModel):
         )
 
         assert new_payload_version is not None, "Invalid header for engine_newPayload"
+
+        if new_payload_version == 5 and block_access_list is None:
+            raise ValueError(
+                "Block access list is required in ExecutionPayload for engine_newPayloadV5."
+            )
+
         execution_payload = FixtureExecutionPayload.from_fixture_header(
             header=header,
             transactions=transactions,

@@ -1836,6 +1836,13 @@ class Amsterdam(Osaka):
         """Return True if this fork is deployed."""
         return False
 
+    @classmethod
+    def engine_new_payload_version(
+        cls, block_number: int = 0, timestamp: int = 0
+    ) -> Optional[int]:
+        """From Amsterdam, new payload calls must use version 5."""
+        return 5
+
 
 class EOFv1(Prague, solc_name="cancun"):
     """EOF fork."""
