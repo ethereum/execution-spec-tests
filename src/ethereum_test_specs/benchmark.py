@@ -51,12 +51,12 @@ class BenchmarkCodeGenerator(ABC):
     @abstractmethod
     def deploy_contracts(self, pre: Alloc, fork: Fork) -> None:
         """Deploy any contracts needed for the benchmark."""
-        pass
+        ...
 
     @abstractmethod
     def generate_transaction(self, pre: Alloc, gas_limit: int, fork: Fork) -> Transaction:
         """Generate a transaction with the specified gas limit."""
-        pass
+        ...
 
     def generate_repeated_code(
         self, repeated_code: Bytecode, setup: Bytecode, fork: Fork
@@ -251,7 +251,7 @@ class BenchmarkTest(BaseTest):
     def generate_blocks_from_code_generator(self, fork: Fork) -> List[Block]:
         """Generate blocks using the code generator."""
         if self.code_generator is None:
-            return []
+            raise Exception("Code generator is not set")
 
         self.code_generator.deploy_contracts(self.pre, fork)
         gas_limit = fork.transaction_gas_limit_cap() or self.gas_benchmark_value
