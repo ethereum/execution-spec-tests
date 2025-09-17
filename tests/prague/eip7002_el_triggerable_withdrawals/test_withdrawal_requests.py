@@ -8,7 +8,6 @@ from typing import List
 
 import pytest
 
-from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Address,
     Alloc,
@@ -809,7 +808,6 @@ def test_withdrawal_requests(
 )
 def test_withdrawal_requests_negative(
     pre: Alloc,
-    fork: Fork,
     blockchain_test: BlockchainTestFiller,
     requests: List[WithdrawalRequestInteractionBase],
     block_body_override_requests: List[WithdrawalRequest],

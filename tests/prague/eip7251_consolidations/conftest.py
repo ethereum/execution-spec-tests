@@ -32,6 +32,7 @@ def included_requests(
     blocks_consolidation_requests: List[List[ConsolidationRequestInteractionBase]],
 ) -> List[List[ConsolidationRequest]]:
     """Return the list of consolidation requests that should be included in each block."""
+    del update_pre
     excess_consolidation_requests = 0
     carry_over_requests: List[ConsolidationRequest] = []
     per_block_included_requests: List[List[ConsolidationRequest]] = []
@@ -82,6 +83,7 @@ def blocks(
     timestamp: int,
 ) -> List[Block]:
     """Return the list of blocks that should be included in the test."""
+    del update_pre
     blocks: List[Block] = []
 
     for block_requests, block_included_requests in zip_longest(  # type: ignore

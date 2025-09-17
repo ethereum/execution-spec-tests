@@ -134,7 +134,6 @@ def test_reentrancy_selfdestruct_revert(
     sender: EOA,
     fork: Fork,
     first_suicide: Op,
-    second_suicide: Op,
     state_test: StateTestFiller,
     selfdestruct_contract_bytecode: Bytecode,
     selfdestruct_contract_address: Address,

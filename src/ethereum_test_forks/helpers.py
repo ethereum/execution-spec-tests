@@ -13,7 +13,6 @@ from pydantic import (
     ValidatorFunctionWrapHandler,
     model_validator,
 )
-from semver import Version
 
 from .base_fork import BaseFork
 from .forks import forks, transition
@@ -86,7 +85,7 @@ def get_parent_fork(fork: Type[BaseFork]) -> Type[BaseFork]:
     return parent_fork
 
 
-def get_closest_fork(fork: Type[BaseFork], solc_version: Version) -> Optional[Type[BaseFork]]:
+def get_closest_fork(fork: Type[BaseFork]) -> Optional[Type[BaseFork]]:
     """Return None if BaseFork is passed, otherwise return the fork itself."""
     if fork is BaseFork:
         return None

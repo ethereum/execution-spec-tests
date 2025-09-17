@@ -73,6 +73,8 @@ def pytest_report_header(config: pytest.Config, startdir: Path) -> str:
         str: A string to add to the pytest report header.
 
     """
+    del startdir
+
     eels_resolutions_file = getattr(config, "_eels_resolutions_file", None)
     if eels_resolutions_file:
         return f"EELS resolutions file: {eels_resolutions_file}"

@@ -2722,7 +2722,6 @@ def deposit_contract_initial_storage() -> Storage:
 def test_set_code_to_system_contract(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    fork: Fork,
     system_contract: int,
     call_opcode: Op,
 ):
@@ -2882,7 +2881,6 @@ def test_eoa_tx_after_set_code(
     pre: Alloc,
     tx_type: int,
     fork: Fork,
-    evm_code_type: EVMCodeType,
     same_block: bool,
 ):
     """Test sending a transaction from an EOA after code has been set to the account."""

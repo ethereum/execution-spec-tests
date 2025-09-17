@@ -8,7 +8,6 @@ from typing import Dict
 import pytest
 
 from ethereum_test_checklists import EIPChecklist
-from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -258,10 +257,6 @@ REFERENCE_SPEC_VERSION = ref_spec_7823.version
 @EIPChecklist.Precompile.Test.OutOfBounds.Max
 def test_modexp_upper_bounds(
     state_test: StateTestFiller,
-    modexp_input: ModExpInput,
-    modexp_expected: bytes,
-    precompile_gas: int,
-    fork: Fork,
     tx: Transaction,
     post: Dict,
     pre: Alloc,
@@ -288,8 +283,6 @@ def test_modexp_upper_bounds(
 def test_modexp_upper_bounds_fork_transition(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    fork: Fork,
-    precompile_gas: int,
     modexp_input: ModExpInput,
     modexp_expected: bytes,
 ):

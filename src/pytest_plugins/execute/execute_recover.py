@@ -21,6 +21,8 @@ def test_recover_funds(
     eth_rpc: EthRPC,
 ) -> None:
     """Recover funds from a failed remote execution."""
+    del index
+
     remaining_balance = eth_rpc.get_balance(eoa)
     refund_gas_limit = 21_000
     tx_cost = refund_gas_limit * gas_price

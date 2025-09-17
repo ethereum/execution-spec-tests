@@ -372,7 +372,7 @@ def yul(fork: Fork, request: pytest.FixtureRequest):
         else:
             pytest.fail(f"{request.node.name}: Fork {marker.args[0]} not found in forks list.")
     else:
-        solc_target_fork = get_closest_fork(fork, request.config.solc_version)
+        solc_target_fork = get_closest_fork(fork)
         assert solc_target_fork is not None, "No fork supports provided solc version."
         if solc_target_fork != fork and request.config.getoption("verbose") >= 1:
             warnings.warn(

@@ -451,7 +451,6 @@ def test_selfdestruct_not_created_in_same_tx_with_revert(
     selfdestruct_with_transfer_contract_address: Address,
     selfdestruct_recipient_address: Address,
     recursive_revert_contract_address: Address,
-    recursive_revert_contract_code: Bytecode,
 ):
     """
     Same test as selfdestruct_created_in_same_tx_with_revert except selfdestructable contract

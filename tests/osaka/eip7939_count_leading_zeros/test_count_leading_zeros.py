@@ -105,6 +105,7 @@ def test_clz_opcode_scenarios(
     - Single bit pattern: 0b010...000 (bit at each possible position)
     - Edge cases: CLZ(0) = 256, CLZ(2^256-1) = 0
     """
+    del test_id
     sender = pre.fund_eoa()
     contract_address = pre.deploy_contract(
         code=Op.SSTORE(0, Op.CLZ(value)),

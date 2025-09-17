@@ -2,7 +2,6 @@
 
 import pytest
 
-from ethereum_test_forks import Fork
 from ethereum_test_tools import (
     Account,
     Alloc,
@@ -26,7 +25,6 @@ REFERENCE_SPEC_VERSION = ref_spec_1014.version
 def test_recreate(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    fork: Fork,
     recreate_on_separate_block: bool,
 ):
     """

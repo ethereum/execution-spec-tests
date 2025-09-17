@@ -213,6 +213,8 @@ class PhilCommand(FillCommand):
 @common_pytest_options
 def fill(pytest_args: List[str], **kwargs) -> None:
     """Entry point for the fill command."""
+    del kwargs
+
     command = FillCommand()
     command.execute(list(pytest_args))
 
@@ -225,6 +227,8 @@ def fill(pytest_args: List[str], **kwargs) -> None:
 @common_pytest_options
 def phil(pytest_args: List[str], **kwargs) -> None:
     """Friendly alias for the fill command."""
+    del kwargs
+
     command = PhilCommand()
     command.execute(list(pytest_args))
 

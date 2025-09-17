@@ -40,9 +40,11 @@ def test_system_contract_deployment(
     *,
     fork: Fork,
     pre: Alloc,
-    **kwargs,
+    post: object,
+    test_type: object,
 ) -> Generator[Block, None, None]:
     """Verify calling the consolidation system contract after deployment."""
+    del post, test_type
     sender = pre.fund_eoa()
     consolidation_request = ConsolidationRequest(
         source_pubkey=0x01,

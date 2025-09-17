@@ -150,9 +150,7 @@ def tx(
 
 
 @pytest.fixture
-def total_gas_used(
-    fork: Fork, modexp_expected: bytes, modexp_input: ModExpInput, precompile_gas: int
-) -> int:
+def total_gas_used(fork: Fork, modexp_input: ModExpInput, precompile_gas: int) -> int:
     """Transaction gas limit used for the test (Can be overridden in the test)."""
     intrinsic_gas_cost_calculator = fork.transaction_intrinsic_cost_calculator()
     memory_expansion_gas_calculator = fork.memory_expansion_gas_calculator()

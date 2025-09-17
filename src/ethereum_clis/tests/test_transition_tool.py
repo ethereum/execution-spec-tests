@@ -67,9 +67,11 @@ def test_from_binary(
             self.returncode = 0
 
     def mock_which(self):
+        del self
         return which_result
 
     def mock_run(args, **kwargs):
+        del args, kwargs
         return MockCompletedProcess(read_result.encode())
 
     monkeypatch.setattr(shutil, "which", mock_which)

@@ -4,7 +4,6 @@ from typing import List
 
 import pytest
 
-from ethereum_test_forks import Fork
 from ethereum_test_tools import Alloc, Block, BlockException, Header, Requests, Transaction
 
 from .helpers import DepositInteractionBase, DepositRequest
@@ -26,6 +25,7 @@ def txs(
     update_pre: None,  # Fixture is used for its side effects
 ) -> List[Transaction]:
     """List of transactions to include in the block."""
+    del update_pre
     txs = []
     for r in requests:
         txs += r.transactions()
@@ -59,7 +59,6 @@ def included_requests(
 
 @pytest.fixture
 def blocks(
-    fork: Fork,
     included_requests: List[DepositRequest],
     block_body_override_requests: List[DepositRequest] | None,
     txs: List[Transaction],

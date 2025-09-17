@@ -393,7 +393,6 @@ pytestmark = pytest.mark.ported_from(
 def test_blake2b(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
     data: Blake2bInput | str | bytes,
     output: ExpectedOutput,
@@ -509,7 +508,6 @@ def test_blake2b(
 def test_blake2b_invalid_gas(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
     gas_limit: int,
     data: Blake2bInput | str | bytes,
@@ -631,7 +629,6 @@ def tx_gas_limits(fork: Fork) -> List[int]:
 def test_blake2b_gas_limit(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_opcode: Op,
     blake2b_contract_bytecode: Bytecode,
     gas_limit: int,
     data: Blake2bInput | str | bytes,
@@ -758,7 +755,6 @@ def test_blake2b_gas_limit(
 def test_blake2b_large_gas_limit(
     state_test: StateTestFiller,
     pre: Alloc,
-    call_opcode: Op,
     gas_limit: int,
     blake2b_contract_bytecode: Bytecode,
     data: Blake2bInput | str | bytes,

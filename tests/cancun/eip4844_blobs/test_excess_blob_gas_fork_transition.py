@@ -216,7 +216,6 @@ def post_fork_blocks(
     post_fork_blobs_per_block: int,
     fork_block_excess_blob_gas: int,
     sender: EOA,
-    pre_fork_blocks: List[Block],
     fork: Fork,
 ):
     """Generate blocks after the fork."""

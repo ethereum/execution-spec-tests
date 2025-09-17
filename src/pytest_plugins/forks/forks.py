@@ -533,6 +533,8 @@ def pytest_configure(config: pytest.Config):
 @pytest.hookimpl(trylast=True)
 def pytest_report_header(config, start_path):
     """Pytest hook called to obtain the report header."""
+    del start_path
+
     bold = "\033[1m"
     warning = "\033[93m"
     reset = "\033[39;49m"

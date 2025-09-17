@@ -283,6 +283,8 @@ def collector(
     Return configured fixture collector instance used for all tests
     in one test module.
     """
+    del request
+
     collector = Collector(eth_rpc=eth_rpc)
     yield collector
 
@@ -397,6 +399,8 @@ def pytest_generate_tests(metafunc: pytest.Metafunc):
 
 def pytest_collection_modifyitems(config: pytest.Config, items: List[pytest.Item]):
     """Remove transition tests and add the appropriate execute markers to the test."""
+    del config
+
     items_for_removal = []
     for i, item in enumerate(items):
         if isinstance(item, EIPSpecTestItem):
