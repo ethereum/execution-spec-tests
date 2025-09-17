@@ -1,7 +1,7 @@
 """
 Common procedures to test
 [EIP-7002: Execution layer triggerable withdrawals](https://eips.ethereum.org/EIPS/eip-7002).
-"""  # noqa: E501
+"""
 
 from dataclasses import dataclass
 

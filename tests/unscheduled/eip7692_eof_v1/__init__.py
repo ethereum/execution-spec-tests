@@ -17,6 +17,6 @@ abstract: Test cases for [EIP-7692: EVM Object Format (EOFv1) Meta](https://eips
 ## Devnet Specifications
 
 - [ethpandaops/eof-devnet-0](https://notes.ethereum.org/@ethpandaops/eof-devnet-0).
-"""  # noqa: E501
+"""
 
 EOF_FORK_NAME = "EOFv1"

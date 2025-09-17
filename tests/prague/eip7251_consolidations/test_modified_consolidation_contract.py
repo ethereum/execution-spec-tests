@@ -2,7 +2,7 @@
 abstract: Tests [EIP-7251: Execution layer triggerable consolidation](https://eips.ethereum.org/EIPS/eip-7251)
     Test execution layer triggered exits [EIP-7251: Execution layer triggerable consolidation](https://eips.ethereum.org/EIPS/eip-7251).
 
-"""  # noqa: E501
+"""
 
 from typing import List
 

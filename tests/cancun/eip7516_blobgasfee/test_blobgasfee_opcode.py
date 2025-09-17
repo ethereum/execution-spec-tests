@@ -2,7 +2,7 @@
 abstract: Tests [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516)
     Test BLOBGASFEE opcode [EIP-7516: BLOBBASEFEE opcode](https://eips.ethereum.org/EIPS/eip-7516).
 
-"""  # noqa: E501
+"""
 
 from itertools import count
 

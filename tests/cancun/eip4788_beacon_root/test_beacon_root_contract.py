@@ -15,7 +15,7 @@ note: Adding a new test
     All other `pytest.fixtures` can be parametrized to generate new combinations and test
     cases.
 
-"""  # noqa: E501
+"""
 
 from itertools import count
 from typing import Callable, Dict, Iterator, List

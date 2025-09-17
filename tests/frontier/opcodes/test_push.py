@@ -1,7 +1,7 @@
 """
 A State test for the set of `PUSH*` opcodes.
 Ported from: https://github.com/ethereum/tests/blob/4f65a0a7cbecf4442415c226c65e089acaaf6a8b/src/GeneralStateTestsFiller/VMTests/vmTests/pushFiller.yml.
-"""  # noqa: E501
+"""
 
 import pytest
 

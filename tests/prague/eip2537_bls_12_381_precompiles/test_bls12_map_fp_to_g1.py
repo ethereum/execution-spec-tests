@@ -1,7 +1,7 @@
 """
 abstract: Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537)
     Tests BLS12_MAP_FP_TO_G1 precompile of [EIP-2537: Precompile for BLS12-381 curve operations](https://eips.ethereum.org/EIPS/eip-2537).
-"""  # noqa: E501
+"""
 
 import pytest
 

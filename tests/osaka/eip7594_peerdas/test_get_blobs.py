@@ -1,7 +1,7 @@
 """
 abstract: Tests get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594)
     Test get blobs engine endpoint for [EIP-7594: PeerDAS - Peer Data Availability Sampling](https://eips.ethereum.org/EIPS/eip-7594).
-"""  # noqa: E501
+"""
 
 from hashlib import sha256
 from typing import List, Optional
@@ -336,6 +336,9 @@ def test_get_blobs_nonexisting(
     pre: Alloc,
     txs: List[NetworkWrappedTransaction | Transaction],
 ):
-    """Test that ensures clients respond with 'null' when at least one requested blob is not available."""  # noqa: E501
+    """
+    Test that ensures clients respond with 'null' when at least one
+    requested blob is not available.
+    """
     nonexisting_blob_hashes = [Hash(sha256(str(i).encode()).digest()) for i in range(5)]
     blobs_test(pre=pre, txs=txs, nonexisting_blob_hashes=nonexisting_blob_hashes)

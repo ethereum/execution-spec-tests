@@ -18,8 +18,7 @@ note: Adding a new test
 
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
     cases.
-
-"""  # noqa: E501
+"""
 
 import itertools
 from typing import Callable, Dict, Iterator, List, Mapping, Optional, Tuple
@@ -308,8 +307,8 @@ def test_correct_excess_blob_gas_calculation(
     multiple blocks with and without blobs.
 
     - With parent block containing `[0, MAX_BLOBS_PER_BLOCK]` blobs
-    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent value of excess blob gas
-    """  # noqa: E501
+    - With parent block containing `[0, TARGET_BLOBS_PER_BLOCK]` equivalent excess blob gas value
+    """
     blockchain_test(
         pre=pre,
         post=post,

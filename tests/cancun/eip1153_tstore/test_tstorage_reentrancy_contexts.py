@@ -1,7 +1,7 @@
 """
 abstract: Tests for [EIP-1153: Transient Storage](https://eips.ethereum.org/EIPS/eip-1153)
     Test cases for `TSTORE` and `TLOAD` opcode calls in reentrancy contexts.
-"""  # noqa: E501
+"""
 
 from enum import EnumMeta, unique
 from typing import Dict

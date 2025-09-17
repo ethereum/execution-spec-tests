@@ -15,7 +15,7 @@ note: Adding a new test
 
     There is no specific structure to follow within this test module.
 
-"""  # noqa: E501
+"""
 
 from typing import List
 

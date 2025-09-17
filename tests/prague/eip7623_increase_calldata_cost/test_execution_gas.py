@@ -1,7 +1,7 @@
 """
 abstract: Test [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623)
     Test execution gas consumption after [EIP-7623: Increase calldata cost](https://eips.ethereum.org/EIPS/eip-7623).
-"""  # noqa: E501
+"""
 
 from typing import List
 

@@ -24,8 +24,7 @@ note: Adding a new test
 
     All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
     cases.
-
-"""  # noqa: E501
+"""
 
 import glob
 import json

@@ -339,12 +339,12 @@ def test_selfdestruct_created_in_same_tx_with_revert(  # noqa SC200
     recursive_revert_contract_code: Bytecode,
 ):
     """
-    Given:
-        Contract A which has methods to receive balance and selfdestruct, and was created in current tx
-    Test the following call sequence:
-         Transfer value to A and call A.selfdestruct.
-         Recurse into a new call from transfers value to A, calls A.selfdestruct, and reverts.
-    """  # noqa: E501
+    Given Contract A which has methods to receive balance and selfdestruct
+    which was created in current tx. Test the following call sequence:
+      - Transfer value to A and call A.selfdestruct.
+      - Recurse into a new call from transfers value to A, calls
+        A.selfdestruct, and reverts.
+    """
     entry_code = Op.EXTCODECOPY(
         selfdestruct_with_transfer_initcode_copy_from_address,
         0,

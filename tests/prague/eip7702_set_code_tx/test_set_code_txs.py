@@ -1,7 +1,7 @@
 """
 abstract: Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702)
     Tests use of set-code transactions from [EIP-7702: Set EOA account code for one transaction](https://eips.ethereum.org/EIPS/eip-7702).
-"""  # noqa: E501
+"""
 
 from enum import StrEnum
 from hashlib import sha256

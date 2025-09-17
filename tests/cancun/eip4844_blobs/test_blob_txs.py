@@ -11,9 +11,10 @@ note: Adding a new test
     - env
     - block or txs
 
-    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test cases.
+    All other `pytest.fixture` fixtures can be parametrized to generate new combinations and test
+    cases.
 
-"""  # noqa: E501
+"""
 
 from typing import List, Optional, Tuple
 

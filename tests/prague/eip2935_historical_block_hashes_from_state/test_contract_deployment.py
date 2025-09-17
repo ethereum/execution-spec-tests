@@ -1,7 +1,7 @@
 """
 abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
     Test system contract deployment for [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
-"""  # noqa: E501
+"""
 
 from os.path import realpath
 from pathlib import Path

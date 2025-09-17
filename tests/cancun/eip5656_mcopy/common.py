@@ -1,7 +1,7 @@
 """
 Common procedures to test
 [EIP-5656: MCOPY - Memory copying instruction](https://eips.ethereum.org/EIPS/eip-5656).
-"""  # noqa: E501
+"""
 
 from copy import copy
 

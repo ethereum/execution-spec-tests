@@ -193,7 +193,7 @@ def test_eth_config_majority(
     """
     Queries devnet exec clients for their eth_config and fails if not all have
     the same response.
-    """  # noqa: E501
+    """
     responses = dict()  # Dict[exec_client_name : response] # noqa: C408
     client_to_url_used_dict = dict()  # noqa: C408
     for exec_client in all_rpc_endpoints.keys():

@@ -1,7 +1,7 @@
 """
 abstract: Tests [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935)
     Test [EIP-2935: Serve historical block hashes from state](https://eips.ethereum.org/EIPS/eip-2935).
-"""  # noqa: E501
+"""
 
 from typing import Dict, List
 
@@ -321,7 +321,10 @@ def test_block_hashes_history(
 def test_block_hashes_call_opcodes(
     blockchain_test: BlockchainTestFiller, pre: Alloc, call_opcode: Op
 ):
-    """Test that the call opcodes can be used to call the history contract and get the block hashes."""  # noqa: E501
+    """
+    Test that the call opcodes can be used to call the history contract and get
+    the block hashes.
+    """
     blocks = []
     blocks.append(Block())
 

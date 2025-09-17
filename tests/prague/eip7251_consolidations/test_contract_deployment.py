@@ -1,7 +1,7 @@
 """
 abstract: Tests [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251).
     Test system contract deployment for [EIP-7251: Increase the MAX_EFFECTIVE_BALANCE](https://eips.ethereum.org/EIPS/eip-7251).
-"""  # noqa: E501
+"""
 
 from os.path import realpath
 from pathlib import Path
