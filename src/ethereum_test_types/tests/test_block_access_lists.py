@@ -14,6 +14,14 @@ from ethereum_test_types.block_access_list import (
     BlockAccessList,
     BlockAccessListExpectation,
     BlockAccessListValidationError,
+    absence_validators,
+)
+from ethereum_test_types.block_access_list.absence_validators import (
+    no_balance_changes,
+    no_code_changes,
+    no_nonce_changes,
+    no_storage_changes,
+    no_storage_reads,
 )
 
 
@@ -510,3 +518,344 @@ def test_expected_tx_indices_ordering(expected_tx_indices, should_pass):
             match="not found or not in correct order",
         ):
             expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize("has_change_should_raise", [True, False])
+def test_absence_validator_nonce_changes(has_change_should_raise):
+    """Test nonce_changes_at_tx validator with present/absent changes."""
+    alice = Address(0xA)
+
+    nonce_changes = [BalNonceChange(tx_index=1, post_nonce=1)]
+    if has_change_should_raise:
+        # add nonce change at tx 2 which should trigger failure
+        nonce_changes.append(BalNonceChange(tx_index=2, post_nonce=2))
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=alice,
+                nonce_changes=nonce_changes,
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            # no nonce changes at tx 2
+            alice: BalAccountExpectation(should_not_exist=[no_nonce_changes({2})])
+        }
+    )
+
+    if has_change_should_raise:
+        with pytest.raises(Exception, match="Unexpected nonce change found at tx 0x2"):
+            expectation.verify_against(actual_bal)
+    else:
+        expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize("has_change_should_raise", [True, False])
+def test_absence_validator_balance_changes(has_change_should_raise):
+    """Test balance_changes_at_tx validator with present/absent changes."""
+    alice = Address(0xA)
+
+    balance_changes = [BalBalanceChange(tx_index=1, post_balance=100)]
+    if has_change_should_raise:
+        # add balance change at tx 2 which should trigger failure
+        balance_changes.append(BalBalanceChange(tx_index=2, post_balance=200))
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=alice,
+                balance_changes=balance_changes,
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            alice: BalAccountExpectation(
+                should_not_exist=[no_balance_changes({2})],
+            ),
+        }
+    )
+
+    if has_change_should_raise:
+        with pytest.raises(
+            Exception,
+            match="Unexpected balance change found at tx 0x2",
+        ):
+            expectation.verify_against(actual_bal)
+    else:
+        expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize("has_change_should_raise", [True, False])
+def test_absence_validator_storage_changes(has_change_should_raise):
+    """Test storage_changes_at_slots validator with present/absent changes."""
+    contract = Address(0xC)
+
+    storage_changes = [
+        BalStorageSlot(
+            slot=0x01,
+            slot_changes=[BalStorageChange(tx_index=1, post_value=0x99)],
+        )
+    ]
+    if has_change_should_raise:
+        storage_changes.append(
+            BalStorageSlot(
+                slot=0x42,
+                slot_changes=[BalStorageChange(tx_index=1, post_value=0xBEEF)],
+            )
+        )
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=contract,
+                storage_changes=storage_changes,
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            # no storage changes at slot 0x42
+            contract: BalAccountExpectation(should_not_exist=[no_storage_changes(slots={0x42})]),
+        }
+    )
+
+    if has_change_should_raise:
+        with pytest.raises(Exception, match="Unexpected storage change found at slot"):
+            expectation.verify_against(actual_bal)
+    else:
+        expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize("has_read_should_raise", [True, False])
+def test_absence_validator_storage_reads(has_read_should_raise):
+    """Test storage_reads_at_slots validator with present/absent reads."""
+    contract = Address(0xC)
+
+    # Create actual BAL with or without storage read at slot 0x42
+    storage_reads = [StorageKey(0x01)]
+    if has_read_should_raise:
+        storage_reads.append(StorageKey(0x42))
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=contract,
+                storage_reads=storage_reads,
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            # no storage reads at slot 0x42
+            contract: BalAccountExpectation(should_not_exist=[no_storage_reads({0x42})]),
+        }
+    )
+
+    if has_read_should_raise:
+        with pytest.raises(Exception, match="Unexpected storage read found at slot"):
+            expectation.verify_against(actual_bal)
+    else:
+        expectation.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize("has_change_should_raise", [True, False])
+def test_absence_validator_code_changes(has_change_should_raise):
+    """Test code_changes_at_tx validator with present/absent changes."""
+    alice = Address(0xA)
+
+    code_changes = [BalCodeChange(tx_index=1, new_code=b"\x00")]
+    if has_change_should_raise:
+        # add code change at tx 2 which should trigger failure
+        code_changes.append(BalCodeChange(tx_index=2, new_code=b"\x60\x00"))
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=alice,
+                code_changes=code_changes,
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            # no code changes at tx 2
+            alice: BalAccountExpectation(should_not_exist=[no_code_changes({2})]),
+        }
+    )
+
+    if has_change_should_raise:
+        with pytest.raises(Exception, match="Unexpected code change found at tx 0x2"):
+            expectation.verify_against(actual_bal)
+    else:
+        expectation.verify_against(actual_bal)
+
+
+def test_multiple_absence_validators():
+    """Test multiple absence validators working together."""
+    contract = Address(0xC)
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=contract,
+                nonce_changes=[],
+                balance_changes=[],
+                storage_changes=[
+                    BalStorageSlot(
+                        slot=0x01,
+                        slot_changes=[BalStorageChange(tx_index=1, post_value=0x99)],
+                    )
+                ],
+                storage_reads=[StorageKey(0x01)],
+                code_changes=[],
+            ),
+        ]
+    )
+
+    # Test that multiple validators all pass
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            contract: BalAccountExpectation(
+                storage_changes=[
+                    BalStorageSlot(
+                        slot=0x01,
+                        slot_changes=[BalStorageChange(tx_index=1, post_value=0x99)],
+                    )
+                ],
+                should_not_exist=[
+                    no_nonce_changes({1, 2}),  # No nonce changes at tx 1 or 2
+                    no_balance_changes({1, 2}),  # No balance changes at tx 1 or 2
+                    no_storage_changes(slots={0x42, 0x43}),  # These slots not changed
+                    no_storage_reads({0x42, 0x43}),  # These slots not read
+                    no_code_changes({1, 2}),  # No code changes at tx 1 or 2
+                ],
+            ),
+        }
+    )
+
+    expectation.verify_against(actual_bal)
+
+
+def test_absence_validator_with_multiple_tx_indices():
+    """Test absence validators with multiple transaction indices."""
+    alice = Address(0xA)
+
+    actual_bal = BlockAccessList(
+        [
+            BalAccountChange(
+                address=alice,
+                nonce_changes=[
+                    # nonce changes at tx 1 and 3
+                    BalNonceChange(tx_index=1, post_nonce=1),
+                    BalNonceChange(tx_index=3, post_nonce=2),
+                ],
+            ),
+        ]
+    )
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            alice: BalAccountExpectation(
+                nonce_changes=[
+                    BalNonceChange(tx_index=1, post_nonce=1),
+                    BalNonceChange(tx_index=3, post_nonce=2),
+                ],
+                should_not_exist=[
+                    # should not be changes at tx 2 and 4
+                    no_nonce_changes({2, 4}),
+                ],
+            ),
+        }
+    )
+
+    expectation.verify_against(actual_bal)
+
+    expectation_fail = BlockAccessListExpectation(
+        account_expectations={
+            alice: BalAccountExpectation(
+                should_not_exist=[
+                    # wrongly forbid change at txs 1 and 2 (1 exists, so should fail)
+                    no_nonce_changes({1, 2}),
+                ],
+            ),
+        }
+    )
+
+    with pytest.raises(Exception, match="Unexpected nonce change found at tx 0x1"):
+        expectation_fail.verify_against(actual_bal)
+
+
+@pytest.mark.parametrize(
+    "validator_func,field_name,changes,error_pattern",
+    [
+        (
+            no_nonce_changes(),
+            "nonce_changes",
+            [BalNonceChange(tx_index=1, post_nonce=1)],
+            "Unexpected nonce change found at tx",
+        ),
+        (
+            no_balance_changes(),
+            "balance_changes",
+            [BalBalanceChange(tx_index=2, post_balance=100)],
+            "Unexpected balance change found at tx",
+        ),
+        (
+            no_code_changes(),
+            "code_changes",
+            [BalCodeChange(tx_index=3, new_code=b"\x60\x00")],
+            "Unexpected code change found at tx",
+        ),
+        (
+            no_storage_reads(),
+            "storage_reads",
+            [StorageKey(0x42)],
+            "Unexpected storage read found at slot",
+        ),
+        (
+            no_storage_changes(),
+            "storage_changes",
+            [
+                BalStorageSlot(
+                    slot=0x01, slot_changes=[BalStorageChange(tx_index=1, post_value=99)]
+                )
+            ],
+            "Unexpected storage change found at slot",
+        ),
+    ],
+)
+def test_absence_validator_forbids_all(validator_func, field_name, changes, error_pattern):
+    """Test that validators without specific indices/slots forbid ALL changes."""
+    addr = Address(0xA)
+
+    actual_bal = BlockAccessList([BalAccountChange(address=addr, **{field_name: changes})])
+
+    expectation = BlockAccessListExpectation(
+        account_expectations={
+            addr: BalAccountExpectation(should_not_exist=[validator_func]),
+        }
+    )
+
+    with pytest.raises(Exception, match=error_pattern):
+        expectation.verify_against(actual_bal)
+
+
+def test_all_absence_validators_use_validate_call():
+    """Test that all exported absence validators use @validate_call decorator."""
+    validator_names = [name for name in absence_validators.__all__ if name != "AbsenceValidator"]
+
+    for name in validator_names:
+        func = getattr(absence_validators, name)
+
+        assert hasattr(func, "__wrapped__"), (
+            f"{name} is not decorated with `@validate_call`. "
+            "All validators must use `@validate_call(validate_return=True)`."
+        )

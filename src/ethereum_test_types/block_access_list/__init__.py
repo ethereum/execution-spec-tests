@@ -196,6 +196,9 @@ class BalAccountExpectation(CamelModel):
     storage_reads: List[StorageKey] = Field(
         default_factory=list, description="List of expected read storage slots"
     )
+    should_not_exist: List["AbsenceValidator"] = Field(
+        default_factory=list, description="List of validators checking for forbidden conditions"
+    )
 
 
 class BlockAccessListExpectation(CamelModel):
@@ -400,6 +403,11 @@ class BlockAccessListExpectation(CamelModel):
         Only validates fields that were explicitly set in the expected model,
         using model_fields_set to determine what was intentionally specified.
         """
+        # Run absence validators first
+        if "should_not_exist" in expected.model_fields_set:
+            for validator in expected.should_not_exist:
+                validator(actual)
+
         change_fields = {
             "nonce_changes",
             "balance_changes",
@@ -574,8 +582,12 @@ class BlockAccessListExpectation(CamelModel):
                     )
 
 
+AbsenceValidator = Callable[[BalAccountChange], None]
+
+
 __all__ = [
     # Core models
+    "AbsenceValidator",
     "BlockAccessList",
     "BlockAccessListExpectation",
     "BalAccountExpectation",

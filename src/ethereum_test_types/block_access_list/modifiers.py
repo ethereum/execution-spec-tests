@@ -6,7 +6,7 @@ in various ways for testing invalid block scenarios. They are composable and can
 combined to create complex modifications.
 """
 
-from typing import Callable, List
+from typing import Any, Callable, List, Optional
 
 from ethereum_test_base_types import Address, HexNumber
 
@@ -18,6 +18,90 @@ from . import (
     BalStorageChange,
     BlockAccessList,
 )
+
+
+def _remove_field_from_accounts(
+    addresses: tuple[Address, ...], field_name: str
+) -> Callable[[BlockAccessList], BlockAccessList]:
+    """Abstracted helper to remove a field from specified accounts."""
+    len_addresses = len(addresses)
+    found_addresses = set()
+
+    def transform(bal: BlockAccessList) -> BlockAccessList:
+        nonlocal found_addresses
+        new_root = []
+        for account_change in bal.root:
+            if account_change.address in addresses:
+                found_addresses.add(account_change.address)
+                new_account = account_change.model_copy(deep=True)
+                # clear the specified field
+                setattr(new_account, field_name, [])
+                new_root.append(new_account)
+            else:
+                new_root.append(account_change)
+
+        if len(found_addresses) != len_addresses:
+            # sanity check that we found all addresses specified
+            missing = set(addresses) - found_addresses
+            raise ValueError(f"Some specified addresses were not found in the BAL: {missing}")
+
+        return BlockAccessList(root=new_root)
+
+    return transform
+
+
+def _modify_field_value(
+    address: Address,
+    tx_index: int,
+    field_name: str,
+    change_class: type,
+    new_value: Any,
+    value_field: str = "post_value",
+    nested: bool = False,
+    slot: Optional[int] = None,
+) -> Callable[[BlockAccessList], BlockAccessList]:
+    """Abstracted helper to modify a field value for a specific account and transaction."""
+    found_address = False
+
+    def transform(bal: BlockAccessList) -> BlockAccessList:
+        nonlocal found_address
+        new_root = []
+        for account_change in bal.root:
+            if account_change.address == address:
+                found_address = True
+                new_account = account_change.model_copy(deep=True)
+                changes = getattr(new_account, field_name)
+
+                if changes:
+                    if nested and slot is not None:
+                        # nested structure (storage)
+                        for storage_slot in changes:
+                            if storage_slot.slot == slot:
+                                for j, change in enumerate(storage_slot.slot_changes):
+                                    if change.tx_index == tx_index:
+                                        kwargs = {"tx_index": tx_index, value_field: new_value}
+                                        storage_slot.slot_changes[j] = change_class(**kwargs)
+                                        break
+                                break
+                    else:
+                        # flat structure (nonce, balance, code)
+                        for i, change in enumerate(changes):
+                            if change.tx_index == tx_index:
+                                kwargs = {"tx_index": tx_index, value_field: new_value}
+                                changes[i] = change_class(**kwargs)
+                                break
+
+                new_root.append(new_account)
+            else:
+                new_root.append(account_change)
+
+        if not found_address:
+            # sanity check that we actually found the address
+            raise ValueError(f"Address {address} not found in BAL to modify {field_name}")
+
+        return BlockAccessList(root=new_root)
+
+    return transform
 
 
 def remove_accounts(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
@@ -35,207 +119,79 @@ def remove_accounts(*addresses: Address) -> Callable[[BlockAccessList], BlockAcc
 
 def remove_nonces(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Remove nonce changes from specified accounts."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address in addresses:
-                # Create a copy without nonce changes
-                new_account = account_change.model_copy(deep=True)
-                new_account.nonce_changes = []
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _remove_field_from_accounts(addresses, "nonce_changes")
 
 
 def remove_balances(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Remove balance changes from specified accounts."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address in addresses:
-                # Create a copy without balance changes
-                new_account = account_change.model_copy(deep=True)
-                new_account.balance_changes = []
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _remove_field_from_accounts(addresses, "balance_changes")
 
 
 def remove_storage(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Remove storage changes from specified accounts."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address in addresses:
-                # Create a copy without storage changes
-                new_account = account_change.model_copy(deep=True)
-                new_account.storage_changes = []
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _remove_field_from_accounts(addresses, "storage_changes")
 
 
 def remove_storage_reads(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Remove storage reads from specified accounts."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address in addresses:
-                # Create a copy without storage reads
-                new_account = account_change.model_copy(deep=True)
-                new_account.storage_reads = []
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _remove_field_from_accounts(addresses, "storage_reads")
 
 
 def remove_code(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Remove code changes from specified accounts."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address in addresses:
-                # Create a copy without code changes
-                new_account = account_change.model_copy(deep=True)
-                new_account.code_changes = []
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _remove_field_from_accounts(addresses, "code_changes")
 
 
 def modify_nonce(
     address: Address, tx_index: int, nonce: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
     """Set an incorrect nonce value for a specific account and transaction."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address == address:
-                new_account = account_change.model_copy(deep=True)
-                # Find and modify the specific nonce change
-                for i, nonce_change in enumerate(new_account.nonce_changes or []):
-                    if nonce_change.tx_index == tx_index:
-                        new_account.nonce_changes[i] = BalNonceChange(
-                            tx_index=tx_index, post_nonce=nonce
-                        )
-                        break
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _modify_field_value(
+        address, tx_index, "nonce_changes", BalNonceChange, nonce, "post_nonce"
+    )
 
 
 def modify_balance(
     address: Address, tx_index: int, balance: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
     """Set an incorrect balance value for a specific account and transaction."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address == address:
-                new_account = account_change.model_copy(deep=True)
-                # Find and modify the specific balance change
-                if new_account.balance_changes:
-                    for i, balance_change in enumerate(new_account.balance_changes):
-                        if balance_change.tx_index == tx_index:
-                            # Create new balance change with wrong value
-                            new_account.balance_changes[i] = BalBalanceChange(
-                                tx_index=tx_index, post_balance=balance
-                            )
-                            break
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _modify_field_value(
+        address, tx_index, "balance_changes", BalBalanceChange, balance, "post_balance"
+    )
 
 
 def modify_storage(
     address: Address, tx_index: int, slot: int, value: int
 ) -> Callable[[BlockAccessList], BlockAccessList]:
     """Set an incorrect storage value for a specific account, transaction, and slot."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address == address:
-                new_account = account_change.model_copy(deep=True)
-                # Find and modify the specific storage change (nested structure)
-                if new_account.storage_changes:
-                    for storage_slot in new_account.storage_changes:
-                        if storage_slot.slot == slot:
-                            for j, change in enumerate(storage_slot.slot_changes):
-                                if change.tx_index == tx_index:
-                                    # Create new storage change with wrong value
-                                    storage_slot.slot_changes[j] = BalStorageChange(
-                                        tx_index=tx_index, post_value=value
-                                    )
-                                    break
-                            break
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _modify_field_value(
+        address,
+        tx_index,
+        "storage_changes",
+        BalStorageChange,
+        value,
+        "post_value",
+        nested=True,
+        slot=slot,
+    )
 
 
 def modify_code(
     address: Address, tx_index: int, code: bytes
 ) -> Callable[[BlockAccessList], BlockAccessList]:
     """Set an incorrect code value for a specific account and transaction."""
-
-    def transform(bal: BlockAccessList) -> BlockAccessList:
-        new_root = []
-        for account_change in bal.root:
-            if account_change.address == address:
-                new_account = account_change.model_copy(deep=True)
-                # Find and modify the specific code change
-                if new_account.code_changes:
-                    for i, code_change in enumerate(new_account.code_changes):
-                        if code_change.tx_index == tx_index:
-                            # Create new code change with wrong value
-                            new_account.code_changes[i] = BalCodeChange(
-                                tx_index=tx_index, post_code=code
-                            )
-                            break
-                new_root.append(new_account)
-            else:
-                new_root.append(account_change)
-        return BlockAccessList(root=new_root)
-
-    return transform
+    return _modify_field_value(address, tx_index, "code_changes", BalCodeChange, code, "post_code")
 
 
 def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAccessList]:
     """Swap transaction indices throughout the BAL, modifying tx ordering."""
+    nonce_indices = {tx1: False, tx2: False}
+    balance_indices = nonce_indices.copy()
+    storage_indices = nonce_indices.copy()
+    code_indices = nonce_indices.copy()
 
     def transform(bal: BlockAccessList) -> BlockAccessList:
+        nonlocal nonce_indices, balance_indices, storage_indices, code_indices
         new_root = []
         for account_change in bal.root:
             new_account = account_change.model_copy(deep=True)
@@ -244,16 +200,20 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
             if new_account.nonce_changes:
                 for nonce_change in new_account.nonce_changes:
                     if nonce_change.tx_index == tx1:
+                        nonce_indices[tx1] = True
                         nonce_change.tx_index = HexNumber(tx2)
                     elif nonce_change.tx_index == tx2:
+                        nonce_indices[tx2] = True
                         nonce_change.tx_index = HexNumber(tx1)
 
             # Swap in balance changes
             if new_account.balance_changes:
                 for balance_change in new_account.balance_changes:
                     if balance_change.tx_index == tx1:
+                        balance_indices[tx1] = True
                         balance_change.tx_index = HexNumber(tx2)
                     elif balance_change.tx_index == tx2:
+                        balance_indices[tx2] = True
                         balance_change.tx_index = HexNumber(tx1)
 
             # Swap in storage changes (nested structure)
@@ -261,8 +221,10 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
                 for storage_slot in new_account.storage_changes:
                     for storage_change in storage_slot.slot_changes:
                         if storage_change.tx_index == tx1:
+                            balance_indices[tx1] = True
                             storage_change.tx_index = HexNumber(tx2)
                         elif storage_change.tx_index == tx2:
+                            balance_indices[tx2] = True
                             storage_change.tx_index = HexNumber(tx1)
 
             # Note: storage_reads is just a list of StorageKey, no tx_index to swap
@@ -271,8 +233,10 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
             if new_account.code_changes:
                 for code_change in new_account.code_changes:
                     if code_change.tx_index == tx1:
+                        code_indices[tx1] = True
                         code_change.tx_index = HexNumber(tx2)
                     elif code_change.tx_index == tx2:
+                        code_indices[tx2] = True
                         code_change.tx_index = HexNumber(tx1)
 
             new_root.append(new_account)
@@ -297,14 +261,22 @@ def append_account(
 
 def duplicate_account(address: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Duplicate an account entry in the BAL."""
+    address_present = False
 
     def transform(bal: BlockAccessList) -> BlockAccessList:
+        nonlocal address_present
         new_root = []
         for account_change in bal.root:
             new_root.append(account_change)
             if account_change.address == address:
                 # Add duplicate immediately after
                 new_root.append(account_change.model_copy(deep=True))
+                address_present = True
+
+        if not address_present:
+            # sanity check that we actually duplicate
+            raise ValueError(f"Address {address} not found in BAL to duplicate")
+
         return BlockAccessList(root=new_root)
 
     return transform
@@ -344,7 +316,7 @@ def reorder_accounts(indices: List[int]) -> Callable[[BlockAccessList], BlockAcc
 def clear_all() -> Callable[[BlockAccessList], BlockAccessList]:
     """Return an empty BAL."""
 
-    def transform(bal: BlockAccessList) -> BlockAccessList:
+    def transform(_bal: BlockAccessList) -> BlockAccessList:
         return BlockAccessList(root=[])
 
     return transform
@@ -352,12 +324,18 @@ def clear_all() -> Callable[[BlockAccessList], BlockAccessList]:
 
 def keep_only(*addresses: Address) -> Callable[[BlockAccessList], BlockAccessList]:
     """Keep only the specified accounts, removing all others."""
+    len_addresses = len(addresses)
 
     def transform(bal: BlockAccessList) -> BlockAccessList:
         new_root = []
         for account_change in bal.root:
             if account_change.address in addresses:
                 new_root.append(account_change)
+
+        if len(new_root) != len_addresses:
+            # sanity check that we found all specified addresses
+            raise ValueError("Some specified addresses were not found in the BAL")
+
         return BlockAccessList(root=new_root)
 
     return transform
