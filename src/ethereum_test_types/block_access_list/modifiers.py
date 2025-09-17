@@ -8,7 +8,7 @@ combined to create complex modifications.
 
 from typing import Callable, List
 
-from ethereum_test_base_types import Address, Number
+from ethereum_test_base_types import Address, HexNumber
 
 from .. import BalCodeChange
 from . import (
@@ -244,26 +244,26 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
             if new_account.nonce_changes:
                 for nonce_change in new_account.nonce_changes:
                     if nonce_change.tx_index == tx1:
-                        nonce_change.tx_index = Number(tx2)
+                        nonce_change.tx_index = HexNumber(tx2)
                     elif nonce_change.tx_index == tx2:
-                        nonce_change.tx_index = Number(tx1)
+                        nonce_change.tx_index = HexNumber(tx1)
 
             # Swap in balance changes
             if new_account.balance_changes:
                 for balance_change in new_account.balance_changes:
                     if balance_change.tx_index == tx1:
-                        balance_change.tx_index = Number(tx2)
+                        balance_change.tx_index = HexNumber(tx2)
                     elif balance_change.tx_index == tx2:
-                        balance_change.tx_index = Number(tx1)
+                        balance_change.tx_index = HexNumber(tx1)
 
             # Swap in storage changes (nested structure)
             if new_account.storage_changes:
                 for storage_slot in new_account.storage_changes:
                     for storage_change in storage_slot.slot_changes:
                         if storage_change.tx_index == tx1:
-                            storage_change.tx_index = Number(tx2)
+                            storage_change.tx_index = HexNumber(tx2)
                         elif storage_change.tx_index == tx2:
-                            storage_change.tx_index = Number(tx1)
+                            storage_change.tx_index = HexNumber(tx1)
 
             # Note: storage_reads is just a list of StorageKey, no tx_index to swap
 
@@ -271,9 +271,9 @@ def swap_tx_indices(tx1: int, tx2: int) -> Callable[[BlockAccessList], BlockAcce
             if new_account.code_changes:
                 for code_change in new_account.code_changes:
                     if code_change.tx_index == tx1:
-                        code_change.tx_index = Number(tx2)
+                        code_change.tx_index = HexNumber(tx2)
                     elif code_change.tx_index == tx2:
-                        code_change.tx_index = Number(tx1)
+                        code_change.tx_index = HexNumber(tx1)
 
             new_root.append(new_account)
 

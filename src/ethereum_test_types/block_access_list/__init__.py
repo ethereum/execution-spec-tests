@@ -6,7 +6,7 @@ these are simple data classes that can be composed together.
 """
 
 from functools import cached_property
-from typing import Any, Callable, ClassVar, Dict, List
+from typing import Any, Callable, ClassVar, Dict, List, Union
 
 import ethereum_rlp as eth_rlp
 from pydantic import Field, PrivateAttr
@@ -17,11 +17,16 @@ from ethereum_test_base_types import (
     CamelModel,
     EthereumTestRootModel,
     HexNumber,
-    Number,
     RLPSerializable,
     StorageKey,
 )
 from ethereum_test_base_types.serialization import to_serializable_element
+
+
+class BlockAccessListValidationError(Exception):
+    """Custom exception for Block Access List validation errors."""
+
+    pass
 
 
 def compose(
@@ -41,8 +46,11 @@ def compose(
 class BalNonceChange(CamelModel, RLPSerializable):
     """Represents a nonce change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
-    post_nonce: Number = Field(..., description="Nonce value after the transaction")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
+    post_nonce: HexNumber = Field(..., description="Nonce value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_nonce"]
 
@@ -50,7 +58,10 @@ class BalNonceChange(CamelModel, RLPSerializable):
 class BalBalanceChange(CamelModel, RLPSerializable):
     """Represents a balance change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     post_balance: HexNumber = Field(..., description="Balance after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_balance"]
@@ -59,7 +70,10 @@ class BalBalanceChange(CamelModel, RLPSerializable):
 class BalCodeChange(CamelModel, RLPSerializable):
     """Represents a code change in the block access list."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     new_code: Bytes = Field(..., description="New code bytes")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "new_code"]
@@ -68,7 +82,10 @@ class BalCodeChange(CamelModel, RLPSerializable):
 class BalStorageChange(CamelModel, RLPSerializable):
     """Represents a change to a specific storage slot."""
 
-    tx_index: Number = Field(..., description="Transaction index where the change occurred")
+    tx_index: HexNumber = Field(
+        HexNumber(1),
+        description="Transaction index where the change occurred",
+    )
     post_value: StorageKey = Field(..., description="Value after the transaction")
 
     rlp_fields: ClassVar[List[str]] = ["tx_index", "post_value"]
@@ -113,6 +130,13 @@ class BalAccountChange(CamelModel, RLPSerializable):
         "nonce_changes",
         "code_changes",
     ]
+
+
+BlockAccessListChangeLists = Union[
+    List[BalNonceChange],
+    List[BalBalanceChange],
+    List[BalCodeChange],
+]
 
 
 class BlockAccessList(EthereumTestRootModel[List[BalAccountChange]]):
@@ -256,6 +280,11 @@ class BlockAccessListExpectation(CamelModel):
         """
         Verify that the actual BAL from the client matches this expected BAL.
 
+        Validation steps:
+        1. Validate actual BAL conforms to EIP-7928 ordering requirements
+        2. Verify address expectations - presence or explicit absence
+        3. Verify expected changes within accounts match actual changes
+
         Args:
             actual_bal: The BlockAccessList model from the client
 
@@ -263,23 +292,104 @@ class BlockAccessListExpectation(CamelModel):
             Exception: If verification fails
 
         """
-        actual_accounts_by_addr = {acc.address: acc for acc in actual_bal.root}
+        # validate the actual BAL structure follows EIP-7928 ordering
+        self._validate_bal_ordering(actual_bal)
 
+        actual_accounts_by_addr = {acc.address: acc for acc in actual_bal.root}
         for address, expectation in self.account_expectations.items():
             if expectation is None:
                 # check explicit exclusion of address when set to `None`
                 if address in actual_accounts_by_addr:
-                    raise Exception(f"Address {address} should not be in BAL but was found")
+                    raise BlockAccessListValidationError(
+                        f"Address {address} should not be in BAL but was found"
+                    )
             else:
-                # Address should be in BAL with expected values
+                # check address is present and validate changes
                 if address not in actual_accounts_by_addr:
-                    raise Exception(f"Expected address {address} not found in actual BAL")
+                    raise BlockAccessListValidationError(
+                        f"Expected address {address} not found in actual BAL"
+                    )
 
                 actual_account = actual_accounts_by_addr[address]
                 try:
                     self._compare_account_expectations(expectation, actual_account)
                 except AssertionError as e:
-                    raise Exception(f"Account {address}: {str(e)}") from e
+                    raise BlockAccessListValidationError(f"Account {address}: {str(e)}") from e
+
+    @staticmethod
+    def _validate_bal_ordering(bal: "BlockAccessList") -> None:
+        """
+        Validate that the actual BAL follows EIP-7928 ordering requirements.
+
+        Per EIP-7928:
+        - Addresses must be in lexicographic (bytewise) order
+        - Storage keys must be in lexicographic order within each account
+        - Block access indices must be in ascending order within each change list
+
+        Args:
+            bal: The BlockAccessList to validate
+
+        Raises:
+            Exception: If BAL doesn't follow EIP-7928 ordering
+
+        """
+        addresses = [acc.address for acc in bal.root]
+
+        # Check addresses are in lexicographic order
+        sorted_addresses = sorted(addresses, key=lambda x: bytes(x))
+        if addresses != sorted_addresses:
+            raise BlockAccessListValidationError(
+                f"BAL addresses not in lexicographic order per EIP-7928. "
+                f"Got: {[str(a) for a in addresses]}, "
+                f"Expected: {[str(a) for a in sorted_addresses]}"
+            )
+
+        # Check ordering within each account
+        for account in bal.root:
+            # Check storage slots are in lexicographic order
+            if account.storage_changes:
+                slots = [s.slot for s in account.storage_changes]
+                sorted_slots = sorted(slots, key=lambda x: bytes(x))
+                if slots != sorted_slots:
+                    raise BlockAccessListValidationError(
+                        f"Account {account.address}: Storage slots not in lexicographic order. "
+                        f"Got: {slots}, Expected: {sorted_slots}"
+                    )
+
+                # Check tx indices within each storage slot are in ascending order
+                for slot_change in account.storage_changes:
+                    if slot_change.slot_changes:
+                        tx_indices = [c.tx_index for c in slot_change.slot_changes]
+                        if tx_indices != sorted(tx_indices):
+                            raise BlockAccessListValidationError(
+                                f"Account {account.address}, Slot {slot_change.slot}: "
+                                f"tx_indices not in ascending order. Got: {tx_indices}"
+                            )
+
+            # Check storage reads are in lexicographic order
+            if account.storage_reads:
+                sorted_reads = sorted(account.storage_reads, key=lambda x: bytes(x))
+                if account.storage_reads != sorted_reads:
+                    raise BlockAccessListValidationError(
+                        f"Account {account.address}: Storage reads not in "
+                        f"lexicographic order. Got: {account.storage_reads}, "
+                        f"Expected: {sorted_reads}"
+                    )
+
+            # Check tx indices in other change lists
+            changes_to_check: List[tuple[str, Union[BlockAccessListChangeLists]]] = [
+                ("nonce_changes", account.nonce_changes),
+                ("balance_changes", account.balance_changes),
+                ("code_changes", account.code_changes),
+            ]
+            for field_name, changes in changes_to_check:
+                if changes:
+                    tx_indices = [c.tx_index for c in changes]
+                    if tx_indices != sorted(tx_indices):
+                        raise BlockAccessListValidationError(
+                            f"Account {account.address}: {field_name} tx_indices "
+                            f"not in ascending order. Got: {tx_indices}"
+                        )
 
     def _compare_account_expectations(
         self, expected: BalAccountExpectation, actual: BalAccountChange
@@ -290,68 +400,110 @@ class BlockAccessListExpectation(CamelModel):
         Only validates fields that were explicitly set in the expected model,
         using model_fields_set to determine what was intentionally specified.
         """
+        change_fields = {
+            "nonce_changes",
+            "balance_changes",
+            "code_changes",
+            "storage_changes",
+        }
+        bal_fields = change_fields | {"storage_reads"}
+
         # Only check fields that were explicitly set in the expected model
-        for field_name in expected.model_fields_set:
+        for field_name in expected.model_fields_set.intersection(bal_fields):
             expected_value = getattr(expected, field_name)
             actual_value = getattr(actual, field_name)
 
             # empty list explicitly set (no changes expected)
             if not expected_value:
                 if actual_value:
-                    raise AssertionError(
+                    raise BlockAccessListValidationError(
                         f"Expected {field_name} to be empty but found: {actual_value}"
                     )
                 continue
 
             if field_name == "storage_reads":
-                # Convert to comparable format (both are lists of 32-byte values)
-                expected_set = {bytes(v) if hasattr(v, "__bytes__") else v for v in expected_value}
-                actual_set = {bytes(v) if hasattr(v, "__bytes__") else v for v in actual_value}
-                if expected_set != actual_set:
-                    missing = expected_set - actual_set
-                    extra = actual_set - expected_set
-                    msg = "Storage reads mismatch."
-                    if missing:
-                        missing_str = [
-                            v.hex() if isinstance(v, bytes) else str(v) for v in missing
+                # EIP-7928: Storage reads must be in lexicographic order
+                # check as subsequence
+                expected_reads = [
+                    bytes(v) if hasattr(v, "__bytes__") else v for v in expected_value
+                ]
+                actual_reads = [bytes(v) if hasattr(v, "__bytes__") else v for v in actual_value]
+
+                # Check that expected reads form a subsequence of actual reads
+                actual_idx = 0
+                for exp_read in expected_reads:
+                    found = False
+                    while actual_idx < len(actual_reads):
+                        if actual_reads[actual_idx] == exp_read:
+                            found = True
+                            actual_idx += 1
+                            break
+                        actual_idx += 1
+
+                    if not found:
+                        exp_str = exp_read.hex() if isinstance(exp_read, bytes) else str(exp_read)
+                        actual_str = [
+                            r.hex() if isinstance(r, bytes) else str(r) for r in actual_reads
                         ]
-                        msg += f" Missing: {missing_str}."
-                    if extra:
-                        extra_str = [v.hex() if isinstance(v, bytes) else str(v) for v in extra]
-                        msg += f" Extra: {extra_str}."
-                    raise AssertionError(msg)
+                        raise BlockAccessListValidationError(
+                            f"Storage read {exp_str} not found or not in correct order. "
+                            f"Actual reads: {actual_str}"
+                        )
 
-            elif isinstance(expected_value, list):
-                # For lists of changes, use the model_dump approach for comparison
-                expected_data = [
-                    item.model_dump() if hasattr(item, "model_dump") else item
-                    for item in expected_value
-                ]
-                actual_data = [
-                    item.model_dump() if hasattr(item, "model_dump") else item
-                    for item in actual_value
-                ]
-
-                if not self._compare_change_lists(field_name, expected_data, actual_data):
-                    # The comparison method will raise with details
-                    pass
+            elif field_name in change_fields:
+                # For lists of changes, convert Pydantic models to dicts for
+                # comparison
+                expected_data = [item.model_dump() for item in expected_value]
+                actual_data = [item.model_dump() for item in actual_value]
+                self._validate_change_lists(field_name, expected_data, actual_data)
 
     @staticmethod
-    def _compare_change_lists(field_name: str, expected: List, actual: List) -> bool:
-        """Compare lists of change objects using set operations for better error messages."""
+    def _validate_change_lists(field_name: str, expected: List, actual: List) -> None:
+        """
+        Validate that expected change lists form a subsequence of actual changes.
+
+        Note: Ordering validation per EIP-7928 is already done in _validate_bal_ordering.
+        This method only checks that expected items appear in the actual list as a subsequence.
+
+        Raises:
+            AssertionError: If expected changes are not found or not in correct order
+
+        """
         if field_name == "storage_changes":
             # Storage changes are nested (slot -> changes)
+            expected_slots = [slot["slot"] for slot in expected]
+            actual_slots = [slot["slot"] for slot in actual]
+
+            # Check expected slots form a subsequence (ordering already validated)
+            actual_idx = 0
+            for exp_slot in expected_slots:
+                found = False
+                while actual_idx < len(actual_slots):
+                    if actual_slots[actual_idx] == exp_slot:
+                        found = True
+                        break
+                    actual_idx += 1
+
+                if not found:
+                    raise BlockAccessListValidationError(
+                        f"Expected storage slot {exp_slot} not found or not in "
+                        f"correct order. Actual slots: {actual_slots}"
+                    )
+
+            # check changes within each slot
             expected_by_slot = {slot["slot"]: slot["slot_changes"] for slot in expected}
             actual_by_slot = {slot["slot"]: slot["slot_changes"] for slot in actual}
 
-            missing_slots = set(expected_by_slot.keys()) - set(actual_by_slot.keys())
-            if missing_slots:
-                raise AssertionError(f"Missing storage slots: {missing_slots}")
-
             for slot, exp_changes in expected_by_slot.items():
-                act_changes = actual_by_slot.get(slot, [])
-                # Handle Hash/bytes for post_value comparison
-                exp_set = {
+                if slot not in actual_by_slot:
+                    raise BlockAccessListValidationError(
+                        f"Expected storage slot {slot} not found in actual"
+                    )
+
+                act_changes = actual_by_slot[slot]
+
+                # Check that expected changes form a subsequence
+                exp_tuples = [
                     (
                         c["tx_index"],
                         bytes(c["post_value"])
@@ -359,8 +511,8 @@ class BlockAccessListExpectation(CamelModel):
                         else c["post_value"],
                     )
                     for c in exp_changes
-                }
-                act_set = {
+                ]
+                act_tuples = [
                     (
                         c["tx_index"],
                         bytes(c["post_value"])
@@ -368,45 +520,58 @@ class BlockAccessListExpectation(CamelModel):
                         else c["post_value"],
                     )
                     for c in act_changes
-                }
+                ]
 
-                if exp_set != act_set:
-                    missing = exp_set - act_set
-                    extra = act_set - exp_set
-                    msg = f"Slot {slot} changes mismatch."
-                    if missing:
-                        msg += f" Missing: {missing}."
-                    if extra:
-                        msg += f" Extra: {extra}."
-                    raise AssertionError(msg)
+                act_idx = 0
+                for exp_tuple in exp_tuples:
+                    found = False
+                    while act_idx < len(act_tuples):
+                        if act_tuples[act_idx] == exp_tuple:
+                            found = True
+                            act_idx += 1
+                            break
+                        act_idx += 1
+
+                    if not found:
+                        raise BlockAccessListValidationError(
+                            f"Slot {slot}: Expected change {exp_tuple} not found "
+                            f"or not in correct order. Actual changes: {act_tuples}"
+                        )
+
         else:
-            # Create comparable tuples for each change type
+            # Create tuples for comparison (ordering already validated)
             if field_name == "nonce_changes":
-                expected_set = {(c["tx_index"], c["post_nonce"]) for c in expected}
-                actual_set = {(c["tx_index"], c["post_nonce"]) for c in actual}
+                expected_tuples = [(c["tx_index"], c["post_nonce"]) for c in expected]
+                actual_tuples = [(c["tx_index"], c["post_nonce"]) for c in actual]
                 item_type = "nonce"
             elif field_name == "balance_changes":
-                expected_set = {(c["tx_index"], int(c["post_balance"])) for c in expected}
-                actual_set = {(c["tx_index"], int(c["post_balance"])) for c in actual}
+                expected_tuples = [(c["tx_index"], int(c["post_balance"])) for c in expected]
+                actual_tuples = [(c["tx_index"], int(c["post_balance"])) for c in actual]
                 item_type = "balance"
             elif field_name == "code_changes":
-                expected_set = {(c["tx_index"], bytes(c["new_code"])) for c in expected}
-                actual_set = {(c["tx_index"], bytes(c["new_code"])) for c in actual}
+                expected_tuples = [(c["tx_index"], bytes(c["new_code"])) for c in expected]
+                actual_tuples = [(c["tx_index"], bytes(c["new_code"])) for c in actual]
                 item_type = "code"
             else:
-                raise ValueError("Unexpected type")
+                # sanity check
+                raise ValueError(f"Unexpected field type: {field_name}")
 
-            if expected_set != actual_set:
-                missing = expected_set - actual_set
-                extra = actual_set - expected_set
-                msg = f"{item_type.capitalize()} changes mismatch."
-                if missing:
-                    msg += f" Missing: {missing}."
-                if extra:
-                    msg += f" Extra: {extra}."
-                raise AssertionError(msg)
+            # Check that expected forms a subsequence of actual
+            actual_idx = 0
+            for exp_tuple in expected_tuples:
+                found = False
+                while actual_idx < len(actual_tuples):
+                    if actual_tuples[actual_idx] == exp_tuple:
+                        found = True
+                        actual_idx += 1
+                        break
+                    actual_idx += 1
 
-        return True
+                if not found:
+                    raise BlockAccessListValidationError(
+                        f"{item_type.capitalize()} change {exp_tuple} not found "
+                        f"or not in correct order. Actual changes: {actual_tuples}"
+                    )
 
 
 __all__ = [
