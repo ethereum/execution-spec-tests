@@ -256,12 +256,9 @@ class BlockAccessListExpectation(CamelModel):
         new_instance._modifier = compose(*modifiers)
         return new_instance
 
-    def to_fixture_bal(self, t8n_bal: "BlockAccessList") -> "BlockAccessList":
+    def modify_if_invalid_test(self, t8n_bal: "BlockAccessList") -> "BlockAccessList":
         """
-        Convert t8n BAL to fixture BAL, optionally applying transformations.
-
-        1. First validates expectations are met (if any)
-        2. Then applies modifier if specified (for invalid tests)
+        Apply the modifier to the given BAL if this is an invalid test case.
 
         Args:
             t8n_bal: The BlockAccessList from t8n tool
@@ -270,13 +267,8 @@ class BlockAccessListExpectation(CamelModel):
             The potentially transformed BlockAccessList for the fixture
 
         """
-        if self.account_expectations:
-            self.verify_against(t8n_bal)
-
-        # Apply modifier if present (for invalid tests)
         if self._modifier:
             return self._modifier(t8n_bal)
-
         return t8n_bal
 
     def verify_against(self, actual_bal: "BlockAccessList") -> None:
