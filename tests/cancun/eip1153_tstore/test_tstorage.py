@@ -168,7 +168,7 @@ def test_tload_after_tstore_is_zero(state_test: StateTestFiller, pre: Alloc):
 
     post = {
         code_address: Account(
-            storage=dict.fromkeys(slots_to_read, 0) | dict.fromkeys(slots_to_write, 65535)
+            storage=dict.fromkeys(slots_to_read, 0) | dict.fromkeys(slots_to_write, 0xFFFF)
         )
     }
 
