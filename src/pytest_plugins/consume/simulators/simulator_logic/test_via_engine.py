@@ -60,7 +60,8 @@ def test_blockchain_via_engine(
             if status != PayloadStatusEnum.SYNCING:
                 break
 
-            time.sleep(DELAY_BETWEEN_RETRIES_IN_SEC)
+            if attempt < MAX_RETRIES:
+                time.sleep(DELAY_BETWEEN_RETRIES_IN_SEC)
 
         if forkchoice_response.payload_status.status != PayloadStatusEnum.VALID:
             logger.error(
