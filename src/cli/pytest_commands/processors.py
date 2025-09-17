@@ -101,6 +101,12 @@ class HiveEnvironmentProcessor(ArgumentProcessor):
 
         if self.command_name == "engine":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.engine.conftest"])
+        elif self.command_name == "enginex":
+            modified_args.extend(["-p", "pytest_plugins.consume.simulators.enginex.conftest"])
+            if (
+                self._has_parallelism_flag(args) or "-n" in modified_args
+            ) and "--dist" not in modified_args:
+                modified_args.extend(["--dist=loadgroup"])
         elif self.command_name == "sync":
             modified_args.extend(["-p", "pytest_plugins.consume.simulators.sync.conftest"])
         elif self.command_name == "rlp":
