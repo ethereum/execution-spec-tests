@@ -454,13 +454,13 @@ def test_worst_storage_access_warm(
 def test_worst_blockhash(
     blockchain_test: BlockchainTestFiller,
     pre: Alloc,
-    phase_manager: TestPhaseManager,
+    test_phase_manager: TestPhaseManager,
     gas_benchmark_value: int,
 ):
     """Test running a block with as many blockhash accessing oldest allowed block as possible."""
-    with phase_manager.setup():
+    with test_phase_manager.setup():
         for _ in range(256):
-            phase_manager.add_block(Block())
+            test_phase_manager.add_block(Block())
 
     # Always ask for the oldest allowed BLOCKHASH block.
     execution_code = Op.PUSH1(1) + While(
@@ -473,13 +473,13 @@ def test_worst_blockhash(
         sender=pre.fund_eoa(),
     )
 
-    with phase_manager.execution():
-        phase_manager.add_transaction(op_tx)
+    with test_phase_manager.execution():
+        test_phase_manager.add_transaction(op_tx)
 
     blockchain_test(
         pre=pre,
         post={},
-        test_phase_manager=phase_manager,
+        test_phase_manager=test_phase_manager,
     )
 
 

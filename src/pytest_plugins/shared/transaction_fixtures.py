@@ -162,13 +162,7 @@ def typed_transaction(request, fork):
         ) from e
 
 
-@pytest.fixture
-def phase_manager():
-    """Fixture providing access to a test phase manager."""
-    return TestPhaseManager()
-
-
-@pytest.fixture
+@pytest.fixture(scope="function")
 def test_phase_manager():
-    """Fixture providing access to a test phase manager for blockchain tests."""
+    """Fixture providing access to a test phase manager."""
     return TestPhaseManager()

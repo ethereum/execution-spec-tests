@@ -440,7 +440,7 @@ class BlockchainTest(BaseTest):
     genesis_environment: Environment = Field(default_factory=Environment)
     chain_id: int = 1
     exclude_full_post_state_in_output: bool = False
-    test_phase_manager: TestPhaseManager | None = None
+    test_phase_manager: TestPhaseManager | None = Field(default=None, exclude=True)
     """
     Exclude the post state from the fixture output.
     In this case, the state verification is only performed based on the state root.
@@ -742,7 +742,6 @@ class BlockchainTest(BaseTest):
             for tx in self.test_phase_manager.execution_transactions:
                 tx.test_phase = TestPhase.EXECUTION
             blocks.append(Block(txs=self.test_phase_manager.execution_transactions))
-
         return blocks
 
     def make_fixture(
@@ -759,9 +758,6 @@ class BlockchainTest(BaseTest):
         env = environment_from_parent_header(genesis.header)
         head = genesis.header.block_hash
         invalid_blocks = 0
-
-        if self.test_phase_manager is not None:
-            self.blocks.extend(self._get_test_phase_blocks())
 
         for i, block in enumerate(self.blocks):
             # This is the most common case, the RLP needs to be constructed
@@ -827,9 +823,7 @@ class BlockchainTest(BaseTest):
         head_hash = genesis.header.block_hash
         invalid_blocks = 0
 
-        if self.test_phase_manager is not None:
-            self.blocks.extend(self._get_test_phase_blocks())
-
+        built_block = None
         for i, block in enumerate(self.blocks):
             built_block = self.generate_block_data(
                 t8n=t8n,
@@ -852,6 +846,10 @@ class BlockchainTest(BaseTest):
                     t8n, t8n_state=alloc, expected_state=block.expected_post_state
                 )
         self.check_exception_test(exception=invalid_blocks > 0)
+
+        if built_block is None:
+            raise Exception("No blocks to process in the test")
+
         fcu_version = fork.engine_forkchoice_updated_version(
             built_block.header.number, built_block.header.timestamp
         )
@@ -931,6 +929,10 @@ class BlockchainTest(BaseTest):
     ) -> BaseFixture:
         """Generate the BlockchainTest fixture."""
         t8n.reset_traces()
+
+        if self.test_phase_manager is not None:
+            self.blocks.extend(self._get_test_phase_blocks())
+
         if fixture_format in [
             BlockchainEngineFixture,
             BlockchainEngineXFixture,

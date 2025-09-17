@@ -1,11 +1,14 @@
 """Test phase management for Ethereum tests."""
 
 from contextlib import contextmanager
-from contextvars import ContextVar
 from enum import Enum
-from typing import Iterator, Optional
+from typing import Any, Iterator, List, Optional
 
-from pydantic import BaseModel
+from pydantic import GetCoreSchemaHandler
+from pydantic_core.core_schema import (
+    PlainValidatorFunctionSchema,
+    no_info_plain_validator_function,
+)
 
 
 class TestPhase(Enum):
@@ -15,52 +18,44 @@ class TestPhase(Enum):
     EXECUTION = "execution"
 
 
-_current_phase: ContextVar[Optional[TestPhase]] = ContextVar("test_phase", default=TestPhase.SETUP)
-
-
-class TestPhaseManager(BaseModel):
+class TestPhaseManager:
     """
     Manages test phases and collects transactions and blocks by phase.
     This class provides a mechanism for tracking "setup" and "execution" phases,
     Only supports "setup" and "execution" phases now.
     """
 
-    model_config = {"arbitrary_types_allowed": True}
-
-    setup_transactions: list = []
-    setup_blocks: list = []
-    execution_transactions: list = []
-    execution_blocks: list = []
-
-    def __init__(self, **data):
+    def __init__(self, *args, **kwargs):
         """Initialize the TestPhaseManager with empty transaction and block lists."""
-        super().__init__(**data)
-        self.setup_transactions = []
-        self.setup_blocks = []
-        self.execution_transactions = []
-        self.execution_blocks = []
+        self.setup_transactions: List = []
+        self.setup_blocks: List = []
+        self.execution_transactions: List = []
+        self.execution_blocks: List = []
+        self._current_phase: Optional[TestPhase] = TestPhase.EXECUTION
 
     @contextmanager
     def setup(self) -> Iterator["TestPhaseManager"]:
         """Context manager for the setup phase of a benchmark test."""
-        token = _current_phase.set(TestPhase.SETUP)
+        old_phase = self._current_phase
+        self._current_phase = TestPhase.SETUP
         try:
             yield self
         finally:
-            _current_phase.reset(token)
+            self._current_phase = old_phase
 
     @contextmanager
     def execution(self) -> Iterator["TestPhaseManager"]:
         """Context manager for the execution phase of a test."""
-        token = _current_phase.set(TestPhase.EXECUTION)
+        old_phase = self._current_phase
+        self._current_phase = TestPhase.EXECUTION
         try:
             yield self
         finally:
-            _current_phase.reset(token)
+            self._current_phase = old_phase
 
     def add_transaction(self, tx) -> None:
         """Add a transaction to the current phase."""
-        current_phase = _current_phase.get()
+        current_phase = self._current_phase
         tx.test_phase = current_phase
 
         if current_phase == TestPhase.EXECUTION:
@@ -70,7 +65,7 @@ class TestPhaseManager(BaseModel):
 
     def add_block(self, block) -> None:
         """Add a block to the current phase."""
-        current_phase = _current_phase.get()
+        current_phase = self._current_phase
         for tx in block.txs:
             tx.test_phase = current_phase
 
@@ -81,4 +76,20 @@ class TestPhaseManager(BaseModel):
 
     def get_current_phase(self) -> Optional[TestPhase]:
         """Get the current test phase."""
-        return _current_phase.get()
+        return self._current_phase
+
+    @staticmethod
+    def __get_pydantic_core_schema__(
+        source_type: Any, handler: GetCoreSchemaHandler
+    ) -> PlainValidatorFunctionSchema:
+        """Pydantic schema for TestPhaseManager."""
+
+        def validate_test_phase_manager(value):
+            """Return the TestPhaseManager instance as-is."""
+            if isinstance(value, source_type):
+                return value
+            return source_type()
+
+        return no_info_plain_validator_function(
+            validate_test_phase_manager,
+        )
