@@ -59,16 +59,16 @@ def deploy_factory(rpc_url: str):
     # Deploy the factory
     print("\nDeploying CREATE2 factory...")
     tx_hash = w3.eth.send_transaction(
-        {"from": test_account, "data": "0x" + factory_bytecode.hex(), "gas": 3000000}
+        {"from": test_account, "data": bytes.fromhex(factory_bytecode.hex()), "gas": 3000000}
     )
 
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
-    if receipt.status != 1:
+    if receipt["status"] != 1:
         print("Failed to deploy factory")
         return None
 
-    factory_address = receipt.contractAddress
+    factory_address = receipt["contractAddress"]
     print(f"✅ Factory deployed at: {factory_address}")
 
     # Test the factory with a simple contract
@@ -79,19 +79,26 @@ def deploy_factory(rpc_url: str):
     calldata = test_salt.to_bytes(32, "big") + test_bytecode
 
     # Use eth_call to get the address that would be created
-    result = w3.eth.call({"to": factory_address, "data": "0x" + calldata.hex()})
+    if factory_address:
+        result = w3.eth.call({"to": factory_address, "data": bytes.fromhex(calldata.hex())})
+    else:
+        print("Factory address is None")
+        return None
 
     if result:
         test_addr = "0x" + result[-20:].hex()
         print(f"Test deployment would create: {test_addr}")
 
         # Calculate expected CREATE2 address
-        expected = keccak(
-            b"\xff"
-            + bytes.fromhex(factory_address[2:])
-            + test_salt.to_bytes(32, "big")
-            + keccak(test_bytecode)
-        )[-20:]
+        if factory_address:
+            expected = keccak(
+                b"\xff"
+                + bytes.fromhex(factory_address[2:])
+                + test_salt.to_bytes(32, "big")
+                + keccak(test_bytecode)
+            )[-20:]
+        else:
+            expected = b""
         expected_addr = "0x" + expected.hex()
         print(f"Expected CREATE2 address: {expected_addr}")
 

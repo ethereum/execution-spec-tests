@@ -146,6 +146,7 @@ exclude = [
     '^fixtures/',
     '^logs/',
     '^site/',
+    '^tests/benchmark/bloatnet/deploy_.*\.py$',
 ]
 plugins = ["pydantic.mypy"]
 

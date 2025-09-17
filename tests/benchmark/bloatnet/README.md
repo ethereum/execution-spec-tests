@@ -6,7 +6,7 @@ The Bloatnet benchmarks work on the following fashion:
 1. They usually require a previously-deployed state (usually quite large) which the benchmarks
 will interact with.
 2. The deployment script helpers help deploying the required bytecode for the specific tests.
-3. The outpus of the deployment scripts get hardcoded into the codebase such that the benchmarks can interact with them.
+3. The outputs of the deployment scripts get hardcoded into the codebase such that the benchmarks can interact with them.
 
 ## Gas Cost Constants
 
@@ -47,7 +47,7 @@ You can see the associated attack constants inside of the tests in `bloatnet/tes
 
 ## Quick Start: 150M Gas Attack
 
-### 1. Deploy CREATE2 Factory (you can use an already deployed one if preferred)
+### 1. Deploy CREATE2 Factory (you can use an already deployed one if preferred and therefore, skip this step)
 
 ```bash
 # One-time setup - deploy the CREATE2 factory
@@ -59,23 +59,51 @@ python3 tests/benchmark/bloatnet/deploy_create2_factory.py
 
 ### 2. Deploy Contracts
 
-Calculate the number of contracts needed for your test:
+The deployment script is interactive and will guide you through selecting the appropriate contract type for your benchmark.
+
+#### Contract Types Available
+
+1. **max_size_24kb**: 24KB contracts filled with unique bytecode (EXTCODE_ type of tests)
+2. **sload_heavy**: Contracts optimized for SLOAD benchmarking
+3. **storage_heavy**: Contracts with pre-initialized storage
+4. **custom**: Custom bytecode (for future extensions)
+
+#### Calculate Contracts Needed
+
+Before running the deployment, calculate the number of contracts needed:
 - For 150M gas BALANCE+EXTCODESIZE: 55,403 contracts
 - For 150M gas BALANCE+EXTCODECOPY: 29,958 contracts
 
-_The suggestion is to deploy enough contracts to cover for the max_gas you plan to use in your tests/benchmarks_
+_Deploy enough contracts to cover the max gas you plan to use in your tests/benchmarks._
+
+#### Running the Deployment
 
 ```bash
-# Deploy contracts for 150M gas EXTCODESIZE test
+# Run the interactive deployment script
 python3 tests/benchmark/bloatnet/deploy_bloatnet_simple.py \
     --num-contracts 55403 \
-    --factory-address 0x... # Use factory address from step 2
-
-# Note the output:
-# FACTORY_ADDRESS = Address("0x...")
-# INIT_CODE_HASH = bytes.fromhex("...")
-# NUM_CONTRACTS = 55403
+    --factory-address 0x... # Use factory address from step 1
 ```
+
+#### Deployment Output
+
+After successful deployment, the script will:
+
+1. Display the configuration needed for tests:
+```python
+=== Configuration for max_size_24kb tests ===
+CONTRACT_TYPE = "max_size_24kb"
+FACTORY_ADDRESS = Address("0x...")
+INIT_CODE_HASH = bytes.fromhex("...")
+NUM_DEPLOYED_CONTRACTS = 55403
+```
+
+2. Save the configuration to a file:
+```
+Configuration saved to: bloatnet_config_max_size_24kb.txt
+```
+
+This file contains all the values needed to update your test configuration.
 
 ### 3. Update Test Configuration
 
