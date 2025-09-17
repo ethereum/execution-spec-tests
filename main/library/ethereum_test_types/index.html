@@ -34415,10 +34415,7 @@ of account changes (root model), not a container. Used for:
 
               <details class="quote">
                 <summary>Source code in <code>src/ethereum_test_types/block_access_list/__init__.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
-<span class="normal">204</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
@@ -34788,7 +34785,15 @@ of account changes (root model), not a container. Used for:
 <span class="normal">571</span>
 <span class="normal">572</span>
 <span class="normal">573</span>
-<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BlockAccessListExpectation</span><span class="p">(</span><span class="n">CamelModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Block Access List expectation model for test writing.</span>
 
@@ -34990,6 +34995,11 @@ of account changes (root model), not a container. Used for:
 <span class="sd">        Only validates fields that were explicitly set in the expected model,</span>
 <span class="sd">        using model_fields_set to determine what was intentionally specified.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Run absence validators first</span>
+        <span class="k">if</span> <span class="s2">&quot;should_not_exist&quot;</span> <span class="ow">in</span> <span class="n">expected</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">validator</span> <span class="ow">in</span> <span class="n">expected</span><span class="o">.</span><span class="n">should_not_exist</span><span class="p">:</span>
+                <span class="n">validator</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>
+
         <span class="n">change_fields</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;nonce_changes&quot;</span><span class="p">,</span>
             <span class="s2">&quot;balance_changes&quot;</span><span class="p">,</span>
@@ -35253,10 +35263,7 @@ of account changes (root model), not a container. Used for:
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/block_access_list/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
-<span class="normal">233</span>
-<span class="normal">234</span>
-<span class="normal">235</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">235</span>
 <span class="normal">236</span>
 <span class="normal">237</span>
 <span class="normal">238</span>
@@ -35275,7 +35282,10 @@ of account changes (root model), not a container. Used for:
 <span class="normal">251</span>
 <span class="normal">252</span>
 <span class="normal">253</span>
-<span class="normal">254</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">modify</span><span class="p">(</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">modify</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">modifiers</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;BlockAccessList&quot;</span><span class="p">],</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BlockAccessListExpectation&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -35383,10 +35393,7 @@ of account changes (root model), not a container. Used for:
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/block_access_list/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">259</span>
 <span class="normal">260</span>
 <span class="normal">261</span>
 <span class="normal">262</span>
@@ -35404,7 +35411,10 @@ of account changes (root model), not a container. Used for:
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
-<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_fixture_bal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n_bal</span><span class="p">:</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">:</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_fixture_bal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t8n_bal</span><span class="p">:</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert t8n BAL to fixture BAL, optionally applying transformations.</span>
 
@@ -35511,10 +35521,7 @@ of account changes (root model), not a container. Used for:
 
             <details class="quote">
               <summary>Source code in <code>src/ethereum_test_types/block_access_list/__init__.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">282</span>
 <span class="normal">283</span>
 <span class="normal">284</span>
 <span class="normal">285</span>
@@ -35549,7 +35556,10 @@ of account changes (root model), not a container. Used for:
 <span class="normal">314</span>
 <span class="normal">315</span>
 <span class="normal">316</span>
-<span class="normal">317</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_against</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actual_bal</span><span class="p">:</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">verify_against</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actual_bal</span><span class="p">:</span> <span class="s2">&quot;BlockAccessList&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Verify that the actual BAL from the client matches this expected BAL.</span>
 
