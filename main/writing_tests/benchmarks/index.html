@@ -27301,6 +27301,7 @@
 </code></pre></div>
 <p>This is a safety check to make sure the benchmark works as expected. For example, if a test uses the <code>JUMP</code> instruction but the jump destination is invalid, each transaction will stop early. That means it won't use as much gas as we expected.</p>
 <p>This check helps catch such issues. As a result, the post-storage comparison method via <code>SSTORE</code> is no longer needed, thereby reducing the additional storage cost.</p>
+<p>However, in cases where it is difficult to determine the total gas usage, or if an alternative verification method is used, developers may set <code>skip_gas_used_validation</code> to <code>True</code> to disable the gas usage check.</p>
 
 
 
