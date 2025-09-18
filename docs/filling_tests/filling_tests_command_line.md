@@ -123,6 +123,30 @@ This flag automatically performs a two-phase execution:
 
 The `--evm-dump-dir` flag can be used to dump the inputs and outputs of every call made to the `t8n` command for debugging purposes, see [Debugging Transition Tools](./debugging_t8n_tools.md).
 
+## Watch Mode for Development
+
+!!! tip "Development workflow"
+    Use `--watch` during test development to get immediate feedback on your changes without manually re-running the fill command.
+
+This will:
+
+1. Run the initial fill command
+2. Monitor all Python files in the `tests/` directory for changes
+3. Automatically re-run the fill command when changes are detected
+4. Clear the screen and show which files changed
+
+Handy for iterative test development:
+
+```console
+uv run fill tests/amsterdam/eip7928_block_level_access_lists/test_block_access_lists.py --clean --until Amsterdam --watch
+✓ Fill completed
+
+Watching for changes...
+
+```
+
+Exit watch mode with Ctrl+C
+
 ## Other Useful Pytest Command-Line Options
 
 ```console
