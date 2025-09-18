@@ -80,6 +80,7 @@ Code pushed to @ethereum/execution-spec-tests must fulfill the following checks 
 - **Relative Imports**: Use relative imports within the same package
 - **Error Handling**: Use explicit exception types and meaningful error messages.
 - **Type Hints**: All functions should include type annotations.
+- **Unused Function Arguments**: When  unavoidable, use `del`, e.g., `del unused_var`, at function start to avoid flagging linter errors.
 - **Variable Naming**:
     - Use `snake_case` for variables, functions, and modules.
     - Use `PascalCase` for classes.
