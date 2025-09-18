@@ -5,8 +5,8 @@ from typing import Any, SupportsBytes
 from pydantic import GetCoreSchemaHandler
 from pydantic_core.core_schema import (
     PlainValidatorFunctionSchema,
+    format_ser_schema,
     no_info_plain_validator_function,
-    to_string_ser_schema,
 )
 
 from ethereum_test_base_types import Bytes, Hash
@@ -232,5 +232,5 @@ class Bytecode:
         """Provide Pydantic core schema for Bytecode serialization and validation."""
         return no_info_plain_validator_function(
             cls,
-            serialization=to_string_ser_schema(),
+            serialization=format_ser_schema("0x{}"),
         )
