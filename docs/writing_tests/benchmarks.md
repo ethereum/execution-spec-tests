@@ -60,3 +60,5 @@ def test_empty_block(
 This is a safety check to make sure the benchmark works as expected. For example, if a test uses the `JUMP` instruction but the jump destination is invalid, each transaction will stop early. That means it won't use as much gas as we expected.
 
 This check helps catch such issues. As a result, the post-storage comparison method via `SSTORE` is no longer needed, thereby reducing the additional storage cost.
+
+However, in cases where it is difficult to determine the total gas usage, or if an alternative verification method is used, developers may set `skip_gas_used_validation` to `True` to disable the gas usage check.

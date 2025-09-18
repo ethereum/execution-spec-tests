@@ -580,11 +580,13 @@ class BlockchainTest(BaseTest):
                 "expected_benchmark_gas_used is not set"
             )
             gas_used = int(transition_tool_output.result.gas_used)
-            assert gas_used == expected_benchmark_gas_used, (
-                f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
-                f"({expected_benchmark_gas_used})"
-                f", difference: {gas_used - expected_benchmark_gas_used}"
-            )
+
+            if not self.skip_gas_used_validation:
+                assert gas_used == expected_benchmark_gas_used, (
+                    f"gas_used ({gas_used}) does not match expected_benchmark_gas_used "
+                    f"({expected_benchmark_gas_used})"
+                    f", difference: {gas_used - expected_benchmark_gas_used}"
+                )
 
         requests_list: List[Bytes] | None = None
         if fork.header_requests_required(header.number, header.timestamp):
