@@ -35,11 +35,13 @@ CONTRACT_DESCRIPTIONS = {
 
 
 def generate_max_size_bytecode(salt: int = 0, max_code_size: int = 24576) -> Tuple[bytes, bytes]:
-    """Generate max-size contract bytecode for standard bloatnet tests.
+    """
+    Generate max-size contract bytecode for standard bloatnet tests.
 
     Args:
         salt: Unique salt for generating unique bytecode
         max_code_size: Maximum contract size (default 24576 bytes for mainnet)
+
     """
     # Init code copies runtime bytecode to memory and returns it
     init_code = bytearray()
@@ -166,11 +168,13 @@ def select_contract_type() -> str:
 
 
 def get_bytecode_generator(contract_type: str, max_code_size: int):
-    """Get the appropriate bytecode generator for the contract type.
+    """
+    Get the appropriate bytecode generator for the contract type.
 
     Args:
         contract_type: Type of contract to generate
         max_code_size: Maximum contract size in bytes
+
     """
     if contract_type == ContractType.MAX_SIZE_24KB:
         return lambda salt: generate_max_size_bytecode(salt, max_code_size)

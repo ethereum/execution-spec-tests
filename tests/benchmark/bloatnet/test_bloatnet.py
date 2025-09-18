@@ -31,7 +31,8 @@ REFERENCE_SPEC_VERSION = "1.0"
 # Gas cost constants - used to calculate required contracts for any gas limit
 # See README.md for detailed breakdown of these costs
 GAS_PER_CONTRACT_BALANCE_EXTCODESIZE = 2707  # BALANCE(cold) + EXTCODESIZE(warm)
-GAS_PER_CONTRACT_BALANCE_EXTCODECOPY = 2710  # BALANCE(cold) + EXTCODECOPY(warm, 1 byte) - optimized
+# BALANCE(cold) + EXTCODECOPY(warm, 1 byte) - optimized
+GAS_PER_CONTRACT_BALANCE_EXTCODECOPY = 2710
 
 # Configuration for CREATE2 pre-deployed contracts
 # These values must match what the deployment script generates
