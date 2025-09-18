@@ -959,7 +959,7 @@ def test_account_warming(
     callee_code += Op.STOP
     callee_address = pre.deploy_contract(
         callee_code,
-        storage={check_address: 0xDEADBEEF for check_address in addresses_to_check},
+        storage=dict.fromkeys(addresses_to_check, 0xDEADBEEF),
     )
 
     tx = Transaction(

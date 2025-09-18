@@ -1745,7 +1745,7 @@ def test_set_code_type_tx_pre_fork(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={k: 0 for k in storage}),
+            set_code_to_address: Account(storage=dict.fromkeys(storage, 0)),
             sender: Account(
                 nonce=0,
                 code="",

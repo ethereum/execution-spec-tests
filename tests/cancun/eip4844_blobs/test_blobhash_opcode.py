@@ -387,7 +387,7 @@ def test_blobhash_multiple_txs_in_block(
             storage={i: random_blob_hashes[i] for i in range(max_blobs_per_tx)}
         )
         if address in (addresses[1], addresses[3])
-        else Account(storage={i: 0 for i in range(max_blobs_per_tx)})
+        else Account(storage=dict.fromkeys(range(max_blobs_per_tx), 0))
         for address in addresses
     }
     blockchain_test(

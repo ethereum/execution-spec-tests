@@ -128,7 +128,7 @@ def test_self_sponsored_set_code(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address: Account(storage={k: 0 for k in storage}),
+            set_code_to_address: Account(storage=dict.fromkeys(storage, 0)),
             sender: Account(
                 nonce=2,
                 code=Spec.delegation_designation(set_code_to_address),
@@ -208,7 +208,7 @@ def test_set_code_to_sstore(
         tx=tx,
         post={
             set_code_to_address: Account(
-                storage={k: 0 for k in storage},
+                storage=dict.fromkeys(storage, 0),
             ),
             auth_signer: Account(
                 nonce=2 if self_sponsored else 1,
@@ -799,8 +799,8 @@ def test_set_code_call_set_code(
         pre=pre,
         tx=tx,
         post={
-            set_code_to_address_1: Account(storage={k: 0 for k in storage_1}),
-            set_code_to_address_2: Account(storage={k: 0 for k in storage_2}),
+            set_code_to_address_1: Account(storage=dict.fromkeys(storage_1, 0)),
+            set_code_to_address_2: Account(storage=dict.fromkeys(storage_2, 0)),
             auth_signer_1: Account(
                 nonce=1,
                 code=Spec.delegation_designation(set_code_to_address_1),
