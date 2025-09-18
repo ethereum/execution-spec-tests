@@ -73,6 +73,7 @@ class BaseTest(BaseModel):
     _gas_optimization_max_gas_limit: int | None = PrivateAttr(None)
 
     expected_benchmark_gas_used: int | None = None
+    skip_gas_used_validation: bool = False
 
     spec_types: ClassVar[Dict[str, Type["BaseTest"]]] = {}
 
@@ -117,6 +118,7 @@ class BaseTest(BaseModel):
             tag=base_test.tag,
             t8n_dump_dir=base_test.t8n_dump_dir,
             expected_benchmark_gas_used=base_test.expected_benchmark_gas_used,
+            skip_gas_used_validation=base_test.skip_gas_used_validation,
             **kwargs,
         )
         new_instance._request = base_test._request
