@@ -177,7 +177,7 @@ def test_max_blobs_per_tx_fork_transition(
         exception=[expected_exception],
     )
     post_fork_block = Block(
-        txs=[tx.with_nonce(2).with_error(expected_exception)],
+        txs=[tx.with_nonce(1).with_error(expected_exception)],
         timestamp=FORK_TIMESTAMP + 1,
         exception=[expected_exception],
     )
