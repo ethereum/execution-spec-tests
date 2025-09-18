@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_set_code_type_tx_pre_fork"><code>test_set_code_type_tx_pre_fork()</code><a class="headerlink" href="#test_set_code_type_tx_pre_fork" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/291fe00e65d82e05ca2bd5e7a49e4ac4a8c7a5b9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1698"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_set_code_type_tx_pre_fork@291fe00e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f872a05fdaece4c61b82bdbc1d48a3b12aa24d9/tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py#L1698"><code>tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_set_code_type_tx_pre_fork@8f872a05</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/prague/eip7702_set_code_tx/test_set_code_txs_2.py::test_set_code_type_tx_pre_fork --fork Osaka</span>
@@ -27389,7 +27389,7 @@ tests/prague/eip7702_set_code_tx/test_set_code_txs.py::test_self_sponsored_set_c
         <span class="n">pre</span><span class="o">=</span><span class="n">pre</span><span class="p">,</span>
         <span class="n">tx</span><span class="o">=</span><span class="n">tx</span><span class="p">,</span>
         <span class="n">post</span><span class="o">=</span><span class="p">{</span>
-            <span class="n">set_code_to_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">storage</span><span class="p">}),</span>
+            <span class="n">set_code_to_address</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
             <span class="n">sender</span><span class="p">:</span> <span class="n">Account</span><span class="p">(</span>
                 <span class="n">nonce</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="n">code</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>

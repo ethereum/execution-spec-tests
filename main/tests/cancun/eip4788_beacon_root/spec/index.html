@@ -27276,7 +27276,7 @@
 
 
 <h1 id="spec">Spec<a class="headerlink" href="#spec" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/291fe00e65d82e05ca2bd5e7a49e4ac4a8c7a5b9/tests/cancun/eip4788_beacon_root/spec.py"><code>tests/cancun/eip4788_beacon_root/spec.py@291fe00e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f872a05fdaece4c61b82bdbc1d48a3b12aa24d9/tests/cancun/eip4788_beacon_root/spec.py"><code>tests/cancun/eip4788_beacon_root/spec.py@8f872a05</code></a>.</p>
 
 
 <div class="doc doc-object doc-module">
@@ -27468,7 +27468,7 @@
 <span class="sd">        - validity of the timestamp input used within the call.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># By default assume the call is unsuccessful and all keys are zero</span>
-        <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)})</span>  <span class="c1"># type: ignore</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">Storage</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># type: ignore</span>
         <span class="k">if</span> <span class="n">valid_call</span> <span class="ow">and</span> <span class="n">valid_input</span><span class="p">:</span>
             <span class="c1"># beacon root contract call is successful</span>
             <span class="n">storage</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>

@@ -27260,7 +27260,7 @@
 
 
 <h1 id="test_tload_after_tstore"><code>test_tload_after_tstore()</code><a class="headerlink" href="#test_tload_after_tstore" title="Permanent link">&para;</a></h1>
-<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/291fe00e65d82e05ca2bd5e7a49e4ac4a8c7a5b9/tests/cancun/eip1153_tstore/test_tstorage.py#L67"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore@291fe00e</code></a>.</p>
+<p>Documentation for <a href="https://github.com/ethereum/execution-spec-tests/blob/8f872a05fdaece4c61b82bdbc1d48a3b12aa24d9/tests/cancun/eip1153_tstore/test_tstorage.py#L67"><code>tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore@8f872a05</code></a>.</p>
 <div class="admonition example">
 <p class="admonition-title">Generate fixtures for these test cases for Osaka with:</p>
 <div class="highlight"><pre><span></span><code><span class="go">fill -v tests/cancun/eip1153_tstore/test_tstorage.py::test_tload_after_tstore --fork Osaka</span>
@@ -27328,7 +27328,7 @@ returns y.</p>
     <span class="p">)</span>
     <span class="n">code_address</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">deploy_contract</span><span class="p">(</span>
         <span class="n">code</span><span class="o">=</span><span class="n">code</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
-        <span class="n">storage</span><span class="o">=</span><span class="p">{</span><span class="n">slot</span><span class="p">:</span> <span class="mh">0xFF</span> <span class="k">for</span> <span class="n">slot</span> <span class="ow">in</span> <span class="n">slots_under_test</span><span class="p">},</span>
+        <span class="n">storage</span><span class="o">=</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">slots_under_test</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="n">tx</span> <span class="o">=</span> <span class="n">Transaction</span><span class="p">(</span>
