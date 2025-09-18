@@ -34,13 +34,18 @@ CONTRACT_DESCRIPTIONS = {
 }
 
 
-def generate_max_size_bytecode(salt: int = 0) -> Tuple[bytes, bytes]:
-    """Generate 24KB contract bytecode for standard bloatnet tests."""
+def generate_max_size_bytecode(salt: int = 0, max_code_size: int = 24576) -> Tuple[bytes, bytes]:
+    """Generate max-size contract bytecode for standard bloatnet tests.
+
+    Args:
+        salt: Unique salt for generating unique bytecode
+        max_code_size: Maximum contract size (default 24576 bytes for mainnet)
+    """
     # Init code copies runtime bytecode to memory and returns it
     init_code = bytearray()
 
     # Init code: PUSH2 size, PUSH1 offset, PUSH1 dest, CODECOPY, PUSH2 size, PUSH1 0, RETURN
-    bytecode_size = 24576
+    bytecode_size = max_code_size
     init_size = 13  # Size of init code instructions
 
     # PUSH2 bytecode_size, PUSH1 init_size, PUSH1 0, CODECOPY
