@@ -174,6 +174,21 @@ class BenchmarkTest(BaseTest):
 
     def generate_blockchain_test(self, fork: Fork) -> BlockchainTest:
         """Create a BlockchainTest from this BenchmarkTest."""
+        set_props = [
+            name
+            for name, val in [
+                ("code_generator", self.code_generator),
+                ("blocks", self.blocks),
+                ("tx", self.tx),
+            ]
+            if val is not None
+        ]
+
+        if len(set_props) != 1:
+            raise ValueError(
+                f"Exactly one must be set, but got {len(set_props)}: {', '.join(set_props)}"
+            )
+
         if self.code_generator is not None:
             generated_blocks = self.generate_blocks_from_code_generator(fork)
             return BlockchainTest.from_test(
@@ -183,7 +198,6 @@ class BenchmarkTest(BaseTest):
                 post=self.post,
                 blocks=generated_blocks,
             )
-
         elif self.blocks is not None:
             return BlockchainTest.from_test(
                 base_test=self,
