@@ -165,22 +165,22 @@ def select_contract_type() -> str:
             sys.exit(0)
 
 
-def get_bytecode_generator(contract_type: str):
-    """Get the appropriate bytecode generator for the contract type."""
-    generators = {
-        ContractType.MAX_SIZE_24KB: generate_max_size_bytecode,
-        ContractType.SLOAD_HEAVY: generate_sload_heavy_bytecode,
-        # Add more generators as needed
-    }
+def get_bytecode_generator(contract_type: str, max_code_size: int):
+    """Get the appropriate bytecode generator for the contract type.
 
-    generator = generators.get(contract_type)
-    if not generator:
+    Args:
+        contract_type: Type of contract to generate
+        max_code_size: Maximum contract size in bytes
+    """
+    if contract_type == ContractType.MAX_SIZE_24KB:
+        return lambda salt: generate_max_size_bytecode(salt, max_code_size)
+    elif contract_type == ContractType.SLOAD_HEAVY:
+        return lambda salt: generate_sload_heavy_bytecode(salt)
+    else:
         print(f"Error: No generator implemented for {contract_type}")
         if contract_type == ContractType.CUSTOM:
             print("Custom bytecode deployment not yet implemented")
         sys.exit(1)
-
-    return generator
 
 
 def deploy_factory(rpc_url: str) -> str:
@@ -222,6 +222,7 @@ def deploy_contracts(
     num_contracts: int,
     contract_type: str,
     factory_address: Optional[str] = None,
+    max_code_size: int = 24576,
 ):
     """Deploy contracts using CREATE2 factory pattern."""
     # Connect to Geth
@@ -246,7 +247,7 @@ def deploy_contracts(
         factory_address = deploy_factory(rpc_url)
 
     # Get bytecode generator
-    bytecode_generator = get_bytecode_generator(contract_type)
+    bytecode_generator = get_bytecode_generator(contract_type, max_code_size)
 
     # Generate sample to show info
     sample_init_code, sample_hash = bytecode_generator(0)
@@ -370,6 +371,12 @@ def main():
         default=None,
         help="CREATE2 factory address (deploys new one if not provided)",
     )
+    parser.add_argument(
+        "--max-code-size",
+        type=int,
+        default=24576,
+        help="Maximum contract code size in bytes (default: 24576 for mainnet/Prague fork)",
+    )
 
     args = parser.parse_args()
 
@@ -381,6 +388,7 @@ def main():
         args.num_contracts,
         contract_type,
         args.factory_address,
+        args.max_code_size,
     )
 
 

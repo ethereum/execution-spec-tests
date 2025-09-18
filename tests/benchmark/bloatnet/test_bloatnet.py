@@ -31,7 +31,7 @@ REFERENCE_SPEC_VERSION = "1.0"
 # Gas cost constants - used to calculate required contracts for any gas limit
 # See README.md for detailed breakdown of these costs
 GAS_PER_CONTRACT_BALANCE_EXTCODESIZE = 2707  # BALANCE(cold) + EXTCODESIZE(warm)
-GAS_PER_CONTRACT_BALANCE_EXTCODECOPY = 5007  # BALANCE(cold) + EXTCODECOPY(warm, 24KB)
+GAS_PER_CONTRACT_BALANCE_EXTCODECOPY = 2710  # BALANCE(cold) + EXTCODECOPY(warm, 1 byte) - optimized
 
 # Configuration for CREATE2 pre-deployed contracts
 # These values must match what the deployment script generates
@@ -61,7 +61,7 @@ def test_bloatnet_balance_extcodesize(
     BloatNet test using BALANCE + EXTCODESIZE pattern.
 
     This test:
-    1. Uses 100+ pre-deployed 24KB contracts
+    1. Uses 100+ pre-deployed max-size contracts
     2. Calls BALANCE (cold) then EXTCODESIZE (warm) on each
     3. Maximizes cache eviction by accessing many contracts
     4. Runs with benchmark gas values (5M, 50M, 500M)
@@ -155,7 +155,7 @@ def test_bloatnet_balance_extcodecopy(
 
     Reading just 1 byte (specifically the last byte) forces the client to load
     the entire contract from disk while minimizing gas cost, allowing us to
-    target many more contracts than copying the full 24KB.
+    target many more contracts than copying the full contract.
     """
     gas_costs = fork.gas_costs()
     max_contract_size = fork.max_code_size()

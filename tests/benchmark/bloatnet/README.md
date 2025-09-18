@@ -85,7 +85,8 @@ _Deploy enough contracts to cover the max gas you plan to use in your tests/benc
 # Run the interactive deployment script
 python3 tests/benchmark/bloatnet/deploy_bloatnet_simple.py \
     --num-contracts 55403 \
-    --factory-address 0x... # Use factory address from step 1
+    --factory-address 0x... \  # Use factory address from step 1
+    --max-code-size 24576      # Optional: specify max contract size (default: 24576)
 ```
 
 #### Deployment Output
